@@ -47,8 +47,8 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
 
     public static class LayerImageVBO {
 
-        private ImageX image;
-        private Mesh mesh;
+        private final ImageX image;
+        private final Mesh mesh;
 
         public LayerImageVBO(ImageX image, ArrayList<TileInfoX> list) {
             float invTexWidth = 1f / image.getWidth();

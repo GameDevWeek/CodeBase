@@ -24,9 +24,9 @@ public class NetMessageDelta implements INetMessageInternal {
     /** Stores if the message has changed at all since the last time */
     private boolean changed;
     /** The delta buffer. Stores the deltaBits when writing to a channel */
-    private ByteBuffer deltaBuffer = ByteBuffer.allocate(MAX_DELTA_SIZE);
+    private final ByteBuffer deltaBuffer = ByteBuffer.allocate(MAX_DELTA_SIZE);
     /** The message buffer contains only the values that changed */
-    private NetMessage message = NetMessageAllocator.createMessage();
+    private final NetMessage message = NetMessageAllocator.createMessage();
     /** This is the last known state of this message. Used to compare to. null when this is the first transmit of the message */
     private NetMessage base;
     /** This will store the current values, which will be used the next time to find out what changed */

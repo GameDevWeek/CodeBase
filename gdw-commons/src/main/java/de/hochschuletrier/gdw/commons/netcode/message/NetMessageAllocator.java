@@ -10,9 +10,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class NetMessageAllocator {
 
     /** Stores all free normal messages */
-    private static ConcurrentLinkedQueue<NetMessage> freeMessages = new ConcurrentLinkedQueue<NetMessage>();
+    private static final ConcurrentLinkedQueue<NetMessage> freeMessages = new ConcurrentLinkedQueue<NetMessage>();
     /** Stores all free delta messages */
-    private static ConcurrentLinkedQueue<NetMessageDelta> freeDeltaMessages = new ConcurrentLinkedQueue<NetMessageDelta>();
+    private static final ConcurrentLinkedQueue<NetMessageDelta> freeDeltaMessages = new ConcurrentLinkedQueue<NetMessageDelta>();
 
     /**
      * Get a NetMessage object to work with

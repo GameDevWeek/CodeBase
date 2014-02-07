@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ServerTest {
 	private NetReception reception;
-	private List<NetConnection> connections = new ArrayList<NetConnection>();
+	private final List<NetConnection> connections = new ArrayList<NetConnection>();
 	
 	
 	private void sendPing(NetConnection connection, String text) {

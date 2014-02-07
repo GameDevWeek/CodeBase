@@ -12,7 +12,7 @@ import java.awt.Point;
  */
 public class PlayerDatagram extends NetDatagram {
 	public static final byte PLAYER_MESSAGE = INetDatagram.Type.FIRST_CUSTOM + 0;
-	private Point position = new Point();
+	private final Point position = new Point();
 	
 	public PlayerDatagram(byte type, short id, short param1, short param2) {
 		super(INetDatagram.MessageType.DELTA, type, id, param1, param2);

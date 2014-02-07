@@ -34,9 +34,9 @@ public class NetConnection extends Thread {
     /** The header size */
     public static final int HEADER_SIZE = 1 + 3 * 2;
     /** The socket channel */
-    private SocketChannel channel;
+    private final SocketChannel channel;
     /** The factory used to create datagrams based on their type */
-    private INetDatagramFactory datagramFactory;
+    private final INetDatagramFactory datagramFactory;
     /** The reception that accepted the connection */
     private NetReception reception;
     /** A user-set attachment, for example a player object */
@@ -50,17 +50,17 @@ public class NetConnection extends Thread {
     /** The time to wait before sending a keep alive signal */
     private int keepAliveTime = 1000;
     /** The byte buffer used to read in new datagram headers */
-    private ByteBuffer headerIn = ByteBuffer.allocate(HEADER_SIZE);
+    private final ByteBuffer headerIn = ByteBuffer.allocate(HEADER_SIZE);
     /** The byte buffer used to write new datagram headers */
-    private ByteBuffer headerOut = ByteBuffer.allocate(HEADER_SIZE);
+    private final ByteBuffer headerOut = ByteBuffer.allocate(HEADER_SIZE);
     /** Incoming datagrams fully processed, ready to be received. */
-    private ConcurrentLinkedQueue<INetDatagram> incomingDatagrams = new ConcurrentLinkedQueue<INetDatagram>();
+    private final ConcurrentLinkedQueue<INetDatagram> incomingDatagrams = new ConcurrentLinkedQueue<INetDatagram>();
     /** Outgoing datagrams unprocessed. */
-    private ConcurrentLinkedQueue<INetDatagram> outgoingDatagrams = new ConcurrentLinkedQueue<INetDatagram>();
+    private final ConcurrentLinkedQueue<INetDatagram> outgoingDatagrams = new ConcurrentLinkedQueue<INetDatagram>();
     /** The message cache for incoming delta compressed datagrams */
-    private NetMessageCache messageCacheIn = new NetMessageCache();
+    private final NetMessageCache messageCacheIn = new NetMessageCache();
     /** The message cache for outgoing delta compressed datagrams */
-    private NetMessageCache messageCacheOut = new NetMessageCache();
+    private final NetMessageCache messageCacheOut = new NetMessageCache();
     /** Set to true so outgoing datagrams can be queued */
     private boolean accepted;
 

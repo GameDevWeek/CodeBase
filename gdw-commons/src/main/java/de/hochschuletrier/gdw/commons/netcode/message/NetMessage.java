@@ -14,7 +14,7 @@ public class NetMessage implements INetMessageInternal {
     /** The maximum number of bytes this message can take */
     public static final int MAX_SIZE = 2048;
     /** The buffer to take the message */
-    private ByteBuffer buffer = ByteBuffer.allocate(MAX_SIZE);
+    private final ByteBuffer buffer = ByteBuffer.allocate(MAX_SIZE);
 
     /**
      * Rewind the buffer

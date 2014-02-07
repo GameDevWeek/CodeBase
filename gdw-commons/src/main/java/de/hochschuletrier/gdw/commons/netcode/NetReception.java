@@ -18,15 +18,15 @@ public class NetReception extends Thread {
     /** Set to true during shutdown */
     private boolean shutdown = false;
     /** The maximum number of clients able to connect */
-    private int maxConnections;
+    private final int maxConnections;
     /** The accepting socket channel */
-    private ServerSocketChannel channel;
+    private final ServerSocketChannel channel;
     /** A list of all new connections established that have not yet been taken by the application */
-    private ConcurrentLinkedQueue<NetConnection> newConnections = new ConcurrentLinkedQueue<NetConnection>();
+    private final ConcurrentLinkedQueue<NetConnection> newConnections = new ConcurrentLinkedQueue<NetConnection>();
     /** The full list of all running connections */
-    private ConcurrentLinkedQueue<NetConnection> connections = new ConcurrentLinkedQueue<NetConnection>();
+    private final ConcurrentLinkedQueue<NetConnection> connections = new ConcurrentLinkedQueue<NetConnection>();
     /** The factory used to create datagrams based on their type */
-    private INetDatagramFactory datagramFactory;
+    private final INetDatagramFactory datagramFactory;
 
     /**
      * Create a reception on the specified ip/port accepting a maximum number of connections.

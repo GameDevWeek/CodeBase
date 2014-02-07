@@ -21,6 +21,8 @@ import de.hochschuletrier.gdw.ws1314.states.GameStates;
  * @author Santo Pfingsten
  */
 public class Main extends StateBasedGame {
+    public static final int WINDOW_WIDTH = 512;
+    public static final int WINDOW_HEIGHT = 256;
 
     private final AssetManager assetManager = new AssetManager();
     private OrthographicCamera camera;
@@ -56,7 +58,7 @@ public class Main extends StateBasedGame {
         KeyUtil.init();
         Texture.setEnforcePotImages(false);
 //        Gdx.graphics.setTitle("LibGDX Test");
-//        Gdx.graphics.setDisplayMode(512, 256, false);
+//        Gdx.graphics.setDisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT, false);
         Gdx.graphics.setContinuousRendering(true);
         // Disable VSync for the loading state, to speed things up
         // This will be enabled when loading is done
@@ -121,8 +123,8 @@ public class Main extends StateBasedGame {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "LibGDX Test";
         cfg.useGL20 = false;
-        cfg.width = 512;
-        cfg.height = 256;
+        cfg.width = WINDOW_WIDTH;
+        cfg.height = WINDOW_HEIGHT;
 
         new LwjglApplication(getInstance(), cfg);
     }
