@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
  * @author Santo Pfingsten
  */
 public class FontX {
-    private BitmapFont bitmapFont;
+    private final BitmapFont bitmapFont;
 
     public FontX(BitmapFont font) {
         this.bitmapFont = font;

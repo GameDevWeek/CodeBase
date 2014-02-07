@@ -22,7 +22,7 @@ import de.hochschuletrier.gdw.commons.utils.SilentCloser;
  */
 public class JacksonWriter {
 
-    static JsonFactory factory = new JsonFactory();
+    private static final JsonFactory factory = new JsonFactory();
 
     public static void writeList(String filename, List<?> list)
             throws IOException, UnsupportedEncodingException,

@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Circle;
 public class ArcRenderer {
 
     private final Mesh mesh;
-    private int maxVertices;
+    private final int maxVertices;
 
     public ArcRenderer(int maxVertices) {
         this.maxVertices = maxVertices;

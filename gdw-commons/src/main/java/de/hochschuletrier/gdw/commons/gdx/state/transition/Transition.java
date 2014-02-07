@@ -6,25 +6,25 @@ import de.hochschuletrier.gdw.commons.gdx.state.GameState;
  * An empty Transition and base class for other transitions
  *
  * @author Santo Pfingsten
+ * @param <T> The final class
  */
-public class Transition {
+public class Transition<T extends Transition> {
 
     private int fadeTime;
     private boolean reverse;
     private float progress = 0;
 
     public Transition() {
-        this(0, false);
+        this(0);
     }
 
-    protected Transition(int fadeTime, boolean reverse) {
+    protected Transition(int fadeTime) {
         if (fadeTime > 0) {
             this.fadeTime = fadeTime;
         } else {
             this.fadeTime = 1;
             progress = 1;
         }
-        this.reverse = reverse;
     }
 
     public float getProgress() {
@@ -36,7 +36,12 @@ public class Transition {
     }
 
     public boolean isReverse() {
-        return (progress >= 1);
+        return reverse;
+    }
+
+    public T reverse() {
+        reverse = !reverse;
+        return (T) this;
     }
 
     public void render(GameState from, GameState to) {

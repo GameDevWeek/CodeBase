@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public class ImageX {
 
-    protected Texture texture;
+    protected final Texture texture;
 
     public ImageX(Texture texture) {
         this.texture = texture;
@@ -48,6 +48,11 @@ public class ImageX {
     public void draw(float x, float y, int width, int height, int srcX, int srcY) {
         assert(texture != null);
         DrawUtil.batch.draw(texture, x, y, width, height, srcX, srcY, width, height, false, true);
+    }
+
+    public void draw(float x, float y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight) {
+        assert(texture != null);
+        DrawUtil.batch.draw(texture, x, y, width, height, srcX, srcY, srcWidth, srcHeight, false, true);
     }
 
     public int getWidth() {

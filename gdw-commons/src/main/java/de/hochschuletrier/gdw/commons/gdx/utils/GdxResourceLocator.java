@@ -13,7 +13,7 @@ import java.io.InputStream;
  */
 public class GdxResourceLocator implements IResourceLocator {
 
-    private Files.FileType type;
+    private final Files.FileType type;
 
     public GdxResourceLocator(Files.FileType type) {
         this.type = type;

@@ -10,20 +10,20 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
  *
  * @author Santo Pfingsten
  */
-public class FadeTransition extends Transition {
+public class FadeTransition extends Transition<FadeTransition> {
 
     private Color color;
 
-    public FadeTransition(boolean fadeIn) {
-        this(Color.BLACK, 500, fadeIn);
+    public FadeTransition() {
+        this(Color.BLACK, 500);
     }
 
-    public FadeTransition(Color color, boolean fadeIn) {
-        this(color, 500, fadeIn);
+    public FadeTransition(Color color) {
+        this(color, 500);
     }
 
-    public FadeTransition(Color color, int fadeTime, boolean fadeIn) {
-        super(fadeTime, fadeIn);
+    public FadeTransition(Color color, int fadeTime) {
+        super(fadeTime);
 
         this.color = new Color(color);
         this.color.a = getProgress();

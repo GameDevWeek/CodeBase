@@ -9,10 +9,10 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
  *
  * @author Santo Pfingsten
  */
-public class SplitVerticalTransition extends Transition {
+public class SplitVerticalTransition extends Transition<SplitVerticalTransition> {
 
-    public SplitVerticalTransition(int fadeTime, boolean reverse) {
-        super(fadeTime, reverse);
+    public SplitVerticalTransition(int fadeTime) {
+        super(fadeTime);
     }
 
     @Override

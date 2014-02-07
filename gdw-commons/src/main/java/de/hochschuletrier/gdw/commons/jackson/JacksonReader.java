@@ -24,6 +24,8 @@ import java.util.HashMap;
  */
 public class JacksonReader {
 
+    private static final JsonFactory factory = new JsonFactory();
+
     public static <RT> RT read(String filename, Class<RT> clazz)
             throws IOException, UnsupportedEncodingException,
             NoSuchFieldException, IllegalArgumentException,
@@ -38,7 +40,6 @@ public class JacksonReader {
             BufferedReader bufferedReader = new BufferedReader(inReader);
             closer.set(bufferedReader);
 
-            JsonFactory factory = new JsonFactory();
             JsonParser parser = factory.createParser(bufferedReader);
             closer.set(parser);
 
@@ -63,7 +64,6 @@ public class JacksonReader {
             BufferedReader bufferedReader = new BufferedReader(inReader);
             closer.set(bufferedReader);
 
-            JsonFactory factory = new JsonFactory();
             JsonParser parser = factory.createParser(bufferedReader);
             closer.set(parser);
 
@@ -88,7 +88,6 @@ public class JacksonReader {
             BufferedReader bufferedReader = new BufferedReader(inReader);
             closer.set(bufferedReader);
 
-            JsonFactory factory = new JsonFactory();
             JsonParser parser = factory.createParser(bufferedReader);
             closer.set(parser);
 

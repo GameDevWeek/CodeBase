@@ -14,7 +14,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
  */
 public class DrawUtil {
 
-    private static Color currentColor = Color.WHITE.cpy();
+    private static final Color currentColor = Color.WHITE.cpy();
     private static int screenWidth;
     private static int screenHeight;
     private static Mode currentMode = Mode.NORMAL;
@@ -147,6 +147,10 @@ public class DrawUtil {
 
     public static void clearColor(Color color) {
         Gdx.gl11.glClearColor(color.r, color.g, color.b, color.a);
+    }
+
+    public static void clearColor(float r, float g, float b, float a) {
+        Gdx.gl11.glClearColor(r, g, b, a);
     }
 
     public static void clear() {
