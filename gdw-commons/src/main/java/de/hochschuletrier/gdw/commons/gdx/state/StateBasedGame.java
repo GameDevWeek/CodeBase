@@ -1,0 +1,118 @@
+package de.hochschuletrier.gdw.commons.gdx.state;
+
+import com.badlogic.gdx.ApplicationListener;
+import de.hochschuletrier.gdw.commons.gdx.state.transition.Transition;
+
+/**
+ * Handles game states and their transitions
+ *
+ * @author Santo Pfingsten
+ */
+public abstract class StateBasedGame implements ApplicationListener {
+
+    private GameState currentState, nextState, prevState;
+    private Transition entering, leaving;
+    private long lastTime = System.currentTimeMillis();
+
+    public StateBasedGame() {
+        currentState = new GameState();
+    }
+
+    public GameState getCurrentState() {
+        return currentState;
+    }
+
+    public void changeState(GameState state) {
+        changeState(state, null, null);
+    }
+
+    public void changeState(GameState state, Transition out, Transition in) {
+        if (state == null) {
+            throw new IllegalArgumentException("State must not be null!");
+        }
+        if (out == null) {
+            out = new Transition();
+        }
+        if (in == null) {
+            in = new Transition();
+        }
+        leaving = out;
+        entering = in;
+
+        nextState = state;
+    }
+
+    @Override
+    public final void render() {
+        update();
+
+        preRender();
+
+        if (leaving != null) {
+            if (leaving.isReverse()) {
+                leaving.render(nextState, currentState);
+            } else {
+                leaving.render(currentState, nextState);
+            }
+        } else if (entering != null) {
+            if (entering.isReverse()) {
+                entering.render(prevState, currentState);
+            } else {
+                entering.render(currentState, prevState);
+            }
+        } else {
+            currentState.render();
+        }
+
+        postRender();
+    }
+
+    protected void preRender() {
+    }
+
+    protected void postRender() {
+    }
+
+    private void update() {
+        long time = System.currentTimeMillis();
+        int delta = (int) (time - lastTime);
+        lastTime = time;
+
+        preUpdate(delta);
+
+        updateTransitions(delta);
+
+        currentState.update(delta);
+
+        postUpdate(delta);
+    }
+
+    private void updateTransitions(int delta) {
+        if (leaving != null) {
+            leaving.update(delta);
+            if (!leaving.isDone()) {
+                return;
+            }
+            currentState.leave();
+            prevState = currentState;
+            currentState = nextState;
+            nextState = null;
+            leaving = null;
+        }
+        if (entering != null) {
+            entering.update(delta);
+            if (!entering.isDone()) {
+                return;
+            }
+            currentState.enter();
+            prevState = null;
+            entering = null;
+        }
+    }
+
+    protected void preUpdate(int delta) {
+    }
+
+    protected void postUpdate(int delta) {
+    }
+}
