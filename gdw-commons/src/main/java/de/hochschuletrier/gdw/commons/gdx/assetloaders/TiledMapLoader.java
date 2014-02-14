@@ -1,7 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.assetloaders;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -83,14 +82,14 @@ public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLo
 
     /** Parameter to be passed to {@link AssetManager#load(String, Class, AssetLoaderParameters)} if
      * additional configuration is necessary for the {@link TiledMap}. */
-    static public class TiledMapParameter extends AssetLoaderParameters<TiledMap> {
-        boolean useVBO = false;
+    static public class TiledMapParameter extends AssetLoaderParametersX<TiledMap> {
+        Boolean useVBO = Boolean.FALSE;
         LayerObject.PolyMode polyMode = LayerObject.PolyMode.ABSOLUTE;
 
         /** the format of the final Texture. Uses the source images format if null * */
         public Pixmap.Format format = null;
         /** whether to generate mipmaps * */
-        public boolean genMipMaps = false;
+        public Boolean genMipMaps = Boolean.FALSE;
         public TextureFilter minFilter = TextureFilter.Nearest;
         public TextureFilter magFilter = TextureFilter.Nearest;
         public Texture.TextureWrap wrapU = Texture.TextureWrap.ClampToEdge;

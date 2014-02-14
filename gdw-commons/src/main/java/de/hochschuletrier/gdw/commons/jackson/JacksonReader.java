@@ -13,7 +13,9 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.commons.utils.SilentCloser;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
@@ -33,7 +35,7 @@ public class JacksonReader {
 
         SilentCloser closer = new SilentCloser();
         try {
-            FileInputStream fileIn = new FileInputStream(filename);
+            InputStream fileIn = CurrentResourceLocator.read(filename);
             closer.set(fileIn);
             InputStreamReader inReader = new InputStreamReader(fileIn);
             closer.set(inReader);
@@ -57,7 +59,7 @@ public class JacksonReader {
 
         SilentCloser closer = new SilentCloser();
         try {
-            FileInputStream fileIn = new FileInputStream(filename);
+            InputStream fileIn = CurrentResourceLocator.read(filename);
             closer.set(fileIn);
             InputStreamReader inReader = new InputStreamReader(fileIn);
             closer.set(inReader);
@@ -81,7 +83,7 @@ public class JacksonReader {
 
         SilentCloser closer = new SilentCloser();
         try {
-            FileInputStream fileIn = new FileInputStream(filename);
+            InputStream fileIn = CurrentResourceLocator.read(filename);
             closer.set(fileIn);
             InputStreamReader inReader = new InputStreamReader(fileIn);
             closer.set(inReader);
@@ -147,6 +149,20 @@ public class JacksonReader {
         }
     }
 
+    public static Field getDeclaredField(Class<?> clazz, String fieldName) {
+        Class<?> tmpClass = clazz;
+        do {
+            try {
+                Field f = tmpClass.getDeclaredField(fieldName);
+                return f;
+            } catch (NoSuchFieldException e) {
+                tmpClass = tmpClass.getSuperclass();
+            }
+        } while (tmpClass != null);
+
+        throw new RuntimeException("Field '" + fieldName + "' not found on class " + clazz);
+    }
+
     private static <T> T readObject(Class<T> clazz, JsonParser parser)
             throws InstantiationException, IllegalAccessException, IOException,
             NoSuchFieldException, ParseException {
@@ -155,7 +171,7 @@ public class JacksonReader {
             String headerField = parser.getCurrentName();
             parser.nextToken();
 
-            Field field = clazz.getDeclaredField(headerField);
+            Field field = getDeclaredField(clazz, headerField);
             JacksonList listAnnotation = (JacksonList) field
                     .getAnnotation(JacksonList.class);
             field.setAccessible(true);
@@ -167,12 +183,23 @@ public class JacksonReader {
         }
         return object;
     }
-
+    
     @SuppressWarnings("unchecked")
     private static <T> T readString(Class<T> clazz, JsonParser parser) throws IOException, NumberFormatException, AssertionError {
         if (clazz.isEnum()) {
-            String name = parser.getText().toUpperCase();
-            return (T) Enum.valueOf((Class<Enum>) clazz, name);
+            String name = parser.getText();
+            try {
+                return (T) Enum.valueOf((Class<Enum>) clazz, name);
+            }
+            catch(IllegalArgumentException ex) {
+                for(Enum e: ((Class<Enum>)clazz).getEnumConstants()) {
+                    if(e.name().compareToIgnoreCase(name) == 0) {
+                        System.out.println("Warning: Enum value " + name + " is not using the correct case. Should be: " + e.name());
+                        return (T)e;
+                    }
+                }
+                throw new IllegalArgumentException("No enum constant " + clazz.getCanonicalName() + "." + name);
+            }
         } else if (clazz.equals(String.class)) {
             return (T) parser.getText();
         } else if (clazz.equals(Integer.class)) {

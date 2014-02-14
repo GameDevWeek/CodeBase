@@ -34,7 +34,7 @@ public class JacksonExample {
         student.tags.add("lol");
 
         try {
-            JacksonWriter.write("test.json", student);
+            JacksonWriter.write("target/test.json", student);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class JacksonExample {
 
     private static void testRead() {
         try {
-            JacksonObjectExample student = JacksonReader.read("test.json",
+            JacksonObjectExample student = JacksonReader.read("target/test.json",
                     JacksonObjectExample.class);
             System.out.println(student.name);
             System.out.println(student.age);

@@ -258,7 +258,7 @@ public class TiledMap {
      * @throws FileNotFoundException 
      */
     final TmxMap readMapFrom(String filename) throws FileNotFoundException {
-        InputStream in = CurrentResourceLocator.locate(filename);
+        InputStream in = CurrentResourceLocator.read(filename);
 
         XStream xStream = new XStream(new DomDriver());
 
@@ -273,7 +273,7 @@ public class TiledMap {
     }
 
     final TmxTileSet readTileSetFrom(String filename) throws FileNotFoundException {
-        InputStream in = CurrentResourceLocator.locate(filename);
+        InputStream in = CurrentResourceLocator.read(filename);
 
         XStream xStream = new XStream(new DomDriver());
         xStream.processAnnotations(TmxTileSet.class);

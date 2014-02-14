@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.commons.resourcelocator;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  *
@@ -23,12 +24,17 @@ public class CurrentResourceLocator {
      * @return The current resource locator
      */
     public static IResourceLocator get() {
-        return locator == null ? locator : defaultLocator;
+        return locator != null ? locator : defaultLocator;
     }
 
-    public static InputStream locate(String filename)
+    public static InputStream read(String filename)
             throws FileNotFoundException {
-        return get().locateResource(filename);
+        return get().readResource(filename);
+    }
+
+    public static OutputStream write(String filename)
+            throws FileNotFoundException {
+        return get().writeResource(filename);
     }
 
     public static String combinePaths(String base, String filename) {

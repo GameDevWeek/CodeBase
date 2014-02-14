@@ -1,19 +1,28 @@
 package de.hochschuletrier.gdw.ws1314;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import de.hochschuletrier.gdw.commons.gdx.assetloaders.AnimationXLoader;
+import de.hochschuletrier.gdw.commons.gdx.assetloaders.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.assetloaders.FontXLoader;
 import de.hochschuletrier.gdw.commons.gdx.assetloaders.ImageXLoader;
 import de.hochschuletrier.gdw.commons.gdx.assetloaders.SleepDummyLoader;
+import de.hochschuletrier.gdw.commons.gdx.assets.AnimationX;
+import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
 import de.hochschuletrier.gdw.commons.gdx.state.StateBasedGame;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
+import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.ws1314.states.GameStates;
 
 /**
@@ -21,10 +30,10 @@ import de.hochschuletrier.gdw.ws1314.states.GameStates;
  * @author Santo Pfingsten
  */
 public class Main extends StateBasedGame {
-    public static final int WINDOW_WIDTH = 512;
-    public static final int WINDOW_HEIGHT = 256;
+    public static final int WINDOW_WIDTH = 1024;
+    public static final int WINDOW_HEIGHT = 512;
 
-    private final AssetManager assetManager = new AssetManager();
+    private final AssetManagerX assetManager = new AssetManagerX();
     private OrthographicCamera camera;
     private static Main instance;
 
@@ -34,24 +43,32 @@ public class Main extends StateBasedGame {
         }
         return instance;
     }
-    public static AssetManager getManager() {
-        return getInstance().assetManager;
-    }
 
-    private void setupManager() {
-        InternalFileHandleResolver fileHandleResolver = new InternalFileHandleResolver();
-        assetManager.setLoader(ImageX.class, new ImageXLoader(fileHandleResolver));
-        
-        ImageXLoader.ImageXParameter param = new ImageXLoader.ImageXParameter();
-        param.minFilter = Texture.TextureFilter.Linear;
-        param.magFilter = Texture.TextureFilter.Linear;
-        assetManager.load("data/libgdx.png", ImageX.class, param);
-        
+    private void setupDummyLoader() {
         // Just adding some sleep dummies for a progress bar test
+        InternalFileHandleResolver fileHandleResolver = new InternalFileHandleResolver();
         assetManager.setLoader(SleepDummyLoader.SleepDummy.class, new SleepDummyLoader(fileHandleResolver));
-        SleepDummyLoader.SleepDummyParameter dummyParam = new SleepDummyLoader.SleepDummyParameter(200);
+        SleepDummyLoader.SleepDummyParameter dummyParam = new SleepDummyLoader.SleepDummyParameter(100);
         for(int i=0; i<100; i++)
             assetManager.load("dummy" + i, SleepDummyLoader.SleepDummy.class, dummyParam);
+    }
+    
+    private void loadAssetLists() {
+        ImageXLoader.ImageXParameter imageParam = new ImageXLoader.ImageXParameter();
+        imageParam.minFilter = Texture.TextureFilter.Linear;
+        imageParam.magFilter = Texture.TextureFilter.Linear;
+        assetManager.loadAssetList("data/json/images.json", ImageX.class, imageParam);
+        
+        assetManager.loadAssetList("data/json/sounds.json", Sound.class, null);
+        assetManager.loadAssetList("data/json/music.json", Music.class, null);
+        
+        FontXLoader.FontXParameter fontParam = new FontXLoader.FontXParameter();
+        fontParam.minFilter = Texture.TextureFilter.Linear;
+        fontParam.magFilter = Texture.TextureFilter.Linear;
+        fontParam.flip = true;
+        assetManager.loadAssetList("data/json/fonts.json", FontX.class, fontParam);
+        
+        assetManager.loadAssetListWithParam("data/json/animations.json", AnimationX.class, AnimationXLoader.AnimationXParameter.class);
     }
     
     private void setupGdx() {
@@ -75,7 +92,9 @@ public class Main extends StateBasedGame {
     
     @Override
     public void create() {
-        setupManager();
+        CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Internal));
+        setupDummyLoader();
+        loadAssetLists();
         setupGdx();
     }
 

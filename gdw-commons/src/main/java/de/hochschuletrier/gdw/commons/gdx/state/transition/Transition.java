@@ -47,13 +47,13 @@ public class Transition<T extends Transition> {
     public void render(GameState from, GameState to) {
     }
 
-    public void update(int delta) {
+    public void update(float delta) {
         if (progress < 1) {
-            if (delta > 16) {
-                delta = 16;
+            if (delta > 0.016f) {
+                delta = 0.016f;
             }
 
-            progress += delta * (1.0f / fadeTime);
+            progress += delta * (1000.0f / fadeTime);
             if (progress > 1) {
                 progress = 1;
             }

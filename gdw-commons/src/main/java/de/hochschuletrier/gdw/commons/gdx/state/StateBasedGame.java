@@ -75,7 +75,7 @@ public abstract class StateBasedGame implements ApplicationListener {
 
     private void update() {
         long time = System.currentTimeMillis();
-        int delta = (int) (time - lastTime);
+        float delta = (time - lastTime) * 0.001f;
         lastTime = time;
 
         preUpdate(delta);
@@ -87,7 +87,7 @@ public abstract class StateBasedGame implements ApplicationListener {
         postUpdate(delta);
     }
 
-    private void updateTransitions(int delta) {
+    private void updateTransitions(float delta) {
         if (leaving != null) {
             leaving.update(delta);
             if (!leaving.isDone()) {
@@ -110,9 +110,9 @@ public abstract class StateBasedGame implements ApplicationListener {
         }
     }
 
-    protected void preUpdate(int delta) {
+    protected void preUpdate(float delta) {
     }
 
-    protected void postUpdate(int delta) {
+    protected void postUpdate(float delta) {
     }
 }

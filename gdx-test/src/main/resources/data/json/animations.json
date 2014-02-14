@@ -1,0 +1,8 @@
+{
+    "walking": {
+        "filename": "data/animations/walking.png",
+        "columns": 7,
+        "frameTime": 100,
+        "loop": true
+    }
+}

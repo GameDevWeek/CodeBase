@@ -1,6 +1,5 @@
 package de.hochschuletrier.gdw.commons.jackson;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -13,7 +12,9 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.commons.utils.SilentCloser;
+import java.io.OutputStream;
 
 /**
  * Writing Json from objects
@@ -31,8 +32,9 @@ public class JacksonWriter {
 
         SilentCloser closer = new SilentCloser();
         try {
-            JsonGenerator generator = factory.createGenerator(new File(
-                    filename), JsonEncoding.UTF8);
+            OutputStream outputStream = CurrentResourceLocator.write(filename);
+            closer.set(outputStream);
+            JsonGenerator generator = factory.createGenerator(outputStream, JsonEncoding.UTF8);
             closer.set(generator);
 
             generator.useDefaultPrettyPrinter();
@@ -49,8 +51,9 @@ public class JacksonWriter {
 
         SilentCloser closer = new SilentCloser();
         try {
-            JsonGenerator generator = factory.createGenerator(new File(
-                    filename), JsonEncoding.UTF8);
+            OutputStream outputStream = CurrentResourceLocator.write(filename);
+            closer.set(outputStream);
+            JsonGenerator generator = factory.createGenerator(outputStream, JsonEncoding.UTF8);
             closer.set(generator);
 
             generator.useDefaultPrettyPrinter();

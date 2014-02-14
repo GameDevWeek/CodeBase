@@ -1,6 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.state;
 
-import com.badlogic.gdx.assets.AssetManager;
+import de.hochschuletrier.gdw.commons.gdx.assetloaders.AssetManagerX;
 
 /**
  * The most basic game state
@@ -9,16 +9,16 @@ import com.badlogic.gdx.assets.AssetManager;
  */
 public class GameState {
 
-    protected AssetManager assetManager;
+    protected AssetManagerX assetManager;
 
-    public void init(AssetManager assetManager) {
+    public void init(AssetManagerX assetManager) {
         this.assetManager = assetManager;
     }
 
     public void render() {
     }
 
-    public void update(int delta) {
+    public void update(float delta) {
     }
 
     public void enter() {

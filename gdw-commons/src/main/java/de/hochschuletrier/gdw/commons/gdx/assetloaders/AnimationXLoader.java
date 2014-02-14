@@ -1,9 +1,7 @@
 package de.hochschuletrier.gdw.commons.gdx.assetloaders;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.files.FileHandle;
@@ -17,7 +15,9 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AnimationX;
  *
  * @author Santo Pfingsten
  */
-public class AnimationXLoader extends AsynchronousAssetLoader<AnimationX, AnimationXLoader.AnimationXParameter> {
+public class AnimationXLoader extends AsynchronousAssetLoaderX<AnimationX, AnimationXLoader.AnimationXParameter> {
+    private static final String PREFIX = "AnimationX:";
+    
 	public AnimationXLoader (FileHandleResolver resolver) {
 		super(resolver);
 	}
@@ -32,7 +32,7 @@ public class AnimationXLoader extends AsynchronousAssetLoader<AnimationX, Animat
         params.magFilter = parameter.magFilter;
         params.wrapU = parameter.wrapU;
         params.wrapV = parameter.wrapV;
-		deps.add(new AssetDescriptor(parameter.textureFilename, Texture.class, params));
+		deps.add(new AssetDescriptor(parameter.filename, Texture.class, params));
 		return deps;
 	}
 
@@ -42,22 +42,26 @@ public class AnimationXLoader extends AsynchronousAssetLoader<AnimationX, Animat
 
 	@Override
 	public AnimationX loadSync(AssetManager manager, String fileName, FileHandle fileHandle, AnimationXParameter parameter) {
-		return new AnimationX(manager.get(parameter.textureFilename, Texture.class), parameter.rows, parameter.cols, parameter.frameTime, parameter.loop);
+		return new AnimationX(manager.get(parameter.filename, Texture.class), parameter.rows, parameter.columns, parameter.frameTime, parameter.loop);
 	}
+
+    @Override
+    public String getFilePrefix() {
+        return PREFIX;
+    }
 
 	/** Parameter to be passed to {@link AssetManager#load(String, Class, AssetLoaderParameters)} if additional configuration is
 	 * necessary for the {@link AnimationX}. */
-	static public class AnimationXParameter extends AssetLoaderParameters<AnimationX> {
-        String textureFilename;
-        int rows;
-        int cols;
-        float frameTime;
-        boolean loop;
+	static public class AnimationXParameter extends AssetLoaderParametersX<AnimationX> {
+        public Integer rows = 1;
+        public Integer columns = 1;
+        public Float frameTime = 100.0f;
+        public Boolean loop;
         
 		/** the format of the final Texture. Uses the source images format if null **/
 		public Pixmap.Format format = null;
 		/** whether to generate mipmaps **/
-		public boolean genMipMaps = false;
+		public Boolean genMipMaps = Boolean.FALSE;
 		public TextureFilter minFilter = TextureFilter.Nearest;
 		public TextureFilter magFilter = TextureFilter.Nearest;
 		public Texture.TextureWrap wrapU = Texture.TextureWrap.ClampToEdge;

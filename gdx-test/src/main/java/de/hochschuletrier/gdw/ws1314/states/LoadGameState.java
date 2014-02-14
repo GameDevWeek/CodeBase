@@ -1,8 +1,8 @@
 package de.hochschuletrier.gdw.ws1314.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import de.hochschuletrier.gdw.commons.gdx.assetloaders.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitVerticalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
@@ -12,24 +12,21 @@ public class LoadGameState extends GameState {
     private boolean isDone;
 
     @Override
-    public void init(AssetManager assetManager) {
+    public void init(AssetManagerX assetManager) {
         super.init(assetManager);
     }
 
     @Override
     public void render() {
-        DrawUtil.setColor(Color.BLACK);
-        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLACK);
 
-        DrawUtil.setColor(Color.GREEN);
         float drawWidth = Gdx.graphics.getWidth() - 100.0f;
-        DrawUtil.fillRect(50, Gdx.graphics.getHeight() / 2 - 25, (int) (drawWidth * assetManager.getProgress()), 50);
-        DrawUtil.drawRect(50, Gdx.graphics.getHeight() / 2 - 25, drawWidth, 50);
-        DrawUtil.resetColor();
+        DrawUtil.fillRect(50, Gdx.graphics.getHeight() / 2 - 25, (int) (drawWidth * assetManager.getProgress()), 50, Color.GREEN);
+        DrawUtil.drawRect(50, Gdx.graphics.getHeight() / 2 - 25, drawWidth, 50, Color.GREEN);
     }
 
     @Override
-    public void update(int delta) {
+    public void update(float delta) {
         if (isDone) {
             return;
         }

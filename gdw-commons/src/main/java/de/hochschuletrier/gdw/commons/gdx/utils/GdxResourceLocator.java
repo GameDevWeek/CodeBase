@@ -6,6 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import de.hochschuletrier.gdw.commons.resourcelocator.IResourceLocator;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  *
@@ -20,10 +21,18 @@ public class GdxResourceLocator implements IResourceLocator {
     }
 
     @Override
-    public InputStream locateResource(String filename) throws FileNotFoundException {
+    public InputStream readResource(String filename) throws FileNotFoundException {
         FileHandle handle = Gdx.files.getFileHandle(filename, type);
         if (handle != null)
             return handle.read();
+        return null;
+    }
+
+    @Override
+    public OutputStream writeResource(String filename) throws FileNotFoundException {
+        FileHandle handle = Gdx.files.getFileHandle(filename, type);
+        if (handle != null)
+            return handle.write(false);
         return null;
     }
 

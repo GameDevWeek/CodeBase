@@ -175,11 +175,30 @@ public class DrawUtil {
         white.draw(x, y, width, height);
     }
 
+    public static void fillRect(float x, float y, float width, float height, Color color) {
+        batch.setColor(color);
+        Gdx.gl11.glColor4f(color.r, color.g, color.b, color.a);
+        white.draw(x, y, width, height);
+        batch.setColor(currentColor);
+        Gdx.gl11.glColor4f(currentColor.r, currentColor.g, currentColor.b, currentColor.a);
+    }
+
     public static void drawRect(float x, float y, float width, float height) {
         fillRect(x, y, width, 1);
         fillRect(x, y + height - 1, width, 1);
         fillRect(x, y, 1, height);
         fillRect(x + width - 1, y, 1, height);
+    }
+
+    public static void drawRect(float x, float y, float width, float height, Color color) {
+        batch.setColor(color);
+        Gdx.gl11.glColor4f(color.r, color.g, color.b, color.a);
+        fillRect(x, y, width, 1);
+        fillRect(x, y + height - 1, width, 1);
+        fillRect(x, y, 1, height);
+        fillRect(x + width - 1, y, 1, height);
+        batch.setColor(currentColor);
+        Gdx.gl11.glColor4f(currentColor.r, currentColor.g, currentColor.b, currentColor.a);
     }
 
     public static void setLineWidth(float width) {

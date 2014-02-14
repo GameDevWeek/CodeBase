@@ -1,7 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.assetloaders;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader.BitmapFontParameter;
@@ -45,9 +44,9 @@ public class FontXLoader extends AsynchronousAssetLoader<FontX, FontXLoader.Font
 
 	/** Parameter to be passed to {@link AssetManager#load(String, Class, AssetLoaderParameters)} if additional configuration is
 	 * necessary for the {@link FontX}. */
-	static public class FontXParameter extends AssetLoaderParameters<FontX> {
+	static public class FontXParameter extends AssetLoaderParametersX<FontX> {
 		/** whether to flipY the font or not **/
-		public boolean flip = false;
+		public Boolean flip = Boolean.FALSE;
 		/** the minimum filter to be used for the backing texture */
 		public TextureFilter minFilter = TextureFilter.Nearest;
 		/** the maximum filter to be used for the backing texture */
