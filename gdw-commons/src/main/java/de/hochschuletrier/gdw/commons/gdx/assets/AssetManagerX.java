@@ -1,5 +1,10 @@
-package de.hochschuletrier.gdw.commons.gdx.assetloaders;
+package de.hochschuletrier.gdw.commons.gdx.assets;
 
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TiledMapLoader;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AsynchronousAssetLoaderX;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationXLoader;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.FontXLoader;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.ImageXLoader;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
@@ -11,6 +16,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationX;
 import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
@@ -128,7 +134,7 @@ public class AssetManagerX extends AssetManager {
                 baseMap.put(entry.getKey(), file);
             }
         } catch (Exception e) {
-            throw new com.badlogic.gdx.utils.GdxRuntimeException("Error reading file: " + filename, e);
+            throw new GdxRuntimeException("Error reading file: " + filename, e);
         }
     }
 
@@ -143,7 +149,7 @@ public class AssetManagerX extends AssetManager {
                 baseMap.put(entry.getKey(), file);
             }
         } catch (Exception e) {
-            throw new com.badlogic.gdx.utils.GdxRuntimeException("Error reading file: " + filename, e);
+            throw new GdxRuntimeException("Error reading file: " + filename, e);
         }
     }
 }

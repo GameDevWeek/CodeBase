@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.commons.gdx.assetloaders;
+package de.hochschuletrier.gdw.commons.gdx.assets.loaders;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.utils.Array;
+import de.hochschuletrier.gdw.commons.gdx.assets.AssetLoaderParametersX;
 import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 
 /**

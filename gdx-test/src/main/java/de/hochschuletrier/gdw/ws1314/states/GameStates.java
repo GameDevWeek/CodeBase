@@ -1,7 +1,7 @@
 package de.hochschuletrier.gdw.ws1314.states;
 
 import com.badlogic.gdx.graphics.Color;
-import de.hochschuletrier.gdw.commons.gdx.assetloaders.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.FadeTransition;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.Transition;

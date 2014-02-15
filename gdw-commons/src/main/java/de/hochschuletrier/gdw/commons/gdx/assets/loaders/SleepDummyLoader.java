@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.commons.gdx.assetloaders;
+package de.hochschuletrier.gdw.commons.gdx.assets.loaders;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetLoaderParameters;

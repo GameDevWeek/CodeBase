@@ -6,7 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.hochschuletrier.gdw.commons.gdx.assetloaders.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationX;
 import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
@@ -71,12 +71,12 @@ public class MainMenuState extends GameState implements InputProcessor {
     }
 
     @Override
-    public void enter() {
+    public void onEnter() {
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
-    public void leave() {
+    public void onLeave() {
     }
     
     @Override

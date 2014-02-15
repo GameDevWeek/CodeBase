@@ -40,6 +40,9 @@ public abstract class StateBasedGame implements ApplicationListener {
         entering = in;
 
         nextState = state;
+        
+        currentState.onLeave();
+        nextState.onEnter();
     }
 
     @Override
@@ -93,7 +96,7 @@ public abstract class StateBasedGame implements ApplicationListener {
             if (!leaving.isDone()) {
                 return;
             }
-            currentState.leave();
+            currentState.onLeaveComplete();
             prevState = currentState;
             currentState = nextState;
             nextState = null;
@@ -104,7 +107,7 @@ public abstract class StateBasedGame implements ApplicationListener {
             if (!entering.isDone()) {
                 return;
             }
-            currentState.enter();
+            currentState.onEnterComplete();
             prevState = null;
             entering = null;
         }

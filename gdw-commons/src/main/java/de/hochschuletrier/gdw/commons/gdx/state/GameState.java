@@ -1,6 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.state;
 
-import de.hochschuletrier.gdw.commons.gdx.assetloaders.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 
 /**
  * The most basic game state
@@ -21,16 +21,16 @@ public class GameState {
     public void update(float delta) {
     }
 
-    public void enter() {
+    public void onEnter() {
     }
 
-    public void leave() {
+    public void onEnterComplete() {
     }
 
-    public void showMenu() {
+    public void onLeave() {
     }
 
-    public void hideMenu() {
+    public void onLeaveComplete() {
     }
 
     public void dispose() {
