@@ -30,7 +30,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     private FontX verdana_24;
     private float x = 0;
     private final Vector2 cursor = new Vector2();
-    private FpsCalculator fpsCalc = new FpsCalculator(200);
+    private final FpsCalculator fpsCalc = new FpsCalculator(200);
 
     public MainMenuState() {
     }
@@ -81,42 +81,49 @@ public class MainMenuState extends GameState implements InputProcessor {
     
     @Override
     public void dispose() {
-        logo.dispose();
     }
 
+    @Override
     public boolean keyDown(int keycode) {
         return false;
     }
 
+    @Override
     public boolean keyUp(int keycode) {
         return false;
     }
 
+    @Override
     public boolean keyTyped(char character) {
         return false;
     }
 
+    @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         cursor.set(screenX, screenY);
         click.play();
         return true;
     }
 
+    @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         cursor.set(screenX, screenY);
         return false;
     }
 
+    @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         cursor.set(screenX, screenY);
         return false;
     }
 
+    @Override
     public boolean mouseMoved(int screenX, int screenY) {
         cursor.set(screenX, screenY);
         return false;
     }
 
+    @Override
     public boolean scrolled(int amount) {
         return false;
     }
