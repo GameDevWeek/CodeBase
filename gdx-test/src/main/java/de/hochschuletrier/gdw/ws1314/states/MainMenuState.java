@@ -60,6 +60,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public void update(float delta) {
+        walking.update(delta);
         x += delta * WALKING_SPEED;
         if (x > 1024) {
             x = -walking.getWidth();

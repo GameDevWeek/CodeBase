@@ -1,7 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.assets;
 
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -53,9 +52,12 @@ public class AnimationX {
     }
 
     public void draw(float x, float y, float width, float height) {
-        stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, looping);
         DrawUtil.batch.draw(currentFrame, x, y, width, height);
+    }
+    
+    public void update(float delta) {
+        stateTime += delta;
     }
 
     public void draw(float x, float y) {
