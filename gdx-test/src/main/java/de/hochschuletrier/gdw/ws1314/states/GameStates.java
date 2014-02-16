@@ -10,7 +10,8 @@ import de.hochschuletrier.gdw.ws1314.Main;
 public enum GameStates {
 
     LOADING(new LoadGameState()),
-    MAINMENU(new MainMenuState());
+    MAINMENU(new MainMenuState()),
+    GAMEPLAY(new GameplayState());
     private final GameState state;
 
     GameStates(GameState state) {
@@ -38,9 +39,9 @@ public enum GameStates {
     public void init(AssetManagerX assetManager) {
         state.init(assetManager);
     }
-    
+
     public static void dispose() {
-        for(GameStates entry: GameStates.values()) {
+        for (GameStates entry : GameStates.values()) {
             entry.state.dispose();
         }
     }

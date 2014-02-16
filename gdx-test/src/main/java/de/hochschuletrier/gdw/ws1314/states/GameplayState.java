@@ -2,68 +2,59 @@ package de.hochschuletrier.gdw.ws1314.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.assets.AnimationX;
 import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
-import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
+import de.hochschuletrier.gdw.ws1314.game.Game;
 
 /**
  * Menu state
  *
  * @author Santo Pfingsten
  */
-public class MainMenuState extends GameState implements InputProcessor {
+public class GameplayState extends GameState implements InputProcessor {
 
-    public static final int WALKING_SPEED = 100;
-
-    private Music music;
+    private Game game;
     private Sound click;
-    private ImageX logo;
     private ImageX crosshair;
-    private AnimationX walking;
-    private float x = 0;
+    private FontX verdana_24;
     private final Vector2 cursor = new Vector2();
+    private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
 
-    public MainMenuState() {
+    public GameplayState() {
     }
 
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
 
-        logo = assetManager.getImageX("logo");
         crosshair = assetManager.getImageX("crosshair");
-        walking = assetManager.getAnimationX("walking");
-        music = assetManager.getMusic("menu");
         click = assetManager.getSound("click");
-
-        music.setLooping(true);
-        music.play();
+        verdana_24 = assetManager.getFontX("verdana_24");
+        game = new Game();
     }
 
     @Override
     public void render() {
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
-        logo.draw();
-        walking.draw(x, 512 - walking.getHeight());
+        game.render();
 
         crosshair.draw(cursor.x - crosshair.getWidth() * 0.5f, cursor.y - crosshair.getHeight() * 0.5f);
+
+        verdana_24.drawRight(String.format("%.2f FPS", fpsCalc.getFps()), Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - verdana_24.getLineHeight());
     }
 
     @Override
     public void update(float delta) {
-        x += delta * WALKING_SPEED;
-        if (x > 1024) {
-            x = -walking.getWidth();
-        }
+        game.update(delta);
+        fpsCalc.addFrame();
     }
 
     @Override
@@ -96,13 +87,8 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        cursor.set(screenX, screenY);
-        if (button == 0) {
-            click.play();
-        } else {
-            GameStates.GAMEPLAY.init(assetManager);
-            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(500).reverse(), null);
-        }
+        game.addBall(screenX, screenY);
+        click.play();
         return true;
     }
 

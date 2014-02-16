@@ -30,6 +30,7 @@ import de.hochschuletrier.gdw.ws1314.states.GameStates;
  * @author Santo Pfingsten
  */
 public class Main extends StateBasedGame {
+
     public static final int WINDOW_WIDTH = 1024;
     public static final int WINDOW_HEIGHT = 512;
 
@@ -49,28 +50,29 @@ public class Main extends StateBasedGame {
         InternalFileHandleResolver fileHandleResolver = new InternalFileHandleResolver();
         assetManager.setLoader(SleepDummyLoader.SleepDummy.class, new SleepDummyLoader(fileHandleResolver));
         SleepDummyLoader.SleepDummyParameter dummyParam = new SleepDummyLoader.SleepDummyParameter(100);
-        for(int i=0; i<100; i++)
+        for (int i = 0; i < 50; i++) {
             assetManager.load("dummy" + i, SleepDummyLoader.SleepDummy.class, dummyParam);
+        }
     }
-    
+
     private void loadAssetLists() {
         ImageXLoader.ImageXParameter imageParam = new ImageXLoader.ImageXParameter();
         imageParam.minFilter = Texture.TextureFilter.Linear;
         imageParam.magFilter = Texture.TextureFilter.Linear;
         assetManager.loadAssetList("data/json/images.json", ImageX.class, imageParam);
-        
+
         assetManager.loadAssetList("data/json/sounds.json", Sound.class, null);
         assetManager.loadAssetList("data/json/music.json", Music.class, null);
-        
+
         FontXLoader.FontXParameter fontParam = new FontXLoader.FontXParameter();
         fontParam.minFilter = Texture.TextureFilter.Linear;
         fontParam.magFilter = Texture.TextureFilter.Linear;
         fontParam.flip = true;
         assetManager.loadAssetList("data/json/fonts.json", FontX.class, fontParam);
-        
+
         assetManager.loadAssetListWithParam("data/json/animations.json", AnimationX.class, AnimationXLoader.AnimationXParameter.class);
     }
-    
+
     private void setupGdx() {
         KeyUtil.init();
         Texture.setEnforcePotImages(false);
@@ -89,12 +91,13 @@ public class Main extends StateBasedGame {
         GameStates.LOADING.init(assetManager);
         GameStates.LOADING.activate();
     }
-    
+
     @Override
     public void create() {
         CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Internal));
         setupDummyLoader();
         loadAssetLists();
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         setupGdx();
     }
 
@@ -103,7 +106,6 @@ public class Main extends StateBasedGame {
         DrawUtil.batch.dispose();
         GameStates.dispose();
     }
-
 
     @Override
     protected void preRender() {

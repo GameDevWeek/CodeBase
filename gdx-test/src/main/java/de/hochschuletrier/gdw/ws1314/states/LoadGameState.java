@@ -42,7 +42,7 @@ public class LoadGameState extends GameState {
             isDone = true;
         }
     }
-    
+
     @Override
     public void dispose() {
     }
