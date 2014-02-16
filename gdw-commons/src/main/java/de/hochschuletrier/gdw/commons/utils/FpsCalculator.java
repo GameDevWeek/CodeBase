@@ -7,10 +7,9 @@ package de.hochschuletrier.gdw.commons.utils;
  */
 public class FpsCalculator {
 
-    private final int MAX = 100;
     private int index = 0;
     private int sum = 0;
-    private final long[] fpsFrames = new long[MAX];
+    private final long[] fpsFrames;
     private long lastTime = -1;
     private final int waitTime;
     private int nextUpdate;
@@ -18,10 +17,17 @@ public class FpsCalculator {
 
     /**
      * @param waitTime time to wait before updating the time, to avoid flickering
+     * @param cacheSize number of frames to cache
+     * @param startValue the start value of all cache items (in milliseconds)
      */
-    public FpsCalculator(int waitTime) {
+    public FpsCalculator(int waitTime, int cacheSize, int startValue) {
         this.waitTime = waitTime;
         this.nextUpdate = 0;
+        fpsFrames = new long[cacheSize];
+        for(int i=0; i<cacheSize; i++) {
+            fpsFrames[i] = startValue;
+        }
+        sum = cacheSize * startValue;
     }
 
     public float getFps() {
@@ -40,14 +46,14 @@ public class FpsCalculator {
         sum -= fpsFrames[index];
         sum += delta;
         fpsFrames[index] = delta;
-        if (++index == MAX) {
+        if (++index == fpsFrames.length) {
             index = 0;
         }
 
         nextUpdate -= delta;
         if (nextUpdate <= 0) {
             nextUpdate = waitTime;
-            fpsCount = 1000 / Math.max(1, (sum / (float) MAX));
+            fpsCount = 1000 / Math.max(1, (sum / (float) fpsFrames.length));
         }
     }
 }
