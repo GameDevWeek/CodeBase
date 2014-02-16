@@ -111,6 +111,7 @@ public class Main extends StateBasedGame {
     protected void preRender() {
         DrawUtil.clearColor(Color.BLACK);
         DrawUtil.clear();
+        DrawUtil.resetColor();
 
         DrawUtil.updateCamera(camera);
         DrawUtil.batch.begin();
