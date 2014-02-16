@@ -13,30 +13,40 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 public class FadeTransition extends Transition<FadeTransition> {
 
     private Color color;
+    private float threshold;
 
     public FadeTransition() {
-        this(Color.BLACK, 500);
+        this(Color.BLACK, 500, 0.5f);
     }
 
     public FadeTransition(Color color) {
-        this(color, 500);
+        this(color, 500, 0.5f);
     }
 
     public FadeTransition(Color color, int fadeTime) {
+        this(color, fadeTime, 0.5f);
+        
+    }
+
+    public FadeTransition(Color color, int fadeTime, float threshold) {
         super(fadeTime);
 
         this.color = new Color(color);
-        this.color.a = getProgress();
+        this.threshold = threshold;
     }
 
     @Override
     public void render(GameState from, GameState to) {
-        from.render();
+        float progress = getProgress();
+        if(progress < threshold) {
+            color.a = progress / threshold;
+            from.render();
+        } else {
+            color.a = (1.0f - progress) / (1.0f-threshold);
+            to.render();
+        }
 
-        color.a = getProgress();
-        Color old = DrawUtil.getColor();
         DrawUtil.setColor(color);
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        DrawUtil.setColor(old);
     }
 }
