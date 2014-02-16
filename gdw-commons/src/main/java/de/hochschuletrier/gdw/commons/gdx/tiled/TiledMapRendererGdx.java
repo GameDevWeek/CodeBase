@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.commons.gdx.tiled;
 
 import de.hochschuletrier.gdw.commons.tiled.ITiledMapRenderer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
 import de.hochschuletrier.gdw.commons.tiled.Layer;
@@ -9,6 +10,7 @@ import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TileInfo;
 import de.hochschuletrier.gdw.commons.tiled.TileSet;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
+import de.hochschuletrier.gdw.commons.utils.Point;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -23,6 +25,8 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
     final int mapTileWidth;
     final int mapTileHeight;
     final Color layerFilter = Color.WHITE.cpy();
+    final ShapeRenderer shapeRenderer = new ShapeRenderer();
+    boolean drawLines;
 
     public TiledMapRendererGdx(TiledMap map, Map<TileSet, ImageX> tilesetImages) {
         this.map = map;
@@ -32,6 +36,10 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
         for (TileSet tileset : map.getTileSets()) {
             tileset.setAttachment(tilesetImages.get(tileset));
         }
+    }
+
+    public void setDrawLines(boolean drawLines) {
+        this.drawLines = drawLines;
     }
 
     /**
@@ -157,10 +165,14 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
         for (LayerObject object : layer.getObjects()) {
             switch (object.getPrimitive()) {
                 case POLYGON:
-                    drawPolyLine(object.getPoints(), true);
+                    if (drawLines) {
+                        drawPolyLine(object.getPoints(), true);
+                    }
                     break;
                 case POLYLINE:
-                    drawPolyLine(object.getPoints(), false);
+                    if (drawLines) {
+                        drawPolyLine(object.getPoints(), false);
+                    }
                     break;
                 case TILE:
                     drawTile(object);
@@ -178,20 +190,25 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
         DrawUtil.translate(offsX, offsY);
     }
 
-    private void drawPolyLine(ArrayList<LayerObject.Point> points, boolean close) {
-        LayerObject.Point first = null;
-        LayerObject.Point last = null;
-        for (LayerObject.Point point : points) {
+    private void drawPolyLine(ArrayList<Point> points, boolean loop) {
+        DrawUtil.batch.end();
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        Point first = null;
+        Point last = null;
+        for (Point point : points) {
             if (last != null) {
-//                DrawUtil.drawLine(last.x, last.y, point.x, point.y);
+                shapeRenderer.line(last.x, last.y, point.x, point.y);
             } else {
                 first = point;
             }
             last = point;
         }
-        if (close && last != null && first != null) {
-//            DrawUtil.drawLine(last.x, last.y, first.x, first.y);
+        if (loop && last != null && first != null) {
+            shapeRenderer.line(last.x, last.y, first.x, first.y);
         }
+        shapeRenderer.end();
+        DrawUtil.batch.begin();
     }
 
     private void drawTile(LayerObject object) {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
 import de.hochschuletrier.gdw.commons.tiled.tmx.TmxObject;
 import de.hochschuletrier.gdw.commons.tiled.tmx.TmxPointList;
+import de.hochschuletrier.gdw.commons.utils.Point;
 
 /**
  * An object read from an object group layer
@@ -44,16 +45,6 @@ public class LayerObject {
         RELATIVE_TO_FIRST,
         RELATIVE_TO_TOPLEFT,
         ABSOLUTE
-    }
-
-    public static class Point {
-
-        public int x, y;
-
-        private Point(int px, int py) {
-            x = px;
-            y = py;
-        }
     }
 
     /**
