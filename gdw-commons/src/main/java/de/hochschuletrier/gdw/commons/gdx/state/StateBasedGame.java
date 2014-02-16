@@ -40,7 +40,7 @@ public abstract class StateBasedGame implements ApplicationListener {
         entering = in;
 
         nextState = state;
-        
+
         currentState.onLeave();
         nextState.onEnter();
     }
@@ -86,6 +86,9 @@ public abstract class StateBasedGame implements ApplicationListener {
         updateTransitions(delta);
 
         currentState.update(delta);
+        if (nextState != null) {
+            nextState.update(delta);
+        }
 
         postUpdate(delta);
     }
