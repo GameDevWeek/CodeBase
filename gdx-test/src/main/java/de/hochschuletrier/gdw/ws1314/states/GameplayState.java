@@ -102,8 +102,8 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        game.addBall(screenX, screenY);
-        click.play();
+		game.getVase().setPosition(new Vector2(screenX, screenY));
+		click.play();
         return true;
     }
 
