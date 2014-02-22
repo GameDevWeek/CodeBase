@@ -1,12 +1,15 @@
 package de.hochschuletrier.gdw.ws1314.game;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ws1314.utils.PhysixUtil;
+
 import java.util.ArrayList;
 
 /**
@@ -21,12 +24,15 @@ public class Game {
     public static final int GRAVITY = 12;
     public static final int BOX2D_SCALE = 40;
 
+	private TextureAtlas atlas;
     PhysixManager manager = new PhysixManager(BOX2D_SCALE, GRAVITY);
     private final ArrayList<PhysixEntity> entities = new ArrayList<PhysixEntity>();
     private final Player player;
 	private final Vase vase;
 
     public Game() {
+		atlas = new TextureAtlas("data/images/atlas.atlas");
+
         PhysixBody body = new PhysixBodyDef(BodyType.StaticBody, manager).position(410, 400)
                 .fixedRotation(false).create();
         body.createFixture(new PhysixFixtureDef(manager).density(1).friction(0.5f).shapeBox(800, 20));
@@ -36,8 +42,9 @@ public class Game {
         player.initPhysics(manager);
 		entities.add(player);
 
-		vase = new Vase(300, 300);
+		vase = new Vase(0, 0);
 		vase.initPhysics(manager);
+		vase.initGraphics(atlas);
 		entities.add(vase);
     }
 
@@ -61,6 +68,10 @@ public class Game {
 
 	public Vase getVase() {
 		return vase;
+	}
+
+	public PhysixManager getManager() {
+		return manager;
 	}
 
 }

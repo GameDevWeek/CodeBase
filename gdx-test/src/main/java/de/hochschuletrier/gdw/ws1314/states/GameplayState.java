@@ -6,11 +6,13 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.utils.DefaultOrthoCameraController;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
@@ -33,13 +35,13 @@ public class GameplayState extends GameState implements InputProcessor {
 	private DefaultOrthoCameraController controller;
 	private OrthographicCamera camera;
 	private InputMultiplexer inputs;
+
     public GameplayState() {
     }
 
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-
         crosshair = assetManager.getImageX("crosshair");
         click = assetManager.getSound("click");
         verdana_24 = assetManager.getFontX("verdana_24");
@@ -57,11 +59,18 @@ public class GameplayState extends GameState implements InputProcessor {
 
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
-        game.render();
 
         crosshair.draw(cursor.x - crosshair.getWidth() * 0.5f, cursor.y - crosshair.getHeight() * 0.5f);
 
         verdana_24.drawRight(String.format("%.2f FPS", fpsCalc.getFps()), Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - verdana_24.getLineHeight());
+
+		DrawUtil.batch.draw(game.getVase().getRegion(), game.getVase().getPosition().x,
+				game.getVase().getPosition().y, 0f, 0f, game.getVase().getRegion()
+						.getRegionWidth(), game.getVase().getRegion().getRegionHeight(),
+				game.getManager().scaleInv, game.getManager().scaleInv, game.getVase()
+						.getRotation());
+
+		game.render();
     }
 
     @Override
