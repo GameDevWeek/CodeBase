@@ -14,7 +14,7 @@ public class DefaultOrthoCameraController extends BaseOrthoCameraController impl
 	private final int RIGHT = Keys.D;
 	private final int UP = Keys.W;
 	private final int DOWN = Keys.S;
-	private float velocity = 5;
+	private float velocity = 300;
 	private final Vector3 tmp = new Vector3();
 
 	public DefaultOrthoCameraController(OrthographicCamera camera) {
@@ -28,11 +28,11 @@ public class DefaultOrthoCameraController extends BaseOrthoCameraController impl
 	}
 
 	public void update(float deltaTime) {
+
 		if (keys.containsKey(LEFT)) {
 			tmp.set(camera.direction).crs(camera.up).nor()
 			.scl(-deltaTime * velocity);
 			camera.position.add(tmp);
-			// this.camera.translate(10, 10, 0);
 		}
 		if (keys.containsKey(RIGHT)) {
 			tmp.set(camera.direction).crs(camera.up).nor()
@@ -42,8 +42,6 @@ public class DefaultOrthoCameraController extends BaseOrthoCameraController impl
 		if (keys.containsKey(UP)) {
 			tmp.set(camera.up).nor().scl(deltaTime * velocity);
 			camera.position.add(tmp);
-			// this.camera.translate(10, 10, 0);
-
 		}
 		if (keys.containsKey(DOWN)) {
 			tmp.set(camera.up).nor().scl(-deltaTime * velocity);

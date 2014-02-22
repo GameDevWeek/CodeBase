@@ -1,14 +1,18 @@
 package de.hochschuletrier.gdw.ws1314.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
+import de.hochschuletrier.gdw.commons.gdx.utils.DefaultOrthoCameraController;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ws1314.game.Game;
@@ -26,7 +30,9 @@ public class GameplayState extends GameState implements InputProcessor {
     private FontX verdana_24;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
-
+	private DefaultOrthoCameraController controller;
+	private OrthographicCamera camera;
+	private InputMultiplexer inputs;
     public GameplayState() {
     }
 
@@ -37,11 +43,18 @@ public class GameplayState extends GameState implements InputProcessor {
         crosshair = assetManager.getImageX("crosshair");
         click = assetManager.getSound("click");
         verdana_24 = assetManager.getFontX("verdana_24");
+		camera = new OrthographicCamera();
+		camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		controller = new DefaultOrthoCameraController(camera);
+		inputs = new InputMultiplexer(this, controller);
+		DrawUtil.batch.setProjectionMatrix(camera.combined);
         game = new Game();
     }
 
     @Override
     public void render() {
+		DrawUtil.batch.setProjectionMatrix(camera.combined);
+
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
         game.render();
@@ -53,13 +66,15 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public void update(float delta) {
+
+		controller.update();
         game.update(delta);
         fpsCalc.addFrame();
     }
 
     @Override
     public void onEnter() {
-        Gdx.input.setInputProcessor(this);
+		Gdx.input.setInputProcessor(inputs);
     }
 
     @Override
