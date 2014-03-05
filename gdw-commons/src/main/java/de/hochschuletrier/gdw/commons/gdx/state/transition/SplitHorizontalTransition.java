@@ -22,17 +22,17 @@ public class SplitHorizontalTransition extends Transition<SplitHorizontalTransit
         int xOffset = Math.round(getProgress() * halfWidth);
         to.render();
 
-        DrawUtil.setClip(0, 0, halfWidth - xOffset, fullHeight);
-        DrawUtil.pushTransform();
-        DrawUtil.translate(-xOffset, 0);
-        from.render();
-        DrawUtil.popTransform();
-
-        DrawUtil.setClip(halfWidth + xOffset, 0, halfWidth, fullHeight);
-        DrawUtil.pushTransform();
-        DrawUtil.translate(xOffset, 0);
-        from.render();
-        DrawUtil.popTransform();
-        DrawUtil.clearClip();
+//        DrawUtil.setClip(0, 0, halfWidth - xOffset, fullHeight);
+//        DrawUtil.pushTransform();
+//        DrawUtil.translate(-xOffset, 0);
+//        from.render();
+//        DrawUtil.popTransform();
+//
+//        DrawUtil.setClip(halfWidth + xOffset, 0, halfWidth, fullHeight);
+//        DrawUtil.pushTransform();
+//        DrawUtil.translate(xOffset, 0);
+//        from.render();
+//        DrawUtil.popTransform();
+//        DrawUtil.clearClip();
     }
 }

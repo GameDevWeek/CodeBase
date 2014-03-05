@@ -19,11 +19,13 @@ public class PhysixManager {
     public final float scale, scaleInv;
     protected final PhysixDebugRenderer debugRenderer = new PhysixDebugRenderer();
     protected final World world;
+    protected final Vector2 gravity = new Vector2();
 
-    public PhysixManager(float scale, float gravity) {
+    public PhysixManager(float scale, float gravityX, float gravityY) {
         this.scale = scale;
         scaleInv = 1.0f / scale;
-        world = new World(new Vector2(0, gravity), true);
+        gravity.set(gravityX, gravityY);
+        world = new World(gravity, true);
 
         world.setContactListener(new PhysixContactListener());
     }
@@ -109,5 +111,15 @@ public class PhysixManager {
             returner[pointCount] = new Vector2(p.x * scale, p.y * scale);
         }
         return returner;
+    }
+
+    public void setGravity(float x, float y) {
+        gravity.set(x, y);
+        world.setGravity(gravity);
+        Array<Body> bodies = new Array<Body>();
+        world.getBodies(bodies);
+        for(Body body: bodies) {
+            body.setAwake(true);
+        }
     }
 }

@@ -5,6 +5,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import de.hochschuletrier.gdw.commons.devcon.CCmdFlags;
+import de.hochschuletrier.gdw.commons.devcon.ConsoleCmd;
+import static de.hochschuletrier.gdw.commons.devcon.DevConsole.logger;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarFloat;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarInt;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
@@ -12,6 +18,9 @@ import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ws1314.game.Game;
+import de.hochschuletrier.gdw.commons.gdx.devcon.DeveloperInputManager;
+import de.hochschuletrier.gdw.ws1314.Main;
+import java.util.List;
 
 /**
  * Menu state
@@ -59,7 +68,7 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public void onEnter() {
-        Gdx.input.setInputProcessor(this);
+        DeveloperInputManager.setInputProcessor(this);
     }
 
     @Override

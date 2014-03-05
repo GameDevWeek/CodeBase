@@ -10,6 +10,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationXLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.FontXLoader;
@@ -23,6 +25,8 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import de.hochschuletrier.gdw.commons.gdx.devcon.DevConsoleView;
+import de.hochschuletrier.gdw.commons.gdx.devcon.DeveloperInputManager;
 import de.hochschuletrier.gdw.ws1314.states.GameStates;
 
 /**
@@ -37,6 +41,10 @@ public class Main extends StateBasedGame {
     private final AssetManagerX assetManager = new AssetManagerX();
     private OrthographicCamera camera;
     private static Main instance;
+
+    public final DevConsole console = new DevConsole(16);
+    private final DevConsoleView consoleView = new DevConsoleView(console);
+    private Skin skin;
 
     public static Main getInstance() {
         if (instance == null) {
@@ -85,6 +93,7 @@ public class Main extends StateBasedGame {
 
         Gdx.input.setCatchMenuKey(true);
         Gdx.input.setCatchBackKey(true);
+        DeveloperInputManager.init(consoleView);
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -99,12 +108,17 @@ public class Main extends StateBasedGame {
         loadAssetLists();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         setupGdx();
+        skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
+        consoleView.init(assetManager, skin);
+        addScreenListener(consoleView);
     }
 
     @Override
     public void dispose() {
         DrawUtil.batch.dispose();
         GameStates.dispose();
+        consoleView.dispose();
+        skin.dispose();
     }
 
     @Override
@@ -120,10 +134,23 @@ public class Main extends StateBasedGame {
     @Override
     protected void postRender() {
         DrawUtil.batch.end();
+        if (consoleView.isVisible()) {
+            consoleView.render();
+        }
+    }
+
+    @Override
+    protected void preUpdate(float delta) {
+        if (consoleView.isVisible()) {
+            consoleView.update(delta);
+        }
+        console.executeCmdQueue();
     }
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
+
         DrawUtil.init(width, height);
 
         camera = new OrthographicCamera(width, height);
@@ -144,7 +171,7 @@ public class Main extends StateBasedGame {
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "LibGDX Test";
-        cfg.useGL20 = false;
+        cfg.useGL30 = false;
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;
 

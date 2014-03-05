@@ -1,13 +1,20 @@
 package de.hochschuletrier.gdw.ws1314.game;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.utils.Array;
+import de.hochschuletrier.gdw.commons.devcon.ConsoleCmd;
+import static de.hochschuletrier.gdw.commons.devcon.DevConsole.logger;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ws1314.Main;
 import de.hochschuletrier.gdw.ws1314.utils.PhysixUtil;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -21,7 +28,7 @@ public class Game {
     public static final int GRAVITY = 12;
     public static final int BOX2D_SCALE = 40;
 
-    PhysixManager manager = new PhysixManager(BOX2D_SCALE, GRAVITY);
+    PhysixManager manager = new PhysixManager(BOX2D_SCALE, 0, GRAVITY);
     private final ArrayList<PhysixEntity> entities = new ArrayList<PhysixEntity>();
     private final Player player;
 
@@ -35,6 +42,7 @@ public class Game {
         player.initPhysics(manager);
 
         entities.add(player);
+        Main.getInstance().console.register(gravity_f);
     }
 
     public void render() {
@@ -50,4 +58,24 @@ public class Game {
         b.initPhysics(manager);
         entities.add(b);
     }
+    
+    ConsoleCmd gravity_f = new ConsoleCmd("gravity", 0, "Set gravity.", 2) {
+        @Override
+        public void showUsage() {
+            showUsage("<x> <y>");
+        }
+
+        @Override
+        public void execute(List<String> args) {
+            try {
+                float x = Float.parseFloat(args.get(1));
+                float y = Float.parseFloat(args.get(2));
+                
+                manager.setGravity(x, y);
+                logger.info("set gravity to ({}, {})", x, y);
+            } catch(NumberFormatException e) {
+                showUsage();
+            }
+        }
+    };
 }

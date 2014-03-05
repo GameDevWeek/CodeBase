@@ -25,4 +25,20 @@ public class QuietUtils {
             }
         }
     }
+    
+    public static float parseFloat(String value, float defaultValue) {
+        try {
+            return Float.parseFloat(value);
+        } catch(NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+    
+    public static int parseInt(String value, int defaultValue) {
+        try {
+            return Integer.parseInt(value);
+        } catch(NumberFormatException e) {
+            return defaultValue;
+        }
+    }
 }
