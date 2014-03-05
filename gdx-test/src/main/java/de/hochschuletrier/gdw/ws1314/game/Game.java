@@ -1,9 +1,7 @@
 package de.hochschuletrier.gdw.ws1314.game;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.devcon.ConsoleCmd;
 import static de.hochschuletrier.gdw.commons.devcon.DevConsole.logger;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
@@ -28,11 +26,15 @@ public class Game {
     public static final int GRAVITY = 12;
     public static final int BOX2D_SCALE = 40;
 
+    private TextureAtlas atlas;
     PhysixManager manager = new PhysixManager(BOX2D_SCALE, 0, GRAVITY);
     private final ArrayList<PhysixEntity> entities = new ArrayList<PhysixEntity>();
     private final Player player;
+    private final Vase vase;
 
     public Game() {
+        atlas = new TextureAtlas("data/images/atlas.atlas");
+
         PhysixBody body = new PhysixBodyDef(BodyType.StaticBody, manager).position(410, 400)
                 .fixedRotation(false).create();
         body.createFixture(new PhysixFixtureDef(manager).density(1).friction(0.5f).shapeBox(800, 20));
@@ -40,8 +42,12 @@ public class Game {
         PhysixUtil.createHollowCircle(manager, 180, 180, 150, 30, 6);
         player = new Player(410, 350);
         player.initPhysics(manager);
-
         entities.add(player);
+
+        vase = new Vase(0, 0);
+        vase.initPhysics(manager);
+        vase.initGraphics(atlas);
+        entities.add(vase);
         Main.getInstance().console.register(gravity_f);
     }
 
@@ -58,7 +64,19 @@ public class Game {
         b.initPhysics(manager);
         entities.add(b);
     }
-    
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Vase getVase() {
+        return vase;
+    }
+
+    public PhysixManager getManager() {
+        return manager;
+    }
+
     ConsoleCmd gravity_f = new ConsoleCmd("gravity", 0, "Set gravity.", 2) {
         @Override
         public void showUsage() {
@@ -70,10 +88,10 @@ public class Game {
             try {
                 float x = Float.parseFloat(args.get(1));
                 float y = Float.parseFloat(args.get(2));
-                
+
                 manager.setGravity(x, y);
                 logger.info("set gravity to ({}, {})", x, y);
-            } catch(NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 showUsage();
             }
         }

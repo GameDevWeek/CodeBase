@@ -10,6 +10,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationXLoader;
@@ -63,6 +64,11 @@ public class Main extends StateBasedGame {
         }
     }
 
+    private void packImages() {
+        TexturePacker.process("src/main/resources/pipeline/images",
+                "src/main/resources/data/images", "atlas");
+    }
+
     private void loadAssetLists() {
         ImageXLoader.ImageXParameter imageParam = new ImageXLoader.ImageXParameter();
         imageParam.minFilter = Texture.TextureFilter.Linear;
@@ -104,6 +110,7 @@ public class Main extends StateBasedGame {
     @Override
     public void create() {
         CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Internal));
+        packImages();
         setupDummyLoader();
         loadAssetLists();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -176,5 +183,9 @@ public class Main extends StateBasedGame {
         cfg.height = WINDOW_HEIGHT;
 
         new LwjglApplication(getInstance(), cfg);
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
     }
 }

@@ -1,26 +1,23 @@
 package de.hochschuletrier.gdw.ws1314.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import de.hochschuletrier.gdw.commons.devcon.CCmdFlags;
-import de.hochschuletrier.gdw.commons.devcon.ConsoleCmd;
-import static de.hochschuletrier.gdw.commons.devcon.DevConsole.logger;
-import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
-import de.hochschuletrier.gdw.commons.devcon.cvar.CVarFloat;
-import de.hochschuletrier.gdw.commons.devcon.cvar.CVarInt;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
+import de.hochschuletrier.gdw.commons.gdx.utils.DefaultOrthoCameraController;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ws1314.game.Game;
 import de.hochschuletrier.gdw.commons.gdx.devcon.DeveloperInputManager;
 import de.hochschuletrier.gdw.ws1314.Main;
-import java.util.List;
 
 /**
  * Menu state
@@ -35,6 +32,8 @@ public class GameplayState extends GameState implements InputProcessor {
     private FontX verdana_24;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
+    private DefaultOrthoCameraController controller;
+    private InputMultiplexer inputs;
 
     public GameplayState() {
     }
@@ -46,6 +45,8 @@ public class GameplayState extends GameState implements InputProcessor {
         crosshair = assetManager.getImageX("crosshair");
         click = assetManager.getSound("click");
         verdana_24 = assetManager.getFontX("verdana_24");
+        controller = new DefaultOrthoCameraController(Main.getInstance().getCamera());
+        inputs = new InputMultiplexer(this, controller);
         game = new Game();
     }
 
@@ -53,22 +54,29 @@ public class GameplayState extends GameState implements InputProcessor {
     public void render() {
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
-        game.render();
-
         crosshair.draw(cursor.x - crosshair.getWidth() * 0.5f, cursor.y - crosshair.getHeight() * 0.5f);
 
         verdana_24.drawRight(String.format("%.2f FPS", fpsCalc.getFps()), Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - verdana_24.getLineHeight());
+
+        DrawUtil.batch.draw(game.getVase().getRegion(), game.getVase().getPosition().x,
+                game.getVase().getPosition().y, 0f, 0f, game.getVase().getRegion()
+                .getRegionWidth(), game.getVase().getRegion().getRegionHeight(),
+                game.getManager().scaleInv, game.getManager().scaleInv, game.getVase()
+                .getRotation());
+
+        game.render();
     }
 
     @Override
     public void update(float delta) {
+        controller.update();
         game.update(delta);
         fpsCalc.addFrame();
     }
 
     @Override
     public void onEnter() {
-        DeveloperInputManager.setInputProcessor(this);
+        DeveloperInputManager.setInputProcessor(inputs);
     }
 
     @Override
@@ -96,7 +104,7 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        game.addBall(screenX, screenY);
+        game.getVase().setPosition(new Vector2(screenX, screenY));
         click.play();
         return true;
     }

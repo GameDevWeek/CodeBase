@@ -36,7 +36,7 @@ public final class PhysixBody {
         body.createFixture(fixtureDef);
     }
 
-    protected Body getBody() {
+	public Body getBody() {
         return body;
     }
 
