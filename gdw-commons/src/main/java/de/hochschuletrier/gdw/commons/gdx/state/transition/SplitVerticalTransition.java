@@ -23,17 +23,17 @@ public class SplitVerticalTransition extends Transition<SplitVerticalTransition>
 
         to.render();
 
-        DrawUtil.setClip(0, 0, fullWidth, halfHeight - yOffset);
-        DrawUtil.pushTransform();
-        DrawUtil.translate(0, -yOffset);
-        from.render();
-        DrawUtil.popTransform();
-
-        DrawUtil.setClip(0, halfHeight + yOffset, fullWidth, halfHeight);
-        DrawUtil.pushTransform();
-        DrawUtil.translate(0, yOffset);
-        from.render();
-        DrawUtil.popTransform();
-        DrawUtil.clearClip();
+//        DrawUtil.setClip(0, 0, fullWidth, halfHeight - yOffset);
+//        DrawUtil.pushTransform();
+//        DrawUtil.translate(0, -yOffset);
+//        from.render();
+//        DrawUtil.popTransform();
+//
+//        DrawUtil.setClip(0, halfHeight + yOffset, fullWidth, halfHeight);
+//        DrawUtil.pushTransform();
+//        DrawUtil.translate(0, yOffset);
+//        from.render();
+//        DrawUtil.popTransform();
+//        DrawUtil.clearClip();
     }
 }

@@ -8,11 +8,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationX;
-import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.commons.gdx.devcon.DeveloperInputManager;
 
 /**
  * Menu state
@@ -37,7 +37,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-
+        
         logo = assetManager.getImageX("logo");
         crosshair = assetManager.getImageX("crosshair");
         walking = assetManager.getAnimationX("walking");
@@ -45,7 +45,7 @@ public class MainMenuState extends GameState implements InputProcessor {
         click = assetManager.getSound("click");
 
         music.setLooping(true);
-        music.play();
+//        music.play();
     }
 
     @Override
@@ -69,7 +69,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public void onEnter() {
-        Gdx.input.setInputProcessor(this);
+        DeveloperInputManager.setInputProcessor(this);
     }
 
     @Override

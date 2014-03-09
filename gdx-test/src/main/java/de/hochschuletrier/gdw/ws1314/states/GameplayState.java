@@ -18,6 +18,8 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DefaultOrthoCameraController;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ws1314.game.Game;
+import de.hochschuletrier.gdw.commons.gdx.devcon.DeveloperInputManager;
+import de.hochschuletrier.gdw.ws1314.Main;
 
 /**
  * Menu state
@@ -32,8 +34,8 @@ public class GameplayState extends GameState implements InputProcessor {
     private FontX verdana_24;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
-	private DefaultOrthoCameraController controller;
-	private OrthographicCamera camera;
+    private DefaultOrthoCameraController controller;
+    private InputMultiplexer inputs;
 	private InputMultiplexer inputs;
 
     public GameplayState() {
@@ -45,8 +47,8 @@ public class GameplayState extends GameState implements InputProcessor {
         crosshair = assetManager.getImageX("crosshair");
         click = assetManager.getSound("click");
         verdana_24 = assetManager.getFontX("verdana_24");
-		camera = new OrthographicCamera();
-		camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        controller = new DefaultOrthoCameraController(Main.getInstance().getCamera());
+        inputs = new InputMultiplexer(this, controller);
 		controller = new DefaultOrthoCameraController(camera);
 		inputs = new InputMultiplexer(this, controller);
 		DrawUtil.batch.setProjectionMatrix(camera.combined);
@@ -59,23 +61,22 @@ public class GameplayState extends GameState implements InputProcessor {
 
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
-
         crosshair.draw(cursor.x - crosshair.getWidth() * 0.5f, cursor.y - crosshair.getHeight() * 0.5f);
 
         verdana_24.drawRight(String.format("%.2f FPS", fpsCalc.getFps()), Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - verdana_24.getLineHeight());
 
-		DrawUtil.batch.draw(game.getVase().getRegion(), game.getVase().getPosition().x,
-				game.getVase().getPosition().y, 0f, 0f, game.getVase().getRegion()
-						.getRegionWidth(), game.getVase().getRegion().getRegionHeight(),
-				game.getManager().scaleInv, game.getManager().scaleInv, game.getVase()
-						.getRotation());
+        DrawUtil.batch.draw(game.getVase().getRegion(), game.getVase().getPosition().x,
+                game.getVase().getPosition().y, 0f, 0f, game.getVase().getRegion()
+                .getRegionWidth(), game.getVase().getRegion().getRegionHeight(),
+                game.getManager().scaleInv, game.getManager().scaleInv, game.getVase()
+                .getRotation());
 
-		game.render();
+        game.render();
     }
 
     @Override
     public void update(float delta) {
-
+        controller.update();
 		controller.update();
         game.update(delta);
         fpsCalc.addFrame();
@@ -83,7 +84,7 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public void onEnter() {
-		Gdx.input.setInputProcessor(inputs);
+        DeveloperInputManager.setInputProcessor(inputs);
     }
 
     @Override
@@ -111,7 +112,7 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		game.getVase().setPosition(new Vector2(screenX, screenY));
+        game.getVase().setPosition(new Vector2(screenX, screenY));
 		click.play();
         return true;
     }

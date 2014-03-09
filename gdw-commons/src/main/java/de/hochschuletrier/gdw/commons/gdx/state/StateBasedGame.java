@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.commons.gdx.state;
 
 import com.badlogic.gdx.ApplicationListener;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.Transition;
+import java.util.ArrayList;
 
 /**
  * Handles game states and their transitions
@@ -13,6 +14,7 @@ public abstract class StateBasedGame implements ApplicationListener {
     private GameState currentState, nextState, prevState;
     private Transition entering, leaving;
     private long lastTime = System.currentTimeMillis();
+    private final ArrayList<ScreenListener> screenListeners = new ArrayList<ScreenListener>();
 
     public StateBasedGame() {
         currentState = new GameState();
@@ -43,6 +45,21 @@ public abstract class StateBasedGame implements ApplicationListener {
 
         currentState.onLeave();
         nextState.onEnter();
+    }
+    
+    public void addScreenListener(ScreenListener listener) {
+        screenListeners.add(listener);
+    }
+    
+    public void removeScreenListener(ScreenListener listener) {
+        screenListeners.remove(listener);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        for(ScreenListener listener: screenListeners) {
+            listener.resize(width, height);
+        }
     }
 
     @Override

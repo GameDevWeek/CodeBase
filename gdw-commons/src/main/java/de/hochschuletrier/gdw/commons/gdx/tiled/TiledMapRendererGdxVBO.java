@@ -2,7 +2,7 @@ package de.hochschuletrier.gdw.commons.gdx.tiled;
 
 import de.hochschuletrier.gdw.commons.tiled.ITiledMapRenderer;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
@@ -108,7 +108,7 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
 
         public void draw() {
             image.bind();
-            mesh.render(GL11.GL_TRIANGLES);
+//            mesh.render(GL20.GL_TRIANGLES);
         }
     }
 
