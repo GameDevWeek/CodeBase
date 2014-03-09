@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.ws1314.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
@@ -36,7 +37,6 @@ public class GameplayState extends GameState implements InputProcessor {
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
     private DefaultOrthoCameraController controller;
     private InputMultiplexer inputs;
-	private InputMultiplexer inputs;
 
     public GameplayState() {
     }
@@ -49,15 +49,13 @@ public class GameplayState extends GameState implements InputProcessor {
         verdana_24 = assetManager.getFontX("verdana_24");
         controller = new DefaultOrthoCameraController(Main.getInstance().getCamera());
         inputs = new InputMultiplexer(this, controller);
-		controller = new DefaultOrthoCameraController(camera);
-		inputs = new InputMultiplexer(this, controller);
-		DrawUtil.batch.setProjectionMatrix(camera.combined);
+		DrawUtil.batch.setProjectionMatrix(Main.getInstance().getCamera().combined);
         game = new Game();
     }
 
     @Override
     public void render() {
-		DrawUtil.batch.setProjectionMatrix(camera.combined);
+		DrawUtil.batch.setProjectionMatrix(Main.getInstance().getCamera().combined);
 
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
@@ -97,6 +95,7 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+
         return false;
     }
 

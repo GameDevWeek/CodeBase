@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
+import de.hochschuletrier.gdw.commons.gdx.graphics.DemoShader;
 
 /**
  *
@@ -18,9 +21,10 @@ public class DrawUtil {
     private static int screenWidth;
     private static int screenHeight;
     private static Mode currentMode = Mode.NORMAL;
-    public static final SpriteBatch batch = new SpriteBatch();
+	public static SpriteBatch batch;
     public static ImageX white;
-
+	private static DemoShader shader;
+	private static ShaderProgram currentShader;
     public enum Mode {
 
         NORMAL,
@@ -37,8 +41,20 @@ public class DrawUtil {
 
         // create a white image for filling rects
         white = new ImageX(Color.WHITE);
+		shader = new DemoShader(Gdx.files.internal("data/shader/demo.vertex.glsl"),
+				Gdx.files.internal("data/shader/demo.fragment.glsl"));
+		batch = new SpriteBatch();
     }
 
+	public static void toggleShader() {
+		if (currentShader == null) {
+			currentShader = shader;
+		} else {
+			currentShader = null;
+		}
+
+		batch.setShader(currentShader);
+	}
     public static void updateCamera(OrthographicCamera camera) {
         batch.setProjectionMatrix(camera.combined);
         screenWidth = (int) camera.viewportWidth;

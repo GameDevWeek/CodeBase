@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 atlas-1.png
+=======
+atlas.png
+>>>>>>> 44b1b8d95e0a202c486e1349184dd26f295cd514
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none

@@ -2,10 +2,12 @@ package de.hochschuletrier.gdw.ws1314.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
@@ -87,6 +89,9 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+		if (keycode == Keys.F11) {
+			DrawUtil.toggleShader();
+		}
         return false;
     }
 
