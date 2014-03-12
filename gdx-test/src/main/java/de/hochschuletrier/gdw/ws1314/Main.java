@@ -89,7 +89,7 @@ public class Main extends StateBasedGame {
 
     private void setupGdx() {
         KeyUtil.init();
-        Texture.setEnforcePotImages(false);
+		// Texture.setEnforcePotImages(false);
 //        Gdx.graphics.setTitle("LibGDX Test");
 //        Gdx.graphics.setDisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT, false);
         Gdx.graphics.setContinuousRendering(true);
@@ -178,9 +178,9 @@ public class Main extends StateBasedGame {
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "LibGDX Test";
-		cfg.useGL20 = true;
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;
+		cfg.useGL30 = true;
 
         new LwjglApplication(getInstance(), cfg);
     }

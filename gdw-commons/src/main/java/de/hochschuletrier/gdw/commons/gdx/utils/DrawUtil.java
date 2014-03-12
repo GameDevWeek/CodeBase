@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
-import de.hochschuletrier.gdw.commons.gdx.graphics.DemoShader;
+import java.util.LinkedList;
 
 /**
  *
@@ -21,10 +22,10 @@ public class DrawUtil {
     private static int screenWidth;
     private static int screenHeight;
     private static Mode currentMode = Mode.NORMAL;
-	public static SpriteBatch batch;
+    public static SpriteBatch batch;
     public static ImageX white;
-	private static DemoShader shader;
-	private static ShaderProgram currentShader;
+    private static LinkedList<Matrix4> matrixStack = new LinkedList<Matrix4>();
+
     public enum Mode {
 
         NORMAL,
@@ -41,20 +42,9 @@ public class DrawUtil {
 
         // create a white image for filling rects
         white = new ImageX(Color.WHITE);
-		shader = new DemoShader(Gdx.files.internal("data/shader/demo.vertex.glsl"),
-				Gdx.files.internal("data/shader/demo.fragment.glsl"));
-		batch = new SpriteBatch();
+        batch = new SpriteBatch();
     }
 
-	public static void toggleShader() {
-		if (currentShader == null) {
-			currentShader = shader;
-		} else {
-			currentShader = null;
-		}
-
-		batch.setShader(currentShader);
-	}
     public static void updateCamera(OrthographicCamera camera) {
         batch.setProjectionMatrix(camera.combined);
         screenWidth = (int) camera.viewportWidth;
@@ -176,5 +166,33 @@ public class DrawUtil {
 
     public static void setLineWidth(float width) {
         Gdx.gl20.glLineWidth(width);
+    }
+
+    public static void pushTransform() {
+        matrixStack.push(batch.getTransformMatrix().cpy());
+    }
+
+    public static void popTransform() {
+        batch.setTransformMatrix(matrixStack.pop());
+    }
+
+    public static void translate(float x, float y) {
+        Matrix4 m = batch.getTransformMatrix();
+        m.translate(x, y, 0);
+        batch.setTransformMatrix(m);
+    }
+
+    public static void scale(float sx, float sy) {
+        Matrix4 m = batch.getTransformMatrix();
+        m.scale(sx, sy, 0);
+        batch.setTransformMatrix(m);
+    }
+
+    public static void rotate(float x, float y, float degrees) {
+        Matrix4 m = batch.getTransformMatrix();
+        m.translate(x, y, 0);
+        m.rotate(0, 0, 1, degrees);
+        m.translate(-x, -y, 0);
+        batch.setTransformMatrix(m);
     }
 }

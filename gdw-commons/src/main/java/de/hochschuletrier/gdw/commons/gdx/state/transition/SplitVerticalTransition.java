@@ -1,7 +1,7 @@
 package de.hochschuletrier.gdw.commons.gdx.state.transition;
 
 import com.badlogic.gdx.Gdx;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
 /**
@@ -16,24 +16,24 @@ public class SplitVerticalTransition extends Transition<SplitVerticalTransition>
     }
 
     @Override
-    public void render(GameState from, GameState to) {
+    public void render(TextureRegion fromRegion, TextureRegion toRegion) {
         int fullWidth = Gdx.graphics.getWidth();
         int halfHeight = Gdx.graphics.getHeight() / 2;
         int yOffset = Math.round(getProgress() * 0.5f * Gdx.graphics.getHeight());
 
-        to.render();
+        DrawUtil.batch.draw(toRegion, 0, 0, toRegion.getRegionWidth(), toRegion.getRegionHeight());
 
-//        DrawUtil.setClip(0, 0, fullWidth, halfHeight - yOffset);
-//        DrawUtil.pushTransform();
-//        DrawUtil.translate(0, -yOffset);
-//        from.render();
-//        DrawUtil.popTransform();
-//
-//        DrawUtil.setClip(0, halfHeight + yOffset, fullWidth, halfHeight);
-//        DrawUtil.pushTransform();
-//        DrawUtil.translate(0, yOffset);
-//        from.render();
-//        DrawUtil.popTransform();
-//        DrawUtil.clearClip();
+        DrawUtil.setClip(0, 0, fullWidth, halfHeight - yOffset);
+        DrawUtil.pushTransform();
+        DrawUtil.translate(0, -yOffset);
+        DrawUtil.batch.draw(fromRegion, 0, 0, fromRegion.getRegionWidth(), fromRegion.getRegionHeight());
+        DrawUtil.popTransform();
+
+        DrawUtil.setClip(0, halfHeight + yOffset, fullWidth, halfHeight);
+        DrawUtil.pushTransform();
+        DrawUtil.translate(0, yOffset);
+        DrawUtil.batch.draw(fromRegion, 0, 0, fromRegion.getRegionWidth(), fromRegion.getRegionHeight());
+        DrawUtil.popTransform();
+        DrawUtil.clearClip();
     }
 }

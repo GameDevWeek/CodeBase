@@ -1,6 +1,11 @@
 package de.hochschuletrier.gdw.commons.gdx.state.transition;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
 /**
  * An empty Transition and base class for other transitions
@@ -10,21 +15,33 @@ import de.hochschuletrier.gdw.commons.gdx.state.GameState;
  */
 public class Transition<T extends Transition> {
 
-    private int fadeTime;
+    private int duration;
     private boolean reverse;
     private float progress = 0;
+    private FrameBuffer fromFbo;
+    private TextureRegion fromFboRegion;
+    private FrameBuffer toFbo;
+    private TextureRegion toFboRegion;
 
     public Transition() {
         this(0);
     }
 
-    protected Transition(int fadeTime) {
-        if (fadeTime > 0) {
-            this.fadeTime = fadeTime;
+    protected Transition(int duration) {
+        if (duration > 0) {
+            this.duration = duration;
         } else {
-            this.fadeTime = 1;
+            this.duration = 1;
             progress = 1;
         }
+        createFbos();
+    }
+    
+    private void createFbos() {
+        fromFbo = new FrameBuffer(Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+        fromFboRegion = new TextureRegion(fromFbo.getColorBufferTexture());
+        toFbo = new FrameBuffer(Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+        toFboRegion = new TextureRegion(toFbo.getColorBufferTexture());
     }
 
     public float getProgress() {
@@ -44,7 +61,19 @@ public class Transition<T extends Transition> {
         return (T) this;
     }
 
-    public void render(GameState from, GameState to) {
+    public final void render(GameState from, GameState to) {
+        fromFbo.begin();
+        from.render();
+        fromFbo.end();
+        toFbo.begin();
+        to.render();
+        toFbo.end();
+
+        render(fromFboRegion, toFboRegion);
+    }
+    
+    public void render(TextureRegion fromRegion, TextureRegion toRegion) {
+        DrawUtil.batch.draw(fromRegion, 0, 0, fromRegion.getRegionWidth(), fromRegion.getRegionHeight());
     }
 
     public void update(float delta) {
@@ -53,7 +82,7 @@ public class Transition<T extends Transition> {
                 delta = 0.016f;
             }
 
-            progress += delta * (1000.0f / fadeTime);
+            progress += delta * (1000.0f / duration);
             if (progress > 1) {
                 progress = 1;
             }

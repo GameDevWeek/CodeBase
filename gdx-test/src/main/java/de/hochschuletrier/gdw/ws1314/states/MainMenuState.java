@@ -15,6 +15,8 @@ import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.devcon.DeveloperInputManager;
+import de.hochschuletrier.gdw.ws1314.shaders.DemoShader;
+import static de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil.batch;
 
 /**
  * Menu state
@@ -32,6 +34,9 @@ public class MainMenuState extends GameState implements InputProcessor {
     private AnimationX walking;
     private float x = 0;
     private final Vector2 cursor = new Vector2();
+    private boolean useShader;
+
+    private DemoShader demoShader;
 
     public MainMenuState() {
     }
@@ -48,6 +53,8 @@ public class MainMenuState extends GameState implements InputProcessor {
 
         music.setLooping(true);
 //        music.play();
+        demoShader =  new DemoShader(Gdx.files.internal("data/shaders/demo.vertex.glsl"),
+				Gdx.files.internal("data/shaders/demo.fragment.glsl"));
     }
 
     @Override
@@ -55,7 +62,12 @@ public class MainMenuState extends GameState implements InputProcessor {
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
         logo.draw();
+        
+        if(useShader)
+            DrawUtil.batch.setShader(demoShader);
         walking.draw(x, 512 - walking.getHeight());
+		if(useShader)
+            DrawUtil.batch.setShader(null);
 
         crosshair.draw(cursor.x - crosshair.getWidth() * 0.5f, cursor.y - crosshair.getHeight() * 0.5f);
     }
@@ -90,7 +102,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
 		if (keycode == Keys.F11) {
-			DrawUtil.toggleShader();
+			useShader = !useShader;
 		}
         return false;
     }

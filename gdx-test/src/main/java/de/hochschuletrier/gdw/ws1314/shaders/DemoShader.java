@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.commons.gdx.graphics;
+package de.hochschuletrier.gdw.ws1314.shaders;
 
 
 import com.badlogic.gdx.files.FileHandle;

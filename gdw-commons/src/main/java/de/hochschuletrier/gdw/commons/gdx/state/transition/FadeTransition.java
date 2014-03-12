@@ -2,7 +2,7 @@ package de.hochschuletrier.gdw.commons.gdx.state.transition;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
 /**
@@ -36,14 +36,14 @@ public class FadeTransition extends Transition<FadeTransition> {
     }
 
     @Override
-    public void render(GameState from, GameState to) {
+    public void render(TextureRegion fromRegion, TextureRegion toRegion) {
         float progress = getProgress();
         if(progress < threshold) {
             color.a = progress / threshold;
-            from.render();
+            DrawUtil.batch.draw(fromRegion, 0, 0, fromRegion.getRegionWidth(), fromRegion.getRegionHeight());
         } else {
             color.a = (1.0f - progress) / (1.0f-threshold);
-            to.render();
+            DrawUtil.batch.draw(toRegion, 0, 0, toRegion.getRegionWidth(), toRegion.getRegionHeight());
         }
 
         DrawUtil.setColor(color);
