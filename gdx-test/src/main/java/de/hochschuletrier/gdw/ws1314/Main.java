@@ -2,6 +2,10 @@ package de.hochschuletrier.gdw.ws1314;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -10,6 +14,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
@@ -27,7 +32,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.devcon.DevConsoleView;
-import de.hochschuletrier.gdw.commons.gdx.devcon.DeveloperInputManager;
+import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitVerticalTransition;
 import de.hochschuletrier.gdw.ws1314.states.GameStates;
 
 /**
@@ -46,6 +51,7 @@ public class Main extends StateBasedGame {
     public final DevConsole console = new DevConsole(16);
     private final DevConsoleView consoleView = new DevConsoleView(console);
     private Skin skin;
+    public static final InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     public static Main getInstance() {
         if (instance == null) {
@@ -53,6 +59,34 @@ public class Main extends StateBasedGame {
         }
         return instance;
     }
+    private ImageX crosshair;
+    private final Vector2 cursor = new Vector2();
+
+    private final InputProcessor inputProcessor = new InputAdapter() {
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            cursor.set(screenX, screenY);
+            return false;
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            cursor.set(screenX, screenY);
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            cursor.set(screenX, screenY);
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            cursor.set(screenX, screenY);
+            return false;
+        }
+    };
 
     private void setupDummyLoader() {
         // Just adding some sleep dummies for a progress bar test
@@ -89,7 +123,7 @@ public class Main extends StateBasedGame {
 
     private void setupGdx() {
         KeyUtil.init();
-		// Texture.setEnforcePotImages(false);
+        // Texture.setEnforcePotImages(false);
 //        Gdx.graphics.setTitle("LibGDX Test");
 //        Gdx.graphics.setDisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT, false);
         Gdx.graphics.setContinuousRendering(true);
@@ -99,12 +133,11 @@ public class Main extends StateBasedGame {
 
         Gdx.input.setCatchMenuKey(true);
         Gdx.input.setCatchBackKey(true);
-        DeveloperInputManager.init(consoleView);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
+        inputMultiplexer.addProcessor(inputProcessor);
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        GameStates.LOADING.init(assetManager);
-        GameStates.LOADING.activate();
     }
 
     @Override
@@ -118,6 +151,18 @@ public class Main extends StateBasedGame {
         skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
         consoleView.init(assetManager, skin);
         addScreenListener(consoleView);
+        inputMultiplexer.addProcessor(consoleView.getInputProcessor());
+
+        GameStates.LOADING.init(assetManager);
+        GameStates.LOADING.activate();
+    }
+
+    public void onLoadComplete() {
+        crosshair = assetManager.getImageX("crosshair");
+        
+        GameStates.MAINMENU.init(assetManager);
+        GameStates.GAMEPLAY.init(assetManager);
+        GameStates.MAINMENU.activate(new SplitVerticalTransition(500).reverse(), null);
     }
 
     @Override
@@ -140,6 +185,9 @@ public class Main extends StateBasedGame {
 
     @Override
     protected void postRender() {
+        if (crosshair != null) {
+            crosshair.draw(cursor.x - crosshair.getWidth() * 0.5f, cursor.y - crosshair.getHeight() * 0.5f);
+        }
         DrawUtil.batch.end();
         if (consoleView.isVisible()) {
             consoleView.render();
@@ -180,7 +228,7 @@ public class Main extends StateBasedGame {
         cfg.title = "LibGDX Test";
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;
-		cfg.useGL30 = true;
+        cfg.useGL30 = true;
 
         new LwjglApplication(getInstance(), cfg);
     }

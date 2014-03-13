@@ -64,9 +64,11 @@ public class Transition<T extends Transition> {
     public final void render(GameState from, GameState to) {
         fromFbo.begin();
         from.render();
+        DrawUtil.batch.flush();
         fromFbo.end();
         toFbo.begin();
         to.render();
+        DrawUtil.batch.flush();
         toFbo.end();
 
         render(fromFboRegion, toFboRegion);

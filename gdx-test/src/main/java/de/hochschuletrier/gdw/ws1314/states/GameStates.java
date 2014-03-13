@@ -45,4 +45,8 @@ public enum GameStates {
             entry.state.dispose();
         }
     }
+
+    boolean isActive() {
+        return Main.getInstance().getCurrentState() == state;
+    }
 }

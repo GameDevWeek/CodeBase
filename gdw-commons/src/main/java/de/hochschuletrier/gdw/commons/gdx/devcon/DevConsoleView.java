@@ -1,11 +1,13 @@
 package de.hochschuletrier.gdw.commons.gdx.devcon;
 
+import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -45,8 +47,9 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
     private CommandField commandField;
     private ScrollPane scrollPane;
     private static int sheduleScrollToEnd;
-    private boolean visible;
     private final CVarString log_filter = new CVarString("log_filter", "DEBUG", CVarFlags.SYSTEM, "log levels to filter from the console");
+
+    private InputInterceptor inputProcessor;
 
     private final DevConsole console;
 
@@ -64,6 +67,17 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
         int height = Gdx.graphics.getHeight();
         stage = new Stage(width, height, false, DrawUtil.batch);
         stage.addListener(this);
+
+        inputProcessor = new InputInterceptor(stage) {
+            @Override
+            public boolean keyUp(int keycode) {
+                if (keycode == Input.Keys.F12) {
+                    isActive = !isActive;
+                    return true;
+                }
+                return isActive && mainProcessor.keyUp(keycode);
+            }
+        };
 
         // Create a table that fills the screen. Everything else will go inside this table.
         table = new Table();
@@ -118,15 +132,15 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
     }
 
     public InputProcessor getInputProcessor() {
-        return stage;
+        return inputProcessor;
     }
 
     public void setVisible(boolean visible) {
-        this.visible = visible;
+        inputProcessor.setActive(visible);
     }
 
     public boolean isVisible() {
-        return visible;
+        return inputProcessor.isActive();
     }
 
     public void dispose() {
@@ -160,7 +174,7 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
                         console.historyForward(commandField.getText(), commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
                         return true;
                     case Input.Keys.ESCAPE:
-                        visible = false;
+                        setVisible(false);
                         return true;
                     case Input.Keys.PAGE_UP:
                         scrollToStart();
@@ -179,7 +193,7 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
     }
 
     private void addLogLabel(LogLabel log, boolean toList) {
-        if(log_filter.get().toUpperCase().indexOf(log.getLevel().toString()) == -1) {
+        if (log_filter.get().toUpperCase().indexOf(log.getLevel().toString()) == -1) {
             logTable.row().expandX().fillX();
             logTable.add(log).expandX().fillX();
         }
@@ -218,7 +232,7 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
 
     @Override
     public void modified(CVar cvar) {
-        if(cvar == log_filter) {
+        if (cvar == log_filter) {
             logTable.clear();
             logTable.add(new Label("", skin)).expand().fill();
             for (LogLabel label : logLabels) {

@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.commons.gdx.utils;
+package de.hochschuletrier.gdw.commons.gdx.assets.loaders;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

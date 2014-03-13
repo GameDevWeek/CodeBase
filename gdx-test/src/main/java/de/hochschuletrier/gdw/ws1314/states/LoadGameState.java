@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
-import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitVerticalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.ws1314.Main;
 
 public class LoadGameState extends GameState {
 
@@ -37,8 +37,7 @@ public class LoadGameState extends GameState {
             // VSync was only disabled to speed up loading
             Gdx.graphics.setVSync(true);
 
-            GameStates.MAINMENU.init(assetManager);
-            GameStates.MAINMENU.activate(new SplitVerticalTransition(500).reverse(), null);
+            Main.getInstance().onLoadComplete();
             isDone = true;
         }
     }

@@ -11,12 +11,12 @@ import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
+import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
-import de.hochschuletrier.gdw.commons.gdx.devcon.DeveloperInputManager;
+import de.hochschuletrier.gdw.ws1314.Main;
 import de.hochschuletrier.gdw.ws1314.shaders.DemoShader;
-import static de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil.batch;
 
 /**
  * Menu state
@@ -30,13 +30,12 @@ public class MainMenuState extends GameState implements InputProcessor {
     private Music music;
     private Sound click;
     private ImageX logo;
-    private ImageX crosshair;
     private AnimationX walking;
     private float x = 0;
-    private final Vector2 cursor = new Vector2();
     private boolean useShader;
 
     private DemoShader demoShader;
+    InputInterceptor inputProcessor;
 
     public MainMenuState() {
     }
@@ -44,17 +43,32 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-        
+
         logo = assetManager.getImageX("logo");
-        crosshair = assetManager.getImageX("crosshair");
         walking = assetManager.getAnimationX("walking");
         music = assetManager.getMusic("menu");
         click = assetManager.getSound("click");
 
         music.setLooping(true);
 //        music.play();
-        demoShader =  new DemoShader(Gdx.files.internal("data/shaders/demo.vertex.glsl"),
-				Gdx.files.internal("data/shaders/demo.fragment.glsl"));
+        demoShader = new DemoShader(Gdx.files.internal("data/shaders/demo.vertex.glsl"),
+                Gdx.files.internal("data/shaders/demo.fragment.glsl"));
+
+        inputProcessor = new InputInterceptor(this) {
+            @Override
+            public boolean keyUp(int keycode) {
+                switch (keycode) {
+                    case Keys.ESCAPE:
+                        if(GameStates.GAMEPLAY.isActive())
+                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(500).reverse(), null);
+                        else
+                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(500), null);
+                        return true;
+                }
+                return isActive && mainProcessor.keyUp(keycode);
+            }
+        };
+        Main.inputMultiplexer.addProcessor(inputProcessor);
     }
 
     @Override
@@ -62,14 +76,14 @@ public class MainMenuState extends GameState implements InputProcessor {
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
         logo.draw();
-        
-        if(useShader)
-            DrawUtil.batch.setShader(demoShader);
-        walking.draw(x, 512 - walking.getHeight());
-		if(useShader)
-            DrawUtil.batch.setShader(null);
 
-        crosshair.draw(cursor.x - crosshair.getWidth() * 0.5f, cursor.y - crosshair.getHeight() * 0.5f);
+        if (useShader) {
+            DrawUtil.batch.setShader(demoShader);
+        }
+        walking.draw(x, 512 - walking.getHeight());
+        if (useShader) {
+            DrawUtil.batch.setShader(null);
+        }
     }
 
     @Override
@@ -83,11 +97,12 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public void onEnter() {
-        DeveloperInputManager.setInputProcessor(this);
+        inputProcessor.setActive(true);
     }
 
     @Override
     public void onLeave() {
+        inputProcessor.setActive(false);
     }
 
     @Override
@@ -101,9 +116,11 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-		if (keycode == Keys.F11) {
-			useShader = !useShader;
-		}
+        switch (keycode) {
+            case Keys.F11:
+                useShader = !useShader;
+                return true;
+        }
         return false;
     }
 
@@ -114,31 +131,22 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        cursor.set(screenX, screenY);
-        if (button == 0) {
-            click.play();
-        } else {
-            GameStates.GAMEPLAY.init(assetManager);
-            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(500).reverse(), null);
-        }
+        click.play();
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        cursor.set(screenX, screenY);
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        cursor.set(screenX, screenY);
         return false;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        cursor.set(screenX, screenY);
         return false;
     }
 

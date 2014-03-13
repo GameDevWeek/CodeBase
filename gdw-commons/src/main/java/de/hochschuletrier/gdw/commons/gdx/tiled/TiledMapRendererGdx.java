@@ -160,7 +160,7 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
 
         int offsX = x + sx * map.getTileWidth() - x;
         int offsY = sy * map.getTileHeight() - y;
-//        DrawUtil.translate(-offsX, -offsY);
+        DrawUtil.translate(-offsX, -offsY);
 
         for (LayerObject object : layer.getObjects()) {
             switch (object.getPrimitive()) {
@@ -187,7 +187,7 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
                     throw new AssertionError(object.getPrimitive().name());
             }
         }
-//        DrawUtil.translate(offsX, offsY);
+        DrawUtil.translate(offsX, offsY);
     }
 
     private void drawPolyLine(ArrayList<Point> points, boolean loop) {

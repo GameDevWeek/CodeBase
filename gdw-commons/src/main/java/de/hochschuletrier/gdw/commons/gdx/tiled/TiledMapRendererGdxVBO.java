@@ -108,6 +108,7 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
 
         public void draw() {
             image.bind();
+            throw new RuntimeException("need a shader here to render the tiled map");
 //            mesh.render(GL20.GL_TRIANGLES);
         }
     }

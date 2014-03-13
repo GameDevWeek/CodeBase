@@ -1,25 +1,20 @@
 package de.hochschuletrier.gdw.ws1314.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
 import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
-import de.hochschuletrier.gdw.commons.gdx.utils.DefaultOrthoCameraController;
+import de.hochschuletrier.gdw.commons.gdx.cameras.DefaultOrthoCameraController;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ws1314.game.Game;
-import de.hochschuletrier.gdw.commons.gdx.devcon.DeveloperInputManager;
 import de.hochschuletrier.gdw.ws1314.Main;
 
 /**
@@ -36,7 +31,6 @@ public class GameplayState extends GameState implements InputProcessor {
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
     private DefaultOrthoCameraController controller;
-    private InputMultiplexer inputs;
 
     public GameplayState() {
     }
@@ -48,9 +42,10 @@ public class GameplayState extends GameState implements InputProcessor {
         click = assetManager.getSound("click");
         verdana_24 = assetManager.getFontX("verdana_24");
         controller = new DefaultOrthoCameraController(Main.getInstance().getCamera());
-        inputs = new InputMultiplexer(this, controller);
 		DrawUtil.batch.setProjectionMatrix(Main.getInstance().getCamera().combined);
         game = new Game();
+        Main.inputMultiplexer.addProcessor(this);
+        Main.inputMultiplexer.addProcessor(controller);
     }
 
     @Override
@@ -82,7 +77,6 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public void onEnter() {
-        DeveloperInputManager.setInputProcessor(inputs);
     }
 
     @Override
@@ -111,7 +105,10 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        game.getVase().setPosition(new Vector2(screenX, screenY));
+        if(button == 0)
+            game.addBall(screenX, screenY);
+        else
+            game.getVase().setPosition(new Vector2(screenX, screenY));
 		click.play();
         return true;
     }

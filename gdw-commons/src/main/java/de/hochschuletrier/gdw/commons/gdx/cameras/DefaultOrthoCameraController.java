@@ -1,5 +1,4 @@
-package de.hochschuletrier.gdw.commons.gdx.utils;
-
+package de.hochschuletrier.gdw.commons.gdx.cameras;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
