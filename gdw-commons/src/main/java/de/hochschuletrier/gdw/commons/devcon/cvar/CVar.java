@@ -4,6 +4,8 @@ import de.hochschuletrier.gdw.commons.devcon.CVarFlags;
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.devcon.completers.IConsoleCompleter;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract console variable class
@@ -11,6 +13,8 @@ import java.util.ArrayList;
  * @author Santo Pfingsten
  */
 public abstract class CVar {
+
+    private static final Logger logger = LoggerFactory.getLogger(CVar.class);
 
     protected final String name;
     protected final String description;
@@ -44,7 +48,7 @@ public abstract class CVar {
     public boolean isWritable(boolean log) {
         if ((flags & (CVarFlags.ROM | CVarFlags.INIT)) != 0) {
             if (log) {
-                DevConsole.logger.warn("{} is read only", name);
+                logger.warn("{} is read only", name);
             }
             return false;
         }
@@ -54,13 +58,13 @@ public abstract class CVar {
     public boolean isVisible(boolean log) {
         if ((flags & CVarFlags.CHEAT) != 0 && !DevConsole.com_allowCheats.get()) {
             if (log) {
-                DevConsole.logger.warn("{} is cheat protected", name);
+                logger.warn("{} is cheat protected", name);
             }
             return false;
         }
         if ((flags & CVarFlags.DEVELOPER) != 0 && !DevConsole.com_developer.get()) {
             if (log) {
-                DevConsole.logger.warn("{} is for developers only", name);
+                logger.warn("{} is for developers only", name);
             }
             return false;
         }
@@ -94,7 +98,7 @@ public abstract class CVar {
     public IConsoleCompleter getCompleter() {
         return completer;
     }
-    
+
     protected boolean prepareSet(boolean force) {
         if (!initialized) {
             initialized = true;
@@ -109,5 +113,6 @@ public abstract class CVar {
     public abstract void set(String value, boolean force);
 
     public abstract String getTypeDescription();
+
     public abstract String getDefaultValue();
 }

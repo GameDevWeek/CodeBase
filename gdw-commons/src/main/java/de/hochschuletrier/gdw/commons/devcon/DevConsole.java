@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DevConsole {
 
-    public static final Logger logger = LoggerFactory.getLogger(DevConsole.class);
+    private static final Logger logger = LoggerFactory.getLogger(DevConsole.class);
 
     public static CVarBool com_allowCheats = new CVarBool("com_allowCheats", false, CVarFlags.SYSTEM, "Allow Cheats");
     public static CVarBool com_developer = new CVarBool("com_developer", false, CVarFlags.SYSTEM, "Developer mode");

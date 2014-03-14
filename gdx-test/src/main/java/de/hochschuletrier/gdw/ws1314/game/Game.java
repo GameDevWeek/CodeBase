@@ -3,7 +3,6 @@ package de.hochschuletrier.gdw.ws1314.game;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import de.hochschuletrier.gdw.commons.devcon.ConsoleCmd;
-import static de.hochschuletrier.gdw.commons.devcon.DevConsole.logger;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
@@ -14,12 +13,16 @@ import de.hochschuletrier.gdw.ws1314.utils.PhysixUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Santo Pfingsten
  */
 public class Game {
+
+    private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
     public static final int POSITION_ITERATIONS = 3;
     public static final int VELOCITY_ITERATIONS = 8;
