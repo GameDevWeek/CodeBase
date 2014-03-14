@@ -7,6 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 
+/**
+ * A list that shows a number of actors depending on their visibility.
+ * Based on libgdx Stack.
+ *
+ * @author Santo Pfingsten
+ */
 public class LogList extends WidgetGroup {
 
     private float prefWidth, prefHeight, minWidth, minHeight, maxWidth, maxHeight;
