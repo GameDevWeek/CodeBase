@@ -7,7 +7,6 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -28,6 +27,7 @@ import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarString;
 import de.hochschuletrier.gdw.commons.devcon.cvar.ICVarListener;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,12 +42,22 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
     private Stage stage;
     private final LinkedList<LogLabel> logLabels = new LinkedList<LogLabel>();
     private Table table;
-    private Table logTable;
+    private LogList logList = new LogList();
     private Skin skin;
     private CommandField commandField;
     private ScrollPane scrollPane;
     private static int sheduleScrollToEnd;
     private final CVarString log_filter = new CVarString("log_filter", "DEBUG", CVarFlags.SYSTEM, "log levels to filter from the console");
+    private final HashSet<Level> visibleLevels = new HashSet<Level>(7);
+    private final Level[] logLevels = {
+        Level.OFF,
+        Level.ERROR,
+        Level.WARN,
+        Level.INFO,
+        Level.DEBUG,
+        Level.TRACE,
+        Level.ALL
+    };
 
     private InputInterceptor inputProcessor;
 
@@ -58,6 +68,7 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
         console.register(clear_f);
         console.register(log_filter);
         log_filter.addListener(this);
+        modified(log_filter); // update visible filters
     }
 
     public void init(AssetManagerX assetManager, Skin skin) {
@@ -84,11 +95,8 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
         table.setFillParent(true);
         stage.addActor(table);
 
-        logTable = new Table();
-        logTable.add(new Label("", skin)).expand().fill();
-        logTable.setFillParent(true);
-        addLogLabel(new LogLabel("Console Started\n", skin, Level.INFO), true);
-        scrollPane = new ScrollPane(logTable, skin);
+        addLogLabel(new LogLabel("Console Started\n", skin, Level.INFO));
+        scrollPane = new ScrollPane(logList, skin);
 
         table.row().expand().fill();
         table.add(scrollPane).expand().fill();
@@ -192,14 +200,10 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
         return false;
     }
 
-    private void addLogLabel(LogLabel log, boolean toList) {
-        if (log_filter.get().toUpperCase().indexOf(log.getLevel().toString()) == -1) {
-            logTable.row().expandX().fillX();
-            logTable.add(log).expandX().fillX();
-        }
-        if (toList) {
-            logLabels.addLast(log);
-        }
+    private void addLogLabel(LogLabel log) {
+        logList.add(log);
+        log.setVisible(visibleLevels.contains(log.getLevel()));
+        logLabels.addLast(log);
     }
 
     AppenderBase<ILoggingEvent> appender = new AppenderBase<ILoggingEvent>() {
@@ -208,7 +212,7 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
             LogLabel log = logLabels.getLast();
             if (log.getLevel() != e.getLevel()) {
                 log = new LogLabel("", skin, e.getLevel());
-                addLogLabel(log, true);
+                addLogLabel(log);
             }
             StringBuilder sb = (StringBuilder) log.getText();
             if (e.getLevel() == Level.INFO) {
@@ -233,11 +237,17 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
     @Override
     public void modified(CVar cvar) {
         if (cvar == log_filter) {
-            logTable.clear();
-            logTable.add(new Label("", skin)).expand().fill();
-            for (LogLabel label : logLabels) {
-                addLogLabel(label, false);
+            visibleLevels.clear();
+            String ucFilter = log_filter.get().toUpperCase();
+            for (Level level : logLevels) {
+                if (ucFilter.indexOf(level.toString()) == -1) {
+                    visibleLevels.add(level);
+                }
             }
+            for (LogLabel log : logLabels) {
+                log.setVisible(visibleLevels.contains(log.getLevel()));
+            }
+            logList.invalidateHierarchy();
         }
     }
 
@@ -245,10 +255,11 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
 
         @Override
         public void execute(List<String> args) {
-            logTable.clear();
+            logList.clear();
             logLabels.clear();
-            logTable.add(new Label("", skin)).expand().fill();
-            addLogLabel(new LogLabel("Console Cleared\n", skin, Level.INFO), true);
+            logList.add(new Label("", skin));
+            logList.invalidateHierarchy();
+            addLogLabel(new LogLabel("Console Cleared\n", skin, Level.INFO));
         }
     };
 }
