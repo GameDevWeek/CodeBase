@@ -7,6 +7,8 @@ import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A reception waits for clients to connect
@@ -14,6 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Santo Pfingsten
  */
 public class NetReception extends Thread {
+    private static final Logger logger = LoggerFactory.getLogger(NetReception.class);
 
     /** Set to true during shutdown */
     private boolean shutdown = false;
@@ -64,9 +67,9 @@ public class NetReception extends Thread {
                     ch.close();
                 }
             } catch (IOException e) {
+                logger.error("Failed to accept connection", e);
                 if (!shutdown) {
                     //TODO: what to do here ?
-                    e.printStackTrace();
                 }
             }
         }
@@ -80,7 +83,7 @@ public class NetReception extends Thread {
             shutdown = true;
             channel.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to closing channel", e);
         }
     }
 

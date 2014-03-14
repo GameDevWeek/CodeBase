@@ -21,12 +21,15 @@ import de.hochschuletrier.gdw.commons.tiled.TileSet;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
 import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Santo Pfingsten
  */
 public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLoader.TiledMapParameter> {
+    private static final Logger logger = LoggerFactory.getLogger(TiledMapLoader.class);
     TiledMap map;
     
     public TiledMapLoader(FileHandleResolver resolver) {
@@ -38,6 +41,7 @@ public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLo
 		try {
 			map = new TiledMap(fileName, parameter.polyMode);
 		} catch(Exception e) {
+            logger.error("Failed loading tiled map", e);
             return null;
 		}
         

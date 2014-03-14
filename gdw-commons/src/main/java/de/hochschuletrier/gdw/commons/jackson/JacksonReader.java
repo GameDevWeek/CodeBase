@@ -1,7 +1,6 @@
 package de.hochschuletrier.gdw.commons.jackson;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -18,6 +17,8 @@ import de.hochschuletrier.gdw.commons.utils.SilentCloser;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Reading Json to objects
@@ -25,6 +26,7 @@ import java.util.HashMap;
  * @author Santo Pfingsten
  */
 public class JacksonReader {
+    private static final Logger logger = LoggerFactory.getLogger(JacksonReader.class);
 
     private static final JsonFactory factory = new JsonFactory();
 
@@ -194,7 +196,7 @@ public class JacksonReader {
             catch(IllegalArgumentException ex) {
                 for(Enum e: ((Class<Enum>)clazz).getEnumConstants()) {
                     if(e.name().compareToIgnoreCase(name) == 0) {
-                        System.out.println("Warning: Enum value " + name + " is not using the correct case. Should be: " + e.name());
+                        logger.warn("Enum value " + name + " is not using the correct case. Should be: " + e.name());
                         return (T)e;
                     }
                 }

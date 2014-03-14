@@ -10,11 +10,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utilities for finding classes
  */
 public class ClassUtils {
+    private static final Logger logger = LoggerFactory.getLogger(ClassUtils.class);
 
     /**
      * Scans all classes accessible from the context class loader which belong
@@ -39,7 +42,7 @@ public class ClassUtils {
                 try {
                     findClassesInDir(new File(resource.toURI()), packageName, classes);
                 } catch (URISyntaxException e) {
-                    e.printStackTrace();
+                    logger.error("Failed finding classes in package", e);
                 }
             } else if (resource.getProtocol().equals("jar")) {
                 findClassesInJar(resource, path, classes);
@@ -96,7 +99,7 @@ public class ClassUtils {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed finding classes in jar", e);
         }
     }
 }

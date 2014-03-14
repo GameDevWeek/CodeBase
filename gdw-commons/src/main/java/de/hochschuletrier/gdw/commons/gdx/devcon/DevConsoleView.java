@@ -227,8 +227,6 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
                 sb.append("Debug: ").append(e.getFormattedMessage());
             } else if (e.getLevel() == Level.TRACE) {
                 sb.append("Trace: ").append(e.getFormattedMessage());
-            } else if (e.getLevel() == Level.ALL) {
-                sb.append("All: ").append(e.getFormattedMessage());
             }
             sb.append("\n");
             log.invalidateHierarchy();

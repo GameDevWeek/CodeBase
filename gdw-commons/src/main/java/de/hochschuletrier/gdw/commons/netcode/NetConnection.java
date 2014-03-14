@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A NetConnection represents a connection from server to client or vice versa.
@@ -30,6 +32,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Santo Pfingsten
  */
 public class NetConnection extends Thread {
+    private static final Logger logger = LoggerFactory.getLogger(NetConnection.class);
 
     /** The header size */
     public static final int HEADER_SIZE = 1 + 3 * 2;
@@ -117,12 +120,12 @@ public class NetConnection extends Thread {
                         }
                     }
                 } catch (SocketException ex) {
-                    ex.printStackTrace();
+                    logger.error("Exception trying to get local addresses", ex);
                 }
             }
 
         } catch (SocketException ex) {
-            ex.printStackTrace();
+            logger.error("Exception trying to get local addresses", ex);
         }
         return addrList;
     }
@@ -135,7 +138,7 @@ public class NetConnection extends Thread {
             InetAddress localhost = InetAddress.getLocalHost();
             return localhost.getHostAddress();
         } catch (UnknownHostException ex) {
-            ex.printStackTrace();
+            logger.error("Can't get ip for localhost", ex);
             return "localhost";
         }
     }
@@ -168,6 +171,7 @@ public class NetConnection extends Thread {
                     handleDatagram(type, id, param1, param2);
                 }
             } catch (IOException e) {
+                logger.error("Failed reading NetDatagram", e);
                 // During a shutdown, we don't record exceptions
                 if (!shutdown) {
                     // An exception causes a disconnect right now, maybe want to change that ?
@@ -277,6 +281,8 @@ public class NetConnection extends Thread {
                     }
                 }
             } catch (IOException e) {
+                logger.error("Failed sending NetDatagram", e);
+                
                 // An exception causes a disconnect right now, maybe want to change that ?
                 if (disconnectException == null) {
                     disconnectException = e;
@@ -378,13 +384,14 @@ public class NetConnection extends Thread {
                 try {
                     sendHeader(NetDatagram.Type.DISCONNECT, (short) 0, (short) 0, (short) 0);
                 } catch (IOException e) {
+                    logger.error("Failed sending disconnect", e);
                     // doesn't matter if the disconnect event does not get send
                 }
             }
             shutdown = true;
             channel.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to close channel", e);
         }
     }
 
