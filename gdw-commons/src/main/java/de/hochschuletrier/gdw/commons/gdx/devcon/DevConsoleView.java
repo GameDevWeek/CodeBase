@@ -30,6 +30,7 @@ import de.hochschuletrier.gdw.commons.devcon.cvar.ICVarListener;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of a view for the DevConsole on libgdx ui
@@ -107,7 +108,7 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
         stage.setKeyboardFocus(commandField);
         adjustHeight();
 
-        Logger logger = (Logger) DevConsole.logger;
+        Logger logger = (Logger) LoggerFactory.getLogger("root");
         appender.start();
         logger.addAppender(appender);
     }
