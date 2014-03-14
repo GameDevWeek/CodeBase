@@ -12,6 +12,7 @@ public class FontX {
     private final BitmapFont bitmapFont;
 
     public FontX(BitmapFont font) {
+        assert(font != null);
         this.bitmapFont = font;
     }
 

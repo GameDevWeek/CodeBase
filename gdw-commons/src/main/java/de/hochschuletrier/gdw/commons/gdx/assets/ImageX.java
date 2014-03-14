@@ -14,6 +14,7 @@ public class ImageX {
     protected final Texture texture;
 
     public ImageX(Texture texture) {
+        assert(texture != null);
         this.texture = texture;
     }
 
@@ -26,52 +27,42 @@ public class ImageX {
     }
 
     public void draw() {
-        assert(texture != null);
-        draw(0, 0, texture.getWidth(), texture.getHeight());
+        DrawUtil.batch.draw(texture, 0, 0, texture.getWidth(), texture.getHeight(), 0, 0, texture.getWidth(), texture.getHeight(), false, true);
     }
 
     public void draw(float x, float y) {
-        assert(texture != null);
-        draw(x, y, texture.getWidth(), texture.getHeight());
+        DrawUtil.batch.draw(texture, x, y, texture.getWidth(), texture.getHeight(), 0, 0, texture.getWidth(), texture.getHeight(), false, true);
     }
 
     public void draw(float x, float y, float width, float height) {
-        assert(texture != null);
         DrawUtil.batch.draw(texture, x, y, width, height, 0, 0, texture.getWidth(), texture.getHeight(), false, true);
     }
 
     public void draw(float x, float y, float scale) {
-        assert(texture != null);
-        draw(x, y, texture.getWidth() * scale, texture.getHeight() * scale);
+        DrawUtil.batch.draw(texture, x, y, texture.getWidth() * scale, texture.getHeight() * scale, 0, 0, texture.getWidth(), texture.getHeight(), false, true);
     }
 
     public void draw(float x, float y, int width, int height, int srcX, int srcY) {
-        assert(texture != null);
         DrawUtil.batch.draw(texture, x, y, width, height, srcX, srcY, width, height, false, true);
     }
 
     public void draw(float x, float y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight) {
-        assert(texture != null);
         DrawUtil.batch.draw(texture, x, y, width, height, srcX, srcY, srcWidth, srcHeight, false, true);
     }
 
     public int getWidth() {
-        assert(texture != null);
         return texture.getWidth();
     }
 
     public int getHeight() {
-        assert(texture != null);
         return texture.getHeight();
     }
 
     public void dispose() {
-        assert(texture != null);
         texture.dispose();
     }
 
     public void bind() {
-        assert(texture != null);
         texture.bind();
     }
 }
