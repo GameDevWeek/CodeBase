@@ -26,9 +26,12 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Gleed2DMapLoader extends
 AsynchronousAssetLoader<Map, Gleed2DMapLoader.Parameters> {
+    private static final Logger logger = LoggerFactory.getLogger(Gleed2DMapLoader.class);
 
 	public static class Parameters extends AssetLoaderParameters<Map> {
 		/** Whether to load the map for a y-up coordinate system */
@@ -64,7 +67,7 @@ AsynchronousAssetLoader<Map, Gleed2DMapLoader.Parameters> {
 		try {
 			root = xml.parse(file);
 		} catch (IOException e) {
-			e.printStackTrace();
+            logger.error("Failed parsing map file", e);
 		}
 		String name = root.getAttribute("Name", "default");
 		boolean isVisible = root.getBoolean("Visible", true);

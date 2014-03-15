@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -111,6 +112,7 @@ public class Main extends StateBasedGame {
 
 		assetManager.loadAssetList("data/json/sounds.json", Sound.class, null);
 		assetManager.loadAssetList("data/json/music.json", Music.class, null);
+		assetManager.loadAssetList("data/json/fonts.json", BitmapFont.class, null);
 
 		assetManager.loadAssetListWithParam("data/json/animations.json", Animation.class,
 				AnimationLoader.AnimationParameter.class);

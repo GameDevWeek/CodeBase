@@ -39,7 +39,7 @@ public class GameplayState extends GameState implements InputProcessor {
         super.init(assetManager);
 		crosshair = assetManager.getTexture("crosshair");
         click = assetManager.getSound("click");
-        verdana_24 = assetManager.getFontX("verdana_24");
+		verdana_24 = assetManager.getFont("verdana_24", 15);
         controller = new DefaultOrthoCameraController(Main.getInstance().getCamera());
 		DrawUtil.batch.setProjectionMatrix(Main.getInstance().getCamera().combined);
         game = new Game();

@@ -2,6 +2,8 @@ package de.hochschuletrier.gdw.commons.devcon;
 
 import de.hochschuletrier.gdw.commons.devcon.completers.IConsoleCompleter;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract class for a console command
@@ -9,6 +11,8 @@ import java.util.List;
  * @author Santo Pfingsten
  */
 public abstract class ConsoleCmd implements IConsoleCompleter {
+
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleCmd.class);
 
     /** The name of the command (as used in the console) */
     protected final String name;
@@ -71,7 +75,7 @@ public abstract class ConsoleCmd implements IConsoleCompleter {
     }
 
     protected void showUsage(String arguments) {
-        DevConsole.logger.info("Usage: {} {}", name, arguments);
+        logger.info("Usage: {} {}", name, arguments);
     }
 
     @Override
@@ -81,13 +85,13 @@ public abstract class ConsoleCmd implements IConsoleCompleter {
     public boolean isCallable(boolean log) {
         if ((flags & CCmdFlags.CHEAT) != 0 && !DevConsole.com_allowCheats.get()) {
             if (log) {
-                DevConsole.logger.warn("{} is cheat protected", name);
+                logger.warn("{} is cheat protected", name);
             }
             return false;
         }
         if ((flags & CCmdFlags.DEVELOPER) != 0 && !DevConsole.com_developer.get()) {
             if (log) {
-                DevConsole.logger.warn("{} is for developers only", name);
+                logger.warn("{} is for developers only", name);
             }
             return false;
         }

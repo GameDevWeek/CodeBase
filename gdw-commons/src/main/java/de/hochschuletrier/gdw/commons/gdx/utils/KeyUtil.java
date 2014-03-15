@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Input;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to get LibGDX key names from their index and vice versa
@@ -13,6 +15,7 @@ import com.badlogic.gdx.Input;
  * @author Santo Pfingsten
  */
 public class KeyUtil {
+    private static final Logger logger = LoggerFactory.getLogger(KeyUtil.class);
 
     /**
      * Key names
@@ -42,6 +45,7 @@ public class KeyUtil {
 
             }
         } catch (Exception e) {
+            logger.error("Failed to read input key names", e);
         }
 
     }

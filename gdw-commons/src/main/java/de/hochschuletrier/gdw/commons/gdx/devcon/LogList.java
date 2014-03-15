@@ -33,7 +33,7 @@ public class LogList extends WidgetGroup {
 
     private void computeSize() {
         sizeInvalid = false;
-        maxWidth = minWidth = prefWidth = getParent().getWidth() - 5;
+        maxWidth = minWidth = prefWidth = getStage().getWidth() - 5;
         maxHeight = minHeight = prefHeight = 0;
         SnapshotArray<Actor> children = getChildren();
         for (int i = 0, n = children.size; i < n; i++) {

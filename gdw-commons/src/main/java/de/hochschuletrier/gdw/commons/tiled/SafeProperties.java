@@ -5,6 +5,8 @@ import java.util.HashMap;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Alternative Properties storage to get some additional types without the need to manually check for parse exceptions
@@ -13,6 +15,7 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
  */
 @XStreamAlias("properties")
 public class SafeProperties {
+    private static final Logger logger = LoggerFactory.getLogger(SafeProperties.class);
 
     @XStreamAlias("name")
     @XStreamAsAttribute
@@ -88,7 +91,7 @@ public class SafeProperties {
         try {
             return Integer.parseInt(value);
         } catch (NumberFormatException e) {
-            System.out.println(key + " is not an integer: " + e.toString());
+            logger.warn(key + " is not an integer: " + e.toString());
             return defaultValue;
         }
     }
@@ -118,7 +121,7 @@ public class SafeProperties {
         try {
             return Float.parseFloat(value);
         } catch (NumberFormatException e) {
-            System.out.println(key + " is not a float: " + e.toString());
+            logger.warn(key + " is not a float: " + e.toString());
             return defaultValue;
         }
     }
@@ -148,7 +151,7 @@ public class SafeProperties {
         try {
             return Double.parseDouble(value);
         } catch (NumberFormatException e) {
-            System.out.println(key + " is not a double: " + e.toString());
+            logger.warn(key + " is not a double: " + e.toString());
             return defaultValue;
         }
     }
