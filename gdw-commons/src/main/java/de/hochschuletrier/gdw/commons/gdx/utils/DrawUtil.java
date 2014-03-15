@@ -4,12 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 
-import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
 import java.util.LinkedList;
 
 /**
@@ -23,7 +24,7 @@ public class DrawUtil {
     private static int screenHeight;
     private static Mode currentMode = Mode.NORMAL;
     public static SpriteBatch batch;
-    public static ImageX white;
+	public static Texture white;
     private static LinkedList<Matrix4> matrixStack = new LinkedList<Matrix4>();
 
     public enum Mode {
@@ -41,7 +42,10 @@ public class DrawUtil {
         screenHeight = height;
 
         // create a white image for filling rects
-        white = new ImageX(Color.WHITE);
+		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill();
+		white = new Texture(pixmap);
         batch = new SpriteBatch();
     }
 
@@ -139,12 +143,12 @@ public class DrawUtil {
     }
 
     public static void fillRect(float x, float y, float width, float height) {
-        white.draw(x, y, width, height);
+		DrawUtil.batch.draw(white, x, y, width, height);
     }
 
     public static void fillRect(float x, float y, float width, float height, Color color) {
         batch.setColor(color);
-        white.draw(x, y, width, height);
+		DrawUtil.batch.draw(white, x, y, width, height);
         batch.setColor(currentColor);
     }
 

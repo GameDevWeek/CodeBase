@@ -1,21 +1,20 @@
 package de.hochschuletrier.gdw.ws1314.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.assets.FontX;
-import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.cameras.DefaultOrthoCameraController;
+import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
-import de.hochschuletrier.gdw.ws1314.game.Game;
 import de.hochschuletrier.gdw.ws1314.Main;
+import de.hochschuletrier.gdw.ws1314.game.Game;
 
 /**
  * Menu state
@@ -26,8 +25,8 @@ public class GameplayState extends GameState implements InputProcessor {
 
     private Game game;
     private Sound click;
-    private ImageX crosshair;
-    private FontX verdana_24;
+	private Texture crosshair;
+	private BitmapFont verdana_24;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
     private DefaultOrthoCameraController controller;
@@ -38,7 +37,7 @@ public class GameplayState extends GameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-        crosshair = assetManager.getImageX("crosshair");
+		crosshair = assetManager.getTexture("crosshair");
         click = assetManager.getSound("click");
         verdana_24 = assetManager.getFontX("verdana_24");
         controller = new DefaultOrthoCameraController(Main.getInstance().getCamera());
@@ -54,9 +53,8 @@ public class GameplayState extends GameState implements InputProcessor {
 
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
-        crosshair.draw(cursor.x - crosshair.getWidth() * 0.5f, cursor.y - crosshair.getHeight() * 0.5f);
-
-        verdana_24.drawRight(String.format("%.2f FPS", fpsCalc.getFps()), Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - verdana_24.getLineHeight());
+		DrawUtil.batch.draw(crosshair, cursor.x - crosshair.getWidth() * 0.5f, cursor.y
+				- crosshair.getHeight() * 0.5f);
 
         DrawUtil.batch.draw(game.getVase().getRegion(), game.getVase().getPosition().x,
                 game.getVase().getPosition().y, 0f, 0f, game.getVase().getRegion()

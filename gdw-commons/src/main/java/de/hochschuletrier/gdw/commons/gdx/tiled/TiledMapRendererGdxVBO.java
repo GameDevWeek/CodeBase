@@ -1,20 +1,20 @@
 package de.hochschuletrier.gdw.commons.gdx.tiled;
 
-import de.hochschuletrier.gdw.commons.tiled.ITiledMapRenderer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
-import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
+
+import de.hochschuletrier.gdw.commons.tiled.ITiledMapRenderer;
 import de.hochschuletrier.gdw.commons.tiled.Layer;
 import de.hochschuletrier.gdw.commons.tiled.TileInfo;
 import de.hochschuletrier.gdw.commons.tiled.TileSet;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
-import java.util.ArrayList;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A Map renderer which renders the TiledMap with a vbo, just for testing.. does not seem to improve anything
@@ -26,7 +26,7 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
     final TiledMap map;
     final Color layerFilter = Color.WHITE.cpy();
     final ArrayList<LayerImageVBO> vbos = new ArrayList<LayerImageVBO>();
-    final Map<TileSet, ImageX> images;
+	final Map<TileSet, Texture> images;
 
     public static class TileInfoX {
 
@@ -47,10 +47,10 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
 
     public static class LayerImageVBO {
 
-        private final ImageX image;
+		private final Texture image;
         private final Mesh mesh;
 
-        public LayerImageVBO(ImageX image, ArrayList<TileInfoX> list) {
+		public LayerImageVBO(Texture image, ArrayList<TileInfoX> list) {
             float invTexWidth = 1f / image.getWidth();
             float invTexHeight = 1f / image.getHeight();
             this.image = image;
@@ -113,11 +113,12 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
         }
     }
 
-    public TiledMapRendererGdxVBO(TiledMap map, Map<TileSet, ImageX> tilesetImages) {
+	public TiledMapRendererGdxVBO(TiledMap map, Map<TileSet, Texture> tilesetImages) {
         this(map, new Layer[]{map.getLayers().get(0)}, tilesetImages);
     }
 
-    public TiledMapRendererGdxVBO(TiledMap map, Layer[] layers, Map<TileSet, ImageX> tilesetImages) {
+	public TiledMapRendererGdxVBO(TiledMap map, Layer[] layers,
+			Map<TileSet, Texture> tilesetImages) {
         images = tilesetImages;
 
         int mapTileWidth = map.getTileWidth();
@@ -152,7 +153,7 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
                 }
 
                 for (TileSet tileSet : tileSetInfoMap.keySet()) {
-                    ImageX image = images.get(tileSet);
+					Texture image = images.get(tileSet);
                     ArrayList<TileInfoX> list = tileSetInfoMap.get(tileSet);
                     vbos.add(new LayerImageVBO(image, list));
                 }
@@ -192,7 +193,7 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
     
     @Override
     public void dispose() {
-        for (ImageX image : images.values()) {
+		for (Texture image : images.values()) {
             image.dispose();
         }
         images.clear();

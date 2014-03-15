@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetLoaderParametersX;
-import de.hochschuletrier.gdw.commons.gdx.assets.ImageX;
 import de.hochschuletrier.gdw.commons.gdx.tiled.TiledMapRendererGdx;
 import de.hochschuletrier.gdw.commons.gdx.tiled.TiledMapRendererGdxVBO;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
@@ -54,7 +53,7 @@ public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLo
         for (TileSet tileset : map.getTileSets()) {
             TmxImage img = tileset.getImage();
             String path = locator.combinePaths(tileset.getFilename(), img.getSource());
-            deps.add(new AssetDescriptor(path, ImageX.class, params));
+			deps.add(new AssetDescriptor(path, Texture.class, params));
         }
         return deps;
     }
@@ -67,11 +66,12 @@ public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLo
     public TiledMap loadSync(AssetManager manager, String fileName, FileHandle fileHandle, TiledMapParameter parameter) {
         IResourceLocator locator = CurrentResourceLocator.get();
         
-        HashMap<TileSet, ImageX> tilesetImages = new HashMap<TileSet, ImageX>(map.getTileSets().size());
+		HashMap<TileSet, Texture> tilesetImages = new HashMap<TileSet, Texture>(map
+				.getTileSets().size());
         for (TileSet tileset : map.getTileSets()) {
             TmxImage img = tileset.getImage();
             String path = locator.combinePaths(tileset.getFilename(), img.getSource());
-            tilesetImages.put(tileset, manager.get(path, ImageX.class));
+			tilesetImages.put(tileset, manager.get(path, Texture.class));
         }
         
         if(parameter.useVBO)

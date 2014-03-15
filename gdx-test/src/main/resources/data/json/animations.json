@@ -1,8 +1,10 @@
 {
     "walking": {
         "filename": "data/animations/walking.png",
+        "frames" : 7,
+        "frameDuration": 100,
+        "playType" : 0,
         "columns": 7,
-        "frameTime": 100,
-        "loop": true
+        "rows" : 1
     }
 }

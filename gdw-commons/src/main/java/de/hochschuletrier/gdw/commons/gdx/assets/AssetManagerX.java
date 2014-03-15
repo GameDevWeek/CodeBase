@@ -1,10 +1,9 @@
 package de.hochschuletrier.gdw.commons.gdx.assets;
 
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TiledMapLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AsynchronousAssetLoaderX;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationXLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.FontXLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.ImageXLoader;
+
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
@@ -14,11 +13,15 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -38,9 +41,7 @@ public class AssetManagerX extends AssetManager {
     public AssetManagerX(FileHandleResolver resolver) {
         super(resolver);
 
-        setLoader(ImageX.class, new ImageXLoader(resolver));
-        setLoader(AnimationX.class, new AnimationXLoader(resolver));
-        setLoader(FontX.class, new FontXLoader(resolver));
+		setLoader(Animation.class, new AnimationLoader(resolver));
         setLoader(TiledMap.class, new TiledMapLoader(resolver));
     }
 
@@ -55,16 +56,13 @@ public class AssetManagerX extends AssetManager {
         return null;
     }
 
-    public ImageX getImageX(String name) {
-        return getByName(name, ImageX.class);
+
+	public Animation getAnimationX(String name) {
+		return getByName(name, Animation.class);
     }
 
-    public AnimationX getAnimationX(String name) {
-        return getByName(name, AnimationX.class);
-    }
-
-    public FontX getFontX(String name) {
-        return getByName(name, FontX.class);
+	public BitmapFont getFontX(String name) {
+		return getByName(name, BitmapFont.class);
     }
 
     public TiledMap getTiledMap(String name) {
@@ -94,6 +92,12 @@ public class AssetManagerX extends AssetManager {
     public ParticleEffect getParticleEffect(String name) {
         return getByName(name, ParticleEffect.class);
     }
+
+	private BitmapFont generateFont(String name, int size) {
+		BitmapFont font = null;
+
+		return font;
+	}
 
     @Override
     public synchronized void clear() {
