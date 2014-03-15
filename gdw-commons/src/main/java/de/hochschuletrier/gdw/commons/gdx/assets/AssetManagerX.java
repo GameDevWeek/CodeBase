@@ -24,7 +24,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
-import de.matthiasmann.javafreetype.FreeTypeFont;
 
 import java.util.HashMap;
 import java.util.Map;

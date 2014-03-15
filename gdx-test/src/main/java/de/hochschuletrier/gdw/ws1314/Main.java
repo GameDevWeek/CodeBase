@@ -100,20 +100,14 @@ public class Main extends StateBasedGame {
 		}
 	}
 
-	private void packImages() {
-		TexturePacker.process("src/main/resources/pipeline/images",
-				"src/main/resources/data/images", "atlas");
-	}
-
 	private void loadAssetLists() {
 		TextureParameter param = new TextureParameter();
 		param.minFilter = param.magFilter = Texture.TextureFilter.Linear;
-		assetManager.loadAssetList("data/json/images.json", Texture.class, param);
 
+		assetManager.loadAssetList("data/json/images.json", Texture.class, param);
 		assetManager.loadAssetList("data/json/sounds.json", Sound.class, null);
 		assetManager.loadAssetList("data/json/music.json", Music.class, null);
 		assetManager.loadAssetList("data/json/fonts.json", BitmapFont.class, null);
-
 		assetManager.loadAssetListWithParam("data/json/animations.json", Animation.class,
 				AnimationLoader.AnimationParameter.class);
 	}
@@ -140,7 +134,6 @@ public class Main extends StateBasedGame {
 	@Override
 	public void create() {
 		CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Internal));
-		packImages();
 		setupDummyLoader();
 		loadAssetLists();
 		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
