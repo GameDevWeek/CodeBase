@@ -32,6 +32,18 @@ public class LockCondition {
         }
     }
 
+    public void await(long ms) {
+        lock.lock();
+        try {
+            try {
+                condition.await(ms, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
     public void await(long ms, Check check) {
         lock.lock();
         try {
