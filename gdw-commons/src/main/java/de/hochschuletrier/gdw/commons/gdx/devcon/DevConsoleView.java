@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 public class DevConsoleView implements ScreenListener, EventListener, ICVarListener {
 
     private Stage stage;
-    private final LinkedList<LogLabel> logLabels = new LinkedList<LogLabel>();
+    private final LinkedList<LogLabel> logLabels = new LinkedList();
     private Table table;
     private LogList logList = new LogList();
     private Skin skin;
@@ -52,7 +52,7 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
     private static int sheduleScrollToEnd;
     private final CVarString log_filter = new CVarString("log_filter", "DEBUG", CVarFlags.SYSTEM, "log levels to filter from the console");
     private final CVarFloat log_height = new CVarFloat("log_height", 0.33f, 0.1f, 1.0f, CVarFlags.SYSTEM, "log height in percent");
-    private final HashSet<Level> visibleLevels = new HashSet<Level>(7);
+    private final HashSet<Level> visibleLevels = new HashSet(7);
     private final Level[] logLevels = {
         Level.OFF,
         Level.ERROR,
@@ -214,21 +214,22 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
     AppenderBase<ILoggingEvent> appender = new AppenderBase<ILoggingEvent>() {
         @Override
         protected void append(ILoggingEvent e) {
+            Level level = e.getLevel();
             LogLabel log = logLabels.getLast();
-            if (log.getLevel() != e.getLevel()) {
-                log = new LogLabel("", skin, e.getLevel());
+            if (log.getLevel() != level) {
+                log = new LogLabel("", skin, level);
                 addLogLabel(log);
             }
             StringBuilder sb = (StringBuilder) log.getText();
-            if (e.getLevel() == Level.INFO) {
+            if (level == Level.INFO) {
                 sb.append(e.getFormattedMessage());
-            } else if (e.getLevel() == Level.ERROR) {
+            } else if (level == Level.ERROR) {
                 sb.append("Error: ").append(e.getFormattedMessage());
-            } else if (e.getLevel() == Level.WARN) {
+            } else if (level == Level.WARN) {
                 sb.append("Warning: ").append(e.getFormattedMessage());
-            } else if (e.getLevel() == Level.DEBUG) {
+            } else if (level == Level.DEBUG) {
                 sb.append("Debug: ").append(e.getFormattedMessage());
-            } else if (e.getLevel() == Level.TRACE) {
+            } else if (level == Level.TRACE) {
                 sb.append("Trace: ").append(e.getFormattedMessage());
             }
             sb.append("\n");
@@ -238,12 +239,12 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
     };
 
     @Override
-    public void modified(CVar cvar) {
+    public final void modified(CVar cvar) {
         if (cvar == log_filter) {
             visibleLevels.clear();
             String ucFilter = log_filter.get().toUpperCase();
             for (Level level : logLevels) {
-                if (ucFilter.indexOf(level.toString()) == -1) {
+                if (!ucFilter.contains(level.toString())) {
                     visibleLevels.add(level);
                 }
             }
