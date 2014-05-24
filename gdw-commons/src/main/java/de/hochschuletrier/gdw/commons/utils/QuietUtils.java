@@ -11,18 +11,18 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class QuietUtils {
+
     private static final Logger logger = LoggerFactory.getLogger(QuietUtils.class);
 
     public static void sleep(int ms) {
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
-            logger.warn("Sleep interrupted", e);
         }
     }
-    
+
     public static void close(Closeable closeable) {
-        if(closeable != null) {
+        if (closeable != null) {
             try {
                 closeable.close();
             } catch (IOException e) {
@@ -30,20 +30,20 @@ public class QuietUtils {
             }
         }
     }
-    
+
     public static float parseFloat(String value, float defaultValue) {
         try {
             return Float.parseFloat(value);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             logger.warn("Failed to parse float", e);
             return defaultValue;
         }
     }
-    
+
     public static int parseInt(String value, int defaultValue) {
         try {
             return Integer.parseInt(value);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             logger.warn("Failed to parse integer", e);
             return defaultValue;
         }

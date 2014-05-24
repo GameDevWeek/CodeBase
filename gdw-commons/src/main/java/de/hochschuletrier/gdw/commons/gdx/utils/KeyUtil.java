@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class KeyUtil {
+
     private static final Logger logger = LoggerFactory.getLogger(KeyUtil.class);
 
     /**

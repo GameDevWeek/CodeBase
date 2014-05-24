@@ -7,7 +7,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+
 import de.hochschuletrier.gdw.commons.utils.Point;
+
 import java.util.List;
 
 /**
@@ -91,6 +93,14 @@ public class PhysixManager {
     /**
      * Convert world to box2d coordinates
      */
+    public Vector2 toBox2D(float x, float y, Vector2 out) {
+        out.set(x * scaleInv, y * scaleInv);
+        return out;
+    }
+
+    /**
+     * Convert world to box2d coordinates
+     */
     public Vector2 toBox2D(Vector2 in, Vector2 out) {
         out.set(in.x * scaleInv, in.y * scaleInv);
         return out;
@@ -118,8 +128,13 @@ public class PhysixManager {
         world.setGravity(gravity);
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
-        for(Body body: bodies) {
+        for (Body body : bodies) {
             body.setAwake(true);
         }
+    }
+
+    public Object createSolid(int i, int j) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

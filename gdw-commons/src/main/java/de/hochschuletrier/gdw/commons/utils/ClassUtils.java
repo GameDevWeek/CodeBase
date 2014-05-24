@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
  * Utilities for finding classes
  */
 public class ClassUtils {
+
     private static final Logger logger = LoggerFactory.getLogger(ClassUtils.class);
 
     /**
@@ -25,11 +26,9 @@ public class ClassUtils {
      *
      * @param packageName The base package
      * @return The classes
-     * @throws ClassNotFoundException
      * @throws IOException
      */
-    public static Set<Class> findClassesInPackage(String packageName)
-            throws ClassNotFoundException, IOException {
+    public static Set<Class> findClassesInPackage(String packageName) throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         assert classLoader != null;
         String path = packageName.replace('.', '/');
@@ -57,7 +56,6 @@ public class ClassUtils {
      * @param directory The base directory
      * @param packageName The package name for classes found inside the base directory
      * @param classes The classes
-     * @throws ClassNotFoundException
      */
     private static void findClassesInDir(File directory, String packageName, HashSet<Class> classes) {
         if (directory.exists()) {

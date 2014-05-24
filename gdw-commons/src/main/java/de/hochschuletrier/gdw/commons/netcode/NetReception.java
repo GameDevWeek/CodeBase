@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class NetReception extends Thread {
+
     private static final Logger logger = LoggerFactory.getLogger(NetReception.class);
 
     /** Set to true during shutdown */

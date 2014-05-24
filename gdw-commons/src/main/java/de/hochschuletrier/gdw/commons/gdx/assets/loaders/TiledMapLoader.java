@@ -28,22 +28,23 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLoader.TiledMapParameter> {
+
     private static final Logger logger = LoggerFactory.getLogger(TiledMapLoader.class);
     TiledMap map;
-    
+
     public TiledMapLoader(FileHandleResolver resolver) {
         super(resolver);
     }
 
     @Override
     public Array<AssetDescriptor> getDependencies(String fileName, FileHandle fileHandle, TiledMapParameter parameter) {
-		try {
-			map = new TiledMap(fileName, parameter.polyMode);
-		} catch(Exception e) {
+        try {
+            map = new TiledMap(fileName, parameter.polyMode);
+        } catch (Exception e) {
             logger.error("Failed loading tiled map", e);
             return null;
-		}
-        
+        }
+
         Array<AssetDescriptor> deps = new Array<AssetDescriptor>();
         TextureParameter params = new TextureParameter();
         params.format = parameter.format;
@@ -52,12 +53,12 @@ public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLo
         params.magFilter = parameter.magFilter;
         params.wrapU = parameter.wrapU;
         params.wrapV = parameter.wrapV;
-        
+
         IResourceLocator locator = CurrentResourceLocator.get();
         for (TileSet tileset : map.getTileSets()) {
             TmxImage img = tileset.getImage();
             String path = locator.combinePaths(tileset.getFilename(), img.getSource());
-			deps.add(new AssetDescriptor(path, Texture.class, params));
+            deps.add(new AssetDescriptor(path, Texture.class, params));
         }
         return deps;
     }
@@ -69,25 +70,27 @@ public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLo
     @Override
     public TiledMap loadSync(AssetManager manager, String fileName, FileHandle fileHandle, TiledMapParameter parameter) {
         IResourceLocator locator = CurrentResourceLocator.get();
-        
-		HashMap<TileSet, Texture> tilesetImages = new HashMap<TileSet, Texture>(map
-				.getTileSets().size());
+
+        HashMap<TileSet, Texture> tilesetImages = new HashMap<TileSet, Texture>(map
+                .getTileSets().size());
         for (TileSet tileset : map.getTileSets()) {
             TmxImage img = tileset.getImage();
             String path = locator.combinePaths(tileset.getFilename(), img.getSource());
-			tilesetImages.put(tileset, manager.get(path, Texture.class));
+            tilesetImages.put(tileset, manager.get(path, Texture.class));
         }
-        
-        if(parameter.useVBO)
+
+        if (parameter.useVBO) {
             map.setRenderer(new TiledMapRendererGdxVBO(map, tilesetImages));
-        else
+        } else {
             map.setRenderer(new TiledMapRendererGdx(map, tilesetImages));
+        }
         return map;
     }
 
     /** Parameter to be passed to {@link AssetManager#load(String, Class, AssetLoaderParameters)} if
      * additional configuration is necessary for the {@link TiledMap}. */
     static public class TiledMapParameter extends AssetLoaderParametersX<TiledMap> {
+
         Boolean useVBO = Boolean.FALSE;
         LayerObject.PolyMode polyMode = LayerObject.PolyMode.ABSOLUTE;
 

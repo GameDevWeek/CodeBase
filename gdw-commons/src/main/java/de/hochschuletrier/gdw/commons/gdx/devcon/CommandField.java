@@ -14,7 +14,7 @@ public class CommandField extends TextField {
     public CommandField(String text, Skin skin) {
         super(text, skin, "console");
     }
-    
+
     @Override
     public void setText(String str) {
         super.setText(str);

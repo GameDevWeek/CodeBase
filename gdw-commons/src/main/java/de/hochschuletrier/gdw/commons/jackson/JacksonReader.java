@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class JacksonReader {
+
     private static final Logger logger = LoggerFactory.getLogger(JacksonReader.class);
 
     private static final JsonFactory factory = new JsonFactory();
@@ -185,19 +186,18 @@ public class JacksonReader {
         }
         return object;
     }
-    
+
     @SuppressWarnings("unchecked")
     private static <T> T readString(Class<T> clazz, JsonParser parser) throws IOException, NumberFormatException, AssertionError {
         if (clazz.isEnum()) {
             String name = parser.getText();
             try {
                 return (T) Enum.valueOf((Class<Enum>) clazz, name);
-            }
-            catch(IllegalArgumentException ex) {
-                for(Enum e: ((Class<Enum>)clazz).getEnumConstants()) {
-                    if(e.name().compareToIgnoreCase(name) == 0) {
+            } catch (IllegalArgumentException ex) {
+                for (Enum e : ((Class<Enum>) clazz).getEnumConstants()) {
+                    if (e.name().compareToIgnoreCase(name) == 0) {
                         logger.warn("Enum value " + name + " is not using the correct case. Should be: " + e.name());
-                        return (T)e;
+                        return (T) e;
                     }
                 }
                 throw new IllegalArgumentException("No enum constant " + clazz.getCanonicalName() + "." + name);
@@ -213,7 +213,7 @@ public class JacksonReader {
             return (T) ("1".equals(text) ? Boolean.valueOf(true) : Boolean
                     .valueOf(text));
         }
-        
+
         try {
             Constructor<T> ctor = clazz.getConstructor(String.class);
             ctor.setAccessible(true);

@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class NetConnection extends Thread {
+
     private static final Logger logger = LoggerFactory.getLogger(NetConnection.class);
 
     /** The header size */
@@ -282,7 +283,7 @@ public class NetConnection extends Thread {
                 }
             } catch (IOException e) {
                 logger.error("Failed sending NetDatagram", e);
-                
+
                 // An exception causes a disconnect right now, maybe want to change that ?
                 if (disconnectException == null) {
                     disconnectException = e;

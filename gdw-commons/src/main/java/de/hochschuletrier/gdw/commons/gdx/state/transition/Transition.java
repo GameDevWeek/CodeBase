@@ -36,7 +36,7 @@ public class Transition<T extends Transition> {
         }
         createFbos();
     }
-    
+
     private void createFbos() {
         fromFbo = new FrameBuffer(Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
         fromFboRegion = new TextureRegion(fromFbo.getColorBufferTexture());
@@ -73,7 +73,7 @@ public class Transition<T extends Transition> {
 
         render(fromFboRegion, toFboRegion);
     }
-    
+
     public void render(TextureRegion fromRegion, TextureRegion toRegion) {
         DrawUtil.batch.draw(fromRegion, 0, 0, fromRegion.getRegionWidth(), fromRegion.getRegionHeight());
     }

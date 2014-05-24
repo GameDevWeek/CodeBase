@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.devcon;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
@@ -38,8 +39,9 @@ public class LogList extends WidgetGroup {
         SnapshotArray<Actor> children = getChildren();
         for (int i = 0, n = children.size; i < n; i++) {
             Actor child = children.get(i);
-            if(!child.isVisible())
+            if (!child.isVisible()) {
                 continue;
+            }
             if (child instanceof Layout) {
                 Layout layout = (Layout) child;
                 prefHeight += layout.getPrefHeight();
@@ -64,8 +66,9 @@ public class LogList extends WidgetGroup {
         float y = minHeight;
         for (int i = 0, n = children.size; i < n; i++) {
             Actor child = children.get(i);
-            if(!child.isVisible())
+            if (!child.isVisible()) {
                 continue;
+            }
             float height;
             if (child instanceof Layout) {
                 Layout layout = (Layout) child;

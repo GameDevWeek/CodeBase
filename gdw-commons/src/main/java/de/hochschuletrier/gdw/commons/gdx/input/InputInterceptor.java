@@ -3,17 +3,18 @@ package de.hochschuletrier.gdw.commons.gdx.input;
 import com.badlogic.gdx.InputProcessor;
 
 public class InputInterceptor implements InputProcessor {
+
     protected final InputProcessor mainProcessor;
     protected boolean isActive;
-    
+
     public InputInterceptor(InputProcessor mainProcessor) {
         this.mainProcessor = mainProcessor;
     }
-    
+
     public final void setActive(boolean active) {
         isActive = active;
     }
-    
+
     public final boolean isActive() {
         return isActive;
     }

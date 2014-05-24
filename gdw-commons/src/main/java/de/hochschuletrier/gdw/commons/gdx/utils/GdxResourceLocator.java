@@ -23,16 +23,18 @@ public class GdxResourceLocator implements IResourceLocator {
     @Override
     public InputStream readResource(String filename) throws FileNotFoundException {
         FileHandle handle = Gdx.files.getFileHandle(filename, type);
-        if (handle != null)
+        if (handle != null) {
             return handle.read();
+        }
         return null;
     }
 
     @Override
     public OutputStream writeResource(String filename) throws FileNotFoundException {
         FileHandle handle = Gdx.files.getFileHandle(filename, type);
-        if (handle != null)
+        if (handle != null) {
             return handle.write(false);
+        }
         return null;
     }
 
@@ -41,8 +43,9 @@ public class GdxResourceLocator implements IResourceLocator {
         FileHandle parentHandle = Gdx.files.getFileHandle(base, type);
         if (parentHandle != null) {
             FileHandle handle = parentHandle.sibling(filename);
-            if (handle != null)
+            if (handle != null) {
                 return handle.path();
+            }
         }
         return null;
     }

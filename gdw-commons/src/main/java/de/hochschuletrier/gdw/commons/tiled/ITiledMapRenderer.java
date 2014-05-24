@@ -5,6 +5,7 @@ package de.hochschuletrier.gdw.commons.tiled;
  * @author Santo Pfingsten
  */
 public interface ITiledMapRenderer {
+
     /**
      * Render the whole tile map at a given location
      *

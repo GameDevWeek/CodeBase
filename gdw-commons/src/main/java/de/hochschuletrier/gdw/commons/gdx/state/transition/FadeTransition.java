@@ -23,9 +23,9 @@ public class FadeTransition extends Transition<FadeTransition> {
         this(color, 500, 0.5f);
     }
 
-    public FadeTransition(Color color, int fadeTime) {
-        this(color, fadeTime, 0.5f);
-        
+    public FadeTransition(Color color, int duration) {
+        this(color, duration, 0.5f);
+
     }
 
     public FadeTransition(Color color, int fadeTime, float threshold) {
@@ -38,11 +38,11 @@ public class FadeTransition extends Transition<FadeTransition> {
     @Override
     public void render(TextureRegion fromRegion, TextureRegion toRegion) {
         float progress = getProgress();
-        if(progress < threshold) {
+        if (progress < threshold) {
             color.a = progress / threshold;
             DrawUtil.batch.draw(fromRegion, 0, 0, fromRegion.getRegionWidth(), fromRegion.getRegionHeight());
         } else {
-            color.a = (1.0f - progress) / (1.0f-threshold);
+            color.a = (1.0f - progress) / (1.0f - threshold);
             DrawUtil.batch.draw(toRegion, 0, 0, toRegion.getRegionWidth(), toRegion.getRegionHeight());
         }
 

@@ -10,10 +10,10 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
  * @author Santo Pfingsten
  */
 public abstract class AsynchronousAssetLoaderX<T, P extends AssetLoaderParameters<T>> extends AsynchronousAssetLoader<T, P> {
-    
-	public AsynchronousAssetLoaderX (FileHandleResolver resolver) {
-		super(resolver);
-	}
-    
+
+    public AsynchronousAssetLoaderX(FileHandleResolver resolver) {
+        super(resolver);
+    }
+
     public abstract String getFilePrefix();
 }

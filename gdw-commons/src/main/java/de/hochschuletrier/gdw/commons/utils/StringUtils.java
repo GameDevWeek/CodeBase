@@ -54,7 +54,7 @@ public class StringUtils {
         }
         return sb.toString();
     }
-    
+
     public static void tokenize(String str, List<String> result) {
         int bufPos = 0;
         result.clear();
@@ -81,7 +81,7 @@ public class StringUtils {
                     result.add(new String(buffer, 0, bufPos));
                     bufPos = 0;
                 }
-                
+
                 // skip rest of whitespaces
                 while (++i < str.length() && Character.isWhitespace(str.charAt(i))) {
                 }

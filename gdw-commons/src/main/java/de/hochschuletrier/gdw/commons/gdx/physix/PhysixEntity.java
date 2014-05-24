@@ -5,9 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * @author Santo Pfingsten
  */
-public class PhysixEntity {
+public abstract class PhysixEntity {
 
     protected PhysixBody physicsBody;
+
+    public abstract void initPhysics(PhysixManager manager);
 
     protected void setPhysicsBody(PhysixBody physicsObject) {
         physicsObject.setOwner(this);
@@ -37,5 +39,4 @@ public class PhysixEntity {
     public void setVelocityY(float y) {
         physicsBody.setLinearVelocityY(y);
     }
-
 }

@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.commons.gdx.utils;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,10 +10,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
-
-import java.util.LinkedList;
 
 /**
  *
@@ -20,12 +19,13 @@ import java.util.LinkedList;
 public class DrawUtil {
 
     private static final Color currentColor = Color.WHITE.cpy();
-    private static int screenWidth;
-    private static int screenHeight;
     private static Mode currentMode = Mode.NORMAL;
     public static SpriteBatch batch;
-	public static Texture white;
+    private static Texture white;
     private static LinkedList<Matrix4> matrixStack = new LinkedList<Matrix4>();
+    private static OrthographicCamera camera;
+
+    public static OrthographicCamera screenSpace;
 
     public enum Mode {
 
@@ -37,28 +37,44 @@ public class DrawUtil {
         SCREEN
     }
 
-    public static void init(int width, int height) {
-        screenWidth = width;
-        screenHeight = height;
-
+    public static void init() {
+        camera = new OrthographicCamera();
+        screenSpace = new OrthographicCamera();
         // create a white image for filling rects
-		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		white = new Texture(pixmap);
+        Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        white = new Texture(pixmap);
         batch = new SpriteBatch();
     }
 
-    public static void updateCamera(OrthographicCamera camera) {
+    public static OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public static void update() {
+        camera.update(true);
         batch.setProjectionMatrix(camera.combined);
-        screenWidth = (int) camera.viewportWidth;
-        screenHeight = (int) camera.viewportHeight;
+    }
+
+    public static void setCamera(OrthographicCamera camera) {
+        DrawUtil.camera = camera;
+    }
+
+    public static void setViewport(float width, float height) {
+        camera.setToOrtho(true, width, height);
+        camera.position.set(width / 2, height / 2, 0);
+        camera.update(true);
+
+        screenSpace.setToOrtho(true, width, height);
+        screenSpace.position.set(width * 0.5f, height * 0.5f, 0);
+        screenSpace.update(true);
     }
 
     public static void setClip(int x, int y, int width, int height) {
         batch.flush();
         Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
-        Gdx.gl20.glScissor(x, screenHeight - y - height, width, height);
+        Gdx.gl20.glScissor(x, (int) (camera.viewportHeight - y - height), width, height);
     }
 
     public static void clearClip() {
@@ -69,7 +85,8 @@ public class DrawUtil {
     public static void copyArea(Texture target, int x, int y, int format) {
         target.bind();
         Gdx.gl20.glCopyTexImage2D(GL20.GL_TEXTURE_2D, 0, format,
-                x, screenHeight - (y + target.getHeight()),
+                x,
+                (int) (camera.viewportHeight - (y + target.getHeight())),
                 target.getWidth(), target.getHeight(), 0);
     }
 
@@ -143,12 +160,12 @@ public class DrawUtil {
     }
 
     public static void fillRect(float x, float y, float width, float height) {
-		DrawUtil.batch.draw(white, x, y, width, height);
+        DrawUtil.batch.draw(white, x, y, width, height);
     }
 
     public static void fillRect(float x, float y, float width, float height, Color color) {
         batch.setColor(color);
-		DrawUtil.batch.draw(white, x, y, width, height);
+        DrawUtil.batch.draw(white, x, y, width, height);
         batch.setColor(currentColor);
     }
 
@@ -198,5 +215,14 @@ public class DrawUtil {
         m.rotate(0, 0, 1, degrees);
         m.translate(-x, -y, 0);
         batch.setTransformMatrix(m);
+    }
+
+    public static void startRenderToScreen() {
+        screenSpace.update();
+        batch.setProjectionMatrix(screenSpace.combined);
+    }
+
+    public static void endRenderToScreen() {
+        batch.setProjectionMatrix(camera.combined);
     }
 }

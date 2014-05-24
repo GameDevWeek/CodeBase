@@ -11,6 +11,7 @@ import java.io.OutputStream;
 public interface IResourceLocator {
 
     InputStream readResource(String filename) throws FileNotFoundException;
+
     OutputStream writeResource(String filename) throws FileNotFoundException;
 
     String combinePaths(String base, String filename);

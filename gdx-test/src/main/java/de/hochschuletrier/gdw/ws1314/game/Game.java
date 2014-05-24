@@ -30,15 +30,11 @@ public class Game {
     public static final int GRAVITY = 12;
     public static final int BOX2D_SCALE = 40;
 
-    private TextureAtlas atlas;
     PhysixManager manager = new PhysixManager(BOX2D_SCALE, 0, GRAVITY);
     private final ArrayList<PhysixEntity> entities = new ArrayList<PhysixEntity>();
     private final Player player;
-    private final Vase vase;
 
     public Game() {
-        atlas = new TextureAtlas("data/images/atlas.atlas");
-
         PhysixBody body = new PhysixBodyDef(BodyType.StaticBody, manager).position(410, 400)
                 .fixedRotation(false).create();
         body.createFixture(new PhysixFixtureDef(manager).density(1).friction(0.5f).shapeBox(800, 20));
@@ -46,12 +42,8 @@ public class Game {
         PhysixUtil.createHollowCircle(manager, 180, 180, 150, 30, 6);
         player = new Player(410, 350);
         player.initPhysics(manager);
-		entities.add(player);
+        entities.add(player);
 
-        vase = new Vase(0, 0);
-        vase.initPhysics(manager);
-        vase.initGraphics(atlas);
-        entities.add(vase);
         Main.getInstance().console.register(gravity_f);
     }
 
@@ -71,10 +63,6 @@ public class Game {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public Vase getVase() {
-        return vase;
     }
 
     public PhysixManager getManager() {

@@ -26,7 +26,7 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
     final TiledMap map;
     final Color layerFilter = Color.WHITE.cpy();
     final ArrayList<LayerImageVBO> vbos = new ArrayList<LayerImageVBO>();
-	final Map<TileSet, Texture> images;
+    final Map<TileSet, Texture> images;
 
     public static class TileInfoX {
 
@@ -47,10 +47,10 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
 
     public static class LayerImageVBO {
 
-		private final Texture image;
+        private final Texture image;
         private final Mesh mesh;
 
-		public LayerImageVBO(Texture image, ArrayList<TileInfoX> list) {
+        public LayerImageVBO(Texture image, ArrayList<TileInfoX> list) {
             float invTexWidth = 1f / image.getWidth();
             float invTexHeight = 1f / image.getHeight();
             this.image = image;
@@ -113,12 +113,12 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
         }
     }
 
-	public TiledMapRendererGdxVBO(TiledMap map, Map<TileSet, Texture> tilesetImages) {
+    public TiledMapRendererGdxVBO(TiledMap map, Map<TileSet, Texture> tilesetImages) {
         this(map, new Layer[]{map.getLayers().get(0)}, tilesetImages);
     }
 
-	public TiledMapRendererGdxVBO(TiledMap map, Layer[] layers,
-			Map<TileSet, Texture> tilesetImages) {
+    public TiledMapRendererGdxVBO(TiledMap map, Layer[] layers,
+            Map<TileSet, Texture> tilesetImages) {
         images = tilesetImages;
 
         int mapTileWidth = map.getTileWidth();
@@ -153,7 +153,7 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
                 }
 
                 for (TileSet tileSet : tileSetInfoMap.keySet()) {
-					Texture image = images.get(tileSet);
+                    Texture image = images.get(tileSet);
                     ArrayList<TileInfoX> list = tileSetInfoMap.get(tileSet);
                     vbos.add(new LayerImageVBO(image, list));
                 }
@@ -165,6 +165,7 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
     public void render(int x, int y, int sx, int sy, int width, int height, Layer layer) {
         render();
     }
+
     @Override
     public void render(int x, int y) {
         render();
@@ -190,10 +191,10 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
             vbo.draw();
         }
     }
-    
+
     @Override
     public void dispose() {
-		for (Texture image : images.values()) {
+        for (Texture image : images.values()) {
             image.dispose();
         }
         images.clear();

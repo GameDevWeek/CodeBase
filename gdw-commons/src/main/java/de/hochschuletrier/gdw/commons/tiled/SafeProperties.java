@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 @XStreamAlias("properties")
 public class SafeProperties {
+
     private static final Logger logger = LoggerFactory.getLogger(SafeProperties.class);
 
     @XStreamAlias("name")

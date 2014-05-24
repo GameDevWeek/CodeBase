@@ -19,12 +19,13 @@ import java.io.Closeable;
  * @author Santo Pfingsten
  */
 public class SilentCloser {
+
     private Closeable closeable;
-    
+
     public void close() {
         QuietUtils.close(closeable);
     }
-    
+
     public void set(Closeable closeable) {
         this.closeable = closeable;
     }

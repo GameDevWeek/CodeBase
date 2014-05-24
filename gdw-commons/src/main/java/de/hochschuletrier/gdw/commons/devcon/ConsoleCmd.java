@@ -28,7 +28,7 @@ public abstract class ConsoleCmd implements IConsoleCompleter {
      * @param flags Flags (@see CCmdFlags)
      * @param description The description printed by the help command
      * @param minArguments The minimum number of arguments to call
-    */
+     */
     public ConsoleCmd(String name, int flags, String description, int minArguments) {
         this.name = name;
         this.flags = flags;
@@ -40,7 +40,7 @@ public abstract class ConsoleCmd implements IConsoleCompleter {
      * @param name The name use in the console
      * @param flags Flags (@see CCmdFlags)
      * @param description The description printed by the help command
-    */
+     */
     public ConsoleCmd(String name, int flags, String description) {
         this(name, flags, description, 0);
     }

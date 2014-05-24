@@ -24,7 +24,7 @@ public class FpsCalculator {
         this.waitTime = waitTime;
         this.nextUpdate = 0;
         fpsFrames = new long[cacheSize];
-        for(int i=0; i<cacheSize; i++) {
+        for (int i = 0; i < cacheSize; i++) {
             fpsFrames[i] = startValue;
         }
         sum = cacheSize * startValue;

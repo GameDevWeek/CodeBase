@@ -46,18 +46,18 @@ public abstract class StateBasedGame implements ApplicationListener {
         currentState.onLeave();
         nextState.onEnter();
     }
-    
+
     public void addScreenListener(ScreenListener listener) {
         screenListeners.add(listener);
     }
-    
+
     public void removeScreenListener(ScreenListener listener) {
         screenListeners.remove(listener);
     }
 
     @Override
     public void resize(int width, int height) {
-        for(ScreenListener listener: screenListeners) {
+        for (ScreenListener listener : screenListeners) {
             listener.resize(width, height);
         }
     }

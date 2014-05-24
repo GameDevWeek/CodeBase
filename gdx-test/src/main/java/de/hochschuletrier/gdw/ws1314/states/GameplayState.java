@@ -6,11 +6,16 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
+import de.hochschuletrier.gdw.commons.devcon.cvar.ICVarListener;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.cameras.DefaultOrthoCameraController;
+import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
+import de.hochschuletrier.gdw.commons.gdx.state.ScreenListener;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ws1314.Main;
@@ -18,18 +23,19 @@ import de.hochschuletrier.gdw.ws1314.game.Game;
 
 /**
  * Menu state
- *
+ * 
  * @author Santo Pfingsten
  */
-public class GameplayState extends GameState implements InputProcessor {
+public class GameplayState extends GameState implements InputProcessor, ScreenListener, ICVarListener {
 
     private Game game;
-    private Sound click;
-	private Texture crosshair;
-	private BitmapFont verdana_24;
+    private Sound click, helicopter;
+    private Texture crosshair;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
-    private DefaultOrthoCameraController controller;
+
+    private final SoundEmitter emitter = new SoundEmitter();
+    private final CVarEnum<SoundEmitter.Mode> mode = new CVarEnum<SoundEmitter.Mode>("snd_mode", SoundEmitter.Mode.STEREO, SoundEmitter.Mode.class, 0, "sound mode");
 
     public GameplayState() {
     }
@@ -37,48 +43,58 @@ public class GameplayState extends GameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-		crosshair = assetManager.getTexture("crosshair");
+        crosshair = assetManager.getTexture("crosshair");
         click = assetManager.getSound("click");
-		verdana_24 = assetManager.getFont("verdana_24", 15);
-        controller = new DefaultOrthoCameraController(Main.getInstance().getCamera());
-		DrawUtil.batch.setProjectionMatrix(Main.getInstance().getCamera().combined);
+        helicopter = assetManager.getSound("helicopter");
         game = new Game();
         Main.inputMultiplexer.addProcessor(this);
-        Main.inputMultiplexer.addProcessor(controller);
+
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Main.getInstance().addScreenListener(this);
+        Main.getInstance().console.register(mode);
+        mode.addListener(this);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        SoundEmitter.setListenerPosition(width / 2, height / 2, 10, mode.get());
+    }
+
+    @Override
+    public void modified(CVar cvar) {
+        if (cvar == mode) {
+            resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
     }
 
     @Override
     public void render() {
-		DrawUtil.batch.setProjectionMatrix(Main.getInstance().getCamera().combined);
+        DrawUtil.batch.setProjectionMatrix(DrawUtil.getCamera().combined);
 
-        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
-
-		DrawUtil.batch.draw(crosshair, cursor.x - crosshair.getWidth() * 0.5f, cursor.y
-				- crosshair.getHeight() * 0.5f);
-
-        DrawUtil.batch.draw(game.getVase().getRegion(), game.getVase().getPosition().x,
-                game.getVase().getPosition().y, 0f, 0f, game.getVase().getRegion()
-                .getRegionWidth(), game.getVase().getRegion().getRegionHeight(),
-                game.getManager().scaleInv, game.getManager().scaleInv, game.getVase()
-                .getRotation());
+        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
+                Color.BLUE);
 
         game.render();
     }
 
     @Override
     public void update(float delta) {
-        controller.update();
-		controller.update();
+        emitter.update();
+        emitter.setPosition(cursor.x, cursor.y, 0);
         game.update(delta);
+
         fpsCalc.addFrame();
     }
 
     @Override
     public void onEnter() {
+        emitter.dispose();
+        emitter.play(helicopter, true);
     }
 
     @Override
     public void onLeave() {
+        emitter.dispose();
     }
 
     @Override
@@ -103,11 +119,12 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(button == 0)
+        if (button == 0) {
             game.addBall(screenX, screenY);
-        else
-            game.getVase().setPosition(new Vector2(screenX, screenY));
-		click.play();
+        }
+//		else
+//			game.getVase().setPosition(new Vector2(screenX, screenY));
+        emitter.play(click, false);
         return true;
     }
 

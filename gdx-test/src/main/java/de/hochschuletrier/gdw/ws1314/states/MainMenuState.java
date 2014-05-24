@@ -7,15 +7,14 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 
+import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ws1314.Main;
-import de.hochschuletrier.gdw.ws1314.shaders.DemoShader;
 
 /**
  * Menu state
@@ -28,12 +27,11 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     private Music music;
     private Sound click;
-	private Texture logo;
-	private Animation walking;
+    private Texture logo;
+    float stateTime = 0f;
+    private AnimationExtended walking;
     private float x = 0;
-    private boolean useShader;
 
-    private DemoShader demoShader;
     InputInterceptor inputProcessor;
 
     public MainMenuState() {
@@ -43,25 +41,24 @@ public class MainMenuState extends GameState implements InputProcessor {
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
 
-		logo = assetManager.getTexture("logo");
-		walking = assetManager.getAnimation("walking");
+        logo = assetManager.getTexture("logo");
+        walking = assetManager.getAnimation("walking");
         music = assetManager.getMusic("menu");
         click = assetManager.getSound("click");
 
         music.setLooping(true);
 //        music.play();
-        demoShader = new DemoShader(Gdx.files.internal("data/shaders/demo.vertex.glsl"),
-                Gdx.files.internal("data/shaders/demo.fragment.glsl"));
 
         inputProcessor = new InputInterceptor(this) {
             @Override
             public boolean keyUp(int keycode) {
                 switch (keycode) {
                     case Keys.ESCAPE:
-                        if(GameStates.GAMEPLAY.isActive())
+                        if (GameStates.GAMEPLAY.isActive()) {
                             GameStates.MAINMENU.activate(new SplitHorizontalTransition(500).reverse(), null);
-                        else
+                        } else {
                             GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(500), null);
+                        }
                         return true;
                 }
                 return isActive && mainProcessor.keyUp(keycode);
@@ -74,26 +71,19 @@ public class MainMenuState extends GameState implements InputProcessor {
     public void render() {
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
-		DrawUtil.batch.draw(logo, 0, 0);
+        DrawUtil.batch.draw(logo, 0, 0, logo.getWidth(), logo.getHeight(), 0, 0,
+                logo.getWidth(), logo.getHeight(), false, true);
 
-        if (useShader) {
-            DrawUtil.batch.setShader(demoShader);
-        }
-		DrawUtil.batch.draw(walking.getKeyFrame(stateTime), x,
-				512 - walking.getKeyFrame(0f).getRegionWidth());
-
-        if (useShader) {
-            DrawUtil.batch.setShader(null);
-        }
+        DrawUtil.batch.draw(walking.getKeyFrame(stateTime), x,
+                512, walking.getKeyFrame(0f).getRegionWidth(), -walking.getKeyFrame(0f).getRegionHeight());
     }
 
-	float stateTime = 0f;
     @Override
     public void update(float delta) {
-		stateTime += delta;
-		x += delta * WALKING_SPEED;
+        stateTime += delta;
+        x += delta * WALKING_SPEED;
         if (x > 1024) {
-			x = -walking.getKeyFrame(0f).getRegionWidth();
+            x = -walking.getKeyFrame(0f).getRegionWidth();
         }
     }
 
@@ -118,11 +108,6 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        switch (keycode) {
-            case Keys.F11:
-                useShader = !useShader;
-                return true;
-        }
         return false;
     }
 
