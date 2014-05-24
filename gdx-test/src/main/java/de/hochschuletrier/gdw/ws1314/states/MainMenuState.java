@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
+import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
@@ -118,7 +119,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        click.play();
+        SoundEmitter.playGlobal(click, false, screenX, screenY, 0);
         return true;
     }
 

@@ -12,7 +12,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
@@ -23,10 +22,10 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.TrueTypeFont;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.SleepDummyLoader;
 import de.hochschuletrier.gdw.commons.gdx.devcon.DevConsoleView;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundDistanceModel;
+import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.commons.gdx.state.StateBasedGame;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
@@ -38,7 +37,7 @@ import de.hochschuletrier.gdw.ws1314.states.GameStates;
  * 
  * @author Santo Pfingsten
  */
-public class Main extends StateBasedGame {
+public class Main extends StateBasedGame implements ICVarListener {
 
     public static final int WINDOW_WIDTH = 1024;
     public static final int WINDOW_HEIGHT = 512;
@@ -50,7 +49,8 @@ public class Main extends StateBasedGame {
     private final DevConsoleView consoleView = new DevConsoleView(console);
     private Skin skin;
     public static final InputMultiplexer inputMultiplexer = new InputMultiplexer();
-    private final CVarEnum<SoundDistanceModel> distanceModel = new CVarEnum<SoundDistanceModel>("snd_distanceModel", SoundDistanceModel.INVERSE, SoundDistanceModel.class, 0, "sound distance model");
+    private final CVarEnum<SoundDistanceModel> distanceModel = new CVarEnum("snd_distanceModel", SoundDistanceModel.INVERSE, SoundDistanceModel.class, 0, "sound distance model");
+    private final CVarEnum<SoundEmitter.Mode> emitterMode = new CVarEnum("snd_mode", SoundEmitter.Mode.STEREO, SoundEmitter.Mode.class, 0, "sound mode");
 
     public static Main getInstance() {
         if (instance == null) {
@@ -123,6 +123,9 @@ public class Main extends StateBasedGame {
                 distanceModel.get().activate();
             }
         });
+
+        Main.getInstance().console.register(emitterMode);
+        emitterMode.addListener(this);
     }
 
     public void onLoadComplete() {
@@ -138,6 +141,7 @@ public class Main extends StateBasedGame {
         GameStates.dispose();
         consoleView.dispose();
         skin.dispose();
+        SoundEmitter.disposeGlobal();
     }
 
     @Override
@@ -164,12 +168,23 @@ public class Main extends StateBasedGame {
             consoleView.update(delta);
         }
         console.executeCmdQueue();
+        SoundEmitter.updateGlobal();
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
         DrawUtil.setViewport(width, height);
+        SoundEmitter.setListenerPosition(width / 2, height / 2, 10, emitterMode.get());
+    }
+
+    @Override
+    public void modified(CVar cvar) {
+        if (cvar == emitterMode) {
+            int x = Gdx.graphics.getWidth()/2;
+            int y = Gdx.graphics.getHeight()/2;
+            SoundEmitter.setListenerPosition(x, y, 10, emitterMode.get());
+        }
     }
 
     @Override

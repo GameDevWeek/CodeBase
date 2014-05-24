@@ -22,22 +22,44 @@ public class SoundEmitter implements Disposable {
         STEREO,
         MONO;
     }
+    
+    private static final SoundEmitter globalEmitter = new SoundEmitter();
 
-    protected static final Recycler<SoundInstance> recycler = new Recycler<SoundInstance>(SoundInstance.class);
-    protected final ArrayList<SoundInstance> instances = new ArrayList<SoundInstance>();
+    protected static final Recycler<SoundInstance> recycler = new Recycler(SoundInstance.class);
+    protected final ArrayList<SoundInstance> instances = new ArrayList();
     protected static Mode mode = Mode.STEREO;
     private static final Vector3 listenerPosition = new Vector3();
 
     public static void setListenerPosition(float x, float y, float z, Mode mode) {
+        listenerPosition.set(x, y, z);
         SoundEmitter.mode = mode;
         if (mode == Mode.STEREO) {
             alListener3f(AL_POSITION, x, y, z);
         } else {
-            listenerPosition.set(x, y, z);
             alListener3f(AL_POSITION, 0, 0, 0);
         }
     }
-
+    
+    public final static void updateGlobal() {
+        globalEmitter.update();
+    }
+    
+    public final static SoundInstance playGlobal(Sound sound, boolean loop) {
+        SoundInstance si = globalEmitter.play(sound, loop);
+        si.setPosition(listenerPosition.x, listenerPosition.y, listenerPosition.z);
+        return si;
+    }
+    
+    public final static SoundInstance playGlobal(Sound sound, boolean loop, float x, float y, float z) {
+        SoundInstance si = globalEmitter.play(sound, loop);
+        si.setPosition(x, y, z);
+        return si;
+    }
+    
+    public final static void disposeGlobal() {
+        globalEmitter.dispose();
+    }
+    
     public void update() {
         Iterator<SoundInstance> it = instances.iterator();
         while (it.hasNext()) {

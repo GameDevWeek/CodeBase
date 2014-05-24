@@ -5,17 +5,10 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
-import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
-import de.hochschuletrier.gdw.commons.devcon.cvar.ICVarListener;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.cameras.DefaultOrthoCameraController;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
-import de.hochschuletrier.gdw.commons.gdx.state.ScreenListener;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ws1314.Main;
@@ -26,16 +19,14 @@ import de.hochschuletrier.gdw.ws1314.game.Game;
  * 
  * @author Santo Pfingsten
  */
-public class GameplayState extends GameState implements InputProcessor, ScreenListener, ICVarListener {
+public class GameplayState extends GameState implements InputProcessor {
 
     private Game game;
     private Sound click, helicopter;
-    private Texture crosshair;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
 
     private final SoundEmitter emitter = new SoundEmitter();
-    private final CVarEnum<SoundEmitter.Mode> mode = new CVarEnum<SoundEmitter.Mode>("snd_mode", SoundEmitter.Mode.STEREO, SoundEmitter.Mode.class, 0, "sound mode");
 
     public GameplayState() {
     }
@@ -43,28 +34,10 @@ public class GameplayState extends GameState implements InputProcessor, ScreenLi
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-        crosshair = assetManager.getTexture("crosshair");
         click = assetManager.getSound("click");
         helicopter = assetManager.getSound("helicopter");
         game = new Game();
         Main.inputMultiplexer.addProcessor(this);
-
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Main.getInstance().addScreenListener(this);
-        Main.getInstance().console.register(mode);
-        mode.addListener(this);
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        SoundEmitter.setListenerPosition(width / 2, height / 2, 10, mode.get());
-    }
-
-    @Override
-    public void modified(CVar cvar) {
-        if (cvar == mode) {
-            resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        }
     }
 
     @Override
