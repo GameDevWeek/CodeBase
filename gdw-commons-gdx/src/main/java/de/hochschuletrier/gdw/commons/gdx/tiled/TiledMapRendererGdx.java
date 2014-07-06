@@ -164,9 +164,11 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
                     float px = x + (tx * mapTileWidth);
                     float py = y + (ty * mapTileHeight) - tileOffsetY;
 
-                    DrawUtil.batch.draw(image, px, py, tileset.getTileWidth(),
-                            tileset.getTileHeight(), sheetX * tileset.getTileWidth(),
-                            sheetY * tileset.getTileHeight());
+                    DrawUtil.batch.draw(image, px, py,
+                            tileset.getTileWidth(), tileset.getTileHeight(),
+                            (int) (sheetX * tileset.getTileWidth()), ((int) sheetY * tileset.getTileHeight()),
+                            tileset.getTileWidth(), tileset.getTileHeight(),
+                            false, true);
                 }
             }
         }

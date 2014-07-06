@@ -35,6 +35,7 @@ public class GameplayState extends GameState implements InputProcessor {
         super.init(assetManager);
         helicopter = assetManager.getSound("helicopter");
         game = new Game();
+        game.init(assetManager);
         Main.inputMultiplexer.addProcessor(this);
     }
 
