@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ws1314.sandbox.physics;
+package de.hochschuletrier.gdw.ss14.sandbox.physics;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -10,8 +10,8 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
-import de.hochschuletrier.gdw.ws1314.Main;
-import de.hochschuletrier.gdw.ws1314.sandbox.SandboxGame;
+import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;

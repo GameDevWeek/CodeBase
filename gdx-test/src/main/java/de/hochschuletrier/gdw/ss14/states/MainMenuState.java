@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ws1314.states;
+package de.hochschuletrier.gdw.ss14.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -15,7 +15,7 @@ import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
-import de.hochschuletrier.gdw.ws1314.Main;
+import de.hochschuletrier.gdw.ss14.Main;
 
 /**
  * Menu state

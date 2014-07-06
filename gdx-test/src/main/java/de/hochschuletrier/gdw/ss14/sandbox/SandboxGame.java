@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ws1314.sandbox;
+package de.hochschuletrier.gdw.ss14.sandbox;
 
 import com.badlogic.gdx.InputProcessor;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;

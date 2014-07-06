@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ws1314.states;
+package de.hochschuletrier.gdw.ss14.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -10,8 +10,8 @@ import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.ClassUtils;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
-import de.hochschuletrier.gdw.ws1314.Main;
-import de.hochschuletrier.gdw.ws1314.sandbox.SandboxGame;
+import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class SandboxState extends GameState implements InputProcessor {
         super.init(assetManager);
 
         try {
-            for (Class clazz : ClassUtils.findClassesInPackage("de.hochschuletrier.gdw.ws1314.sandbox")) {
+            for (Class clazz : ClassUtils.findClassesInPackage("de.hochschuletrier.gdw.ss14.sandbox")) {
                 if (!Modifier.isAbstract(clazz.getModifiers()) && SandboxGame.class.isAssignableFrom(clazz)) {
                     sandboxClasses.put(clazz.getSimpleName(), clazz);
                 }

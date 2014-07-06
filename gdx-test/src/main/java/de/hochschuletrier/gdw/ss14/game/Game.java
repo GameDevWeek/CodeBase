@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ws1314.game;
+package de.hochschuletrier.gdw.ss14.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

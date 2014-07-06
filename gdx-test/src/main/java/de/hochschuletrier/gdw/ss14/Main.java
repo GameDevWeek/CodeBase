@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ws1314;
+package de.hochschuletrier.gdw.ss14;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
@@ -31,7 +31,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
-import de.hochschuletrier.gdw.ws1314.states.GameStates;
+import de.hochschuletrier.gdw.ss14.states.GameStates;
 
 /**
  * 
