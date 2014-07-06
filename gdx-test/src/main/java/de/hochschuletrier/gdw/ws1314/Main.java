@@ -129,8 +129,11 @@ public class Main extends StateBasedGame implements ICVarListener {
     }
 
     public void onLoadComplete() {
-        GameStates.MAINMENU.init(assetManager);
-        GameStates.GAMEPLAY.init(assetManager);
+        for(GameStates state: GameStates.values()) {
+            if(state != GameStates.LOADING) {
+                state.init(assetManager);
+            }
+        }
         GameStates.MAINMENU.activate();
 //		GameStates.GAMEPLAY.activate(new SplitVerticalTransition(500), null);
     }

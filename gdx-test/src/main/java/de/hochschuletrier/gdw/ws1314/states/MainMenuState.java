@@ -91,11 +91,13 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void onEnter() {
         inputProcessor.setActive(true);
+        inputProcessor.setBlocking(true);
     }
 
     @Override
     public void onLeave() {
         inputProcessor.setActive(false);
+        inputProcessor.setBlocking(false);
     }
 
     @Override

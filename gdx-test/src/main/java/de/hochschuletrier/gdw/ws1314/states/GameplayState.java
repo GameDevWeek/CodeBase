@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
@@ -15,14 +14,14 @@ import de.hochschuletrier.gdw.ws1314.Main;
 import de.hochschuletrier.gdw.ws1314.game.Game;
 
 /**
- * Menu state
+ * Gameplay state
  * 
  * @author Santo Pfingsten
  */
 public class GameplayState extends GameState implements InputProcessor {
 
     private Game game;
-    private Sound click, helicopter;
+    private Sound helicopter;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
 
@@ -34,7 +33,6 @@ public class GameplayState extends GameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-        click = assetManager.getSound("click");
         helicopter = assetManager.getSound("helicopter");
         game = new Game();
         Main.inputMultiplexer.addProcessor(this);
@@ -44,8 +42,7 @@ public class GameplayState extends GameState implements InputProcessor {
     public void render() {
         DrawUtil.batch.setProjectionMatrix(DrawUtil.getCamera().combined);
 
-        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
-                Color.BLUE);
+        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLACK);
 
         game.render();
     }
@@ -76,7 +73,6 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-
         return false;
     }
 
@@ -92,13 +88,7 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button == 0) {
-            game.addBall(screenX, screenY);
-        }
-//		else
-//			game.getVase().setPosition(new Vector2(screenX, screenY));
-        emitter.play(click, false);
-        return true;
+        return false;
     }
 
     @Override

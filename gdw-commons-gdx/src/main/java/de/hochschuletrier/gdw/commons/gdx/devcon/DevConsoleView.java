@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Santo Pfingsten
  */
-public class DevConsoleView implements ScreenListener, EventListener, ICVarListener {
+public class DevConsoleView implements ScreenListener, ICVarListener {
 
     private Stage stage;
     private final LinkedList<LogLabel> logLabels = new LinkedList();
@@ -77,22 +77,66 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
         log_height.addListener(this);
     }
 
+    private void setupInputProcessor() {
+        inputProcessor = new InputInterceptor(stage) {
+            @Override
+            public boolean keyUp(int keycode) {
+                switch(keycode) {
+                    case Input.Keys.F12:
+                        isBlocking = isActive = !isActive;
+                        return true;
+                    case Input.Keys.ESCAPE:
+                        if(isActive) {
+                            isBlocking = isActive = false;
+                            return true;
+                        }
+                        break;
+                }
+                return super.keyUp(keycode);
+            }
+            
+            @Override
+            public boolean keyDown(int keycode) {
+                if(isActive) {
+                    switch(keycode) {
+                        case Input.Keys.TAB:
+                            String text = commandField.getText();
+                            if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
+                                console.printUsage(text);
+                            } else {
+                                console.completeInput(text, commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
+                            }
+                            return true;
+                        case Input.Keys.UP:
+                            console.historyBack(commandField.getText(), commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
+                            return true;
+                        case Input.Keys.DOWN:
+                            console.historyForward(commandField.getText(), commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
+                            return true;
+                        case Input.Keys.ESCAPE:
+                            return true;
+                        case Input.Keys.PAGE_UP:
+                            scrollToStart();
+                            return true;
+                        case Input.Keys.PAGE_DOWN:
+                            scrollToEnd();
+                            return true;
+                        case Input.Keys.ENTER:
+                            console.submitInput(commandField.getText(), commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
+                            sheduleScrollToEnd = 10;
+                            return true;
+                    }
+                }
+                return super.keyDown(keycode);
+            }
+        };
+    }
     public void init(AssetManagerX assetManager, Skin skin) {
         this.skin = skin;
 
         stage = new Stage(new ScreenViewport(), DrawUtil.batch);
-        stage.addListener(this);
 
-        inputProcessor = new InputInterceptor(stage) {
-            @Override
-            public boolean keyUp(int keycode) {
-                if (keycode == Input.Keys.F12) {
-                    isActive = !isActive;
-                    return true;
-                }
-                return isActive && mainProcessor.keyUp(keycode);
-            }
-        };
+        setupInputProcessor();
 
         // Create a table that fills the screen. Everything else will go inside this table.
         table = new Table();
@@ -149,6 +193,7 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
 
     public void setVisible(boolean visible) {
         inputProcessor.setActive(visible);
+        inputProcessor.setBlocking(visible);
     }
 
     public boolean isVisible() {
@@ -164,51 +209,6 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
         stage.getViewport().update(width, height, true);
         adjustHeight();
         logList.invalidateHierarchy();
-    }
-
-    @Override
-    public boolean handle(Event event) {
-        if (event instanceof InputEvent) {
-            InputEvent evt = (InputEvent) event;
-            if (evt.getType() == InputEvent.Type.keyDown) {
-                switch (evt.getKeyCode()) {
-                    case Input.Keys.TAB:
-                        String text = commandField.getText();
-                        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-                            console.printUsage(text);
-                        } else {
-                            console.completeInput(text, commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
-                        }
-                        return true;
-                    case Input.Keys.UP:
-                        console.historyBack(commandField.getText(), commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
-                        return true;
-                    case Input.Keys.DOWN:
-                        console.historyForward(commandField.getText(), commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
-                        return true;
-                    case Input.Keys.ESCAPE:
-                        return true;
-                    case Input.Keys.PAGE_UP:
-                        scrollToStart();
-                        return true;
-                    case Input.Keys.PAGE_DOWN:
-                        scrollToEnd();
-                        return true;
-                    case Input.Keys.ENTER:
-                        console.submitInput(commandField.getText(), commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
-                        sheduleScrollToEnd = 10;
-                        return true;
-                }
-            }
-            if (evt.getType() == InputEvent.Type.keyUp) {
-                switch (evt.getKeyCode()) {
-                    case Input.Keys.ESCAPE:
-                        setVisible(false);
-                        return true;
-                }
-            }
-        }
-        return false;
     }
 
     private void addLogLabel(LogLabel log) {

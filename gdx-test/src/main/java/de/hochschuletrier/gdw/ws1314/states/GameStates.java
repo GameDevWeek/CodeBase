@@ -11,7 +11,8 @@ public enum GameStates {
 
     LOADING(new LoadGameState()),
     MAINMENU(new MainMenuState()),
-    GAMEPLAY(new GameplayState());
+    GAMEPLAY(new GameplayState()),
+    SANDBOX(new SandboxState());
     private final GameState state;
 
     GameStates(GameState state) {
@@ -22,10 +23,9 @@ public enum GameStates {
         Main.getInstance().changeState(state, null, null);
     }
 
-    public void fadeActivate(int fadeTime) {
+    public void activate(int fadeTime) {
         FadeTransition out = new FadeTransition(Color.BLACK, fadeTime);
-        FadeTransition in = new FadeTransition(Color.BLACK, fadeTime).reverse();
-        Main.getInstance().changeState(state, out, in);
+        Main.getInstance().changeState(state, out, null);
     }
 
     public void activate(Transition out, Transition in) {
