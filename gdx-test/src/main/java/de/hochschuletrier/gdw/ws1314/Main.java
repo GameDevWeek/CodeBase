@@ -181,8 +181,8 @@ public class Main extends StateBasedGame implements ICVarListener {
     @Override
     public void modified(CVar cvar) {
         if (cvar == emitterMode) {
-            int x = Gdx.graphics.getWidth()/2;
-            int y = Gdx.graphics.getHeight()/2;
+            int x = Gdx.graphics.getWidth() / 2;
+            int y = Gdx.graphics.getHeight() / 2;
             SoundEmitter.setListenerPosition(x, y, 10, emitterMode.get());
         }
     }

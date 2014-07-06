@@ -1,3 +1,4 @@
 {
-    "click": "data/sounds/click.ogg"
+    "click": "data/sounds/click.ogg",
+    "helicopter": "data/sounds/helicopter.wav"
 }

@@ -3,7 +3,7 @@ package de.hochschuletrier.gdw.commons.gdx.sound;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
-import de.hochschuletrier.gdw.commons.utils.Recycler;
+import de.hochschuletrier.gdw.commons.utils.recycler.Recycler;
 import java.util.ArrayList;
 import java.util.Iterator;
 import static org.lwjgl.openal.AL10.AL_POSITION;
@@ -22,7 +22,7 @@ public class SoundEmitter implements Disposable {
         STEREO,
         MONO;
     }
-    
+
     private static final SoundEmitter globalEmitter = new SoundEmitter();
 
     protected static final Recycler<SoundInstance> recycler = new Recycler(SoundInstance.class);
@@ -39,34 +39,34 @@ public class SoundEmitter implements Disposable {
             alListener3f(AL_POSITION, 0, 0, 0);
         }
     }
-    
+
     public final static void updateGlobal() {
         globalEmitter.update();
     }
-    
+
     public final static SoundInstance playGlobal(Sound sound, boolean loop) {
         SoundInstance si = globalEmitter.play(sound, loop);
         si.setPosition(listenerPosition.x, listenerPosition.y, listenerPosition.z);
         return si;
     }
-    
+
     public final static SoundInstance playGlobal(Sound sound, boolean loop, float x, float y, float z) {
         SoundInstance si = globalEmitter.play(sound, loop);
         si.setPosition(x, y, z);
         return si;
     }
-    
+
     public final static void disposeGlobal() {
         globalEmitter.dispose();
     }
-    
+
     public void update() {
         Iterator<SoundInstance> it = instances.iterator();
         while (it.hasNext()) {
             SoundInstance si = it.next();
             if (si.isStopped()) {
                 it.remove();
-                recycler.recycle(si);
+                recycler.free(si);
             }
         }
     }
@@ -96,7 +96,7 @@ public class SoundEmitter implements Disposable {
     public void dispose() {
         for (SoundInstance si : instances) {
             si.stop();
-            recycler.recycle(si);
+            recycler.free(si);
         }
         instances.clear();
     }

@@ -1,4 +1,18 @@
 {
     "crosshair": "data/images/crosshair.png",
-    "logo": "data/images/logo.png"
+    "logo": "data/images/logo.png",
+    "vase": "data/images/vase.png",
+
+
+
+    "debugAttackIcon": "data/images/testImages/attackIcon.png",
+    "debugBar": "data/images/testImages/bar.png",
+    "debugBarDecor2": "data/images/testImages/barDecor2.png",
+    "debugBarDecor": "data/images/testImages/barDecoration.png",
+    "debugBarDecorNine": "data/images/testImages/barDecorationNine.png",
+    "debugBuff": "data/images/testImages/buffIcon.png",
+    "debugClass": "data/images/testImages/classIcon.png",
+    "debugScoreEnemy": "data/images/testImages/scoreEnemyIcon.png",
+    "debugScoreTeam": "data/images/testImages/scoreTeamIcon.png",
+    "debugTooltip": "data/images/testImages/tooltip.png"
 }

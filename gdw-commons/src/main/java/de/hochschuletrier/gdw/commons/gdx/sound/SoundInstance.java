@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.backends.lwjgl.audio.OpenALAudio;
 import com.badlogic.gdx.utils.LongMap;
+import de.hochschuletrier.gdw.commons.utils.recycler.Recyclable;
 import java.lang.reflect.Field;
 import static org.lwjgl.openal.AL10.*;
 
@@ -13,7 +14,7 @@ import static org.lwjgl.openal.AL10.*;
  *
  * @author Santo Pfingsten
  */
-public class SoundInstance {
+public class SoundInstance implements Recyclable {
 
     Sound sound;
     long id;
@@ -84,5 +85,9 @@ public class SoundInstance {
 
     void setPosition(float x, float y, float z) {
         alSource3f(sourceId, AL_POSITION, x, y, z);
+    }
+
+    @Override
+    public void recycle() {
     }
 }
