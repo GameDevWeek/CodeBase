@@ -187,7 +187,6 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
                         console.historyForward(commandField.getText(), commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
                         return true;
                     case Input.Keys.ESCAPE:
-                        setVisible(false);
                         return true;
                     case Input.Keys.PAGE_UP:
                         scrollToStart();
@@ -198,6 +197,13 @@ public class DevConsoleView implements ScreenListener, EventListener, ICVarListe
                     case Input.Keys.ENTER:
                         console.submitInput(commandField.getText(), commandField.getSelectionStart(), commandField.getCursorPosition(), commandField.getConsoleEditor());
                         sheduleScrollToEnd = 10;
+                        return true;
+                }
+            }
+            if (evt.getType() == InputEvent.Type.keyUp) {
+                switch (evt.getKeyCode()) {
+                    case Input.Keys.ESCAPE:
+                        setVisible(false);
                         return true;
                 }
             }
