@@ -1,7 +1,7 @@
 {
     "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-        "default-font": {"file": "../fonts/default.fnt"},
-        "mono-font": {"file": "../fonts/ubuntu_mono_19.fnt"}
+        "default-font": {"file": "data/fonts/default.fnt"},
+        "mono-font": {"file": "data/fonts/ubuntu_mono_19.fnt"}
     },
     "com.badlogic.gdx.graphics.Color": {
         "green": {"a": 1, "b": 0, "g": 1, "r": 0},
