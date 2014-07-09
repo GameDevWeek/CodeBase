@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public abstract class ConsoleEditor {
 
-    final ArrayList<String> completionList = new ArrayList<String>();
-    final ArrayList<String> completionListLower = new ArrayList<String>();
+    final ArrayList<String> completionList = new ArrayList();
+    final ArrayList<String> completionListLower = new ArrayList();
     int inputHistoryPos;
     String inputSavedText;
     String lastMatch;

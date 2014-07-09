@@ -20,10 +20,10 @@ import java.util.HashSet;
  */
 public final class PhysixBody {
 
-    private PhysixManager manager;
+    private final PhysixManager manager;
     private PhysixEntity owner;
-    private Body body;
-    private final HashSet<ContactListener> contactListeners = new HashSet<ContactListener>();
+    private final Body body;
+    private final HashSet<ContactListener> contactListeners = new HashSet();
     private static final Vector2 dummyVector = new Vector2();
     private final Vector2 linearVelocity = new Vector2();
     private final Vector2 position = new Vector2();

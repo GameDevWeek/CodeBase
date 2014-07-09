@@ -63,7 +63,7 @@ public class Layer {
         width = element.getWidth();
         height = element.getHeight();
         Float o = element.getOpacity();
-        opacity = o == null ? 1.0f : o.floatValue();
+        opacity = o == null ? 1.0f : o;
         originalOpacity = opacity;
 
         // now read the layer properties
@@ -104,7 +104,7 @@ public class Layer {
                     if (set != null) {
                         result[x][y] = new TileInfo(set.getIndex(), tileId - set.getFirstGID(), tileId, set.getTileProperties(tileId));
                     } else {
-                        result[x][y] = new TileInfo(0, 0, tileId, set.getTileProperties(tileId));
+                        result[x][y] = new TileInfo(0, 0, tileId, null);
                     }
                 }
             }
@@ -122,7 +122,7 @@ public class Layer {
      * @throws Exception 
      */
     private ArrayList<LayerObject> loadObjects(TmxObjectGroup element, LayerObject.PolyMode polyMode) {
-        ArrayList<LayerObject> result = new ArrayList<LayerObject>();
+        ArrayList<LayerObject> result = new ArrayList();
         for (TmxObject object : element.getObjects()) {
             result.add(new LayerObject(map, object, polyMode));
         }

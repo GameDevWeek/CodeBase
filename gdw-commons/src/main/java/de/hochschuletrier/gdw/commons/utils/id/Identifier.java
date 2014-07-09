@@ -1,6 +1,5 @@
 package de.hochschuletrier.gdw.commons.utils.id;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
 
@@ -10,26 +9,26 @@ import java.util.Stack;
  */
 public class Identifier {
 
-    private Stack<Long> freeIDs;
-    private HashSet<Long> takenIDs;
-    private HashSet<Long> allIDs;
+    private final Stack<Long> freeIDs = new Stack();
+    private final HashSet<Long> takenIDs = new HashSet();
+    private final HashSet<Long> allIDs = new HashSet();
 
     private long idCount;
 
     public Identifier(long initialIDCount) {
         idCount = initialIDCount;
-        freeIDs = new Stack<Long>();
-        takenIDs = new HashSet<Long>();
-        allIDs = new HashSet<Long>();
 
         for (long i = 1; i <= idCount; i++) {
             freeIDs.push(i);
+            allIDs.add(i);
         }
     }
 
     public Long requestID() {
         if (freeIDs.isEmpty()) {
-            freeIDs.push(++idCount);
+            long id = ++idCount;
+            freeIDs.push(id);
+            allIDs.add(id);
         }
 
         Long id = freeIDs.pop();

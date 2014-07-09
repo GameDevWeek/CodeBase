@@ -7,13 +7,12 @@ import org.slf4j.LoggerFactory;
 public class BehaviourManager {
     private static final Logger logger = LoggerFactory.getLogger(BehaviourManager.class);
 
-    private LinkedList<Behaviour> behaviours;
+    private final LinkedList<Behaviour> behaviours = new LinkedList();
     private int finishedBehaviours;
     private Object globalBlackboard;
     private boolean isRunning = true;
 
     public BehaviourManager(Object globalBlackboard) {
-        behaviours = new LinkedList<Behaviour>();
         this.globalBlackboard = globalBlackboard;
     }
 

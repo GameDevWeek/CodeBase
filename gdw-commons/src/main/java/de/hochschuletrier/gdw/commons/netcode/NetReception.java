@@ -26,9 +26,9 @@ public class NetReception extends Thread {
     /** The accepting socket channel */
     private final ServerSocketChannel channel;
     /** A list of all new connections established that have not yet been taken by the application */
-    private final ConcurrentLinkedQueue<NetConnection> newConnections = new ConcurrentLinkedQueue<NetConnection>();
+    private final ConcurrentLinkedQueue<NetConnection> newConnections = new ConcurrentLinkedQueue();
     /** The full list of all running connections */
-    private final ConcurrentLinkedQueue<NetConnection> connections = new ConcurrentLinkedQueue<NetConnection>();
+    private final ConcurrentLinkedQueue<NetConnection> connections = new ConcurrentLinkedQueue();
     /** The factory used to create datagrams based on their type */
     private final INetDatagramFactory datagramFactory;
 

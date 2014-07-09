@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 public class ColorUtil {
 
     public static Color decode(String encoded) {
-        int value = Integer.decode(encoded).intValue();
+        int value = Integer.decode(encoded);
 
         int r = (value & 0x00FF0000) >> 16;
         int g = (value & 0x0000FF00) >> 8;

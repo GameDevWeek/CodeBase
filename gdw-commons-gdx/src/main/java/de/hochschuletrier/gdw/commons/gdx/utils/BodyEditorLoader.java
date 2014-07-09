@@ -30,7 +30,7 @@ public class BodyEditorLoader {
     private final Model model;
 
     // Reusable stuff
-    private final Array<Vector2> vectorPool = new Array<Vector2>();
+    private final Array<Vector2> vectorPool = new Array();
     private final PolygonShape polygonShape = new PolygonShape();
     private final CircleShape circleShape = new CircleShape();
     private final Vector2 vec = new Vector2();
@@ -222,7 +222,7 @@ public class BodyEditorLoader {
     // -------------------------------------------------------------------------
     public static class Model {
 
-        public final Map<String, RigidBodyModel> rigidBodies = new HashMap<String, RigidBodyModel>();
+        public final Map<String, RigidBodyModel> rigidBodies = new HashMap();
     }
 
     public static class RigidBodyModel {
@@ -230,13 +230,13 @@ public class BodyEditorLoader {
         public String name;
         public String imagePath;
         public final Vector2 origin = new Vector2();
-        public final Array<PolygonModel> polygons = new Array<PolygonModel>();
-        public final Array<CircleModel> circles = new Array<CircleModel>();
+        public final Array<PolygonModel> polygons = new Array();
+        public final Array<CircleModel> circles = new Array();
     }
 
     public static class PolygonModel {
 
-        public final Array<Vector2> vertices = new Array<Vector2>();
+        public final Array<Vector2> vertices = new Array();
         private Vector2[] buffer; // used to avoid allocation in attachFixture()
     }
 

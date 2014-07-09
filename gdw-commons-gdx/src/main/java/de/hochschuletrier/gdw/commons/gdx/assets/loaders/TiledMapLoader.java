@@ -45,7 +45,7 @@ public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLo
             return null;
         }
 
-        Array<AssetDescriptor> deps = new Array<AssetDescriptor>();
+        Array<AssetDescriptor> deps = new Array();
         TextureParameter params = new TextureParameter();
         params.format = parameter.format;
         params.genMipMaps = parameter.genMipMaps;
@@ -71,7 +71,7 @@ public class TiledMapLoader extends AsynchronousAssetLoader<TiledMap, TiledMapLo
     public TiledMap loadSync(AssetManager manager, String fileName, FileHandle fileHandle, TiledMapParameter parameter) {
         IResourceLocator locator = CurrentResourceLocator.get();
 
-        HashMap<TileSet, Texture> tilesetImages = new HashMap<TileSet, Texture>(map
+        HashMap<TileSet, Texture> tilesetImages = new HashMap(map
                 .getTileSets().size());
         for (TileSet tileset : map.getTileSets()) {
             TmxImage img = tileset.getImage();

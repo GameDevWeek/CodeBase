@@ -9,7 +9,7 @@ public class Sequence extends BaseNode {
 
     public Sequence(BaseNode parent) {
         super(parent);
-        this.children = new ArrayList<BaseNode>(10);
+        this.children = new ArrayList(10);
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.List;
 public class ServerTest {
 
     private NetReception reception;
-    private final List<NetConnection> connections = new ArrayList<NetConnection>();
+    private final List<NetConnection> connections = new ArrayList();
 
     private void sendPing(NetConnection connection, String text) {
         connection.send(new ChatDatagram(text));

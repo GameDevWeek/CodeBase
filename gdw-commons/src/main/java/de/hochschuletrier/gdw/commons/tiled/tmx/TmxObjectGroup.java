@@ -17,7 +17,7 @@ public class TmxObjectGroup extends TmxLayerBase {
 
     public List<TmxObject> getObjects() {
         if (objects == null) {
-            objects = new ArrayList<TmxObject>();
+            objects = new ArrayList();
         }
         return this.objects;
     }

@@ -79,7 +79,7 @@ public class LayerObject {
                 pointsNode = node.getPolyline();
             }
             String[] numbers = pointsNode.getPoints().split("[\\s,]");
-            points = new ArrayList<Point>();
+            points = new ArrayList();
 
             lowestX = 0;
             lowestY = 0;

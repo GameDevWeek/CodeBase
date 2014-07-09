@@ -27,15 +27,15 @@ public class DevConsole {
     public static CVarBool com_allowCheats = new CVarBool("com_allowCheats", false, CVarFlags.SYSTEM, "Allow Cheats");
     public static CVarBool com_developer = new CVarBool("com_developer", false, CVarFlags.SYSTEM, "Developer mode");
 
-    private final ArrayList<String> arguments = new ArrayList<String>();
+    private final ArrayList<String> arguments = new ArrayList();
 
-    private HashMap<String, ConsoleCmd> cmdList = new HashMap<String, ConsoleCmd>();
-    private HashMap<String, CVar> cvarList = new HashMap<String, CVar>();
+    private HashMap<String, ConsoleCmd> cmdList = new HashMap();
+    private HashMap<String, CVar> cvarList = new HashMap();
     private long waitTime;
     private int minWaitTime;
-    final ArrayList<String> inputHistory = new ArrayList<String>();
+    final ArrayList<String> inputHistory = new ArrayList();
 
-    private LinkedList<String> cmdQueue = new LinkedList<String>();
+    private LinkedList<String> cmdQueue = new LinkedList();
 
     public DevConsole(int minWaitTime) {
         this.minWaitTime = minWaitTime;
@@ -277,7 +277,7 @@ public class DevConsole {
 
         editor.completionList.clear();
 
-        if (buf.indexOf(" ") != -1) {
+        if (buf.contains(" ")) {
             StringUtils.tokenize(buf, arguments);
 
             assert (arguments.size() > 1);
@@ -517,7 +517,7 @@ public class DevConsole {
                 if (!cmd.isCallable(false)) {
                     continue;
                 }
-                if (match && cmd.getName().indexOf(matchstr) == -1) {
+                if (match && !cmd.getName().contains(matchstr)) {
                     continue;
                 }
                 String message = String.format("%-18.18s - %s", cmd.getName(), cmd.getDescription());
@@ -654,49 +654,50 @@ public class DevConsole {
                     match = true;
                     matchstr = args.get(2);
                 }
-                String arg1 = args.get(1);
-                if (arg1.equals("-type")) {
-                    found = 0;
-                    for (CVar cvar : cvarList.values()) {
-                        if (!cvar.isVisible(false)) {
-                            continue;
-                        }
-                        if (match && cvar.getName().indexOf(matchstr) == -1) {
-                            continue;
-                        }
-
-                        sb.append(String.format("%-32.32s ", cvar.getName()))
-                                .append(cvar.getTypeDescription()).append("\n");
-                        found++;
-                    }
-                } else if (arg1.equals("-flags")) {
-                    found = 0;
-                    for (CVar cvar : cvarList.values()) {
-                        if (!cvar.isVisible(false)) {
-                            continue;
-                        }
-                        if (match && cvar.getName().indexOf(matchstr) == -1) {
-                            continue;
-                        }
-                        sb.append(String.format("%-32.32s ", cvar.getName()))
-                                .append(Integer.toBinaryString(cvar.getFlags())).append("\n");
-                        found++;
-                    }
-                } else if (arg1.equals("-help")) {
-                    found = 0;
-                    for (CVar cvar : cvarList.values()) {
-                        if (!cvar.isVisible(false)) {
-                            continue;
-                        }
-                        if (match && cvar.getName().indexOf(matchstr) == -1) {
-                            continue;
-                        }
-                        sb.append(String.format("%-32.32s %-32.32s\n", cvar.getName(), cvar.getDescription()));
-                        found++;
-                    }
-                } else {
-                    match = true;
-                    matchstr = args.get(1);
+                switch (args.get(1)) {
+                    case "-type":
+                        found = 0;
+                        for (CVar cvar : cvarList.values()) {
+                            if (!cvar.isVisible(false)) {
+                                continue;
+                            }
+                            if (match && !cvar.getName().contains(matchstr)) {
+                                continue;
+                            }
+                            
+                            sb.append(String.format("%-32.32s ", cvar.getName()))
+                                    .append(cvar.getTypeDescription()).append("\n");
+                            found++;
+                        }   break;
+                    case "-flags":
+                        found = 0;
+                        for (CVar cvar : cvarList.values()) {
+                            if (!cvar.isVisible(false)) {
+                                continue;
+                            }
+                            if (match && !cvar.getName().contains(matchstr)) {
+                                continue;
+                            }
+                            sb.append(String.format("%-32.32s ", cvar.getName()))
+                                    .append(Integer.toBinaryString(cvar.getFlags())).append("\n");
+                            found++;
+                        }   break;
+                    case "-help":
+                        found = 0;
+                        for (CVar cvar : cvarList.values()) {
+                            if (!cvar.isVisible(false)) {
+                                continue;
+                            }
+                            if (match && !cvar.getName().contains(matchstr)) {
+                                continue;
+                            }
+                            sb.append(String.format("%-32.32s %-32.32s\n", cvar.getName(), cvar.getDescription()));
+                            found++;
+                        }   break;
+                    default:
+                        match = true;
+                        matchstr = args.get(1);
+                        break;
                 }
             }
             if (found == -1) {
@@ -705,7 +706,7 @@ public class DevConsole {
                     if (!cvar.isVisible(false)) {
                         continue;
                     }
-                    if (match && cvar.getName().indexOf(matchstr) == -1) {
+                    if (match && !cvar.getName().contains(matchstr)) {
                         continue;
                     }
                     sb.append(String.format("%-32.32s %-32.32s\n", cvar.getName(), cvar.toString()));

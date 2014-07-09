@@ -46,13 +46,13 @@ public class PhysixManager {
             throw new GdxRuntimeException("PhysixManager.reset called in locked state");
         }
 
-        Array<Body> bodies = new Array<Body>();
+        Array<Body> bodies = new Array();
         world.getBodies(bodies);
         for (Body body : bodies) {
             world.destroyBody(body);
         }
 
-        Array<Joint> joints = new Array<Joint>();
+        Array<Joint> joints = new Array();
         world.getJoints(joints);
         for (Joint joint : joints) {
             world.destroyJoint(joint);
@@ -126,7 +126,7 @@ public class PhysixManager {
     public void setGravity(float x, float y) {
         gravity.set(x, y);
         world.setGravity(gravity);
-        Array<Body> bodies = new Array<Body>();
+        Array<Body> bodies = new Array();
         world.getBodies(bodies);
         for (Body body : bodies) {
             body.setAwake(true);

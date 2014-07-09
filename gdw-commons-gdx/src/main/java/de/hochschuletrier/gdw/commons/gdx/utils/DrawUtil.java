@@ -22,7 +22,7 @@ public class DrawUtil {
     private static Mode currentMode = Mode.NORMAL;
     public static SpriteBatch batch;
     private static Texture white;
-    private static LinkedList<Matrix4> matrixStack = new LinkedList<Matrix4>();
+    private static final LinkedList<Matrix4> matrixStack = new LinkedList();
     private static OrthographicCamera camera;
 
     public static OrthographicCamera screenSpace;

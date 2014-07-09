@@ -37,7 +37,7 @@ public class TmxData {
 
     public List<Integer> getIds() {
         if (ids == null) {
-            ids = new ArrayList<Integer>();
+            ids = new ArrayList();
         }
         return this.ids;
     }

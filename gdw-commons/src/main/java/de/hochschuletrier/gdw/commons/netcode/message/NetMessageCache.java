@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class NetMessageCache {
 
     /** The actual cache */
-    private final HashMap<Integer, NetMessage> map = new HashMap<Integer, NetMessage>();
+    private final HashMap<Integer, NetMessage> map = new HashMap();
 
     /**
      * Get a cached message using the datagram type and id as key

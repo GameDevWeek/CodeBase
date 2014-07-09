@@ -35,7 +35,7 @@ public class TileSet {
     /** The tileset properties */
     private final SafeProperties properties;
     /** The properties for each tile */
-    private final HashMap<Integer, SafeProperties> tileProperties = new HashMap<Integer, SafeProperties>();
+    private final HashMap<Integer, SafeProperties> tileProperties = new HashMap();
     /** The padding of the tiles */
     private final int tileSpacing;
     /** The margin of the tiles */
@@ -72,10 +72,10 @@ public class TileSet {
         tileHeight = element.getTileheight();
 
         Integer spacing = element.getSpacing();
-        tileSpacing = spacing != null ? spacing.intValue() : 0;
+        tileSpacing = spacing != null ? spacing : 0;
 
         Integer margin = element.getMargin();
-        tileMargin = margin != null ? margin.intValue() : 0;
+        tileMargin = margin != null ? margin : 0;
 
         for (TmxTile tile : element.getTiles()) {
             tileProperties.put(firstGID + tile.getId(), tile.getProperties());

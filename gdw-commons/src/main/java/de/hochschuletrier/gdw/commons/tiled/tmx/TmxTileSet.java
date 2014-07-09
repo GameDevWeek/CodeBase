@@ -66,7 +66,7 @@ public class TmxTileSet {
 
     public List<TmxTile> getTiles() {
         if (tiles == null) {
-            tiles = new ArrayList<TmxTile>();
+            tiles = new ArrayList();
         }
         return this.tiles;
     }

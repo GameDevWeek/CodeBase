@@ -6,12 +6,10 @@ import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TiledMapLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AsynchronousAssetLoaderX;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TrueTypeFontLoader;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -23,7 +21,6 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
@@ -40,7 +37,7 @@ import java.util.Map.Entry;
  */
 public class AssetManagerX extends AssetManager {
 
-    private static final HashMap<Class, HashMap<String, String>> assetMaps = new HashMap<Class, HashMap<String, String>>();
+    private static final HashMap<Class, HashMap<String, String>> assetMaps = new HashMap();
 
     public AssetManagerX() {
         this(new InternalFileHandleResolver());
@@ -67,7 +64,7 @@ public class AssetManagerX extends AssetManager {
 
     public <T> Array<T> getByType(Class<T> type) {
         HashMap<String, String> map = assetMaps.get(type);
-        Array<T> assets = new Array<T>();
+        Array<T> assets = new Array();
         for (String s : map.values()) {
             assets.add(super.get(s, type));
         }
@@ -76,7 +73,7 @@ public class AssetManagerX extends AssetManager {
 
     public <T> Array<String> getAssetNamesByType(Class<T> type) {
         HashMap<String, String> map = assetMaps.get(type);
-        Array<String> names = new Array<String>();
+        Array<String> names = new Array();
         for (String s : map.keySet()) {
             names.add(s);
         }
@@ -170,7 +167,7 @@ public class AssetManagerX extends AssetManager {
     private <T> HashMap<String, String> getBaseMap(Class<T> clazz) {
         HashMap<String, String> baseMap = assetMaps.get(clazz);
         if (baseMap == null) {
-            baseMap = new HashMap<String, String>();
+            baseMap = new HashMap();
             assetMaps.put(clazz, baseMap);
         }
         return baseMap;

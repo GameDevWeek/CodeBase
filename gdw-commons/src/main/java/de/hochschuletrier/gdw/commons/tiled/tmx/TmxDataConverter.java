@@ -75,7 +75,7 @@ public class TmxDataConverter implements Converter {
     }
 
     private ArrayList<Integer> readIdsFromXML(HierarchicalStreamReader reader) throws NumberFormatException {
-        ArrayList<Integer> ids = new ArrayList<Integer>();
+        ArrayList<Integer> ids = new ArrayList();
         while (reader.hasMoreChildren()) {
             reader.moveDown();
             String gid = reader.getAttribute("gid");
@@ -86,7 +86,7 @@ public class TmxDataConverter implements Converter {
     }
 
     private ArrayList<Integer> readIdsFromCSV(String csv) throws NumberFormatException {
-        ArrayList<Integer> ids = new ArrayList<Integer>();
+        ArrayList<Integer> ids = new ArrayList();
         String[] values = csv.split(",");
         for (String value : values) {
             ids.add(Integer.parseInt(value.trim()));
@@ -108,7 +108,7 @@ public class TmxDataConverter implements Converter {
             throw new IOException("Unsupport compression: " + compression + ". Currently only uncompressed maps and gzip and zlib compressed maps are supported.");
         }
 
-        ArrayList<Integer> ids = new ArrayList<Integer>();
+        ArrayList<Integer> ids = new ArrayList();
         try {
             while (stream.available() > 0) {
                 int id = 0;

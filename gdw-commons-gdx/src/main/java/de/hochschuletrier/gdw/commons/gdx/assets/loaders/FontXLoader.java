@@ -27,7 +27,7 @@ public class FontXLoader extends
     @Override
     public Array<AssetDescriptor> getDependencies(String fileName, FileHandle fileHandle,
             FontXParameter parameter) {
-        Array<AssetDescriptor> deps = new Array<AssetDescriptor>();
+        Array<AssetDescriptor> deps = new Array();
         BitmapFontParameter params = new BitmapFontParameter();
         params.flip = parameter.flip;
         params.minFilter = parameter.minFilter;

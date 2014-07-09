@@ -14,7 +14,7 @@ public abstract class StateBasedGame implements ApplicationListener {
     private GameState currentState, nextState, prevState;
     private Transition entering, leaving;
     private long lastTime = System.currentTimeMillis();
-    private final ArrayList<ScreenListener> screenListeners = new ArrayList<ScreenListener>();
+    private final ArrayList<ScreenListener> screenListeners = new ArrayList();
 
     public StateBasedGame() {
         currentState = new GameState();

@@ -19,8 +19,9 @@ public class Behaviour extends BaseNode implements Root {
     private BaseNode child;
     private boolean isLooping = false;
     private boolean isRunning = true;
-    private ArrayList<Leaf> activeTasks = new ArrayList(),
-            removeTasks = new ArrayList(), addTasks = new ArrayList();
+    private final ArrayList<Leaf> activeTasks = new ArrayList();
+    private final ArrayList<Leaf> removeTasks = new ArrayList();
+    private final ArrayList<Leaf> addTasks = new ArrayList();
 
     public Behaviour() {
         super(null);
@@ -137,7 +138,7 @@ public class Behaviour extends BaseNode implements Root {
         return isLooping;
     }
 
-    public void setLooping(boolean isLooping) {
+    public final void setLooping(boolean isLooping) {
         this.isLooping = isLooping;
     }
 

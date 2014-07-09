@@ -31,7 +31,7 @@ public class AnimationExtendedLoader extends
             AssetLoaderParametersX<AnimationExtended> {
 
         @JacksonList(value = Float.class)
-        public ArrayList<Float> frameDuration = new ArrayList<Float>();
+        public ArrayList<Float> frameDuration = new ArrayList();
         public PlayMode playType = PlayMode.NORMAL;
         public Integer rows = 1;
         public Integer columns = 1;
@@ -91,7 +91,7 @@ public class AnimationExtendedLoader extends
     @Override
     public Array<AssetDescriptor> getDependencies(String fileName, FileHandle file,
             AnimationExtendedParameter parameter) {
-        Array<AssetDescriptor> deps = new Array<AssetDescriptor>();
+        Array<AssetDescriptor> deps = new Array();
         TextureLoader.TextureParameter params = new TextureParameter();
         params.format = parameter.format;
         params.genMipMaps = parameter.genMipMaps;

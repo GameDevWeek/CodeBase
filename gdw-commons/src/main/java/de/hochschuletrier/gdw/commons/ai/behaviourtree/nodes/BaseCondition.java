@@ -5,8 +5,6 @@ import de.hochschuletrier.gdw.commons.ai.behaviourtree.interfaces.Leaf;
 
 public abstract class BaseCondition extends BaseNode implements Leaf {
 
-    Behaviour behaviour;
-
     public BaseCondition(BaseNode parent, Behaviour behaviour) {
         super(parent);
         this.behaviour = behaviour;

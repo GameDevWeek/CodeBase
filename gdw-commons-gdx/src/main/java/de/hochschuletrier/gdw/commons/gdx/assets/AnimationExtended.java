@@ -21,7 +21,7 @@ public class AnimationExtended {
     float[] frameDurations;
     Frame[] frameTimes;
     public float animationDuration = 0f;
-    private PlayMode playMode;
+    private final PlayMode playMode;
     TreeMap<Frame, Integer> frames = new TreeMap();
     Frame current = new Frame(0, 0);
 
@@ -109,24 +109,32 @@ public class AnimationExtended {
 
         float startTime;
         float duration;
-        int hash;
 
         public Frame(float startTime, float duration) {
             this.startTime = startTime;
             this.duration = duration;
-            hash = Float.floatToIntBits(startTime);
         }
 
         @Override
         public boolean equals(Object obj) {
+            if (!(obj instanceof Frame)) {
+                return false;
+            }
             Frame f = (Frame) obj;
             return f.startTime >= this.startTime
                     && f.startTime < this.duration + this.startTime;
         }
 
+        @Override
+        public int hashCode() {
+            int hashCode = 5;
+            hashCode = 17 * hashCode + Float.floatToIntBits(this.startTime);
+            hashCode = 17 * hashCode + Float.floatToIntBits(this.duration);
+            return hashCode;
+        }
+
         protected void setEntry(float val) {
             startTime = val;
-            hash = Float.floatToIntBits(val);
         }
 
         @Override

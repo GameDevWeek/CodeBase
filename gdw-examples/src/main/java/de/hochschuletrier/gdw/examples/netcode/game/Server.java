@@ -14,7 +14,7 @@ import java.util.List;
 public class Server {
 
     public static NetReception reception;
-    public static List<NetConnection> connections = new ArrayList<NetConnection>();
+    public static List<NetConnection> connections = new ArrayList();
 
     public static boolean isRunning() {
         return reception != null && reception.isRunning();
@@ -38,7 +38,6 @@ public class Server {
             if (!connection.isConnected()) {
                 System.out.println("client disconnected");
                 it.remove();
-                continue;
             }
         }
 

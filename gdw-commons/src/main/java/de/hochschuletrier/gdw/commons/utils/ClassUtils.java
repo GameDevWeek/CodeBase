@@ -33,18 +33,20 @@ public class ClassUtils {
         assert classLoader != null;
         String path = packageName.replace('.', '/');
         Enumeration<URL> resources = classLoader.getResources(path);
-        HashSet<Class> classes = new HashSet<Class>();
+        HashSet<Class> classes = new HashSet();
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
 
-            if (resource.getProtocol().equals("file")) {
-                try {
-                    findClassesInDir(new File(resource.toURI()), packageName, classes);
-                } catch (URISyntaxException e) {
-                    logger.error("Failed finding classes in package", e);
-                }
-            } else if (resource.getProtocol().equals("jar")) {
-                findClassesInJar(resource, path, classes);
+            switch (resource.getProtocol()) {
+                case "file":
+                    try {
+                        findClassesInDir(new File(resource.toURI()), packageName, classes);
+                    } catch (URISyntaxException e) {
+                        logger.error("Failed finding classes in package", e);
+                    }   break;
+                case "jar":
+                    findClassesInJar(resource, path, classes);
+                    break;
             }
         }
         return classes;

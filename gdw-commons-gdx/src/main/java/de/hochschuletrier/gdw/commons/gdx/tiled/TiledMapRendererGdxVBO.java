@@ -25,7 +25,7 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
 
     final TiledMap map;
     final Color layerFilter = Color.WHITE.cpy();
-    final ArrayList<LayerImageVBO> vbos = new ArrayList<LayerImageVBO>();
+    final ArrayList<LayerImageVBO> vbos = new ArrayList();
     final Map<TileSet, Texture> images;
 
     public static class TileInfoX {
@@ -128,14 +128,14 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
         for (Layer layer : layers) {
             if (layer.isTileLayer()) {
                 TileInfo[][] tiles = layer.getTiles();
-                HashMap<TileSet, ArrayList<TileInfoX>> tileSetInfoMap = new HashMap<TileSet, ArrayList<TileInfoX>>();
+                HashMap<TileSet, ArrayList<TileInfoX>> tileSetInfoMap = new HashMap();
                 for (int y = 0; y < tiles[0].length; y++) {
                     for (int x = 0; x < tiles.length; x++) {
                         if (tiles[x][y] != null) {
                             TileSet tileSet = tileSets.get(tiles[x][y].tileSetId);
                             ArrayList<TileInfoX> list = tileSetInfoMap.get(tileSet);
                             if (list == null) {
-                                list = new ArrayList<TileInfoX>();
+                                list = new ArrayList();
                                 tileSetInfoMap.put(tileSet, list);
                             }
 

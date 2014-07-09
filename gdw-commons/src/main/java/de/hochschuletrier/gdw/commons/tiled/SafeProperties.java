@@ -22,7 +22,7 @@ public class SafeProperties {
     @XStreamAsAttribute
     String name;
     @XStreamImplicit(itemFieldName = "property", keyFieldName = "name")
-    private HashMap<String, SafeProperty> properties = new HashMap<String, SafeProperty>();
+    private HashMap<String, SafeProperty> properties = new HashMap();
     private SafeProperties defaults;
 
     private static class SafeProperty {

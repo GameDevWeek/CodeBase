@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class RandomChoice extends BaseNode {
 
-    ArrayList<BaseNode> children = new ArrayList<BaseNode>();
+    ArrayList<BaseNode> children = new ArrayList();
     int activeChild = 0;
     Random r = new java.util.Random(System.currentTimeMillis());
 
@@ -15,8 +15,8 @@ public class RandomChoice extends BaseNode {
 
     @Override
     public void activate() {
-        int count = 0;
-        if ((count = this.children.size()) > 0) {
+        int count = this.children.size();
+        if (count > 0) {
             this.activeChild = this.r.nextInt(count);
             this.children.get(this.activeChild).activate();
         } else {

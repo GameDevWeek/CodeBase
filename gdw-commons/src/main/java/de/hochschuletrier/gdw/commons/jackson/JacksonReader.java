@@ -79,7 +79,7 @@ public class JacksonReader {
             throw new AssertionError(parser.getCurrentToken().name());
         }
 
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList();
         while (parser.nextToken() != JsonToken.END_ARRAY) {
             list.add(readUnknownObject(clazz, parser));
         }
@@ -89,7 +89,7 @@ public class JacksonReader {
     private static <T> HashMap<String, T> readObjectMap(Class<T> clazz, JsonParser parser)
             throws InstantiationException, IllegalAccessException, IOException,
             NoSuchFieldException, ParseException {
-        HashMap<String, T> map = new HashMap<String, T>();
+        HashMap<String, T> map = new HashMap();
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             String headerField = parser.getCurrentName();
             parser.nextToken();

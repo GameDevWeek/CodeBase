@@ -24,11 +24,11 @@ public class JacksonExample {
         student.gender = JacksonObjectExample.Gender.MALE;
         student.master = false;
         student.progress = 0.5f;
-        student.courses = new ArrayList<JacksonObjectExample.Course>();
+        student.courses = new ArrayList();
         student.courses.add(new JacksonObjectExample.Course("Android", 1));
         student.courses.add(new JacksonObjectExample.Course("C++", 2));
         student.courses.add(new JacksonObjectExample.Course("Webtech", 3));
-        student.tags = new ArrayList<String>();
+        student.tags = new ArrayList();
         student.tags.add("yolo");
         student.tags.add("swag");
         student.tags.add("lol");

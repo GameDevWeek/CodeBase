@@ -58,9 +58,9 @@ public class NetConnection extends Thread {
     /** The byte buffer used to write new datagram headers */
     private final ByteBuffer headerOut = ByteBuffer.allocate(HEADER_SIZE);
     /** Incoming datagrams fully processed, ready to be received. */
-    private final ConcurrentLinkedQueue<INetDatagram> incomingDatagrams = new ConcurrentLinkedQueue<INetDatagram>();
+    private final ConcurrentLinkedQueue<INetDatagram> incomingDatagrams = new ConcurrentLinkedQueue();
     /** Outgoing datagrams unprocessed. */
-    private final ConcurrentLinkedQueue<INetDatagram> outgoingDatagrams = new ConcurrentLinkedQueue<INetDatagram>();
+    private final ConcurrentLinkedQueue<INetDatagram> outgoingDatagrams = new ConcurrentLinkedQueue();
     /** The message cache for incoming delta compressed datagrams */
     private final NetMessageCache messageCacheIn = new NetMessageCache();
     /** The message cache for outgoing delta compressed datagrams */
@@ -108,7 +108,7 @@ public class NetConnection extends Thread {
      * @return a list of all ip addresses of localhost
      */
     public static List<InetAddress> getLocalAddresses() {
-        List<InetAddress> addrList = new ArrayList<InetAddress>();
+        List<InetAddress> addrList = new ArrayList();
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
 

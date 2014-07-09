@@ -48,14 +48,14 @@ public class TmxMap {
 
     public List<TmxTileSet> getTilesets() {
         if (tilesets == null) {
-            tilesets = new ArrayList<TmxTileSet>();
+            tilesets = new ArrayList();
         }
         return this.tilesets;
     }
 
     public List<TmxLayerBase> getLayerOrObjectgroup() {
         if (layerOrObjectgroup == null) {
-            layerOrObjectgroup = new ArrayList<TmxLayerBase>();
+            layerOrObjectgroup = new ArrayList();
         }
         return this.layerOrObjectgroup;
     }

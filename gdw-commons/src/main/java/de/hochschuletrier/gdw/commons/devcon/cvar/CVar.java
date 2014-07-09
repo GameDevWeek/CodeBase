@@ -21,7 +21,7 @@ public abstract class CVar {
     protected int flags;
     protected boolean initialized;
 
-    private final ArrayList<ICVarListener> listeners = new ArrayList<ICVarListener>();
+    private final ArrayList<ICVarListener> listeners = new ArrayList();
     private final IConsoleCompleter completer;
 
     public CVar(String name, int flags, String description, IConsoleCompleter completer) {

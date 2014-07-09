@@ -9,8 +9,8 @@ public class Parallel extends BaseNode {
 
     public Parallel(BaseNode parent) {
         super(parent);
-        this.children = new ArrayList<BaseNode>(10);
-        this.activeChildren = new ArrayList<BaseNode>(10);
+        this.children = new ArrayList(10);
+        this.activeChildren = new ArrayList(10);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class Parallel extends BaseNode {
         switch (state) {
             case SUCCESS:
                 this.activeChildren.remove(child);
-                if (this.activeChildren.size() == 0) {
+                if (this.activeChildren.isEmpty()) {
                     this.deactivate();
                     this.parent.childTerminated(child, state);
                 }

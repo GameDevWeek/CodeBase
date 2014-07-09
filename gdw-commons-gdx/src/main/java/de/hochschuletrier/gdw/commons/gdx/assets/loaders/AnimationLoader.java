@@ -83,7 +83,7 @@ public class AnimationLoader extends
     @Override
     public Array<AssetDescriptor> getDependencies(String fileName,
             FileHandle file, AnimationParameter parameter) {
-        Array<AssetDescriptor> deps = new Array<AssetDescriptor>();
+        Array<AssetDescriptor> deps = new Array();
         TextureLoader.TextureParameter params = new TextureParameter();
         params.format = parameter.format;
         params.genMipMaps = parameter.genMipMaps;

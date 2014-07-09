@@ -17,7 +17,7 @@ public class TrueTypeFontLoader extends
         // TODO Auto-generated constructor stub
     }
 
-    static class TrueTypeFontParameter extends AssetLoaderParametersX<TrueTypeFont> {
+    public static class TrueTypeFontParameter extends AssetLoaderParametersX<TrueTypeFont> {
 
     }
 

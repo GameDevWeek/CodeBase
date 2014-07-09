@@ -9,7 +9,7 @@ public class Selector extends BaseNode {
 
     public Selector(BaseNode parent) {
         super(parent);
-        this.children = new ArrayList<BaseNode>(10);
+        this.children = new ArrayList(10);
     }
 
     @Override

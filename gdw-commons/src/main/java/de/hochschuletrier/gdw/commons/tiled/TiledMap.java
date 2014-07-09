@@ -34,9 +34,9 @@ public class TiledMap {
     /** The map properties */
     protected final SafeProperties properties;
     /** The list of TileSets */
-    protected final ArrayList<TileSet> tileSets = new ArrayList<TileSet>();
+    protected final ArrayList<TileSet> tileSets = new ArrayList();
     /** The list of Layers */
-    protected final ArrayList<Layer> layers = new ArrayList<Layer>();
+    protected final ArrayList<Layer> layers = new ArrayList();
     /** The filename of this map */
     private final String filename;
     /** The map renderer */

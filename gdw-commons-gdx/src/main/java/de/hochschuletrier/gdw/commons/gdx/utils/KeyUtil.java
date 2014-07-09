@@ -22,7 +22,7 @@ public class KeyUtil {
      * Key names
      */
     private static final String[] keyName = new String[256];
-    private static final Map<String, Integer> keyMap = new HashMap<String, Integer>(253);
+    private static final Map<String, Integer> keyMap = new HashMap(253);
 
     public static void init() {
         // Use reflection to find out key names
