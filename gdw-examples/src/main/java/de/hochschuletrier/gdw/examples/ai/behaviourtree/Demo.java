@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.commons.ai.behaviourtree.demo;
+package de.hochschuletrier.gdw.examples.ai.behaviourtree;
 
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
 
