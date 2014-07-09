@@ -1,8 +1,11 @@
 package de.hochschuletrier.gdw.commons.ai.behaviourtree.engine;
 
 import java.util.LinkedList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BehaviourManager {
+    private static final Logger logger = LoggerFactory.getLogger(BehaviourManager.class);
 
     private LinkedList<Behaviour> behaviours;
     private int finishedBehaviours;
@@ -23,7 +26,7 @@ public class BehaviourManager {
     }
 
     public void activate() {
-        System.out.println("Behaviour Manager: Starting all behaviours.");
+        logger.debug("Starting all behaviours.");
         for (Behaviour b : behaviours) {
             b.activate();
         }
@@ -37,7 +40,7 @@ public class BehaviourManager {
 
     public void treeFinished(Behaviour t) {
         if ((++finishedBehaviours) == behaviours.size()) {
-            System.out.println("Behaviour Manager: All behaviours finished regularly.");
+            logger.debug("All behaviours finished regularly.");
         }
     }
 
@@ -53,17 +56,17 @@ public class BehaviourManager {
         for (Behaviour b : behaviours) {
             b.deactivate();
         }
-        System.out.println("Behaviour Manager: Engine stopped.");
+        logger.debug("Engine stopped.");
     }
 
     public void pause() {
         isRunning = false;
-        System.out.println("Behaviour Manager: Engine paused.");
+        logger.debug("Engine paused.");
     }
 
     public void resume() {
         isRunning = true;
-        System.out.println("Behaviour Manager: Engine resumed.");
+        logger.debug("Engine resumed.");
     }
 
     public void reset() {

@@ -6,8 +6,11 @@ import de.hochschuletrier.gdw.commons.ai.behaviourtree.interfaces.Leaf;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.interfaces.Root;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.BaseNode;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.BaseNode.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Behaviour extends BaseNode implements Root {
+    private static final Logger logger = LoggerFactory.getLogger(Behaviour.class);
 
     private Object localBlackboard;
     private Object globalBlackboard;
@@ -16,8 +19,8 @@ public class Behaviour extends BaseNode implements Root {
     private BaseNode child;
     private boolean isLooping = false;
     private boolean isRunning = true;
-    private ArrayList<Leaf> activeTasks = new ArrayList<Leaf>(),
-            removeTasks = new ArrayList<Leaf>(), addTasks = new ArrayList<Leaf>();
+    private ArrayList<Leaf> activeTasks = new ArrayList(),
+            removeTasks = new ArrayList(), addTasks = new ArrayList();
 
     public Behaviour() {
         super(null);
@@ -58,8 +61,7 @@ public class Behaviour extends BaseNode implements Root {
 
     public final void setRoot(BaseNode child) {
         if (this.child != null) {
-            System.out.println("Behaviour " + name
-                    + " : Warning, changing root of BehaviourTree!");
+            logger.warn("Behaviour {} : Changing root of BehaviourTree!", name);
         }
         this.child = child;
     }
@@ -70,14 +72,14 @@ public class Behaviour extends BaseNode implements Root {
         if (isLooping()) {
             activate();
         } else {
-            System.out.println("Behaviour " + name + " finished regularly.");
+            logger.debug("Behaviour {} finished regularly.", name);
             manager.treeFinished(this);
         }
     }
 
     @Override
     public final void activate() {
-        System.out.println("Behaviour " + name + " activated.");
+        logger.debug("Behaviour {} activated.", name);
         if (child != null) {
             child.activate();
         }
@@ -85,7 +87,7 @@ public class Behaviour extends BaseNode implements Root {
 
     @Override
     public final void deactivate() {
-        System.out.println("Behaviour " + name + " deactivated.");
+        logger.debug("Behaviour {} deactivated.", name);
         if (child != null) {
             child.deactivate();
         }
@@ -93,18 +95,18 @@ public class Behaviour extends BaseNode implements Root {
 
     public void pause() {
         isRunning = false;
-        System.out.println("Behaviour " + name + " paused.");
+        logger.debug("Behaviour {} paused.", name);
     }
 
     public void resume() {
         isRunning = true;
-        System.out.println("Behaviour " + name + " resumed.");
+        logger.debug("Behaviour {} resumed.", name);
     }
 
     public void reset() {
         deactivate();
         activate();
-        System.out.println("Behaviour " + name + " reset.");
+        logger.debug("Behaviour {} reset.", name);
     }
 
     public final Object getLocalBlackboard() {

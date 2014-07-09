@@ -5,8 +5,12 @@ import java.util.TreeMap;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AnimationExtended {
+
+    private static final Logger logger = LoggerFactory.getLogger(AnimationExtended.class);
 
     public enum PlayMode {
 
@@ -18,7 +22,7 @@ public class AnimationExtended {
     Frame[] frameTimes;
     public float animationDuration = 0f;
     private PlayMode playMode;
-    TreeMap<Frame, Integer> frames = new TreeMap<AnimationExtended.Frame, Integer>();
+    TreeMap<Frame, Integer> frames = new TreeMap();
     Frame current = new Frame(0, 0);
 
     public AnimationExtended(PlayMode playMode, float[] frameDurations,
@@ -42,7 +46,7 @@ public class AnimationExtended {
     public TextureRegion getKeyFrame(float stateTime) {
         int frameNumber = getKeyFrameIndex(stateTime);
         if (keyFrames[frameNumber] == null) {
-            System.out.println("walking.getKeyFrame(stateTime) in Method render throws NullPointer");
+            logger.warn("No keyframe at stateTime, returning nullpointer");
         }
         return keyFrames[frameNumber];
     }
@@ -52,12 +56,10 @@ public class AnimationExtended {
             return 0;
         }
 
-        Integer frameNumber = new Integer(0);
         current.startTime = stateTime;
-        float lowerBound = 0f;
 
         Entry<Frame, Integer> fetchedEntry = frames.floorEntry(current);
-        frameNumber = fetchedEntry.getValue();
+        int frameNumber = fetchedEntry.getValue();
         switch (playMode) {
             case NORMAL:
                 frameNumber = Math.min(frames.keySet().size() - 1, frameNumber);
@@ -65,8 +67,7 @@ public class AnimationExtended {
             case LOOP:
                 current.startTime = stateTime % animationDuration;
                 // sucht höchst kleinsten key zu current
-                fetchedEntry = frames.floorEntry(current);
-                frameNumber = fetchedEntry.getValue();
+                frameNumber = frames.floorEntry(current).getValue();
                 // frameNumber = frames.floorEntry(current).getValue();
                 break;
             case LOOP_PINGPONG:
@@ -86,13 +87,11 @@ public class AnimationExtended {
                 break;
             case REVERSED:
                 current.startTime = animationDuration - stateTime % animationDuration;
-                fetchedEntry = frames.floorEntry(current);
-                frameNumber = fetchedEntry.getValue();
+                frameNumber = frames.floorEntry(current).getValue();
                 frameNumber = Math.max(keyFrames.length - frameNumber - 1, 0);
                 break;
             case LOOP_REVERSED:
                 current.startTime = animationDuration - (stateTime % animationDuration);
-                fetchedEntry = frames.floorEntry(current);
                 frameNumber = frames.floorEntry(current).getValue();
                 // frameNumber = keyFrames.length - frameNumber - 1;
                 break;
@@ -103,7 +102,7 @@ public class AnimationExtended {
                 break;
         }
 
-        return frameNumber.intValue();
+        return frameNumber;
     }
 
     class Frame implements Comparable<Frame> {
@@ -143,18 +142,14 @@ public class AnimationExtended {
         @Override
         public int compareTo(Frame f) { // this ist current selber
             if (f.equals(this)) {// current im bereich
-                // System.out.println("equals " + this + " ~ " + f);
                 return 0;
             }
             if (this.startTime + this.duration > f.startTime + f.duration) { // current
-                // System.out.println("greater " + this + " ~ " + f);
                 return +1;
             }
             if (this.startTime + this.duration < f.startTime + f.duration) {
-                // System.out.println("less " + this + " ~ " + f);
                 return -1;
             }
-            // System.out.println("undefined for " + this + " and " + f);
             return 1;
         }
     }

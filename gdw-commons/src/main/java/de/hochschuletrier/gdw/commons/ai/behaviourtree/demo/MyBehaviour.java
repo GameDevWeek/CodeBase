@@ -5,8 +5,11 @@ import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.BaseNode;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.BaseTask;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.RandomChoice;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.Sequence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MyBehaviour extends Behaviour {
+    private static final Logger logger = LoggerFactory.getLogger(MyBehaviour.class);
 
     public MyBehaviour() {
         setName("Log to Console");
@@ -40,7 +43,7 @@ public class MyBehaviour extends Behaviour {
 
         @Override
         public State onRun(float delta) {
-            System.out.println(string);
+            logger.info(string);
             return State.SUCCESS;
         }
 
