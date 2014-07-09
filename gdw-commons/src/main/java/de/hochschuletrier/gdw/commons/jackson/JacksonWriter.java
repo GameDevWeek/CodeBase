@@ -13,7 +13,6 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
-import de.hochschuletrier.gdw.commons.utils.SilentCloser;
 import java.io.OutputStream;
 
 /**
@@ -30,17 +29,11 @@ public class JacksonWriter {
             NoSuchFieldException, IllegalArgumentException,
             IllegalAccessException, InstantiationException, ParseException {
 
-        SilentCloser closer = new SilentCloser();
-        try {
-            OutputStream outputStream = CurrentResourceLocator.write(filename);
-            closer.set(outputStream);
-            JsonGenerator generator = factory.createGenerator(outputStream, JsonEncoding.UTF8);
-            closer.set(generator);
+        try (OutputStream outputStream = CurrentResourceLocator.write(filename);
+                JsonGenerator generator = factory.createGenerator(outputStream, JsonEncoding.UTF8);) {
 
             generator.useDefaultPrettyPrinter();
             writeList(list, generator);
-        } finally {
-            closer.close();
         }
     }
 
@@ -49,17 +42,11 @@ public class JacksonWriter {
             NoSuchFieldException, IllegalArgumentException,
             IllegalAccessException, InstantiationException, ParseException {
 
-        SilentCloser closer = new SilentCloser();
-        try {
-            OutputStream outputStream = CurrentResourceLocator.write(filename);
-            closer.set(outputStream);
-            JsonGenerator generator = factory.createGenerator(outputStream, JsonEncoding.UTF8);
-            closer.set(generator);
+        try (OutputStream outputStream = CurrentResourceLocator.write(filename);
+                JsonGenerator generator = factory.createGenerator(outputStream, JsonEncoding.UTF8);) {
 
             generator.useDefaultPrettyPrinter();
             writeObject(object, generator);
-        } finally {
-            closer.close();
         }
     }
 

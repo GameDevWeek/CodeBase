@@ -13,7 +13,6 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
-import de.hochschuletrier.gdw.commons.utils.SilentCloser;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -36,22 +35,12 @@ public class JacksonReader {
             NoSuchFieldException, IllegalArgumentException,
             IllegalAccessException, InstantiationException, ParseException {
 
-        SilentCloser closer = new SilentCloser();
-        try {
-            InputStream fileIn = CurrentResourceLocator.read(filename);
-            closer.set(fileIn);
-            InputStreamReader inReader = new InputStreamReader(fileIn);
-            closer.set(inReader);
-            BufferedReader bufferedReader = new BufferedReader(inReader);
-            closer.set(bufferedReader);
-
-            JsonParser parser = factory.createParser(bufferedReader);
-            closer.set(parser);
-
+        try (InputStream fileIn = CurrentResourceLocator.read(filename);
+                InputStreamReader inReader = new InputStreamReader(fileIn);
+                BufferedReader bufferedReader = new BufferedReader(inReader);
+                JsonParser parser = factory.createParser(bufferedReader);) {
             parser.nextToken();
             return readUnknownObject(clazz, parser);
-        } finally {
-            closer.close();
         }
     }
 
@@ -60,22 +49,12 @@ public class JacksonReader {
             NoSuchFieldException, IllegalArgumentException,
             IllegalAccessException, InstantiationException, ParseException {
 
-        SilentCloser closer = new SilentCloser();
-        try {
-            InputStream fileIn = CurrentResourceLocator.read(filename);
-            closer.set(fileIn);
-            InputStreamReader inReader = new InputStreamReader(fileIn);
-            closer.set(inReader);
-            BufferedReader bufferedReader = new BufferedReader(inReader);
-            closer.set(bufferedReader);
-
-            JsonParser parser = factory.createParser(bufferedReader);
-            closer.set(parser);
-
+        try (InputStream fileIn = CurrentResourceLocator.read(filename);
+                InputStreamReader inReader = new InputStreamReader(fileIn);
+                BufferedReader bufferedReader = new BufferedReader(inReader);
+                JsonParser parser = factory.createParser(bufferedReader);) {
             parser.nextToken();
             return readObjectMap(clazz, parser);
-        } finally {
-            closer.close();
         }
     }
 
@@ -84,22 +63,12 @@ public class JacksonReader {
             NoSuchFieldException, IllegalArgumentException,
             IllegalAccessException, InstantiationException, ParseException {
 
-        SilentCloser closer = new SilentCloser();
-        try {
-            InputStream fileIn = CurrentResourceLocator.read(filename);
-            closer.set(fileIn);
-            InputStreamReader inReader = new InputStreamReader(fileIn);
-            closer.set(inReader);
-            BufferedReader bufferedReader = new BufferedReader(inReader);
-            closer.set(bufferedReader);
-
-            JsonParser parser = factory.createParser(bufferedReader);
-            closer.set(parser);
-
+        try (InputStream fileIn = CurrentResourceLocator.read(filename);
+                InputStreamReader inReader = new InputStreamReader(fileIn);
+                BufferedReader bufferedReader = new BufferedReader(inReader);
+                JsonParser parser = factory.createParser(bufferedReader);) {
             parser.nextToken();
             return readList(clazz, parser);
-        } finally {
-            closer.close();
         }
     }
 
