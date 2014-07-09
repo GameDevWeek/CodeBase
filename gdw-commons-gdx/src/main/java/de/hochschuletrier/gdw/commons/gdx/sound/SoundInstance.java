@@ -36,7 +36,7 @@ public class SoundInstance implements Recyclable {
     }
 
     public void setReferenceDistance(float value) {
-        alSourcef(sourceId, AL_REFERENCE_DISTANCE, value);
+        alSourcef(sourceId, AL_REFERENCE_DISTANCE, value * SoundEmitter.getWorldScale());
     }
 
     public boolean isPlaying() {
@@ -84,7 +84,8 @@ public class SoundInstance implements Recyclable {
     }
 
     void setPosition(float x, float y, float z) {
-        alSource3f(sourceId, AL_POSITION, x, y, z);
+        float scale = SoundEmitter.getWorldScale();
+        alSource3f(sourceId, AL_POSITION, x * scale, y * scale, z * scale);
     }
 
     @Override

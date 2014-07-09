@@ -23,6 +23,7 @@ public class SoundEmitter implements Disposable {
         MONO;
     }
 
+    private static float WORLD_SCALE = 1 / 1000.0f;
     private static final SoundEmitter globalEmitter = new SoundEmitter();
 
     protected static final Recycler<SoundInstance> recycler = new Recycler(SoundInstance.class);
@@ -34,10 +35,24 @@ public class SoundEmitter implements Disposable {
         listenerPosition.set(x, y, z);
         SoundEmitter.mode = mode;
         if (mode == Mode.STEREO) {
-            alListener3f(AL_POSITION, x, y, z);
+            alListener3f(AL_POSITION, x * WORLD_SCALE, y * WORLD_SCALE, z * WORLD_SCALE);
         } else {
             alListener3f(AL_POSITION, 0, 0, 0);
         }
+    }
+
+    /**
+     * Make this value smaller if you feel your virtual head is too small.
+     * i.e. if a sound moving from left ear to right ear has too little cross-fading
+    
+     * @param scale the scale by which all incoming coordinates (and distances) are scaled, default is 1/1000
+     */
+    public final static void setWorldScale(float scale) {
+        WORLD_SCALE = scale;
+    }
+
+    public final static float getWorldScale() {
+        return WORLD_SCALE;
     }
 
     public final static void updateGlobal() {
