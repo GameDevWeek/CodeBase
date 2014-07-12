@@ -1,6 +1,8 @@
 package de.hochschuletrier.gdw.commons.gdx.physix;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.Manifold;
 
 /**
  * @author Santo Pfingsten
@@ -38,5 +40,17 @@ public abstract class PhysixEntity {
 
     public void setVelocityY(float y) {
         physicsBody.setLinearVelocityY(y);
+    }
+
+    protected void beginContact(PhysixContact contact) {
+    }
+
+    protected void endContact(PhysixContact contact) {
+    }
+
+    protected void preSolve(PhysixContact aThis, Manifold oldManifold) {
+    }
+
+    protected void postSolve(PhysixContact aThis, ContactImpulse impulse) {
     }
 }

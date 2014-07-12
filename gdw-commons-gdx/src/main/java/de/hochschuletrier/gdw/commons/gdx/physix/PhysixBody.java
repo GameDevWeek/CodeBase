@@ -3,16 +3,11 @@ package de.hochschuletrier.gdw.commons.gdx.physix;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.HashSet;
 
 /**
  *
@@ -23,7 +18,6 @@ public final class PhysixBody {
     private final PhysixManager manager;
     private PhysixEntity owner;
     private final Body body;
-    private final HashSet<ContactListener> contactListeners = new HashSet();
     private static final Vector2 dummyVector = new Vector2();
     private final Vector2 linearVelocity = new Vector2();
     private final Vector2 position = new Vector2();
@@ -35,8 +29,8 @@ public final class PhysixBody {
         body.setUserData(this);
     }
 
-    public void createFixture(PhysixFixtureDef fixtureDef) {
-        body.createFixture(fixtureDef);
+    public Fixture createFixture(PhysixFixtureDef fixtureDef) {
+        return body.createFixture(fixtureDef);
     }
 
     public Body getBody() {
@@ -116,18 +110,17 @@ public final class PhysixBody {
     }
 
     public void setLinearVelocity(float x, float y) {
-        body.getLinearVelocity().x = manager.toBox2D(x);
-        body.getLinearVelocity().y = manager.toBox2D(y);
+        body.setLinearVelocity(dummyVector.set(manager.toBox2D(x), manager.toBox2D(y)));
         body.setAwake(true);
     }
 
     public void setLinearVelocityX(float x) {
-        body.getLinearVelocity().x = manager.toBox2D(x);
+        body.setLinearVelocity(dummyVector.set(manager.toBox2D(x), body.getLinearVelocity().y));
         body.setAwake(true);
     }
 
     public void setLinearVelocityY(float y) {
-        body.getLinearVelocity().y = manager.toBox2D(y);
+        body.setLinearVelocity(dummyVector.set(body.getLinearVelocity().x, manager.toBox2D(y)));
         body.setAwake(true);
     }
 
@@ -164,38 +157,6 @@ public final class PhysixBody {
 
     public float getMass() {
         return body.getMass();
-    }
-
-    public boolean addContactListener(ContactListener listener) {
-        return contactListeners.add(listener);
-    }
-
-    public boolean removeContactListener(ContactListener listener) {
-        return contactListeners.remove(listener);
-    }
-
-    public void beginContact(Contact contact) {
-        for (ContactListener listener : contactListeners) {
-            listener.beginContact(contact);
-        }
-    }
-
-    public void endContact(Contact contact) {
-        for (ContactListener listener : contactListeners) {
-            listener.endContact(contact);
-        }
-    }
-
-    public void preSolve(Contact contact, Manifold oldManifold) {
-        for (ContactListener listener : contactListeners) {
-            listener.preSolve(contact, oldManifold);
-        }
-    }
-
-    public void postSolve(Contact contact, ContactImpulse impulse) {
-        for (ContactListener listener : contactListeners) {
-            listener.postSolve(contact, impulse);
-        }
     }
 
     public void setActive(boolean value) {

@@ -1,8 +1,12 @@
 package de.hochschuletrier.gdw.ss14.sandbox.physics;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import de.hochschuletrier.gdw.commons.devcon.ConsoleCmd;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarFloat;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
@@ -36,6 +40,9 @@ public class Physics extends SandboxGame {
     private Player player;
     private final SoundEmitter emitter = new SoundEmitter();
     private Sound click;
+    
+    public static final CVarFloat g_playerSpeed = new CVarFloat("g_playerSpeed", 140, 0, 10000, 0, "player movement speed");
+    public static final CVarFloat g_playerSpeedChange = new CVarFloat("g_playerSpeedChange", 1000, 0, 10000, 0, "player movement speed change per second");
 
     public Physics() {
     }
@@ -53,11 +60,15 @@ public class Physics extends SandboxGame {
         entities.add(player);
 
         Main.getInstance().console.register(gravity_f);
+        Main.getInstance().console.register(g_playerSpeed);
+        Main.getInstance().console.register(g_playerSpeedChange);
     }
     
     @Override
     public void dispose() {
         Main.getInstance().console.unregister(gravity_f);
+        Main.getInstance().console.unregister(g_playerSpeed);
+        Main.getInstance().console.unregister(g_playerSpeedChange);
         emitter.dispose();
     }
     
@@ -69,6 +80,7 @@ public class Physics extends SandboxGame {
     @Override
     public void update(float delta) {
         manager.update(STEP_SIZE, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+        player.update(delta);
     }
 
     public void addBall(int x, int y) {
