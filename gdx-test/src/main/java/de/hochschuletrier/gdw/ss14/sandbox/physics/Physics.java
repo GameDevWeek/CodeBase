@@ -38,7 +38,6 @@ public class Physics extends SandboxGame {
     PhysixManager manager = new PhysixManager(BOX2D_SCALE, 0, GRAVITY);
     private final ArrayList<PhysixEntity> entities = new ArrayList();
     private Player player;
-    private final SoundEmitter emitter = new SoundEmitter();
     private Sound click;
     
     public static final CVarFloat g_playerSpeed = new CVarFloat("g_playerSpeed", 140, 0, 10000, 0, "player movement speed");
@@ -69,7 +68,6 @@ public class Physics extends SandboxGame {
         Main.getInstance().console.unregister(gravity_f);
         Main.getInstance().console.unregister(g_playerSpeed);
         Main.getInstance().console.unregister(g_playerSpeedChange);
-        emitter.dispose();
     }
     
     @Override
@@ -84,7 +82,7 @@ public class Physics extends SandboxGame {
     }
 
     public void addBall(int x, int y) {
-        Ball b = new Ball(x, y, 30);
+        Ball b = new Ball(x, y, 30, click);
         b.initPhysics(manager);
         entities.add(b);
     }
@@ -122,7 +120,7 @@ public class Physics extends SandboxGame {
         if (button == 0) {
             addBall(screenX, screenY);
         }
-        emitter.play(click, false);
+        SoundEmitter.playGlobal(click, false, screenX, screenY, 0);
         return true;
     }
 }

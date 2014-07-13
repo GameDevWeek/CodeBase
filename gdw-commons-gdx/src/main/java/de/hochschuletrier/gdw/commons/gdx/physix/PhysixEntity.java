@@ -48,9 +48,9 @@ public abstract class PhysixEntity {
     protected void endContact(PhysixContact contact) {
     }
 
-    protected void preSolve(PhysixContact aThis, Manifold oldManifold) {
+    protected void preSolve(PhysixContact contact, Manifold oldManifold) {
     }
 
-    protected void postSolve(PhysixContact aThis, ContactImpulse impulse) {
+    protected void postSolve(PhysixContact contact, ContactImpulse impulse) {
     }
 }
