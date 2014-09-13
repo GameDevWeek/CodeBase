@@ -172,8 +172,6 @@ public class DevConsoleView implements ScreenListener, ICVarListener {
 
     public void render() {
         stage.draw();
-
-        Table.drawDebug(stage);
     }
 
     public void update(float delta) {
