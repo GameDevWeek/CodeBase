@@ -56,8 +56,6 @@ public class TileSet {
     TileSet(TiledMap map, TmxTileSet element, int index) throws Exception {
         this.index = index;
         firstGID = element.getFirstgid();
-        name = element.getName();
-        properties = element.getProperties();
 
         String source = element.getSource();
         if ((source != null) && (!source.equals(""))) {
@@ -68,6 +66,8 @@ public class TileSet {
             filename = map.getFilename();
         }
 
+        name = element.getName();
+        properties = element.getProperties();
         tileWidth = element.getTilewidth();
         tileHeight = element.getTileheight();
 
