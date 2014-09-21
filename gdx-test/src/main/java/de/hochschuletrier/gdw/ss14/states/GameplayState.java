@@ -30,6 +30,8 @@ public class GameplayState extends GameState implements InputProcessor {
 
     private final SoundEmitter emitter = new SoundEmitter();
     private final LimitedSmoothCamera camera = new LimitedSmoothCamera();
+    private final Vector2 position = new Vector2(100, 100);
+    private float totalMapWidth, totalMapHeight;
 
     public GameplayState() {
     }
@@ -44,7 +46,9 @@ public class GameplayState extends GameState implements InputProcessor {
         
         TiledMap map = game.getMap();
         camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.setBounds(0, 0, map.getWidth() * map.getTileWidth(), map.getHeight() * map.getTileHeight());
+        totalMapWidth = map.getWidth() * map.getTileWidth();
+        totalMapHeight = map.getHeight() * map.getTileHeight();
+        camera.setBounds(0, 0, totalMapWidth, totalMapHeight);
         camera.updateForced();
         Main.getInstance().addScreenListener(camera);
     }
@@ -56,9 +60,9 @@ public class GameplayState extends GameState implements InputProcessor {
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLACK);
 
         game.render();
+        DrawUtil.fillRect(position.x - 10, position.y -10, 20, 20, Color.RED);
     }
 
-    float x,y;
     @Override
     public void update(float delta) {
         emitter.update();
@@ -66,16 +70,19 @@ public class GameplayState extends GameState implements InputProcessor {
         game.update(delta);
         camera.update(delta);
         
+        float speed = 1000.0f;
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            x = 0;
+            position.x -= delta * speed;
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            x = 5000;
+            position.x += delta * speed;
         if(Gdx.input.isKeyPressed(Input.Keys.UP))
-            y = 0;
+            position.y -= delta * speed;
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            y = 5000;
+            position.y += delta * speed;
 
-        camera.setDestination(x, y);
+        position.x = Math.max(10, Math.min(totalMapWidth-10, position.x));
+        position.y = Math.max(10, Math.min(totalMapHeight-10, position.y));
+        camera.setDestination(position);
         fpsCalc.addFrame();
     }
 
