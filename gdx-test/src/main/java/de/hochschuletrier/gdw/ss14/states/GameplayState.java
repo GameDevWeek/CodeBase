@@ -44,6 +44,7 @@ public class GameplayState extends GameState implements InputProcessor {
         game.init(assetManager);
         Main.inputMultiplexer.addProcessor(this);
         
+        // Setup camera
         TiledMap map = game.getMap();
         camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         totalMapWidth = map.getWidth() * map.getTileWidth();
