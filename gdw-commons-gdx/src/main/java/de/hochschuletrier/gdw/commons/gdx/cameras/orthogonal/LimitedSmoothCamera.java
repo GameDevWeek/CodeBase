@@ -11,7 +11,7 @@ public class LimitedSmoothCamera extends SmoothCamera {
     float xMin, yMin, xMax, yMax;
 
     @Override
-    public void onViewportChanged(float width, float height) {
+    protected void onViewportChanged(float width, float height) {
         updateForced();
     }
 

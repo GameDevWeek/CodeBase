@@ -23,7 +23,7 @@ public abstract class AbstractCamera implements ScreenListener {
             this.viewportWidth = viewportWidth;
             this.viewportHeight = viewportHeight;
             onViewportChanged(viewportWidth, viewportHeight);
-            update();
+            update(true);
         }
     };
 
@@ -32,7 +32,7 @@ public abstract class AbstractCamera implements ScreenListener {
         camera.setToOrtho(true, width, height);
     }
 
-    public void onViewportChanged(float width, float height) {
+    protected void onViewportChanged(float width, float height) {
 
     }
 

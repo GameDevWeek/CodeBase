@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.commons.gdx.state;
 
 import com.badlogic.gdx.ApplicationListener;
+import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.ScreenCamera;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.Transition;
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public abstract class StateBasedGame implements ApplicationListener {
     private Transition entering, leaving;
     private long lastTime = System.currentTimeMillis();
     private final ArrayList<ScreenListener> screenListeners = new ArrayList();
+    public final ScreenCamera screenCamera = new ScreenCamera();
 
     public StateBasedGame() {
         currentState = new GameState();
@@ -60,6 +62,7 @@ public abstract class StateBasedGame implements ApplicationListener {
         for (ScreenListener listener : screenListeners) {
             listener.resize(width, height);
         }
+        screenCamera.resize(width, height);
     }
 
     @Override
@@ -70,15 +73,15 @@ public abstract class StateBasedGame implements ApplicationListener {
 
         if (leaving != null) {
             if (leaving.isReverse()) {
-                leaving.render(nextState, currentState);
+                leaving.render(screenCamera, nextState, currentState);
             } else {
-                leaving.render(currentState, nextState);
+                leaving.render(screenCamera, currentState, nextState);
             }
         } else if (entering != null) {
             if (entering.isReverse()) {
-                entering.render(prevState, currentState);
+                entering.render(screenCamera, prevState, currentState);
             } else {
-                entering.render(currentState, prevState);
+                entering.render(screenCamera, currentState, prevState);
             }
         } else {
             currentState.render();

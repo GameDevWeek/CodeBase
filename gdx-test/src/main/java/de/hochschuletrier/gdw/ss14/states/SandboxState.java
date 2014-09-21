@@ -55,7 +55,7 @@ public class SandboxState extends GameState implements InputProcessor {
 
     @Override
     public void render() {
-        Main.screenCamera.bind();
+        Main.getInstance().screenCamera.bind();
 
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLUE);
 

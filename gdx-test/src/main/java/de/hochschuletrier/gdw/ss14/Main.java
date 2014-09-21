@@ -22,7 +22,6 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.TrueTypeFont;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.SleepDummyLoader;
-import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.ScreenCamera;
 import de.hochschuletrier.gdw.commons.gdx.devcon.DevConsoleView;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundDistanceModel;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
@@ -44,7 +43,6 @@ public class Main extends StateBasedGame {
 
     private final AssetManagerX assetManager = new AssetManagerX();
     private static Main instance;
-    public static final ScreenCamera screenCamera = new ScreenCamera();
 
     public final DevConsole console = new DevConsole(16);
     private final DevConsoleView consoleView = new DevConsoleView(console);
@@ -121,8 +119,6 @@ public class Main extends StateBasedGame {
 
         this.console.register(emitterMode);
         emitterMode.addListener(this::onEmitterModeChanged);
-        
-        this.addScreenListener(screenCamera);
     }
 
     public void onLoadComplete() {

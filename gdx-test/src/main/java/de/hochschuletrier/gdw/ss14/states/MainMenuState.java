@@ -70,7 +70,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public void render() {
-        Main.screenCamera.bind();
+        Main.getInstance().screenCamera.bind();
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
         DrawUtil.batch.draw(logo, 0, 0, logo.getWidth(), logo.getHeight(), 0, 0,

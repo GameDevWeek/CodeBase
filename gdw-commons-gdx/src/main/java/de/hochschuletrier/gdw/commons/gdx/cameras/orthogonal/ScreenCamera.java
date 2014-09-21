@@ -8,7 +8,8 @@ package de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal;
  */
 public class ScreenCamera extends AbstractCamera {
 
-    public void onViewportChanged(float width, float height) {
+    protected void onViewportChanged(float width, float height) {
         camera.position.set(width / 2, height / 2, 0);
+        camera.update(true);
     }
 }
