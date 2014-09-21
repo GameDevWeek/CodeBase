@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
-import de.hochschuletrier.gdw.commons.devcon.cvar.ICVarListener;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.TrueTypeFont;
@@ -37,7 +36,7 @@ import de.hochschuletrier.gdw.ss14.states.GameStates;
  * 
  * @author Santo Pfingsten
  */
-public class Main extends StateBasedGame implements ICVarListener {
+public class Main extends StateBasedGame {
 
     public static final int WINDOW_WIDTH = 1024;
     public static final int WINDOW_HEIGHT = 512;
@@ -116,16 +115,10 @@ public class Main extends StateBasedGame implements ICVarListener {
         GameStates.LOADING.activate();
 
         Main.getInstance().console.register(distanceModel);
-        distanceModel.addListener(new ICVarListener() {
-
-            @Override
-            public void modified(CVar cvar) {
-                distanceModel.get().activate();
-            }
-        });
+        distanceModel.addListener((CVar)->distanceModel.get().activate());
 
         Main.getInstance().console.register(emitterMode);
-        emitterMode.addListener(this);
+        emitterMode.addListener(this::onEmitterModeChanged);
     }
 
     public void onLoadComplete() {
@@ -181,13 +174,10 @@ public class Main extends StateBasedGame implements ICVarListener {
         SoundEmitter.setListenerPosition(width / 2, height / 2, 10, emitterMode.get());
     }
 
-    @Override
-    public void modified(CVar cvar) {
-        if (cvar == emitterMode) {
-            int x = Gdx.graphics.getWidth() / 2;
-            int y = Gdx.graphics.getHeight() / 2;
-            SoundEmitter.setListenerPosition(x, y, 10, emitterMode.get());
-        }
+    public void onEmitterModeChanged(CVar cvar) {
+        int x = Gdx.graphics.getWidth() / 2;
+        int y = Gdx.graphics.getHeight() / 2;
+        SoundEmitter.setListenerPosition(x, y, 10, emitterMode.get());
     }
 
     @Override

@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Santo Pfingsten
  */
-public class DevConsoleView implements ScreenListener, ICVarListener {
+public class DevConsoleView implements ScreenListener {
 
     private Stage stage;
     private final LinkedList<LogLabel> logLabels = new LinkedList();
@@ -68,10 +68,10 @@ public class DevConsoleView implements ScreenListener, ICVarListener {
         this.console = console;
         console.register(clear_f);
         console.register(log_filter);
-        log_filter.addListener(this);
-        modified(log_filter); // update visible filters
+        log_filter.addListener(this::onLogFilterChanged);
+        onLogFilterChanged(log_filter); // update visible filters
         console.register(log_height);
-        log_height.addListener(this);
+        log_height.addListener(this::onLogHeightChanged);
     }
 
     private void setupInputProcessor() {
@@ -239,23 +239,22 @@ public class DevConsoleView implements ScreenListener, ICVarListener {
         }
     };
 
-    @Override
-    public final void modified(CVar cvar) {
-        if (cvar == log_filter) {
-            visibleLevels.clear();
-            String ucFilter = log_filter.get().toUpperCase();
-            for (Level level : logLevels) {
-                if (!ucFilter.contains(level.toString())) {
-                    visibleLevels.add(level);
-                }
+    public final void onLogFilterChanged(CVar cvar) {
+        visibleLevels.clear();
+        String ucFilter = log_filter.get().toUpperCase();
+        for (Level level : logLevels) {
+            if (!ucFilter.contains(level.toString())) {
+                visibleLevels.add(level);
             }
-            for (LogLabel log : logLabels) {
-                log.setVisible(visibleLevels.contains(log.getLevel()));
-            }
-            logList.invalidateHierarchy();
-        } else if (cvar == log_height) {
-            adjustHeight();
         }
+        for (LogLabel log : logLabels) {
+            log.setVisible(visibleLevels.contains(log.getLevel()));
+        }
+        logList.invalidateHierarchy();
+    }
+    
+    public final void onLogHeightChanged(CVar cvar) {
+        adjustHeight();
     }
 
     ConsoleCmd clear_f = new ConsoleCmd("clear", CCmdFlags.SYSTEM, "Clear Console.") {
