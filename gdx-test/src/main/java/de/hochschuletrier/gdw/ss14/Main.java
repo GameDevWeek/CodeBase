@@ -22,6 +22,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.TrueTypeFont;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.SleepDummyLoader;
+import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.ScreenCamera;
 import de.hochschuletrier.gdw.commons.gdx.devcon.DevConsoleView;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundDistanceModel;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
@@ -43,6 +44,7 @@ public class Main extends StateBasedGame {
 
     private final AssetManagerX assetManager = new AssetManagerX();
     private static Main instance;
+    public static final ScreenCamera screenCamera = new ScreenCamera();
 
     public final DevConsole console = new DevConsole(16);
     private final DevConsoleView consoleView = new DevConsoleView(console);
@@ -114,11 +116,13 @@ public class Main extends StateBasedGame {
         GameStates.LOADING.init(assetManager);
         GameStates.LOADING.activate();
 
-        Main.getInstance().console.register(distanceModel);
+        this.console.register(distanceModel);
         distanceModel.addListener((CVar)->distanceModel.get().activate());
 
-        Main.getInstance().console.register(emitterMode);
+        this.console.register(emitterMode);
         emitterMode.addListener(this::onEmitterModeChanged);
+        
+        this.addScreenListener(screenCamera);
     }
 
     public void onLoadComplete() {
@@ -146,7 +150,6 @@ public class Main extends StateBasedGame {
         DrawUtil.clear();
         DrawUtil.resetColor();
 
-        DrawUtil.update();
         DrawUtil.batch.begin();
     }
 
@@ -170,7 +173,6 @@ public class Main extends StateBasedGame {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        DrawUtil.setViewport(width, height);
         SoundEmitter.setListenerPosition(width / 2, height / 2, 10, emitterMode.get());
     }
 

@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,9 +22,6 @@ public class DrawUtil {
     public static SpriteBatch batch;
     private static Texture white;
     private static final LinkedList<Matrix4> matrixStack = new LinkedList();
-    private static OrthographicCamera camera;
-
-    public static OrthographicCamera screenSpace;
 
     public enum Mode {
 
@@ -38,8 +34,6 @@ public class DrawUtil {
     }
 
     public static void init() {
-        camera = new OrthographicCamera();
-        screenSpace = new OrthographicCamera();
         // create a white image for filling rects
         Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
@@ -48,33 +42,10 @@ public class DrawUtil {
         batch = new SpriteBatch();
     }
 
-    public static OrthographicCamera getCamera() {
-        return camera;
-    }
-
-    public static void update() {
-        camera.update(true);
-        batch.setProjectionMatrix(camera.combined);
-    }
-
-    public static void setCamera(OrthographicCamera camera) {
-        DrawUtil.camera = camera;
-    }
-
-    public static void setViewport(float width, float height) {
-        camera.setToOrtho(true, width, height);
-        camera.position.set(width / 2, height / 2, 0);
-        camera.update(true);
-
-        screenSpace.setToOrtho(true, width, height);
-        screenSpace.position.set(width * 0.5f, height * 0.5f, 0);
-        screenSpace.update(true);
-    }
-
     public static void setClip(int x, int y, int width, int height) {
         batch.flush();
         Gdx.gl20.glEnable(GL20.GL_SCISSOR_TEST);
-        Gdx.gl20.glScissor(x, (int) (camera.viewportHeight - y - height), width, height);
+        Gdx.gl20.glScissor(x, (int) (Gdx.graphics.getHeight() - y - height), width, height);
     }
 
     public static void clearClip() {
@@ -86,7 +57,7 @@ public class DrawUtil {
         target.bind();
         Gdx.gl20.glCopyTexImage2D(GL20.GL_TEXTURE_2D, 0, format,
                 x,
-                (int) (camera.viewportHeight - (y + target.getHeight())),
+                (int) (Gdx.graphics.getHeight() - (y + target.getHeight())),
                 target.getWidth(), target.getHeight(), 0);
     }
 
@@ -215,14 +186,5 @@ public class DrawUtil {
         m.rotate(0, 0, 1, degrees);
         m.translate(-x, -y, 0);
         batch.setTransformMatrix(m);
-    }
-
-    public static void startRenderToScreen() {
-        screenSpace.update();
-        batch.setProjectionMatrix(screenSpace.combined);
-    }
-
-    public static void endRenderToScreen() {
-        batch.setProjectionMatrix(camera.combined);
     }
 }

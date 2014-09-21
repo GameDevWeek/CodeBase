@@ -23,6 +23,7 @@ public class LoadGameState extends GameState {
 
     @Override
     public void render() {
+        Main.screenCamera.bind();
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLACK);
 
         float drawWidth = Gdx.graphics.getWidth() - 100.0f;

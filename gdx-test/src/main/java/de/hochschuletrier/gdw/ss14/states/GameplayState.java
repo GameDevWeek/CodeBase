@@ -1,14 +1,17 @@
 package de.hochschuletrier.gdw.ss14.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.Game;
@@ -26,6 +29,7 @@ public class GameplayState extends GameState implements InputProcessor {
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
 
     private final SoundEmitter emitter = new SoundEmitter();
+    private final LimitedSmoothCamera camera = new LimitedSmoothCamera();
 
     public GameplayState() {
     }
@@ -37,23 +41,41 @@ public class GameplayState extends GameState implements InputProcessor {
         game = new Game();
         game.init(assetManager);
         Main.inputMultiplexer.addProcessor(this);
+        
+        TiledMap map = game.getMap();
+        camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setBounds(0, 0, map.getWidth() * map.getTileWidth(), map.getHeight() * map.getTileHeight());
+        camera.updateForced();
+        Main.getInstance().addScreenListener(camera);
     }
 
     @Override
     public void render() {
-        DrawUtil.batch.setProjectionMatrix(DrawUtil.getCamera().combined);
+        camera.bind();
 
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLACK);
 
         game.render();
     }
 
+    float x,y;
     @Override
     public void update(float delta) {
         emitter.update();
         emitter.setPosition(cursor.x, cursor.y, 0);
         game.update(delta);
+        camera.update(delta);
+        
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+            x = 0;
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+            x = 5000;
+        if(Gdx.input.isKeyPressed(Input.Keys.UP))
+            y = 0;
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+            y = 5000;
 
+        camera.setDestination(x, y);
         fpsCalc.addFrame();
     }
 

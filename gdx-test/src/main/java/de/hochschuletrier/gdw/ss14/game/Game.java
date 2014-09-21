@@ -52,4 +52,8 @@ public class Game {
     public void update(float delta) {
         mapRenderer.update(delta);
     }
+
+    public TiledMap getMap() {
+        return map;
+    }
 }
