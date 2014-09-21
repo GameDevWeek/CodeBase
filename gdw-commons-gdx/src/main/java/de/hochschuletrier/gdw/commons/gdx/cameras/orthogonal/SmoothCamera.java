@@ -10,26 +10,30 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class SmoothCamera extends AbstractCamera {
 
+    protected final Vector3 position = new Vector3();
     protected final Vector3 destination = new Vector3();
     protected final Vector3 moveDir = new Vector3();
     protected float factor = 10f;
 
     public void update(float delta) {
-        moveDir.set(destination).sub(camera.position);
+        moveDir.set(destination).sub(position);
 
         float distance = moveDir.len();
         if (distance < 1) {
-            camera.position.set(destination);
+            setCameraPosition(destination);
+            position.set(destination);
         } else {
             moveDir.scl(delta * factor);
-            camera.position.add(moveDir);
+            position.add(moveDir);
+            setCameraPosition(position);
         }
         camera.update(true);
     }
 
     public void updateForced() {
         setDestination(destination.x, destination.y);
-        camera.position.set(destination);
+        setCameraPosition(destination);
+        position.set(destination);
         camera.update(true);
     }
 

@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 import de.hochschuletrier.gdw.commons.gdx.state.ScreenListener;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
@@ -37,6 +38,16 @@ public abstract class AbstractCamera implements ScreenListener {
     }
 
     public void update(float delta) {
+    }
+    
+    protected void setCameraPosition(float x, float y) {
+        camera.position.x = Math.round(x);
+        camera.position.y = Math.round(y);
+    }
+    
+    protected void setCameraPosition(Vector3 pos) {
+        camera.position.x = Math.round(pos.x);
+        camera.position.y = Math.round(pos.y);
     }
 
     public float getLeftOffset() {
