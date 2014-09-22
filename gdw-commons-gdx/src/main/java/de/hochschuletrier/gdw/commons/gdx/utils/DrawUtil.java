@@ -39,7 +39,7 @@ public class DrawUtil {
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         white = new Texture(pixmap);
-        batch = new SpriteBatch();
+        batch = new SpriteBatch(5460);
     }
 
     public static void setClip(int x, int y, int width, int height) {
