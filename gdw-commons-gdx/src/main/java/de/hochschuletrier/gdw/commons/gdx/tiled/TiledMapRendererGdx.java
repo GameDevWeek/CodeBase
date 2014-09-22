@@ -13,7 +13,6 @@ import de.hochschuletrier.gdw.commons.tiled.Layer;
 import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TileInfo;
 import de.hochschuletrier.gdw.commons.tiled.TileSet;
-import de.hochschuletrier.gdw.commons.tiled.TileSetAnimation;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.utils.Point;
 
@@ -48,6 +47,9 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
 
     public void update(float delta) {
         stateTime += delta;
+        for (TileSet tileset : map.getTileSets()) {
+            tileset.updateAnimation(stateTime);
+        }
     }
 
     /**
@@ -79,7 +81,7 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
     public void render(int x, int y, int sx, int sy, int width, int height, Layer layer) {
         if (layer.isObjectLayer()) {
             renderObjects(layer, x, y, sx, sy);
-        } else {
+        } else if (applyLayerOpacity(layer)) {
             for (int ty = 0; ty < height; ty++) {
                 renderTileLayerLine(layer, x, y, sx, sy, width, ty);
             }
@@ -90,13 +92,28 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
     @Override
     public void renderTileLayers(int x, int y, int sx, int sy, int width, int height) {
         for (Layer layer : map.getLayers()) {
-            if (layer.isTileLayer()) {
+            if (layer.isTileLayer() && applyLayerOpacity(layer)) {
                 for (int ty = 0; ty < height; ty++) {
                     renderTileLayerLine(layer, x, y, sx, sy, width, ty);
                 }
                 DrawUtil.resetColor();
             }
         }
+    }
+
+    private boolean applyLayerOpacity(Layer layer) {
+        if (layer.getBooleanProperty("invisible", false)) {
+            return false;
+        }
+
+        float opacity = layer.getOpacity();
+        if (opacity == 0) {
+            return false;
+        }
+
+        layerFilter.a = opacity;
+        DrawUtil.setColor(layerFilter);
+        return true;
     }
 
     /**
@@ -117,29 +134,9 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
      */
     private void renderTileLayerLine(Layer layer, int x, int y, int sx, int sy,
             int width, int ty) {
-        if (layer.getBooleanProperty("invisible", false)) {
-            return;
-        }
-
-        float opacity = layer.getOpacity();
-        if (opacity == 0) {
-            return;
-        }
-
-        layerFilter.a = opacity;
-        DrawUtil.setColor(layerFilter);
-
         TileInfo[][] tiles = layer.getTiles();
         for (TileSet tileset : map.getTileSets()) {
             int id = tileset.getIndex();
-
-            int animationOffset = 0;
-            TileSetAnimation anim = tileset.getAnimation();
-            if (anim != null) {
-                int frameNumber = (int) (stateTime / anim.frameDuration);
-                frameNumber = frameNumber % anim.numFrames;
-                animationOffset = anim.tileOffset * frameNumber;
-            }
 
             Texture image = null;
             for (int tx = 0; tx < width; tx++) {
@@ -156,7 +153,7 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
                         image = (Texture) tileset.getAttachment();
                     }
 
-                    int sheetX = tileset.getTileX(tiles[sx + tx][sy + ty].localId) + animationOffset;
+                    int sheetX = tileset.getTileX(tiles[sx + tx][sy + ty].localId);
                     int sheetY = tileset.getTileY(tiles[sx + tx][sy + ty].localId);
 
                     int tileOffsetY = tileset.getTileHeight() - mapTileHeight;

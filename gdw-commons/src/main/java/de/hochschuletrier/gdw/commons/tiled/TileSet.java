@@ -46,6 +46,8 @@ public class TileSet {
     private Object attachment;
     /** Animation data */
     private TileSetAnimation animation;
+    /** Animation offset */
+    int animationOffset = 0;
 
     /**
      * Create a tile set based on an XML definition
@@ -86,10 +88,10 @@ public class TileSet {
         tilesDown = Math.max(1, ((image.getHeight() - (tileMargin * 2) - tileHeight) / (tileHeight + tileSpacing)) + 1);
 
         lastGID = (tilesAcross * tilesDown) + firstGID - 1;
-        initAnimations();
+        initAnimation();
     }
 
-    private void initAnimations() {
+    private void initAnimation() {
         int frames = getIntProperty("animationFrames", 0);
         if (frames > 1) {
             animation = new TileSetAnimation(
@@ -100,8 +102,12 @@ public class TileSet {
         }
     }
 
-    public TileSetAnimation getAnimation() {
-        return animation;
+    public void updateAnimation(float stateTime) {
+        if (animation != null) {
+            int frameNumber = (int) (stateTime / animation.frameDuration);
+            frameNumber = frameNumber % animation.numFrames;
+            animationOffset = animation.tileOffset * frameNumber;
+        }
     }
 
     /**
@@ -244,7 +250,7 @@ public class TileSet {
      * @return The index of the tile on the x-axis
      */
     public int getTileX(int id) {
-        return id % tilesAcross;
+        return (id % tilesAcross) + animationOffset;
     }
 
     /**
