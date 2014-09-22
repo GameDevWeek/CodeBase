@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.devcon.ConsoleCmd;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
@@ -32,6 +33,7 @@ public class SandboxState extends GameState implements InputProcessor {
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
     private final HashMap<String, Class> sandboxClasses = new HashMap();
+    BitmapFont font;
 
     public SandboxState() {
     }
@@ -40,6 +42,7 @@ public class SandboxState extends GameState implements InputProcessor {
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
 
+        font = assetManager.getFont("verdana", 32);
         try {
             for (Class clazz : ClassUtils.findClassesInPackage("de.hochschuletrier.gdw.ss14.sandbox")) {
                 if (!Modifier.isAbstract(clazz.getModifiers()) && SandboxGame.class.isAssignableFrom(clazz)) {
@@ -60,6 +63,8 @@ public class SandboxState extends GameState implements InputProcessor {
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLUE);
 
         game.render();
+        Main.getInstance().screenCamera.bind();
+        font.draw(DrawUtil.batch, String.format("%.2f FPS", fpsCalc.getFps()), 0, 0);
     }
 
     @Override

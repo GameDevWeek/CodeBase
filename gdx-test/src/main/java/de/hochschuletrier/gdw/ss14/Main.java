@@ -90,9 +90,6 @@ public class Main extends StateBasedGame {
     private void setupGdx() {
         KeyUtil.init();
         Gdx.graphics.setContinuousRendering(true);
-        // Disable VSync for the loading state, to speed things up
-        // This will be enabled when loading is done
-        Gdx.graphics.setVSync(false);
 
         Gdx.input.setCatchMenuKey(true);
         Gdx.input.setCatchBackKey(true);
@@ -192,6 +189,9 @@ public class Main extends StateBasedGame {
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;
         cfg.useGL30 = false;
+        cfg.vSyncEnabled = false;
+        cfg.foregroundFPS = 60;
+        cfg.backgroundFPS = 60;
 
         new LwjglApplication(getInstance(), cfg);
     }
