@@ -141,8 +141,11 @@ public class SandboxState extends GameState implements InputProcessor {
         }
 
         @Override
-        public void complete(String arg, List<String> results) {
-            results.addAll(sandboxClasses.keySet());
+        public void complete(String prefix, List<String> results) {
+            for(String sbc:sandboxClasses.keySet()) {
+                if(sbc.startsWith(prefix))
+                    results.add(sbc);
+            }
         }
 
         @Override
