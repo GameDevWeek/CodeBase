@@ -9,10 +9,18 @@ public class Demo {
     }
 
     public Demo() {
-        BehaviourManager bManager = new BehaviourManager(null);
+        Blackboard globalBlackboard =  new Blackboard();
+        Blackboard localBlackboard = new Blackboard();
+        localBlackboard.isAggressive = false;
+        
+        BehaviourManager bManager = new BehaviourManager(globalBlackboard);
+        
         MyBehaviour myB = new MyBehaviour();
+        myB.setLocalBlackboard(localBlackboard);
+        
         bManager.addBehaviour(myB);
         bManager.activate();
+        
         while (!bManager.isFinished()) {
             bManager.update(System.currentTimeMillis());
         }

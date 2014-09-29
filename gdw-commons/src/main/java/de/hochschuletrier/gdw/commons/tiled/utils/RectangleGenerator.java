@@ -14,13 +14,17 @@ import java.util.function.Predicate;
  * @author Santo Pfingsten
  */
 public class RectangleGenerator {
+    
+    public static interface RectangleGeneratorTest {
+        boolean test(Layer layer, TileInfo info);
+    }
 
     private final Rectangle rectHorz = new Rectangle();
     private final Rectangle rectVert = new Rectangle();
     private final Rectangle rectBothX = new Rectangle();
     private final Rectangle rectBothY = new Rectangle();
 
-    public void generate(TiledMap map, Predicate<TileInfo> predicate, Consumer<Rectangle> consumer) {
+    public void generate(TiledMap map, RectangleGeneratorTest rectTest, Consumer<Rectangle> consumer) {
         int width = map.getWidth();
         int height = map.getHeight();
         boolean[][] test = new boolean[width][height];
@@ -30,7 +34,7 @@ public class RectangleGenerator {
                 for (int x = 0; x < width; x++) {
                     for (int y = 0; y < height; y++) {
                         TileInfo info = tiles[x][y];
-                        if (info != null && !test[x][y] && predicate.test(info)) {
+                        if (info != null && !test[x][y] && rectTest.test(layer, info)) {
                             test[x][y] = true;
                         }
                     }
