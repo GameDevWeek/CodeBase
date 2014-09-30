@@ -1,6 +1,6 @@
 package de.hochschuletrier.gdw.ss14.sandbox.ecs;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.physics.box2d.*;
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
@@ -20,6 +20,8 @@ public class EntityComponentSystemTest extends SandboxGame
     private EntityManager entityManager;
     private PhysixManager physixManager;
 
+    private Texture texture;
+
 
     @Override
     public void init(AssetManagerX assetManager)
@@ -33,6 +35,10 @@ public class EntityComponentSystemTest extends SandboxGame
         body.createFixture(new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(800, 20));
 
         engine.addSystem(new PhysixRenderSystem(entityManager, physixManager));
+        engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
+        engine.addSystem(new TestRenderSystem(entityManager));
+
+        texture = assetManager.getTexture("logo");
     }
 
     @Override
@@ -55,20 +61,22 @@ public class EntityComponentSystemTest extends SandboxGame
     {
         int entity = entityManager.createEntity();
         BallPhysicsComponent ballPhysicsComponent = new BallPhysicsComponent(x, y, 30.0f);
+        TestRenderComponent testRenderComponent = new TestRenderComponent();
+        testRenderComponent.texture = texture;
         ballPhysicsComponent.initPhysics(physixManager);
         entityManager.addComponent(entity, ballPhysicsComponent);
+        entityManager.addComponent(entity, testRenderComponent);
     }
 
     @Override
     public void render()
     {
-        float delta = Gdx.graphics.getDeltaTime();
-        engine.update(delta);
+        engine.render();
     }
 
     @Override
     public void update(float delta)
     {
-
+        engine.update(delta);
     }
 }

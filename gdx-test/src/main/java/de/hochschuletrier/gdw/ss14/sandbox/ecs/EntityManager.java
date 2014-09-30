@@ -80,13 +80,24 @@ public class EntityManager
 
     public <T extends Component> void addComponent(int entity, T component)
     {
-        HashMap<Integer, ? extends Component> storage = componentStorage.get(component.getClass());
+        Class classToAdd;
+
+        if (component instanceof PhysicsComponent)
+        {
+            classToAdd = component.getClass().getSuperclass();
+        }
+        else
+        {
+            classToAdd = component.getClass();
+        }
+
+        HashMap<Integer, ? extends Component> storage = componentStorage.get(classToAdd);
 
         // there's no key set yet for the given component, create a new key
         if (storage == null)
         {
             storage = new HashMap<Integer, T>();
-            componentStorage.put(component.getClass(), storage);
+            componentStorage.put(classToAdd, storage);
         }
 
         ((HashMap<Integer, T>) storage).put(entity, component);
@@ -117,6 +128,7 @@ public class EntityManager
 
     public <T extends Component> List<T> getAllComponentsOfType(Class<T> componentType)
     {
+
         HashMap<Integer, ? extends Component> store = componentStorage.get(componentType);
 
         if (store == null)
