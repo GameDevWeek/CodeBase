@@ -1,7 +1,5 @@
 package de.hochschuletrier.gdw.ss14.input;
 
-import de.hochschuletrier.gdw.ss14.sandbox.inputTest.GameInputAdapter;
-import de.hochschuletrier.gdw.ss14.sandbox.inputTest.GeneralInputAdapter;
 
 public class InputManager {
     private static InputManager instance;
@@ -16,7 +14,7 @@ public class InputManager {
     private InputManager(){
     }
     
-    private GeneralInputAdapter inputDevice = new GeneralInputAdapter();
+    private InputDevice inputDevice = new InputMouse();
     
     public void addGameInputAdapter(GameInputAdapter gia) {
         inputDevice.addGameInputAdapter(gia);
