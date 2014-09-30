@@ -21,7 +21,6 @@ import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.ECSystem;
-import de.hochschuletrier.gdw.ss14.sandbox.testDavidLiebemann.*;
 
 public class TileMapRenderingSystem extends ECSystem{
 	
