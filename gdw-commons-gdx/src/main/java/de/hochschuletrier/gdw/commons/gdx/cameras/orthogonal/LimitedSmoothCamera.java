@@ -9,6 +9,7 @@ package de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal;
 public class LimitedSmoothCamera extends SmoothCamera {
 
     float xMin, yMin, xMax, yMax;
+    boolean useBounds = false;
     
     @Override
     protected void onViewportChanged(float width, float height) {
@@ -17,8 +18,15 @@ public class LimitedSmoothCamera extends SmoothCamera {
 
     @Override
     public void setDestination(float x, float y) {
-        destination.x = clamp(x, xMin, xMax, camera.viewportWidth);
-        destination.y = clamp(y, yMin, yMax, camera.viewportHeight);
+        
+        if (useBounds) {
+            destination.x = clamp(x, xMin, xMax, camera.viewportWidth);
+            destination.y = clamp(y, yMin, yMax, camera.viewportHeight);
+        }
+        else {
+            destination.x = x;
+            destination.y = y;
+        }         
     }
 
     private float clamp(float in, float min, float max, float viewportSize) {
@@ -41,5 +49,12 @@ public class LimitedSmoothCamera extends SmoothCamera {
         this.yMin = yMin;
         this.xMax = xMax;
         this.yMax = yMax;
+        
+        useBounds = true;
+    }
+    
+    public void resetBounds() {
+        
+        useBounds = false;
     }
 }

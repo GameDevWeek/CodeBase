@@ -1,11 +1,7 @@
-package de.hochschuletrier.gdw.ss14.sandbox.graphics;
+package de.hochschuletrier.gdw.ss14.game.ecs.systems;
 
 import java.util.HashMap;
 import java.util.List;
-
-
-
-
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -19,17 +15,22 @@ import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TileSet;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.game.ecs.components.TileMapRenderingComponent;
+import de.hochschuletrier.gdw.ss14.game.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.game.ecs.systems.ECSystem;
 
 public class TileMapRenderingSystem extends ECSystem{
 	
 	private TiledMapRendererGdx renderer;
 	
-	public TileMapRenderingSystem(EntityManager entityManager){
-		super(entityManager);
-	}
-	
+    public TileMapRenderingSystem(EntityManager entityManager){
+        super(entityManager);
+    }
+    
+    public TileMapRenderingSystem(EntityManager entityManager, int priority){
+        super(entityManager, priority);
+    }
+    
 	
 	/**
 	 * Render all Layers in all Components
