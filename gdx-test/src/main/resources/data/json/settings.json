@@ -1,5 +1,5 @@
 {
-  "volume" : 10,
+  "volume" : 1.0,
   "fullscreen" : false,
-  "inputdevice" : "MOUSE"
+  "inputDevice" : "MOUSE"
 }
