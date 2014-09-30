@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.sandbox.Test;
+package de.hochschuletrier.gdw.ss14.sandbox.Test.Component;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;

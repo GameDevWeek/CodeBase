@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.sandbox.Test;
+package de.hochschuletrier.gdw.ss14.sandbox.Test.Component;
 
 
 import com.badlogic.gdx.math.Vector2;

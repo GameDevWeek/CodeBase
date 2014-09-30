@@ -1,10 +1,12 @@
-package de.hochschuletrier.gdw.ss14.sandbox.Test;
+package de.hochschuletrier.gdw.ss14.sandbox.Test.System;
 
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
+import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.MovementComponent;
+import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.PositionComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.ECSystem;
 
