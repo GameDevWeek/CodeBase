@@ -1,75 +1,90 @@
 package de.hochschuletrier.gdw.ss14.input;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
-public class InputMouse extends InputDevice implements InputProcessor {
-
-	/**
-	 * Mouse moved
-	 * 
-	 * @param screenX X-Position in screen space
-	 * @param screenY Y-Position in screen space
-	 */
-	private void fireLaserMoved(int screenX, int screenY) {
-		for(GameInputAdapter inp: listener) {
-			inp.mouseMoved(screenX, screenY);
-		}
-	}
-	
-	@Override
-	public boolean keyDown(int keycode) {
-		switch (keycode) {
-			case Input.Keys.ESCAPE: this.fireMenuButtonPressed(); break;// Menu keyboard
-		}
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+public class InputMouse extends InputDevice {
+    private HashMap<String, InputAction> inputMapping;
+    
+    public InputMouse() {
+        readMapping();
+    }
+    
+    private void readMapping() {
+        inputMapping = new HashMap<>();
+        inputMapping.put("LEFT", InputAction.TOGGLE_LASER);
+        inputMapping.put("RIGHT", InputAction.SHOOT);
+    }
+    
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		switch (button) {
-			case Input.Buttons.LEFT: this.fireLaserButtonPressed(); break;
-			case Input.Buttons.RIGHT: this.fireWaterPistolButtonDown(); break;
+		if (super.touchDown(screenX, screenY, pointer, button)) return true;
+		
+	    // hier könnte es bei einem Touch-Eingabegerät Probleme geben, 
+	    // da bei diesem immer die linke Maustaste als gedrückt gilt
+	    InputAction action = null;
+	    switch (button) {
+			case Input.Buttons.LEFT:
+			    action = inputMapping.get("LEFT");
+			    break;
+			case Input.Buttons.RIGHT: 
+			    action = inputMapping.get("RIGHT");
+			    break;
 		}
+	    
+	    switch (action) {
+            case SHOOT:
+                fireWaterPistolButtonDown();
+                break;
+            case TOGGLE_LASER:
+                fireLaserButtonPressed();
+                break;
+        default:
+            // nothing
+            break;
+	    }
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		switch (button) {
-			case Input.Buttons.RIGHT: this.fireWaterPistolButtonUp(); break;
+		if (super.touchUp(screenX, screenY, pointer, button)) return true;
+		
+	    switch (button) {
+			case Input.Buttons.RIGHT:
+			    if (inputMapping.get("RIGHT") == InputAction.SHOOT) {
+			        this.fireWaterPistolButtonUp();
+			    }
+			case Input.Buttons.LEFT:
+			    if (inputMapping.get("LEFT") == InputAction.SHOOT) {
+                    this.fireWaterPistolButtonUp();
+                } 
+			    break;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		this.fireLaserMoved(screenX, screenY);
+		if (super.touchDragged(screenX, screenY, pointer)) return true;
+		
+	    this.fireMove(screenX, screenY);
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		this.fireLaserMoved(screenX, screenY);
+		if (super.mouseMoved(screenX, screenY)) return true;
+		
+	    this.fireMove(screenX, screenY);
 		return false;
 	}
 
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+    @Override
+    public void update() {
+        // nothing to do
+    }
 }
