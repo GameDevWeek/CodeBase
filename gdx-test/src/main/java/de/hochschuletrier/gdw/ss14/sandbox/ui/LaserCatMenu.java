@@ -19,95 +19,86 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 
 public class LaserCatMenu extends SandboxGame
 {
-	private Stage stage;
-	private Table table;
-	private Skin skin;
-	private Texture menuBackground;
-	private TextButton button_start, button_options, button_exit;
-	// For debug drawing
-	private ShapeRenderer shapeRenderer;
+    private Stage stage;
+    private Table table;
+    private Skin skin;
+    private Drawable menuBackground;
+    private TextButton button_start, button_options, button_exit;
+    // For debug drawing
+    private ShapeRenderer shapeRenderer;
+    
+    @Override
+    public void init(AssetManagerX assetManager) {
+        
+        
+        // Adjusts the table and adds it to the stage
+        stage = new Stage();
+        //Gdx.input.setInputProcessor(stage);
+        Main.inputMultiplexer.addProcessor(stage);
+        table = new Table();
+        table.setFillParent(true);
+        table.center();
+        stage.addActor(table);
+        shapeRenderer = new ShapeRenderer();
+        // Sets the Background
+         //table.setBackground(assetManager.getTexture("menuBackground"));
+        // Skinny Stuff
+        skin = new Skin(Gdx.files.internal("data/skins/basic.json"));        
+        button_start = new TextButton("Game Start", skin);
+        button_options = new TextButton("Options", skin);
+        button_exit = new TextButton("Exit", skin);
+        
+        menuBackground = skin.getDrawable("dialogDim");
 
-	@Override
-	public void init(AssetManagerX assetManager)
-	{
-		// Adjusts the table and adds it to the stage
-		stage = new Stage();
-		table = new Table();
-		table.setFillParent(true);
-		table.center();
-		stage.addActor(table);
-		shapeRenderer = new ShapeRenderer();
-		
-		
-		//Sets Input to all Instances
-		//Gdx.input.setInputProcessor(stage);
-		Main.inputMultiplexer.addProcessor(stage);
-		
-	
-		// Sets the Background
-		// menuBackground = assetManager.getTexture("menuBackground");
-		// table.setBackground(assetManager.getTexture("menuBackground"));
+        table.setBackground(menuBackground);
+        
+        table.add(button_start).expandX();
+        table.row();
+        table.add(button_options);
+        table.row();
+        table.add(button_exit);
+        
+        table.debug(Debug.all);
+        
+    }
 
-		// Skinning the buttons
-		skin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
-		button_start = new TextButton("Game Start", skin);
-		button_options = new TextButton("Options", skin);
-		button_exit = new TextButton("Exit", skin);
-		// button_exit.addListener(new MouseListener());
+    @Override
+    public void dispose() {
+        stage.dispose();
+        shapeRenderer.dispose();
+    }
 
-		table.add(button_start).spaceRight(20);
-		table.add(button_options).spaceRight(20);
-		table.add(button_exit);
+    @Override
+    public void render() {
+       // Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
+        stage.draw();
 
-		table.debug(Debug.all);
-	}
+        //table.drawDebug(shapeRenderer);
+        //DrawUtil.batch.draw(menuBackground, 0, 0, menuBackground.getWidth(), menuBackground.getHeight(), 0, 0,
+          //      menuBackground.getWidth(), menuBackground.getHeight(), false, true);
+        
+    }
 
-	@Override
-	public void dispose()
-	{
-		stage.dispose();
-		shapeRenderer.dispose();
-	}
+    @Override
+    public void update(float delta) {
+        // TODO Auto-generated method stub
+        //stage.act(Gdx.graphics.getDeltaTime());
 
-	@Override
-	public void render()
-	{
-		stage.draw();
+    }   
+    
+    
 
-		//table.drawDebug(shapeRenderer);
-		
-		// Taken from Santos MainMenuState-Class
-		
-//		Main.getInstance().screenCamera.bind();
-//		DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
-//        DrawUtil.batch.draw(menuBackground, 0, 0, menuBackground.getWidth(), menuBackground.getHeight(), 0, 0,
-//                menuBackground.getWidth(), menuBackground.getHeight(), false, true);
-		
-	
-		// DrawUtil.batch.draw(menuBackground, 0, 0, menuBackground.getWidth(),
-		// menuBackground.getHeight(), 0, 0,
-		// menuBackground.getWidth(), menuBackground.getHeight(), false, true);
-
-	}
-
-	@Override
-	public void update(float delta)
-	{
-		// TODO Auto-generated method stub
-		stage.act(Gdx.graphics.getDeltaTime());
-
-	}
-
-	// public void resize (int width, int height) {
-	// stage.getViewport().update(width, height, true);
-	// }
+//    public void resize (int width, int height) {
+//        stage.getViewport().update(width, height, true);
+//    }
+    
 
 }

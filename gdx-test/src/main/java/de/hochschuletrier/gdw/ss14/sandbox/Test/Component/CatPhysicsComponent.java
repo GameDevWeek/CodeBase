@@ -2,9 +2,7 @@ package de.hochschuletrier.gdw.ss14.sandbox.Test.Component;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Fixture;
 
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
@@ -21,8 +19,7 @@ public class CatPhysicsComponent extends PhysicsComponent{
 	public float 			mRotation;
 	public float			mRestitution;
 	
-	private Fixture 	[]	mFixtures;
-	
+
 	/**
 	 * 
 	 * @param position 		central position of the object
@@ -39,8 +36,6 @@ public class CatPhysicsComponent extends PhysicsComponent{
 		mRotation = rotation;
 		mFriction = friciton;
 		mRestitution = restitutioin;
-		
-		mFixtures = new Fixture[3];
 	}
 	
 	public CatPhysicsComponent(){
@@ -49,7 +44,6 @@ public class CatPhysicsComponent extends PhysicsComponent{
 	
 	@Override
     public void initPhysics(PhysixManager manager){
-		
 		PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
 				.friction(mFriction).restitution(mRestitution);
 		
@@ -57,10 +51,10 @@ public class CatPhysicsComponent extends PhysicsComponent{
 				.fixedRotation(true).angle(mRotation)
 				.create();
 		
-		mFixtures[0] = physicsBody.createFixture(fixturedef.shapeBox(mWidth, mHeight));
-		mFixtures[1] = physicsBody.createFixture(fixturedef.shapeCircle(mWidth, new Vector2(mPosition.x + mHeight-mWidth, mPosition.y) ));
-		mFixtures[2] = physicsBody.createFixture(fixturedef.shapeCircle(mWidth, new Vector2(mPosition.x - mHeight-mWidth, mPosition.y) ));
-		
+
+	
+		physicsBody.createFixture(fixturedef.shapeBox(mWidth, mHeight));
+		setPhysicsBody(physicsBody);
 	}
 
 	
