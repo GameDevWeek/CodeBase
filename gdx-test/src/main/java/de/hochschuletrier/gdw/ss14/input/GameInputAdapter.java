@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.sandbox.inputTest;
+package de.hochschuletrier.gdw.ss14.input;
 
 public interface GameInputAdapter {
 	
@@ -28,7 +28,7 @@ public interface GameInputAdapter {
 	/**
 	 * move right command from user
 	 */
-	public void moveRigth();
+	public void moveRight();
 	
 	/**
 	 * Laser on / off
