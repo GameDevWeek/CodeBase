@@ -14,22 +14,26 @@ import de.hochschuletrier.gdw.ss14.sandbox.Test.Entity.EntityFactory;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.System.MovementSystem;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.Engine;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.PhysixRenderSystem;
 
 public class Spielwelt extends SandboxGame{
 	
 	private static final Logger logger = LoggerFactory.getLogger(Spielwelt.class);
 	private Engine engine;
 	private EntityManager manager;
+	private PhysixManager phyManager;
 
 	@Override
 	public void init(AssetManagerX assetManager) {
 		// TODO Auto-generated method stub
-		EntityFactory ef = new EntityFactory(manager, new PhysixManager(0, 0, 0));
 		engine = new Engine();
 		manager = new EntityManager();
+		phyManager = new PhysixManager(3,0,0);
+		EntityFactory ef = new EntityFactory(manager, phyManager, assetManager);
 		int entity = manager.createEntity();
-		EntityFactory.constructCat(new Vector2(0,0), 10, 5, 3, 1.2f);
+		EntityFactory.constructCat(new Vector2(200,200), 10, 5, 3, 1.2f);
 		engine.addSystem(new MovementSystem(manager));
+		engine.addSystem(new PhysixRenderSystem(manager,phyManager));
 	}
 
 	@Override
@@ -41,13 +45,13 @@ public class Spielwelt extends SandboxGame{
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
-		engine.update(0.2f);
+		engine.render();
 	}
 
 	@Override
 	public void update(float delta) {
 		// TODO Auto-generated method stub
-		
+		engine.update(delta);
 	}
 	
 	public TiledMap loadMap(String file){

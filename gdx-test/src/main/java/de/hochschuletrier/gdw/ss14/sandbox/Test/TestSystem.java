@@ -24,6 +24,12 @@ public class TestSystem extends ECSystem{
 			System.out.println(t.s);
 		}
 	}
+
+	@Override
+	public void render() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 
