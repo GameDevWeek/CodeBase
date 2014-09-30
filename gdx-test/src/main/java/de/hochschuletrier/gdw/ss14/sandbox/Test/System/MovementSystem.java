@@ -33,4 +33,10 @@ public class MovementSystem extends ECSystem{
 			posCompo.position.y += moveCompo.directionVec.y * moveCompo.velocity * delta;
 		}
 	}
+
+	@Override
+	public void render() {
+		// TODO Auto-generated method stub
+		
+	}
 }

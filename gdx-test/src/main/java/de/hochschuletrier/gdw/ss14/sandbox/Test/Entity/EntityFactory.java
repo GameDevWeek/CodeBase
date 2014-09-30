@@ -12,7 +12,6 @@ import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.PositionComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
 
 public class EntityFactory {
-
     public static void constructCat(Vector2 pos, float maxVelocity,
             float middleVelocity, float minVelocity, float acceleration) {
         final int entity = manager.createEntity();
@@ -75,5 +74,4 @@ public class EntityFactory {
     // manager.addComponent(entity, dogPosition);
     // manager.addComponent(entity, dogMove);
     // }
-
 }
