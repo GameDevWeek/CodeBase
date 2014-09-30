@@ -9,7 +9,7 @@ package de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal;
 public class LimitedSmoothCamera extends SmoothCamera {
 
     float xMin, yMin, xMax, yMax;
-
+    
     @Override
     protected void onViewportChanged(float width, float height) {
         updateForced();
