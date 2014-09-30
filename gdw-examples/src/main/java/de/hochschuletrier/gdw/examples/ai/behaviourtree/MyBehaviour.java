@@ -9,55 +9,63 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MyBehaviour extends Behaviour {
-    private static final Logger logger = LoggerFactory.getLogger(MyBehaviour.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(MyBehaviour.class);
 
-    public MyBehaviour() {
-        setName("Log to Console");
-        BaseNode root = new Sequence(this);
-        Writer w = new Writer(root, "D");
-        new Writer(root, "E");
-        new Writer(root, "M");
-        new Writer(root, "O");
-        RandomChoice random = new RandomChoice(root);
-        new Writer(random, "!");
-        new Writer(random, "?");
-        setLooping(false);
+	public MyBehaviour() {
+		setName("Log to Console");
+		BaseNode root = new Sequence(this);
+		Writer w = new Writer(root, "D");
+		new Writer(root, "E");
+		new Writer(root, "M");
+		new Writer(root, "O");
+		RandomChoice random = new RandomChoice(root);
+		new Writer(random, "!");
+		new Writer(random, "?");
+		setLooping(false);
 
-    }
+	}
 
-    class Blackboard {
+	class Writer extends BaseTask {
 
-        Object player;
-        Object[] enemies;
-        boolean isAggressive;
-    }
+		String string;
 
-    class Writer extends BaseTask {
+		public Writer(BaseNode parent, String string) {
+			super(parent);
+			this.string = string;
+		}
 
-        String string;
+		@Override
+		public State onRun(float delta) {
+			Blackboard b = ((Blackboard) getLocalBlackboard());
+			if (b.isAggressive && (string.equals("!") || string.equals("?"))) {
+				logger.info(string);
+				logger.info(string);
+				logger.info(string);
+			}else{
+				logger.info(string);
+			}
+			return State.SUCCESS;
+		}
 
-        public Writer(BaseNode parent, String string) {
-            super(parent);
-            this.string = string;
-        }
+		@Override
+		public void onActivate() {
+			// TODO Auto-generated method stub
 
-        @Override
-        public State onRun(float delta) {
-            logger.info(string);
-            return State.SUCCESS;
-        }
+		}
 
-        @Override
-        public void onActivate() {
-            // TODO Auto-generated method stub
+		@Override
+		public void onDeactivate() {
+			// TODO Auto-generated method stub
 
-        }
+		}
 
-        @Override
-        public void onDeactivate() {
-            // TODO Auto-generated method stub
+	}
+}
 
-        }
+class Blackboard {
 
-    }
+	Object player;
+	Object[] enemies;
+	boolean isAggressive = true;
 }
