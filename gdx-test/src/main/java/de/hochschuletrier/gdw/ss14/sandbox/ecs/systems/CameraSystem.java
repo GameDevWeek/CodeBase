@@ -33,7 +33,7 @@ public class CameraSystem extends ECSystem {
       for (Integer entity : entityArray) {
           
           CameraComponent camComp = entityManager.getComponent(entity, CameraComponent.class);
-          Vector2 followTransformPosition = entityManager.getComponent(entity, PhysicsComponent.class).physicsBody.getPosition();         
+          Vector2 followTransformPosition = entityManager.getComponent(entity, PhysicsComponent.class).getPosition();         
           Vector2 camera2DPos = new Vector2(smoothCamera.getPosition().x, smoothCamera.getPosition().y);
           
           float centerDistance = followTransformPosition.sub(camera2DPos).len();
@@ -45,7 +45,8 @@ public class CameraSystem extends ECSystem {
           Vector2 newDest = camera2DPos.cpy();     
           newDest.add(followTransformPosition.sub(newDest).scl(followFactor));
           
-          smoothCamera.setBounds(camComp.minBound.x, camComp.minBound.y, camComp.maxBound.x, camComp.maxBound.y);
+          if ((camComp.minBound != null) && (camComp.maxBound != null))
+              smoothCamera.setBounds(camComp.minBound.x, camComp.minBound.y, camComp.maxBound.x, camComp.maxBound.y);
           
           smoothCamera.setDestination(newDest.x, newDest.y);     
           smoothCamera.setZoom(camComp.cameraZoom);
