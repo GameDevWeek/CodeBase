@@ -1,7 +1,9 @@
 package de.hochschuletrier.gdw.ss14.sandbox.Test.Component;
 
-public class CatStateComponent {
+import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.Component;
+
+public class CatStateComponent implements Component {
     public enum States {
-        DISTRACTED, WALKING, STANDING, RUNNING,
+        DISTRACTED, WALKING, STANDING, RUNNING, JUMPING
     };
 }
