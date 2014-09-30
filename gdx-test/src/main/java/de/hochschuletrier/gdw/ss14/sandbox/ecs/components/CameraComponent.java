@@ -14,6 +14,7 @@ public class CameraComponent implements Component
     
     public float cameraZoom = 2.0f;
     
-    public Vector2 minBound;
-    public Vector2 maxBound;
+    // The bounds of the level in pixels
+    public Vector2 minBound = null;
+    public Vector2 maxBound = null;
 }
