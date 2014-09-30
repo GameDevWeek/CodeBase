@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.sandbox.Test.Entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
@@ -7,6 +8,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.DogPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.HolePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.InputComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.MovementComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.PositionComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
@@ -27,12 +29,12 @@ public class EntityFactory {
 		int entity = manager.createEntity();
 	    CatPhysicsComponent catPhysix = new CatPhysicsComponent();
 	    MovementComponent catMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration,new Vector2(1,1));
+	    InputComponent catInput = new InputComponent();
 	    catPhysix.initPhysics(phyManager);
-	    catPhysix.physicsBody.setX(pos.x);
-	    catPhysix.physicsBody.setY(pos.y);
-	    catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
+	    //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
 	    manager.addComponent(entity, catPhysix);
 	    manager.addComponent(entity, catMove);
+	    manager.addComponent(entity, catInput);
 	}
 	
 	public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){

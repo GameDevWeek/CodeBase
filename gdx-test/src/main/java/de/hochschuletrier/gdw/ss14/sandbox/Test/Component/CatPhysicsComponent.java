@@ -56,8 +56,6 @@ public class CatPhysicsComponent extends PhysicsComponent{
 	
 		physicsBody.createFixture(fixturedef.shapeBox(mWidth, mHeight));
 		setPhysicsBody(physicsBody);
-//		mFixtures[1] = physicsBody.createFixture(fixturedef.shapeCircle(mWidth, new Vector2(mPosition.x + mHeight-mWidth, mPosition.y) ));
-//		mFixtures[2] = physicsBody.createFixture(fixturedef.shapeCircle(mWidth, new Vector2(mPosition.x - mHeight-mWidth, mPosition.y) ));
 		
 	}
 
