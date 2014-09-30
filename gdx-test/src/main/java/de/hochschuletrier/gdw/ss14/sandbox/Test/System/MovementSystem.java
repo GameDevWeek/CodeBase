@@ -40,28 +40,29 @@ public class MovementSystem extends ECSystem{
 					moveCompo.velocity = moveCompo.MAX_VELOCITY;
 				}
 				
-			}else if(distance >= 300){
+				System.out.println(">= 500 VELO: " + moveCompo.velocity);
+				
+				
+			}else if(distance >= 100){
 				if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY){
 					moveCompo.velocity -= moveCompo.ACCELERATION * delta;
 					if(moveCompo.velocity <= moveCompo.MIDDLE_VELOCITY){
 						moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
 					}
-				}else if(distance < moveCompo.MIDDLE_VELOCITY){
+				}else if(moveCompo.velocity < moveCompo.MIDDLE_VELOCITY){
 					moveCompo.velocity +=  moveCompo.ACCELERATION * delta;
 					if(moveCompo.velocity >= moveCompo.MIDDLE_VELOCITY){
 						moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
 					}
 				}
 				
-				
+				System.out.println(">= 100 VELO: " + moveCompo.velocity);
 			}else{
-				if(distance <= 100){
 					moveCompo.velocity -=  moveCompo.ACCELERATION * delta;
 					if(moveCompo.velocity <= moveCompo.MIN_VELOCITY){
-						moveCompo.velocity = moveCompo.MIN_VELOCITY;
+						moveCompo.velocity = 0;
 					}
-				
-				}
+					System.out.println("< 100 VELO: " + moveCompo.velocity);
 			}
 			
 			//Normalizing DirectionVector for Movement
