@@ -23,6 +23,8 @@ public class Spielwelt extends SandboxGame{
 		manager = new EntityManager();
 		int entity = manager.createEntity();
 		manager.addComponent(entity, new TestComponent("Ich bin ein Testcomponent"));
+		manager.addComponent(entity, new TestComponent("Ich bin ein Testcomponent"));
+		manager.addComponent(entity, new TestComponent("Ich bin ein Testcomponent"));
 		engine.addSystem(new TestSystem(manager));
 	}
 

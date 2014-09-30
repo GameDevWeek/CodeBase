@@ -27,6 +27,8 @@ public class MovementSystem extends ECSystem{
 			MovementComponent moveCompo = entityManager.getComponent(integer, MovementComponent.class);
 			PositionComponent posCompo = entityManager.getComponent(integer, PositionComponent.class);
 			
+			//Normalizing DirectionVector for Movement
+			moveCompo.directionVec = moveCompo.directionVec.nor();
 			posCompo.position.x += moveCompo.directionVec.x * moveCompo.velocity * delta;
 			posCompo.position.y += moveCompo.directionVec.y * moveCompo.velocity * delta;
 		}
