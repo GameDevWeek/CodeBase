@@ -67,7 +67,7 @@ public class TiledBoxes extends SandboxGame {
         int tileHeight = map.getTileHeight();
         RectangleGenerator generator = new RectangleGenerator();
         generator.generate(map,
-                (TileInfo info)->info.getBooleanProperty("blocked", false),
+                (Layer layer, TileInfo info)->info.getBooleanProperty("blocked", false),
                 (Rectangle rect)->addShape(rect, tileWidth, tileHeight));
         
         // create a simple player ball
