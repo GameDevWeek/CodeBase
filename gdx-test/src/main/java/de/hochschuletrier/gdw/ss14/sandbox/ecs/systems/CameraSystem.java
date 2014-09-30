@@ -1,10 +1,10 @@
-package de.hochschuletrier.gdw.ss14.sandbox.graphics.camera;
+package de.hochschuletrier.gdw.ss14.sandbox.ecs.systems;
 
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
 
 public class CameraSystem extends ECSystem {
     
@@ -18,7 +18,7 @@ public class CameraSystem extends ECSystem {
   
   private static final float CameraStartZoom = 2.0f;
     
-  private TransformComponent followTransform;
+  private PhysicsComponent followTransform = null;
   private LimitedSmoothCamera smoothCamera;
   
   /**
@@ -29,32 +29,30 @@ public class CameraSystem extends ECSystem {
    * @param catEntity   the entity which belongs to the cat
    * @param priority    must be set so that the camera system will be updated right before the rendering system
    */
-  public CameraSystem( EntityManager em, int catEntity, int priority ) {
+  public CameraSystem( EntityManager em, int priority ) {
       
       super(em, priority);      
-      setCatEntity(catEntity);
-      
-      smoothCamera.setDestination(followTransform.position);
-      smoothCamera.setZoom(CameraStartZoom);
-      smoothCamera.updateForced();
   }
     
   @Override
   public void update( float delta ) {
       
-      Vector2 camera2DPos = new Vector2(smoothCamera.getPosition().x, smoothCamera.getPosition().y);
-      
-      float centerDistance = followTransform.position.sub(camera2DPos).len();
-      float followFactor = centerDistance / MaxScreenCenterDistance;
-      
-      followFactor = (float) Math.pow(followFactor, FollowspeedCurvePower);
-      
-      // Move camera towards the follow transform position by followFactor
-      Vector2 newDest = camera2DPos.cpy();     
-      newDest.add(followTransform.position.sub(newDest).scl(followFactor));
-      
-      smoothCamera.setDestination(newDest.x, newDest.y);
-      
+      if (followTransform != null) {
+          
+          Vector2 camera2DPos = new Vector2(smoothCamera.getPosition().x, smoothCamera.getPosition().y);
+          
+          float centerDistance = followTransform.physicsBody.getPosition().sub(camera2DPos).len();
+          float followFactor = centerDistance / MaxScreenCenterDistance;
+          
+          followFactor = (float) Math.pow(followFactor, FollowspeedCurvePower);
+          
+          // Move camera towards the follow transform position by followFactor
+          Vector2 newDest = camera2DPos.cpy();     
+          newDest.add(followTransform.physicsBody.getPosition().sub(newDest).scl(followFactor));
+          
+          smoothCamera.setDestination(newDest.x, newDest.y); 
+      }
+
       smoothCamera.update(delta);
       smoothCamera.bind();
   }
@@ -66,7 +64,12 @@ public class CameraSystem extends ECSystem {
   
   public void setCatEntity( int catEntity ) {
       
-      followTransform = entityManager.getComponent(catEntity, TransformComponent.class);
+      followTransform = entityManager.getComponent(catEntity, PhysicsComponent.class);
+      
+      smoothCamera.setDestination(followTransform.physicsBody.getPosition());
+      smoothCamera.setZoom(CameraStartZoom);
+      smoothCamera.updateForced();
+
   }  
   
   public void setBounds( Vector2 minBounds, Vector2 maxBounds ) {
