@@ -1,24 +1,15 @@
 package de.hochschuletrier.gdw.ss14.sandbox.ecs.systems;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
 
 public class CameraSystem extends ECSystem {
-    
-  // Maximum distance of the cats center to the screen center in pixels
-  private static final float MaxScreenCenterDistance = 200f;
-  
-  // Use this constant to model the exponential curve of the follow speed.
-  // A higher number means that the camera will move slower at first.
-  // If the max distance to the screen center is reached the camera will always move as fast as the cat does.
-  private static final float FollowspeedCurvePower = 2.0f;
-  
-  private static final float CameraStartZoom = 2.0f;
-    
-  private PhysicsComponent followTransform = null;
+        
   private LimitedSmoothCamera smoothCamera;
   
   /**
@@ -37,24 +28,31 @@ public class CameraSystem extends ECSystem {
   @Override
   public void update( float delta ) {
       
-      if (followTransform != null) {
+      Array<Integer> entityArray = entityManager.getAllEntitiesWithComponents(CameraComponent.class, PhysicsComponent.class);
+
+      for (Integer entity : entityArray) {
           
+          CameraComponent camComp = entityManager.getComponent(entity, CameraComponent.class);
+          Vector2 followTransformPosition = entityManager.getComponent(entity, PhysicsComponent.class).getPosition();         
           Vector2 camera2DPos = new Vector2(smoothCamera.getPosition().x, smoothCamera.getPosition().y);
           
-          float centerDistance = followTransform.physicsBody.getPosition().sub(camera2DPos).len();
-          float followFactor = centerDistance / MaxScreenCenterDistance;
+          float centerDistance = followTransformPosition.sub(camera2DPos).len();
+          float followFactor = centerDistance / camComp.maxScreenCenterDistance;
           
-          followFactor = (float) Math.pow(followFactor, FollowspeedCurvePower);
+          followFactor = (float) Math.pow(followFactor, camComp.followspeedCurvePower);
           
           // Move camera towards the follow transform position by followFactor
           Vector2 newDest = camera2DPos.cpy();     
-          newDest.add(followTransform.physicsBody.getPosition().sub(newDest).scl(followFactor));
+          newDest.add(followTransformPosition.sub(newDest).scl(followFactor));
           
-          smoothCamera.setDestination(newDest.x, newDest.y); 
+          if ((camComp.minBound != null) && (camComp.maxBound != null))
+              smoothCamera.setBounds(camComp.minBound.x, camComp.minBound.y, camComp.maxBound.x, camComp.maxBound.y);
+          
+          smoothCamera.setDestination(newDest.x, newDest.y);     
+          smoothCamera.setZoom(camComp.cameraZoom);
+          smoothCamera.update(delta);
+          smoothCamera.bind();
       }
-
-      smoothCamera.update(delta);
-      smoothCamera.bind();
   }
   
   @Override
@@ -62,18 +60,8 @@ public class CameraSystem extends ECSystem {
       
   }
   
-  public void setCatEntity( int catEntity ) {
-      
-      followTransform = entityManager.getComponent(catEntity, PhysicsComponent.class);
-      
-      smoothCamera.setDestination(followTransform.physicsBody.getPosition());
-      smoothCamera.setZoom(CameraStartZoom);
-      smoothCamera.updateForced();
-
-  }  
-  
-  public void setBounds( Vector2 minBounds, Vector2 maxBounds ) {
+  /*public void setBounds( Vector2 minBounds, Vector2 maxBounds ) {
       
       smoothCamera.setBounds(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
-  }
+  }*/
 }

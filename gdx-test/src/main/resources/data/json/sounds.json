@@ -1,4 +1,86 @@
 {
-    "click": "data/sounds/click.ogg",
-    "helicopter": "data/sounds/helicopter.wav"
+	"NurDieVersionsNrZumAbgleichMitDerSoundliste": "data/sounds/V0.1.wav",
+	
+    "ouchWall": "data/sounds/ouchWall.wav",
+	"ouchWall2": "data/sounds/ouchWall2.wav",
+	"ouchWall3": "data/sounds/ouchWall3.wav",
+	
+	"seeWool": "data/sounds/seeWool.wav",
+	"seeWool2": "data/sounds/seeWool2.wav",
+	
+	"woolPlay": "data/sounds/woolPlay.wav",
+	"woolPlay2": "data/sounds/woolPlay2.wav",
+	
+	"catFall": "data/sounds/catFall.wav",
+	"catFall2": "data/sounds/catFall2.wav",
+	
+	"waterNo": "data/sounds/waterNo.wav",
+	"waterNo2": "data/sounds/waterNo2.wav",
+	
+	"dogBiteCat": "data/sounds/dogBiteCat.wav",
+	"dogBiteCat2": "data/sounds/dogBiteCat2.wav",
+	"dogBiteCat3": "data/sounds/dogBiteCat3.wav",
+	
+	"catVictory": "data/sounds/catVictory.wav",
+	"catVictory2": "data/sounds/catVictory2.wav",
+	
+	"catJump": "data/sounds/catJump.wav",
+	
+	
+	"catBoxIn": "data/sounds/catBoxIn.wav",
+	"catBoxIn2": "data/sounds/catBoxIn2.wav",
+	
+	"catBoxOut": "data/sounds/catBoxOut.wav",
+	"catBoxOut2": "data/sounds/catBoxOut2.wav",
+	
+	
+	
+	"dogBark": "data/sounds/dogBark.wav",
+	"dogBark2": "data/sounds/dogBark2.wav",
+	"dogBark3": "data/sounds/dogBark3.wav",
+	"dogBark4": "data/sounds/dogBark4.wav",
+	
+	
+	"dogWater": "data/sounds/dogWater.wav",
+	
+	"dogSniff": "data/sounds/dogSniff.wav",
+	"dogSniff2": "data/sounds/dogSniff2.wav",
+	"dogSniff3": "data/sounds/dogSniff3.wav",
+	"dogSniff4": "data/sounds/dogSniff4.wav",
+	"dogSniff5": "data/sounds/dogSniff5.wav",
+	"dogSniff6": "data/sounds/dogSniff6.wav",
+	
+	"dogSnarl": "data/sounds/dogSnarl.wav",
+	"dogSnarl2": "data/sounds/dogSnarl2.wav",
+	"dogSnarl3": "data/sounds/dogSnarl3.wav",
+	"dogSnarl4": "data/sounds/dogSnarl4.wav",
+	
+	
+	
+	"debris": "data/sounds/debris.wav",
+	"debris2": "data/sounds/debris2.wav",
+	"debris3": "data/sounds/debris3.wav",
+	"debris4": "data/sounds/debris4.wav",
+	
+	"porcelain": "data/sounds/porcelain.wav",
+	"porcelain2": "data/sounds/porcelain2.wav",
+	"porcelain3": "data/sounds/porcelain3.wav",
+	
+	"stairsUp": "data/sounds/stairsUp.wav",
+	"stairsDown": "data/sounds/stairsDown.wav",
+	
+	"walkLaminate": "data/sounds/walkLaminate.wav",
+	"walkFloor": "data/sounds/walkFloor.wav",
+	"walkCarpet": "data/sounds/walkCarpet.wav",
+	
+	"catDoor": "data/sounds/catDoor.wav",
+	"catDoor2": "data/sounds/catDoor2.wav",
+	
+	"laserOn": "data/sounds/laserOn.wav",
+	"laserOff": "data/sounds/laserOff.wav",
+	
+	
+	"menuAccept": "data/sounds/menuAccept.wav",
+	"menuCancel": "data/sounds/menuCancel.wav",
+    "menuChoose": "data/sounds/menuChoose.wav"
 }
