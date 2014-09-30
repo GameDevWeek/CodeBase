@@ -12,6 +12,6 @@ public class PhysicsComponent extends PhysixEntity implements Component
     @Override
     public void initPhysics(PhysixManager manager)
     {
-
+    	
     }
 }

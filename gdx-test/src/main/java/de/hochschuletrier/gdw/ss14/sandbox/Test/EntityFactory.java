@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.BallPhysicsComponent;
 
 public class EntityFactory {
 	
@@ -14,20 +13,23 @@ public class EntityFactory {
 	public EntityFactory(){
 		
 	}
-	public static int constructCat(Vector2 pos){
+	public static void constructCat(Vector2 pos){
 		int entity = manager.createEntity();
-	    CatPhysicsComponent catPhysix = new CatPhysicsComponent((int)pos.x,(int)pos.y);
+	    CatPhysicsComponent catPhysix = new CatPhysicsComponent();
+	    PositionComponent catPosition = new PositionComponent(new Vector2((int)pos.x,(int)pos.y));
+	    MovementComponent catMove = new MovementComponent(10,3,0,1.2f,new Vector2(0,0));
 	    catPhysix.initPhysics(phyManager);
 	    manager.addComponent(entity, catPhysix);
-	    return 0;
+	    manager.addComponent(entity, catMove);
 	}
 	
-	public static int constructDog(Vector2 pos){
+	public static void constructDog(Vector2 pos){
 		int entity = manager.createEntity();
-	    CatPhysicsComponent catPhysix = new CatPhysicsComponent((int)pos.x,(int)pos.y);
-	    catPhysix.initPhysics(phyManager);
-	    manager.addComponent(entity, catPhysix);
-	    return 0;
+		DogPhysicsComponent dogPhysix = new DogPhysicsComponent();
+		dogPhysix.initPhysics(phyManager);
+	    manager.addComponent(entity, dogPhysix);
+	    PositionComponent catPosition = new PositionComponent(new Vector2((int)pos.x,(int)pos.y));
+	    MovementComponent catMove = new MovementComponent(9,4,0,1.2f,new Vector2(0,0));
 	}
 	
 
