@@ -15,10 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
@@ -29,45 +33,67 @@ public class LaserCatMenu extends SandboxGame
 {
 	private Stage stage;
 	private Table table;
-	private Skin skin;
+	private Table widgetFrame;
+	private Skin catSkin, basicSkin;
 	private Texture menuBackground;
 	private TextButton button_start, button_options, button_exit;
+	private Label label_start, label_options, label_exit;
+	
+	// Variables
+	private int numberOfButtons;
+	private int horizontalSpaces;
+	
 	// For debug drawing
 	private ShapeRenderer shapeRenderer;
 
 	@Override
 	public void init(AssetManagerX assetManager)
 	{
+		//Variables
+		numberOfButtons = 3;
+		
 		// Adjusts the table and adds it to the stage
 		stage = new Stage();
+		
+		// Space for main-menu, including background
 		table = new Table();
-		table.setFillParent(true);
-		table.center();
 		stage.addActor(table);
-		shapeRenderer = new ShapeRenderer();
-		
-		
-		//Sets Input to all Instances
-		//Gdx.input.setInputProcessor(stage);
+		table.setFillParent(true);
+	
+		// Sets Input so it can reach different layers, depending on focus
 		Main.inputMultiplexer.addProcessor(stage);
 		
-	
-		// Sets the Background
-		// menuBackground = assetManager.getTexture("menuBackground");
-		// table.setBackground(assetManager.getTexture("menuBackground"));
+		// container for center labels and buttons, no background of its own
+		widgetFrame = new Table();
+		table.add(widgetFrame).align(Align.center).size(Value.percentWidth(0.75f, table), Value.percentHeight(0.25f,table));
+		
+		// Skinning and Adding the Labels
+		catSkin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
+		basicSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
+		
+		//catSkin.getDrawable("title");
+		
+		label_start = new Label("Start", basicSkin);
+		label_options = new Label("Options", basicSkin);
+		label_exit = new Label("Exit", basicSkin);
+		widgetFrame.add(label_start).expandX();
+		widgetFrame.add(label_options).expandX();
+		widgetFrame.add(label_exit).expandX();
+		widgetFrame.row();
 
-		// Skinning the buttons
-		skin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
-		button_start = new TextButton("Game Start", skin);
-		button_options = new TextButton("Options", skin);
-		button_exit = new TextButton("Exit", skin);
-		// button_exit.addListener(new MouseListener());
+		// Skinning and adding the buttons
+		button_start = new TextButton("Game Start", basicSkin);
+		button_options = new TextButton("Options", basicSkin);
+		button_exit = new TextButton("Exit", basicSkin);
+		widgetFrame.add(button_start).expandY();
+		widgetFrame.add(button_options).expandY();
+		widgetFrame.add(button_exit).expandY();
 
-		table.add(button_start).spaceRight(20);
-		table.add(button_options).spaceRight(20);
-		table.add(button_exit);
 
+		// Debug Lines
+		shapeRenderer = new ShapeRenderer();
 		table.debug(Debug.all);
+		widgetFrame.debug(Debug.all);
 	}
 
 	@Override
@@ -106,8 +132,5 @@ public class LaserCatMenu extends SandboxGame
 
 	}
 
-	// public void resize (int width, int height) {
-	// stage.getViewport().update(width, height, true);
-	// }
 
 }
