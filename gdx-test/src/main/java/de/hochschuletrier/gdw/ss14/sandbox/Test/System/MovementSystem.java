@@ -44,16 +44,19 @@ public class MovementSystem extends ECSystem{
 				
 				
 			}else if(distance >= 100){
-				if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY){
+				moveCompo.velocity +=  moveCompo.ACCELERATION * delta;
+				if(moveCompo.velocity <= moveCompo.MIDDLE_VELOCITY){
 					moveCompo.velocity -= moveCompo.ACCELERATION * delta;
-					if(moveCompo.velocity <= moveCompo.MIDDLE_VELOCITY){
-						moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
-					}
-				}else if(moveCompo.velocity < moveCompo.MIDDLE_VELOCITY){
-					moveCompo.velocity +=  moveCompo.ACCELERATION * delta;
 					if(moveCompo.velocity >= moveCompo.MIDDLE_VELOCITY){
 						moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
 					}
+					System.out.println(">= 100 VELO: " + moveCompo.velocity + " > " + moveCompo.MIDDLE_VELOCITY);
+				}else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY){
+					//moveCompo.velocity +=  moveCompo.ACCELERATION * delta;
+					if(moveCompo.velocity <= moveCompo.MIDDLE_VELOCITY){
+						moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
+					}
+					System.out.println(">= 100 VELO: " + moveCompo.velocity + " < " + moveCompo.MIDDLE_VELOCITY);
 				}
 				
 				System.out.println(">= 100 VELO: " + moveCompo.velocity);
