@@ -4,6 +4,23 @@ import java.util.LinkedList;
 
 public abstract class InputDevice {
 
+    public static enum DeviceType {
+        MOUSE("mouse"),
+        KEYBOARD("keyboard"),
+        GAMEPAD("gamepad");
+        
+        private String deviceName;
+
+        private DeviceType(String deviceName) {
+            this.deviceName = deviceName;
+        }
+        
+        @Override
+        public String toString() {
+            return deviceName; 
+        }
+    };
+    
 	protected LinkedList<GameInputAdapter> listener = new LinkedList<>(); 
 	
     /**
