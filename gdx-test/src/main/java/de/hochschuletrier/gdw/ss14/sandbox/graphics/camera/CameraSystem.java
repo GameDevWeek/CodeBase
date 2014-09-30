@@ -59,6 +59,11 @@ public class CameraSystem extends ECSystem {
       smoothCamera.bind();
   }
   
+  @Override
+  public void render() {
+      
+  }
+  
   public void setCatEntity( int catEntity ) {
       
       followTransform = entityManager.getComponent(catEntity, TransformComponent.class);
