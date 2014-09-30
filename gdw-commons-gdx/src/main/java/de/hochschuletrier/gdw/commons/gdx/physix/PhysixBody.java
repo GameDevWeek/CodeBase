@@ -37,7 +37,8 @@ public final class PhysixBody {
         return body;
     }
 
-    protected Array<Fixture> getFixtureList() {
+    /**Don't change the List !*/
+    public Array<Fixture> getFixtureList() {
         return body.getFixtureList();
     }
 
