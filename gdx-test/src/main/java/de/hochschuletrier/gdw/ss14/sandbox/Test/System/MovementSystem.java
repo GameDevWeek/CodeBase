@@ -29,7 +29,6 @@ public class MovementSystem extends ECSystem{
 			phyCompo.physicsBody.setX(x);
 			float y = phyCompo.physicsBody.getY() + moveCompo.directionVec.y * moveCompo.velocity * delta;
 			phyCompo.physicsBody.setX(y);
-			System.out.println(phyCompo.physicsBody.getLinearVelocity());
 		}
 		
 	}

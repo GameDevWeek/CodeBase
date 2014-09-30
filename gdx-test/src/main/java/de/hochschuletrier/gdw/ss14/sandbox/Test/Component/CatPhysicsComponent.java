@@ -22,7 +22,6 @@ public class CatPhysicsComponent extends PhysicsComponent{
 	public float			mRestitution;
 	
 	private Fixture 	[]	mFixtures;
-	private PhysixBody		mBody;
 	
 	/**
 	 * 
@@ -54,13 +53,13 @@ public class CatPhysicsComponent extends PhysicsComponent{
 		PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
 				.friction(mFriction).restitution(mRestitution);
 		
-		mBody = new PhysixBodyDef(BodyType.DynamicBody, manager).position(mPosition)
+		physicsBody = new PhysixBodyDef(BodyType.DynamicBody, manager).position(mPosition)
 				.fixedRotation(true).angle(mRotation)
 				.create();
 		
-		mFixtures[0] = mBody.createFixture(fixturedef.shapeBox(mWidth, mHeight-mWidth));
-		mFixtures[1] = mBody.createFixture(fixturedef.shapeCircle(mWidth, new Vector2(mPosition.x + mHeight-mWidth, mPosition.y) ));
-		mFixtures[2] = mBody.createFixture(fixturedef.shapeCircle(mWidth, new Vector2(mPosition.x - mHeight-mWidth, mPosition.y) ));
+		mFixtures[0] = physicsBody.createFixture(fixturedef.shapeBox(mWidth, mHeight));
+		mFixtures[1] = physicsBody.createFixture(fixturedef.shapeCircle(mWidth, new Vector2(mPosition.x + mHeight-mWidth, mPosition.y) ));
+		mFixtures[2] = physicsBody.createFixture(fixturedef.shapeCircle(mWidth, new Vector2(mPosition.x - mHeight-mWidth, mPosition.y) ));
 		
 	}
 
