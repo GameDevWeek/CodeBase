@@ -45,6 +45,8 @@ public class CameraSystem extends ECSystem {
           Vector2 newDest = camera2DPos.cpy();     
           newDest.add(followTransformPosition.sub(newDest).scl(followFactor));
           
+          smoothCamera.setBounds(camComp.minBound.x, camComp.minBound.y, camComp.maxBound.x, camComp.maxBound.y);
+          
           smoothCamera.setDestination(newDest.x, newDest.y);     
           smoothCamera.setZoom(camComp.cameraZoom);
           smoothCamera.update(delta);
@@ -57,8 +59,8 @@ public class CameraSystem extends ECSystem {
       
   }
   
-  public void setBounds( Vector2 minBounds, Vector2 maxBounds ) {
+  /*public void setBounds( Vector2 minBounds, Vector2 maxBounds ) {
       
       smoothCamera.setBounds(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);
-  }
+  }*/
 }
