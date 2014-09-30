@@ -22,7 +22,8 @@ public class PhysixRenderSystem extends ECSystem
 
     @Override
     public void update(float delta)
-    {
+    {  
+        
         physixManager.update(STEP_SIZE, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
         physixManager.render();
     }
