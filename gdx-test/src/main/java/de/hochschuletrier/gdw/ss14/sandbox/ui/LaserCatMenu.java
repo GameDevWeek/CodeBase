@@ -10,8 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 
 public class LaserCatMenu extends SandboxGame
@@ -19,7 +21,7 @@ public class LaserCatMenu extends SandboxGame
     private Stage stage;
     private Table table;
     private Skin skin;
-    private Texture menuBackground;
+    private Drawable menuBackground;
     private TextButton button_start, button_options, button_exit;
     // For debug drawing
     private ShapeRenderer shapeRenderer;
@@ -30,23 +32,24 @@ public class LaserCatMenu extends SandboxGame
         
         // Adjusts the table and adds it to the stage
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
+        Main.inputMultiplexer.addProcessor(stage);
         table = new Table();
         table.setFillParent(true);
         table.center();
         stage.addActor(table);
         shapeRenderer = new ShapeRenderer();
-
         // Sets the Background
-        menuBackground = assetManager.getTexture("menuBackground");
-        // table.setBackground(assetManager.getTexture("menuBackground"));
-        
+         //table.setBackground(assetManager.getTexture("menuBackground"));
         // Skinny Stuff
         skin = new Skin(Gdx.files.internal("data/skins/basic.json"));        
         button_start = new TextButton("Game Start", skin);
         button_options = new TextButton("Options", skin);
         button_exit = new TextButton("Exit", skin);
         
+        menuBackground = skin.getDrawable("dialogDim");
+
+        table.setBackground(menuBackground);
         
         table.add(button_start).expandX();
         table.row();
@@ -55,6 +58,7 @@ public class LaserCatMenu extends SandboxGame
         table.add(button_exit);
         
         table.debug(Debug.all);
+        
     }
 
     @Override
@@ -65,10 +69,10 @@ public class LaserCatMenu extends SandboxGame
 
     @Override
     public void render() {
-        Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
+       // Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
         stage.draw();
 
-        table.drawDebug(shapeRenderer);
+        //table.drawDebug(shapeRenderer);
         //DrawUtil.batch.draw(menuBackground, 0, 0, menuBackground.getWidth(), menuBackground.getHeight(), 0, 0,
           //      menuBackground.getWidth(), menuBackground.getHeight(), false, true);
         
@@ -77,7 +81,7 @@ public class LaserCatMenu extends SandboxGame
     @Override
     public void update(float delta) {
         // TODO Auto-generated method stub
-        stage.act(Gdx.graphics.getDeltaTime());
+        //stage.act(Gdx.graphics.getDeltaTime());
 
     }   
     
