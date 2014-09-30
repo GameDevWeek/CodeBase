@@ -15,9 +15,11 @@ public class EntityFactory {
 	public static EntityManager manager;
 	public static PhysixManager phyManager;
 	
-	public EntityFactory(){
-		
+	public EntityFactory(EntityManager manager, PhysixManager phyManager){
+		this.manager = manager;
+		this.phyManager = phyManager;
 	}
+	
 	public static void constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
 		int entity = manager.createEntity();
 	    CatPhysicsComponent catPhysix = new CatPhysicsComponent();
