@@ -2,11 +2,9 @@ package de.hochschuletrier.gdw.ss14.input;
 
 import java.util.LinkedList;
 
-import de.hochschuletrier.gdw.ss14.sandbox.inputTest.GameInputAdapter;
-
 public abstract class InputDevice {
 
-	private LinkedList<GameInputAdapter> listener = new LinkedList<>(); 
+	protected LinkedList<GameInputAdapter> listener = new LinkedList<>(); 
 	
     /**
      * 
@@ -27,7 +25,7 @@ public abstract class InputDevice {
     /**
 	 *  Laser on / off
 	 */
-	private void fireLaserButtonPressed() {	
+	protected void fireLaserButtonPressed() {	
 		for(GameInputAdapter inp: listener) {
 			inp.laserButtonPressed();
 		}
@@ -36,7 +34,7 @@ public abstract class InputDevice {
 	/**
 	 * water pistol on
 	 */
-	private void fireWaterPistolButtonDown() {
+	protected void fireWaterPistolButtonDown() {
 		for(GameInputAdapter inp: listener) {
 			inp.waterPistolButtonDown();
 		}
@@ -45,7 +43,7 @@ public abstract class InputDevice {
 	/**
 	 * water pistol off
 	 */
-	private void fireWaterPistolButtonUp() {
+	protected void fireWaterPistolButtonUp() {
 		for(GameInputAdapter inp: listener) {
 			inp.waterPistolButtonUp();
 		}
@@ -54,7 +52,7 @@ public abstract class InputDevice {
 	/**
 	 * go to the menu or back
 	 */
-	private void fireMenuButtonPressed() {
+	protected void fireMenuButtonPressed() {
 		for(GameInputAdapter inp: listener) {
 			inp.menueButtonPressed();
 		}
