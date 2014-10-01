@@ -7,8 +7,11 @@
         "black": {"a": 1, "b": 0, "g": 0, "r": 0},
         "catGrey": {"a": 0.85, "b": 0.2, "g": 0.2, "r": 0.2}
     },
+    "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+        "main_bell_down": {"name": "main-menu-bell", "color":  {"a": 0.5, "b": 0, "g": 0.85, "r": 0.5}},
+    },
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
-        "bell": {"down": "main-menu-bell-down", "up": "main-menu-bell" },
+        "bell": {"over": "main-menu-bell-down", "checked": "main_bell_down", "up": "main-menu-bell" },
 		"sound_push": {"down": "sound-push-button-down", "up": "sound-push-button"},
         "sound_reduce": {"down": "sound-reduce-button-down", "up": "sound-reduce-button"}
     },
