@@ -14,7 +14,6 @@ import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatStateComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogStateComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.HolePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
@@ -101,13 +100,6 @@ public class EntityFactory {
 
     public static void constructFood() {
         int entity = manager.createEntity();
-    }
-
-    public static void constructHole(Vector2 pos) {
-        int entity = manager.createEntity();
-        HolePhysicsComponent holePhysix = new HolePhysicsComponent();
-        holePhysix.initPhysics(phyManager);
-        manager.addComponent(entity, holePhysix);
     }
 
     public static void constructLamp() {
