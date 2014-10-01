@@ -45,7 +45,7 @@ public class MainMenuState extends GameState implements InputProcessor {
         logo = assetManager.getTexture("logo");
         walking = assetManager.getAnimation("walking");
         music = assetManager.getMusic("menu");
-        click = assetManager.getSound("click");
+        click = assetManager.getSound("seeWool");
 
         music.setLooping(true);
 //        music.play();

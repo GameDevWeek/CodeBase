@@ -1,0 +1,33 @@
+
+MainMenuSkin.png
+format: RGBA8888
+filter: MipMapLinearNearest,Nearest
+repeat: none
+main-menu-background
+  rotate: false
+  xy: 1, 707
+  size: 1280, 1024
+  orig: 1280, 1024
+  offset: 0, 0
+  index: -1
+main-menu-cat
+  rotate: false
+  xy: 1, 148
+  size: 534, 557
+  orig: 534, 557
+  offset: 0, 0
+  index: -1
+start-menu-button
+  rotate: false
+  xy: 1283, 1445
+  size: 310, 286
+  orig: 310, 286
+  offset: 0, 0
+  index: -1
+main-menu-bell
+  rotate: false
+  xy: 1, 1
+  size: 117, 145
+  orig: 117, 145
+  offset: 0, 0
+  index: -1

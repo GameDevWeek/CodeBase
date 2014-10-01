@@ -144,13 +144,18 @@ public class JacksonReader {
             parser.nextToken();
 
             Field field = getDeclaredField(clazz, headerField);
-            JacksonList listAnnotation = (JacksonList) field
-                    .getAnnotation(JacksonList.class);
             field.setAccessible(true);
+            
+            JacksonList listAnnotation = (JacksonList) field.getAnnotation(JacksonList.class);
             if (listAnnotation != null) {
                 field.set(object, readList(listAnnotation.value(), parser));
             } else {
-                field.set(object, readUnknownObject(field.getType(), parser));
+                JacksonMap mapAnnotation = (JacksonMap) field.getAnnotation(JacksonMap.class);
+                if(mapAnnotation != null) {
+                    field.set(object, readObjectMap(mapAnnotation.value(), parser));
+                } else {
+                    field.set(object, readUnknownObject(field.getType(), parser));
+                }
             }
         }
         return object;

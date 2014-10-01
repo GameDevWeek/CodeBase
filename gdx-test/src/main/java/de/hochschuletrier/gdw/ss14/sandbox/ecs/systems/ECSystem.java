@@ -23,6 +23,8 @@ public abstract class ECSystem
 
     public abstract void update(float delta);
 
+    public abstract void render();
+
     public int getPriority()
     {
         return priority;
