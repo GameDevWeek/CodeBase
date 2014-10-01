@@ -49,7 +49,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
             float rotation, float friciton, float restitutioin) {
         
         if(height <= width) throw new IllegalArgumentException("cat needs to be higher than fat");
-        
+        mListeners = new ArrayList<ICollisionListener>();
         mPosition = position;
         mWidth = width;
         mHeight = height;
@@ -76,8 +76,8 @@ public class CatPhysicsComponent extends PhysicsComponent {
         physicsBody.setAngularVelocity(0);
         
         physicsBody.createFixture(fixturedef.shapeBox(mWidth, mHeight-mWidth));
-        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + ( mHeight - mWidth)/2)));
-        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + (-mHeight + mWidth)/2)));
+        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(0,( mHeight - mWidth)/2)));
+        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(0,(-mHeight + mWidth)/2)));
         setPhysicsBody(physicsBody);
         
     }

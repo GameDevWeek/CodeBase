@@ -11,6 +11,7 @@ import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Entity.EntityFactory;
+import de.hochschuletrier.gdw.ss14.sandbox.Test.System.DogInputSystem;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.System.InputSystem;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.System.MovementSystem;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.Engine;
@@ -39,6 +40,7 @@ public class Spielwelt extends SandboxGame{
 		engine.addSystem(new MovementSystem(manager));
 		engine.addSystem(new PhysixRenderSystem(manager,phyManager));
 		engine.addSystem(new InputSystem(manager));
+		engine.addSystem(new DogInputSystem(manager));
 		engine.addSystem(new PhysixUpdateSystem(manager, phyManager));
 	}
 
