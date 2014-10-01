@@ -40,8 +40,16 @@ public class RenderSystem extends ECSystem {
 
             if (renderCompo.texture != null) {
 
-                DrawUtil.batch.draw(renderCompo.texture, physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() /2),
-                        physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2));
+                DrawUtil.batch.draw(renderCompo.texture,
+                        physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() /2), 
+                        physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2), 
+                        renderCompo.texture.getRegionWidth() / 2, 
+                        renderCompo.texture.getRegionWidth() / 2, 
+                        renderCompo.texture.getRegionWidth(), 
+                        renderCompo.texture.getRegionHeight(), 
+                        1f, 
+                        1f, 
+                        (float)(physicsCompo.getRotation() * 180 / Math.PI));
             }
         }
     }
