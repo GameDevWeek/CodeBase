@@ -3,9 +3,6 @@ package de.hochschuletrier.gdw.ss14.input;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.GameSettings;
 
@@ -21,20 +18,9 @@ public class InputManager {
     }
     
     private InputManager(){
-        switch (GameSettings.getInstance().getInputDevice()) {
-        case MOUSE:
-            System.out.println("Maus");
-            break;
-        case KEYBOARD:
-            System.out.println("Keyboard");
-            break;
-        case GAMEPAD:
-            System.out.println("Gamepad");
-            break;
-        }
     }
     
-    private InputDevice inputDevice = new InputKeyboard();
+    private InputDevice inputDevice;
     
     public InputDevice getInputDevice() {
         return this.inputDevice;
@@ -57,7 +43,20 @@ public class InputManager {
             logger.info("InputManager already initialized!");
             return;
         }
+        
         instance = new InputManager();
+        
+        switch (GameSettings.getInstance().getInputDevice()) {
+            case MOUSE:
+                instance.inputDevice = new InputMouse();
+                break;
+            case KEYBOARD:
+                instance.inputDevice = new InputKeyboard();
+                break;
+            case GAMEPAD:
+                instance.inputDevice = new InputGamePad();
+                break;
+        }
         Main.inputMultiplexer.addProcessor(instance.inputDevice);
     }
     

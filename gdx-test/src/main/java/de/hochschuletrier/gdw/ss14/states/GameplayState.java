@@ -16,7 +16,12 @@ import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.Game;
+import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
+import de.hochschuletrier.gdw.ss14.input.infos.InputInfo;
+import de.hochschuletrier.gdw.ss14.input.infos.InputSettings;
+import de.hochschuletrier.gdw.ss14.input.infos.KeyboardInfo;
+import de.hochschuletrier.gdw.ss14.input.infos.MouseInfo;
 
 /**
  * Gameplay state

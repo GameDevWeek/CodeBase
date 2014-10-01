@@ -3,21 +3,23 @@ package de.hochschuletrier.gdw.ss14.game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.io.InputDecorator;
-
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.jackson.JacksonWriter;
 import de.hochschuletrier.gdw.ss14.input.InputDevice;
+import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
 
 public class GameSettings {
     private static final Logger logger = LoggerFactory.getLogger(GameSettings.class);
     private static final String fileName = "src/main/resources/data/json/settings.json";
-    public static GameSettings instance;
+    private static GameSettings instance;
     
-    private Float volume;
-    private Boolean fullscreen;
-    private InputDevice.DeviceType inputDevice;
+    private Float volume = 1.0f;
+    private Boolean fullscreen = false;
+    private InputDevice.DeviceType inputDevice = DeviceType.MOUSE;
     
+    public GameSettings() {
+    }
+     
     public float getVolume() {
         return volume;
     }
@@ -52,17 +54,21 @@ public class GameSettings {
     
     public static GameSettings getInstance() {
         if (instance == null) {
-            GameSettings.read();
+            instance = GameSettings.read();
+            if (instance == null) {
+                instance = new GameSettings();
+            }
         }
         return instance;
     }
     
     public static GameSettings read() {
+        GameSettings o = null;
         try {
-            instance = JacksonReader.read(fileName, GameSettings.class);
+            o = JacksonReader.read(fileName, GameSettings.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return instance;
+        return o;
     }
 }

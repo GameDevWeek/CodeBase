@@ -5,6 +5,9 @@ import java.util.HashMap;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
+import de.hochschuletrier.gdw.ss14.input.infos.InputInfo;
+import de.hochschuletrier.gdw.ss14.input.infos.InputSettings;
+
 public class InputMouse extends InputDevice {
     private HashMap<String, InputAction> inputMapping;
     
@@ -14,8 +17,9 @@ public class InputMouse extends InputDevice {
     
     private void readMapping() {
         inputMapping = new HashMap<>();
-        inputMapping.put("LEFT", InputAction.TOGGLE_LASER);
-        inputMapping.put("RIGHT", InputAction.SHOOT);
+        InputInfo info = InputSettings.getInstance().getInputInfo(DeviceType.MOUSE);
+        inputMapping.put(info.TOGGLE_LASER, InputAction.TOGGLE_LASER);
+        inputMapping.put(info.SHOOT, InputAction.SHOOT);
     }
     
 
