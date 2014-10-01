@@ -7,7 +7,7 @@
  <image source="Teppich_Halbe_groesse.png" width="320" height="192"/>
  <tile id="6">
   <properties>
-   <property name="traction" value="false"/>
+   <property name="traction" value="true"/>
   </properties>
  </tile>
 </tileset>
