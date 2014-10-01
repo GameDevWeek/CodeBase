@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 public class CameraComponent implements Component 
 {    
     // Maximum distance of the cats center to the screen center in pixels
-    public float maxScreenCenterDistance = 200f;
+    public float maxScreenCenterDistance = 500f;
     
     // The time in seconds the camera needs to go from the max distance to the center of the cat.
     // This time will be further modified by followspeedCurvePower

@@ -32,6 +32,7 @@ public class Game {
     private EntityManager entityManager;
     
     private PhysicsComponent testPhysics = new PhysicsComponent();
+    private Vector2 mapCenter = new Vector2();
 
     public Game() {
         
@@ -65,6 +66,10 @@ public class Game {
         
         CameraComponent newCamComp = new CameraComponent();
         newCamComp.cameraZoom = 1.0f;
+        
+        mapCenter = new Vector2(newTmrComp.map.getWidth()*newTmrComp.map.getTileWidth() * 0.5f, 
+                                newTmrComp.map.getHeight()*newTmrComp.map.getTileHeight() * 0.5f);
+        testPhysics.dummyPosition = mapCenter.cpy();
         
         entityManager.addComponent(levelEntity, newTmrComp);
         entityManager.addComponent(levelEntity, newCamComp);
@@ -107,7 +112,7 @@ public class Game {
             testPhysics.dummyPosition.add(new Vector2(10.0f, 0.0f));
         }
         else
-            testPhysics.dummyPosition.add(testPhysics.getPosition().cpy().scl(-1.0f));
+            testPhysics.dummyPosition.add(mapCenter.cpy().sub(testPhysics.getPosition()));
         
         for (ECSystem system : systems) {
             system.update(delta);
