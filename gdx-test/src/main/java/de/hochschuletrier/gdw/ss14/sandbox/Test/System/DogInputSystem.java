@@ -17,7 +17,7 @@ public class DogInputSystem extends ECSystem{
 	@Override
 	public void update(float delta) {
 		Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, EnemyComponent.class);
-		Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(PlayerComponent.class);
+		Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
 		for (Integer integer : compos) {
 			InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
 			PhysicsComponent phyCompo = entityManager.getComponent(compos2.get(0), PhysicsComponent.class);

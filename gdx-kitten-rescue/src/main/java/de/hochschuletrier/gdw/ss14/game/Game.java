@@ -29,7 +29,6 @@ public class Game
     private PhysixManager physixManager;
 
     private int catEntity;
-    private int dogEntity;
     
     private Vector2 mapCenter = new Vector2();
 
@@ -50,7 +49,7 @@ public class Game
     public void init(AssetManagerX assetManager)
     {
         initializeSystems();
-        //initializeTestComponents();
+        initializeTestComponents();
         
         mapManager.loadMap("ErsteTestMap");        
         mapManager.setFloor(0);
@@ -75,8 +74,8 @@ public class Game
 
     private void initializeTestComponents()
     {
-        catEntity = EntityFactory.constructCat(new Vector2(500, 300), 150.0f, 75.0f, 0, 100f);
-        dogEntity = EntityFactory.constructDog(new Vector2(500,350), 60.0f, 40.0f, 0, 100f);
+        int dogEntity = EntityFactory.constructDog(new Vector2(0,0), 60.0f, 40.0f, 0, 100f);
+        int dogEntity2 = EntityFactory.constructDog(new Vector2(500,350), 60.0f, 40.0f, 0, 100f);
     }
 
     public void addSystem(ECSystem system)
