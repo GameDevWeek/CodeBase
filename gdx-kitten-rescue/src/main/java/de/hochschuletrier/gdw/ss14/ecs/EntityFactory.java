@@ -63,7 +63,7 @@ public class EntityFactory {
 
         CatPropertyComponent catProperties = new CatPropertyComponent();
         catProperties.state = CatStateEnum.IDLE;
-        
+
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());

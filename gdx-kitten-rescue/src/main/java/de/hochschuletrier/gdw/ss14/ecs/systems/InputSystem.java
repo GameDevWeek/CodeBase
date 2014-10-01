@@ -1,30 +1,29 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.*;
+import de.hochschuletrier.gdw.ss14.ecs.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
-import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+public class InputSystem extends ECSystem
+{
 
-public class InputSystem extends ECSystem{
-
-    public InputSystem(EntityManager entityManager) {
+    public InputSystem(EntityManager entityManager)
+    {
         super(entityManager, 1);
         // TODO Auto-generated constructor stub
 
     }
 
     @Override
-    public void update(float delta) {
+    public void update(float delta)
+    {
         // TODO Auto-generated method stub
-        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, PlayerComponent.class);
+        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, CameraComponent.class, PlayerComponent.class);
 
-        for (Integer integer : compos) {
+        for (Integer integer : compos)
+        {
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CameraComponent camComp = entityManager.getComponent(integer, CameraComponent.class);
             inputCompo.whereToGo = new Vector2(Gdx.input.getX(), Gdx.input.getY());
@@ -32,12 +31,13 @@ public class InputSystem extends ECSystem{
 //            vec = vec.mul(DrawUtil.batch.getProjectionMatrix());
 //            inputCompo.whereToGo = new Vector2(vec.x,vec.y);
             vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
-            inputCompo.whereToGo = new Vector2(vec.x,vec.y);
+            inputCompo.whereToGo = new Vector2(vec.x, vec.y);
         }
     }
 
     @Override
-    public void render() {
+    public void render()
+    {
         // TODO Auto-generated method stub
 
     }
