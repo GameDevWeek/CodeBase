@@ -16,5 +16,6 @@
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
     	"start_button": {"down": "start-menu-button", "up": "start-menu-button-down"}
     }
+    
 }
 
