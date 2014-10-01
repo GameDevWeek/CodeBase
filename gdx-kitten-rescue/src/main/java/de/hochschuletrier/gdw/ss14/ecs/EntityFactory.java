@@ -42,7 +42,7 @@ public class EntityFactory {
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);
-        CatStateComponent catState = new CatStateComponent();
+        CatPropertyComponent catProperty = new CatPropertyComponent();
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
         catAnimation.animation = new AnimationWithVariableFrameTime[6];
@@ -68,13 +68,11 @@ public class EntityFactory {
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
-        manager.addComponent(entity, catState);
+        manager.addComponent(entity, catProperty);
         manager.addComponent(entity, catPhysix);
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
-//        manager.addComponent(entity, new AnimationComponent());
-//        manager.addComponent(entity, new CameraComponent());
         manager.addComponent(entity, cam);
 
         return entity;

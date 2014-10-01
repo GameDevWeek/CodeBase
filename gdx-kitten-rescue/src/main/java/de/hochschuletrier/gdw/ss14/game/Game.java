@@ -1,11 +1,9 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import org.slf4j.Logger;
 import java.util.Comparator;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.math.Vector2;
@@ -17,8 +15,6 @@ import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DogInputSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
@@ -86,7 +82,7 @@ public class Game
 
     private void initializeTestComponents()
     {
-        catEntity = EntityFactory.constructCat(new Vector2(300, 300), 150.0f, 75.0f, 0, 100f);
+        catEntity = EntityFactory.constructCat(new Vector2(500, 300), 150.0f, 75.0f, 0, 100f);
     }
 
     public void addSystem(ECSystem system)

@@ -1,5 +1,9 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
@@ -13,6 +17,8 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
 
 public class MovementSystem extends ECSystem{
+    
+    private static final Logger logger = LoggerFactory.getLogger(MovementSystem.class);
 
     public int minDistance = 50;
 
@@ -38,8 +44,8 @@ public class MovementSystem extends ECSystem{
             PhysicsComponent phyCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             PlayerComponent playerCompo = entityManager.getComponent(integer, PlayerComponent.class);
-            CatPropertyComponent catStateCompo = null;
-            DogPropertyComponent dogStateCompo = null;
+            CatPropertyComponent catStateCompo;
+            DogPropertyComponent dogStateCompo;
             if(playerCompo != null ) {
                 catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
                 if(moveCompo.velocity == 0)
@@ -60,16 +66,23 @@ public class MovementSystem extends ECSystem{
             moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
 
             float distance = moveCompo.directionVec.len();
+            
+            logger.debug
+                    ( "\n"
+                        + "CatPosition: (" +  phyCompo.getPosition().x + ", " + phyCompo.getPosition().y + ")\n"
+                        + "MousePosition: (" + Gdx.input.getX() + ", " + Gdx.input.getY() + ")\n"
+                        + "DISTANCE: " +  distance + "\nVELOCITY: " + moveCompo.velocity + "\n"
+                    );
+            
+            System.out.println(this.getClass().getName()+": "+"DISTANCE: " +  distance + " VELOCITY: " + moveCompo.velocity);
 
-            System.out.println("DISTANCE: " +  distance + " VELOCITY: " + moveCompo.velocity);
 
-
-            if(distance <= minDistance){
-                if(playerCompo != null)
-                    catStateCompo.state = CatStateEnum.SPRINGEN;
-                else
-                    dogStateCompo.state = DogStateEnum.KILLING;
-            }
+//            if(distance <= minDistance){
+//                if(playerCompo != null)
+//                    catStateCompo.state = CatStateEnum.SPRINGEN;
+//                else
+//                    dogStateCompo.state = DogStateEnum.KILLING;
+//            }
 
 
             if(distance >= 200){
