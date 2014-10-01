@@ -30,10 +30,7 @@ public class DogInputSystem extends ECSystem{
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             PhysicsComponent phyCompo = entityManager.getComponent(compos2.get(0), PhysicsComponent.class);
             inputCompo.whereToGo = phyCompo.getPosition();
-            CameraComponent camComp = entityManager.getComponent(integer, CameraComponent.class);
-            Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-            vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
-            inputCompo.whereToGo = new Vector2(vec.x,vec.y);
+            System.out.print("");
         }
     }
 
