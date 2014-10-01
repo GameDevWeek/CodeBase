@@ -1,6 +1,5 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
-import com.badlogic.gdx.*;
 import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 
@@ -82,11 +81,11 @@ public class EntityManager
     {
         Class classToAdd;
 
-        /*if (component instanceof PhysicsComponent)
+        if (component instanceof PhysicsComponent)
         {
             classToAdd = component.getClass().getSuperclass();
         }
-        else*/
+        else
         {
             classToAdd = component.getClass();
         }
@@ -112,15 +111,6 @@ public class EntityManager
         if (storage != null)
         {
             result = (T) storage.get(entity);
-
-            if (result == null)
-            {
-                Gdx.app.error("ECS", entity + " has no component of class " + componentType);
-            }
-        }
-        else
-        {
-            Gdx.app.error("ECS", "There are no entities with the given component! (" + componentType + ")");
         }
 
         return result;

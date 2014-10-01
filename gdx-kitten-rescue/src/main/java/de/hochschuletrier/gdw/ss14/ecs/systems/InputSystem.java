@@ -11,27 +11,27 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 
 public class InputSystem extends ECSystem{
 
-	public InputSystem(EntityManager entityManager) {
-		super(entityManager, 1);
-		// TODO Auto-generated constructor stub
-		
-	}
+    public InputSystem(EntityManager entityManager) {
+        super(entityManager, 1);
+        // TODO Auto-generated constructor stub
+        
+    }
 
-	@Override
-	public void update(float delta) {
-		// TODO Auto-generated method stub
-		Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, PlayerComponent.class);
-		
-		for (Integer integer : compos) {
-			InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
-			inputCompo.whereToGo = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-		}
-	}
+    @Override
+    public void update(float delta) {
+        // TODO Auto-generated method stub
+        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, PlayerComponent.class);
+        
+        for (Integer integer : compos) {
+            InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
+            inputCompo.whereToGo = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+        }
+    }
 
-	@Override
-	public void render() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void render() {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

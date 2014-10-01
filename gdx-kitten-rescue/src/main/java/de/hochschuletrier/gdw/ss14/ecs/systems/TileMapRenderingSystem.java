@@ -73,13 +73,17 @@ public class TileMapRenderingSystem extends ECSystem{
 			// Get the current component
 			TileMapRenderingComponent t = arr.get(i);
 			
-			// go through the layers that should be rendered
+			// go through the layers that should be rendered			
 			for(Integer layerIndex : t.renderedLayers){
 				
-				Layer layerToRender = t.map.getLayers().get(layerIndex);
-				renderer.render(0, 0, layerToRender);
+			    if (t.map.getLayers().size() > layerIndex) {
+			        
+    				Layer layerToRender = t.map.getLayers().get(layerIndex);
+    				renderer.render(0, 0, layerToRender);
+			    }
 			}
 			
+			renderer.dispose();
 		}
 	}
 	
