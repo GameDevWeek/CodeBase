@@ -16,6 +16,7 @@ import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 
 /**
  * Menu state
@@ -26,7 +27,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     public static final int WALKING_SPEED = 100;
 
-    private Music music;
+	private LocalMusic music;
     private Sound click;
     private Texture logo;
     float stateTime = 0f;
@@ -44,10 +45,8 @@ public class MainMenuState extends GameState implements InputProcessor {
 
         logo = assetManager.getTexture("logo");
         walking = assetManager.getAnimation("walking");
-        music = assetManager.getMusic("menu");
+        this.music = Main.musicManager.getMusicStreamByStateName(GameStates.MAINMENU);
         click = assetManager.getSound("click");
-
-        music.setLooping(true);
 //        music.play();
 
         inputProcessor = new InputInterceptor(this) {
@@ -56,9 +55,9 @@ public class MainMenuState extends GameState implements InputProcessor {
                 switch (keycode) {
                     case Keys.ESCAPE:
                         if (GameStates.GAMEPLAY.isActive()) {
-                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(500).reverse(), null);
+                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(100).reverse(), null);
                         } else {
-                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(500), null);
+                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(100), null);
                         }
                         return true;
                 }
@@ -82,6 +81,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public void update(float delta) {
+    	music.update();
         stateTime += delta;
         x += delta * WALKING_SPEED;
         if (x > 1024) {
@@ -91,12 +91,22 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public void onEnter() {
+		if (this.music.isMusicPlaying()) {
+			this.music.setFade('i', 4000);
+		} else {
+			this.music.play("menu");
+		}
+    	
         inputProcessor.setActive(true);
         inputProcessor.setBlocking(true);
     }
 
     @Override
     public void onLeave() {
+		if (this.music.isMusicPlaying()) {
+    		this.music.setFade('o', 4000);
+		}
+		
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);
     }

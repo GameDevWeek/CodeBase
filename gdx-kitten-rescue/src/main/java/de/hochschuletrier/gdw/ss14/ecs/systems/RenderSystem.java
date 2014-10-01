@@ -38,14 +38,16 @@ public class RenderSystem extends ECSystem {
         RenderComponent renderCompo;
         PhysicsComponent physicsCompo;
         
-        batch.begin();
         //batch.setShader(redTintedShader);
+        batch.begin();
         
         for (Integer integer : entites) {
             renderCompo = entityManager.getComponent(integer, RenderComponent.class);
             physicsCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             
-           batch.draw(renderCompo.texture, physicsCompo.getPosition().x, physicsCompo.getPosition().y);
+            if (renderCompo.texture != null) {
+                batch.draw(renderCompo.texture, physicsCompo.getPosition().x, physicsCompo.getPosition().y);
+            }
         }
         batch.end();
     }

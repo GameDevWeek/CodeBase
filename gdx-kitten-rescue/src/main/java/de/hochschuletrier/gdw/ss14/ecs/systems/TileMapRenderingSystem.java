@@ -50,42 +50,45 @@ public class TileMapRenderingSystem extends ECSystem{
 	 */
 	public void render(){
 		// Get all TileMapRenderingComponents. Most likely will be only one...
-		List<TileMapRenderingComponent> arr =  entityManager.getAllComponentsOfType(TileMapRenderingComponent.class);
+		List<TileMapRenderingComponent> arr = entityManager.getAllComponentsOfType(TileMapRenderingComponent.class);
 		
-		for(int i = 0; i < arr.size(); i++){
+		for(TileMapRenderingComponent currentComp : arr){
 			
-			/*
-			 * This could be a huge performance impact. Because we want to - 
-			 * theoretically be able to have multiple maps loaded (even though we will
-			 * most likely only have one at all time), we can't preload and save
-			 * the renderer as is usually done.
-			 */
-			HashMap<TileSet, Texture> tilesetImages = new HashMap();
-	        for (TileSet tileset : arr.get(i).map.getTileSets()) {
-	            TmxImage img = tileset.getImage();
-	            String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
-	            tilesetImages.put(tileset, new Texture(filename));
-	        }
-	        
-	        // here it is. all these renderers. argh...
-			renderer = new TiledMapRendererGdx(arr.get(i).map, tilesetImages);
-			
-			// Get the current component
-			TileMapRenderingComponent t = arr.get(i);
-			
-			// go through the layers that should be rendered
-			for(Integer layerIndex : t.renderedLayers){
+		    renderer = currentComp.renderer;
+		    
+			if (renderer == null) {
+			    
+    			HashMap<TileSet, Texture> tilesetImages = new HashMap();
+    			
+    	        for (TileSet tileset : currentComp.getMap().getTileSets()) {
+    	            TmxImage img = tileset.getImage();
+    	            String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
+    	            tilesetImages.put(tileset, new Texture(filename));
+    	        }
+    	        	        
+    			renderer = new TiledMapRendererGdx(currentComp.getMap(), tilesetImages);
+    			currentComp.renderer = renderer;
+			}
+	         			
+			// go through the layers that should be rendered			
+			for(Integer layerIndex : currentComp.renderedLayers){
 				
-			    if (t.map.getLayers().size() > layerIndex) {
+			    if (currentComp.getMap().getLayers().size() > layerIndex) {
 			        
-    				Layer layerToRender = t.map.getLayers().get(layerIndex);
+    				Layer layerToRender = currentComp.getMap().getLayers().get(layerIndex);
     				renderer.render(0, 0, layerToRender);
 			    }
 			}
-			
 		}
 	}
 	
+	public void shutdown() {
+        List<TileMapRenderingComponent> arr = entityManager.getAllComponentsOfType(TileMapRenderingComponent.class);
+	    
+        for (TileMapRenderingComponent comp : arr) {
+            comp.setMap(null);
+        }
+	}
 	
 	
 	@Override

@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
@@ -30,6 +31,8 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
+import de.hochschuletrier.gdw.ss14.sound.MusicManager;
 import de.hochschuletrier.gdw.ss14.states.GameStates;
 
 /**
@@ -42,6 +45,8 @@ public class Main extends StateBasedGame {
     public static final int WINDOW_WIDTH = 1024;
 
     private final AssetManagerX assetManager = new AssetManagerX();
+    public final GamePreferences gamePreferences = new GamePreferences();
+	public static MusicManager musicManager;
     private static Main instance;
 
     public final DevConsole console = new DevConsole(16);
@@ -102,6 +107,9 @@ public class Main extends StateBasedGame {
         DrawUtil.init();
         setupDummyLoader();
         loadAssetLists();
+        gamePreferences.init();
+		musicManager = MusicManager.getInstance();
+		musicManager.init(this.assetManager);
         setupGdx();
         skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
         consoleView.init(assetManager, skin);
@@ -124,7 +132,7 @@ public class Main extends StateBasedGame {
                 state.init(assetManager);
             }
         }
-        GameStates.MAINMENU.activate();
+        //GameStates.MAINMENU.activate();
 		GameStates.GAMEPLAY.activate(null, null);
     }
 
@@ -185,7 +193,7 @@ public class Main extends StateBasedGame {
 
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "LibGDX Test";
+        cfg.title = "Laser Cat";
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;
         cfg.useGL30 = false;

@@ -4,21 +4,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import de.hochschuletrier.gdw.commons.gdx.assets.AnimationWithVariableFrameTime;
 
+import de.hochschuletrier.gdw.commons.gdx.assets.AnimationWithVariableFrameTime;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatStateComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.DogStateComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.HolePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+
 
 public class EntityFactory {
 
@@ -34,13 +35,13 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static void constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
+    public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);
-        CatStateComponent catState = new CatStateComponent();
+        CatPropertyComponent catProperty = new CatPropertyComponent();
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
         catAnimation.animation = new AnimationWithVariableFrameTime[6];
@@ -57,13 +58,19 @@ public class EntityFactory {
         catAnimation.animation[CatStateEnum.RUTSCHEN_RECHTS.ordinal()]
                 = loadAnimation("data/animations/Rutschen_rechts_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
 
+        CameraComponent cam = new CameraComponent();
+        cam.cameraZoom = 1.0f;
+
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
-        manager.addComponent(entity, catState);
+        manager.addComponent(entity, catProperty);
         manager.addComponent(entity, catPhysix);
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
+        manager.addComponent(entity, cam);
+
+        return entity;
     }
 
     public static void constructCatbox() {
@@ -72,16 +79,17 @@ public class EntityFactory {
 
     public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
-        CatPhysicsComponent dogPhysix = new CatPhysicsComponent();
-        MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
+        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
+        MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
         InputComponent dogInput = new InputComponent();
-        DogStateComponent dogState = new DogStateComponent();
+        DogPropertyComponent dogState = new DogPropertyComponent();
         dogPhysix.initPhysics(phyManager);
         manager.addComponent(entity, dogState);
         manager.addComponent(entity, dogPhysix);
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
+//        manager.addComponent(entity, new AnimationComponent());
     }
 
     public static void constructDoor() {
@@ -90,13 +98,6 @@ public class EntityFactory {
 
     public static void constructFood() {
         int entity = manager.createEntity();
-    }
-
-    public static void constructHole(Vector2 pos) {
-        int entity = manager.createEntity();
-        HolePhysicsComponent holePhysix = new HolePhysicsComponent();
-        holePhysix.initPhysics(phyManager);
-        manager.addComponent(entity, holePhysix);
     }
 
     public static void constructLamp() {
@@ -123,12 +124,6 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static EntityManager manager;
-
-    public static PhysixManager phyManager;
-
-    public static AssetManagerX assetManager;
-
     private static AnimationWithVariableFrameTime loadAnimation(String path, int cols, int row, float frameDuration, Animation.PlayMode playMode) {
         Texture tex;
         TextureRegion[][] tmp;
@@ -153,4 +148,11 @@ public class EntityFactory {
         ani.setFrameDurations(frameDurations);
         return ani;
     }
+
+    public static EntityManager manager;
+
+    public static PhysixManager phyManager;
+
+    public static AssetManagerX assetManager;
 }
+
