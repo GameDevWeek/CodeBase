@@ -45,7 +45,7 @@ public class GameplayState extends GameState implements InputProcessor {
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
         helicopter = assetManager.getSound("ouchWall");
-        game = new Game();
+        game = new Game(assetManager);
         game.init(assetManager);
         Main.inputMultiplexer.addProcessor(this);
         

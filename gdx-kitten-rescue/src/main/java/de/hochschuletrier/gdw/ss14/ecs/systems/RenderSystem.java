@@ -1,7 +1,11 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
@@ -13,10 +17,13 @@ import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 public class RenderSystem extends ECSystem {
 
     private final SpriteBatch batch;
+    private ShaderProgram redTintedShader; 
 
     public RenderSystem(EntityManager entityManager, int priority) {
+        
         super(entityManager, priority);
         batch = new SpriteBatch();
+        initializeShaders();
     }
 
     @Override
@@ -31,14 +38,24 @@ public class RenderSystem extends ECSystem {
         RenderComponent renderCompo;
         PhysicsComponent physicsCompo;
         
+        //batch.setShader(redTintedShader);
         batch.begin();
+        
         for (Integer integer : entites) {
             renderCompo = entityManager.getComponent(integer, RenderComponent.class);
             physicsCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             
-           batch.draw(renderCompo.texture, physicsCompo.dummyPosition.x, physicsCompo.dummyPosition.y);
+           batch.draw(renderCompo.texture, physicsCompo.getPosition().x, physicsCompo.getPosition().y);
         }
         batch.end();
     }
 
+    
+    private void initializeShaders() {
+        
+        //FileHandle vertShader = new FileHandle("data/shaders/passThrough.vs");
+        //FileHandle fragShader = new FileHandle("data/shaders/redTinted.fs");
+        
+        //redTintedShader = new ShaderProgram(vertShader, fragShader);
+    }
 }
