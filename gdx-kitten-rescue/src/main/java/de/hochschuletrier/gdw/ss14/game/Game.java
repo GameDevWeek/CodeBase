@@ -21,6 +21,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 
 public class Game
@@ -56,7 +57,7 @@ public class Game
     public void init(AssetManagerX assetManager)
     {
         initializeSystems();
-        initializeTestComponents();
+        //initializeTestComponents();
         
         mapManager.loadMap("ErsteTestMap");        
         mapManager.setFloor(0);
@@ -75,13 +76,14 @@ public class Game
 
         // Rendering related systems
         addSystem(new TileMapRenderingSystem(entityManager, 0));
+        addSystem(new RenderSystem(entityManager, 1));
         //addSystem(new AnimationSystem(entityManager, 1));
         //addSystem(new RenderSystem(entityManager, 2));
     }
 
     private void initializeTestComponents()
     {
-        catEntity = EntityFactory.constructCat(new Vector2(300, 300), 150.0f, 75.0f, 0, 100f);
+        catEntity = EntityFactory.constructCat(new Vector2(500, 300), 150.0f, 75.0f, 0, 100f);
     }
 
     public void addSystem(ECSystem system)

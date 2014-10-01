@@ -16,33 +16,51 @@
  <tileset firstgid="631" source="Tilesets/Tuer.tsx"/>
  <tileset firstgid="652" source="Tilesets/Wollknaeuel.tsx"/>
  <layer name="ground" width="30" height="15">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJxjYWBgYBnFo3gUj+JRPIpHKAYAzqAHCQ==
   </data>
  </layer>
  <layer name="solid1" width="30" height="15">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJzt0DkKgEAMQNF4WhXcGxHcGxW00FoLPakfbOYCmWYMPCbdJ+OLSGBZ6ImUiBAjQYpMac9RoJKvW6NBiw690j5gNLorNmjPTuMwuicuC92bxvPfqz7/vW7d69I/T7yzZQteBCdcvQ==
   </data>
  </layer>
  <layer name="gaps" width="30" height="15">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2D4gyAgDgbiEDRxHSRMCxAJxFFAHI1FjtZ24wIDYSey3aNgFAw2AABCbwOU
   </data>
  </layer>
  <layer name="deco1" width="30" height="15">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBgFo4A+wAuIvYHYB4h9gdgPKq4GxOpIWIPK9gai8UOhtDaauB6V7Y5A48dAaQMg1kKT06WivfFAnADEiUCcBMTJSHLIftYEYiMq2osPIPuZmn4l1m5DBvr5lZaAA4g5gZiLzvbyA7EAEAvS2V56AQDbgwhy
   </data>
  </layer>
  <layer name="solid2" width="30" height="15">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBgF6KAPiPuRaHqBeUA8H4ke6WAzEG8ZaEeQAGYC8awBsHclEK+iofm40uNOIN5FQ3tHwSigFwAAWa8LUg==
   </data>
  </layer>
  <objectgroup name="actionlayer">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
   <object name="vase" gid="37" x="1460.05" y="277.977" rotation="-269.958"/>
-  <object gid="35" x="116" y="334"/>
+  <object name="start" gid="35" x="116" y="334"/>
   <object name="lamp" gid="32" x="2634.79" y="296"/>
   <object name="lamp" gid="33" x="2623.88" y="371.394"/>
   <object name="lamp" gid="3" x="2768" y="351.879"/>
@@ -56,9 +74,17 @@
   <object name="catbox" gid="68" x="2591.88" y="200.364"/>
   <object name="catbox" gid="70" x="2396.61" y="62.6667"/>
   <object name="catbox" gid="70" x="1393.94" y="809.091"/>
+  <object name="start" x="322" y="819" width="39" height="37"/>
  </objectgroup>
- <objectgroup name="renderlayer"/>
+ <objectgroup name="renderlayer">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+ </objectgroup>
  <layer name="deco2" width="30" height="15">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBgFQwVMBuIpA2DvYiBeMgD2jgJU0AfE/Xjk3enlkFEwCoYZAAAQOwPT
   </data>
