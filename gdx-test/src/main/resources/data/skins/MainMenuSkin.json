@@ -32,6 +32,19 @@
         }
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+<<<<<<< HEAD
+        "main_bell_down": {"name": "main-menu-bell", "color":  {"a": 0.5, "b": 0, "g": 0.85, "r": 0.5}}
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+        "bell": {"down": "main_bell_down", "up": "main-menu-bell" }
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    	"start_button": {"down": "start-menu-button", "up": "start-menu-button-down"}
+    }
+}
+
+
+=======
         "main_bell_down": {
             "name": "main-menu-bell",
             "color": {
@@ -55,3 +68,4 @@
 	    }
 	}
 }
+>>>>>>> cac91c58b73be37fbbdcce1a811777fa4f94fad5
