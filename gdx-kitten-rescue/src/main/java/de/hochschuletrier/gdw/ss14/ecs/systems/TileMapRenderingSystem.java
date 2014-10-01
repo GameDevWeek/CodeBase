@@ -83,6 +83,7 @@ public class TileMapRenderingSystem extends ECSystem{
 			    }
 			}
 			
+			renderer.dispose();
 		}
 	}
 	
