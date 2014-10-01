@@ -12,7 +12,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatStateComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.DogStateComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.HolePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
@@ -85,7 +85,7 @@ public class EntityFactory {
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
         MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
         InputComponent dogInput = new InputComponent();
-        DogStateComponent dogState = new DogStateComponent();
+        DogPropertyComponent dogState = new DogPropertyComponent();
         dogPhysix.initPhysics(phyManager);
         manager.addComponent(entity, dogState);
         manager.addComponent(entity, dogPhysix);
