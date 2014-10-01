@@ -1,10 +1,7 @@
 package de.hochschuletrier.gdw.ss14.sandbox.Test;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
@@ -12,17 +9,15 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.gdx.tiled.TiledMapRendererGdx;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
-import de.hochschuletrier.gdw.commons.tiled.Layer;
-import de.hochschuletrier.gdw.commons.tiled.LayerObject;
-import de.hochschuletrier.gdw.commons.tiled.TileInfo;
-import de.hochschuletrier.gdw.commons.tiled.TileSet;
-import de.hochschuletrier.gdw.commons.tiled.TiledMap;
+import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
 import de.hochschuletrier.gdw.commons.tiled.utils.RectangleGenerator;
 import de.hochschuletrier.gdw.commons.utils.Rectangle;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.Engine;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
+
+import java.util.HashMap;
 
 public class MapVersuch extends SandboxGame{
 
@@ -51,14 +46,10 @@ public class MapVersuch extends SandboxGame{
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void init(AssetManagerX assetManager) {
-        // TODO Auto-generated method stub
-
         engine = new Engine();
         entityManager = new EntityManager();
         physixManager = new PhysixManager(BOX2D_SCALE, 0, GRAVITY);
@@ -80,7 +71,6 @@ public class MapVersuch extends SandboxGame{
         generator.generate(map,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("blocked", false),
                 (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight));
-
     }
 
     public TiledMap loadMap(String filename)
@@ -97,20 +87,12 @@ public class MapVersuch extends SandboxGame{
 
     @Override
     public void render() {
-//        for (Layer layer : map.getLayers())
-//        {
-//            mapRenderer.render(0, 0, layer);
-//        }
         engine.render();
         mapRenderer.render(0, 0);
-
     }
 
     @Override
     public void update(float delta) {
         engine.update(delta);
-
     }
-
-
 }

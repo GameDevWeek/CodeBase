@@ -1,15 +1,14 @@
 package de.hochschuletrier.gdw.ss14.sandbox.Test.Component;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.utils.Point;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
+
+import java.util.ArrayList;
 
 public class ConePhysicsComponent extends PhysicsComponent{
     
@@ -48,7 +47,7 @@ public class ConePhysicsComponent extends PhysicsComponent{
             startWinkel += delta;
         }
         
-        mShape.forEach((p)->System.out.println(p.x+" | "+p.y));
+        
     }
     
     public void initPhysics(PhysixManager manager){
@@ -59,9 +58,8 @@ public class ConePhysicsComponent extends PhysicsComponent{
                 .fixedRotation(true).angle(mRotation)
                 .create();
         
-    
-        physicsBody.createFixture(fixturedef.shapePolygon(mShape).category(Short.parseShort("1111111111111111")).mask((short)0));
+        physicsBody.createFixture(fixturedef.shapePolygon(mShape).category((short)-1).mask((short)0));
+        
         setPhysicsBody(physicsBody);
     }
-
 }

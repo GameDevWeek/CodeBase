@@ -27,8 +27,6 @@ public class Spielwelt extends SandboxGame{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -40,7 +38,7 @@ public class Spielwelt extends SandboxGame{
 		int entity = manager.createEntity();
 		EntityFactory.constructCat(new Vector2(200,200), 150, 75, 0, 50.0f);
 		EntityFactory.constructDog(new Vector2(200,200), 150, 75, 50, 50.0f);
-		//EntityFactory.constructDog(new Vector2(200,200), 120, 50, 0, 50.0f);
+
 		engine.addSystem(new MovementSystem(manager));
 		engine.addSystem(new PhysixRenderSystem(manager,phyManager));
 		engine.addSystem(new InputSystem(manager));
@@ -50,15 +48,11 @@ public class Spielwelt extends SandboxGame{
 
 	@Override
 	public void render() {
-		// TODO Auto-generated method stub
 		engine.render();
 	}
 
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
 		engine.update(delta);
 	}
-
-
 }

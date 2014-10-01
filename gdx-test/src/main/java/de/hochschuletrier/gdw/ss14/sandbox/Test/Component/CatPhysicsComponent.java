@@ -21,9 +21,6 @@ import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
  *
  */
 public class CatPhysicsComponent extends PhysicsComponent {
-
-    // TODO: Für Physik Team
-
     public Vector2 mPosition;
     public float mWidth;
     public float mHeight;
