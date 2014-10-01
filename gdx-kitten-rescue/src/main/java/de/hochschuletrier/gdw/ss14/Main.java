@@ -125,7 +125,7 @@ public class Main extends StateBasedGame {
             }
         }
         GameStates.MAINMENU.activate();
-//		GameStates.GAMEPLAY.activate(new SplitVerticalTransition(500), null);
+		GameStates.GAMEPLAY.activate(null, null);
     }
 
     @Override
