@@ -16,24 +16,20 @@
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
         "default": {"down": "default-round-down", "up": "default-round"},
-        "toggle": {"down": "default-round-down", "checked": "default-round-down", "up": "default-round"}
-        "bell": {"down": "gloeckchen001", "up": "gloeckchen"},
-     	
+        "toggle": {"down": "default-round-down", "checked": "default-round-down", "up": "default-round"},
+        "bell": {"down": "gloeckchen001", "up": "gloeckchen"}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
         "default": {"down": "default-round-down", "up": "default-round", "font": "default-font", "fontColor": "white"},
-        "toggle": {"down": "default-round-down", "up": "default-round", "checked": "default-round-down", "font": "default-font", "fontColor": "white", "downFontColor": "red"}
+        "toggle": {"down": "default-round-down", "up": "default-round", "checked": "default-round-down", "font": "default-font", "fontColor": "white", "downFontColor": "red"},
     	"mainMenu": {"down": "main-round-down", "up": "main-round", "font": "laserCat-font"},
-    	"level": {"down": "level-round-down", "up": "level-round", "font": "default-font", "fontColor": "white"},
-    	
-    }
+    	"level": {"down": "level-round-down", "up": "level-round", "font": "default-font", "fontColor": "white"}
+    },
      "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
         "default": {"font": "default-font", "fontColor": "white"},
         "mainMenue": {"font": "laserCat-font", "fontColor": "catGray"}
-        
-	},
-    
+    },
     "com.badlogic.gdx.scenes.scene2d.ui.Image$ImageStyle": {
     	"default": {}
-    	}
+    }
 }
