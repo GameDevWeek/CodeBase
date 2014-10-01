@@ -45,6 +45,10 @@ public abstract class PhysixEntity {
     public void setRotation(float r){
         physicsBody.setTransform(physicsBody.getPosition().x, physicsBody.getPosition().y, r);
     }
+    
+    public float getRotation() {
+        return physicsBody.getAngle();
+    }
 
     protected void beginContact(PhysixContact contact) {
     }
