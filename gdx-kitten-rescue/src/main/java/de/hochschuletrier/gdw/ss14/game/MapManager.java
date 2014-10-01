@@ -89,6 +89,7 @@ public class MapManager
         
         for (Layer layer : mapComp.map.getLayers())
         {
+            System.out.println(layer.getIntProperty("floor", -1));
             //if (layer.getIntProperty("floor", -1) == floor)
                 mapComp.renderedLayers.add(mapComp.map.getLayers().indexOf(layer));
         }
