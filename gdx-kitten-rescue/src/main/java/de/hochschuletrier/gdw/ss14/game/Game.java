@@ -51,7 +51,8 @@ public class Game
     {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
-        engine.addSystem(new MovementSystem(entityManager));
+        engine.addSystem(new PlayerMovementSystem(entityManager));
+        //engine.addSystem(new MovementSystem(entityManager));
         engine.addSystem(new DogInputSystem(entityManager));
         engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
         engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
