@@ -105,7 +105,6 @@ public class Main extends StateBasedGame {
     public void create() {
         CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Internal));
         DrawUtil.init();
-        setupDummyLoader();
         loadAssetLists();
         gamePreferences.init();
 		musicManager = MusicManager.getInstance();

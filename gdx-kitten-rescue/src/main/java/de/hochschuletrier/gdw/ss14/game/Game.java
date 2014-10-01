@@ -23,6 +23,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
 
 public class Game
 {
