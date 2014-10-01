@@ -68,8 +68,8 @@ public class LayerObject {
             primitive = Primitive.RECT;
         }
 
-        x = node.getX();
-        y = node.getY();
+        x = (int)node.getX();
+        y = (int)node.getY();
         width = (node.getWidth() == null) ? 0 : node.getWidth();
         height = (node.getHeight() == null) ? 0 : node.getHeight();
 
@@ -103,8 +103,8 @@ public class LayerObject {
                 x -= -lowestX;
                 y -= -lowestY;
             } else if (polyMode == PolyMode.ABSOLUTE) {
-                int dx = node.getX();
-                int dy = node.getY();
+                int dx =(int) node.getX();
+                int dy = (int) node.getY();
                 for (Point p : points) {
                     p.x += dx;
                     p.y += dy;
@@ -118,8 +118,8 @@ public class LayerObject {
         } else {
             points = null;
 
-            lowestX = node.getX();
-            lowestY = node.getY();
+            lowestX = (int) node.getX();
+            lowestY = (int) node.getY();
             if (primitive == Primitive.TILE) {
                 TileSet set = map.findTileSet(node.getGid());
                 if (set != null) {

@@ -1,3 +1,9 @@
 {
-    "menu": "data/music/menu.ogg"
+    "menu": "data/music/menu.ogg",
+	"calm": "data/music/calm.mp3",
+	"alert": "data/music/alert.mp3",
+	"gameOver": "data/music/gameOver.mp3",
+	"mainMenu": "data/music/menu.mp3",
+	"pause": "data/music/pause.mp3",
+	"victory": "data/music/victory.mp3"
 }
