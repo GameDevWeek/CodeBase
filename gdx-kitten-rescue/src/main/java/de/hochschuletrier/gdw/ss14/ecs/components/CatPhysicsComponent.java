@@ -1,12 +1,15 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
 
 public class CatPhysicsComponent extends PhysicsComponent {
 
@@ -18,6 +21,8 @@ public class CatPhysicsComponent extends PhysicsComponent {
     public float mFriction;
     public float mRotation;
     public float mRestitution;
+    
+    public ArrayList<ICollisionListener> mListeners;
 
     /**
      * 
@@ -59,10 +64,18 @@ public class CatPhysicsComponent extends PhysicsComponent {
                 .position(mPosition).fixedRotation(true).angle(mRotation)
                 .create();
 
+        physicsBody.setAngularVelocity(0);
+        
         physicsBody.createFixture(fixturedef.shapeBox(mWidth, mHeight-mWidth));
-        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + (mHeight - mWidth)/2)));
-        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + (-mHeight + mWidth)/2)));
+        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(0,( mHeight - mWidth)/2)));
+        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(0,(-mHeight + mWidth)/2)));
         setPhysicsBody(physicsBody);
+        
     }
-
+    
+    @Override
+    protected void beginContact(PhysixContact contact) {
+        super.beginContact(contact);
+        mListeners.forEach((l)->l.fireCollision(contact));
+    }
 }
