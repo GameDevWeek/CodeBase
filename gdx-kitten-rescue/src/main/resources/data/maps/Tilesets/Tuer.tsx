@@ -4,13 +4,11 @@
  <image source="Tuer.png" width="448" height="192"/>
  <tile id="0">
   <properties>
-   <property name="" value=""/>
    <property name="blocked" value="true"/>
   </properties>
  </tile>
  <tile id="1">
   <properties>
-   <property name="" value=""/>
    <property name="blocked" value="true"/>
   </properties>
  </tile>

@@ -12,5 +12,4 @@ public class CatPropertyComponent implements Component {
         amountLives = 9;
         isAlive = true;
     }
-
 }
