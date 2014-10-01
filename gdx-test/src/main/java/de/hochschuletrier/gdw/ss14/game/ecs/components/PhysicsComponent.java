@@ -20,8 +20,13 @@ public class PhysicsComponent /*extends PhysixEntity*/ implements Component
     }*/
     
     public Vector2 position = new Vector2();
+    public Vector2 velocity = new Vector2();
     
     public Vector2 getPosition() {
         return position;
+    }
+    
+    public Vector2 getVelocity() {
+        return velocity;
     }
 }

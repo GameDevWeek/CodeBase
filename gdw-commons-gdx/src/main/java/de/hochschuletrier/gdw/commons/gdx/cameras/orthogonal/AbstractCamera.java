@@ -54,6 +54,10 @@ public abstract class AbstractCamera implements ScreenListener {
     public void setZoom( float newZoom ) {
         camera.zoom = newZoom;
     }
+    
+    public float getZoom() {
+        return camera.zoom;
+    }
 
     public float getLeftOffset() {
         return camera.position.x - camera.viewportWidth / 2;
