@@ -72,10 +72,9 @@ public abstract class LaserCatMenu extends SandboxGame
 		// container for center labels and buttons, no background of its own
 		widgetFrame = new Table();
 		table.add(widgetFrame).align(Align.center).size(Value.percentWidth(0.6f, table), Value.percentHeight(0.25f,table));
+		table.row();
 		
-		// MainCat Image
 		
-		table.add();
 		
 		// Skinning and Adding the Labels
 		catSkin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
@@ -83,7 +82,9 @@ public abstract class LaserCatMenu extends SandboxGame
 		
 		//catSkin.getDrawable("title");
 		
-		
+		// MainCat Image
+		menuCatImage = new Image(catSkin.getDrawable("main-menu-cat"));
+		table.add(menuCatImage);
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
