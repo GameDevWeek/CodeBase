@@ -55,12 +55,12 @@ public class ConePhysicsComponent extends PhysicsComponent{
         fillShapeList();
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1).sensor(true);
         
-        physicsBody = new PhysixBodyDef(BodyType.StaticBody, manager).position(mPosition)
+        physicsBody = new PhysixBodyDef(BodyType.DynamicBody, manager).position(mPosition)
                 .fixedRotation(true).angle(mRotation)
                 .create();
         
     
-        physicsBody.createFixture(fixturedef.shapePolygon(mShape));
+        physicsBody.createFixture(fixturedef.shapePolygon(mShape).category(Short.parseShort("1111111111111111")).mask((short)0));
         setPhysicsBody(physicsBody);
     }
 
