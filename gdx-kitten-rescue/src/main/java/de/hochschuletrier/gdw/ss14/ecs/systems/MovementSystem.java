@@ -1,12 +1,12 @@
-package de.hochschuletrier.gdw.ss14.sandbox.Test.System;
+package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.utils.Array;
 
-import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.InputComponent;
-import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.MovementComponent;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 
 public class MovementSystem extends ECSystem{
 
@@ -79,8 +79,6 @@ public class MovementSystem extends ECSystem{
 			System.out.println(moveCompo.MIN_VELOCITY + " " + moveCompo.MIDDLE_VELOCITY + " " + moveCompo.MAX_VELOCITY);
 			//Normalizing DirectionVector for Movement
 			moveCompo.directionVec = moveCompo.directionVec.nor();
-			float angle = (float)Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
-			phyCompo.setRotation(angle);
 			phyCompo.setVelocityX(moveCompo.directionVec.x * moveCompo.velocity);
 			phyCompo.setVelocityY(moveCompo.directionVec.y * moveCompo.velocity);
 		}

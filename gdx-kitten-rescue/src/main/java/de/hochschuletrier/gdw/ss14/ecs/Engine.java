@@ -1,7 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
 import com.badlogic.gdx.utils.*;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.*;
+import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 
 import java.util.*;
 
