@@ -37,7 +37,7 @@ public abstract class InputDevice extends InputAdapter {
 	 *  Laser on / off
 	 */
 	protected void fireLaserButtonPressed() {
-	    System.out.println("LaserButtonPressed");
+	    //System.out.println("LaserButtonPressed");
 		for(GameInputAdapter inp: listener) {
 			inp.laserButtonPressed();
 		}
@@ -47,7 +47,7 @@ public abstract class InputDevice extends InputAdapter {
 	 * water pistol on
 	 */
 	protected void fireWaterPistolButtonDown() {
-	    System.out.println("WaterPistolButtonDown");
+	    //System.out.println("WaterPistolButtonDown");
 		for(GameInputAdapter inp: listener) {
 			inp.waterPistolButtonDown();
 		}
@@ -57,7 +57,7 @@ public abstract class InputDevice extends InputAdapter {
 	 * water pistol off
 	 */
 	protected void fireWaterPistolButtonUp() {
-	    System.out.println("WaterPistolButtonUp");
+	    //System.out.println("WaterPistolButtonUp");
 		for(GameInputAdapter inp: listener) {
 			inp.waterPistolButtonUp();
 		}
@@ -67,42 +67,42 @@ public abstract class InputDevice extends InputAdapter {
 	 * go to the menu or back
 	 */
 	protected void fireMenuButtonPressed() {
-		System.out.println("MenueButtonPressed");
+		//System.out.println("MenueButtonPressed");
 	    for(GameInputAdapter inp: listener) {
 			inp.menueButtonPressed();
 		}
 	}
 	
 	protected void fireMove(int screenX, int screenY) {
-	    System.out.println("Move: x = " + screenX + " | y = " +screenY);
+	    //System.out.println("Move: x = " + screenX + " | y = " +screenY);
         for(GameInputAdapter inp: listener) {
             inp.move(screenX, screenY);
         }
     }
 	
 	protected void fireMoveUp(float scale) {
-	    System.out.println("MoveUp: scale = " + scale);
+	    //System.out.println("MoveUp: scale = " + scale);
         for(GameInputAdapter inp: listener) {
             inp.moveUp(scale);
         }
     }
 	
 	protected void fireMoveDown(float scale) {
-	    System.out.println("MoveDown: scale = " + scale);
+	    //System.out.println("MoveDown: scale = " + scale);
         for(GameInputAdapter inp: listener) {
             inp.moveDown(scale);
         }
     }
 	
 	protected void fireMoveLeft(float scale) {
-	    System.out.println("MoveLeft: scale = " + scale);
+	    //System.out.println("MoveLeft: scale = " + scale);
         for(GameInputAdapter inp: listener) {
             inp.moveLeft(scale);
         }
     }
 	
 	protected void fireMoveRight(float scale) {
-	    System.out.println("MoveRight: scale = " + scale);
+	    //System.out.println("MoveRight: scale = " + scale);
         for(GameInputAdapter inp: listener) {
             inp.moveRight(scale);
         }
