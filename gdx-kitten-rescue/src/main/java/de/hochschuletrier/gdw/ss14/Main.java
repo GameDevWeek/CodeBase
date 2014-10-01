@@ -41,7 +41,7 @@ import de.hochschuletrier.gdw.ss14.states.GameStates;
  */
 public class Main extends StateBasedGame {
 
-    public static final int WINDOW_HEIGHT = 512;
+    public static final int WINDOW_HEIGHT = 768;
     public static final int WINDOW_WIDTH = 1024;
 
     private final AssetManagerX assetManager = new AssetManagerX();
@@ -105,7 +105,6 @@ public class Main extends StateBasedGame {
     public void create() {
         CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Internal));
         DrawUtil.init();
-        setupDummyLoader();
         loadAssetLists();
         gamePreferences.init();
 		musicManager = MusicManager.getInstance();

@@ -28,7 +28,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt0DkKgEAMQNF4WhXcGxHcGxW00FoLPakfbOYCmWYMPCbdJ+OLSGBZ6ImUiBAjQYpMac9RoJKvW6NBiw690j5gNLorNmjPTuMwuicuC92bxvPfqz7/vW7d69I/T7yzZQteBCdcvQ==
+   eJzt0CkOgEAQRNE+LmEHQ9gXhQABGgSclC8Qc4EeM1PJS9pVqkMRWS2LUCNGghQZcqW7QInq7+3QY8CISemesRi9G3bRz4HT6L1wW+h98Irfqx2/1629Lv25QWBZiw8K+lwX
   </data>
  </layer>
  <layer name="gaps" width="30" height="15">
@@ -60,7 +60,7 @@
    <property name="floor" value="0"/>
   </properties>
   <object name="vase" gid="37" x="1460.05" y="277.977" rotation="-269.958"/>
-  <object name="start" gid="35" x="116" y="334"/>
+  <object gid="35" x="116" y="334"/>
   <object name="lamp" gid="32" x="2634.79" y="296"/>
   <object name="lamp" gid="33" x="2623.88" y="371.394"/>
   <object name="lamp" gid="3" x="2768" y="351.879"/>
@@ -86,7 +86,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFQwVMBuIpA2DvYiBeMgD2jgJU0AfE/Xjk3enlkFEwCoYZAAAQOwPT
+   eJxjYBgFQwVMZmRgmMJIf3sXA+1cMgD2jgJU0AeMg3488eBOP6eMglEwrAAAK2ED2Q==
   </data>
  </layer>
 </map>

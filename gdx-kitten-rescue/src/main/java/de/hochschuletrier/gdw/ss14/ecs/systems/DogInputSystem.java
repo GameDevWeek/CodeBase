@@ -1,7 +1,11 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
@@ -26,6 +30,7 @@ public class DogInputSystem extends ECSystem{
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             PhysicsComponent phyCompo = entityManager.getComponent(compos2.get(0), PhysicsComponent.class);
             inputCompo.whereToGo = phyCompo.getPosition();
+            System.out.print("");
         }
     }
 

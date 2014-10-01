@@ -21,8 +21,10 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
 
 public class Game
 {
@@ -38,6 +40,7 @@ public class Game
     private PhysixManager physixManager;
 
     private int catEntity;
+    
     private Vector2 mapCenter = new Vector2();
 
     public Game(AssetManagerX am)
@@ -57,7 +60,7 @@ public class Game
     public void init(AssetManagerX assetManager)
     {
         initializeSystems();
-        //initializeTestComponents();
+        initializeTestComponents();
         
         mapManager.loadMap("ErsteTestMap");        
         mapManager.setFloor(0);
@@ -71,19 +74,20 @@ public class Game
         addSystem(new MovementSystem(entityManager));
         addSystem(new DogInputSystem(entityManager));
         addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
+        addSystem(new PhysixUpdateSystem(entityManager, physixManager));
 
         addSystem(new CameraSystem(entityManager, 1024));
 
         // Rendering related systems
         addSystem(new TileMapRenderingSystem(entityManager, 0));
-        addSystem(new RenderSystem(entityManager, 1));
-        //addSystem(new AnimationSystem(entityManager, 1));
-        //addSystem(new RenderSystem(entityManager, 2));
+        addSystem(new AnimationSystem(entityManager, 1));
+        addSystem(new RenderSystem(entityManager, 1200));
     }
 
     private void initializeTestComponents()
     {
-        catEntity = EntityFactory.constructCat(new Vector2(500, 300), 150.0f, 75.0f, 0, 100f);
+        int dogEntity = EntityFactory.constructDog(new Vector2(0,0), 60.0f, 40.0f, 0, 100f);
+        int dogEntity2 = EntityFactory.constructDog(new Vector2(500,350), 60.0f, 40.0f, 0, 100f);
     }
 
     public void addSystem(ECSystem system)
