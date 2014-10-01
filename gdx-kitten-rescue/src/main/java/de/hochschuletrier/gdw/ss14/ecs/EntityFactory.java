@@ -81,7 +81,7 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
+    public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
         MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
@@ -94,6 +94,7 @@ public class EntityFactory {
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
 //        manager.addComponent(entity, new AnimationComponent());
+        return entity;
     }
 
     public static void constructDoor() {
