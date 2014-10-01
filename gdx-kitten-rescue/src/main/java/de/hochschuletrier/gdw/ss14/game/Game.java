@@ -24,6 +24,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
 
 public class Game
 {
@@ -78,9 +79,8 @@ public class Game
 
         // Rendering related systems
         addSystem(new TileMapRenderingSystem(entityManager, 0));
-        addSystem(new RenderSystem(entityManager, 1));
-        //addSystem(new AnimationSystem(entityManager, 1));
-        //addSystem(new RenderSystem(entityManager, 2));
+        addSystem(new AnimationSystem(entityManager, 1));
+        addSystem(new RenderSystem(entityManager, 1200));
     }
 
     private void initializeTestComponents()
