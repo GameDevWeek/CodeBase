@@ -22,14 +22,16 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 public class EntityFactory {
 
-    public static EntityManager manager;
-    public static PhysixManager phyManager;
-    public static AssetManagerX assetManager;
+    public static void constructBalk() {
+        int entity = manager.createEntity();
+    }
 
-    public EntityFactory(EntityManager manager, PhysixManager phyManager, AssetManagerX assetManager) {
-        this.manager = manager;
-        this.phyManager = phyManager;
-        this.assetManager = assetManager;
+    public static void constructBox() {
+        int entity = manager.createEntity();
+    }
+
+    public static void constructBroom() {
+        int entity = manager.createEntity();
     }
 
     public static void constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
@@ -42,19 +44,19 @@ public class EntityFactory {
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
         catAnimation.animation = new AnimationWithVariableFrameTime[6];
-        catAnimation.animation[CatStateEnum.HIT.ordinal()] = 
-                loadAnimation("data/animations/Hit_rdy.png", 5, 1, new float[] {0.1f, 0.5f, 0.1f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
-        catAnimation.animation[CatStateEnum.IDLE.ordinal()] = 
-                loadAnimation("data/animations/Schwanz_rdy.png", 10, 1, 0.2f, Animation.PlayMode.LOOP);
-        catAnimation.animation[CatStateEnum.LAUFEN.ordinal()] = 
-                loadAnimation("data/animations/Laufen_rdy.png", 4, 1, new float[] {0.1f,0.2f,0.1f,0.2f}, Animation.PlayMode.LOOP);
-        catAnimation.animation[CatStateEnum.RENNEN.ordinal()] = 
-                loadAnimation("data/animations/Rennen_rdy.png", 4, 1, new float[] {0.1f,0.2f,0.1f,0.2f}, Animation.PlayMode.LOOP);
-        catAnimation.animation[CatStateEnum.RUTSCHEN_LINKS.ordinal()] = 
-                loadAnimation("data/animations/Rutschen_links_rdy.png", 5, 1, new float[] {0.1f,0.2f,0.5f,0.1f,0.1f}, Animation.PlayMode.NORMAL);
-        catAnimation.animation[CatStateEnum.RUTSCHEN_RECHTS.ordinal()] = 
-                loadAnimation("data/animations/Rutschen_rechts_rdy.png", 5, 1, new float[] {0.1f,0.2f,0.5f,0.1f,0.1f}, Animation.PlayMode.NORMAL);
-                
+        catAnimation.animation[CatStateEnum.HIT.ordinal()]
+                = loadAnimation("data/animations/Hit_rdy.png", 5, 1, new float[]{0.1f, 0.5f, 0.1f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
+        catAnimation.animation[CatStateEnum.IDLE.ordinal()]
+                = loadAnimation("data/animations/Schwanz_rdy.png", 10, 1, 0.2f, Animation.PlayMode.LOOP);
+        catAnimation.animation[CatStateEnum.LAUFEN.ordinal()]
+                = loadAnimation("data/animations/Laufen_rdy.png", 4, 1, new float[]{0.1f, 0.2f, 0.1f, 0.2f}, Animation.PlayMode.LOOP);
+        catAnimation.animation[CatStateEnum.RENNEN.ordinal()]
+                = loadAnimation("data/animations/Rennen_rdy.png", 4, 1, new float[]{0.1f, 0.2f, 0.1f, 0.2f}, Animation.PlayMode.LOOP);
+        catAnimation.animation[CatStateEnum.RUTSCHEN_LINKS.ordinal()]
+                = loadAnimation("data/animations/Rutschen_links_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
+        catAnimation.animation[CatStateEnum.RUTSCHEN_RECHTS.ordinal()]
+                = loadAnimation("data/animations/Rutschen_rechts_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
+
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catState);
@@ -62,6 +64,10 @@ public class EntityFactory {
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
+    }
+
+    public static void constructCatbox() {
+        int entity = manager.createEntity();
     }
 
     public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
@@ -78,15 +84,52 @@ public class EntityFactory {
         manager.addComponent(entity, new EnemyComponent());
     }
 
-    public static void constructHole(Vector2 pos){
+    public static void constructDoor() {
+        int entity = manager.createEntity();
+    }
+
+    public static void constructFood() {
+        int entity = manager.createEntity();
+    }
+
+    public static void constructHole(Vector2 pos) {
         int entity = manager.createEntity();
         HolePhysicsComponent holePhysix = new HolePhysicsComponent();
         holePhysix.initPhysics(phyManager);
         manager.addComponent(entity, holePhysix);
     }
 
-    private static AnimationWithVariableFrameTime loadAnimation(String path, int cols, int row, float frameDuration, Animation.PlayMode playMode) {
+    public static void constructLamp() {
+        int entity = manager.createEntity();
+    }
 
+    public static void constructPuddleOfBlood() {
+        int entity = manager.createEntity();
+    }
+
+    public static void constructPuddleOfWater() {
+        int entity = manager.createEntity();
+    }
+
+    public static void constructStairs() {
+        int entity = manager.createEntity();
+    }
+
+    public static void constructVase() {
+        int entity = manager.createEntity();
+    }
+
+    public static void constructWool() {
+        int entity = manager.createEntity();
+    }
+
+    public static EntityManager manager;
+
+    public static PhysixManager phyManager;
+
+    public static AssetManagerX assetManager;
+
+    private static AnimationWithVariableFrameTime loadAnimation(String path, int cols, int row, float frameDuration, Animation.PlayMode playMode) {
         Texture tex;
         TextureRegion[][] tmp;
         TextureRegion[] frames;

@@ -29,6 +29,7 @@ public class JacksonExample {
         student.courses.add(new JacksonObjectExample.Course("Android", 1));
         student.courses.add(new JacksonObjectExample.Course("C++", 2));
         student.courses.add(new JacksonObjectExample.Course("Webtech", 3));
+        student.specialCourse = new JacksonObjectExample.Course("Seminar", 4);
         student.map = new HashMap();
         student.map.put("Android", new JacksonObjectExample.Course("Android", 1));
         student.map.put("C++", new JacksonObjectExample.Course("C++", 2));
@@ -56,6 +57,8 @@ public class JacksonExample {
                 for (JacksonObjectExample.Course course : student.courses) {
                     System.out.printf("Course: %s (%d)\n", course.name, course.tries);
                 }
+                if(student.specialCourse != null)
+                    System.out.printf("Special course: %s (%d)\n", student.specialCourse.name, student.specialCourse.tries);
             }
             if (student.map == null) {
                 System.out.println("null map");
