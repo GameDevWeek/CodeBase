@@ -15,5 +15,6 @@ public enum CatStateEnum {
     RUTSCHEN_RECHTS,
     IDLE,
     LAUFEN,
-    RENNEN
+    RENNEN,
+    SPRINGEN
 }
