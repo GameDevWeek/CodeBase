@@ -60,7 +60,7 @@ public class EntityFactory {
                 = loadAnimation("data/animations/Rutschen_rechts_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
 
         CameraComponent cam = new CameraComponent();
-        cam.cameraZoom = 3.0f;
+        cam.cameraZoom = 1.0f;
         
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
