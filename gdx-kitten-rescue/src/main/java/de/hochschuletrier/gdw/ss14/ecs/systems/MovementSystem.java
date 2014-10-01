@@ -76,7 +76,6 @@ public class MovementSystem extends ECSystem{
                     }
             }
             
-            System.out.println(moveCompo.MIN_VELOCITY + " " + moveCompo.MIDDLE_VELOCITY + " " + moveCompo.MAX_VELOCITY);
             //Normalizing DirectionVector for Movement
             moveCompo.directionVec = moveCompo.directionVec.nor();
             float angle = (float)Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
