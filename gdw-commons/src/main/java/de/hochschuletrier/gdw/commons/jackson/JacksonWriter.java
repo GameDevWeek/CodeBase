@@ -1,6 +1,11 @@
 package de.hochschuletrier.gdw.commons.jackson;
 
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -8,12 +13,7 @@ import java.text.ParseException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
-import java.io.OutputStream;
+import java.util.Map;
 
 /**
  * Writing Json from objects
@@ -55,25 +55,45 @@ public class JacksonWriter {
             NoSuchFieldException, ParseException {
         generator.writeStartArray();
         for (Object item : list) {
-            if (item == null) {
-                generator.writeNull();
-            } else if (item instanceof String) {
-                generator.writeString((String) item);
-            } else if (item instanceof Integer) {
-                generator.writeNumber((Integer) item);
-            } else if (item instanceof Float) {
-                generator.writeNumber((Float) item);
-            } else if (item instanceof Boolean) {
-                generator.writeBoolean((Boolean) item);
-            } else if (item instanceof Enum) {
-                generator.writeString(item.toString());
-            } else if (item instanceof List) {
-                writeList((List<?>) item, generator);
-            } else {
-                writeObject(item, generator);
-            }
+            writeSingleObject(item, generator);
         }
         generator.writeEndArray();
+    }
+
+    private static void writeSingleObject(Object item, JsonGenerator generator)
+            throws NoSuchFieldException, IOException, IllegalAccessException,
+            ParseException, InstantiationException {
+        if (item == null) {
+            generator.writeNull();
+        } else if (item instanceof String) {
+            generator.writeString((String) item);
+        } else if (item instanceof Integer) {
+            generator.writeNumber((Integer) item);
+        } else if (item instanceof Float) {
+            generator.writeNumber((Float) item);
+        } else if (item instanceof Boolean) {
+            generator.writeBoolean((Boolean) item);
+        } else if (item instanceof Enum) {
+            generator.writeString(item.toString());
+        } else if (item instanceof List) {
+            writeList((List<?>) item, generator);
+        } else if (item instanceof Map) {
+            writeMap((Map<String, ?>) item, generator);
+        } else {
+            writeObject(item, generator);
+        }
+    }
+
+    private static void writeMap(Map<String, ?> map, JsonGenerator generator)
+            throws InstantiationException, IllegalAccessException, IOException,
+            NoSuchFieldException, ParseException {
+        generator.writeStartObject();
+        for(Map.Entry<String, ?> entry: map.entrySet()) {
+            generator.writeFieldName(entry.getKey());
+            writeSingleObject(entry.getValue(), generator);
+        }
+        generator.writeEndObject();
+        
     }
 
     private static void writeObject(Object object, JsonGenerator generator)
@@ -108,7 +128,11 @@ public class JacksonWriter {
                     } else if (value instanceof List) {
                         generator.writeFieldName(field.getName());
                         writeList((List<?>) value, generator);
+                    } else if (value instanceof Map) {
+                        generator.writeFieldName(field.getName());
+                        writeMap((Map<String, ?>) value, generator);
                     } else {
+                        generator.writeFieldName(field.getName());
                         writeObject(value, generator);
                     }
                 }
