@@ -33,10 +33,8 @@ import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 
 public abstract class LaserCatMenu extends SandboxGame
 {
-	private Stage stage;
-	protected Table table;
-	protected Label label_start, label_options, label_exit;
-	protected Button button_start, button_options, button_exit;
+	private static Stage stage;
+	private static Image menuCatImage;
 	// For debug drawing
 	private ShapeRenderer shapeRenderer;
 
@@ -44,7 +42,8 @@ public abstract class LaserCatMenu extends SandboxGame
 	//
 	// Vererbtes Zeug
 	//
-	protected Table widgetFrame;
+	protected static Table widgetFrame;
+	protected static Table table;
 	protected Skin catSkin, basicSkin;
 	
 	// Abstrakte (vorgeschriebene) Attribute
@@ -74,6 +73,10 @@ public abstract class LaserCatMenu extends SandboxGame
 		widgetFrame = new Table();
 		table.add(widgetFrame).align(Align.center).size(Value.percentWidth(0.6f, table), Value.percentHeight(0.25f,table));
 		
+		// MainCat Image
+		
+		table.add();
+		
 		// Skinning and Adding the Labels
 		catSkin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
 		basicSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
@@ -100,13 +103,14 @@ public abstract class LaserCatMenu extends SandboxGame
 		}
 		
 		widgetFrame.row();
-		
 		for(int i = 0; i<numberOfButtons; i++)
 		{
 			button[i] = new Button(catSkin, "bell");
 			widgetFrame.add(button[i]).height(Value.percentHeight(0.25f,table)).top().space(20).spaceTop(10);
 		}
 		name = null;
+		
+		
 	}
 
 	@Override
@@ -120,21 +124,6 @@ public abstract class LaserCatMenu extends SandboxGame
 	public void render()
 	{
 		stage.draw();
-
-		//table.drawDebug(shapeRenderer);
-		
-		// Taken from Santos MainMenuState-Class
-		
-//		Main.getInstance().screenCamera.bind();
-//		DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
-//        DrawUtil.batch.draw(menuBackground, 0, 0, menuBackground.getWidth(), menuBackground.getHeight(), 0, 0,
-//                menuBackground.getWidth(), menuBackground.getHeight(), false, true);
-		
-	
-		// DrawUtil.batch.draw(menuBackground, 0, 0, menuBackground.getWidth(),
-		// menuBackground.getHeight(), 0, 0,
-		// menuBackground.getWidth(), menuBackground.getHeight(), false, true);
-
 	}
 
 	@Override
