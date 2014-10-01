@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 
 public class CatPhysicsComponent extends PhysicsComponent {
 
@@ -60,7 +60,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
                 .create();
 
         physicsBody.createFixture(fixturedef.shapeBox(mWidth, mHeight-mWidth));
-        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + ( mHeight - mWidth)/2)));
+        physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + (mHeight - mWidth)/2)));
         physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + (-mHeight + mWidth)/2)));
         setPhysicsBody(physicsBody);
     }
