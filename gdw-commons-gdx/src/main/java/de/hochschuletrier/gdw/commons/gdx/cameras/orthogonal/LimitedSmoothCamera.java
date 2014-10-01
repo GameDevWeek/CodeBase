@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal;
 
+import com.badlogic.gdx.graphics.*;
+
 /**
  * A smooth camera controller that stays within the set bounds.
  * If the camera width or height exceeds the bounds, it will be centered on the bounds.
@@ -10,7 +12,7 @@ public class LimitedSmoothCamera extends SmoothCamera {
 
     float xMin, yMin, xMax, yMax;
     boolean useBounds = false;
-    
+
     @Override
     protected void onViewportChanged(float width, float height) {
         updateForced();
@@ -18,7 +20,7 @@ public class LimitedSmoothCamera extends SmoothCamera {
 
     @Override
     public void setDestination(float x, float y) {
-        
+
         if (useBounds) {
             destination.x = clamp(x, xMin, xMax, camera.viewportWidth);
             destination.y = clamp(y, yMin, yMax, camera.viewportHeight);
@@ -26,7 +28,7 @@ public class LimitedSmoothCamera extends SmoothCamera {
         else {
             destination.x = x;
             destination.y = y;
-        }         
+        }
     }
 
     private float clamp(float in, float min, float max, float viewportSize) {
@@ -49,12 +51,17 @@ public class LimitedSmoothCamera extends SmoothCamera {
         this.yMin = yMin;
         this.xMax = xMax;
         this.yMax = yMax;
-        
+
         useBounds = true;
     }
-    
+
     public void resetBounds() {
-        
+
         useBounds = false;
+    }
+
+    public OrthographicCamera getOrthographicCamera()
+    {
+        return camera;
     }
 }
