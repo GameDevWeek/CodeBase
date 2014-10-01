@@ -59,7 +59,7 @@ public class MovementSystem extends ECSystem{
 
             float distance = moveCompo.directionVec.len();
 
-            System.out.println("DISTANCE: " +  distance + " VELOCITY: " + moveCompo.velocity);
+            System.out.println(this.getClass().getName()+": "+"DISTANCE: " +  distance + " VELOCITY: " + moveCompo.velocity);
 
 
 //            if(distance <= minDistance){

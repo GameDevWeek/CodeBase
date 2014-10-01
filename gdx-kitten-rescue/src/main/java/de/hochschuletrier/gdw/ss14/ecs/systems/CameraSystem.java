@@ -71,7 +71,7 @@ public class CameraSystem extends ECSystem {
               newDest.add(followPos.cpy().sub(camera2DPos).scl(followFactor * timeFactor));        
               
               if (Float.isInfinite(newDest.x))
-                  System.out.println("meep");
+                  System.out.println(this.getClass().getName()+": "+"meep");
               
 
           }
