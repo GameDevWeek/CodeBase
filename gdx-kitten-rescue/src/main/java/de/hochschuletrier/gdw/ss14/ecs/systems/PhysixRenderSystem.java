@@ -1,7 +1,7 @@
-package de.hochschuletrier.gdw.ss14.sandbox.ecs.systems;
+package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import de.hochschuletrier.gdw.commons.gdx.physix.*;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.*;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 
 /**
  * Created by Dani on 29.09.2014.
