@@ -38,7 +38,7 @@ public class GeneralInputAdapter implements InputProcessor {
 	 */
 	private void fireLaserMoved(int screenX, int screenY) {	
 		for(GameInputAdapter inp: listener) {
-			inp.laserMoved(screenX, screenY);
+			inp.mouseMoved(screenX, screenY);
 		}
 	}
 	
