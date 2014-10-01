@@ -8,7 +8,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 
-public class CatPhysicsComponent extends PhysicsComponent {
+public class DogPhysicsComponent extends PhysicsComponent {
 
     // TODO: Für Physik Team
 
@@ -31,7 +31,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
      * @param restitution
      *            the restitution (elastitcy)
      */
-    public CatPhysicsComponent(Vector2 position, float width, float height,
+    public DogPhysicsComponent(Vector2 position, float width, float height,
             float rotation, float friciton, float restitutioin) {
         
         if(height <= width) throw new IllegalArgumentException("cat needs to be higher than fat");
@@ -45,7 +45,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
 
     }
 
-    public CatPhysicsComponent() {
+    public DogPhysicsComponent() {
         this(new Vector2(0, 0), 50f, 100f, 0f, 1f, 0f);
     }
 
