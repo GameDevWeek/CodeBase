@@ -1,0 +1,53 @@
+{
+    "textStyles" : {
+        "credit_titel": { "color": "F8BB08", "font": "verdana_24" }
+    },
+    "paths" : {
+        "fixed_position": {},
+        "text_path": {
+           "destinations": [
+            {"x": 500, "y": 800, "speed": 80 },
+            {"x": 500, "y": -100, "speed": 80 }
+           ],
+           "animations": [
+                { "time": 0, "animation": "clear" },
+                { "time": 3000, "animation": "explode_in", "frametime": 100 },
+                { "time": 6000, "animation": "fade_out", "animationTime": 100 }
+           ]
+        },
+        "cat_path": {
+           "destinations": [
+            {"x": 500, "y": 800, "speed": -1 },
+            {"x": 500, "y": -100, "speed": 80 }
+           ],
+           "animations": [
+                { "time": 0, "animation": "astronaut_walking", "frametime": 100 }
+           ]
+        }
+    },
+    "queues": {
+        "static": {
+            "time": 0,
+            "items" : [
+                { "type": "text", "style" : "credit_titel", "text": "Kitten Rescue" }
+            ]
+        },
+        "text": {
+            "time": 0,
+            "path" : "text_path",
+            "next": "cat",
+            "items" : [
+                { "type": "text", "style" : "credit_titel", "text": "Organisation", "delay": "1150" },
+                { "type": "text", "style" : "teilnehmer", "text": "Santo Pfingsten", "delay": "750" }
+            ]
+        },
+        "cat": {
+            "time": 0,
+            "path" : "cat_path",
+            "finalNext": "reset",
+            "items" : [
+                { "type": "sprite", "animation": "astronaut_walking", "scale" : "0.5", "angle": 0, "oriented" : true }
+            ]
+        }
+    }
+}
