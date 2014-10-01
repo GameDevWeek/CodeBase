@@ -79,7 +79,7 @@ public class Game
 
         // Rendering related systems
         addSystem(new TileMapRenderingSystem(entityManager, 0));
-        addSystem(new AnimationSystem(entityManager, 1));
+        //addSystem(new AnimationSystem(entityManager, 1));
     }
 
     private void initializeTestComponents()
@@ -123,7 +123,7 @@ public class Game
     public void update(float delta)
     {
         
-        CatPhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, CatPhysicsComponent.class);
+        /*CatPhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, CatPhysicsComponent.class);
         
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
             
@@ -135,7 +135,7 @@ public class Game
             catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
         
             catPhysicsComp.mPosition.add(new Vector2(10.0f, 0.0f));
-        }
+        }*/
 
         for (ECSystem system : systems) {
             system.update(delta);

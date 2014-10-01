@@ -47,7 +47,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
         mRotation = rotation;
         mFriction = friciton;
         mRestitution = restitutioin;
-
+        mListeners = new ArrayList<>();
     }
 
     public CatPhysicsComponent() {
@@ -70,6 +70,8 @@ public class CatPhysicsComponent extends PhysicsComponent {
         physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(0,( mHeight - mWidth)/2)));
         physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(0,(-mHeight + mWidth)/2)));
         setPhysicsBody(physicsBody);
+        
+        physicsBody.setOwner(this);
         
     }
     

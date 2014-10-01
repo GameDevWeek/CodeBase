@@ -61,7 +61,7 @@ public class EntityFactory {
 
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 3.0f;
-        
+
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catState);
@@ -72,7 +72,7 @@ public class EntityFactory {
 //        manager.addComponent(entity, new AnimationComponent());
 //        manager.addComponent(entity, new CameraComponent());
         manager.addComponent(entity, cam);
-        
+
         return entity;
     }
 
@@ -134,12 +134,6 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static EntityManager manager;
-
-    public static PhysixManager phyManager;
-
-    public static AssetManagerX assetManager;
-
     private static AnimationWithVariableFrameTime loadAnimation(String path, int cols, int row, float frameDuration, Animation.PlayMode playMode) {
         Texture tex;
         TextureRegion[][] tmp;
@@ -164,4 +158,11 @@ public class EntityFactory {
         ani.setFrameDurations(frameDurations);
         return ani;
     }
+
+    public static EntityManager manager;
+
+    public static PhysixManager phyManager;
+
+    public static AssetManagerX assetManager;
 }
+
