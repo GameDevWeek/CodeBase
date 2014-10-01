@@ -18,6 +18,8 @@ public class TmxTileSet {
     protected SafeProperties properties;
     @XStreamAlias("image")
     protected TmxImage image;
+    @XStreamAlias("tileoffset")
+    protected TmxTileOffset tileoffset;
     @XStreamImplicit(itemFieldName = "tile")
     protected List<TmxTile> tiles;
     @XStreamAlias("firstgid")
