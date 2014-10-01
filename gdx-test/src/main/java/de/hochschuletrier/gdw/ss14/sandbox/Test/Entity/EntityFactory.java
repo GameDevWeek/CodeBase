@@ -11,7 +11,6 @@ import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.DogPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.DogStateComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.HolePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.MovementComponent;
-import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.PositionComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
 
 public class EntityFactory {
@@ -154,4 +153,5 @@ public class EntityFactory {
     // // manager.addComponent(entity, dogPosition);
     // // manager.addComponent(entity, dogMove);
     // // }
+
 }
