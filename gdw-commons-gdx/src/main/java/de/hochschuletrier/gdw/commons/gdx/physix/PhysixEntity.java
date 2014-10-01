@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public abstract class PhysixEntity {
 
-    protected PhysixBody physicsBody;
+    public PhysixBody physicsBody;
 
     public abstract void initPhysics(PhysixManager manager);
 
@@ -40,6 +40,10 @@ public abstract class PhysixEntity {
 
     public void setVelocityY(float y) {
         physicsBody.setLinearVelocityY(y);
+    }
+    
+    public void setRotation(float r){
+        physicsBody.setTransform(physicsBody.getPosition().x, physicsBody.getPosition().y, r);
     }
 
     protected void beginContact(PhysixContact contact) {
