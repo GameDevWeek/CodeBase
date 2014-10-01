@@ -1,6 +1,5 @@
 package de.hochschuletrier.gdw.ss14.sandbox.Test.Entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
