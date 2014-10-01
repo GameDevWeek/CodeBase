@@ -49,7 +49,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
             float rotation, float friciton, float restitutioin) {
         
         if(height <= width) throw new IllegalArgumentException("cat needs to be higher than fat");
-        
+        mListeners = new ArrayList<ICollisionListener>();
         mPosition = position;
         mWidth = width;
         mHeight = height;
