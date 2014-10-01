@@ -39,7 +39,7 @@ public class EntityFactory {
 	
 	public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
 		int entity = manager.createEntity();
-		CatPhysicsComponent dogPhysix = new CatPhysicsComponent();
+		DogPhysicsComponent dogPhysix = new DogPhysicsComponent();
 	    MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
 	    InputComponent dogInput = new InputComponent();
 		dogPhysix.initPhysics(phyManager);
