@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.InputComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.ECSystem;
 
 public class InputSystem extends ECSystem{
