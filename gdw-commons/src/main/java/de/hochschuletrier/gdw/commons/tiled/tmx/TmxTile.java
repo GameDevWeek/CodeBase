@@ -17,7 +17,7 @@ public class TmxTile {
     protected Integer id;
     @XStreamAlias("gid")
     @XStreamAsAttribute
-    protected Integer gid;
+    protected Long gid;
 
     public SafeProperties getProperties() {
         return properties;
@@ -35,11 +35,11 @@ public class TmxTile {
         this.id = value;
     }
 
-    public Integer getGid() {
+    public Long getGid() {
         return gid;
     }
 
-    public void setGid(Integer value) {
+    public void setGid(Long value) {
         this.gid = value;
     }
 }
