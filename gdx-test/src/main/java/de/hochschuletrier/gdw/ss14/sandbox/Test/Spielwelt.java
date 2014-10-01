@@ -7,8 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.commons.tiled.LayerObject;
-import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Entity.EntityFactory;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.System.DogInputSystem;
@@ -21,11 +19,17 @@ import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.PhysixUpdateSystem;
 
 
 public class Spielwelt extends SandboxGame{
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(Spielwelt.class);
 	private Engine engine;
 	private EntityManager manager;
 	private PhysixManager phyManager;
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
 	public void init(AssetManagerX assetManager) {
@@ -45,12 +49,6 @@ public class Spielwelt extends SandboxGame{
 	}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void render() {
 		// TODO Auto-generated method stub
 		engine.render();
@@ -61,14 +59,6 @@ public class Spielwelt extends SandboxGame{
 		// TODO Auto-generated method stub
 		engine.update(delta);
 	}
-	
-	public TiledMap loadMap(String file){
-		try{
-			return new TiledMap(file, LayerObject.PolyMode.ABSOLUTE);
-		}catch(Exception e){
-			 throw new IllegalArgumentException("Map konnte nicht geladen werden: " + file);
-		}
-	}
-	
+
 
 }
