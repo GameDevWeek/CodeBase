@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.input.infos;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -12,7 +13,7 @@ import de.hochschuletrier.gdw.commons.jackson.JacksonWriter;
 import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
 
 public class InputSettings {
-    private static final String fileName = "src/main/resources/data/json/ctrls.json";
+    private static final String fileName = "src/main/resources/data/json/input.json";
     private static InputSettings instance;
     
     public static InputSettings getInstance() {
@@ -97,10 +98,15 @@ public class InputSettings {
     
     public void read() {
         InputSettings o = null;
-        try {
-            o = JacksonReader.read(fileName, InputSettings.class);
-        } catch (Exception e) {
-            e.printStackTrace();
+        
+        File f = new File(fileName);
+        if (f.exists()) {
+            try {
+                o = JacksonReader.read(fileName, InputSettings.class);
+            } catch (Exception e) {
+                // do nothing
+                // e.printStackTrace();
+            }
         }
         
         if (o != null) {

@@ -1,9 +1,0 @@
-{
-  "inputInfos" : [ {
-    "type" : "MOUSE",
-    "NAME" : "MOUSE"
-  }, {
-    "type" : "GAMEPAD",
-    "NAME" : "XBOX"
-  } ]
-}

@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.ss14.game;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,10 +66,15 @@ public class GameSettings {
     
     public static GameSettings read() {
         GameSettings o = null;
-        try {
-            o = JacksonReader.read(fileName, GameSettings.class);
-        } catch (Exception e) {
-            e.printStackTrace();
+        
+        File f = new File(fileName);
+        if (f.exists()) {
+            try {
+                o = JacksonReader.read(fileName, GameSettings.class);
+            } catch (Exception e) {
+                // do nothing
+                // e.printStackTrace();
+            }
         }
         return o;
     }
