@@ -80,7 +80,7 @@ public class MovementSystem extends ECSystem{
 			//Normalizing DirectionVector for Movement
 			moveCompo.directionVec = moveCompo.directionVec.nor();
 			float angle = (float)Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
-			phyCompo.setRotation(angle);
+			//phyCompo.setRotation(angle);
 			phyCompo.setVelocityX(moveCompo.directionVec.x * moveCompo.velocity);
 			phyCompo.setVelocityY(moveCompo.directionVec.y * moveCompo.velocity);
 		}

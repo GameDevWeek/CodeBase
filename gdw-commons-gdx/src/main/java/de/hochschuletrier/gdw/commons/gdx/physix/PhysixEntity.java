@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public abstract class PhysixEntity {
 
-    protected PhysixBody physicsBody;
+    public PhysixBody physicsBody;
 
     public abstract void initPhysics(PhysixManager manager);
 
