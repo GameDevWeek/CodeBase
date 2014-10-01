@@ -42,7 +42,7 @@
  </layer>
  <objectgroup name="actionlayer">
   <object name="vase" gid="37" x="1460.05" y="277.977" rotation="-269.958"/>
-  <object name="start" gid="35" x="116" y="334"/>
+  <object name="broom" gid="35" x="116" y="334"/>
   <object name="lamp" gid="32" x="2634.79" y="296"/>
   <object name="lamp" gid="33" x="2623.88" y="371.394"/>
   <object name="lamp" gid="3" x="2768" y="351.879"/>
@@ -56,6 +56,7 @@
   <object name="catbox" gid="68" x="2591.88" y="200.364"/>
   <object name="catbox" gid="70" x="2396.61" y="62.6667"/>
   <object name="catbox" gid="70" x="1393.94" y="809.091"/>
+  <object name="start" x="315" y="822" width="43" height="35"/>
  </objectgroup>
  <objectgroup name="renderlayer"/>
  <layer name="deco2" width="30" height="15">
