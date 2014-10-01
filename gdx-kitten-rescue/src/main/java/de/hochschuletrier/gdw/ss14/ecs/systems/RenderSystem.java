@@ -45,7 +45,9 @@ public class RenderSystem extends ECSystem {
             renderCompo = entityManager.getComponent(integer, RenderComponent.class);
             physicsCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             
-           batch.draw(renderCompo.texture, physicsCompo.getPosition().x, physicsCompo.getPosition().y);
+            if (renderCompo.texture != null) {
+                batch.draw(renderCompo.texture, physicsCompo.getPosition().x, physicsCompo.getPosition().y);
+            }
         }
         batch.end();
     }

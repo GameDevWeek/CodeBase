@@ -1,14 +1,13 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.utils.Point;
+
+import java.util.ArrayList;
 
 public class ConePhysicsComponent extends PhysicsComponent{
     
@@ -46,7 +45,6 @@ public class ConePhysicsComponent extends PhysicsComponent{
             mShape.add(new Point((int)(Math.cos(startWinkel) * mRadius), (int)(Math.sin(startWinkel) * mRadius)));
             startWinkel += delta;
         }
-        
     }
     
     public void initPhysics(PhysixManager manager){
