@@ -9,8 +9,6 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
 
 public class CirclePhysicsComponent extends PhysicsComponent{
-    
-    // TODO: Für Physik Team
     public Vector2          mPosition;
     public float            mRadius;
     public float            mFriction;
@@ -55,5 +53,4 @@ public class CirclePhysicsComponent extends PhysicsComponent{
         physicsBody.createFixture(fixturedef.shapeCircle(mRadius));
         setPhysicsBody(physicsBody);
     }
-
 }
