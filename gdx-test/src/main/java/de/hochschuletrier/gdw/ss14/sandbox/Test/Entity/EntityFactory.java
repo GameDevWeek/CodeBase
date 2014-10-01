@@ -28,7 +28,7 @@ public class EntityFactory {
 	
 	public static void constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
 		int entity = manager.createEntity();
-	    CatPhysicsComponent catPhysix = new CatPhysicsComponent();
+	    CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
 	    MovementComponent catMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
 	    InputComponent catInput = new InputComponent();
 	    catPhysix.initPhysics(phyManager);
