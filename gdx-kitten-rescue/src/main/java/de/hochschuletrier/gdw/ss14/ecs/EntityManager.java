@@ -82,11 +82,11 @@ public class EntityManager
     {
         Class classToAdd;
 
-        /*if (component instanceof PhysicsComponent)
+        if (component instanceof PhysicsComponent)
         {
             classToAdd = component.getClass().getSuperclass();
         }
-        else*/
+        else
         {
             classToAdd = component.getClass();
         }

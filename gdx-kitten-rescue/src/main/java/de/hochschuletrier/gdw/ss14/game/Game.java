@@ -272,10 +272,10 @@ public class Game {
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
             
             //testPhysics.position = testPhysics.position.add( new Vector2(100.0f, 0.0f) );
-            catPhysicsComp.dummyPosition.add(new Vector2(10.0f, 0.0f));
+//            catPhysicsComp.dummyPosition.add(new Vector2(10.0f, 0.0f));
         }
         else
-            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
+//            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
         
         for (ECSystem system : systems) {
             system.update(delta);
