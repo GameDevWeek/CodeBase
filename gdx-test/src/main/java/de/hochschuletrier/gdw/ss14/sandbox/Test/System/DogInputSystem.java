@@ -1,5 +1,4 @@
 package de.hochschuletrier.gdw.ss14.sandbox.Test.System;
-
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.sandbox.Test.Component.EnemyComponent;
