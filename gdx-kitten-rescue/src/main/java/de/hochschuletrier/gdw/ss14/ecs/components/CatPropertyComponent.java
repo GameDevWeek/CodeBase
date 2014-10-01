@@ -13,5 +13,4 @@ public class CatPropertyComponent implements Component {
         isAlive = true;
         state = CatStateEnum.IDLE;
     }
-
 }

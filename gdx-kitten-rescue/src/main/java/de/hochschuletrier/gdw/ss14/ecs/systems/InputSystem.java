@@ -12,8 +12,6 @@ public class InputSystem extends ECSystem
     public InputSystem(EntityManager entityManager)
     {
         super(entityManager, 1);
-        // TODO Auto-generated constructor stub
-
     }
 
     @Override
@@ -28,8 +26,8 @@ public class InputSystem extends ECSystem
             CameraComponent camComp = entityManager.getComponent(integer, CameraComponent.class);
             inputCompo.whereToGo = new Vector2(Gdx.input.getX(), Gdx.input.getY());
             Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-//            vec = vec.mul(DrawUtil.batch.getProjectionMatrix());
-//            inputCompo.whereToGo = new Vector2(vec.x,vec.y);
+//          vec = vec.mul(DrawUtil.batch.getProjectionMatrix());
+//          inputCompo.whereToGo = new Vector2(vec.x,vec.y);
             vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
             inputCompo.whereToGo = new Vector2(vec.x, vec.y);
         }
@@ -38,8 +36,5 @@ public class InputSystem extends ECSystem
     @Override
     public void render()
     {
-        // TODO Auto-generated method stub
-
     }
-
 }

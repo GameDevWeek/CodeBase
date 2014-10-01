@@ -28,8 +28,7 @@ public class PhysixUpdateSystem extends ECSystem
     }
 
     @Override
-    public void render()
-    {
+    public void render(){
 
     }
 }
