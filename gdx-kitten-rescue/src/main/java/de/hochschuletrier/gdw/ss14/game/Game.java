@@ -25,6 +25,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 
 public class Game
@@ -79,7 +80,8 @@ public class Game
 
         // Rendering related systems
         addSystem(new TileMapRenderingSystem(entityManager, 0));
-        //addSystem(new AnimationSystem(entityManager, 1));
+        addSystem(new AnimationSystem(entityManager, 1));
+        addSystem(new RenderSystem(entityManager, 1200));
     }
 
     private void initializeTestComponents()

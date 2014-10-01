@@ -31,13 +31,15 @@ public class AnimationSystem extends ECSystem {
         for (Integer entity : entities) {
             animationCompo = entityManager.getComponent(entity, AnimationComponent.class);
             renderCompo = entityManager.getComponent(entity, RenderComponent.class);
+            int state = getEntityState(entity);
+            if (state < 0) continue;
             
             //update time
             animationCompo.animationTime += delta;
             
             // Change animation if neccessary (and reset it)
-            if(animationCompo.actualAnimationState != getEntityState(entity)) {
-                animationCompo.actualAnimationState = getEntityState(entity);
+            if(animationCompo.actualAnimationState != state) {
+                animationCompo.actualAnimationState = state;
                 animationCompo.animationTime = 0;
             }
             
@@ -55,7 +57,7 @@ public class AnimationSystem extends ECSystem {
                 return ((CatPropertyComponent)c).state.ordinal();
             }
             
-            throw new RuntimeException("The entity " + entity + " has no state!");
+            return -1;
         
     }
 

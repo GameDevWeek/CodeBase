@@ -11,6 +11,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatStateComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogStateComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
@@ -62,6 +63,10 @@ public class EntityFactory {
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 3.0f;
 
+        CatPropertyComponent catProperties = new CatPropertyComponent();
+        catProperties.state = CatStateEnum.IDLE;
+        
+        manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catState);
