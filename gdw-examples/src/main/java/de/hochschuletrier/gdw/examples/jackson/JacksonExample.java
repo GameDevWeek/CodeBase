@@ -1,9 +1,10 @@
 package de.hochschuletrier.gdw.examples.jackson;
 
-import java.util.ArrayList;
-
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.jackson.JacksonWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An example use of the Jackson reader/writer
@@ -28,10 +29,10 @@ public class JacksonExample {
         student.courses.add(new JacksonObjectExample.Course("Android", 1));
         student.courses.add(new JacksonObjectExample.Course("C++", 2));
         student.courses.add(new JacksonObjectExample.Course("Webtech", 3));
-        student.tags = new ArrayList();
-        student.tags.add("yolo");
-        student.tags.add("swag");
-        student.tags.add("lol");
+        student.map = new HashMap();
+        student.map.put("Android", new JacksonObjectExample.Course("Android", 1));
+        student.map.put("C++", new JacksonObjectExample.Course("C++", 2));
+        student.map.put("Webtech", new JacksonObjectExample.Course("Webtech", 3));
 
         try {
             JacksonWriter.write("target/test.json", student);
@@ -56,11 +57,12 @@ public class JacksonExample {
                     System.out.printf("Course: %s (%d)\n", course.name, course.tries);
                 }
             }
-            if (student.tags == null) {
-                System.out.println("null tags");
+            if (student.map == null) {
+                System.out.println("null map");
             } else {
-                for (String tag : student.tags) {
-                    System.out.println("Tag: " + tag);
+                System.out.println("Map:");
+                for (Map.Entry<String, JacksonObjectExample.Course> entry : student.map.entrySet()) {
+                    System.out.printf("- Course: %s => %s (%d)\n", entry.getKey(), entry.getValue().name, entry.getValue().tries);
                 }
             }
         } catch (Exception e) {
