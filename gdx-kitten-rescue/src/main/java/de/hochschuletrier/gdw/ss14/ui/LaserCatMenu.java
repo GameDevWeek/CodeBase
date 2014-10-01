@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.sandbox.ui;
+package de.hochschuletrier.gdw.ss14.ui;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -31,7 +31,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 
-public abstract class LaserCatMenu extends SandboxGame
+public abstract class LaserCatMenu
 {
 	private static Image menuCatImage, titleTextImage;
 	// For debug drawing
@@ -54,8 +54,6 @@ public abstract class LaserCatMenu extends SandboxGame
 	protected String name[];
 	protected int numberOfButtons;
 	
-	
-	@Override
 	public void init(AssetManagerX assetManager)
 	{
 		//Variables
@@ -124,20 +122,17 @@ public abstract class LaserCatMenu extends SandboxGame
 		name = null;
 }
 
-	@Override
 	public void dispose()
 	{
 		stage.dispose();
 		shapeRenderer.dispose();
 	}
 
-	@Override
 	public void render()
 	{
 		stage.draw();
 	}
 
-	@Override
 	public void update(float delta)
 	{
 		// TODO Auto-generated method stub

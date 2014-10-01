@@ -9,8 +9,6 @@
     import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 
     public class RectPhysicsComponent extends PhysicsComponent{
-        
-        // TODO: Für Physik Team
         public Vector2          mPosition;
         public float            mWidth;
         public float            mHeight;
@@ -57,7 +55,5 @@
             physicsBody.createFixture(fixturedef.shapeBox(mWidth, mHeight));
             setPhysicsBody(physicsBody);
         }
-
-
     }
 
