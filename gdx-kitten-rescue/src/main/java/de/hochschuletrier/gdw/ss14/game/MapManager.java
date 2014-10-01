@@ -64,7 +64,7 @@ public class MapManager
             entityManager.addComponent(levelEntity, mapComp);
         }
         
-        mapComp.map = getMap();
+        mapComp.setMap(getMap());
     }
 
     public HashMap getTileSet()
@@ -87,11 +87,11 @@ public class MapManager
         TileMapRenderingComponent mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
         mapComp.renderedLayers.clear();
         
-        for (Layer layer : mapComp.map.getLayers())
+        for (Layer layer : mapComp.getMap().getLayers())
         {
             System.out.println(layer.getIntProperty("floor", -1));
             //if (layer.getIntProperty("floor", -1) == floor)
-                mapComp.renderedLayers.add(mapComp.map.getLayers().indexOf(layer));
+                mapComp.renderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
         }
     }
 
