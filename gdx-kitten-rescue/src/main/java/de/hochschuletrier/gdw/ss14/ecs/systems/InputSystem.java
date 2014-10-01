@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
-
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
@@ -28,9 +28,11 @@ public class InputSystem extends ECSystem{
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CameraComponent camComp = entityManager.getComponent(integer, CameraComponent.class);
             inputCompo.whereToGo = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-//            Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-//            vec.mul(DrawUtil.batch.getProjectionMatrix());
+            Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
+//            vec = vec.mul(DrawUtil.batch.getProjectionMatrix());
 //            inputCompo.whereToGo = new Vector2(vec.x,vec.y);
+            vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
+            inputCompo.whereToGo = new Vector2(vec.x,vec.y);
         }
     }
 
