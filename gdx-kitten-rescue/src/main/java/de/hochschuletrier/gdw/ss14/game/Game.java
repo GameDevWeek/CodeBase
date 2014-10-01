@@ -13,6 +13,8 @@ import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.TileMapRenderingComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
@@ -49,6 +51,8 @@ public class Game {
     private void initializeSystems() {
         
         // Game logic related systems
+        addSystem( new InputSystem(entityManager) );
+        addSystem( new MovementSystem(entityManager) );
         addSystem( new CameraSystem(entityManager, 1024) );
         
         // Rendering related systems
