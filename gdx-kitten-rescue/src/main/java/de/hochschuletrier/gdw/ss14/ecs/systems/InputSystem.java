@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
@@ -16,14 +16,14 @@ public class InputSystem extends ECSystem{
     public InputSystem(EntityManager entityManager) {
         super(entityManager, 1);
         // TODO Auto-generated constructor stub
-        
+
     }
 
     @Override
     public void update(float delta) {
         // TODO Auto-generated method stub
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, PlayerComponent.class);
-        
+
         for (Integer integer : compos) {
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CameraComponent camComp = entityManager.getComponent(integer, CameraComponent.class);
@@ -37,7 +37,7 @@ public class InputSystem extends ECSystem{
     @Override
     public void render() {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

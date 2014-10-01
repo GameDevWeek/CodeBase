@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
+import de.hochschuletrier.gdw.ss14.Main;
 
 public class CameraComponent implements Component 
 {    
@@ -30,6 +31,8 @@ public class CameraComponent implements Component
     public CameraComponent() {
         
         smoothCamera = new LimitedSmoothCamera();
+        Main.getInstance().addScreenListener(smoothCamera);
+        
         smoothCamera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         smoothCamera.updateForced();
     }
