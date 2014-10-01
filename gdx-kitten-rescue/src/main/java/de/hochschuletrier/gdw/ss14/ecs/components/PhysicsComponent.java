@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
+import com.badlogic.gdx.math.Vector2;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 
 /**
@@ -14,5 +16,11 @@ public class PhysicsComponent extends PhysixEntity implements Component
     {
         // initialize bodies and fixtures here
         // don't forget to use setPhysicsBody!
+    }
+    
+    public Vector2 dummyPosition = new Vector2();   
+    @Override
+    public Vector2 getPosition() {
+        return dummyPosition;
     }
 }
