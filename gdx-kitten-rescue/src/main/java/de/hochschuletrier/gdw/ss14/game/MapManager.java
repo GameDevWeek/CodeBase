@@ -2,7 +2,6 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.physics.box2d.*;
-
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.commons.resourcelocator.*;
@@ -11,7 +10,7 @@ import de.hochschuletrier.gdw.commons.tiled.tmx.*;
 import de.hochschuletrier.gdw.commons.tiled.utils.*;
 import de.hochschuletrier.gdw.commons.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.TileMapRenderingComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 
 import java.util.*;
 
@@ -30,13 +29,13 @@ public class MapManager
     HashMap<TileSet, Texture> tilesetImages;
 
     private int levelEntity;
-    
+
     public MapManager(EntityManager entityManager, PhysixManager physixManager, AssetManagerX assetmanager)
     {
         this.entityManager = entityManager;
         this.physixManager = physixManager;
         tilesetImages = new HashMap();
-        
+
         levelEntity = entityManager.createEntity();
     }
 
@@ -55,15 +54,16 @@ public class MapManager
         createTileSet();
         createPhysics();
         loadMapObjects();
-        
-        TileMapRenderingComponent mapComp;       
+
+        TileMapRenderingComponent mapComp;
         mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
-        
-        if (mapComp == null) {
+
+        if (mapComp == null)
+        {
             mapComp = new TileMapRenderingComponent();
             entityManager.addComponent(levelEntity, mapComp);
         }
-        
+
         mapComp.map = getMap();
     }
 
@@ -81,16 +81,17 @@ public class MapManager
             tilesetImages.put(tileset, new Texture(filename));
         }
     }
-    
-    public void setFloor( int floor ) {
-        
+
+    public void setFloor(int floor)
+    {
+
         TileMapRenderingComponent mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
         mapComp.renderedLayers.clear();
-        
+
         for (Layer layer : mapComp.map.getLayers())
         {
             //if (layer.getIntProperty("floor", -1) == floor)
-                mapComp.renderedLayers.add(mapComp.map.getLayers().indexOf(layer));
+            mapComp.renderedLayers.add(mapComp.map.getLayers().indexOf(layer));
         }
     }
 
@@ -137,7 +138,8 @@ public class MapManager
                 {
                     String objType = mapObjects.get(j).getName();
 
-                    if (objType != null) {                        
+                    if (objType != null)
+                    {
                         switch (objType)
                         {
                             case "start":
@@ -146,31 +148,31 @@ public class MapManager
                             case "wool":
                                 // TODO: add object with entityFactory here
                                 break;
-    
+
                             case "vase":
                                 // TODO: add object with entityFactory here
                                 break;
-    
+
                             case "broom":
                                 // TODO: add object with entityFactory here
                                 break;
-    
+
                             case "lamp":
                                 // TODO: add object with entityFactory here
                                 break;
-    
+
                             case "food":
                                 // TODO: add object with entityFactory here
                                 break;
-    
+
                             case "door":
                                 // TODO: add object with entityFactory here
                                 break;
-    
+
                             case "catbox":
                                 // TODO: add object with entityFactory here
                                 break;
-    
+
                             case "stairs":
                                 // TODO: add object with entityFactory here
                                 break;
