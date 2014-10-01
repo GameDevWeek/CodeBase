@@ -51,9 +51,9 @@ public class MovementSystem extends ECSystem{
                 if(moveCompo.velocity == 0)
                     catStateCompo.state = CatStateEnum.IDLE;
                 else if (moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.MIDDLE_VELOCITY)
-                    catStateCompo.state = CatStateEnum.LAUFEN;
+                    catStateCompo.state = CatStateEnum.WALK;
                 else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY)
-                    catStateCompo.state = CatStateEnum.RENNEN;
+                    catStateCompo.state = CatStateEnum.RUN;
             } else {
                 dogStateCompo = entityManager.getComponent(integer, DogPropertyComponent.class);
                 if(moveCompo.velocity == 0)

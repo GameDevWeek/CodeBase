@@ -18,6 +18,7 @@ import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DogInputSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.HitAnimationSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
@@ -76,6 +77,7 @@ public class Game
         addSystem(new DogInputSystem(entityManager));
         addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
         addSystem(new PhysixUpdateSystem(entityManager, physixManager));
+        addSystem(new HitAnimationSystem(entityManager));
 
         addSystem(new CameraSystem(entityManager, 1024));
 

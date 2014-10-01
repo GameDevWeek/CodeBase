@@ -45,8 +45,24 @@ public class RenderSystem extends ECSystem {
 
             if (renderCompo.texture != null) {
 
+                if (renderCompo.isTintedRed) {
+                    DrawUtil.batch.end();
+                    
+                    DrawUtil.batch.begin();
+                    Gdx.gl20.glColorMask(true, false, false, true);
+                }
+                /*else
+                    Gdx.gl20.glColorMask(true, true, true, true);*/
+                
                 DrawUtil.batch.draw(renderCompo.texture, physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() /2),
                         physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2));
+                
+                if (renderCompo.isTintedRed) {
+                    DrawUtil.batch.end();
+                    
+                    Gdx.gl20.glColorMask(true, true, true, true);
+                    DrawUtil.batch.begin();
+                }
             }
         }
     }
