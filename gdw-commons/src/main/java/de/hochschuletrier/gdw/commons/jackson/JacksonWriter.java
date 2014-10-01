@@ -132,6 +132,7 @@ public class JacksonWriter {
                         generator.writeFieldName(field.getName());
                         writeMap((Map<String, ?>) value, generator);
                     } else {
+                        generator.writeFieldName(field.getName());
                         writeObject(value, generator);
                     }
                 }

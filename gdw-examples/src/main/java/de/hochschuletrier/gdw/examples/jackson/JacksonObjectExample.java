@@ -17,6 +17,7 @@ public class JacksonObjectExample {
     public Float progress;
     public Boolean master;
     public Gender gender;
+    public Course specialCourse;
     @JacksonList(Course.class)
     public List<Course> courses;
     @JacksonMap(Course.class)

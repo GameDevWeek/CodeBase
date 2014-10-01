@@ -12,7 +12,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 public class DogInputSystem extends ECSystem{
 
     public DogInputSystem(EntityManager entityManager) {
-        super(entityManager, 1);
+        super(entityManager,1);
         // TODO Auto-generated constructor stub
         
     }
@@ -21,7 +21,7 @@ public class DogInputSystem extends ECSystem{
     public void update(float delta) {
         // TODO Auto-generated method stub
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, EnemyComponent.class);
-        Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(PlayerComponent.class);
+        Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
         for (Integer integer : compos) {
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             PhysicsComponent phyCompo = entityManager.getComponent(compos2.get(0), PhysicsComponent.class);
