@@ -1,6 +1,5 @@
 package de.hochschuletrier.gdw.ss14.sandbox.ecs.systems;
 
-import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.commons.gdx.utils.*;
@@ -12,12 +11,9 @@ import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.*;
  */
 public class TestRenderSystem extends ECSystem
 {
-    private SpriteBatch spriteBatch;
-
     public TestRenderSystem(EntityManager entityManager)
     {
         super(entityManager, 10);
-        spriteBatch = new SpriteBatch();
     }
 
     @Override

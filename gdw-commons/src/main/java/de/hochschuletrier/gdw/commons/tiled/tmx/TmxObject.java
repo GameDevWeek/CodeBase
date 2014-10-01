@@ -29,10 +29,10 @@ public class TmxObject {
     protected Integer gid;
     @XStreamAlias("x")
     @XStreamAsAttribute
-    protected int x;
+    protected float x;
     @XStreamAlias("y")
     @XStreamAsAttribute
-    protected int y;
+    protected float y;
     @XStreamAlias("width")
     @XStreamAsAttribute
     protected Integer width;
@@ -96,7 +96,7 @@ public class TmxObject {
         this.gid = value;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
@@ -104,7 +104,7 @@ public class TmxObject {
         this.x = value;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
