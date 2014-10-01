@@ -2,18 +2,15 @@ package de.hochschuletrier.gdw.ss14.sandbox.Test.Component;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.g3d.utils.FirstPersonCameraController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Fixture;
 
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ICollisionListener;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 
 /**
  * Add System to the Listeners in Entity Factory

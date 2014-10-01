@@ -76,6 +76,6 @@ public class CatPhysicsComponent extends PhysicsComponent {
     @Override
     protected void beginContact(PhysixContact contact) {
         super.beginContact(contact);
-        mListeners.forEach((l)->l.fireCollision(contact));
+        //mListeners.forEach((l)->l.fireCollision(contact));
     }
 }

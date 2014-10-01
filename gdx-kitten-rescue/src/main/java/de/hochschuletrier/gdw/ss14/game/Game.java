@@ -3,20 +3,29 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.*;
-
-import de.hochschuletrier.gdw.commons.gdx.assets.*;
-import de.hochschuletrier.gdw.commons.gdx.physix.*;
-import de.hochschuletrier.gdw.commons.tiled.*;
-import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.ecs.systems.*;
-
 import org.slf4j.Logger;
-import org.slf4j.*;
+import java.util.Comparator;
 
-import java.util.*;
+import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.tiled.LayerObject;
+import de.hochschuletrier.gdw.commons.tiled.TiledMap;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DogInputSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 
 public class Game
 {
@@ -119,6 +128,12 @@ public class Game
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
             
             //testPhysics.position = testPhysics.position.add( new Vector2(100.0f, 0.0f) );
+//            catPhysicsComp.dummyPosition.add(new Vector2(10.0f, 0.0f));
+        }
+        else{
+//            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
+            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
+        
             catPhysicsComp.mPosition.add(new Vector2(10.0f, 0.0f));
         }
 

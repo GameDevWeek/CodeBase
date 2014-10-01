@@ -1,18 +1,23 @@
 package de.hochschuletrier.gdw.ss14.sandbox.Test;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.math.Vector2;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
+import de.hochschuletrier.gdw.ss14.ecs.Engine;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DogInputSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixRenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixUpdateSystem;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
-import de.hochschuletrier.gdw.ss14.sandbox.Test.Entity.EntityFactory;
-import de.hochschuletrier.gdw.ss14.sandbox.Test.System.MovementSystem;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.Engine;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.systems.PhysixRenderSystem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class Spielwelt extends SandboxGame{
@@ -30,8 +35,12 @@ public class Spielwelt extends SandboxGame{
 		EntityFactory ef = new EntityFactory(manager, phyManager, assetManager);
 		int entity = manager.createEntity();
 		EntityFactory.constructCat(new Vector2(200,200), 10, 5, 3, 1.2f);
+		EntityFactory.constructDog(new Vector2(0,0), 10, 5, 3, 1.2f);
 		engine.addSystem(new MovementSystem(manager));
 		engine.addSystem(new PhysixRenderSystem(manager,phyManager));
+		engine.addSystem(new InputSystem(manager));
+		engine.addSystem(new PhysixUpdateSystem(manager,phyManager));
+		engine.addSystem(new DogInputSystem(manager));
 	}
 
 	@Override
