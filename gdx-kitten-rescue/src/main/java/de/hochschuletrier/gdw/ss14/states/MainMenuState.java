@@ -3,7 +3,6 @@ package de.hochschuletrier.gdw.ss14.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,6 +16,7 @@ import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransi
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
+import de.hochschuletrier.gdw.ss14.ui.MainMenu;
 
 /**
  * Menu state
@@ -26,14 +26,14 @@ import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 public class MainMenuState extends GameState implements InputProcessor {
 
     public static final int WALKING_SPEED = 100;
-
+    
 	private LocalMusic music;
     private Sound click;
     private Texture logo;
     float stateTime = 0f;
     private AnimationExtended walking;
     private float x = 0;
-
+    private MainMenu mainMenu;
     InputInterceptor inputProcessor;
 
     public MainMenuState() {
@@ -42,7 +42,8 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-
+        mainMenu = new MainMenu();
+        mainMenu.init(assetManager);
         logo = assetManager.getTexture("logo");
         walking = assetManager.getAnimation("walking");
         this.music = Main.musicManager.getMusicStreamByStateName(GameStates.MAINMENU);
@@ -70,6 +71,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void render() {
         Main.getInstance().screenCamera.bind();
+        mainMenu.render();
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
         DrawUtil.batch.draw(logo, 0, 0, logo.getWidth(), logo.getHeight(), 0, 0,
@@ -82,6 +84,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void update(float delta) {
     	music.update();
+    	mainMenu.update(delta);
         stateTime += delta;
         x += delta * WALKING_SPEED;
         if (x > 1024) {
