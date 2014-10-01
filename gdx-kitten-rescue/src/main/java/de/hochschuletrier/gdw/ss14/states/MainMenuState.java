@@ -17,6 +17,8 @@ import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransi
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
+import de.hochschuletrier.gdw.ss14.ui.UIActions;
 
 /**
  * Menu state
@@ -47,6 +49,7 @@ public class MainMenuState extends GameState implements InputProcessor {
         walking = assetManager.getAnimation("walking");
         this.music = Main.musicManager.getMusicStreamByStateName(GameStates.MAINMENU);
         click = assetManager.getSound("click");
+        
 //        music.play();
 
         inputProcessor = new InputInterceptor(this) {
@@ -92,10 +95,11 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void onEnter() {
 		if (this.music.isMusicPlaying()) {
-			this.music.setFade('i', 3000);
+			this.music.setFade('i', 2000);
 		} else {
 			this.music.play("menu");
 		}
+		SoundManager.performAction(UIActions.BELLCLICKED);
     	
         inputProcessor.setActive(true);
         inputProcessor.setBlocking(true);
@@ -104,7 +108,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void onLeave() {
 		if (this.music.isMusicPlaying()) {
-    		this.music.setFade('o', 3000);
+    		this.music.setFade('o', 2000);
 		}
 		
         inputProcessor.setActive(false);
