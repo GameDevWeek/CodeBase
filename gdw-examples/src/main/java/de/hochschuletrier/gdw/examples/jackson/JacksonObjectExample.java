@@ -1,8 +1,9 @@
 package de.hochschuletrier.gdw.examples.jackson;
 
-import java.util.List;
-
 import de.hochschuletrier.gdw.commons.jackson.JacksonList;
+import de.hochschuletrier.gdw.commons.jackson.JacksonMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An example object for the Jackson reader/writer
@@ -18,8 +19,8 @@ public class JacksonObjectExample {
     public Gender gender;
     @JacksonList(Course.class)
     public List<Course> courses;
-    @JacksonList(String.class)
-    public List<String> tags;
+    @JacksonMap(Course.class)
+    public Map<String, Course> map;
 
     public static class Course {
 
