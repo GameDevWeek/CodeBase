@@ -45,8 +45,6 @@ public class ConePhysicsComponent extends PhysicsComponent{
             mShape.add(new Point((int)(Math.cos(startWinkel) * mRadius), (int)(Math.sin(startWinkel) * mRadius)));
             startWinkel += delta;
         }
-        
-        mShape.forEach((p)->System.out.println(this.getClass().getName()+": "+p.x+" | "+p.y));
     }
     
     public void initPhysics(PhysixManager manager){
