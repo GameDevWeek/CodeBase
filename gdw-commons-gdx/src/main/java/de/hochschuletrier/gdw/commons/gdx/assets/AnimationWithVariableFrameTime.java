@@ -1,69 +1,66 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package de.hochschuletrier.gdw.commons.gdx;
+package de.hochschuletrier.gdw.commons.gdx.assets;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 /**
+ * Extended animation with variable frame durations. If no variable frame
+ * durations are set, default frame durations will be used.
  *
- * @author rftpool13
+ * @author David Neubauer
  */
-public class AnimationFrameTime extends Animation {
+public class AnimationWithVariableFrameTime extends Animation {
 
     private float frameDurations[] = null;
 
     /**
      * Constructor, storing the frame duration and key frames.
      *
-     * @param frameDuration the time between frames in seconds.
+     * @param defaultFrameDuration the time between frames in seconds.
      * @param keyFrames the {@link TextureRegion}s representing the frames.
      */
-    public AnimationFrameTime(float frameDuration, Array<? extends TextureRegion> keyFrames) {
-        super(frameDuration, keyFrames);
+    public AnimationWithVariableFrameTime(float defaultFrameDuration, Array<? extends TextureRegion> keyFrames) {
+        super(defaultFrameDuration, keyFrames);
     }
 
     /**
      * Constructor, storing the frame duration, key frames and play type.
      *
-     * @param frameDuration the time between frames in seconds.
+     * @param defaultFrameDuration the time between frames in seconds.
      * @param keyFrames the {@link TextureRegion}s representing the frames.
      * @param playMode the animation playback mode.
      */
-    public AnimationFrameTime(float frameDuration, Array<? extends TextureRegion> keyFrames, PlayMode playMode) {
-        super(frameDuration, keyFrames, playMode);
+    public AnimationWithVariableFrameTime(float defaultFrameDuration, Array<? extends TextureRegion> keyFrames, PlayMode playMode) {
+        super(defaultFrameDuration, keyFrames, playMode);
     }
 
     /**
      * Constructor, storing the frame duration and key frames.
      *
-     * @param frameDuration the time between frames in seconds.
+     * @param defaultFrameDuration the time between frames in seconds.
      * @param keyFrames the {@link TextureRegion}s representing the frames.
      */
-    public AnimationFrameTime(float frameDuration, TextureRegion... keyFrames) {
-        super(frameDuration, keyFrames);
+    public AnimationWithVariableFrameTime(float defaultFrameDuration, TextureRegion... keyFrames) {
+        super(defaultFrameDuration, keyFrames);
     }
 
     /**
      * Will override the frameDuration. Use this only if you need different
      * frame lengths. Can be set to NULL.
+     *
      * @param frameDurations the durantion for every frame in seconds.
      */
     public void setFrameDurations(float frameDurations[]) {
-        if(frameDurations == null) {
+        if (frameDurations == null) {
             this.frameDurations = null;
             return;
         }
         if (frameDurations.length != super.getKeyFrames().length) {
-            throw new RuntimeException("Need as many FrameDurations (" 
-                    + frameDurations.length 
-                    + ") as there are frames(" 
-                    + super.getKeyFrames().length 
+            throw new RuntimeException("Need as many FrameDurations ("
+                    + frameDurations.length
+                    + ") as there are frames("
+                    + super.getKeyFrames().length
                     + ")!");
         }
         this.frameDurations = frameDurations;
