@@ -1,15 +1,25 @@
 package de.hochschuletrier.gdw.ss14.sandbox.Test.Component;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g3d.utils.FirstPersonCameraController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ss14.sandbox.Test.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
 
+/**
+ * Add System to the Listeners in Entity Factory
+ * @author oliver
+ *
+ */
 public class CatPhysicsComponent extends PhysicsComponent {
 
     // TODO: Für Physik Team
@@ -20,6 +30,8 @@ public class CatPhysicsComponent extends PhysicsComponent {
     public float mFriction;
     public float mRotation;
     public float mRestitution;
+    
+    public ArrayList<ICollisionListener> mListeners;
 
     /**
      * 
@@ -37,7 +49,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
             float rotation, float friciton, float restitutioin) {
         
         if(height <= width) throw new IllegalArgumentException("cat needs to be higher than fat");
-        
+        mListeners = new ArrayList<ICollisionListener>();
         mPosition = position;
         mWidth = width;
         mHeight = height;
@@ -61,10 +73,18 @@ public class CatPhysicsComponent extends PhysicsComponent {
                 .position(mPosition).fixedRotation(true).angle(mRotation)
                 .create();
 
+        physicsBody.setAngularVelocity(0);
+        
         physicsBody.createFixture(fixturedef.shapeBox(mWidth, mHeight-mWidth));
         physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + ( mHeight - mWidth)/2)));
         physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + (-mHeight + mWidth)/2)));
         setPhysicsBody(physicsBody);
+        
     }
-
+    
+    @Override
+    protected void beginContact(PhysixContact contact) {
+        super.beginContact(contact);
+        mListeners.forEach((l)->l.fireCollision(contact));
+    }
 }
