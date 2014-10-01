@@ -55,9 +55,9 @@ public class MainMenuState extends GameState implements InputProcessor {
                 switch (keycode) {
                     case Keys.ESCAPE:
                         if (GameStates.GAMEPLAY.isActive()) {
-                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(100).reverse(), null);
+                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(500).reverse(), null);
                         } else {
-                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(100), null);
+                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(500), null);
                         }
                         return true;
                 }
@@ -92,7 +92,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void onEnter() {
 		if (this.music.isMusicPlaying()) {
-			this.music.setFade('i', 4000);
+			this.music.setFade('i', 3000);
 		} else {
 			this.music.play("menu");
 		}
@@ -104,7 +104,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void onLeave() {
 		if (this.music.isMusicPlaying()) {
-    		this.music.setFade('o', 4000);
+    		this.music.setFade('o', 3000);
 		}
 		
         inputProcessor.setActive(false);
