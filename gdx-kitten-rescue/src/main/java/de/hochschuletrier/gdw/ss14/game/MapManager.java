@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
@@ -8,7 +9,7 @@ import de.hochschuletrier.gdw.commons.resourcelocator.*;
 import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.commons.tiled.tmx.*;
 import de.hochschuletrier.gdw.commons.tiled.utils.*;
-import de.hochschuletrier.gdw.commons.utils.*;
+import de.hochschuletrier.gdw.commons.utils.Rectangle;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 
@@ -53,7 +54,6 @@ public class MapManager
 
         createTileSet();
         createPhysics();
-        loadMapObjects();
 
         TileMapRenderingComponent mapComp;
         mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
@@ -65,6 +65,7 @@ public class MapManager
         }
 
         mapComp.map = getMap();
+        loadMapObjects();
     }
 
     public HashMap getTileSet()
@@ -144,7 +145,10 @@ public class MapManager
                         switch (objType)
                         {
                             case "start":
-                                // TODO: add object with entityFactory here
+                                float x = mapObjects.get(j).getX();
+                                float y = mapObjects.get(j).getY();
+                                Vector2 pos = new Vector2(x, y);
+                                EntityFactory.constructCat(pos, 150, 75, 0, 50.0f);
                                 break;
                             case "wool":
                                 // TODO: add object with entityFactory here

@@ -60,7 +60,7 @@ public class Game
     public void init(AssetManagerX assetManager)
     {
         initializeSystems();
-        initializeTestComponents();
+        //initializeTestComponents();
         
         mapManager.loadMap("ErsteTestMap");        
         mapManager.setFloor(0);
