@@ -9,9 +9,6 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 
 public class DogPhysicsComponent extends PhysicsComponent {
-
-    // TODO: Für Physik Team
-
     public Vector2 mPosition;
     public float mWidth;
     public float mHeight;
@@ -64,5 +61,4 @@ public class DogPhysicsComponent extends PhysicsComponent {
         physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(mPosition.x, mPosition.y + (-mHeight + mWidth)/2)));
         setPhysicsBody(physicsBody);
     }
-
 }

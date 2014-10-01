@@ -126,8 +126,7 @@ public class EntityManager
         }
         else
         {
-            List<T> result = new ArrayList<T>((java.util.Collection<T>) store.values());
-            return result;
+            return new ArrayList<T>((Collection<T>) store.values());
         }
     }
 
