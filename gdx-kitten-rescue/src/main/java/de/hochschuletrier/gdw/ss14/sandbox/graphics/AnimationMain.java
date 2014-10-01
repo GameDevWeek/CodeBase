@@ -50,10 +50,10 @@ public class AnimationMain extends SandboxGame {
         //Component Animation
         AnimationComponent c2 = new AnimationComponent();
         c2.animation = new AnimationWithVariableFrameTime[2];
-        c2.animation[CatStateEnum.JUMPING.ordinal()]
-                = loadAnimation("data/animations/walking_1.png", 7, 1, new float[] {1.2f,1.2f,1.2f,0.2f,0.2f,0.2f,0.2f}, Animation.PlayMode.LOOP);
-        c2.animation[CatStateEnum.WALKING.ordinal()]
-                = loadAnimation("data/animations/walking.png", 7, 1, 0.5f, Animation.PlayMode.LOOP);
+        c2.animation[CatStateEnum.HIT.ordinal()]
+                = loadAnimation("data/animations/walking_1.png", 5, 1, new float[] {0.1f, 0.5f, 0.1f, 0.1f, 0.1f}, Animation.PlayMode.LOOP);
+        c2.animation[CatStateEnum.IDLE.ordinal()]
+                = loadAnimation("data/animations/walking.png", 10, 1, 0.2f, Animation.PlayMode.LOOP);
         manager.addComponent(dummy, c2);
         //Physics Dummy
         PhysicsComponent c3 = new PhysicsComponent();
@@ -62,7 +62,7 @@ public class AnimationMain extends SandboxGame {
         manager.addComponent(dummy, c3);
         // State informations
         CatPropertyComponent c4 = new CatPropertyComponent();
-        c4.state = CatStateEnum.WALKING;
+        c4.state = CatStateEnum.IDLE;
     }
 
     private AnimationWithVariableFrameTime loadAnimation(String path, int cols, int row, float frameDuration, Animation.PlayMode playMode) {
@@ -114,7 +114,7 @@ public class AnimationMain extends SandboxGame {
             for (Integer integer : entities) {
                 catCompo = manager.getComponent(integer, CatPropertyComponent.class);
 
-                catCompo.state = CatStateEnum.JUMPING;
+                catCompo.state = CatStateEnum.HIT;
             }
         }
         engine.update(delta);
