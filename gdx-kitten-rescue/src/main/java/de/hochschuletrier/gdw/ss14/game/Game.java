@@ -3,7 +3,9 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+
 import org.slf4j.Logger;
+
 import java.util.Comparator;
 
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 
 public class Game
@@ -79,6 +82,7 @@ public class Game
 
         // Rendering related systems
         addSystem(new TileMapRenderingSystem(entityManager, 0));
+        addSystem(new RenderSystem(entityManager, 1));
         //addSystem(new AnimationSystem(entityManager, 1));
     }
 

@@ -70,10 +70,6 @@ public class CameraSystem extends ECSystem {
               float timeFactor = delta / camComp.movetimeFromMaxDistanceToCenter;
               newDest.add(followPos.cpy().sub(camera2DPos).scl(followFactor * timeFactor));        
               
-              if (Float.isInfinite(newDest.x))
-                  System.out.println("meep");
-              
-
           }
           
           if ((camComp.minBound != null) && (camComp.maxBound != null))
