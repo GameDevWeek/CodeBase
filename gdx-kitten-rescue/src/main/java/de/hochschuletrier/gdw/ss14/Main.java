@@ -132,7 +132,7 @@ public class Main extends StateBasedGame {
                 state.init(assetManager);
             }
         }
-        GameStates.MAINMENU.activate();
+        //GameStates.MAINMENU.activate();
 		GameStates.GAMEPLAY.activate(null, null);
     }
 
