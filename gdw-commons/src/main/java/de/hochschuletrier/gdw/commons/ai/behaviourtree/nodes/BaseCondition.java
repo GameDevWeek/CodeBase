@@ -4,7 +4,7 @@ import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.interfaces.Leaf;
 
 public abstract class BaseCondition extends BaseNode implements Leaf {
-
+//BaseCondition ist ein spezielles Blatt zum Auswerten einfacher Bedingungen.
     public BaseCondition(BaseNode parent, Behaviour behaviour) {
         super(parent);
         this.behaviour = behaviour;

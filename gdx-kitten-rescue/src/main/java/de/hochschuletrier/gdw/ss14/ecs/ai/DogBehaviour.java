@@ -18,6 +18,7 @@ public class DogBehaviour extends Behaviour {
         setName("Catch the Cat");
         BaseNode root = new Sequence(this);
   
+        UntilFailDecorator untFail = new UntilFailDecorator()
         /*  Writer w = new Writer(root, "D");
         new Writer(root, "E");
         new Writer(root, "M");
