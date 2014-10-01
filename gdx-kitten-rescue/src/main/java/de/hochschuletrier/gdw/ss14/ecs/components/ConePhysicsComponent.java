@@ -47,7 +47,6 @@ public class ConePhysicsComponent extends PhysicsComponent{
             startWinkel += delta;
         }
         
-        mShape.forEach((p)->System.out.println(p.x+" | "+p.y));
     }
     
     public void initPhysics(PhysixManager manager){
