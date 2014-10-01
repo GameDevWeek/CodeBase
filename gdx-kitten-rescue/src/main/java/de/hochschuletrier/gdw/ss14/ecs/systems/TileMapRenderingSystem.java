@@ -76,8 +76,11 @@ public class TileMapRenderingSystem extends ECSystem{
 			// go through the layers that should be rendered
 			for(Integer layerIndex : t.renderedLayers){
 				
-				Layer layerToRender = t.map.getLayers().get(layerIndex);
-				renderer.render(0, 0, layerToRender);
+			    if (t.map.getLayers().size() > layerIndex) {
+			        
+    				Layer layerToRender = t.map.getLayers().get(layerIndex);
+    				renderer.render(0, 0, layerToRender);
+			    }
 			}
 			
 		}
