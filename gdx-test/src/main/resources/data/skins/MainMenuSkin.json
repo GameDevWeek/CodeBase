@@ -10,10 +10,12 @@
     "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
         "main_background": {"name": "main-menu-background", "color": "white"}, 
         "main_cat": {"name": "main-menu-cat", "color": "white"},
-        "main_cat_down": {"name": "main-menu-bell", "color":  {"a": 0.5, "b": 0, "g": 0.85, "r": 0.5}}
+        "main_bell_down": {"name": "main-menu-bell", "color":  {"a": 0.5, "b": 0, "g": 0.85, "r": 0.5}}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
-        "bell": {"down": "main-menu-bell", "up": "main-menu-bell" }
+        "bell": {"down": "main_bell_down", "up": "main-menu-bell" },
+        "level": {"down": "level-button-down", "up": "level-button"},
+        "sound": {"down": "sound-button-down", "up": "sound-button"}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
     	"start_button": {"name": "start-menu-button", "color": "white"}
