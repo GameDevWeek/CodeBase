@@ -7,7 +7,6 @@ import de.hochschuletrier.gdw.ss14.ecs.components.Component;
 public class InputComponent implements Component{
 	
 	public Vector2 whereToGo;
-	public Vector2 opfer;
 	
 	public InputComponent(){
 	}

@@ -9,7 +9,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.ss14.ICollisionListener;
+import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
 
 public class CatPhysicsComponent extends PhysicsComponent {
 

@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import de.hochschuletrier.gdw.commons.gdx.AnimationFrameTime;
+import de.hochschuletrier.gdw.commons.gdx.assets.AnimationWithVariableFrameTime;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.ecs.Engine;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
@@ -49,7 +49,7 @@ public class AnimationMain extends SandboxGame {
         manager.addComponent(dummy, c1);
         //Component Animation
         AnimationComponent c2 = new AnimationComponent();
-        c2.animation = new AnimationFrameTime[2];
+        c2.animation = new AnimationWithVariableFrameTime[2];
         c2.animation[CatStateEnum.JUMPING.ordinal()]
                 = loadAnimation("data/animations/walking_1.png", 7, 1, new float[] {1.2f,1.2f,1.2f,0.2f,0.2f,0.2f,0.2f}, Animation.PlayMode.LOOP);
         c2.animation[CatStateEnum.WALKING.ordinal()]
@@ -65,7 +65,7 @@ public class AnimationMain extends SandboxGame {
         c4.state = CatStateEnum.WALKING;
     }
 
-    private AnimationFrameTime loadAnimation(String path, int cols, int row, float frameDuration, Animation.PlayMode playMode) {
+    private AnimationWithVariableFrameTime loadAnimation(String path, int cols, int row, float frameDuration, Animation.PlayMode playMode) {
 
         Texture tex;
         TextureRegion[][] tmp;
@@ -80,13 +80,13 @@ public class AnimationMain extends SandboxGame {
                 frames[index++] = tmp[i][j];
             }
         }
-        AnimationFrameTime ani = new AnimationFrameTime(frameDuration, frames);
+        AnimationWithVariableFrameTime ani = new AnimationWithVariableFrameTime(frameDuration, frames);
         ani.setPlayMode(playMode);
         return ani;
     }
 
-    private AnimationFrameTime loadAnimation(String path, int cols, int row, float frameDurations[], Animation.PlayMode playMode) {
-        AnimationFrameTime ani = loadAnimation(path, cols, row, 0, playMode);
+    private AnimationWithVariableFrameTime loadAnimation(String path, int cols, int row, float frameDurations[], Animation.PlayMode playMode) {
+        AnimationWithVariableFrameTime ani = loadAnimation(path, cols, row, 0, playMode);
         ani.setFrameDurations(frameDurations);
         return ani;
     }
