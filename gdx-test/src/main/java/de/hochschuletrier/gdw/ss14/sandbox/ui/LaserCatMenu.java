@@ -36,7 +36,6 @@ public abstract class LaserCatMenu extends SandboxGame
 	private static Image menuCatImage, titleTextImage;
 	// For debug drawing
 	private ShapeRenderer shapeRenderer;
-
 	
 	//
 	// Vererbtes Zeug
@@ -71,13 +70,16 @@ public abstract class LaserCatMenu extends SandboxGame
 		table = new Table();
 		stage.addActor(table);
 		table.setFillParent(true);
-		
 		catSkin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
 		basicSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
 		
 	
 		// Sets Input so it can reach different layers, depending on focus
 		Main.inputMultiplexer.addProcessor(stage);
+		
+		// Sets the Background for every Menu
+		table.setBackground(catSkin.getDrawable("main-menu-background"));
+
 		
 		//TitleTextImage
 		titleTextImage= new Image(catSkin.getDrawable("print-exemple"));
@@ -120,9 +122,7 @@ public abstract class LaserCatMenu extends SandboxGame
 			widgetFrame.add(button[i]).height(Value.percentHeight(heightOfWidgetFrame,table)).width(Value.percentWidth(widthOfWidgetFrame/numberOfButtons, table)).top().space(20).spaceTop(10);
 		}
 		name = null;
-		
-		
-	}
+}
 
 	@Override
 	public void dispose()
@@ -143,6 +143,4 @@ public abstract class LaserCatMenu extends SandboxGame
 		// TODO Auto-generated method stub
 		stage.act(Gdx.graphics.getDeltaTime());
 	}
-
-
 }
