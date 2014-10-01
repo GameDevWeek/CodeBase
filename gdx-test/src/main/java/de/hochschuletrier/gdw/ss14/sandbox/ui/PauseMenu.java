@@ -1,12 +1,8 @@
 package de.hochschuletrier.gdw.ss14.sandbox.ui;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
-
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 
-public class MainMenu extends LaserCatMenu
+public class PauseMenu extends LaserCatMenu
 {
 	@Override
 	public void init(AssetManagerX assetManager)
@@ -14,9 +10,9 @@ public class MainMenu extends LaserCatMenu
 		super.init(assetManager);
 		numberOfButtons = 4;
 		name = new String[numberOfButtons];
-		name[0] = "Start";
-		name[1] = "Levels";
-		name[2] = "Options";
+		name[0] = "Resume";
+		name[1] = "Options";
+		name[2] = "Save";
 		name[3] = "Exit";
 		addButtonsToFrame();
 	}
