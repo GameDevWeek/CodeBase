@@ -30,7 +30,7 @@ public class MapLoadingTest extends SandboxGame
         physixManager = new PhysixManager(BOX2D_SCALE, 0, GRAVITY);
 
         mapManager = new MapManager(entityManager, physixManager, assetManager);
-        mapManager.loadMap("demo");
+        mapManager.loadMap("ErsteTestMap");
 
         mapRenderer = new TiledMapRendererGdx(mapManager.getMap(), mapManager.getTileSet());
     }

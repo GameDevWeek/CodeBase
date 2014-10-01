@@ -35,7 +35,7 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static void constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
+    public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
@@ -69,6 +69,8 @@ public class EntityFactory {
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
         manager.addComponent(entity, cam);
+        
+        return entity;
     }
 
     public static void constructCatbox() {
