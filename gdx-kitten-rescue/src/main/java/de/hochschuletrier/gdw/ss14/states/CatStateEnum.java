@@ -10,6 +10,10 @@ package de.hochschuletrier.gdw.ss14.states;
  * @author rftpool13
  */
 public enum CatStateEnum {
-    WALKING,
-    JUMPING
+    HIT,
+    RUTSCHEN_LINKS,
+    RUTSCHEN_RECHTS,
+    IDLE,
+    LAUFEN,
+    RENNEN
 }
