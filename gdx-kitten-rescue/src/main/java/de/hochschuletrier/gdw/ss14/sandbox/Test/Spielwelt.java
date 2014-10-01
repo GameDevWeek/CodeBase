@@ -32,7 +32,7 @@ public class Spielwelt extends SandboxGame{
 		engine = new Engine();
 		manager = new EntityManager();
 		phyManager = new PhysixManager(3,0,0);
-		EntityFactory ef = new EntityFactory(manager, phyManager, assetManager);
+		EntityFactory ef = new EntityFactory();
 		int entity = manager.createEntity();
 		EntityFactory.constructCat(new Vector2(200,200), 10, 5, 3, 1.2f);
 		EntityFactory.constructDog(new Vector2(0,0), 10, 5, 3, 1.2f);
