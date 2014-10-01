@@ -15,6 +15,11 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.sandbox.Test.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.PhysicsComponent;
 
+/**
+ * Add System to the Listeners in Entity Factory
+ * @author oliver
+ *
+ */
 public class CatPhysicsComponent extends PhysicsComponent {
 
     // TODO: Für Physik Team
@@ -26,7 +31,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
     public float mRotation;
     public float mRestitution;
     
-    private ArrayList<ICollisionListener> mListeners;
+    public ArrayList<ICollisionListener> mListeners;
 
     /**
      * 
@@ -76,7 +81,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
         setPhysicsBody(physicsBody);
         
     }
-
+    
     @Override
     protected void beginContact(PhysixContact contact) {
         super.beginContact(contact);
