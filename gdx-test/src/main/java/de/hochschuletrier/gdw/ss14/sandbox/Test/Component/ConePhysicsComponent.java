@@ -21,7 +21,7 @@ public class ConePhysicsComponent extends PhysicsComponent{
     
     /**
      * 
-     * @param position      central position of the object
+     * @param position      startposition of the objects view
      * @param radius        the radius of the cone
      * @param corner        the corner of the cone (width) in radians [0 .. 2*PI]
      * @param rotation      the rotation in radians [0 .. 2*PI]
@@ -33,27 +33,29 @@ public class ConePhysicsComponent extends PhysicsComponent{
         mRadius = radius;
         mCorner = corner;
         mRotation = rotation;
-        
-        
     }
     
     private void fillShapeList(){
         mShape = new ArrayList<Point>();
-        float anzPunkte = (float)((mCorner/Math.toRadians(20))+1.0);
-        Point firstPoint = new Point((int)(mPosition.x ), (int)(mPosition.y));
+        int anzPunkte = 7;
+        double startWinkel = (-mCorner/2) + mRotation; 
+        float delta = mCorner / anzPunkte;
         
-        mShape.add(new Point((int)mPosition.x, (int)mPosition.y));
+        mShape.add(new Point((int)0, (int)0));
         
         for(int i = 0; i < anzPunkte; i++){
-            mShape.add(new Point((int)(mPosition.x ), (int)mPosition.y));
+            mShape.add(new Point((int)(Math.cos(startWinkel) * mRadius), (int)(Math.sin(startWinkel) * mRadius)));
+            startWinkel += delta;
         }
+        
+        mShape.forEach((p)->System.out.println(p.x+" | "+p.y));
     }
     
     public void initPhysics(PhysixManager manager){
         fillShapeList();
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1).sensor(true);
         
-        physicsBody = new PhysixBodyDef(BodyType.DynamicBody, manager).position(mPosition)
+        physicsBody = new PhysixBodyDef(BodyType.StaticBody, manager).position(mPosition)
                 .fixedRotation(true).angle(mRotation)
                 .create();
         
