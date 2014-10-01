@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.physics.box2d.*;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.commons.resourcelocator.*;
@@ -10,6 +11,7 @@ import de.hochschuletrier.gdw.commons.tiled.tmx.*;
 import de.hochschuletrier.gdw.commons.tiled.utils.*;
 import de.hochschuletrier.gdw.commons.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.TileMapRenderingComponent;
 
 import java.util.*;
 
@@ -27,13 +29,15 @@ public class MapManager
 
     HashMap<TileSet, Texture> tilesetImages;
 
-    private EntityFactory entityFactory;
-
+    private int levelEntity;
+    
     public MapManager(EntityManager entityManager, PhysixManager physixManager, AssetManagerX assetmanager)
     {
         this.entityManager = entityManager;
         this.physixManager = physixManager;
         tilesetImages = new HashMap();
+        
+        levelEntity = entityManager.createEntity();
     }
 
     public void loadMap(String mapName)
@@ -51,6 +55,16 @@ public class MapManager
         createTileSet();
         createPhysics();
         loadMapObjects();
+        
+        TileMapRenderingComponent mapComp;       
+        mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
+        
+        if (mapComp == null) {
+            mapComp = new TileMapRenderingComponent();
+            entityManager.addComponent(levelEntity, mapComp);
+        }
+        
+        mapComp.map = getMap();
     }
 
     public HashMap getTileSet()
@@ -65,6 +79,18 @@ public class MapManager
             TmxImage img = tileset.getImage();
             String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
             tilesetImages.put(tileset, new Texture(filename));
+        }
+    }
+    
+    public void setFloor( int floor ) {
+        
+        TileMapRenderingComponent mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
+        mapComp.renderedLayers.clear();
+        
+        for (Layer layer : mapComp.map.getLayers())
+        {
+            //if (layer.getIntProperty("floor", -1) == floor)
+                mapComp.renderedLayers.add(mapComp.map.getLayers().indexOf(layer));
         }
     }
 
@@ -111,42 +137,44 @@ public class MapManager
                 {
                     String objType = mapObjects.get(j).getName();
 
-                    switch (objType)
-                    {
-                        case "start":
-                            // TODO: add object with entityFactory here
-                            break;
-                        case "wool":
-                            // TODO: add object with entityFactory here
-                            break;
-
-                        case "vase":
-                            // TODO: add object with entityFactory here
-                            break;
-
-                        case "broom":
-                            // TODO: add object with entityFactory here
-                            break;
-
-                        case "lamp":
-                            // TODO: add object with entityFactory here
-                            break;
-
-                        case "food":
-                            // TODO: add object with entityFactory here
-                            break;
-
-                        case "door":
-                            // TODO: add object with entityFactory here
-                            break;
-
-                        case "catbox":
-                            // TODO: add object with entityFactory here
-                            break;
-
-                        case "stairs":
-                            // TODO: add object with entityFactory here
-                            break;
+                    if (objType != null) {                        
+                        switch (objType)
+                        {
+                            case "start":
+                                // TODO: add object with entityFactory here
+                                break;
+                            case "wool":
+                                // TODO: add object with entityFactory here
+                                break;
+    
+                            case "vase":
+                                // TODO: add object with entityFactory here
+                                break;
+    
+                            case "broom":
+                                // TODO: add object with entityFactory here
+                                break;
+    
+                            case "lamp":
+                                // TODO: add object with entityFactory here
+                                break;
+    
+                            case "food":
+                                // TODO: add object with entityFactory here
+                                break;
+    
+                            case "door":
+                                // TODO: add object with entityFactory here
+                                break;
+    
+                            case "catbox":
+                                // TODO: add object with entityFactory here
+                                break;
+    
+                            case "stairs":
+                                // TODO: add object with entityFactory here
+                                break;
+                        }
                     }
                 }   // end for (mapObjects)
             }
