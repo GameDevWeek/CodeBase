@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.ecs.components;
 
 import com.badlogic.gdx.utils.Array;
 
+import de.hochschuletrier.gdw.commons.gdx.tiled.TiledMapRendererGdx;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 
 /**
@@ -13,6 +14,22 @@ import de.hochschuletrier.gdw.commons.tiled.TiledMap;
  */
 public class TileMapRenderingComponent implements Component{
 	
-	public TiledMap map = null;
+	private TiledMap map = null;
 	public Array<Integer> renderedLayers = new Array<Integer>();
+	
+	public TiledMapRendererGdx renderer = null;
+	
+	public void setMap( TiledMap newMap ) {
+	    
+	    if (renderer != null) {	        
+	        renderer.dispose();
+	        renderer = null;
+	    }
+	    
+	    map = newMap;
+	}
+	
+	public TiledMap getMap() {
+	    return map;
+	}
 }
