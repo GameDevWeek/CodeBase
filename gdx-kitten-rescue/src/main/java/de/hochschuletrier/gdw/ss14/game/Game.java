@@ -28,7 +28,7 @@ public class Game {
     }
 
     public void init(AssetManagerX assetManager) {
-        map = loadMap("data/maps/demo.tmx");
+        map = loadMap("data/maps/SebFirstPlayable_reworked_XML.tmx");
         HashMap<TileSet, Texture> tilesetImages = new HashMap();
         for (TileSet tileset : map.getTileSets()) {
             TmxImage img = tileset.getImage();
