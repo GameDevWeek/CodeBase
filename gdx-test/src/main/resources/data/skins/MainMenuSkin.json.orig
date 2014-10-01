@@ -1,4 +1,7 @@
 {
+    "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+        "default-font": {"file": "data/fonts/default.fnt"},
+    },
     "com.badlogic.gdx.graphics.Color": {
         "green": {"a": 1, "b": 0, "g": 1, "r": 0},
         "white": {"a": 1, "b": 1, "g": 1, "r": 1},
@@ -9,15 +12,19 @@
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
         "main_background": {"name": "main-menu-background", "color": "white"}, 
-        "main_cat": {"name": "main-menu-cat", "color": "white"},
-        "main_cat_down": {"name": "main-menu-bell", "color":  {"a": 0.5, "b": 0, "g": 0.85, "r": 0.5}}
+        "main_cat": {"name": "main-menu-cat", "color", "white"}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
-        "bell": {"down": "main-menu-bell", "up": "main-menu-bell" }
+        "bell": {"down": "main-menu-bell", "up": "main-menu-bell"}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-    	"start_button": {"name": "start-menu-button", "color": "white"}
-    }
+    "start_button": {"name": "start-main-button", "white"}
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    	"default": {"font": "default-font", "fontColor": "white"}
+	}
+	
+	
 }
 
 

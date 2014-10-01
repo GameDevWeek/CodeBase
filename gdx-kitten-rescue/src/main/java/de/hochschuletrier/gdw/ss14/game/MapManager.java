@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.sandbox.maploadingtest;
+package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.physics.box2d.*;
@@ -9,8 +9,7 @@ import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.commons.tiled.tmx.*;
 import de.hochschuletrier.gdw.commons.tiled.utils.*;
 import de.hochschuletrier.gdw.commons.utils.*;
-import de.hochschuletrier.gdw.ss14.sandbox.Test.Entity.*;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.*;
+import de.hochschuletrier.gdw.ss14.ecs.*;
 
 import java.util.*;
 
@@ -34,7 +33,6 @@ public class MapManager
     {
         this.entityManager = entityManager;
         this.physixManager = physixManager;
-        this.entityFactory = new EntityFactory(entityManager, physixManager, assetmanager);
         tilesetImages = new HashMap();
     }
 
@@ -154,5 +152,4 @@ public class MapManager
             }
         }   // end for (layer)
     }
-
 }

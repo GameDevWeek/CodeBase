@@ -9,6 +9,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AnimationWithVariableFrameTime;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatStateComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogStateComponent;
@@ -35,7 +36,7 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static void constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
+    public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
@@ -58,6 +59,9 @@ public class EntityFactory {
         catAnimation.animation[CatStateEnum.RUTSCHEN_RECHTS.ordinal()]
                 = loadAnimation("data/animations/Rutschen_rechts_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
 
+        CameraComponent cam = new CameraComponent();
+        cam.cameraZoom = 3.0f;
+        
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catState);
@@ -67,6 +71,9 @@ public class EntityFactory {
         manager.addComponent(entity, new PlayerComponent());
 //        manager.addComponent(entity, new AnimationComponent());
 //        manager.addComponent(entity, new CameraComponent());
+        manager.addComponent(entity, cam);
+        
+        return entity;
     }
 
     public static void constructCatbox() {

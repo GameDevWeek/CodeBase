@@ -13,6 +13,6 @@ import de.hochschuletrier.gdw.commons.tiled.TiledMap;
  */
 public class TileMapRenderingComponent implements Component{
 	
-	public TiledMap map;
+	public TiledMap map = null;
 	public Array<Integer> renderedLayers = new Array<Integer>();
 }
