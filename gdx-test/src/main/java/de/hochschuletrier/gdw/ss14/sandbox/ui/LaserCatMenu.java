@@ -84,7 +84,7 @@ public abstract class LaserCatMenu extends SandboxGame
 		
 		// MainCat Image
 		menuCatImage = new Image(catSkin.getDrawable("main-menu-cat"));
-		table.add(menuCatImage);
+		table.add(menuCatImage).bottom().size(Value.percentHeight(0.25f,table));
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
