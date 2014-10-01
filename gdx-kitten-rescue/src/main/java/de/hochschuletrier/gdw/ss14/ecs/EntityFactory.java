@@ -68,8 +68,6 @@ public class EntityFactory {
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
-//        manager.addComponent(entity, new AnimationComponent());
-//        manager.addComponent(entity, new CameraComponent());
         manager.addComponent(entity, cam);
 
         return entity;

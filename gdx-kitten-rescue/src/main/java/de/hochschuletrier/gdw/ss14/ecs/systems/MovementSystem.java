@@ -1,14 +1,20 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
+import de.hochschuletrier.gdw.commons.devcon.DevConsole;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
-import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 
 public class MovementSystem extends ECSystem{
+    
+    private static final Logger logger = LoggerFactory.getLogger(MovementSystem.class);
 
     public MovementSystem(EntityManager entityManager) {
         super(entityManager);
@@ -30,7 +36,12 @@ public class MovementSystem extends ECSystem{
             
             float distance = moveCompo.directionVec.len();
             
-            System.out.println("DISTANCE: " +  distance + " VELOCITY: " + moveCompo.velocity);
+            logger.debug
+                    ( "\n"
+                        + "CatPosition: (" +  phyCompo.getPosition().x + ", " + phyCompo.getPosition().y + ")\n"
+                        + "MousePosition: (" + Gdx.input.getX() + ", " + Gdx.input.getY() + ")\n"
+                        + "DISTANCE: " +  distance + "\nVELOCITY: " + moveCompo.velocity + "\n"
+                    );
             
             if(distance >= 200){
                 
