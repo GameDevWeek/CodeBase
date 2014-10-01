@@ -39,22 +39,41 @@ public class CameraSystem extends ECSystem {
           PhysicsComponent physComp = entityManager.getComponent(entity, PhysicsComponent.class);         
           CameraComponent camComp = entityManager.getComponent(entity, CameraComponent.class);
           
-          Vector2 newDest = new Vector2(0, 0);
+          Vector2 camera2DPos = new Vector2(smoothCamera.getPosition().x, smoothCamera.getPosition().y);
+          Vector2 newDest = camera2DPos.cpy();
           
           if (physComp != null) {
               
-              Vector2 followTransformPosition = physComp.getPosition().cpy();         
-              Vector2 camera2DPos = new Vector2(smoothCamera.getPosition().x, smoothCamera.getPosition().y);
+              Vector2 followPos = physComp.getPosition().cpy();       
               
-              float centerDistance = followTransformPosition.sub(camera2DPos).len();
-              float followFactor = Math.min(1.0f, Math.abs(centerDistance / camComp.maxScreenCenterDistance));                        
+              float followFactor = 0.0f;                          
+              float centerDistance = followPos.cpy().sub(camera2DPos).len();
+              float maxCenterDistance = camComp.maxScreenCenterDistance * smoothCamera.getZoom();
               
+              // If farther away than max distance, move towards the cat to contain max distance
+              if (centerDistance > maxCenterDistance) {
+                  
+                  float moveFactor = (centerDistance - maxCenterDistance) / centerDistance;
+                  newDest.add(followPos.cpy().sub(camera2DPos).scl(moveFactor));
+                  
+                  followFactor = 0.0f;
+                  centerDistance = maxCenterDistance;
+              }     
+              else {
+                  followFactor = Math.abs(centerDistance / maxCenterDistance);                                         
+              }
+              
+              // Use the followspeedCurvePower to model the exponential curve
               followFactor = (float) Math.pow(followFactor, camComp.followspeedCurvePower);
-              followFactor *= 0.5;
               
-              // Move camera towards the follow transform position by followFactor
-              newDest = camera2DPos.cpy();     
-              newDest.add(followTransformPosition.sub(camera2DPos).scl(followFactor));
+              // Move camera towards the follow transform position by followFactor per movetimeFromMaxDistanceToCenter
+              float timeFactor = delta / camComp.movetimeFromMaxDistanceToCenter;
+              newDest.add(followPos.cpy().sub(camera2DPos).scl(followFactor * timeFactor));        
+              
+              if (Float.isInfinite(newDest.x))
+                  System.out.println("meep");
+              
+
           }
           
           if ((camComp.minBound != null) && (camComp.maxBound != null))
@@ -64,6 +83,7 @@ public class CameraSystem extends ECSystem {
           smoothCamera.setZoom(camComp.cameraZoom);
           //smoothCamera.update(delta);
           smoothCamera.updateForced();
+                    
           smoothCamera.bind();
       }
   }
