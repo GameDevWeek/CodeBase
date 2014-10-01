@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.sandbox.graphics;
+package de.hochschuletrier.gdw.ss14.game.ecs.components;
 
 import java.util.HashMap;
 
@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.commons.tiled.TileSet;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.Component;
+import de.hochschuletrier.gdw.ss14.game.ecs.components.Component;
 
 
 public class TileMapRenderingComponent implements Component{
