@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
@@ -18,13 +19,11 @@ import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
  */
 public class RenderSystem extends ECSystem {
 
-    private final SpriteBatch batch;
     private ShaderProgram redTintedShader;
 
     public RenderSystem(EntityManager entityManager, int priority) {
 
         super(entityManager, priority);
-        batch = new SpriteBatch();
         initializeShaders();
     }
 
@@ -40,19 +39,16 @@ public class RenderSystem extends ECSystem {
         RenderComponent renderCompo;
         PhysicsComponent physicsCompo;
 
-        //batch.setShader(redTintedShader);
-        batch.begin();
-
         for (Integer integer : entites) {
             renderCompo = entityManager.getComponent(integer, RenderComponent.class);
             physicsCompo = entityManager.getComponent(integer, PhysicsComponent.class);
 
             if (renderCompo.texture != null) {
-                batch.draw(renderCompo.texture,physicsCompo.getPosition().x - renderCompo.texture.getRegionWidth(), 
-                        Gdx.graphics.getHeight() - physicsCompo.getPosition().y - renderCompo.texture.getRegionHeight());
+
+                DrawUtil.batch.draw(renderCompo.texture, physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() /2),
+                        physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2));
             }
         }
-        batch.end();
     }
 
     private void initializeShaders() {

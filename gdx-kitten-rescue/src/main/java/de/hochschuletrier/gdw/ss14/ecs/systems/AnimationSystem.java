@@ -38,13 +38,14 @@ public class AnimationSystem extends ECSystem {
             animationCompo.animationTime += delta;
             
             // Change animation if neccessary (and reset it)
-            if(animationCompo.actualAnimationState != state) {
-                animationCompo.actualAnimationState = state;
+            if(animationCompo.currentAnimationState != state) {
+                animationCompo.currentAnimationState = state;
                 animationCompo.animationTime = 0;
             }
             
             // update animation-frame
-            renderCompo.texture = animationCompo.animation[animationCompo.actualAnimationState].getKeyFrame(animationCompo.animationTime);
+            if (animationCompo.currentAnimationState < animationCompo.animation.length)
+                renderCompo.texture = animationCompo.animation[animationCompo.currentAnimationState].getKeyFrame(animationCompo.animationTime);
             
         }
     }
