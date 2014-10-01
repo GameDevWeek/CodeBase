@@ -131,7 +131,7 @@ public class Game {
 
     public void update(float delta) {
         
-        PhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, PhysicsComponent.class);
+        /*PhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, PhysicsComponent.class);
         
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
             
@@ -139,7 +139,7 @@ public class Game {
             catPhysicsComp.dummyPosition.add(new Vector2(10.0f, 0.0f));
         }
         else
-            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
+            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));*/
         
         for (ECSystem system : systems) {
             system.update(delta);
