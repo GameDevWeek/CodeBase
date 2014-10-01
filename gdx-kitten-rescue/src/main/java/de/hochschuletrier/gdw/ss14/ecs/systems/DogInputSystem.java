@@ -1,19 +1,19 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.utils.Array;
 
-import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 
 public class DogInputSystem extends ECSystem{
+    
+    Logger logger = LoggerFactory.getLogger(DogInputSystem.class);
 
     public DogInputSystem(EntityManager entityManager) {
         super(entityManager,1);
@@ -30,7 +30,7 @@ public class DogInputSystem extends ECSystem{
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             PhysicsComponent phyCompo = entityManager.getComponent(compos2.get(0), PhysicsComponent.class);
             inputCompo.whereToGo = phyCompo.getPosition();
-            System.out.print("");
+            logger.debug("\n"+inputCompo.whereToGo);
         }
     }
 

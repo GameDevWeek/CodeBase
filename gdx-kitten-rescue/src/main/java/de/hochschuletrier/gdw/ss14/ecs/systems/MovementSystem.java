@@ -67,16 +67,13 @@ public class MovementSystem extends ECSystem{
 
             float distance = moveCompo.directionVec.len();
             
-            logger.debug
-                    ( "\n"
-                        + "CatPosition: (" +  phyCompo.getPosition().x + ", " + phyCompo.getPosition().y + ")\n"
-                        + "MousePosition: (" + Gdx.input.getX() + ", " + Gdx.input.getY() + ")\n"
-                        + "DISTANCE: " +  distance + "\nVELOCITY: " + moveCompo.velocity + "\n"
-                    );
+//            logger.debug
+//                    ( "\n"
+//                        + "CatPosition: (" +  phyCompo.getPosition().x + ", " + phyCompo.getPosition().y + ")\n"
+//                        + "MousePosition: (" + Gdx.input.getX() + ", " + Gdx.input.getY() + ")\n"
+//                        + "DISTANCE: " +  distance + "\nVELOCITY: " + moveCompo.velocity + "\n"
+//                    );
             
-            System.out.println(this.getClass().getName()+": "+"DISTANCE: " +  distance + " VELOCITY: " + moveCompo.velocity);
-
-
 //            if(distance <= minDistance){
 //                if(playerCompo != null)
 //                    catStateCompo.state = CatStateEnum.SPRINGEN;
