@@ -61,6 +61,10 @@ public class EntityFactory {
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 1.0f;
 
+        CatPropertyComponent catProperties = new CatPropertyComponent();
+        catProperties.state = CatStateEnum.IDLE;
+        
+        manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catProperty);

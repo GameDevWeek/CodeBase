@@ -33,8 +33,8 @@ import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 
 public abstract class LaserCatMenu extends SandboxGame
 {
-	private static Stage stage;
-	private static Image menuCatImage;
+	protected static Stage stage;
+	private static Image menuCatImage, titleTextImage;
 	// For debug drawing
 	private ShapeRenderer shapeRenderer;
 
@@ -65,26 +65,30 @@ public abstract class LaserCatMenu extends SandboxGame
 		table = new Table();
 		stage.addActor(table);
 		table.setFillParent(true);
+		
+		catSkin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
+		basicSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
+		
 	
 		// Sets Input so it can reach different layers, depending on focus
 		Main.inputMultiplexer.addProcessor(stage);
 		
-		// container for center labels and buttons, no background of its own
-		widgetFrame = new Table();
-		table.add(widgetFrame).align(Align.center).size(Value.percentWidth(0.6f, table), Value.percentHeight(0.25f,table));
+		//TitleTextImage
+		titleTextImage= new Image(catSkin.getDrawable("main-menu-cat"));
+		table.add(titleTextImage).top().size(Value.percentHeight(0.25f, table)).expandX();
 		table.row();
 		
-		
-		
-		// Skinning and Adding the Labels
-		catSkin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
-		basicSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
-		
+		// container for center labels and buttons, no background of its own
+		widgetFrame = new Table();
+		table.add(widgetFrame).align(Align.center).size(Value.percentWidth(0.6f, table), Value.percentHeight(0.25f,table)).space(20);
+		table.row();
+
+	
 		//catSkin.getDrawable("title");
 		
 		// MainCat Image
 		menuCatImage = new Image(catSkin.getDrawable("main-menu-cat"));
-		table.add(menuCatImage).bottom().size(Value.percentHeight(0.25f,table));
+		table.add(menuCatImage).bottom().expandY();
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
