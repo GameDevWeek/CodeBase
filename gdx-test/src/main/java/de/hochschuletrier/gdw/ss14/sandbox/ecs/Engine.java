@@ -34,6 +34,14 @@ public class Engine
         }
     }
 
+    public void render()
+    {
+        for (ECSystem system : systems)
+        {
+            system.render();
+        }
+    }
+
     private static class SystemComparator implements Comparator<ECSystem>
     {
 
