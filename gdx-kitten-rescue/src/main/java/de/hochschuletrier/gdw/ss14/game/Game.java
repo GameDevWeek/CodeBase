@@ -84,7 +84,7 @@ public class Game
 
     private void initializeTestComponents()
     {
-        catEntity = EntityFactory.constructCat(new Vector2(300,300), 150.0f, 75.0f, 0, 100);
+        catEntity = EntityFactory.constructCat(new Vector2(300, 300), 150.0f, 75.0f, 0, 100f);
     }
 
     public void addSystem(ECSystem system)

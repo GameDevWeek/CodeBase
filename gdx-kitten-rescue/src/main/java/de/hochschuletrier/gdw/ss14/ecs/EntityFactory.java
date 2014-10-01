@@ -14,7 +14,6 @@ import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatStateComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogStateComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.HolePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
@@ -60,8 +59,8 @@ public class EntityFactory {
                 = loadAnimation("data/animations/Rutschen_rechts_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
 
         CameraComponent cam = new CameraComponent();
-        cam.cameraZoom = 3.0f;
-        
+        cam.cameraZoom = 1.0f;
+
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catState);
@@ -72,7 +71,7 @@ public class EntityFactory {
 //        manager.addComponent(entity, new AnimationComponent());
 //        manager.addComponent(entity, new CameraComponent());
         manager.addComponent(entity, cam);
-        
+
         return entity;
     }
 
@@ -103,13 +102,6 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static void constructHole(Vector2 pos) {
-        int entity = manager.createEntity();
-        HolePhysicsComponent holePhysix = new HolePhysicsComponent();
-        holePhysix.initPhysics(phyManager);
-        manager.addComponent(entity, holePhysix);
-    }
-
     public static void constructLamp() {
         int entity = manager.createEntity();
     }
@@ -133,12 +125,6 @@ public class EntityFactory {
     public static void constructWool() {
         int entity = manager.createEntity();
     }
-
-    public static EntityManager manager;
-
-    public static PhysixManager phyManager;
-
-    public static AssetManagerX assetManager;
 
     private static AnimationWithVariableFrameTime loadAnimation(String path, int cols, int row, float frameDuration, Animation.PlayMode playMode) {
         Texture tex;
@@ -164,4 +150,11 @@ public class EntityFactory {
         ani.setFrameDurations(frameDurations);
         return ani;
     }
+
+    public static EntityManager manager;
+
+    public static PhysixManager phyManager;
+
+    public static AssetManagerX assetManager;
 }
+
