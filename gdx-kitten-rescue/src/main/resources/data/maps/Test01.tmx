@@ -3,50 +3,7 @@
  <tileset firstgid="1" source="Tilesets/BodenTiles.tsx"/>
  <tileset firstgid="29" source="Tilesets/SolidsTileset.tsx"/>
  <tileset firstgid="285" source="Tilesets/LochTiles.tsx"/>
- <tileset firstgid="313" name="Tuer" tilewidth="64" tileheight="64">
-  <tileoffset x="1" y="1"/>
-  <image source="Tilesets/Tuer.png" width="448" height="192"/>
-  <tile id="0">
-   <properties>
-    <property name="" value=""/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="" value=""/>
-   </properties>
-  </tile>
-  <tile id="4">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="7">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="18">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="19">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
- </tileset>
+ <tileset firstgid="313" source="Tilesets/Tuer.tsx"/>
  <tileset firstgid="334" source="Tilesets/TuerKlappe.tsx"/>
  <tileset firstgid="355" source="Tilesets/Treppe_Klein-Kopie.tsx"/>
  <tileset firstgid="356" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
