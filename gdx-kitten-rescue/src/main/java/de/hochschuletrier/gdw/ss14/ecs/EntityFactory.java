@@ -5,68 +5,68 @@ import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.DogPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.HolePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 
 public class EntityFactory {
-	
-	public static EntityManager manager;
-	public static PhysixManager phyManager;
-	public static AssetManagerX assetManager;
-	
-	public EntityFactory(EntityManager manager, PhysixManager phyManager, AssetManagerX assetManager){
-		this.manager = manager;
-		this.phyManager = phyManager;
-		this.assetManager = assetManager;
-	}
-	
-	public static void constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
-		int entity = manager.createEntity();
-	    CatPhysicsComponent catPhysix = new CatPhysicsComponent();
-	    MovementComponent catMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
-	    InputComponent catInput = new InputComponent();
-	    catPhysix.initPhysics(phyManager);
-	    //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
-	    manager.addComponent(entity, catPhysix);
-	    manager.addComponent(entity, catMove);
-	    manager.addComponent(entity, catInput);
-	    manager.addComponent(entity, new PlayerComponent());
-	}
-	
-	public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
-		int entity = manager.createEntity();
-		CatPhysicsComponent dogPhysix = new CatPhysicsComponent();
-	    MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
-	    InputComponent dogInput = new InputComponent();
-		dogPhysix.initPhysics(phyManager);
-	    manager.addComponent(entity, dogPhysix);
-	    manager.addComponent(entity, dogMove);
-	    manager.addComponent(entity, dogInput);
-	    manager.addComponent(entity, new EnemyComponent());
-	}
-	
-	public static void constructHole(Vector2 pos){
-		int entity = manager.createEntity();
-		HolePhysicsComponent holePhysix = new HolePhysicsComponent();
-		holePhysix.initPhysics(phyManager);
-	    manager.addComponent(entity, holePhysix);
-	}
-	
-//	public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
-//		int entity = manager.createEntity();
-//		DogPhysicsComponent dogPhysix = new DogPhysicsComponent();
-//		PositionComponent dogPosition = new PositionComponent(new Vector2((int)pos.x,(int)pos.y));
-//	    MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration,new Vector2(0,0));
-//		dogPhysix.initPhysics(phyManager);
-//	    manager.addComponent(entity, dogPhysix);
-//	    manager.addComponent(entity, dogPosition);
-//	    manager.addComponent(entity, dogMove);
-//	}
-	
+    
+    public static EntityManager manager;
+    public static PhysixManager phyManager;
+    public static AssetManagerX assetManager;
+    
+    public EntityFactory(EntityManager manager, PhysixManager phyManager, AssetManagerX assetManager){
+        this.manager = manager;
+        this.phyManager = phyManager;
+        this.assetManager = assetManager;
+    }
+    
+    public static void constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
+        int entity = manager.createEntity();
+        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
+        MovementComponent catMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
+        InputComponent catInput = new InputComponent();
+        catPhysix.initPhysics(phyManager);
+        //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
+        manager.addComponent(entity, catPhysix);
+        manager.addComponent(entity, catMove);
+        manager.addComponent(entity, catInput);
+        manager.addComponent(entity, new PlayerComponent());
+    }
+    
+    public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
+        int entity = manager.createEntity();
+        CatPhysicsComponent dogPhysix = new CatPhysicsComponent();
+        MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
+        InputComponent dogInput = new InputComponent();
+        dogPhysix.initPhysics(phyManager);
+        manager.addComponent(entity, dogPhysix);
+        manager.addComponent(entity, dogMove);
+        manager.addComponent(entity, dogInput);
+        manager.addComponent(entity, new EnemyComponent());
+    }
+    
+    public static void constructHole(Vector2 pos){
+        int entity = manager.createEntity();
+        HolePhysicsComponent holePhysix = new HolePhysicsComponent();
+        holePhysix.initPhysics(phyManager);
+        manager.addComponent(entity, holePhysix);
+    }
+    
+//  public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
+//      int entity = manager.createEntity();
+//      DogPhysicsComponent dogPhysix = new DogPhysicsComponent();
+//      PositionComponent dogPosition = new PositionComponent(new Vector2((int)pos.x,(int)pos.y));
+//      MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration,new Vector2(0,0));
+//      dogPhysix.initPhysics(phyManager);
+//      manager.addComponent(entity, dogPhysix);
+//      manager.addComponent(entity, dogPosition);
+//      manager.addComponent(entity, dogMove);
+//  }
+    
 //=======
 //    public static void constructCat(Vector2 pos, float maxVelocity,
 //            float middleVelocity, float minVelocity, float acceleration) {
