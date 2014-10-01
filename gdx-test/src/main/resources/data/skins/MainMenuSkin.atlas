@@ -5,21 +5,56 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 main-menu-background
   rotate: false
-  xy: 1, 707
+  xy: 1, 1009
   size: 1280, 1024
   orig: 1280, 1024
   offset: 0, 0
   index: -1
 main-menu-cat
   rotate: false
-  xy: 1, 148
+  xy: 1, 450
   size: 534, 557
   orig: 534, 557
   offset: 0, 0
   index: -1
+sound-button-down
+  rotate: false
+  xy: 1283, 1733
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+sound-button
+  rotate: false
+  xy: 1, 148
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+sound-reduce-button-down
+  rotate: false
+  xy: 537, 707
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+sound-reduce-button
+  rotate: false
+  xy: 1283, 1431
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+start-menu-button-down
+  rotate: false
+  xy: 1585, 1747
+  size: 310, 286
+  orig: 310, 286
+  offset: 0, 0
+  index: -1
 start-menu-button
   rotate: false
-  xy: 1283, 1445
+  xy: 839, 721
   size: 310, 286
   orig: 310, 286
   offset: 0, 0
