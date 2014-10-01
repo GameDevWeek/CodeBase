@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.tiled.Layer;
 import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
@@ -78,9 +79,17 @@ public class Game {
         
         // Level entity        
         TileMapRenderingComponent newTmrComp = new TileMapRenderingComponent(); 
-        newTmrComp.map = loadMap("data/maps/demo.tmx");
+        newTmrComp.map = loadMap("data/maps/ErsteTestMap.tmx");
         newTmrComp.renderedLayers.add(0);
         newTmrComp.renderedLayers.add(1);
+        
+        // Render everything of floor 0
+        int currentFloor = 0;
+        
+        for (Layer layer : newTmrComp.map.getLayers()) {
+            //if (layer.getIntProperty("floor", -1) == currentFloor)
+                newTmrComp.renderedLayers.add(newTmrComp.map.getLayers().indexOf(layer));
+        }
         
         int levelEntity = entityManager.createEntity();
         entityManager.addComponent(levelEntity, newTmrComp);
