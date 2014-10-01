@@ -10,7 +10,6 @@ import de.hochschuletrier.gdw.commons.utils.Point;
 import java.util.ArrayList;
 
 public class ConePhysicsComponent extends PhysicsComponent{
-    
     public Vector2      mPosition;
     public float        mRadius;
     public float        mRotation;
@@ -59,5 +58,4 @@ public class ConePhysicsComponent extends PhysicsComponent{
         physicsBody.createFixture(fixturedef.shapePolygon(mShape).category((short)-1).mask((short)0));
         setPhysicsBody(physicsBody);
     }
-
 }

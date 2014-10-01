@@ -24,19 +24,14 @@ public class MovementSystem extends ECSystem{
 
     public MovementSystem(EntityManager entityManager) {
         super(entityManager);
-        // TODO Auto-generated constructor stub
-
     }
 
     @Override
     public void render() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void update(float delta) {
-        // TODO Auto-generated method stub
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(MovementComponent.class, PhysicsComponent.class, InputComponent.class);
 
         for (Integer integer : compos) {
@@ -51,9 +46,9 @@ public class MovementSystem extends ECSystem{
                 if(moveCompo.velocity == 0)
                     catStateCompo.state = CatStateEnum.IDLE;
                 else if (moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.MIDDLE_VELOCITY)
-                    catStateCompo.state = CatStateEnum.LAUFEN;
+                    catStateCompo.state = CatStateEnum.WALK;
                 else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY)
-                    catStateCompo.state = CatStateEnum.RENNEN;
+                    catStateCompo.state = CatStateEnum.RUN;
             } else {
                 dogStateCompo = entityManager.getComponent(integer, DogPropertyComponent.class);
                 if(moveCompo.velocity == 0)
@@ -136,6 +131,5 @@ public class MovementSystem extends ECSystem{
             phyCompo.setVelocityX(moveCompo.directionVec.x * moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.directionVec.y * moveCompo.velocity);
         }
-
     }
 }

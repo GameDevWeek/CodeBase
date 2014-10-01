@@ -14,6 +14,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.HitAnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
@@ -49,13 +50,13 @@ public class EntityFactory {
                 = loadAnimation("data/animations/Hit_rdy.png", 5, 1, new float[]{0.1f, 0.5f, 0.1f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
         catAnimation.animation[CatStateEnum.IDLE.ordinal()]
                 = loadAnimation("data/animations/Schwanz_rdy.png", 10, 1, 0.2f, Animation.PlayMode.LOOP);
-        catAnimation.animation[CatStateEnum.LAUFEN.ordinal()]
+        catAnimation.animation[CatStateEnum.WALK.ordinal()]
                 = loadAnimation("data/animations/Laufen_rdy.png", 4, 1, new float[]{0.1f, 0.2f, 0.1f, 0.2f}, Animation.PlayMode.LOOP);
-        catAnimation.animation[CatStateEnum.RENNEN.ordinal()]
+        catAnimation.animation[CatStateEnum.RUN.ordinal()]
                 = loadAnimation("data/animations/Rennen_rdy.png", 4, 1, new float[]{0.1f, 0.2f, 0.1f, 0.2f}, Animation.PlayMode.LOOP);
-        catAnimation.animation[CatStateEnum.RUTSCHEN_LINKS.ordinal()]
+        catAnimation.animation[CatStateEnum.SLIDE_LEFT.ordinal()]
                 = loadAnimation("data/animations/Rutschen_links_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
-        catAnimation.animation[CatStateEnum.RUTSCHEN_RECHTS.ordinal()]
+        catAnimation.animation[CatStateEnum.SLIDE_RIGHT.ordinal()]
                 = loadAnimation("data/animations/Rutschen_rechts_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
 
         CameraComponent cam = new CameraComponent();
@@ -81,7 +82,7 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
+    public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
         MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
@@ -94,6 +95,7 @@ public class EntityFactory {
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
 //        manager.addComponent(entity, new AnimationComponent());
+        return entity;
     }
 
     public static void constructDoor() {

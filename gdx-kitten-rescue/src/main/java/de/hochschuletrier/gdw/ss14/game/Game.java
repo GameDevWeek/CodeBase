@@ -1,14 +1,8 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
-import java.util.Comparator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.tiled.LayerObject;
@@ -18,6 +12,7 @@ import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DogInputSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.HitAnimationSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
@@ -25,6 +20,11 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Comparator;
 
 public class Game
 {
@@ -40,6 +40,7 @@ public class Game
     private PhysixManager physixManager;
 
     private int catEntity;
+    
     private Vector2 mapCenter = new Vector2();
 
     public Game(AssetManagerX am)
@@ -59,7 +60,7 @@ public class Game
     public void init(AssetManagerX assetManager)
     {
         initializeSystems();
-        //initializeTestComponents();
+        initializeTestComponents();
         
         mapManager.loadMap("ErsteTestMap");        
         mapManager.setFloor(0);
@@ -67,13 +68,13 @@ public class Game
 
     private void initializeSystems()
     {
-
         // Game logic related systems
         addSystem(new InputSystem(entityManager));
         addSystem(new MovementSystem(entityManager));
         addSystem(new DogInputSystem(entityManager));
         addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
         addSystem(new PhysixUpdateSystem(entityManager, physixManager));
+        addSystem(new HitAnimationSystem(entityManager));
 
         addSystem(new CameraSystem(entityManager, 1024));
 
@@ -85,12 +86,12 @@ public class Game
 
     private void initializeTestComponents()
     {
-        catEntity = EntityFactory.constructCat(new Vector2(500, 300), 150.0f, 75.0f, 0, 100f);
+        int dogEntity = EntityFactory.constructDog(new Vector2(0,0), 60.0f, 40.0f, 0, 100f);
+        int dogEntity2 = EntityFactory.constructDog(new Vector2(500,350), 60.0f, 40.0f, 0, 100f);
     }
 
     public void addSystem(ECSystem system)
     {
-
         systems.add(system);
         systems.sort(comparator);
     }
@@ -104,7 +105,6 @@ public class Game
 
     public TiledMap loadMap(String filename)
     {
-
         try
         {
             return new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
@@ -123,7 +123,6 @@ public class Game
 
     public void update(float delta)
     {
-        
         /*CatPhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, CatPhysicsComponent.class);
         
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
@@ -145,7 +144,6 @@ public class Game
 
     public void render()
     {
-
         for (ECSystem system : systems)
         {
             system.render();
@@ -154,7 +152,6 @@ public class Game
 
     private static class SystemComparator implements Comparator<ECSystem>
     {
-
         @Override
         public int compare(ECSystem a, ECSystem b)
         {

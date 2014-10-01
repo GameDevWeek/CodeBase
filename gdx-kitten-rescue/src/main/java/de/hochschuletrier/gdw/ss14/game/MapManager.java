@@ -108,7 +108,6 @@ public class MapManager
                 (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight));
     }
 
-
     private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight)
     {
         float width = rect.width * tileWidth;
