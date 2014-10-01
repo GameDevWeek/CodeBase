@@ -31,7 +31,7 @@ public class Game {
     private Array<ECSystem> systems;
     private EntityManager entityManager;
     
-    private PhysicsComponent testPhysics = new PhysicsComponent();
+    private int catEntity;
     private Vector2 mapCenter = new Vector2();
 
     public Game() {
@@ -57,23 +57,27 @@ public class Game {
     
     private void initializeTestComponents() {
         
-        int levelEntity = entityManager.createEntity();
-        
+        // Level entity        
         TileMapRenderingComponent newTmrComp = new TileMapRenderingComponent(); 
         newTmrComp.map = loadMap("data/maps/demo.tmx");
         newTmrComp.renderedLayers.add(0);
         newTmrComp.renderedLayers.add(1);
         
+        int levelEntity = entityManager.createEntity();
+        entityManager.addComponent(levelEntity, newTmrComp);
+
+        // Cat entity        
         CameraComponent newCamComp = new CameraComponent();
         newCamComp.cameraZoom = 1.0f;
         
+        PhysicsComponent newPhysicsComp = new PhysicsComponent();
         mapCenter = new Vector2(newTmrComp.map.getWidth()*newTmrComp.map.getTileWidth() * 0.5f, 
                                 newTmrComp.map.getHeight()*newTmrComp.map.getTileHeight() * 0.5f);
-        testPhysics.dummyPosition = mapCenter.cpy();
+        newPhysicsComp.dummyPosition = mapCenter.cpy();
         
-        entityManager.addComponent(levelEntity, newTmrComp);
-        entityManager.addComponent(levelEntity, newCamComp);
-        entityManager.addComponent(levelEntity, testPhysics);
+        catEntity = entityManager.createEntity();
+        entityManager.addComponent(catEntity, newCamComp);
+        entityManager.addComponent(catEntity, newPhysicsComp);
         
     }
     
@@ -106,13 +110,15 @@ public class Game {
 
     public void update(float delta) {
         
+        PhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, PhysicsComponent.class);
+        
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
             
             //testPhysics.position = testPhysics.position.add( new Vector2(100.0f, 0.0f) );
-            testPhysics.dummyPosition.add(new Vector2(10.0f, 0.0f));
+            catPhysicsComp.dummyPosition.add(new Vector2(10.0f, 0.0f));
         }
         else
-            testPhysics.dummyPosition.add(mapCenter.cpy().sub(testPhysics.getPosition()));
+            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
         
         for (ECSystem system : systems) {
             system.update(delta);
