@@ -22,6 +22,4 @@ public class MovementComponent implements Component{
 		MIN_VELOCITY = minVelo;
 		ACCELERATION = acceleration;
 	}
-	
-
 }

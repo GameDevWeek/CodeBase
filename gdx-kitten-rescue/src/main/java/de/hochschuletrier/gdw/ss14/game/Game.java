@@ -1,53 +1,34 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
-import java.util.Comparator;
-
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.*;
+import de.hochschuletrier.gdw.commons.gdx.assets.*;
+import de.hochschuletrier.gdw.commons.gdx.physix.*;
+import de.hochschuletrier.gdw.commons.tiled.*;
+import de.hochschuletrier.gdw.ss14.ecs.*;
+import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-
-import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.commons.tiled.LayerObject;
-import de.hochschuletrier.gdw.commons.tiled.TiledMap;
-import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
-import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.DogInputSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.MovementSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixUpdateSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
+import org.slf4j.*;
 
 public class Game
 {
-
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
-    private static SystemComparator comparator = new SystemComparator();
-
     private Array<ECSystem> systems;
+    private Engine engine;
 
     private MapManager mapManager;
     private EntityManager entityManager;
     private PhysixManager physixManager;
 
     private int catEntity;
-    
+
     private Vector2 mapCenter = new Vector2();
 
     public Game(AssetManagerX am)
     {
-
-        systems = new Array<ECSystem>();
-
+        engine = new Engine();
         entityManager = new EntityManager();
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
         mapManager = new MapManager(entityManager, physixManager, am);
@@ -61,52 +42,37 @@ public class Game
     {
         initializeSystems();
         initializeTestComponents();
-        
-        mapManager.loadMap("ErsteTestMap");        
+
+        mapManager.loadMap("ErsteTestMap");
         mapManager.setFloor(0);
     }
 
     private void initializeSystems()
     {
-
         // Game logic related systems
-        addSystem(new InputSystem(entityManager));
-        addSystem(new MovementSystem(entityManager));
-        addSystem(new DogInputSystem(entityManager));
-        addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
-        addSystem(new PhysixUpdateSystem(entityManager, physixManager));
+        engine.addSystem(new InputSystem(entityManager));
+        engine.addSystem(new MovementSystem(entityManager));
+        engine.addSystem(new DogInputSystem(entityManager));
+        engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
+        engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
+        engine.addSystem(new HitAnimationSystem(entityManager));
 
-        addSystem(new CameraSystem(entityManager, 1024));
+        engine.addSystem(new CameraSystem(entityManager, 1024));
 
         // Rendering related systems
-        addSystem(new TileMapRenderingSystem(entityManager, 0));
-        addSystem(new AnimationSystem(entityManager, 1));
-        addSystem(new RenderSystem(entityManager, 1200));
+        engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
+        engine.addSystem(new AnimationSystem(entityManager, 1));
+        engine.addSystem(new RenderSystem(entityManager, 1200));
     }
 
     private void initializeTestComponents()
     {
-        int dogEntity = EntityFactory.constructDog(new Vector2(0,0), 60.0f, 40.0f, 0, 100f);
-        int dogEntity2 = EntityFactory.constructDog(new Vector2(500,350), 60.0f, 40.0f, 0, 100f);
+        int dogEntity = EntityFactory.constructDog(new Vector2(0, 0), 60.0f, 40.0f, 0, 100f);
+        int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
     }
-
-    public void addSystem(ECSystem system)
-    {
-
-        systems.add(system);
-        systems.sort(comparator);
-    }
-
-    public void removeSystem(ECSystem system)
-    {
-
-        systems.removeValue(system, true);
-    }
-
 
     public TiledMap loadMap(String filename)
     {
-
         try
         {
             return new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
@@ -125,7 +91,6 @@ public class Game
 
     public void update(float delta)
     {
-        
         /*CatPhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, CatPhysicsComponent.class);
         
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
@@ -140,42 +105,11 @@ public class Game
             catPhysicsComp.mPosition.add(new Vector2(10.0f, 0.0f));
         }*/
 
-        for (ECSystem system : systems) {
-            system.update(delta);
-        }
+        engine.update(delta);
     }
 
     public void render()
     {
-
-        for (ECSystem system : systems)
-        {
-            system.render();
-        }
-    }
-
-    private static class SystemComparator implements Comparator<ECSystem>
-    {
-
-        @Override
-        public int compare(ECSystem a, ECSystem b)
-        {
-            int result;
-
-            if (a.getPriority() > b.getPriority())
-            {
-                result = 1;
-            }
-            else if (a.getPriority() == b.getPriority())
-            {
-                result = 0;
-            }
-            else
-            {
-                result = -1;
-            }
-
-            return result;
-        }
+        engine.render();
     }
 }
