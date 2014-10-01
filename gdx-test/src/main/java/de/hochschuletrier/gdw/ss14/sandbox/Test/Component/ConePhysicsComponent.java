@@ -33,12 +33,14 @@ public class ConePhysicsComponent extends PhysicsComponent{
         mRadius = radius;
         mCorner = corner;
         mRotation = rotation;
+        
+        
     }
     
     private void fillShapeList(){
         mShape = new ArrayList<Point>();
         float anzPunkte = (float)((mCorner/Math.toRadians(20))+1.0);
-        Point firstPoint = new Point((int)(mPosition.x ), (int)(mPosition.y)); // still to do
+        Point firstPoint = new Point((int)(mPosition.x ), (int)(mPosition.y));
         
         mShape.add(new Point((int)mPosition.x, (int)mPosition.y));
         
