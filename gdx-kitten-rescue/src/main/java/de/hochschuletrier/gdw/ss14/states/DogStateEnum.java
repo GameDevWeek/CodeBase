@@ -12,4 +12,6 @@ package de.hochschuletrier.gdw.ss14.states;
 public enum DogStateEnum {
     SITTING,
     RUNNING,
+    KILLING,
+    WALKING
 }
