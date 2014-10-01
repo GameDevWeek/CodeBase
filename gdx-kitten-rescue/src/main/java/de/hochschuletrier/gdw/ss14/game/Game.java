@@ -216,7 +216,7 @@ public class Game {
         
         // Level entity        
         TileMapRenderingComponent newTmrComp = new TileMapRenderingComponent(); 
-        newTmrComp.map = loadMap("data/maps/demo.tmx");
+        newTmrComp.map = loadMap("data/maps/ErsteTestMap.tmx");
         newTmrComp.renderedLayers.add(0);
         newTmrComp.renderedLayers.add(1);
         
