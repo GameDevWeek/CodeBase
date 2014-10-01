@@ -122,20 +122,17 @@ public abstract class LaserCatMenu
 		name = null;
 }
 
-	@Override
 	public void dispose()
 	{
 		stage.dispose();
 		shapeRenderer.dispose();
 	}
 
-	@Override
 	public void render()
 	{
 		stage.draw();
 	}
 
-	@Override
 	public void update(float delta)
 	{
 		// TODO Auto-generated method stub
