@@ -15,6 +15,16 @@ import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 
 public class EntityFactory {
 
+    public static void constructBalk(){
+        int entity = manager.createEntity();
+    }
+    public static void constructBox(){
+        int entity = manager.createEntity();
+    }
+    public static void constructBroom(){
+        int entity = manager.createEntity();
+    }
+
     public static void constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
         int entity = manager.createEntity();
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
@@ -29,6 +39,11 @@ public class EntityFactory {
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
     }
+
+    public static void constructCatbox(){
+        int entity = manager.createEntity();
+    }
+
     public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
         int entity = manager.createEntity();
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent();
@@ -42,12 +57,48 @@ public class EntityFactory {
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
     }
+
+
+    public static void constructDoor(){
+        int entity = manager.createEntity();
+    }
+
+    public static void constructFood(){
+        int entity = manager.createEntity();
+    }
+
     public static void constructHole(Vector2 pos){
         int entity = manager.createEntity();
         HolePhysicsComponent holePhysix = new HolePhysicsComponent();
         holePhysix.initPhysics(phyManager);
         manager.addComponent(entity, holePhysix);
     }
+
+
+    public static void constructLamp(){
+        int entity = manager.createEntity();
+    }
+
+    public static void constructPuddleOfBlood(){
+        int entity = manager.createEntity();
+    }
+
+    public static void constructPuddleOfWater(){
+        int entity = manager.createEntity();
+    }
+
+    public static void constructStairs(){
+        int entity = manager.createEntity();
+    }
+
+    public static void constructVase(){
+        int entity = manager.createEntity();
+    }
+
+    public static void constructWool(){
+        int entity = manager.createEntity();
+    }
+
 
     public static EntityManager manager;
 
