@@ -17,7 +17,7 @@ public class AnimationComponent implements Component {
      * Do not change this if you want a jumping cat, 
      * change the state of the cat!
      */
-    public int actualAnimationState;
+    public int currentAnimationState;
     
     /**
      * Time that has passed since the beginning of the animation.
