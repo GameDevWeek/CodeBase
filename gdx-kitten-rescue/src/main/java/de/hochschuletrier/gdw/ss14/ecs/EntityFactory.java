@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationWithVariableFrameTime;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatStateComponent;
@@ -17,9 +18,9 @@ import de.hochschuletrier.gdw.ss14.ecs.components.HolePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+
 
 public class EntityFactory {
 
@@ -68,6 +69,8 @@ public class EntityFactory {
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
+//        manager.addComponent(entity, new AnimationComponent());
+//        manager.addComponent(entity, new CameraComponent());
         manager.addComponent(entity, cam);
         
         return entity;
@@ -79,8 +82,8 @@ public class EntityFactory {
 
     public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
-        CatPhysicsComponent dogPhysix = new CatPhysicsComponent();
-        MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
+        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
+        MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
         InputComponent dogInput = new InputComponent();
         DogStateComponent dogState = new DogStateComponent();
         dogPhysix.initPhysics(phyManager);
@@ -89,6 +92,7 @@ public class EntityFactory {
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
+//        manager.addComponent(entity, new AnimationComponent());
     }
 
     public static void constructDoor() {
