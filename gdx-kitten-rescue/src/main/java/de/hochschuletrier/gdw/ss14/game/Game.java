@@ -12,6 +12,7 @@ import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.TileMapRenderingComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
@@ -94,7 +95,7 @@ public class Game {
         int levelEntity = entityManager.createEntity();
         entityManager.addComponent(levelEntity, newTmrComp);
         
-        EntityFactory.constructCat(mapCenter.cpy(), 10.0f, 5.0f, 0.1f, 0.1f);
+        catEntity = EntityFactory.constructCat(mapCenter.cpy(), 10.0f, 5.0f, 0.1f, 0.1f);
 
         // Cat entity        
         /*CameraComponent newCamComp = new CameraComponent();
@@ -140,15 +141,15 @@ public class Game {
 
     public void update(float delta) {
         
-        /*PhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, PhysicsComponent.class);
+        CatPhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, CatPhysicsComponent.class);
         
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
             
             //testPhysics.position = testPhysics.position.add( new Vector2(100.0f, 0.0f) );
-            catPhysicsComp.dummyPosition.add(new Vector2(10.0f, 0.0f));
+            catPhysicsComp.mPosition.add(new Vector2(10.0f, 0.0f));
         }
-        else
-            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));*/
+        /*else
+            catPhysicsComp.mPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));*/
         
         for (ECSystem system : systems) {
             system.update(delta);
