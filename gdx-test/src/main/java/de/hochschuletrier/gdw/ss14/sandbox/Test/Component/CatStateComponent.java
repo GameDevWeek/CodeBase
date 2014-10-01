@@ -4,6 +4,7 @@ import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.Component;
 
 public class CatStateComponent implements Component {
     public enum States {
-        DISTRACTED, WALKING, STANDING, RUNNING, JUMPING
+        WALKING, STANDING, RUNNING, JUMPING
     };
+    public States state = States.STANDING;
 }
