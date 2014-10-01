@@ -1,38 +1,13 @@
 {
     "com.badlogic.gdx.graphics.Color": {
-        "green": {
-            "a": 1,
-            "b": 0,
-            "g": 1,
-            "r": 0
-        },
-        "white": {
-            "a": 1,
-            "b": 1,
-            "g": 1,
-            "r": 1
-        },
-        "red": {
-            "a": 1,
-            "b": 0,
-            "g": 0,
-            "r": 1
-        },
-        "yellow": {
-            "a": 1,
-            "b": 0,
-            "g": 0.85,
-            "r": 1
-        },
-        "black": {
-            "a": 1,
-            "b": 0,
-            "g": 0,
-            "r": 0
-        }
+        "green": {"a": 1, "b": 0, "g": 1, "r": 0},
+        "white": {"a": 1, "b": 1, "g": 1, "r": 1},
+        "red": {"a": 1, "b": 0, "g": 0, "r": 1},
+        "yellow": {"a": 1, "b": 0, "g": 0.85, "r": 1},
+        "black": {"a": 1, "b": 0, "g": 0, "r": 0},
+        "catGrey": {"a": 0.85, "b": 0.2, "g": 0.2, "r": 0.2}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
-<<<<<<< HEAD
         "main_bell_down": {"name": "main-menu-bell", "color":  {"a": 0.5, "b": 0, "g": 0.85, "r": 0.5}}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
@@ -41,31 +16,6 @@
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
     	"start_button": {"down": "start-menu-button", "up": "start-menu-button-down"}
     }
+    
 }
 
-
-=======
-        "main_bell_down": {
-            "name": "main-menu-bell",
-            "color": {
-                "a": 0.5,
-                "b": 0,
-                "g": 0.85,
-                "r": 0.5
-            }
-        }
-    },
-    "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
-            "bell": {
-                "down": "main_bell_down",
-                "up": "main-menu-bell"
-            }
-    },
-	"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-	    "start_button": {
-	        "up": "start-menu-button",
-	        "down": "start-menu-button"
-	    }
-	}
-}
->>>>>>> cac91c58b73be37fbbdcce1a811777fa4f94fad5
