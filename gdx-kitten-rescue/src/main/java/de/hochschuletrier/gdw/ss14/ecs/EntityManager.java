@@ -2,7 +2,7 @@ package de.hochschuletrier.gdw.ss14.ecs;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.utils.*;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 
 import java.util.*;
 
@@ -82,11 +82,11 @@ public class EntityManager
     {
         Class classToAdd;
 
-        if (component instanceof PhysicsComponent)
+        /*if (component instanceof PhysicsComponent)
         {
             classToAdd = component.getClass().getSuperclass();
         }
-        else
+        else*/
         {
             classToAdd = component.getClass();
         }

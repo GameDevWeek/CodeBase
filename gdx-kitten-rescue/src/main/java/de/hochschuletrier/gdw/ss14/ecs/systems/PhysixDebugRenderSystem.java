@@ -1,7 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
-import de.hochschuletrier.gdw.ss14.sandbox.ecs.*;
+import de.hochschuletrier.gdw.ss14.ecs.*;
 
 /**
  * Created by Daniel Dreher on 30.09.2014.
