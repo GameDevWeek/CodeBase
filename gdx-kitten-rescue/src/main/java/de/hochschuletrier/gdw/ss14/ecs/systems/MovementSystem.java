@@ -9,6 +9,8 @@ import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
 
 public class MovementSystem extends ECSystem{
 
@@ -36,30 +38,30 @@ public class MovementSystem extends ECSystem{
             PhysicsComponent phyCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             PlayerComponent playerCompo = entityManager.getComponent(integer, PlayerComponent.class);
-            CatPropertyComponent catStateCompo = null;
-            DogPropertyComponent dogStateCompo = null;
-//            if(playerCompo != null ) {
-//                catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
-//                if(moveCompo.velocity == 0)
-//                    catStateCompo.state = CatStateEnum.IDLE;
-//                else if (moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.MIDDLE_VELOCITY)
-//                    catStateCompo.state = CatStateEnum.LAUFEN;
-//                else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY)
-//                    catStateCompo.state = CatStateEnum.RENNEN;
-//            } else {
-//                dogStateCompo = entityManager.getComponent(integer, DogPropertyComponent.class);
-//                if(moveCompo.velocity == 0)
-//                    dogStateCompo.state = DogStateEnum.SITTING;
-//                else if (moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.MIDDLE_VELOCITY)
-//                    dogStateCompo.state = DogStateEnum.WALKING;
-//                else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY)
-//                    dogStateCompo.state = DogStateEnum.RUNNING;
-//            }
+            CatPropertyComponent catStateCompo;
+            DogPropertyComponent dogStateCompo;
+            if(playerCompo != null ) {
+                catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
+                if(moveCompo.velocity == 0)
+                    catStateCompo.state = CatStateEnum.IDLE;
+                else if (moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.MIDDLE_VELOCITY)
+                    catStateCompo.state = CatStateEnum.LAUFEN;
+                else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY)
+                    catStateCompo.state = CatStateEnum.RENNEN;
+            } else {
+                dogStateCompo = entityManager.getComponent(integer, DogPropertyComponent.class);
+                if(moveCompo.velocity == 0)
+                    dogStateCompo.state = DogStateEnum.SITTING;
+                else if (moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.MIDDLE_VELOCITY)
+                    dogStateCompo.state = DogStateEnum.WALKING;
+                else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY)
+                    dogStateCompo.state = DogStateEnum.RUNNING;
+            }
             moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
 
             float distance = moveCompo.directionVec.len();
 
-            System.out.println("DISTANCE: " +  distance + " VELOCITY: " + moveCompo.velocity);
+            System.out.println(this.getClass().getName()+": "+"DISTANCE: " +  distance + " VELOCITY: " + moveCompo.velocity);
 
 
 //            if(distance <= minDistance){

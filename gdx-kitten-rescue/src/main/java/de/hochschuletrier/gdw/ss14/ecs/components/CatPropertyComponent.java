@@ -11,6 +11,7 @@ public class CatPropertyComponent implements Component {
     public CatPropertyComponent() {
         amountLives = 9;
         isAlive = true;
+        state = CatStateEnum.IDLE;
     }
 
 }

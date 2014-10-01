@@ -1,9 +1,14 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+
+import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 
 public class CameraComponent implements Component 
 {    
+    public LimitedSmoothCamera smoothCamera;
+    
     // Maximum distance of the cats center to the screen center in pixels
     public float maxScreenCenterDistance = 500f;
     
@@ -21,4 +26,11 @@ public class CameraComponent implements Component
     // The bounds of the level in pixels
     public Vector2 minBound = null;
     public Vector2 maxBound = null;
+    
+    public CameraComponent() {
+        
+        smoothCamera = new LimitedSmoothCamera();
+        smoothCamera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        smoothCamera.updateForced();
+    }
 }

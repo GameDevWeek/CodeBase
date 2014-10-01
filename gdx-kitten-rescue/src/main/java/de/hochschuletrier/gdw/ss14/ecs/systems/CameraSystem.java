@@ -11,8 +11,6 @@ import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 
 public class CameraSystem extends ECSystem {
         
-  private LimitedSmoothCamera smoothCamera;
-  
   /**
    * 
    * @param em          the entity manager
@@ -24,9 +22,6 @@ public class CameraSystem extends ECSystem {
   public CameraSystem( EntityManager em, int priority ) {
       
       super(em, priority); 
-      smoothCamera = new LimitedSmoothCamera();     
-      smoothCamera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-      smoothCamera.updateForced();
   }
     
   @Override
@@ -39,7 +34,7 @@ public class CameraSystem extends ECSystem {
           PhysicsComponent physComp = entityManager.getComponent(entity, PhysicsComponent.class);         
           CameraComponent camComp = entityManager.getComponent(entity, CameraComponent.class);
           
-          Vector2 camera2DPos = new Vector2(smoothCamera.getPosition().x, smoothCamera.getPosition().y);
+          Vector2 camera2DPos = new Vector2(camComp.smoothCamera.getPosition().x, camComp.smoothCamera.getPosition().y);
           Vector2 newDest = camera2DPos.cpy();
           
           if (physComp != null) {
@@ -48,7 +43,7 @@ public class CameraSystem extends ECSystem {
               
               float followFactor = 0.0f;                          
               float centerDistance = followPos.cpy().sub(camera2DPos).len();
-              float maxCenterDistance = camComp.maxScreenCenterDistance * smoothCamera.getZoom();
+              float maxCenterDistance = camComp.maxScreenCenterDistance * camComp.smoothCamera.getZoom();
               
               // If farther away than max distance, move towards the cat to contain max distance
               if (centerDistance > maxCenterDistance) {
@@ -70,21 +65,17 @@ public class CameraSystem extends ECSystem {
               float timeFactor = delta / camComp.movetimeFromMaxDistanceToCenter;
               newDest.add(followPos.cpy().sub(camera2DPos).scl(followFactor * timeFactor));        
               
-              if (Float.isInfinite(newDest.x))
-                  System.out.println("meep");
-              
-
           }
           
           if ((camComp.minBound != null) && (camComp.maxBound != null))
-              smoothCamera.setBounds(camComp.minBound.x, camComp.minBound.y, camComp.maxBound.x, camComp.maxBound.y);
+              camComp.smoothCamera.setBounds(camComp.minBound.x, camComp.minBound.y, camComp.maxBound.x, camComp.maxBound.y);
           
-          smoothCamera.setDestination(newDest.x, newDest.y);    
-          smoothCamera.setZoom(camComp.cameraZoom);
+          camComp.smoothCamera.setDestination(newDest.x, newDest.y);    
+          camComp.smoothCamera.setZoom(camComp.cameraZoom);
           //smoothCamera.update(delta);
-          smoothCamera.updateForced();
+          camComp.smoothCamera.updateForced();
                     
-          smoothCamera.bind();
+          camComp.smoothCamera.bind();
       }
   }
   
