@@ -47,7 +47,7 @@ public class ConePhysicsComponent extends PhysicsComponent{
             startWinkel += delta;
         }
         
-        mShape.forEach((p)->System.out.println(p.x+" | "+p.y));
+        
     }
     
     public void initPhysics(PhysixManager manager){
@@ -58,8 +58,8 @@ public class ConePhysicsComponent extends PhysicsComponent{
                 .fixedRotation(true).angle(mRotation)
                 .create();
         
-    
-        physicsBody.createFixture(fixturedef.shapePolygon(mShape).category(Short.parseShort("1111111111111111")).mask((short)0));
+        physicsBody.createFixture(fixturedef.shapePolygon(mShape).category((short)-1).mask((short)0));
+        
         setPhysicsBody(physicsBody);
     }
 }
