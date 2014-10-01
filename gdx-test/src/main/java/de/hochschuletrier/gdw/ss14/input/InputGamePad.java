@@ -39,19 +39,16 @@ public class InputGamePad extends InputDevice implements ControllerListener {
     }
 
 	@Override
-	public void connected(Controller controller) {
-		System.out.println("GamePad connected");		
+	public void connected(Controller controller) {	
 	}
 
 	@Override
 	public void disconnected(Controller controller) {
-		System.out.println("GamePad disconnected");
 		
 	}
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
-		System.out.println("button");
 		switch (buttonCode) {
 			case 2: this.fireWaterPistolButtonDown(); break;	
 			case 0: this.fireLaserButtonPressed(); break;
@@ -73,13 +70,11 @@ public class InputGamePad extends InputDevice implements ControllerListener {
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
 		if (axisCode == 0) {
 			if(value >= 0.2) {
-				// this.fireMoveDown(value);
 				pressedKeys.remove(InputDirection.UP.ordinal());
 				pressedKeys.remove(InputDirection.DOWN.ordinal());
 				pressedKeys.put(InputDirection.DOWN.ordinal(), value);
 			}
 			else if(value <= -0.2) {
-				// this.fireMoveUp(value);
 				pressedKeys.remove(InputDirection.DOWN.ordinal());
 				pressedKeys.remove(InputDirection.UP.ordinal());
 				pressedKeys.put(InputDirection.UP.ordinal(), value);
@@ -105,35 +100,26 @@ public class InputGamePad extends InputDevice implements ControllerListener {
 				pressedKeys.remove(InputDirection.LEFT.ordinal());
 			}
 		}
-		// System.out.println(controller.getName() + " (axis moved) : " + axisCode + " - " + value);
 		return false;
 	}
 
 	@Override
-	public boolean povMoved(Controller controller, int povCode,
-			PovDirection value) {
-		System.out.println(controller.getName() + " (pov moved) : " + povCode + " - " + value);
+	public boolean povMoved(Controller controller, int povCode, PovDirection value) {
 		return false;
 	}
 
 	@Override
-	public boolean xSliderMoved(Controller controller, int sliderCode,
-			boolean value) {
-		System.out.println(controller.getName() + " (X_Slider moved) : " + sliderCode + " - " + value);
+	public boolean xSliderMoved(Controller controller, int sliderCode, boolean value) {
 		return false;
 	}
 
 	@Override
-	public boolean ySliderMoved(Controller controller, int sliderCode,
-			boolean value) {
-		System.out.println(controller.getName() + " (Y_Slider moved) : " + sliderCode + " - " + value);
+	public boolean ySliderMoved(Controller controller, int sliderCode, boolean value) {
 		return false;
 	}
 
 	@Override
-	public boolean accelerometerMoved(Controller controller,
-			int accelerometerCode, Vector3 value) {
-		System.out.println(controller.getName() + " (accelerometer moved) : " + accelerometerCode + " - " + value);
+	public boolean accelerometerMoved(Controller controller, int accelerometerCode, Vector3 value) {
 		return false;
 	}
 	
