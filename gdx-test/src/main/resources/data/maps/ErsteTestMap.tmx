@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="15" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" source="Tilesets/Fallobjekte Kopie_128px.tsx"/>
+ <tileset firstgid="4" source="Tilesets/BodenTiles.tsx"/>
+ <tileset firstgid="32" source="Tilesets/Fallobjekte Kopie_258_px.tsx"/>
+ <tileset firstgid="38" source="Tilesets/fluessigkeiten_Halbe_groesse.tsx"/>
+ <tileset firstgid="68" source="Tilesets/Kiste_Liegend_Halbe_groesse.tsx"/>
+ <tileset firstgid="70" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
+ <tileset firstgid="71" source="Tilesets/LichteffektDachboden.tsx"/>
+ <tileset firstgid="74" source="Tilesets/LochTiles.tsx"/>
+ <tileset firstgid="102" source="Tilesets/Nahrung.tsx"/>
+ <tileset firstgid="103" source="Tilesets/SolidsTileset.tsx"/>
+ <tileset firstgid="359" source="Tilesets/SolidTileset(begehbar).tsx"/>
+ <tileset firstgid="615" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
+ <tileset firstgid="630" source="Tilesets/Treppe_Klein-Kopie.tsx"/>
+ <tileset firstgid="631" source="Tilesets/Tuer.tsx"/>
+ <tileset firstgid="652" source="Tilesets/Wollknaeuel.tsx"/>
+ <layer name="ground" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYWBgYBnFo3gUj+JRPIpHKAYAzqAHCQ==
+  </data>
+ </layer>
+ <layer name="solid1" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt0DkKgEAMQNF4WhXcGxHcGxW00FoLPakfbOYCmWYMPCbdJ+OLSGBZ6ImUiBAjQYpMac9RoJKvW6NBiw690j5gNLorNmjPTuMwuicuC92bxvPfqz7/vW7d69I/T7yzZQteBCdcvQ==
+  </data>
+ </layer>
+ <layer name="gaps" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2D4gyAgDgbiEDRxHSRMCxAJxFFAHI1FjtZ24wIDYSey3aNgFAw2AABCbwOU
+  </data>
+ </layer>
+ <layer name="deco1" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4A+wAuIvYHYB4h9gdgPKq4GxOpIWIPK9gai8UOhtDaauB6V7Y5A48dAaQMg1kKT06WivfFAnADEiUCcBMTJSHLIftYEYiMq2osPIPuZmn4l1m5DBvr5lZaAA4g5gZiLzvbyA7EAEAvS2V56AQDbgwhy
+  </data>
+ </layer>
+ <layer name="solid2" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF6KAPiPuRaHqBeUA8H4ke6WAzEG8ZaEeQAGYC8awBsHclEK+iofm40uNOIN5FQ3tHwSigFwAAWa8LUg==
+  </data>
+ </layer>
+ <objectgroup name="actionlayer">
+  <object name="vase" gid="37" x="1460.05" y="277.977" rotation="-269.958"/>
+  <object gid="35" x="116" y="334"/>
+  <object name="lamp" gid="32" x="2634.79" y="296"/>
+  <object name="lamp" gid="33" x="2623.88" y="371.394"/>
+  <object name="lamp" gid="3" x="2768" y="351.879"/>
+  <object name="broom" gid="2" x="2540.73" y="367.03"/>
+  <object name="broom" gid="35" x="2393.58" y="286.545"/>
+  <object name="broom" gid="34" x="2387.52" y="362.303"/>
+  <object name="vase" gid="37" x="2378.42" y="456.242"/>
+  <object name="vase" gid="36" x="2390.55" y="538.061"/>
+  <object name="vase" gid="1" x="2543.76" y="530.667"/>
+  <object name="catbox" gid="69" x="2358.55" y="197.333"/>
+  <object name="catbox" gid="68" x="2591.88" y="200.364"/>
+  <object name="catbox" gid="70" x="2396.61" y="62.6667"/>
+  <object name="catbox" gid="70" x="1393.94" y="809.091"/>
+ </objectgroup>
+ <objectgroup name="renderlayer"/>
+ <layer name="deco2" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFQwVMBuIpA2DvYiBeMgD2jgJU0AfE/Xjk3enlkFEwCoYZAAAQOwPT
+  </data>
+ </layer>
+</map>
