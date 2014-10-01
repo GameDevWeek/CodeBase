@@ -115,6 +115,9 @@ public class MapManager
 
                     switch (objType)
                     {
+                        case "start":
+                            // TODO: add object with entityFactory here
+                            break;
                         case "wool":
                             // TODO: add object with entityFactory here
                             break;
