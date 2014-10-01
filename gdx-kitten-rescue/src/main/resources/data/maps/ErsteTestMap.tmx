@@ -60,7 +60,7 @@
    <property name="floor" value="0"/>
   </properties>
   <object name="vase" gid="37" x="1460.05" y="277.977" rotation="-269.958"/>
-  <object gid="35" x="116" y="334"/>
+  <object name="start" gid="35" x="116" y="334"/>
   <object name="lamp" gid="32" x="2634.79" y="296"/>
   <object name="lamp" gid="33" x="2623.88" y="371.394"/>
   <object name="lamp" gid="3" x="2768" y="351.879"/>
