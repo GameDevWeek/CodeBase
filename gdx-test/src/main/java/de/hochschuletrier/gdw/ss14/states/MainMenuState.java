@@ -16,6 +16,7 @@ import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.sandbox.ui.PauseMenu;
 
 /**
  * Menu state
@@ -32,6 +33,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     float stateTime = 0f;
     private AnimationExtended walking;
     private float x = 0;
+    private PauseMenu pauseMenu;
 
     InputInterceptor inputProcessor;
 
@@ -41,7 +43,9 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-
+        pauseMenu = new PauseMenu();
+        pauseMenu.init(assetManager);
+        
         logo = assetManager.getTexture("logo");
         walking = assetManager.getAnimation("walking");
         music = assetManager.getMusic("menu");
@@ -70,6 +74,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public void render() {
+    	pauseMenu.render();
         Main.getInstance().screenCamera.bind();
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
 
@@ -82,6 +87,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public void update(float delta) {
+    	pauseMenu.update(delta);
         stateTime += delta;
         x += delta * WALKING_SPEED;
         if (x > 1024) {
