@@ -158,15 +158,15 @@ public class MapManager
                 for (int j = 0; j < mapObjects.size(); ++j)
                 {
                     String objType = mapObjects.get(j).getName();
+                    float x = mapObjects.get(j).getX();
+                    float y = mapObjects.get(j).getY();
+                    Vector2 pos = new Vector2(x, y);
 
                     if (objType != null)
                     {
                         switch (objType)
                         {
                             case "start":
-                                float x = mapObjects.get(j).getX();
-                                float y = mapObjects.get(j).getY();
-                                Vector2 pos = new Vector2(x, y);
                                 try {
                                     EntityFactory.constructCat(pos, 150, 75, 0, 50.0f);
                                 } catch (Exception e) {
@@ -175,7 +175,7 @@ public class MapManager
 
                                 break;
                             case "wool":
-                                // TODO: add object with entityFactory here
+                                EntityFactory.constructWool(pos);
                                 break;
 
                             case "vase":
