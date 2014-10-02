@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
@@ -17,6 +18,8 @@ public class ParticleEmitterComponent implements Component {
     
     public float emitInterval = 0.1f;
     public float emitRadius = 50f;
+    
+    public Color particleTintColor = null;
     
     /*public boolean isDirectionalEmitter = false;
     public Vector2 emitDirection;

@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -74,10 +75,10 @@ public class ParticleEmitterSystem extends ECSystem {
         // Get random rotation for the particle texture
         rotation = (float)(Math.random()*360.0);
             
-        createParticle(particlePos, rotation, tex);
+        createParticle(particlePos, rotation, emitComp.particleTintColor, tex);
     }
     
-    private void createParticle( Vector2 emitPosition, float rotation, TextureRegion tex ) {
+    private void createParticle( Vector2 emitPosition, float rotation, Color tintColor, TextureRegion tex ) {
         
         int particleEnt = entityManager.createEntity();
         Vector2 particlePos = emitPosition;
@@ -89,6 +90,7 @@ public class ParticleEmitterSystem extends ECSystem {
         RenderComponent particleRender = new RenderComponent();
         particleRender.zIndex = -1;
         particleRender.texture = tex;
+        particleRender.tintColor = tintColor;
         
         entityManager.addComponent(particleEnt, particlePhysics);
         entityManager.addComponent(particleEnt, new RenderComponent());
