@@ -38,6 +38,7 @@ public class SoundManager {
 				switch (actionString) {
 					case "CATWALK":
 						SoundManager.playSound("gp_cat_walk_laminate");
+						System.out.println("WALKING CAT!!!!");
 						break;
 				}
 				break;
