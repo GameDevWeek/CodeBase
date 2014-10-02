@@ -27,6 +27,11 @@ public class PlayerMovementSystem extends ECSystem
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CatPropertyComponent catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
 
+            if (!catStateCompo.canSeeLaserPointer)
+            {
+                return;
+            }
+
             // update states
             if (moveCompo.velocity == 0)
             {
