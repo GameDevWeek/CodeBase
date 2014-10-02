@@ -25,7 +25,15 @@ public class ParticleEmitterSystem extends ECSystem {
         
         for (Integer ent : arr) {
             
+            ParticleEmitterComponent emitComp = entityManager.getComponent(ent, ParticleEmitterComponent.class);
             
+            int lastCycle = (int)(emitComp.lifetimeLeft / emitComp.emitInterval);
+            emitComp.lifetimeLeft -= delta;
+            int currentCycle = (int)(emitComp.lifetimeLeft / emitComp.emitInterval);
+            
+            if (emitComp.lifetimeLeft < 0.0f) {
+                
+            }
         }
     }
 
