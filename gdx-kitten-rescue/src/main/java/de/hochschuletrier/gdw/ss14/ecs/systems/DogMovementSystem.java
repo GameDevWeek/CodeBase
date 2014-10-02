@@ -29,7 +29,6 @@ public class DogMovementSystem extends ECSystem
             MovementComponent movementComponent = entityManager.getComponent(entity, MovementComponent.class);
             PhysicsComponent physicsComponent = entityManager.getComponent(entity, PhysicsComponent.class);
             InputComponent inputComponent = entityManager.getComponent(entity, InputComponent.class);
-            PlayerComponent playerComponent = entityManager.getComponent(entity, PlayerComponent.class);
             DogPropertyComponent dogPropertyComponent = entityManager.getComponent(entity, DogPropertyComponent.class);
 
             // update states
