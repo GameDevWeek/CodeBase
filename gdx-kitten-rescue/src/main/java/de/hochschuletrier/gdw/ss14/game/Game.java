@@ -9,8 +9,8 @@ import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
-
 import de.hochschuletrier.gdw.ss14.input.InputManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +57,7 @@ public class Game{
         engine.addSystem(new ParticleEmitterSystem(entityManager));
         engine.addSystem(new LimitedLifetimeSystem(entityManager));
         engine.addSystem(new LaserPointerSystem(entityManager));
+        //engine.addSystem(new ShadowSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
         engine.addSystem(new CatContactSystem(entityManager));
@@ -67,7 +68,8 @@ public class Game{
 
         // Rendering related systems
         engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
-        engine.addSystem(new AnimationSystem(entityManager, 1));
+        engine.addSystem(new ShadowSystem(entityManager, 1));
+        engine.addSystem(new AnimationSystem(entityManager, 2));
         engine.addSystem(new RenderSystem(entityManager, 1200));
     }
 
