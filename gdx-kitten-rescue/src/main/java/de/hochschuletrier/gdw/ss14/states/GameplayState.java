@@ -33,6 +33,7 @@ public class GameplayState extends GameState implements InputProcessor {
     private Sound helicopter;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
+    private LocalMusic music;
 
     private final SoundEmitter emitter = new SoundEmitter();
     private final LimitedSmoothCamera camera = new LimitedSmoothCamera();
@@ -50,6 +51,7 @@ public class GameplayState extends GameState implements InputProcessor {
         helicopter = assetManager.getSound("ouchWall");
         game = new Game(assetManager);
         game.init(assetManager);
+        this.music = Main.MusicManager.getMusicStreamByStateName(GameStates.GAMEPLAY);
         Main.inputMultiplexer.addProcessor(this);
         
         ingameHUD = new IngameHUD(assetManager);
@@ -82,6 +84,7 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public void update(float delta) {
+    	this.music.update();
         /*emitter.update();
         emitter.setPosition(cursor.x, cursor.y, 0);
         game.update(delta);
@@ -107,12 +110,20 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public void onEnter() {
+		if (this.music.isMusicPlaying()) {
+			this.music.setFade('i', 3000);
+		} else {
+			this.music.play("ingame_calm");
+		}
         emitter.dispose();
         //emitter.play(helicopter, true);
     }
 
     @Override
     public void onLeave() {
+		if (this.music.isMusicPlaying()) {
+    		this.music.setFade('o', 3000);
+		}
         emitter.dispose();
     }
 

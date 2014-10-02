@@ -3,23 +3,29 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.utils.Box2DBuild;
-
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
-import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
 
     private static final Logger logger = LoggerFactory.getLogger(CatContactSystem.class);
+
+    private PhysixManager phyManager;
+    private RayCastPhysics rcpc;
     
-    public CatContactSystem(EntityManager entityManager) {
+    public CatContactSystem(EntityManager entityManager, PhysixManager physicsManager) {
         super(entityManager);
+        phyManager = physicsManager;
     }
 
     @Override
@@ -35,12 +41,14 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             
         }else if(other instanceof ConePhysicsComponent){
             logger.debug("cat collides with sight-cone");
-            //TODO: raycast from
-            //other.getPosition();
-            // to
-            //owner.getPosition();
-            // with maximum ((ConePhysicsComponent)other).mRadius;
-            // if hit → dog sees cat, else not
+            phyManager.getWorld().rayCast(rcpc, other.getPosition(), owner.getPosition());
+            if(rcpc.m_hit && rcpc.m_fraction <= ((ConePhysicsComponent)other).mRadius){
+                //dog sees cat
+                logger.debug("Katze sichtbar für Hund");
+            }else{
+                //dog sees cat not
+            }
+            rcpc.reset();
             
         }else if(other == null){
             if(!(o instanceof String)) return;
@@ -52,8 +60,13 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     isCatInZone = true;
                 }
                 if(isCatInZone){
-                    logger.debug("TOOOOT");
                     // cat fall down
+                    int player = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class).first();
+
+                    CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+                    PhysicsComponent physicsComponent = entityManager.getComponent(player, PhysicsComponent.class);
+
+                    catPropertyComponent.isAlive = false;
                 }
             }
         }

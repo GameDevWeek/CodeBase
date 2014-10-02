@@ -76,6 +76,7 @@ public class LocalMusic {
 	public void update() {
 		float delta = Gdx.graphics.getDeltaTime();
 		float step = delta * (1000.0f / this.duration);
+		System.out.println(this.musicHandle + " :: " + this.musicHandle.getVolume());
 		
 		if (this.fading && this.musicHandle != null) {
 			float volume = this.musicHandle.getVolume();

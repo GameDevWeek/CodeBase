@@ -12,38 +12,21 @@ import de.hochschuletrier.gdw.ss14.input.InputManager;
 
 public class WaterlevelHUD extends HudComponent implements GameInputAdapter {
     private float currentPercent = 100;
-    //private Vector2 rectPos;
-    private float rectWidth;
-    private float rectHeight;
     private boolean buttonDown = false;
     
-    private float posX = 0;
-    private float posY = 0;
-    
-    private float xOffset;
-    private float yOffset;
-    
-    public WaterlevelHUD(AssetManagerX assetManager) {
-        this(assetManager, null);
+    private WaterlevelHUD(AssetManagerX assetManager) {
+        super(assetManager);
     }
     
-    public WaterlevelHUD(AssetManagerX assetManager, HudComponent parent) {
-        super(assetManager, parent);
-        xOffset = 0;
-        yOffset = 0;
+    public WaterlevelHUD(AssetManagerX assetManager, float height, float width) {
+        super(assetManager);
         
-        calcPos();
+        super.width = width;
+        super.height = height;
         
-        if (parent == null) {
-            rectWidth = 300f;
-        } else {
-            rectWidth = parent.getWidth();
-        }
-        
-        rectHeight = 25f;
         InputManager.getInstance().addGameInputAdapter(this);
     }
-
+    
     @Override
     public void render() {
         Main.getInstance().screenCamera.bind();
@@ -62,19 +45,8 @@ public class WaterlevelHUD extends HudComponent implements GameInputAdapter {
             }
         }
         
-        calcPos();
-        DrawUtil.fillRect(posX, posY, rectWidth * (currentPercent / 100f), rectHeight, Color.BLUE);
-        DrawUtil.drawRect(posX, posY, rectWidth, rectHeight, Color.BLACK);
-    }
-
-    private void calcPos() {
-        if (parent != null) {
-            posX = parent.getX();
-            posY = parent.getY() + parent.getHeigth();
-        } else {
-            posX = Gdx.graphics.getWidth() - rectWidth - xOffset;
-            posY = yOffset;
-        }
+        DrawUtil.fillRect(position.x, position.y, getWidth() * (currentPercent / 100f), getHeigth(), Color.BLUE);
+        DrawUtil.drawRect(position.x, position.y, getWidth(), getHeigth(), Color.BLACK);
     }
     
     @Override
@@ -127,25 +99,5 @@ public class WaterlevelHUD extends HudComponent implements GameInputAdapter {
     public void menueButtonPressed() {
         // TODO Auto-generated method stub
         
-    }
-
-    @Override
-    public float getX() {
-        return posX;
-    }
-
-    @Override
-    public float getY() {
-        return posY;
-    }
-
-    @Override
-    public float getWidth() {
-        return this.rectWidth;
-    }
-
-    @Override
-    public float getHeigth() {
-        return this.rectHeight;
     }
 }

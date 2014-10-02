@@ -42,17 +42,19 @@ public class Engine
 
     public void update(float delta)
     {
-        for (ECSystem system : systems)
+        // nested iterators cause exceptions so don't change to for each!!
+        for(int i=0; i<systems.size; ++i)
         {
-            system.update(delta);
+            systems.get(i).update(delta);
         }
     }
 
     public void render()
     {
-        for (ECSystem system : systems)
+        // nested iterators cause exceptions so don't change to for each!!
+        for(int i=0; i<systems.size; ++i)
         {
-            system.render();
+            systems.get(i).render();
         }
     }
 
