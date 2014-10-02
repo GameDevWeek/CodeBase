@@ -17,7 +17,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
-/**
+/*
  * Created by Daniel Dreher on 01.10.2014.
  */
 public class PlayerMovementSystem extends ECSystem{
@@ -39,15 +39,18 @@ public class PlayerMovementSystem extends ECSystem{
             PhysicsComponent phyCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CatPropertyComponent catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
-
             // update states
             if(moveCompo.velocity == 0){
                 catStateCompo.state = CatStateEnum.IDLE;
             }else if(moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.MIDDLE_VELOCITY){
                 catStateCompo.state = CatStateEnum.WALK;
+                catStateCompo.jumpBuffer = 0;
             }else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY){
                 catStateCompo.state = CatStateEnum.RUN;
+                catStateCompo.jumpBuffer = 0;
             }
+            
+            logger.debug("\n"+ catStateCompo.state);
 
             moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
             float distance = moveCompo.directionVec.len();
@@ -64,7 +67,7 @@ public class PlayerMovementSystem extends ECSystem{
             if(distance >= 200){
                 moveCompo.velocity += moveCompo.ACCELERATION*delta;
 
-                /**
+                /*
                  * Falls durch die letze Berechnung die Velocity höher als die Maximale Velocity berechnet wurde, setzen
                  * wir  unsere velocity auf MAX_VELOCITY
                  */
@@ -97,9 +100,6 @@ public class PlayerMovementSystem extends ECSystem{
                 catStateCompo.state = CatStateEnum.IDLE;
                 catStateCompo.jumpBuffer = 0;
                 // phyCompo.setRotation(phyCompo.getRotation());
-                if(distance <= 10){
-                    moveCompo.velocity = 0;
-                }
             }
             else{
                 moveCompo.velocity += moveCompo.DAMPING * 1.5f * delta;
@@ -112,7 +112,7 @@ public class PlayerMovementSystem extends ECSystem{
             //Normalizing DirectionVector for Movement
             moveCompo.directionVec = moveCompo.directionVec.nor();
             
-            if(catStateCompo.state == CatStateEnum.JUMP || catStateCompo.state == CatStateEnum.IDLE){
+            if(catStateCompo.state == CatStateEnum.JUMP){
                 angle = phyCompo.getRotation();
             }else{
                 angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
@@ -126,8 +126,8 @@ public class PlayerMovementSystem extends ECSystem{
 
             phyCompo.setVelocityX(moveCompo.directionVec.x*moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.directionVec.y*moveCompo.velocity);
-
             logger.debug("\n" + catStateCompo.jumpBuffer);
+            
         }
     }
 }
