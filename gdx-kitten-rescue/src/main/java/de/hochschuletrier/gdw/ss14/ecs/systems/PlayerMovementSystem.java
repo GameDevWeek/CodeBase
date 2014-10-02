@@ -58,6 +58,12 @@ public class PlayerMovementSystem extends ECSystem{
                 catStateCompo.jumpBuffer += delta;
                 if (catStateCompo.jumpBuffer >= 0.5){
                     catStateCompo.state = CatStateEnum.JUMP;
+                    // cat is jumping - disable all puddles (blood and water)
+                    Array<Integer> puddles = entityManager.getAllEntitiesWithComponents(PuddlePhysicsComponent.class);
+                    for (Integer p : puddles) {
+                        PuddlePhysicsComponent puddlecompo = entityManager.getComponent(p, PuddlePhysicsComponent.class);
+                        puddlecompo.physicsBody.setActive(false);
+                    }
                 }
             }
 

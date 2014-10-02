@@ -100,12 +100,17 @@ public class MapManager
         }
     }
 
+    private enum tile2entity{
+        none, waterpuddle
+    }
+    
     private void createPhysics()
     {
         // Generate static world
         int tileWidth = tiledMap.getTileWidth();
         int tileHeight = tiledMap.getTileHeight();
         short floor = (short)Math.pow(2, tiledMap.getIntProperty("floor", 0));
+
         
         RectangleGenerator generator = new RectangleGenerator();
         generator.generate(tiledMap,
@@ -114,16 +119,51 @@ public class MapManager
         generator.generate(tiledMap,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("deadzone", false),
                 (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, true, "deadzone"));
+        generator.generate(tiledMap,
+                (Layer layer, TileInfo info) -> info.getBooleanProperty("water puddle", false),
+                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, tile2entity.waterpuddle));
+
+        
     }
 
     private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, String userdata){
         addShape(physixManager, rect, tileWidth, tileHeight, floor, false, userdata);
     }
     
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor){
-        addShape(physixManager, rect, tileWidth, tileHeight, floor, false, "");
-    }
+    /*
+    private PhysixBody getShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor)
+    {
+        float width = rect.width * tileWidth;
+        float height = rect.height * tileHeight;
+        float x = rect.x * tileWidth + width / 2;
+        float y = rect.y * tileHeight + height / 2;
+
+        PhysixBody body = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
+                .fixedRotation(false).create();
+        body.createFixture(new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
+                .category((short)floor));
+        return body;
+    }*/
     
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, tile2entity t2e)
+    {
+        float width = rect.width * tileWidth;
+        float height = rect.height * tileHeight;
+        float x = rect.x * tileWidth + width / 2;
+        float y = rect.y * tileHeight + height / 2;
+
+        PhysixBody body = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
+                .fixedRotation(false).create();
+        body.createFixture(new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
+                .category((short)floor));
+        
+        switch (t2e) {
+        case none: return;
+        case waterpuddle: EntityFactory.constructPuddleOfWater(body);break;
+        }
+        
+    }
+       
     private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, boolean flag, String userdata)
     {
         float width = rect.width * tileWidth;
@@ -169,6 +209,7 @@ public class MapManager
                             case "start":
                                 try {
                                     EntityFactory.constructCat(pos, 150, 75, 0, 50.0f);
+                                    
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

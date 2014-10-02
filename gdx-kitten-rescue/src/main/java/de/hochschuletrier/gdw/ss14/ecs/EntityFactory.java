@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
@@ -17,6 +18,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PuddlePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
@@ -139,12 +141,15 @@ public class EntityFactory{
         int entity = manager.createEntity();
     }
 
-    public static void constructPuddleOfBlood(){
+    public static void constructPuddleOfBlood(PhysixBody body){
         int entity = manager.createEntity();
+        manager.addComponent(entity, new PuddlePhysicsComponent(body));
+        
     }
 
-    public static void constructPuddleOfWater(){
+    public static void constructPuddleOfWater(PhysixBody body){
         int entity = manager.createEntity();
+        manager.addComponent(entity, new PuddlePhysicsComponent(body));
     }
 
     public static void constructStairs(){
@@ -158,7 +163,8 @@ public class EntityFactory{
     public static void constructWool(Vector2 pos){
         int entity = manager.createEntity();
 
-        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 50.0f, 50.0f, 0.0f);
+        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
+        RenderComponent woolRenderComponent = new RenderComponent();
         woolPhysicsComponent.initPhysics(phyManager);
         manager.addComponent(entity, woolPhysicsComponent);
 
