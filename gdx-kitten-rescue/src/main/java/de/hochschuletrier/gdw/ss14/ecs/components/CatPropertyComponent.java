@@ -8,6 +8,7 @@ public class CatPropertyComponent implements Component
     public boolean canSeeLaserPointer;
     public boolean isAlive;
     public CatStateEnum state;
+    public float jumpBuffer = 0;
 
     public CatPropertyComponent()
     {

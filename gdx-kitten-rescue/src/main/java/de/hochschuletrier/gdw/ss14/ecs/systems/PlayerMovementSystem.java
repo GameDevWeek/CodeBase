@@ -16,6 +16,12 @@ public class PlayerMovementSystem extends ECSystem
     }
 
     @Override
+    public void render()
+    {
+
+    }
+
+    @Override
     public void update(float delta)
     {
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, MovementComponent.class, PhysicsComponent.class, InputComponent.class, CatPropertyComponent.class);
@@ -27,10 +33,6 @@ public class PlayerMovementSystem extends ECSystem
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CatPropertyComponent catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
 
-            if (!catStateCompo.canSeeLaserPointer)
-            {
-                return;
-            }
 
             // update states
             if (moveCompo.velocity == 0)
@@ -48,6 +50,18 @@ public class PlayerMovementSystem extends ECSystem
 
             moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
             float distance = moveCompo.directionVec.len();
+
+            //Katze springt, wenn nah genug an Laserpointer
+            if (distance <= 30 && (catStateCompo.state == CatStateEnum.IDLE))
+            {
+                catStateCompo.jumpBuffer += delta;
+                if (catStateCompo.jumpBuffer >= 500)
+                {
+                    catStateCompo.state = CatStateEnum.JUMP;
+
+                }
+
+            }
 
             if (distance >= 200)
             {
@@ -95,6 +109,10 @@ public class PlayerMovementSystem extends ECSystem
                 }
 
             }
+            else if (catStateCompo.state == CatStateEnum.JUMP)
+            {
+                moveCompo.velocity = 200;
+            }
             else
             {
                 //
@@ -108,16 +126,19 @@ public class PlayerMovementSystem extends ECSystem
             //Normalizing DirectionVector for Movement
             moveCompo.directionVec = moveCompo.directionVec.nor();
             float angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
-            phyCompo.setRotation(angle);
+
+            if (!catStateCompo.canSeeLaserPointer)
+            {
+                moveCompo.velocity = 0.0f;
+                //return;
+            }
+            else
+            {
+                phyCompo.setRotation(angle);
+            }
             phyCompo.setVelocityX(moveCompo.directionVec.x * moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.directionVec.y * moveCompo.velocity);
         }
-
-    }
-
-    @Override
-    public void render()
-    {
 
     }
 }

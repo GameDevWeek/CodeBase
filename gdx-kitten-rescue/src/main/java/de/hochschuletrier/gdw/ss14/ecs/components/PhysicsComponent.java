@@ -19,8 +19,9 @@ public class PhysicsComponent extends PhysixEntity implements Component
     }
     
     public Vector2 dummyPosition = new Vector2();
+    
     @Override
     public Vector2 getPosition() {
-        return super.getPosition();
+        return physicsBody.getPosition();
     }
 }
