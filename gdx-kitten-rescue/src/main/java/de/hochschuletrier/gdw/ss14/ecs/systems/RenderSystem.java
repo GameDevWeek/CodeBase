@@ -60,7 +60,7 @@ public class RenderSystem extends ECSystem {
                         physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() /2), 
                         physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2), 
                         renderCompo.texture.getRegionWidth() / 2, 
-                        renderCompo.texture.getRegionWidth() / 2, 
+                        renderCompo.texture.getRegionHeight() / 2, 
                         renderCompo.texture.getRegionWidth(), 
                         renderCompo.texture.getRegionHeight(), 
                         1f, 
