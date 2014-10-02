@@ -60,7 +60,7 @@ public class Game{
         //engine.addSystem(new ShadowSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
-        engine.addSystem(new CatContactSystem(entityManager));
+        engine.addSystem(new CatContactSystem(entityManager, physixManager));
 
         // physic systems
         engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
