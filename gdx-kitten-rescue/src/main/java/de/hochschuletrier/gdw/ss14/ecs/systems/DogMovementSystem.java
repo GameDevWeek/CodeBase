@@ -43,21 +43,21 @@ public class DogMovementSystem extends ECSystem
             {
                 dogPropertyComponent.state = DogStateEnum.SITTING;
             }
-            else if (movementComponent.velocity > 0 && movementComponent.velocity < movementComponent.MIDDLE_VELOCITY)
+            else if (movementComponent.velocity > 0 && movementComponent.velocity < movementComponent.middleVelocity)
             {
                 dogPropertyComponent.state = DogStateEnum.WALKING;
             }
-            else if (movementComponent.velocity > movementComponent.MIDDLE_VELOCITY && movementComponent.velocity < movementComponent.MAX_VELOCITY)
+            else if (movementComponent.velocity > movementComponent.middleVelocity && movementComponent.velocity < movementComponent.maxVelocity)
             {
                 dogPropertyComponent.state = DogStateEnum.RUNNING;
             }
 
             // TODO: properly set dog velocity here
-            movementComponent.velocity += movementComponent.ACCELERATION * delta;
+            movementComponent.velocity += movementComponent.acceleration * delta;
 
-            if (movementComponent.velocity > movementComponent.MAX_VELOCITY)
+            if (movementComponent.velocity > movementComponent.maxVelocity)
             {
-                movementComponent.velocity = movementComponent.MAX_VELOCITY;
+                movementComponent.velocity = movementComponent.maxVelocity;
             }
 
             Vector2 directionVector = new Vector2();

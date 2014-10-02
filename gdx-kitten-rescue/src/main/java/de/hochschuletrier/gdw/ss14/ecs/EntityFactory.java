@@ -1,26 +1,43 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
 import com.badlogic.gdx.math.Vector2;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 public class EntityFactory{
 
-    public static void constructBalk(){
+    public static int constructBalk(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructBox(){
+    public static int constructBox(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructBroom(){
+    public static int constructBroom(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
     public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
@@ -58,7 +75,7 @@ public class EntityFactory{
 
         CatPropertyComponent catProperties = new CatPropertyComponent();
         catProperties.state = CatStateEnum.IDLE;
-        
+
         ShadowComponent shadow = new ShadowComponent();
         shadow.alpha = 0.5f;
         shadow.z = 0.6f;
@@ -79,8 +96,10 @@ public class EntityFactory{
         return entity;
     }
 
-    public static void constructCatbox(){
+    public static int constructCatbox(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
     public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
@@ -99,42 +118,60 @@ public class EntityFactory{
         return entity;
     }
 
-    public static void constructLaserPointer(Vector2 pos){
+    public static int constructDoor(){
+        int entity = manager.createEntity();
+
+        return entity;
+    }
+
+    public static int constructFood(){
+        int entity = manager.createEntity();
+
+        return entity;
+    }
+
+    public static int constructLamp(){
+        int entity = manager.createEntity();
+
+        return entity;
+    }
+
+    public static int constructLaserPointer(Vector2 pos){
         int entity = manager.createEntity();
         //        LaserPointerComponent laser = new LaserPointerComponent(pos);
 
+        return entity;
+
     }
 
-    public static void constructDoor(){
+    public static int constructPuddleOfBlood(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructFood(){
+    public static int constructPuddleOfWater(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructLamp(){
+    public static int constructStairs(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructPuddleOfBlood(){
+    public static int constructVase(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructPuddleOfWater(){
+    public static int constructWool(){
         int entity = manager.createEntity();
-    }
 
-    public static void constructStairs(){
-        int entity = manager.createEntity();
-    }
-
-    public static void constructVase(){
-        int entity = manager.createEntity();
-    }
-
-    public static void constructWool(){
-        int entity = manager.createEntity();
+        return entity;
     }
 
     public static EntityManager manager;
