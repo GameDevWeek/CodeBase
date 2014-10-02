@@ -51,14 +51,16 @@ public class Game
     {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
+        engine.addSystem(new DogInputSystem(entityManager));
         engine.addSystem(new PlayerMovementSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
-        engine.addSystem(new DogInputSystem(entityManager));
-        engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
-        engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
         engine.addSystem(new HitAnimationSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
+
+        // physic systems
+        engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
+        engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
 
         // Rendering related systems
         engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
