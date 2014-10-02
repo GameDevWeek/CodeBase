@@ -12,9 +12,9 @@ import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.HitAnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
@@ -74,6 +74,7 @@ public class EntityFactory {
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
         manager.addComponent(entity, cam);
+//        manager.addComponent(entity, new ConePhysicsComponent(catPhysix.getPosition(), 100,100,100));
 
         return entity;
     }
