@@ -1,9 +1,11 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
@@ -14,7 +16,7 @@ import de.hochschuletrier.gdw.ss14.states.GameStates;
 public class LevelMenu extends LaserCatMenu
 {
 	private LevelMenuListener levelMenuListener;
-	private int levelIndex;
+	private Integer levelIndex;
 	private Label levelLabel;
 	private String levelString;
 	
@@ -22,11 +24,15 @@ public class LevelMenu extends LaserCatMenu
 	public void init(AssetManagerX assetManager)
 	{
 		super.init(assetManager);
+		System.out.println("init LevelMenu");
+		
+		levelIndex = new Integer(0);
+		
 		numberOfButtons = 4;
 		name = new String[numberOfButtons];
 		name[0] = "Start";
-		name[1] = "Level+";
-		name[2] = "Level-";
+		name[1] = "Level-";
+		name[2] = "Level+";
 		name[3] = "Return";
 		addButtonsToFrame();
 
@@ -37,17 +43,25 @@ public class LevelMenu extends LaserCatMenu
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.levelMenuListener);
 		}
+		
+
 }
 
 	protected void addButtonsToFrame()
 	{
 		button = new Button[numberOfButtons];
-		label = new Label[numberOfButtons];
+		label = new Label[numberOfButtons+1];
 
-		for(int i=0; i<numberOfButtons; i++)
+		label[0] = new Label(name[0], basicSkin);
+		label[1] = new Label(name[1], basicSkin);
+		label[2] = new Label("Level\n(no works yet)", basicSkin);
+		label[3] = new Label(name[2], basicSkin);
+		label[4] = new Label(name[3], basicSkin);
+
+		for(Label l: label)
 		{
-			label[i] = new Label(name[i], basicSkin);
-			widgetFrame.add(label[i]).expandX().space(20).spaceBottom(10);
+			widgetFrame.add(l).expandX().space(20).spaceBottom(10);
+			l.setAlignment(Align.center);
 		}
 		
 		widgetFrame.row();
@@ -55,11 +69,16 @@ public class LevelMenu extends LaserCatMenu
 		{
 			button[i] = new Button(catSkin, "bell");
 			button[i].setName("bell");
-			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
 		}
-		levelIndex = 0;
-		levelLabel = new Label(("Level: " + levelIndex), basicSkin);
-		widgetFrame.add(levelLabel);
+		widgetFrame.add(button[0]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
+		widgetFrame.add(button[1]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
+		
+		levelLabel = new Label(levelIndex.toString(), basicSkin);
+		widgetFrame.add(levelLabel).center();
+		
+		widgetFrame.add(button[2]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
+		widgetFrame.add(button[3]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
+		
 		name = null;
 	}
 
@@ -79,13 +98,13 @@ public class LevelMenu extends LaserCatMenu
 					break;
 				case 1:
 					levelIndex = levelIndex > 0 ? (levelIndex-1) : 0;
-					levelLabel.setText("Level: " + levelIndex);
-					System.out.println("Decrease Level");
+					levelLabel.setText(levelIndex.toString());
+					System.out.println("Decrease Level to " + levelIndex);
 					break;
 				case 2:
-					levelIndex = levelIndex > 0 ? (levelIndex+1) : 0;
-					levelLabel.setText("Level: " + levelIndex);
-					System.out.println("Increase Level");
+					levelIndex = levelIndex < 10 ? (levelIndex+1) : 10;
+					levelLabel.setText(levelIndex.toString());
+					System.out.println("Increase Level to " + levelIndex);
 					break;
 				case 3:
 					GameStates.MAINMENU.activate();

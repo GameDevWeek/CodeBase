@@ -33,7 +33,7 @@ public class OptionsMenu extends LaserCatMenu
 		for (Button b : button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
-			//b.addListener(this.optionsMenuListener);
+			b.addListener(this.optionsMenuListener);
 		}
 
 		
