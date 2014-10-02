@@ -53,7 +53,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztl8kKwjAURdOdO3f+ixOI08IJFBXBcev4A047FZx26ud6RQptaaG0eb625sChCSnhPkhIIoTCiS3cwb2lHQWu8AbvlrZOEZYM/fLvopHThh1Dv8sVxCXWvIr/pgpr3CGI6MMBdwhmzvDCHYKAjCZEVuNOQUMBdc3xXdiMBXW/xlz+V0Fta3w3NmNB3a9x7gCEhKm2JNZOCqZd7vsw1ZbTvvfivMvaEqRp5BP0e3HYqMOG5DmncCZ5Ti8M4Yg7BAH62b3iDkKAfnbLXpNBIapr8sNSmNdkE2dQy+Pd+gCP8OQ/Fgk9H2+GB3zCl6wwkhmjtomP+pzeHFHA6c2hUCjMvAF5ER4X
+   eJztl8kKwjAURdOdO3f+ixOI08IJFBXBEVw5/oDTTgWnnfq5XpGClhZKm9fXxh44NCEl3AcJSYQIsWIDt3BnaKvABV7hzdDWycPCV7/oXTRymrD11W9zBbGJMW/If1OGFe4QRHRhjzsEMyd45g5BQEoTIq1xp6Ahh7pm+M5Nxvy6XyM2/yuhthW+a5Mxv+7XKHcAQoJUWxxrJwGTNvd9kGrLaJ97cdZmbTHSNPLx+704aFRhTfKcEziVPKcT+nDAHYIA/execgchQD+7Za9Jv6DqmnyzEL9rso4zqOHwbr2HB3h0H4uEjos3wx0+4FNWGMkMUdvIRX1Wbw4VsHpzhHjHWNH3umq8AB6/Hns=
   </data>
  </layer>
  <objectgroup name="actionlayer">
@@ -96,6 +96,8 @@
   <object name="food" gid="671" x="229.333" y="282.667"/>
   <object name="wool" gid="673" x="228" y="1464"/>
   <object name="vase" gid="660" x="2072.12" y="241.697"/>
+  <object name="wool" gid="673" x="3186" y="1534"/>
+  <object name="food" gid="671" x="3106" y="640"/>
  </objectgroup>
  <objectgroup name="renderlayer">
   <properties>

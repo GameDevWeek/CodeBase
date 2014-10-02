@@ -15,14 +15,11 @@ public class Game
 {
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
-    private Array<ECSystem> systems;
     private Engine engine;
 
     private MapManager mapManager;
     private EntityManager entityManager;
     private PhysixManager physixManager;
-
-    private int catEntity;
 
     private Vector2 mapCenter = new Vector2();
 
@@ -51,14 +48,16 @@ public class Game
     {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
+        engine.addSystem(new DogInputSystem(entityManager));
         engine.addSystem(new PlayerMovementSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
-        engine.addSystem(new DogInputSystem(entityManager));
-        engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
-        engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
         engine.addSystem(new HitAnimationSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
+
+        // physic systems
+        engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
+        engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
 
         // Rendering related systems
         engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
@@ -92,20 +91,6 @@ public class Game
 
     public void update(float delta)
     {
-        /*CatPhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, CatPhysicsComponent.class);
-        
-        if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-            
-            //testPhysics.position = testPhysics.position.add( new Vector2(100.0f, 0.0f) );
-//            catPhysicsComp.dummyPosition.add(new Vector2(10.0f, 0.0f));
-        }
-        else{
-//            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
-            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
-        
-            catPhysicsComp.mPosition.add(new Vector2(10.0f, 0.0f));
-        }*/
-
         engine.update(delta);
     }
 

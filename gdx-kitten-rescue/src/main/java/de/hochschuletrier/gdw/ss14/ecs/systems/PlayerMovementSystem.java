@@ -18,14 +18,13 @@ public class PlayerMovementSystem extends ECSystem
     @Override
     public void update(float delta)
     {
-        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(MovementComponent.class, PhysicsComponent.class, InputComponent.class, PlayerComponent.class, CatPropertyComponent.class);
+        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, MovementComponent.class, PhysicsComponent.class, InputComponent.class, CatPropertyComponent.class);
 
         for (Integer integer : compos)
         {
             MovementComponent moveCompo = entityManager.getComponent(integer, MovementComponent.class);
             PhysicsComponent phyCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
-            PlayerComponent playerCompo = entityManager.getComponent(integer, PlayerComponent.class);
             CatPropertyComponent catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
 
             // update states
