@@ -98,7 +98,6 @@ public abstract class LaserCatMenu
 	
 	protected void addButtonsToFrame()
 	{
-		button = new Button[numberOfButtons];
 		label = new Label[numberOfButtons];
 
 		for(int i=0; i<numberOfButtons; i++)
@@ -110,7 +109,6 @@ public abstract class LaserCatMenu
 		widgetFrame.row();
 		for(int i = 0; i<numberOfButtons; i++)
 		{
-			button[i] = new Button(catSkin, "bell");
 			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
 		}
 		name = null;
@@ -138,12 +136,17 @@ public abstract class LaserCatMenu
 	{
 		public void clicked(InputEvent event, float x, float y)
 		{
-			SoundManager.performAction(UIActions.BELLCLICKED);
+			if(event.getListenerActor().getName().equals("bell"))
+				SoundManager.performAction(UIActions.BELLCLICKED);
+			else
+				SoundManager.performAction(UIActions.BUTTONCLICKED);						
 		}
 		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
-			if (!this.isPressed())
-				SoundManager.performAction(UIActions.BELLOVER);
+			if(event.getListenerActor().getName().equals("bell"))
+				SoundManager.performAction(UIActions.BELLCLICKED);
+			else
+				SoundManager.performAction(UIActions.BUTTONCLICKED);
 		}
 	}
 	
