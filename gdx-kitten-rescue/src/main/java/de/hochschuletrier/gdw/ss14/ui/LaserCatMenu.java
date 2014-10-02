@@ -142,8 +142,6 @@ public abstract class LaserCatMenu
 		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
 			System.out.println("Button over");
-			return true;
-
 		}
 	}
 	
