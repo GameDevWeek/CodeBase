@@ -21,5 +21,6 @@ public enum CatStateEnum {
     FALL,
     DIE,
     DIE2,
-    POSITIVE_FOOD
+    POSITIVE_FOOD,
+    HIDDEN
 }
