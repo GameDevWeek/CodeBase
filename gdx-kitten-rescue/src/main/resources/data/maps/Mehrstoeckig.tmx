@@ -140,7 +140,7 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2Z20rDQBBAN/0DfdJPqRfwQfShYNEHffFCUaygraJtBasWtfrdzsIGx3Uyu9lLupEcGFqyIZydzCZhVoiGBj+uMyFGGX/OvWGc4qklxLQgnlturhKT7xDGJhCPDs4zxuvNw/nO4PIA4wMHX0ks5zH43EbyjuUssfF2qec5eH2ieEWevs6SohrxqWedWWDnKsB5/6qJc505hjo7gTgNUG9V0VOuF8q9DvRq4onBzmeMv3xH36jg3g9rMLYOsZH9/r8ZMDfY+Zy5Ln7+cu+HJYhl4vh2QOdLuFZfxRVz3ZGl8wrEKnG8s8AaHGrvtKn2bD8scMvz3EY1E7JeOEzfDVsF43me8XjZeZSd78Tyu2HXkGc8zs2Dwva8spjyvAe/XYh9iANmHhS255WFy3PRvaXmQWF7Xlm4PMe6t75QeT5SeYl1b33ZIVy4Wk6VlHJqS4dZf6mS8vqTdLO/kfL641jE+rP5dnahijp36a1wVFHnPv03iph1jntbIXMds85xTy50fcRkbPkN/d/AvfrUkfsMH5rnu+ceQ0wo35xUvbl+vSTFXnIdnefavgLmJeH+t7430vTrf/gGkhIqIqQfAAA=
+   H4sIAAAAAAAAC+2Z20rDQBBAN/0DfdJP8QY+iD4UWvRBX7xQFBW0VbStYNWiVsG/dhY2OK6T2c1e0o3kwNCSDeHsZDYJs0I0NPhxlQkxzPhz7gzjFI8tISYF8dRyc5WYfAcwNoZ4cHCeMl6vHs63Bpd7GO87+EpiOY/A5yaSdyxniY23Sz3PwOsDxQvy9HWWFNWITz3rTAM7VwHO+2dNnOvMIdTZEcRxgHqrip5yPVPudaBXE08Mdj5h/OU7+loF935YhbE1iPXs9/+NgLnBzqfMdfHzl3s/LEAsEse3Ajqfw7UuVFwy1x1aOi9BLBPH23OswYH2Tptoz/b9Arc8zyuoZkLWC4fpu2GzYDzPMx4vO4+y8x1bfjfsGPKMx7l5UNieVxZTnjvw24XYhdhj5kFhe15ZuDwX3VtqHhS255WFy3Ose+sLlecDlZdY99aXbcKFq+VUSSmntrSZ9ZcqKa8/STf7GymvP455rD+bb2cXqqhzl94KRxV17tN/o4hZ57i3FTLXMesc9+RC10dMRpbf0P8N3KtPHbnP8K55vnnuMcSE8s1J1Zvr10tS7CXX0Xmm7StgniP3v788rq3vjTT9+h++AT9oE1qkHwAA
   </data>
  </layer>
  <layer name="solid2" width="45" height="45">
@@ -172,7 +172,6 @@
   <object name="door" gid="696" x="2974.79" y="964.848"/>
   <object name="door" gid="699" x="3102.06" y="961.818"/>
   <object name="door" gid="700" x="3250.55" y="967.879"/>
-  <object name="stairs" gid="649" x="207.758" y="2799.15"/>
   <object name="dogpat6" x="2445.97" y="2624.67" width="25" height="25"/>
   <object name="dogpat5" x="1503" y="2642.35" width="25" height="25"/>
   <object name="dogpat8" x="1497.67" y="341.405" width="25" height="25"/>
@@ -204,7 +203,7 @@
   <object name="broom" gid="679" x="2657.58" y="903.03"/>
   <object name="food" gid="686" x="2174" y="1535"/>
   <object name="catbox" gid="687" x="2036.36" y="372.727"/>
-  <object name="stairs" gid="649" x="2438" y="2788"/>
+  <object name="stairs" gid="649" x="2501.64" y="2806.18"/>
   <object name="wool" gid="683" x="2612.12" y="2209.09"/>
  </objectgroup>
  <objectgroup name="renderlayer" visible="0">
