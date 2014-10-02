@@ -11,6 +11,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AnimationWithVariableFrameTime;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
+import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.BehaviourComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
@@ -112,7 +113,8 @@ public class EntityFactory {
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
         MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
         InputComponent dogInput = new InputComponent();
-        Behaviour verhalten =  new DogBehaviour(entity);
+        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
+        Behaviour verhalten =  new DogBehaviour("SmartDog", localBlackboard, true , entity);
         BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
         DogPropertyComponent dogState = new DogPropertyComponent();
         dogPhysix.initPhysics(phyManager);
