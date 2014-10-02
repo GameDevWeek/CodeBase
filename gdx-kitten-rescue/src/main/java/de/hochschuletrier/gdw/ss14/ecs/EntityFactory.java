@@ -105,7 +105,7 @@ public class EntityFactory{
         manager.addComponent(entity, new PlayerComponent());
         manager.addComponent(entity, cam);
         manager.addComponent(entity, shadow);
-        //manager.addComponent(entity, particleEmitComp);
+        manager.addComponent(entity, particleEmitComp);
         //manager.addComponent(entity, new ConePhysicsComponent(catPhysix.getPosition(), 100,100,100));
         //manager.addComponent(entity, new HitAnimationComponent());
 
