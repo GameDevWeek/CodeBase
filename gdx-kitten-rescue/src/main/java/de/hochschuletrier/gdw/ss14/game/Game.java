@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.game;
 
+
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
@@ -36,12 +37,12 @@ public class Game{
     }
 
     public void init(AssetManagerX assetManager){
+        InputManager.init();
         initializeSystems();
         initializeTestComponents();
 
         mapManager.loadMap("Katzenklappentest");
         mapManager.setFloor(0);
-        InputManager.init();
     }
 
     private void initializeSystems(){
