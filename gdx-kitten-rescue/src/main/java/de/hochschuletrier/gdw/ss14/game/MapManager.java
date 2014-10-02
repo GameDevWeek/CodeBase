@@ -168,8 +168,7 @@ public class MapManager
                                 float y = mapObjects.get(j).getY();
                                 Vector2 pos = new Vector2(x, y);
                                 try {
-                                    CatContactSystem ccs = (CatContactSystem)Game.engine.getSystemOfType(CatContactSystem.class);
-                                    EntityFactory.constructCat(pos, 150, 75, 0, 50.0f, ccs);
+                                    EntityFactory.constructCat(pos, 150, 75, 0, 50.0f);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
