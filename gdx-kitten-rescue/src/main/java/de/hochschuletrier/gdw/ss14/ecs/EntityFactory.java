@@ -1,8 +1,5 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
@@ -12,17 +9,16 @@ import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.*;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
-
 
 public class EntityFactory {
 
@@ -40,7 +36,7 @@ public class EntityFactory {
 
     public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
-        
+
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
         CatContactSystem contactSystem = (CatContactSystem) Game.engine.getSystemOfType(CatContactSystem.class);
         catPhysix.mListeners.add(contactSystem);
@@ -49,10 +45,12 @@ public class EntityFactory {
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);
         CatPropertyComponent catProperty = new CatPropertyComponent();
+        catProperty.lastCheckPoint = pos;
+
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
-        
-        catAnimation.animation = new AnimationExtended[6];
+
+        catAnimation.animation = new AnimationExtended[11];
         catAnimation.animation[CatStateEnum.HIT.ordinal()]
                 = assetManager.getAnimation("hit");
         catAnimation.animation[CatStateEnum.IDLE.ordinal()]
@@ -65,6 +63,16 @@ public class EntityFactory {
                 = assetManager.getAnimation("slide_left");
         catAnimation.animation[CatStateEnum.SLIDE_RIGHT.ordinal()]
                 = assetManager.getAnimation("slide_right");
+        catAnimation.animation[CatStateEnum.CRASH.ordinal()]
+                = assetManager.getAnimation("crash");
+        catAnimation.animation[CatStateEnum.FALL.ordinal()]
+                = assetManager.getAnimation("fall");
+        catAnimation.animation[CatStateEnum.DIE.ordinal()]
+                = assetManager.getAnimation("die");
+        catAnimation.animation[CatStateEnum.DIE2.ordinal()]
+                = assetManager.getAnimation("die2");
+        catAnimation.animation[CatStateEnum.JUMP.ordinal()]
+                = assetManager.getAnimation("jump");
 
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 1.0f;
@@ -93,8 +101,8 @@ public class EntityFactory {
 
     public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
-        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
-        MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
+        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
+        MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
         DogPropertyComponent dogState = new DogPropertyComponent();
         dogPhysix.initPhysics(phyManager);
@@ -105,6 +113,12 @@ public class EntityFactory {
         manager.addComponent(entity, new EnemyComponent());
 //        manager.addComponent(entity, new AnimationComponent());
         return entity;
+    }
+    
+    public static void constructLaserPointer(Vector2 pos) {
+        int entity = manager.createEntity();
+//        LaserPointerComponent laser = new LaserPointerComponent(pos); 
+        
     }
 
     public static void constructDoor() {
@@ -145,4 +159,3 @@ public class EntityFactory {
 
     public static AssetManagerX assetManager;
 }
-

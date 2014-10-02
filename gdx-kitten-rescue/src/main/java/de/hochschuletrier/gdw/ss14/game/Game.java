@@ -56,6 +56,7 @@ public class Game{
         engine.addSystem(new HitAnimationSystem(entityManager));
         engine.addSystem(new ParticleEmitterSystem(entityManager));
         engine.addSystem(new LimitedLifetimeSystem(entityManager));
+        engine.addSystem(new LaserPointerSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
         engine.addSystem(new CatContactSystem(entityManager));
