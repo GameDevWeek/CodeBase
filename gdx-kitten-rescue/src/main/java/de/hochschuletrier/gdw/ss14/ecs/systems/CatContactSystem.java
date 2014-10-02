@@ -16,7 +16,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
 
-    private static final Logger logger = LoggerFactory.getLogger(MovementSystem.class);
+    private static final Logger logger = LoggerFactory.getLogger(CatContactSystem.class);
     
     public CatContactSystem(EntityManager entityManager) {
         super(entityManager);
