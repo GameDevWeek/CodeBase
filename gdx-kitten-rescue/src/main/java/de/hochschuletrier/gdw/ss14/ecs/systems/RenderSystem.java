@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
@@ -53,13 +54,13 @@ public class RenderSystem extends ECSystem {
                     DrawUtil.batch.begin();
                 }
                 /*else
-                    Gdx.gl20.glColorMask(true, true, true, true);*/
-                
+                 Gdx.gl20.glColorMask(true, true, true, true);*/
+
                 DrawUtil.batch.draw(renderCompo.texture,
                         physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() /2), 
                         physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2), 
                         renderCompo.texture.getRegionWidth() / 2, 
-                        renderCompo.texture.getRegionWidth() / 2, 
+                        renderCompo.texture.getRegionHeight() / 2, 
                         renderCompo.texture.getRegionWidth(), 
                         renderCompo.texture.getRegionHeight(), 
                         1f, 
