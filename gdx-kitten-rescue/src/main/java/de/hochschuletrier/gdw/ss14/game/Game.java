@@ -1,15 +1,17 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.*;
-import de.hochschuletrier.gdw.commons.gdx.assets.*;
-import de.hochschuletrier.gdw.commons.gdx.physix.*;
-import de.hochschuletrier.gdw.commons.tiled.*;
-import de.hochschuletrier.gdw.ss14.ecs.*;
+import com.badlogic.gdx.math.Vector2;
+import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.tiled.LayerObject;
+import de.hochschuletrier.gdw.commons.tiled.TiledMap;
+import de.hochschuletrier.gdw.ss14.ecs.Engine;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 import org.slf4j.Logger;
-import org.slf4j.*;
+import org.slf4j.LoggerFactory;
 
 public class Game
 {
@@ -40,7 +42,7 @@ public class Game
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("ErsteTestMap");
+        mapManager.loadMap("Katzenklappentest");
         mapManager.setFloor(0);
     }
 
