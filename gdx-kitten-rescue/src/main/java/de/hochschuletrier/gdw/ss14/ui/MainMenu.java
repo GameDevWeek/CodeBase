@@ -79,6 +79,7 @@ public class MainMenu extends LaserCatMenu
 						case 1:
 							break;
 						case 2:
+							GameStates.OPTIONSMENU.activate();
 							break;
 						case 3:
 							break;
