@@ -34,10 +34,10 @@ public class CheckCatDeadSystem extends ECSystem
             {
                 // respawn cat at last checkpoint
                 Vector2 lastCheckpoint = catPropertyComponent.lastCheckPoint;
-                float minVelocity = movementComponent.MIN_VELOCITY;
-                float middleVelocity = movementComponent.MIDDLE_VELOCITY;
-                float maxVelocity = movementComponent.MAX_VELOCITY;
-                float acceleration = movementComponent.ACCELERATION;
+                float minVelocity = movementComponent.minVelocity;
+                float middleVelocity = movementComponent.middleVelocity;
+                float maxVelocity = movementComponent.maxVelocity;
+                float acceleration = movementComponent.acceleration;
 
                 physixManager.destroy(physicsComponent.physicsBody);
                 entityManager.deleteEntity(entity);
