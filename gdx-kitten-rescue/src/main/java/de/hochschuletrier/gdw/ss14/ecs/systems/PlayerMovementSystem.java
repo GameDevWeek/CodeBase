@@ -27,11 +27,6 @@ public class PlayerMovementSystem extends ECSystem
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CatPropertyComponent catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
 
-            if (!catStateCompo.canSeeLaserPointer)
-            {
-                return;
-            }
-
             // update states
             if (moveCompo.velocity == 0)
             {
@@ -108,7 +103,16 @@ public class PlayerMovementSystem extends ECSystem
             //Normalizing DirectionVector for Movement
             moveCompo.directionVec = moveCompo.directionVec.nor();
             float angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
-            phyCompo.setRotation(angle);
+
+            if (!catStateCompo.canSeeLaserPointer)
+            {
+                moveCompo.velocity = 0.0f;
+                //return;
+            }
+            else
+            {
+                phyCompo.setRotation(angle);
+            }
             phyCompo.setVelocityX(moveCompo.directionVec.x * moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.directionVec.y * moveCompo.velocity);
         }

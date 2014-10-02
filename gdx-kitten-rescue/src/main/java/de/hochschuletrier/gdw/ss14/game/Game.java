@@ -2,16 +2,12 @@ package de.hochschuletrier.gdw.ss14.game;
 
 
 import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.*;
-
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
-import de.hochschuletrier.gdw.ss14.input.InputManager;
-
-import org.slf4j.Logger;
+import de.hochschuletrier.gdw.ss14.input.*;
 import org.slf4j.*;
 
 public class Game
@@ -40,12 +36,12 @@ public class Game
 
     public void init(AssetManagerX assetManager)
     {
+        InputManager.init();
         initializeSystems();
         initializeTestComponents();
 
         mapManager.loadMap("ErsteTestMap");
         mapManager.setFloor(0);
-        InputManager.init();
     }
 
     private void initializeSystems()
@@ -97,7 +93,7 @@ public class Game
     {
         InputManager.getInstance().update();
         engine.update(delta);
-        
+
     }
 
     public void render()
