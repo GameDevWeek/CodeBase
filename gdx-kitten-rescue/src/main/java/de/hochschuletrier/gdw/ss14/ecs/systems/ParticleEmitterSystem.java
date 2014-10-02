@@ -89,7 +89,7 @@ public class ParticleEmitterSystem extends ECSystem {
             
             // Alternate between right and left
             float dir = (cycleNumber % 2 == 0) ? -1f : 1f;
-            particlePos = new Vector2(emitComp.emitRadius*dir, 0.0f);
+            particlePos = new Vector2(emitComp.emitRadius*dir, 0.0f).rotate(physComp.getRotation());
             particlePos.add(physComp.getPosition());
             
             break;
