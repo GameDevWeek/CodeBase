@@ -46,6 +46,35 @@
             <version>${gdx.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-controllers</artifactId>
+            <version>${gdx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-controllers</artifactId>
+            <version>${gdx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-controllers-desktop</artifactId>
+            <version>${gdx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-controllers-desktop</artifactId>
+            <version>${gdx.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-controllers-platform</artifactId>
+            <classifier>natives-desktop</classifier>
+            <version>${gdx.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     
     <build>
