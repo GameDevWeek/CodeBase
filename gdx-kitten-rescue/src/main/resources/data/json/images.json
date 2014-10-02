@@ -3,5 +3,7 @@
     "logo": "data/images/logo.png",
     "menuBackground": "data/images/CatWorld.jpg",
     "cat_live_full": "data/images/cat_live_full.png",
-    "cat_live_empty": "data/images/cat_live_empty.png"
+    "cat_live_empty": "data/images/cat_live_empty.png",
+    "weapon_laser": "data/images/weapon_laser.png",
+    "weapon_waterpistol": "data/images/weapon_waterpistol.png"
 }
