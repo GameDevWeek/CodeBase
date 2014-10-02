@@ -11,7 +11,7 @@ public class CatPropertyComponent implements Component
 
     public CatPropertyComponent()
     {
-        canSeeLaserPointer = false;
+        canSeeLaserPointer = true;
         amountLives = 9;
         isAlive = true;
         state = CatStateEnum.IDLE;
