@@ -1,9 +1,14 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.utils.*;
-import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.states.*;
+import com.badlogic.gdx.utils.Array;
+
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /**
  * Created by Daniel Dreher on 01.10.2014.
@@ -13,6 +18,12 @@ public class PlayerMovementSystem extends ECSystem
     public PlayerMovementSystem(EntityManager entityManager)
     {
         super(entityManager, 1);
+    }
+
+    @Override
+    public void render()
+    {
+
     }
 
     @Override
@@ -26,6 +37,7 @@ public class PlayerMovementSystem extends ECSystem
             PhysicsComponent phyCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CatPropertyComponent catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
+
 
             // update states
             if (moveCompo.velocity == 0)
@@ -43,6 +55,16 @@ public class PlayerMovementSystem extends ECSystem
 
             moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
             float distance = moveCompo.directionVec.len();
+
+            //Katze springt, wenn nah genug an Laserpointer
+            if(distance <= 30 && (catStateCompo.state == CatStateEnum.IDLE)){
+                catStateCompo.jumpBuffer += delta;
+                if(catStateCompo.jumpBuffer >= 500){
+                    catStateCompo.state = CatStateEnum.JUMP;
+
+                }
+
+            }
 
             if (distance >= 200)
             {
@@ -90,7 +112,9 @@ public class PlayerMovementSystem extends ECSystem
                 }
 
             }
-            else
+            else if(catStateCompo.state == CatStateEnum.JUMP){
+                moveCompo.velocity = 200;
+            }else
             {
                 //
                 moveCompo.velocity += moveCompo.DAMPING * 1.5f * delta;
@@ -107,12 +131,6 @@ public class PlayerMovementSystem extends ECSystem
             phyCompo.setVelocityX(moveCompo.directionVec.x * moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.directionVec.y * moveCompo.velocity);
         }
-
-    }
-
-    @Override
-    public void render()
-    {
 
     }
 }
