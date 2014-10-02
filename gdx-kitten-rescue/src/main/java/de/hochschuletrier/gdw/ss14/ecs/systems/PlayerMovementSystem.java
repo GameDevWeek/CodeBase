@@ -3,7 +3,6 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-<<<<<<< HEAD
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
@@ -11,9 +10,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.physics.PhysicsActions;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
-=======
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
->>>>>>> e827c85b825f93d5ae7f401465f69dfdf80619ec
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
