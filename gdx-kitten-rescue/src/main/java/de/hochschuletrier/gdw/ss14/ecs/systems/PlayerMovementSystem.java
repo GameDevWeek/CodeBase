@@ -38,8 +38,6 @@ public class PlayerMovementSystem extends ECSystem{
             PhysicsComponent phyCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CatPropertyComponent catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
-<<<<<<< HEAD
-=======
 
             //Wenn Katze positive Nahrung gegessen hat, wird sie schneller
             if(maxVelocity == 0){
@@ -58,18 +56,13 @@ public class PlayerMovementSystem extends ECSystem{
             }
 
 
->>>>>>> dd957e01c0262b16fbb7d51286f8aef78c3bbf9b
             // update states
             if(moveCompo.velocity == 0){
                 catStateCompo.state = CatStateEnum.IDLE;
             }else if(moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.middleVelocity){
                 catStateCompo.state = CatStateEnum.WALK;
-<<<<<<< HEAD
                 catStateCompo.jumpBuffer = 0;
-            }else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY){
-=======
             }else if(moveCompo.velocity > moveCompo.middleVelocity && moveCompo.velocity < moveCompo.maxVelocity){
->>>>>>> dd957e01c0262b16fbb7d51286f8aef78c3bbf9b
                 catStateCompo.state = CatStateEnum.RUN;
                 catStateCompo.jumpBuffer = 0;
             }
@@ -135,13 +128,10 @@ public class PlayerMovementSystem extends ECSystem{
             float angle;
             //Normalizing DirectionVector for Movement
             moveCompo.directionVec = moveCompo.directionVec.nor();
-<<<<<<< HEAD
             
             if(catStateCompo.state == CatStateEnum.JUMP){
-=======
 
             if(catStateCompo.state == CatStateEnum.JUMP || catStateCompo.state == CatStateEnum.IDLE){
->>>>>>> dd957e01c0262b16fbb7d51286f8aef78c3bbf9b
                 angle = phyCompo.getRotation();
             }else{
                 angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
@@ -157,6 +147,7 @@ public class PlayerMovementSystem extends ECSystem{
             phyCompo.setVelocityY(moveCompo.directionVec.y*moveCompo.velocity);
             logger.debug("\n" + catStateCompo.jumpBuffer);
             
+            }
         }
     }
-}
+} 
