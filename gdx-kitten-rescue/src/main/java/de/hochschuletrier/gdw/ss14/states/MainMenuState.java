@@ -77,25 +77,23 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public void onEnter() {
-        mainMenu = new MainMenu();
-        mainMenu.init(assetManager);
 		if (this.music.isMusicPlaying()) {
 			this.music.setFade('i', 2000);
 		} else {
 			this.music.play("menu");
 		}
-
+        mainMenu = new MainMenu();
+        mainMenu.init(assetManager);
         inputProcessor.setActive(true);
         inputProcessor.setBlocking(false);
     }
 
     @Override
     public void onLeave() {
-    	mainMenu.dispose();
 		if (this.music.isMusicPlaying()) {
     		this.music.setFade('o', 2000);
 		}
-
+    	mainMenu.dispose();
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);
     }

@@ -3,11 +3,14 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
+import de.hochschuletrier.gdw.ss14.input.InputManager;
+
 import org.slf4j.Logger;
 import org.slf4j.*;
 
@@ -15,14 +18,11 @@ public class Game
 {
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
-    private Array<ECSystem> systems;
     private Engine engine;
 
     private MapManager mapManager;
     private EntityManager entityManager;
     private PhysixManager physixManager;
-
-    private int catEntity;
 
     private Vector2 mapCenter = new Vector2();
 
@@ -45,6 +45,7 @@ public class Game
 
         mapManager.loadMap("ErsteTestMap");
         mapManager.setFloor(0);
+        InputManager.init();
     }
 
     private void initializeSystems()
@@ -94,21 +95,9 @@ public class Game
 
     public void update(float delta)
     {
-        /*CatPhysicsComponent catPhysicsComp = entityManager.getComponent(catEntity, CatPhysicsComponent.class);
-        
-        if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-            
-            //testPhysics.position = testPhysics.position.add( new Vector2(100.0f, 0.0f) );
-//            catPhysicsComp.dummyPosition.add(new Vector2(10.0f, 0.0f));
-        }
-        else{
-//            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
-            catPhysicsComp.dummyPosition.add(mapCenter.cpy().sub(catPhysicsComp.getPosition()));
-        
-            catPhysicsComp.mPosition.add(new Vector2(10.0f, 0.0f));
-        }*/
-
+        InputManager.getInstance().update();
         engine.update(delta);
+        
     }
 
     public void render()
