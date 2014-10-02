@@ -34,6 +34,13 @@ public class SoundManager {
 						SoundManager.playSound("ui_menu");
 				}
 				break;
+			case GAMEPLAY:
+				switch (actionString) {
+					case "CATWALK":
+						SoundManager.playSound("gp_cat_walk_laminate");
+						break;
+				}
+				break;
 			default:
 				break;
 				
