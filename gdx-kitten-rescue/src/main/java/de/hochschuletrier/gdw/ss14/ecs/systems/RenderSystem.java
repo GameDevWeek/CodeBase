@@ -5,6 +5,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
@@ -20,6 +22,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 public class RenderSystem extends ECSystem {
 
     private ShaderProgram redTintedShader;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public RenderSystem(EntityManager entityManager, int priority) {
 
@@ -46,15 +49,15 @@ public class RenderSystem extends ECSystem {
             if (renderCompo.texture != null) {
 
                 DrawUtil.batch.draw(renderCompo.texture,
-                        physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() /2), 
-                        physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2), 
-                        renderCompo.texture.getRegionWidth() / 2, 
-                        renderCompo.texture.getRegionWidth() / 2, 
-                        renderCompo.texture.getRegionWidth(), 
-                        renderCompo.texture.getRegionHeight(), 
-                        1f, 
-                        1f, 
-                        (float)(physicsCompo.getRotation() * 180 / Math.PI));
+                        physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() / 2),
+                        physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2),
+                        renderCompo.texture.getRegionWidth() / 2,
+                        renderCompo.texture.getRegionHeight() / 2,
+                        renderCompo.texture.getRegionWidth(),
+                        renderCompo.texture.getRegionHeight(),
+                        1f,
+                        1f,
+                        (float) (physicsCompo.getRotation() * 180 / Math.PI));
             }
         }
     }
