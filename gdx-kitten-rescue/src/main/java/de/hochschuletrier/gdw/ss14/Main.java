@@ -42,7 +42,9 @@ import de.hochschuletrier.gdw.ss14.states.GameStates;
  */
 public class Main extends StateBasedGame {
 
-    public static final int WINDOW_HEIGHT = 768;
+	private static String[] mainArgs;
+	
+	public static final int WINDOW_HEIGHT = 768;
     public static final int WINDOW_WIDTH = 1024;
 
     private final AssetManagerX assetManager = new AssetManagerX();
@@ -133,8 +135,21 @@ public class Main extends StateBasedGame {
                 state.init(assetManager);
             }
         }
-        //GameStates.MAINMENU.activate();
+        
+    boolean mainMenu = false;
+    for (String arg:mainArgs)
+    {
+    	if(arg.equalsIgnoreCase("MainMenu"))
+    	{
+    		mainMenu = true;
+    	}
+    }
+    
+    if(mainMenu)
+        GameStates.MAINMENU.activate();
+    else
 		GameStates.GAMEPLAY.activate(null, null);
+    
     }
 
     @Override
@@ -193,7 +208,8 @@ public class Main extends StateBasedGame {
     }
 
     public static void main(String[] args) {
-        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+        mainArgs = args;
+    	LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "Laser Cat";
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;
