@@ -45,6 +45,8 @@ public class EntityFactory {
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);
         CatPropertyComponent catProperty = new CatPropertyComponent();
+        catProperty.lastCheckPoint = pos;
+
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
 
@@ -115,7 +117,7 @@ public class EntityFactory {
     
     public static void constructLaserPointer(Vector2 pos) {
         int entity = manager.createEntity();
-        LaserPointerComponent laser = new LaserPointerComponent(pos);
+//        LaserPointerComponent laser = new LaserPointerComponent(pos);
         
         manager.addComponent(entity, laser);
     }
