@@ -15,6 +15,6 @@ public class ShadowComponent implements Component{
 	 *  z > 1 : Shadow gets bigger
 	 *  z < 1 : Shadow gets smaller
 	 */
-	public float z = 1f;
+	public float z = 0.7f;
 	
 }
