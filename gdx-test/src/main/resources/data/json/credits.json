@@ -11,7 +11,7 @@
            ],
            "animations": [
                 { "time": 0, "animation": "clear" },
-                { "time": 3000, "animation": "explode_in", "frametime": 100 },
+                { "time": 3000, "animation": "explode_in", "animationTime": 100 },
                 { "time": 6000, "animation": "fade_out", "animationTime": 100 }
            ]
         },
