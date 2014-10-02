@@ -24,17 +24,16 @@ import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
  */
 public class ShadowSystem extends ECSystem{
 	
-	private TextureRegion shadow = null;
+	private int shadowOffset = 10;
 	
 
 	public ShadowSystem(EntityManager entityManager) {
 		super(entityManager);
-		 shadow = new TextureRegion(new Texture("data/images/shadow.png"));
+		 
 	}
 	
 	public ShadowSystem(EntityManager entityManager, int priority) {
 		super(entityManager, priority);
-		shadow = new TextureRegion(new Texture("data/images/shadow.png"));
 	}
 
 	@Override
@@ -56,15 +55,15 @@ public class ShadowSystem extends ECSystem{
 				DrawUtil.batch.end();
 				Gdx.gl.glEnable(GL20.GL_BLEND);
 			    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			    DrawUtil.setColor(new Color(1,1,1,shadowComp.alpha));
+			    DrawUtil.setColor(new Color(0,0,0,shadowComp.alpha));
 				DrawUtil.batch.begin();
 				
 				float shadowWidth = renderComp.texture.getRegionWidth() * shadowComp.z;
 				float shadowHeight = renderComp.texture.getRegionHeight() * shadowComp.z;
 				
-				DrawUtil.batch.draw(shadow,
+				DrawUtil.batch.draw(renderComp.texture,
                         physicsComp.getPosition().x - (shadowWidth / 2), 
-                        physicsComp.getPosition().y - (shadowHeight / 2), 
+                        physicsComp.getPosition().y - (shadowHeight / 2) + shadowOffset, 
                         shadowWidth / 2, 
                         shadowHeight / 2, 
                         shadowWidth, 
@@ -83,6 +82,10 @@ public class ShadowSystem extends ECSystem{
 			
 		}
 		
+	}
+	
+	public void setShadowOffset(int offset){
+		this.shadowOffset = offset;
 	}
 	
 

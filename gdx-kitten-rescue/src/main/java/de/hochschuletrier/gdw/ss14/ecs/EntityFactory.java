@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
@@ -12,10 +13,13 @@ import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
@@ -78,7 +82,11 @@ public class EntityFactory{
 
         ShadowComponent shadow = new ShadowComponent();
         shadow.alpha = 0.5f;
-        shadow.z = 0.6f;
+        shadow.z = 1.0f;
+
+        ParticleEmitterComponent particleEmitComp = new ParticleEmitterComponent();
+        particleEmitComp.particleTintColor = new Color(1,0,0,1);
+        particleEmitComp.emitRadius = 10f;
 
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
@@ -90,6 +98,7 @@ public class EntityFactory{
         manager.addComponent(entity, new PlayerComponent());
         manager.addComponent(entity, cam);
         manager.addComponent(entity, shadow);
+        manager.addComponent(entity, particleEmitComp);
         //manager.addComponent(entity, new ConePhysicsComponent(catPhysix.getPosition(), 100,100,100));
         //manager.addComponent(entity, new HitAnimationComponent());
 
@@ -124,11 +133,12 @@ public class EntityFactory{
         return entity;
     }
 
-    public static int constructFood(){
-        int entity = manager.createEntity();
+        public static int constructFood(){
+            int entity = manager.createEntity();
 
-        return entity;
-    }
+            return entity;
+        }
+
 
     public static int constructLamp(){
         int entity = manager.createEntity();
@@ -138,7 +148,8 @@ public class EntityFactory{
 
     public static int constructLaserPointer(Vector2 pos){
         int entity = manager.createEntity();
-        //        LaserPointerComponent laser = new LaserPointerComponent(pos);
+        LaserPointerComponent laser = new LaserPointerComponent(pos);
+        manager.addComponent(entity, laser);
 
         return entity;
 
@@ -168,11 +179,23 @@ public class EntityFactory{
         return entity;
     }
 
-    public static int constructWool(){
+    public static void constructWool(Vector2 pos){
         int entity = manager.createEntity();
 
-        return entity;
+        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 50.0f, 50.0f, 0.0f);
+        woolPhysicsComponent.initPhysics(phyManager);
+        manager.addComponent(entity, woolPhysicsComponent);
+
+//        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, 0f, 0f);
+//        catPhysix.initPhysics(phyManager);
+//        manager.addComponent(entity, catPhysix);
+
+        //RenderComponent renderComponent = new RenderComponent();
+        //renderComponent.texture = assetManager.getTexture();
+        //manager.addComponent(entity, renderComponent);
     }
+
+
 
     public static EntityManager manager;
 

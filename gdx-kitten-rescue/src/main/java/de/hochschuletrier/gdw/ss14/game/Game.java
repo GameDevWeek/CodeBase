@@ -60,7 +60,7 @@ public class Game{
         //engine.addSystem(new ShadowSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
-        engine.addSystem(new CatContactSystem(entityManager));
+        engine.addSystem(new CatContactSystem(entityManager, physixManager));
 
         // physic systems
         engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
@@ -75,6 +75,7 @@ public class Game{
 
     private void initializeTestComponents()
     {
+        EntityFactory.constructLaserPointer(new Vector2(300,0));
 //        int dogEntity1 = EntityFactory.constructDog(new Vector2(200,200), 60.0f, 40.0f, 0, 100f);
 //        int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
 //        int dogEntity3 = EntityFactory.constructDog(new Vector2(40,200), 60.0f, 40.0f, 0, 100f);
