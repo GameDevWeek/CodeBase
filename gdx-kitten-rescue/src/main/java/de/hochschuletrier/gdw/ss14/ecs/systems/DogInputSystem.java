@@ -25,7 +25,7 @@ public class DogInputSystem extends ECSystem
         Array<Integer> dogEntities = entityManager.getAllEntitiesWithComponents(InputComponent.class, EnemyComponent.class);
         Array<Integer> playerEntities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
 
-        if (playerEntities.first() != null)
+        if (playerEntities.size > 0)
         {
             int player = playerEntities.first();
 
