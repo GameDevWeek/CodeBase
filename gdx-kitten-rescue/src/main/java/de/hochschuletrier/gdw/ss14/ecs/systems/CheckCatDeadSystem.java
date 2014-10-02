@@ -39,7 +39,7 @@ public class CheckCatDeadSystem extends ECSystem
                 float maxVelocity = movementComponent.maxVelocity;
                 float acceleration = movementComponent.acceleration;
 
-                int newAmountLives = catPropertyComponent.amountLives--;
+                int newAmountLives = catPropertyComponent.amountLives - 1;
                 if(newAmountLives<0)
                 {
                     newAmountLives = 0;
