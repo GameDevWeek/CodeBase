@@ -8,9 +8,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 
-public class CatLiveUI {
-	
-private AssetManagerX assetManager;
+public class CatLiveUI extends HudComponent{
 	
 	Texture catLiveFull;
 	Texture catLiveEmpty;
@@ -20,32 +18,68 @@ private AssetManagerX assetManager;
 	
 	float scale = 0.2f;
 	
+	private float width;
+	private float height;
+	
+	private float xOffset;
+	private float yOffset;
+	
+	private float screenX;
+	private float screenY;
+	
 	public CatLiveUI(AssetManagerX assetManager) {
-		this.assetManager = assetManager;
+		super(assetManager);
 		
 		catLiveFull = assetManager.getTexture("cat_live_full");
 		catLiveEmpty = assetManager.getTexture("cat_live_empty");
+		
+		xOffset = 10;
+		yOffset = 20;
+		
+		width = catLiveEmpty.getWidth() * scale;
+		height = catLiveEmpty.getHeight() * scale;
 	}
 	
 	public void render() {
 		Main.getInstance().screenCamera.bind();
-        
-		for( int i = 1; i <= aktulleLeben; i++) {
-			DrawUtil.batch.draw(catLiveFull, 
-					Gdx.graphics.getWidth() - ((catLiveFull.getWidth() * scale) * i),
-					20, 
-					catLiveFull.getWidth() * scale,
-					catLiveFull.getHeight() * scale,
-					0, 0, catLiveFull.getWidth(), catLiveFull.getHeight(), false, true);
+		
+		for(int i = 0; i < maxLeben; i++) {
+			Texture tmp;
+			
+			if(i < maxLeben - aktulleLeben) {
+				tmp = catLiveEmpty;
+			}
+			else {
+				tmp = catLiveFull;
+			}
+			
+			DrawUtil.batch.draw(tmp, 
+				getX() + width * i,
+				getY(), 
+				width,
+				height,
+				0, 0, tmp.getWidth(), tmp.getHeight(), false, true);
 		}
-		for( int i = aktulleLeben + 1; i <= maxLeben; i++) {
-			DrawUtil.batch.draw(catLiveEmpty, 
-					Gdx.graphics.getWidth() - ((catLiveEmpty.getWidth() * scale) * i),
-					20, 
-					catLiveEmpty.getWidth()* scale,
-					catLiveEmpty.getHeight() *scale,
-					0, 0, catLiveEmpty.getWidth(), catLiveEmpty.getHeight(), false, true);
-		}
+	}
+	
+	@Override
+	public float getX() {
+		return Gdx.graphics.getWidth() - getWidth() - xOffset;
+	}
+	
+	@Override
+	public float getY() {
+		return yOffset;
+	}
+	
+	@Override
+	public float getWidth() {
+		return width * maxLeben;
+	}
+	
+	@Override
+	public float getHeigth() {
+		return height;
 	}
 
 }
