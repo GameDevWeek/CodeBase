@@ -3,11 +3,13 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
+
 import org.slf4j.Logger;
 import org.slf4j.*;
 
@@ -52,6 +54,8 @@ public class Game
         engine.addSystem(new PlayerMovementSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
         engine.addSystem(new HitAnimationSystem(entityManager));
+        engine.addSystem(new ParticleEmitterSystem(entityManager));
+        engine.addSystem(new LimitedLifetimeSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
 
