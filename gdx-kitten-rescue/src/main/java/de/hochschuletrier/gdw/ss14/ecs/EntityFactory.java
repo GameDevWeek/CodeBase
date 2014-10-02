@@ -40,7 +40,7 @@ public class EntityFactory {
 
     public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
-        
+
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
         CatContactSystem contactSystem = (CatContactSystem) Game.engine.getSystemOfType(CatContactSystem.class);
         catPhysix.mListeners.add(contactSystem);
@@ -49,9 +49,11 @@ public class EntityFactory {
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);
         CatPropertyComponent catProperty = new CatPropertyComponent();
+        catProperty.lastCheckPoint = pos;
+
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
-        
+
         catAnimation.animation = new AnimationExtended[6];
         catAnimation.animation[CatStateEnum.HIT.ordinal()]
                 = assetManager.getAnimation("hit");
