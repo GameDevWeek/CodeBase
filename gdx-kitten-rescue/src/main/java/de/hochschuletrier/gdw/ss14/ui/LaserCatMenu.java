@@ -89,8 +89,8 @@ public abstract class LaserCatMenu
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
-		//table.debug(Debug.all);
-		widgetFrame.debug(Debug.all);
+		table.debug(Debug.all);
+		//widgetFrame.debug(Debug.all);
 		
 		soundListener=new SoundListener();
 		soundListener.setButton(Buttons.LEFT);
