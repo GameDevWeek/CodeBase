@@ -28,9 +28,10 @@ public class SoundManager {
 			case MAINMENU:
 				switch(actionString) {
 					case "BELLOVER":
-						SoundManager.loadSound("click");
-						SoundManager.sound.play();
+						SoundManager.playSound("click");
 						break;
+					case "BELLCLICKED":
+						SoundManager.playSound("menu");
 				}
 				break;
 			default:
@@ -39,8 +40,9 @@ public class SoundManager {
 		}
 	}
 	
-	private static void loadSound(String sound) {
+	private static void playSound(String sound) {
 		SoundManager.sound = SoundManager.assetManager.getSound(sound);
+		SoundManager.sound.play();
 	}
 	
 	public static void setAssetManager(AssetManagerX assetManager) {
