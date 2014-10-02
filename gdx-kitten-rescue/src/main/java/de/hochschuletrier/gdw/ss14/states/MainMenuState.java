@@ -86,7 +86,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 		}
 
         inputProcessor.setActive(true);
-        inputProcessor.setBlocking(true);
+        inputProcessor.setBlocking(false);
     }
 
     @Override
