@@ -66,7 +66,7 @@
     "fall": {
         "filename": "data/animations/fall.png",
         "frames" : 10,
-        "frameDuration": [0.5,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
+        "frameDuration": [0.5,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
         "playType" : "NORMAL",
         "columns": 10,
         "rows" : 1
