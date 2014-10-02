@@ -5,19 +5,15 @@ import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.states.*;
-import org.slf4j.*;
 
 /**
  * Created by Daniel Dreher on 01.10.2014.
  */
 public class DogMovementSystem extends ECSystem
 {
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(DogMovementSystem.class);
-
     public DogMovementSystem(EntityManager entityManager)
     {
         super(entityManager, 2);
-
     }
 
     @Override
@@ -31,11 +27,6 @@ public class DogMovementSystem extends ECSystem
             PhysicsComponent physicsComponent = entityManager.getComponent(entity, PhysicsComponent.class);
             InputComponent inputComponent = entityManager.getComponent(entity, InputComponent.class);
             DogPropertyComponent dogPropertyComponent = entityManager.getComponent(entity, DogPropertyComponent.class);
-
-            if (entity == 2)
-            {
-                System.out.println();
-            }
 
             // update states
             if (movementComponent.velocity == 0)
@@ -73,12 +64,6 @@ public class DogMovementSystem extends ECSystem
             physicsComponent.setRotation(angle);
             physicsComponent.setVelocityX(movementComponent.directionVec.x * movementComponent.velocity);
             physicsComponent.setVelocityY(movementComponent.directionVec.y * movementComponent.velocity);
-
-            logger.debug
-                    ("\n"
-                                    + "Dog-ID: (" + entity + ")\n"
-                                    + "Target: (" + inputComponent.whereToGo.x + ", " + inputComponent.whereToGo.y + ")\n"
-                    );
         }
     }
 
