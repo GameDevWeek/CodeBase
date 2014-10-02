@@ -17,6 +17,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
