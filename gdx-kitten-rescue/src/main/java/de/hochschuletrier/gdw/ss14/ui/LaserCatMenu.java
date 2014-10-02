@@ -127,6 +127,8 @@ public abstract class LaserCatMenu
 		}
 		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
+			if (this.isPressed())
+					return;
 			if(event.getListenerActor().getName().equals("bell"))
 				SoundManager.performAction(UIActions.BELLOVER);
 //				playAnimation(event.getListenerActor());
