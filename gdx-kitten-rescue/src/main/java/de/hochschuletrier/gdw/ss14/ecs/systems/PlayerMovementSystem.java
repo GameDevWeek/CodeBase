@@ -1,27 +1,20 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.utils.Array;
-
-import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /**
  * Created by Daniel Dreher on 01.10.2014.
  */
 public class PlayerMovementSystem extends ECSystem{
     Logger logger = LoggerFactory.getLogger(PlayerMovementSystem.class);
+
     public PlayerMovementSystem(EntityManager entityManager){
         super(entityManager, 1);
     }
@@ -50,13 +43,15 @@ public class PlayerMovementSystem extends ECSystem{
             }
 
             moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
-            float distance = moveCompo.directionVec.len();
+            moveCompo.positionVec = moveCompo.directionVec;
+            Vector2 backup = moveCompo.directionVec;
 
             //Katze springt, wenn nah genug an Laserpointer
+            float distance = moveCompo.directionVec.len();
 
-            if (distance <= 70 && (catStateCompo.state == CatStateEnum.IDLE)){
+            if(distance <= 70 && (catStateCompo.state == CatStateEnum.IDLE)){
                 catStateCompo.jumpBuffer += delta;
-                if (catStateCompo.jumpBuffer >= 0.5){
+                if(catStateCompo.jumpBuffer >= 0.5){
                     catStateCompo.state = CatStateEnum.JUMP;
                 }
             }
@@ -82,10 +77,10 @@ public class PlayerMovementSystem extends ECSystem{
                     if(moveCompo.velocity <= moveCompo.MIDDLE_VELOCITY){
                         moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
                     }
-                /**
-                 * Falls unsere Katze aus dem "Rennen" aus zu nah an unseren Laserpointer kommt, soll
-                 * sie stetig langsamer werden
-                 */
+                    /**
+                     * Falls unsere Katze aus dem "Rennen" aus zu nah an unseren Laserpointer kommt, soll
+                     * sie stetig langsamer werden
+                     */
                 }else if(moveCompo.velocity < moveCompo.MIDDLE_VELOCITY){
                     moveCompo.velocity += moveCompo.ACCELERATION*delta;
                     if(moveCompo.velocity >= moveCompo.MIDDLE_VELOCITY){
@@ -100,34 +95,42 @@ public class PlayerMovementSystem extends ECSystem{
                 if(distance <= 10){
                     moveCompo.velocity = 0;
                 }
-            }
-            else{
-                moveCompo.velocity += moveCompo.DAMPING * 1.5f * delta;
-                if (moveCompo.velocity <= moveCompo.MIN_VELOCITY){
+            }else{
+                moveCompo.velocity += moveCompo.DAMPING*1.5f*delta;
+                if(moveCompo.velocity <= moveCompo.MIN_VELOCITY){
                     moveCompo.velocity = 0;
                 }
             }
-            
+
+            if(moveCompo.oldPositionVec == null){
+                moveCompo.oldPositionVec = moveCompo.positionVec;
+            }
+            moveCompo.positionVec.x = (moveCompo.positionVec.x*moveCompo.PERCENT_OF_NEW_CAT_VELOCITY+moveCompo.oldPositionVec.x*(1-moveCompo.PERCENT_OF_NEW_CAT_VELOCITY));
+            moveCompo.positionVec.y = (moveCompo.positionVec.y*moveCompo.PERCENT_OF_NEW_CAT_VELOCITY+moveCompo.oldPositionVec.y*(1-moveCompo.PERCENT_OF_NEW_CAT_VELOCITY));
+            moveCompo.oldPositionVec.x = backup.x;
+            moveCompo.oldPositionVec.y = backup.y;
+
             float angle;
             //Normalizing DirectionVector for Movement
             moveCompo.directionVec = moveCompo.directionVec.nor();
-            
+            moveCompo.positionVec = moveCompo.positionVec.nor();
+
             if(catStateCompo.state == CatStateEnum.JUMP || catStateCompo.state == CatStateEnum.IDLE){
                 angle = phyCompo.getRotation();
             }else{
                 angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
             }
-            
-            if (!catStateCompo.canSeeLaserPointer){
+
+            if(!catStateCompo.canSeeLaserPointer){
                 moveCompo.velocity = 0.0f;
             }else{
                 phyCompo.setRotation(angle);
             }
 
-            phyCompo.setVelocityX(moveCompo.directionVec.x*moveCompo.velocity);
-            phyCompo.setVelocityY(moveCompo.directionVec.y*moveCompo.velocity);
+            phyCompo.setVelocityX(moveCompo.positionVec.x*moveCompo.velocity);
+            phyCompo.setVelocityY(moveCompo.positionVec.y*moveCompo.velocity);
 
-            logger.debug("\n" + catStateCompo.jumpBuffer);
+            //logger.debug("\n"+catStateCompo.jumpBuffer);
         }
     }
 }
