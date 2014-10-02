@@ -5,17 +5,16 @@
  <tileset firstgid="57" source="Tilesets/Fallobjekte Kopie_128px.tsx"/>
  <tileset firstgid="60" source="Tilesets/Fallobjekte Kopie_258_px.tsx"/>
  <tileset firstgid="66" source="Tilesets/fluessigkeiten_Halbe_groesse.tsx"/>
- <tileset firstgid="96" source="Tilesets/Kiste_Liegend_Halbe_groesse.tsx"/>
- <tileset firstgid="98" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
- <tileset firstgid="99" source="Tilesets/LichteffektDachboden.tsx"/>
- <tileset firstgid="102" source="Tilesets/LochTiles.tsx"/>
- <tileset firstgid="137" source="Tilesets/Nahrung.tsx"/>
- <tileset firstgid="138" source="Tilesets/SolidsTileset.tsx"/>
- <tileset firstgid="394" source="Tilesets/SolidTileset(begehbar).tsx"/>
- <tileset firstgid="650" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
- <tileset firstgid="665" source="Tilesets/Treppe_Klein-Kopie.tsx"/>
- <tileset firstgid="666" source="Tilesets/Tuer.tsx"/>
- <tileset firstgid="687" source="Tilesets/Wollknaeuel.tsx"/>
+ <tileset firstgid="96" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
+ <tileset firstgid="97" source="Tilesets/LichteffektDachboden.tsx"/>
+ <tileset firstgid="100" source="Tilesets/LochTiles.tsx"/>
+ <tileset firstgid="135" source="Tilesets/Nahrung.tsx"/>
+ <tileset firstgid="136" source="Tilesets/SolidsTileset.tsx"/>
+ <tileset firstgid="392" source="Tilesets/SolidTileset(begehbar).tsx"/>
+ <tileset firstgid="648" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
+ <tileset firstgid="663" source="Tilesets/Treppe_Klein-Kopie.tsx"/>
+ <tileset firstgid="664" source="Tilesets/Tuer.tsx"/>
+ <tileset firstgid="685" source="Tilesets/Wollknaeuel.tsx"/>
  <layer name="ground" width="30" height="15">
   <properties>
    <property name="floor" value="0"/>
@@ -29,7 +28,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3QKQ6AQBBE0b4/YQdD2BeFAAEaBNyLLxBzgR4zU8lL2lWqQxFZLYtQI0aCFBlypbtAierv7dBjwIhJ6Z6xGL0bdtHPgdPovXBb6H3wit+rHb/Xrb0u/blBYFmLDxAty1sIBwAA
+   H4sIAAAAAAAAC+3QKQ6AQBBE0b4+YQdD2BeFAAEaBFyMLxBzgR4zU8lL2lWqQxFZLYtQI0aCFBlypbtAierv7dBjwIhJ6Z6xGL0bdtHPgdPovXBb6H3wit+rHb/Xrb0u/blBYFmLD6+TPAUIBwAA
   </data>
  </layer>
  <layer name="gaps" width="30" height="15">
@@ -37,7 +36,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjYPiDPCDOB+ICNHEPJEwLUArEZUBcjkWO1nbjAgNhJ7Ldo2AUDDYAAOg5EVsIBwAA
+   H4sIAAAAAAAAC2NgGAWjYPiDHCDOBeI8NHEPJEwLUAzEJUBcikWO1nbjAgNhJ7Ldo2AUDDYAAB9UUxcIBwAA
   </data>
  </layer>
  <layer name="deco1" width="30" height="15">
@@ -45,7 +44,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjgD4gDYjTgTgDiDOBOAsq7gTEzkjYhcr25qLxC6G0O5q4F5XtLkHjV0BpHyB2Q5PzpKK91UBcA8S1QFwHxPVIcsh+dgViPyraiw8g+5mafiXWbl8G+vmVloAViNmAmJ3O9vIAMS8Q89HZXnoBAOcYcWEIBwAA
+   H4sIAAAAAAAAC2NgGAWjgD4gBYhTgTgNiNOBOAMq7gTEzkjYhcr2ZqPx86G0O5q4F5XtLkLjl0FpHyB2Q5PzpKK9lUBcBcTVQFwDxLVIcsh+dgViPyraiw8g+5mafiXWbl8G+vmVloAViNmAmJ3O9vIAMS8Q89HZXnoBACzyS8UIBwAA
   </data>
  </layer>
  <layer name="solid2" width="30" height="15">
@@ -53,7 +52,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAXoYCMQb0Ki6QUOAvEhJHqkg2tAfH2gHUEC2APEewfA3jNAfJaG5uNKj3eA+C4N7R0Fo4BeAACqfUHWCAcAAA==
+   H4sIAAAAAAAAC2NgGAXoYD0Qb0Ci6QX2A/EBJHqkgytAfHWgHUEC2AXEuwfA3lNAfJqG5uNKj7eA+DYN7R0Fo4BeAADpMdCgCAcAAA==
   </data>
  </layer>
  <objectgroup name="actionlayer">
@@ -62,19 +61,7 @@
   </properties>
   <object name="vase" gid="65" x="1460.05" y="277.977" rotation="-269.958"/>
   <object gid="63" x="116" y="334"/>
-  <object name="lamp" gid="60" x="2282.79" y="508"/>
-  <object name="lamp" gid="61" x="2271.88" y="583.394"/>
-  <object name="lamp" gid="59" x="2416" y="563.879"/>
-  <object name="broom" gid="58" x="2188.73" y="579.03"/>
-  <object name="broom" gid="63" x="2041.58" y="498.545"/>
-  <object name="broom" gid="62" x="2035.52" y="574.303"/>
-  <object name="vase" gid="65" x="2026.42" y="668.242"/>
-  <object name="vase" gid="64" x="2038.55" y="750.061"/>
-  <object name="vase" gid="57" x="2191.76" y="742.667"/>
-  <object name="catbox" gid="97" x="2006.55" y="409.333"/>
-  <object name="catbox" gid="96" x="2239.88" y="412.364"/>
-  <object name="catbox" gid="98" x="2044.61" y="274.667"/>
-  <object name="catbox" gid="98" x="1393.94" y="809.091"/>
+  <object name="catbox" gid="96" x="1393.94" y="809.091"/>
   <object name="start" x="334.909" y="827.364" width="6.09091" height="6.45455"/>
  </objectgroup>
  <objectgroup name="renderlayer">
@@ -87,7 +74,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAVDBWxjZGDYzkh/e48B7Tw+APaOAlSwERgHm/DEQzL9nDIKRsGwAgDqv4P1CAcAAA==
+   H4sIAAAAAAAAC2NgGAVDBWxhZGDYykh/e48A7Tw6APaOAlSwHhgHG/DEQyL9nDIKRsGwAgDGtrjwCAcAAA==
   </data>
  </layer>
 </map>
