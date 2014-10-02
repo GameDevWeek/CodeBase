@@ -1,10 +1,22 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
 import com.badlogic.gdx.math.Vector2;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
@@ -101,8 +113,10 @@ public class EntityFactory{
 
     public static void constructLaserPointer(Vector2 pos){
         int entity = manager.createEntity();
-        //        LaserPointerComponent laser = new LaserPointerComponent(pos);
 
+        LaserPointerComponent laser = new LaserPointerComponent(pos);
+        
+        manager.addComponent(entity, laser);
     }
 
     public static void constructDoor(){
