@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
@@ -31,6 +32,11 @@ public class DogMovementSystem extends ECSystem
             InputComponent inputComponent = entityManager.getComponent(entity, InputComponent.class);
             DogPropertyComponent dogPropertyComponent = entityManager.getComponent(entity, DogPropertyComponent.class);
 
+            if (entity == 2)
+            {
+                System.out.println();
+            }
+
             // update states
             if (movementComponent.velocity == 0)
             {
@@ -53,7 +59,13 @@ public class DogMovementSystem extends ECSystem
                 movementComponent.velocity = movementComponent.MAX_VELOCITY;
             }
 
-            movementComponent.directionVec = inputComponent.whereToGo.sub(physicsComponent.getPosition());
+            Vector2 directionVector = new Vector2();
+            directionVector.x = inputComponent.whereToGo.x - physicsComponent.getPosition().x;
+            directionVector.y = inputComponent.whereToGo.y - physicsComponent.getPosition().y;
+
+            // DON'T use sub-method of vector! (causes some strange bugs!)
+            //movementComponent.directionVec = inputComponent.whereToGo.sub(physicsComponent.getPosition());
+            movementComponent.directionVec = directionVector;
 
             //Normalizing DirectionVector for Movement
             movementComponent.directionVec = movementComponent.directionVec.nor();
