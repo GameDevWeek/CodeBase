@@ -138,7 +138,7 @@ public abstract class LaserCatMenu
 	{
 		public void clicked(InputEvent event, float x, float y)
 		{
-			System.out.println("Button clicked");
+			SoundManager.performAction(UIActions.BELLCLICKED);
 		}
 		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
