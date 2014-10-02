@@ -53,5 +53,32 @@
     "gp_porcellain1": "data/sounds/porcellain1.mp3",
     "gp_porcellain2": "data/sounds/porcellain2.mp3",
     "gp_porcellain3": "data/sounds/porcellain3.mp3",
-    "gp_porcellain4": "data/sounds/porcellain4.mp3"
+    "gp_porcellain4": "data/sounds/porcellain4.mp3",
+	
+	"gp_dogAngry01": "data/sounds/Dog_Angry01.wav",
+	"gp_dogAngry02": "data/sounds/Dog_Angry02.wav",
+	"gp_dogAngry03": "data/sounds/Dog_Angry03.wav",
+	"gp_dogAngry04": "data/sounds/Dog_Angry04.wav",
+	"gp_dogAngry05": "data/sounds/Dog_Angry05.wav",
+	
+	"gp_dogIdle01": "data/sounds/Dog_Idle01.wav",
+	"gp_dogIdle02": "data/sounds/Dog_Idle02.wav",
+	"gp_dogIdle03": "data/sounds/Dog_Idle03.wav",
+	"gp_dogIdle04": "data/sounds/Dog_Idle04.wav",
+	"gp_dogIdle05": "data/sounds/Dog_Idle05.wav",
+	"gp_dogIdle06": "data/sounds/Dog_Idle06.wav",
+	"gp_dogIdle07": "data/sounds/Dog_Idle07.wav",
+	"gp_dogIdle08": "data/sounds/Dog_Idle08.wav",
+	"gp_dogIdle09": "data/sounds/Dog_Idle09.wav",
+	"gp_dogIdle10": "data/sounds/Dog_Idle10.wav",
+	"gp_dogIdle11": "data/sounds/Dog_Idle11.wav",
+	"gp_dogIdle12": "data/sounds/Dog_Idle12.wav",
+	"gp_dogIdle13": "data/sounds/Dog_Idle13.wav",
+	"gp_dogIdle14": "data/sounds/Dog_Idle14.wav",
+	"gp_dogIdle15": "data/sounds/Dog_Idle15.wav",
+	"gp_dogIdle16": "data/sounds/Dog_Idle16.wav",
+	"gp_dogIdle17": "data/sounds/Dog_Idle17.wav",
+	"gp_dogIdle18": "data/sounds/Dog_Idle18.wav"
+	
+	
 }
