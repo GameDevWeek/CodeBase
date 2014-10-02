@@ -19,5 +19,6 @@ public enum CatStateEnum {
     JUMP,
     CRASH,
     FALL,
-    DIE
+    DIE,
+    DIE2
 }

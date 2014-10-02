@@ -51,7 +51,7 @@ public class EntityFactory {
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
 
-        catAnimation.animation = new AnimationExtended[9];
+        catAnimation.animation = new AnimationExtended[10];
         catAnimation.animation[CatStateEnum.HIT.ordinal()]
                 = assetManager.getAnimation("hit");
         catAnimation.animation[CatStateEnum.IDLE.ordinal()]
@@ -70,6 +70,8 @@ public class EntityFactory {
                 = assetManager.getAnimation("fall");
         catAnimation.animation[CatStateEnum.DIE.ordinal()]
                 = assetManager.getAnimation("die");
+        catAnimation.animation[CatStateEnum.DIE2.ordinal()]
+                = assetManager.getAnimation("die2");
 
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 1.0f;
