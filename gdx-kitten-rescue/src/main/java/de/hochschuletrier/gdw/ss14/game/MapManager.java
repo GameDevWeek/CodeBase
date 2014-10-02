@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.game;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.commons.resourcelocator.*;
@@ -12,6 +13,7 @@ import de.hochschuletrier.gdw.commons.tiled.utils.*;
 import de.hochschuletrier.gdw.commons.utils.Rectangle;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 
 import java.util.*;
 
@@ -102,13 +104,26 @@ public class MapManager
         // Generate static world
         int tileWidth = tiledMap.getTileWidth();
         int tileHeight = tiledMap.getTileHeight();
+        short floor = (short)Math.pow(2, tiledMap.getIntProperty("floor", 0));
+        
         RectangleGenerator generator = new RectangleGenerator();
         generator.generate(tiledMap,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("blocked", false),
-                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight));
+                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, "wall"));
+        generator.generate(tiledMap,
+                (Layer layer, TileInfo info) -> info.getBooleanProperty("deadzone", false),
+                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, true, "deadzone"));
     }
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight)
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, String userdata){
+        addShape(physixManager, rect, tileWidth, tileHeight, floor, false, userdata);
+    }
+    
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor){
+        addShape(physixManager, rect, tileWidth, tileHeight, floor, false, "");
+    }
+    
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, boolean flag, String userdata)
     {
         float width = rect.width * tileWidth;
         float height = rect.height * tileHeight;
@@ -117,7 +132,11 @@ public class MapManager
 
         PhysixBody body = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
                 .fixedRotation(false).create();
-        body.createFixture(new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height));
+        body.createFixture(new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
+                .category((short)floor));
+        body.getFixtureList().forEach((f)->f.setUserData(userdata));
+        body.getFixtureList().forEach((f)->f.setSensor(flag));
+        
     }
 
     public TiledMap getMap()
@@ -147,7 +166,13 @@ public class MapManager
                                 float x = mapObjects.get(j).getX();
                                 float y = mapObjects.get(j).getY();
                                 Vector2 pos = new Vector2(x, y);
-                                EntityFactory.constructCat(pos, 150, 75, 0, 50.0f);
+                                try {
+                                    CatContactSystem ccs = (CatContactSystem)Game.engine.getSystemOfType(CatContactSystem.class);
+                                    EntityFactory.constructCat(pos, 150, 75, 0, 50.0f, ccs);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                                 break;
                             case "wool":
                                 // TODO: add object with entityFactory here
@@ -169,9 +194,10 @@ public class MapManager
                                 // TODO: add object with entityFactory here
                                 break;
 
-                            case "door":
-                                // TODO: add object with entityFactory here
-                                break;
+// isn't an object
+//                            case "door":
+//                                // TODO: add object with entityFactory here
+//                                break;
 
                             case "catbox":
                                 // TODO: add object with entityFactory here

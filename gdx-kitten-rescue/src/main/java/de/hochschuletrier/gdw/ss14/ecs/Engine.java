@@ -18,6 +18,15 @@ public class Engine
         systems = new Array<ECSystem>();
     }
 
+    public ECSystem getSystemOfType(Class systemtype){
+        for(ECSystem system : systems){
+            if(systemtype.isInstance(system)){
+                return system;
+            }
+        }
+        return null;
+    }
+    
     public void addSystem(ECSystem system)
     {
         systems.add(system);
