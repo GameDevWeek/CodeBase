@@ -1,19 +1,10 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.lang.management.GarbageCollectorMXBean;
-
-import javax.swing.event.MouseInputListener;
-
-import org.lwjgl.opengl.GL11;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -21,21 +12,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
-import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 public abstract class LaserCatMenu
 {
 	private static Image menuCatImage, titleTextImage;
 	// For debug drawing
-	private ShapeRenderer shapeRenderer;
+	private ShapeRenderer shapeRenderer; 
+	protected static SoundListener soundListener;
+
 	
 	//
 	// Vererbtes Zeug
@@ -58,7 +50,7 @@ public abstract class LaserCatMenu
 	{
 		//Variables
 		heightOfWidgetFrame = 0.25f;
-		widthOfWidgetFrame = 0.6f;
+		widthOfWidgetFrame = 0.65f;
 		
 		
 		// Adjusts the table and adds it to the stage
@@ -86,7 +78,7 @@ public abstract class LaserCatMenu
 		
 		// container for center labels and buttons, no background of its own
 		widgetFrame = new Table();
-		table.add(widgetFrame).align(Align.center).size(Value.percentWidth(widthOfWidgetFrame, table), Value.percentHeight(heightOfWidgetFrame,table)).space(20);
+		table.add(widgetFrame).bottom().size(Value.percentWidth(widthOfWidgetFrame, table), Value.percentHeight(heightOfWidgetFrame,table));
 		table.row();
 
 	
@@ -99,7 +91,9 @@ public abstract class LaserCatMenu
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
 		table.debug(Debug.all);
-		widgetFrame.debug(Debug.all);
+		//widgetFrame.debug(Debug.all);
+		
+		LaserCatMenu.soundListener=new SoundListener();
 	}
 	
 	protected void addButtonsToFrame()
@@ -117,7 +111,7 @@ public abstract class LaserCatMenu
 		for(int i = 0; i<numberOfButtons; i++)
 		{
 			button[i] = new Button(catSkin, "bell");
-			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/numberOfButtons, table)).top().space(20).spaceTop(10);
+			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
 		}
 		name = null;
 }
@@ -138,4 +132,19 @@ public abstract class LaserCatMenu
 		// TODO Auto-generated method stub
 		stage.act(Gdx.graphics.getDeltaTime());
 	}
+	
+	
+	protected class SoundListener extends ClickListener
+	{
+		public void clicked(InputEvent event, float x, float y)
+		{
+			SoundManager.performAction(UIActions.BELLCLICKED);
+		}
+		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
+		{
+			if (!this.isPressed())
+				SoundManager.performAction(UIActions.BELLOVER);
+		}
+	}
+	
 }

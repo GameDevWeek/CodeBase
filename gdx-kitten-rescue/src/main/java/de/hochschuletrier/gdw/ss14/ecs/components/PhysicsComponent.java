@@ -18,9 +18,22 @@ public class PhysicsComponent extends PhysixEntity implements Component
         // don't forget to use setPhysicsBody!
     }
     
-    public Vector2 dummyPosition = new Vector2();
+    public Vector2 defaultPosition = new Vector2();
+    public float defaultRotation = 0.0f;
+    
     @Override
     public Vector2 getPosition() {
-        return super.getPosition();
+        if (physicsBody != null)
+            return super.getPosition();
+        else
+            return defaultPosition;
+    }
+    
+    @Override
+    public float getRotation() {
+        if (physicsBody != null)
+            return super.getRotation();
+        else
+            return defaultRotation;
     }
 }

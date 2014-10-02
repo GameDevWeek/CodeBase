@@ -13,6 +13,14 @@ public class RenderComponent implements Component {
      */
     public TextureRegion texture;
     
+    /**
+     * Change this attribute to push something to the background / bring something to the foreground.
+     * GREATER numbers move the object more to the FOREGROUND.
+     * Negative values are possible.
+     */
+    public int zIndex = 0;
+    
     // This color will be added to the whole texture
+    // null means: draw the texture normally
     public Color tintColor = null;
 }

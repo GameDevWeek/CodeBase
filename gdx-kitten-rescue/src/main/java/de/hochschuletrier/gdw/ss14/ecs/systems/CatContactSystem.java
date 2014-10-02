@@ -1,33 +1,76 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.utils.Array;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
-import de.hochschuletrier.gdw.ss14.ICollisionListener;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
 
-    public CatContactSystem(EntityManager entityManager) {
+    private static final Logger logger = LoggerFactory.getLogger(CatContactSystem.class);
+
+    private PhysixManager phyManager;
+    private RayCastPhysics rcpc;
+    
+    public CatContactSystem(EntityManager entityManager, PhysixManager physicsManager) {
         super(entityManager);
+        phyManager = physicsManager;
     }
 
     @Override
     public void fireCollision(PhysixContact contact) {
-        PhysixEntity owner = contact.getMyPhysixBody().getOwner();
+        PhysixBody owner = contact.getMyPhysixBody();//.getOwner();
         
-        if(!(owner instanceof CatPhysicsComponent)) return;
+        Object o = contact.getOtherPhysixBody().getFixtureList().get(0).getUserData();
+        PhysixEntity other = contact.getOtherPhysixBody().getOwner();
         
-        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(contact.getClass());
-        
-        for(Integer c : compos){
-            if(entityManager.getComponent(c, EnemyComponent.class) != null){
-                //TODO: CAT DIE! 
-                return;
+        if(other instanceof CatPhysicsComponent){
+            logger.debug("cat collides with dog ... or another cat");
+            
+            
+        }else if(other instanceof ConePhysicsComponent){
+            logger.debug("cat collides with sight-cone");
+            phyManager.getWorld().rayCast(rcpc, other.getPosition(), owner.getPosition());
+            if(rcpc.m_hit && rcpc.m_fraction <= ((ConePhysicsComponent)other).mRadius){
+                //dog sees cat
+                logger.debug("Katze sichtbar für Hund");
+            }else{
+                //dog sees cat not
+            }
+            rcpc.reset();
+            
+        }else if(other == null){
+            if(!(o instanceof String)) return;
+            String s = (String)o;
+            if(s.equals("deadzone")){
+                boolean isCatInZone = false;
+                if(contact.getMyFixture().getUserData() == null) return;
+                if(contact.getMyFixture().getUserData().equals("masscenter")){
+                    isCatInZone = true;
+                }
+                if(isCatInZone){
+                    // cat fall down
+                    int player = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class).first();
+
+                    CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+                    PhysicsComponent physicsComponent = entityManager.getComponent(player, PhysicsComponent.class);
+
+                    catPropertyComponent.isAlive = false;
+                }
             }
         }
+        
     }
 
     @Override

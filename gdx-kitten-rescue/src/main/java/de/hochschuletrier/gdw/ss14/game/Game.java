@@ -14,13 +14,13 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
 
 import org.slf4j.Logger;
-import org.slf4j.*;
+import org.slf4j.LoggerFactory;
 
-public class Game
-{
+public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
-    private Engine engine;
+    private Array<ECSystem> systems;
+    public static Engine engine;
 
     private MapManager mapManager;
     private EntityManager entityManager;
@@ -32,8 +32,7 @@ public class Game
     
     private Vector2 mapCenter = new Vector2();
 
-    public Game(AssetManagerX am)
-    {
+    public Game(AssetManagerX am){
         engine = new Engine();
         entityManager = new EntityManager();
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
@@ -49,16 +48,16 @@ public class Game
         EntityFactory.behaviourManager = behaviourManager;
     }
 
-    public void init(AssetManagerX assetManager)
-    {
+    public void init(AssetManagerX assetManager){
+        InputManager.init();
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("ErsteTestMap");
+        mapManager.loadMap("Katzenklappentest");
         mapManager.setFloor(0);
-        InputManager.init();
         
         behaviourManager.activate();
+
     }
 
     private void initializeSystems()
@@ -69,8 +68,14 @@ public class Game
         engine.addSystem(new PlayerMovementSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
         engine.addSystem(new HitAnimationSystem(entityManager));
+        engine.addSystem(new ParticleEmitterSystem(entityManager));
+        engine.addSystem(new LimitedLifetimeSystem(entityManager));
+        engine.addSystem(new LaserPointerSystem(entityManager));
+        //engine.addSystem(new ShadowSystem(entityManager));
+        engine.addSystem(new CheckCatDeadSystem(entityManager, physixManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
+        engine.addSystem(new CatContactSystem(entityManager, physixManager));
 
         // physic systems
         engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
@@ -78,7 +83,8 @@ public class Game
 
         // Rendering related systems
         engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
-        engine.addSystem(new AnimationSystem(entityManager, 1));
+        engine.addSystem(new ShadowSystem(entityManager, 1));
+        engine.addSystem(new AnimationSystem(entityManager, 2));
         engine.addSystem(new RenderSystem(entityManager, 1200));
         
         //Behaviour System
@@ -91,17 +97,20 @@ public class Game
         //int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
         int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
 
+        EntityFactory.constructLaserPointer(new Vector2(300,0));
+        
+//        int dogEntity3 = EntityFactory.constructDog(new Vector2(40,200), 60.0f, 40.0f, 0, 100f);
+//        int dogEntity4 = EntityFactory.constructDog(new Vector2(100, 350), 60.0f, 40.0f, 0, 100f);
+//        int dogEntity5 = EntityFactory.constructDog(new Vector2(400, 200), 60.0f, 40.0f, 0, 100f);
+//        int dogEntity6 = EntityFactory.constructDog(new Vector2(100, 200), 60.0f, 40.0f, 0, 100f);
     }
 
-    public TiledMap loadMap(String filename)
-    {
-        try
-        {
+    public TiledMap loadMap(String filename){
+        try{
             return new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
-        } catch (Exception ex)
-        {
-            throw new IllegalArgumentException(
-                    "Map konnte nicht geladen werden: " + filename);
+        }
+        catch(Exception ex){
+            throw new IllegalArgumentException("Map konnte nicht geladen werden: "+filename);
         }
     }
 
@@ -111,15 +120,12 @@ public class Game
         return null;
     }
 
-    public void update(float delta)
-    {
+    public void update(float delta){
         InputManager.getInstance().update();
         engine.update(delta);
-        
     }
 
-    public void render()
-    {
+    public void render(){
         engine.render();
     }
 }
