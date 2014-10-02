@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,46 +17,51 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 /**
  * Created by Daniel Dreher on 01.10.2014.
  */
-public class PlayerMovementSystem extends ECSystem
-{
-    
+public class PlayerMovementSystem extends ECSystem{
     Logger logger = LoggerFactory.getLogger(PlayerMovementSystem.class);
-    
-    public PlayerMovementSystem(EntityManager entityManager)
-    {
+    public float maxVelocity = 0, acceleration = 0;
+
+    public PlayerMovementSystem(EntityManager entityManager){
         super(entityManager, 1);
     }
 
     @Override
-    public void render()
-    {
-
+    public void render(){
     }
 
     @Override
-    public void update(float delta)
-    {
+    public void update(float delta){
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, MovementComponent.class, PhysicsComponent.class, InputComponent.class, CatPropertyComponent.class);
 
-        for (Integer integer : compos)
-        {
+        for(Integer integer : compos){
             MovementComponent moveCompo = entityManager.getComponent(integer, MovementComponent.class);
             PhysicsComponent phyCompo = entityManager.getComponent(integer, PhysicsComponent.class);
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CatPropertyComponent catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
 
+            //Wenn Katze positive Nahrung gegessen hat, wird sie schneller
+            if(maxVelocity == 0){
+                maxVelocity = moveCompo.maxVelocity;
+                acceleration = moveCompo.acceleration;
+            }
+
+            moveCompo.maxVelocity = maxVelocity;
+            moveCompo.acceleration = acceleration;
+
+            if(catStateCompo.atePositiveFood){
+                moveCompo.maxVelocity *= 5;
+
+                moveCompo.acceleration  *= 5;
+
+            }
+
 
             // update states
-            if (moveCompo.velocity == 0)
-            {
+            if(moveCompo.velocity == 0){
                 catStateCompo.state = CatStateEnum.IDLE;
-            }
-            else if (moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.MIDDLE_VELOCITY)
-            {
+            }else if(moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.middleVelocity){
                 catStateCompo.state = CatStateEnum.WALK;
-            }
-            else if (moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY)
-            {
+            }else if(moveCompo.velocity > moveCompo.middleVelocity && moveCompo.velocity < moveCompo.maxVelocity){
                 catStateCompo.state = CatStateEnum.RUN;
             }
 
@@ -63,106 +69,81 @@ public class PlayerMovementSystem extends ECSystem
             float distance = moveCompo.directionVec.len();
 
             //Katze springt, wenn nah genug an Laserpointer
-            if (distance <= 70 && (catStateCompo.state == CatStateEnum.IDLE))
-            {
+
+            if (distance <= 70 && (catStateCompo.state == CatStateEnum.IDLE)){
                 catStateCompo.jumpBuffer += delta;
-                if (catStateCompo.jumpBuffer >= 0.5)
-                {
+                if (catStateCompo.jumpBuffer >= 0.5){
                     catStateCompo.state = CatStateEnum.JUMP;
-
                 }
-
             }
 
-            if (distance >= 200)
-            {
+            if(distance >= 200){
+                moveCompo.velocity += moveCompo.acceleration*delta;
 
-                moveCompo.velocity += moveCompo.ACCELERATION * delta;
-
-                /*
+                /**
                  * Falls durch die letze Berechnung die Velocity höher als die Maximale Velocity berechnet wurde, setzen
                  * wir  unsere velocity auf MAX_VELOCITY
                  */
-                if (moveCompo.velocity >= moveCompo.MAX_VELOCITY)
-                {
-                    moveCompo.velocity = moveCompo.MAX_VELOCITY;
+                if(moveCompo.velocity >= moveCompo.maxVelocity){
+                    moveCompo.velocity = moveCompo.maxVelocity;
                 }
-
-            }
-            else if (distance >= 100)
-            {
-
+            }else if(distance >= 100){
                 //moveCompo.velocity +=  moveCompo.ACCELERATION * delta;
 
-                /*
+                /**
                  * Falls wir von unserem Stand aus losgehen soll unsere Katze beschleunigen, bis sie "geht"
                  */
-                if (moveCompo.velocity >= moveCompo.MIDDLE_VELOCITY)
-                {
-                    //
-                    moveCompo.velocity += moveCompo.DAMPING * delta;
-                    if (moveCompo.velocity <= moveCompo.MIDDLE_VELOCITY)
-                    {
-                        moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
+                if(moveCompo.velocity >= moveCompo.middleVelocity){
+                    moveCompo.velocity += moveCompo.damping*delta;
+                    if(moveCompo.velocity <= moveCompo.middleVelocity){
+                        moveCompo.velocity = moveCompo.middleVelocity;
                     }
-                /*
+                /**
                  * Falls unsere Katze aus dem "Rennen" aus zu nah an unseren Laserpointer kommt, soll
                  * sie stetig langsamer werden
                  */
-                }
-                else if (moveCompo.velocity < moveCompo.MIDDLE_VELOCITY)
-                {
-                    moveCompo.velocity += moveCompo.ACCELERATION * delta;
-                    if (moveCompo.velocity >= moveCompo.MIDDLE_VELOCITY)
-                    {
-                        moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
+                }else if(moveCompo.velocity < moveCompo.middleVelocity){
+                    moveCompo.velocity += moveCompo.acceleration*delta;
+                    if(moveCompo.velocity >= moveCompo.middleVelocity){
+                        moveCompo.velocity = moveCompo.middleVelocity;
                     }
                 }
-
-            }
-            else if (catStateCompo.state == CatStateEnum.JUMP)
-            {
+            }else if(catStateCompo.state == CatStateEnum.JUMP){
                 moveCompo.velocity = 200;
                 catStateCompo.state = CatStateEnum.IDLE;
                 catStateCompo.jumpBuffer = 0;
-//                phyCompo.setRotation(phyCompo.getRotation());
+                // phyCompo.setRotation(phyCompo.getRotation());
                 if(distance <= 10){
                     moveCompo.velocity = 0;
                 }
             }
-            else
-            {
-                //
-                moveCompo.velocity += moveCompo.DAMPING * 1.5f * delta;
-                if (moveCompo.velocity <= moveCompo.MIN_VELOCITY)
-                {
+            else{
+                moveCompo.velocity += moveCompo.damping * 1.5f * delta;
+                if (moveCompo.velocity <= moveCompo.minVelocity){
                     moveCompo.velocity = 0;
                 }
             }
-            
-            float angle = 0;
+
+            float angle;
             //Normalizing DirectionVector for Movement
             moveCompo.directionVec = moveCompo.directionVec.nor();
-            
+
             if(catStateCompo.state == CatStateEnum.JUMP || catStateCompo.state == CatStateEnum.IDLE){
                 angle = phyCompo.getRotation();
             }else{
                 angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
             }
-            
-            if (!catStateCompo.canSeeLaserPointer)
-            {
+
+            if (!catStateCompo.canSeeLaserPointer){
                 moveCompo.velocity = 0.0f;
-                //return;
-            }
-            else
-            {
+            }else{
                 phyCompo.setRotation(angle);
             }
-            phyCompo.setVelocityX(moveCompo.directionVec.x * moveCompo.velocity);
-            phyCompo.setVelocityY(moveCompo.directionVec.y * moveCompo.velocity);
+
+            phyCompo.setVelocityX(moveCompo.directionVec.x*moveCompo.velocity);
+            phyCompo.setVelocityY(moveCompo.directionVec.y*moveCompo.velocity);
+
             logger.debug("\n" + catStateCompo.jumpBuffer);
         }
-
     }
 }

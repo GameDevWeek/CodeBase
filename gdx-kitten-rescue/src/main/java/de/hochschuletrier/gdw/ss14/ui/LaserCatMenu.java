@@ -34,7 +34,7 @@ public abstract class LaserCatMenu
 	//
 	protected static Table widgetFrame;
 	protected static Table table;
-	protected Skin catSkin, basicSkin;
+	protected static Skin catSkin, basicSkin;
 	protected static Stage stage;
 	protected static float heightOfWidgetFrame;
 	protected static float widthOfWidgetFrame;
@@ -50,7 +50,7 @@ public abstract class LaserCatMenu
 	{
 		//Variables
 		heightOfWidgetFrame = 0.25f;
-		widthOfWidgetFrame = 0.8f;
+		widthOfWidgetFrame = 0.65f;
 		
 		
 		// Adjusts the table and adds it to the stage
@@ -78,7 +78,7 @@ public abstract class LaserCatMenu
 		
 		// container for center labels and buttons, no background of its own
 		widgetFrame = new Table();
-		table.add(widgetFrame).align(Align.center).size(Value.percentWidth(widthOfWidgetFrame, table), Value.percentHeight(heightOfWidgetFrame,table)).space(20);
+		table.add(widgetFrame).bottom().size(Value.percentWidth(widthOfWidgetFrame, table), Value.percentHeight(heightOfWidgetFrame,table));
 		table.row();
 
 	
@@ -96,25 +96,7 @@ public abstract class LaserCatMenu
 		LaserCatMenu.soundListener=new SoundListener();
 	}
 	
-	protected void addButtonsToFrame()
-	{
-		button = new Button[numberOfButtons];
-		label = new Label[numberOfButtons];
 
-		for(int i=0; i<numberOfButtons; i++)
-		{
-			label[i] = new Label(name[i], basicSkin);
-			widgetFrame.add(label[i]).expandX().space(20).spaceBottom(10);
-		}
-		
-		widgetFrame.row();
-		for(int i = 0; i<numberOfButtons; i++)
-		{
-			button[i] = new Button(catSkin, "bell");
-			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/numberOfButtons, table)).top().space(20).spaceTop(10);
-		}
-		name = null;
-}
 
 	public void dispose()
 	{
@@ -138,13 +120,24 @@ public abstract class LaserCatMenu
 	{
 		public void clicked(InputEvent event, float x, float y)
 		{
-			System.out.println("Button clicked");
+			if(event.getListenerActor().getName().equals("bell"))
+				SoundManager.performAction(UIActions.BELLCLICKED);
+			else
+				SoundManager.performAction(UIActions.BUTTONCLICKED);						
 		}
 		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
-			if (!this.isPressed())
+			if(event.getListenerActor().getName().equals("bell"))
 				SoundManager.performAction(UIActions.BELLOVER);
+//				playAnimation(event.getListenerActor());
+			else
+				SoundManager.performAction(UIActions.BUTTONOVER);
 		}
 	}
+	
+//	private void animateBell(Button b)
+//	{
+//		
+//	}
 	
 }
