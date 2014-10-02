@@ -7,6 +7,7 @@ public class CatPropertyComponent implements Component {
     public int amountLives;
     public boolean isAlive;
     public CatStateEnum state;
+    public float jumpBuffer = 0;
 
     public CatPropertyComponent() {
         amountLives = 9;
