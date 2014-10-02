@@ -12,6 +12,8 @@ import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.physics.PhysicsActions;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /*
@@ -61,6 +63,7 @@ public class PlayerMovementSystem extends ECSystem{
                 catStateCompo.state = CatStateEnum.IDLE;
             }else if(moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.middleVelocity){
                 catStateCompo.state = CatStateEnum.WALK;
+                SoundManager.performAction(PhysicsActions.CATWALK);
                 catStateCompo.jumpBuffer = 0;
             }else if(moveCompo.velocity > moveCompo.middleVelocity && moveCompo.velocity < moveCompo.maxVelocity){
                 catStateCompo.state = CatStateEnum.RUN;
