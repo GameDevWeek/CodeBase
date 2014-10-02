@@ -1,10 +1,8 @@
 package de.hochschuletrier.gdw.ss14.ecs.ai;
 
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
-import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.BaseNode;
-import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.BaseTask;
-import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.RandomChoice;
-import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.Sequence;
+import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +28,26 @@ public class DogBehaviour extends Behaviour {
         setLooping(true);
         //Damit zwischen jagen und patroullieren gewechselt werden muss, muss es ein Loop sein.
     }
+    
+    class KatzeSichtbar extends BaseCondition{
+
+        public KatzeSichtbar(BaseNode parent, Behaviour behaviour)
+        {
+            super(parent, behaviour);
+        }
+     
+        public State onEvaluate(float delta)
+        {
+            
+               //result noch nur dummy:
+               State result = State.SUCCESS;
+               return result;
+        }
+        
+        
+    }
+
+    
     
     
 }
