@@ -11,7 +11,7 @@ public class CameraComponent implements Component
     public LimitedSmoothCamera smoothCamera;
     
     // Maximum distance of the cats center to the screen center in pixels
-    public float maxScreenCenterDistance = 150f;
+    public float maxScreenCenterDistance = 75f;
     
     // The time in seconds the camera needs to go from the max distance to the center of the cat.
     // This time will be further modified by followspeedCurvePower
