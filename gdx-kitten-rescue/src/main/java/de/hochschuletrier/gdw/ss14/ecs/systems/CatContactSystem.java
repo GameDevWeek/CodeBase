@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import de.hochschuletrier.gdw.ss14.states.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,9 +65,9 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     int player = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class).first();
 
                     CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
-                    PhysicsComponent physicsComponent = entityManager.getComponent(player, PhysicsComponent.class);
 
                     catPropertyComponent.isAlive = false;
+                    //catPropertyComponent.state = CatStateEnum.FALL;
                 }
             }
         }
