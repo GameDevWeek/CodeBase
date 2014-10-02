@@ -13,7 +13,6 @@ public class MovementComponent implements Component{
 	public final float MIN_VELOCITY;
 	
 	public Vector2 directionVec;
-    public Vector2 lastDirectionVec;
 	
 	public MovementComponent(float maxVelo, float middleVelo, float minVelo, float acceleration){
 		MAX_VELOCITY = maxVelo;

@@ -1,8 +1,5 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
@@ -12,14 +9,12 @@ import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 
@@ -37,11 +32,12 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ICollisionListener contactsystem) {
+    public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ICollisionListener contactSystem) {
         int entity = manager.createEntity();
         
-        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
-        catPhysix.mListeners.add(contactsystem);
+        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, 0f, 0f);
+        //position(x,y), width, height, rota, friction[0-1][ice-rubber], restitution[0-1][rock-ball]
+        catPhysix.collisionListeners.add(contactSystem);
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);

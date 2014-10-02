@@ -99,10 +99,6 @@ public class PlayerMovementSystem extends ECSystem{
             }
             phyCompo.setVelocityX(moveCompo.directionVec.x*moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.directionVec.y*moveCompo.velocity);
-
-            if(moveCompo.lastDirectionVec!=null)
-                System.out.println(this.getClass().getName()+": "+moveCompo.directionVec+" "+moveCompo.lastDirectionVec);
-            moveCompo.lastDirectionVec = moveCompo.directionVec;
         }
     }
 }
