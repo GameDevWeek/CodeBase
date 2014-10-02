@@ -52,7 +52,7 @@ public class WeaponHUD extends HudComponent implements GameInputAdapter {
                 front.getWidth() * getScale(), front.getHeight() * getScale(), 0, 0, 
                 front.getWidth(), front.getHeight(), false, true);
         
-        DrawUtil.drawRect(getX(), getY(), super.getWidth(), super.getHeight(), Color.RED);
+        // DrawUtil.drawRect(getX(), getY(), super.getWidth(), super.getHeight(), Color.RED);
     }
     
     @Override
