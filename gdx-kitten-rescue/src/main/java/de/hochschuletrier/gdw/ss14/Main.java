@@ -49,7 +49,8 @@ public class Main extends StateBasedGame {
 
     private final AssetManagerX assetManager = new AssetManagerX();
     public final GamePreferences gamePreferences = new GamePreferences();
-	public static MusicManager musicManager;
+	public static MusicManager MusicManager;
+	public static SoundManager SoundManager;
     private static Main instance;
 
     public final DevConsole console = new DevConsole(16);
@@ -110,10 +111,10 @@ public class Main extends StateBasedGame {
         DrawUtil.init();
         loadAssetLists();
         gamePreferences.init();
-		musicManager = MusicManager.getInstance();
-		musicManager.init(this.assetManager);
-		SoundManager.setAssetManager(assetManager);
-        setupGdx();
+		Main.MusicManager = MusicManager.getInstance();
+		Main.MusicManager.init(this.assetManager);
+		SoundManager.setAssetManager(this.assetManager);
+		setupGdx();
         skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
         consoleView.init(assetManager, skin);
         addScreenListener(consoleView);

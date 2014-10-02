@@ -69,12 +69,14 @@ public class TileMapRenderingSystem extends ECSystem{
 			    if (currentComp.getMap().getLayers().size() > layerIndex) {
 			        
     				Layer layerToRender = currentComp.getMap().getLayers().get(layerIndex);
-    				renderer.render(0, 0, layerToRender);
+                                if(layerToRender.isTileLayer())
+                                    renderer.render(0, 0, layerToRender);
 			    }
 			}
 		}
 	}
 	
+	@Override
 	public void shutdown() {
         List<TileMapRenderingComponent> arr = entityManager.getAllComponentsOfType(TileMapRenderingComponent.class);
 	    

@@ -1,14 +1,17 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;
 
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.HitAnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 
 public class HitAnimationSystem extends ECSystem {
     
-    private static final float hitFlashCycleDuration = 0.1f;
+    private static final float HitFlashCycleDuration = 0.2f;
+    private static final Color HitFlashColor = new Color(1,0,0,1);
 
     public HitAnimationSystem(EntityManager entityManager) {
         super(entityManager);
@@ -24,21 +27,23 @@ public class HitAnimationSystem extends ECSystem {
             HitAnimationComponent hitComp = entityManager.getComponent(entity, HitAnimationComponent.class);
             RenderComponent renderComp = entityManager.getComponent(entity, RenderComponent.class);
             
-            int lastCycleNumber = (int)(hitComp.timeLeft / hitFlashCycleDuration);
+            int lastCycleNumber = (int)(hitComp.timeLeft / HitFlashCycleDuration);
             hitComp.timeLeft -= delta;
-            int currentCycleNumber = (int)(hitComp.timeLeft / hitFlashCycleDuration);
+            int currentCycleNumber = (int)(hitComp.timeLeft / HitFlashCycleDuration);
             
             if (hitComp.timeLeft < 0.0f) {
                 
-                // TODO: Remove component from entity
-                //entityManager.
-                // renderComp.isTintedRed = false;
+                entityManager.removeComponent(entity, hitComp);
+                renderComp.tintColor = null;
+                return;
             }            
             
-            /*else*/ if (lastCycleNumber != currentCycleNumber)
-                renderComp.isTintedRed = !renderComp.isTintedRed;
-            
-            System.out.println(renderComp.isTintedRed);
+            if (lastCycleNumber != currentCycleNumber) {
+                if (renderComp.tintColor == null)
+                    renderComp.tintColor = HitFlashColor;
+                else
+                    renderComp.tintColor = null;
+            }
         }
     }
 

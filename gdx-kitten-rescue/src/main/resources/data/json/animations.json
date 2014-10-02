@@ -6,5 +6,93 @@
         "playType" : "LOOP",
         "columns": 7,
         "rows" : 1
+    },
+    "hit": {
+        "filename": "data/animations/hit.png",
+        "frames" : 5,
+        "frameDuration": [0.1, 0.5, 0.1, 0.1, 0.1],
+        "playType" : "NORMAL",
+        "columns": 5,
+        "rows" : 1
+    },
+    "idle": {
+        "filename": "data/animations/idle.png",
+        "frames" : 10,
+        "frameDuration": [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2],
+        "playType" : "LOOP",
+        "columns": 10,
+        "rows" : 1
+    },
+    "walk": { 
+        "filename": "data/animations/walk.png",
+        "frames" : 4,
+        "frameDuration": [0.1, 0.2, 0.1, 0.2],
+        "playType" : "LOOP",
+        "columns": 4,
+        "rows" : 1
+    },
+    "run": {
+        "filename": "data/animations/run.png",
+        "frames" : 4,
+        "frameDuration": [0.1, 0.2, 0.1, 0.2],
+        "playType" : "LOOP",
+        "columns": 4,
+        "rows" : 1
+    },
+    "slide_left": {
+        "filename": "data/animations/slide_left.png",
+        "frames" : 5,
+        "frameDuration": [0.1, 0.2, 0.5, 0.1, 0.1],
+        "playType" : "NORMAL",
+        "columns": 5,
+        "rows" : 1
+    },
+    "slide_right": {
+        "filename": "data/animations/slide_right.png",
+        "frames" : 5,
+        "frameDuration": [0.1, 0.2, 0.5, 0.1, 0.1],
+        "playType" : "NORMAL",
+        "columns": 5,
+        "rows" : 1
+    },
+    "crash": {
+        "filename": "data/animations/crash.png",
+        "frames" : 7,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 7,
+        "rows" : 1
+    },
+    "fall": {
+        "filename": "data/animations/fall.png",
+        "frames" : 10,
+        "frameDuration": [0.5,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
+        "playType" : "NORMAL",
+        "columns": 10,
+        "rows" : 1
+    },
+    "jump": {
+        "filename": "data/animations/jump.png",
+        "frames" : 10,
+        "frameDuration": [0.5,0.5,0.5,0.5,0.2,0.2,0.2,0.2,0.2,0.2],
+        "playType" : "NORMAL",
+        "columns": 10,
+        "rows" : 1
+    },
+    "die": {
+        "filename": "data/animations/die.png",
+        "frames" : 5,
+        "frameDuration": [0.2,0.2,0.2,0.5,0.5],
+        "playType" : "NORMAL",
+        "columns": 5,
+        "rows" : 1
+    },
+    "die2": {
+        "filename": "data/animations/die2.png",
+        "frames" : 11,
+        "frameDuration": [0.2,0.2,0.2,0.5,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
+        "playType" : "NORMAL",
+        "columns": 11,
+        "rows" : 1
     }
 }
