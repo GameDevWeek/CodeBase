@@ -99,6 +99,7 @@ public class RenderSystem extends ECSystem {
                     DrawUtil.batch.end();
 
                     //DrawUtil.batch.setShader(null);
+                    DrawUtil.batch.setColor(new Color(1,1,1,1));
                     DrawUtil.batch.begin();
                 }
             }

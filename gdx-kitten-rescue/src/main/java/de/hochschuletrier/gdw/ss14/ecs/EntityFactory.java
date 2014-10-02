@@ -1,11 +1,17 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
+import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
+import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
+import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.BehaviourComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
@@ -14,6 +20,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
@@ -24,16 +31,22 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 public class EntityFactory{
 
-    public static void constructBalk(){
+    public static int constructBalk(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructBox(){
+    public static int constructBox(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructBroom(){
+    public static int constructBroom(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
     public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
@@ -71,10 +84,14 @@ public class EntityFactory{
 
         CatPropertyComponent catProperties = new CatPropertyComponent();
         catProperties.state = CatStateEnum.IDLE;
-        
+
         ShadowComponent shadow = new ShadowComponent();
         shadow.alpha = 0.5f;
         shadow.z = 1.0f;
+
+        ParticleEmitterComponent particleEmitComp = new ParticleEmitterComponent();
+        particleEmitComp.particleTintColor = new Color(1,0,0,1);
+        particleEmitComp.emitRadius = 10f;
 
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
@@ -86,14 +103,17 @@ public class EntityFactory{
         manager.addComponent(entity, new PlayerComponent());
         manager.addComponent(entity, cam);
         manager.addComponent(entity, shadow);
+        manager.addComponent(entity, particleEmitComp);
         //manager.addComponent(entity, new ConePhysicsComponent(catPhysix.getPosition(), 100,100,100));
         //manager.addComponent(entity, new HitAnimationComponent());
 
         return entity;
     }
 
-    public static void constructCatbox(){
+    public static int constructCatbox(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
     public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
@@ -101,6 +121,7 @@ public class EntityFactory{
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
+        Behaviour verhalten;
         DogPropertyComponent dogState = new DogPropertyComponent();
         dogPhysix.initPhysics(phyManager);
         manager.addComponent(entity, dogState);
@@ -112,40 +133,79 @@ public class EntityFactory{
         return entity;
     }
 
-    public static void constructLaserPointer(Vector2 pos){
+    public static int constructSmartDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
         int entity = manager.createEntity();
+        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
+        MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
+        InputComponent dogInput = new InputComponent();
+        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
+        Behaviour verhalten =  new DogBehaviour("SmartDog", localBlackboard, true , entity);
+        BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
+        DogPropertyComponent dogState = new DogPropertyComponent();
+        dogPhysix.initPhysics(phyManager);
+        manager.addComponent(entity, dogState);
+        manager.addComponent(entity, dogPhysix);
+        manager.addComponent(entity, dogMove);
+        manager.addComponent(entity, dogInput);
+        manager.addComponent(entity, new EnemyComponent());
+        manager.addComponent(entity, bComp);
 
-        LaserPointerComponent laser = new LaserPointerComponent(pos);
+//        manager.addComponent(entity, new AnimationComponent());
+        return entity;
         
+    }
+    
+    public static int constructDoor() {
+
+        int entity = manager.createEntity();
+
+        return entity;
+    }
+
+        public static int constructFood(){
+            int entity = manager.createEntity();
+
+            return entity;
+        }
+
+
+    public static int constructLamp(){
+        int entity = manager.createEntity();
+
+        return entity;
+    }
+
+    public static int constructLaserPointer(Vector2 pos){
+        int entity = manager.createEntity();
+        LaserPointerComponent laser = new LaserPointerComponent(pos);
         manager.addComponent(entity, laser);
+
+        return entity;
+
     }
 
-    public static void constructDoor(){
+    public static int constructPuddleOfBlood(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructFood(){
+    public static int constructPuddleOfWater(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructLamp(){
+    public static int constructStairs(){
         int entity = manager.createEntity();
+
+        return entity;
     }
 
-    public static void constructPuddleOfBlood(){
+    public static int constructVase(){
         int entity = manager.createEntity();
-    }
 
-    public static void constructPuddleOfWater(){
-        int entity = manager.createEntity();
-    }
-
-    public static void constructStairs(){
-        int entity = manager.createEntity();
-    }
-
-    public static void constructVase(){
-        int entity = manager.createEntity();
+        return entity;
     }
 
     public static void constructWool(Vector2 pos){
@@ -164,9 +224,13 @@ public class EntityFactory{
         //manager.addComponent(entity, renderComponent);
     }
 
+
+
     public static EntityManager manager;
 
     public static PhysixManager phyManager;
 
     public static AssetManagerX assetManager;
+    
+    public static BehaviourManager behaviourManager;
 }

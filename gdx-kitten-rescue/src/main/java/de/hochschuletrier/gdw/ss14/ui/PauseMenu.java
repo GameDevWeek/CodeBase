@@ -8,12 +8,11 @@ public class PauseMenu extends LaserCatMenu
 	public void init(AssetManagerX assetManager)
 	{
 		super.init(assetManager);
-		numberOfButtons = 4;
+		numberOfButtons = 3;
 		name = new String[numberOfButtons];
 		name[0] = "Resume";
 		name[1] = "Options";
-		name[2] = "Save";
-		name[3] = "Exit";
-		addButtonsToFrame();
+		name[2] = "Exit";
+		//addButtonsToFrame();
 	}
 }
