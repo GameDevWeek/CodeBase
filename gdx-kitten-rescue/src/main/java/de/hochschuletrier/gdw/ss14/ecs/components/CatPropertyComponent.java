@@ -7,13 +7,14 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 public class CatPropertyComponent implements Component
 {
     public static final int MAX_LIVES = 9;
-
+    
     public Vector2 lastCheckPoint;
     public int amountLives;
     public boolean canSeeLaserPointer;
     public boolean isAlive, atePositiveFood;
     public CatStateEnum state;
     public float jumpBuffer = 0;
+    public float stunBuffer = 1;
 
     public CatPropertyComponent()
     {
