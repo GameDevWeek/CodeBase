@@ -1,7 +1,11 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
@@ -10,10 +14,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.physics.PhysicsActions;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by Daniel Dreher on 01.10.2014.
@@ -63,15 +64,16 @@ public class PlayerMovementSystem extends ECSystem{
             }else if(moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.middleVelocity){
                 catStateCompo.state = CatStateEnum.WALK;
                 SoundManager.performAction(PhysicsActions.CATWALK);
-                catStateCompo.jumpBuffer = 0;
+                catStateCompo.timeTillJump = 0;
             }else if(moveCompo.velocity > moveCompo.middleVelocity && moveCompo.velocity < moveCompo.maxVelocity){
                 catStateCompo.state = CatStateEnum.RUN;
-                catStateCompo.jumpBuffer = 0;
+                catStateCompo.timeTillJump = 0;
             }
 
             logger.debug("\n"+catStateCompo.state);
-
-            moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
+            if(catStateCompo.state != CatStateEnum.JUMP){
+                 moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
+            }
             moveCompo.positionVec = moveCompo.directionVec;
             Vector2 backup = moveCompo.directionVec;
 
@@ -79,8 +81,8 @@ public class PlayerMovementSystem extends ECSystem{
             float distance = moveCompo.directionVec.len();
 
             if(distance <= 70 && (catStateCompo.state == CatStateEnum.IDLE)){
-                catStateCompo.jumpBuffer += delta;
-                if(catStateCompo.jumpBuffer >= 0.5){
+                catStateCompo.timeTillJump += delta;
+                if(catStateCompo.timeTillJump >= 0.5){
                     catStateCompo.state = CatStateEnum.JUMP;
                 }
             }
@@ -118,8 +120,11 @@ public class PlayerMovementSystem extends ECSystem{
                 }
             }else if(catStateCompo.state == CatStateEnum.JUMP){
                 moveCompo.velocity = 200;
-                catStateCompo.state = CatStateEnum.IDLE;
-                catStateCompo.jumpBuffer = 0;
+                catStateCompo.timeTillJump = 0;
+                catStateCompo.timeWhileJump += delta;
+                if(catStateCompo.timeWhileJump >= 1){
+                    catStateCompo.state = CatStateEnum.IDLE;
+                }
                 // phyCompo.setRotation(phyCompo.getRotation());
             }else{
                 moveCompo.velocity += moveCompo.damping*1.5f*delta;
@@ -155,7 +160,7 @@ public class PlayerMovementSystem extends ECSystem{
 
             phyCompo.setVelocityX(moveCompo.positionVec.x*moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.positionVec.y*moveCompo.velocity);
-            logger.debug("\n"+catStateCompo.jumpBuffer);
+            logger.debug("\n"+catStateCompo.timeTillJump);
         }
     }
 } 

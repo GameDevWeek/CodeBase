@@ -36,6 +36,8 @@ public class LimitedLifetimeSystem extends ECSystem {
                         rendComp.tintColor = new Color(1,1,1,1);
                     
                     rendComp.tintColor.a -= delta / limitedLifeComp.maxLifetime;
+                    if (rendComp.tintColor.a < 0.0f)
+                        rendComp.tintColor.a = 0.0f;
                 }
             }
             
