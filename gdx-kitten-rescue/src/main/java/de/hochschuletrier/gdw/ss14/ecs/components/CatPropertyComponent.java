@@ -1,7 +1,8 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
-import com.badlogic.gdx.math.*;
-import de.hochschuletrier.gdw.ss14.states.*;
+import com.badlogic.gdx.math.Vector2;
+
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 public class CatPropertyComponent implements Component
 {
@@ -10,7 +11,7 @@ public class CatPropertyComponent implements Component
     public Vector2 lastCheckPoint;
     public int amountLives;
     public boolean canSeeLaserPointer;
-    public boolean isAlive;
+    public boolean isAlive, atePositiveFood;
     public CatStateEnum state;
     public float jumpBuffer = 0;
 
@@ -20,6 +21,7 @@ public class CatPropertyComponent implements Component
         canSeeLaserPointer = true;
         amountLives = MAX_LIVES;
         isAlive = true;
+        atePositiveFood = false;
         state = CatStateEnum.IDLE;
     }
 }

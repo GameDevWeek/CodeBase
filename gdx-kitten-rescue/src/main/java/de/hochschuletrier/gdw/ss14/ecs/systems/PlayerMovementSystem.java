@@ -1,11 +1,11 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
  */
 public class PlayerMovementSystem extends ECSystem{
     Logger logger = LoggerFactory.getLogger(PlayerMovementSystem.class);
+
+    public float maxVelocity = 0, acceleration = 0;
 
     public PlayerMovementSystem(EntityManager entityManager){
         super(entityManager, 1);
@@ -33,12 +35,28 @@ public class PlayerMovementSystem extends ECSystem{
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CatPropertyComponent catStateCompo = entityManager.getComponent(integer, CatPropertyComponent.class);
 
+            //Wenn Katze positive Nahrung gegessen hat, wird sie schneller
+            if(maxVelocity == 0){
+                maxVelocity = moveCompo.maxVelocity;
+                acceleration = moveCompo.acceleration;
+            }
+
+            moveCompo.maxVelocity = maxVelocity;
+            moveCompo.acceleration = acceleration;
+
+            if(catStateCompo.atePositiveFood){
+                moveCompo.maxVelocity *= 5;
+
+                moveCompo.acceleration  *= 5;
+
+            }
+
             // update states
             if(moveCompo.velocity == 0){
                 catStateCompo.state = CatStateEnum.IDLE;
-            }else if(moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.MIDDLE_VELOCITY){
+            }else if(moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.middleVelocity){
                 catStateCompo.state = CatStateEnum.WALK;
-            }else if(moveCompo.velocity > moveCompo.MIDDLE_VELOCITY && moveCompo.velocity < moveCompo.MAX_VELOCITY){
+            }else if(moveCompo.velocity > moveCompo.middleVelocity && moveCompo.velocity < moveCompo.maxVelocity){
                 catStateCompo.state = CatStateEnum.RUN;
             }
 
@@ -57,14 +75,14 @@ public class PlayerMovementSystem extends ECSystem{
             }
 
             if(distance >= 200){
-                moveCompo.velocity += moveCompo.ACCELERATION*delta;
+                moveCompo.velocity += moveCompo.acceleration*delta;
 
                 /**
                  * Falls durch die letze Berechnung die Velocity höher als die Maximale Velocity berechnet wurde, setzen
                  * wir  unsere velocity auf MAX_VELOCITY
                  */
-                if(moveCompo.velocity >= moveCompo.MAX_VELOCITY){
-                    moveCompo.velocity = moveCompo.MAX_VELOCITY;
+                if(moveCompo.velocity >= moveCompo.maxVelocity){
+                    moveCompo.velocity = moveCompo.maxVelocity;
                 }
             }else if(distance >= 100){
                 //moveCompo.velocity +=  moveCompo.ACCELERATION * delta;
@@ -72,19 +90,19 @@ public class PlayerMovementSystem extends ECSystem{
                 /**
                  * Falls wir von unserem Stand aus losgehen soll unsere Katze beschleunigen, bis sie "geht"
                  */
-                if(moveCompo.velocity >= moveCompo.MIDDLE_VELOCITY){
-                    moveCompo.velocity += moveCompo.DAMPING*delta;
-                    if(moveCompo.velocity <= moveCompo.MIDDLE_VELOCITY){
-                        moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
+                if(moveCompo.velocity >= moveCompo.middleVelocity){
+                    moveCompo.velocity += moveCompo.damping*delta;
+                    if(moveCompo.velocity <= moveCompo.middleVelocity){
+                        moveCompo.velocity = moveCompo.middleVelocity;
                     }
-                    /**
-                     * Falls unsere Katze aus dem "Rennen" aus zu nah an unseren Laserpointer kommt, soll
-                     * sie stetig langsamer werden
-                     */
-                }else if(moveCompo.velocity < moveCompo.MIDDLE_VELOCITY){
-                    moveCompo.velocity += moveCompo.ACCELERATION*delta;
-                    if(moveCompo.velocity >= moveCompo.MIDDLE_VELOCITY){
-                        moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
+                /**
+                 * Falls unsere Katze aus dem "Rennen" aus zu nah an unseren Laserpointer kommt, soll
+                 * sie stetig langsamer werden
+                 */
+                }else if(moveCompo.velocity < moveCompo.middleVelocity){
+                    moveCompo.velocity += moveCompo.acceleration*delta;
+                    if(moveCompo.velocity >= moveCompo.middleVelocity){
+                        moveCompo.velocity = moveCompo.middleVelocity;
                     }
                 }
             }else if(catStateCompo.state == CatStateEnum.JUMP){
@@ -95,9 +113,10 @@ public class PlayerMovementSystem extends ECSystem{
                 if(distance <= 10){
                     moveCompo.velocity = 0;
                 }
-            }else{
-                moveCompo.velocity += moveCompo.DAMPING*1.5f*delta;
-                if(moveCompo.velocity <= moveCompo.MIN_VELOCITY){
+            }
+            else{
+                moveCompo.velocity += moveCompo.damping * 1.5f * delta;
+                if (moveCompo.velocity <= moveCompo.minVelocity){
                     moveCompo.velocity = 0;
                 }
             }
@@ -105,8 +124,8 @@ public class PlayerMovementSystem extends ECSystem{
             if(moveCompo.oldPositionVec == null){
                 moveCompo.oldPositionVec = moveCompo.positionVec;
             }
-            moveCompo.positionVec.x = (moveCompo.positionVec.x*moveCompo.PERCENT_OF_NEW_CAT_VELOCITY+moveCompo.oldPositionVec.x*(1-moveCompo.PERCENT_OF_NEW_CAT_VELOCITY));
-            moveCompo.positionVec.y = (moveCompo.positionVec.y*moveCompo.PERCENT_OF_NEW_CAT_VELOCITY+moveCompo.oldPositionVec.y*(1-moveCompo.PERCENT_OF_NEW_CAT_VELOCITY));
+            moveCompo.positionVec.x = (moveCompo.positionVec.x*moveCompo.percentOfNewCatVelocity+moveCompo.oldPositionVec.x*(1-moveCompo.percentOfNewCatVelocity));
+            moveCompo.positionVec.y = (moveCompo.positionVec.y*moveCompo.percentOfNewCatVelocity+moveCompo.oldPositionVec.y*(1-moveCompo.percentOfNewCatVelocity));
             moveCompo.oldPositionVec.x = backup.x;
             moveCompo.oldPositionVec.y = backup.y;
 
@@ -129,8 +148,6 @@ public class PlayerMovementSystem extends ECSystem{
 
             phyCompo.setVelocityX(moveCompo.positionVec.x*moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.positionVec.y*moveCompo.velocity);
-
-            //logger.debug("\n"+catStateCompo.jumpBuffer);
         }
     }
 }
