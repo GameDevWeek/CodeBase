@@ -24,18 +24,16 @@ import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
  */
 public class ShadowSystem extends ECSystem{
 	
-	private TextureRegion shadow = null;
 	private int shadowOffset = 10;
 	
 
 	public ShadowSystem(EntityManager entityManager) {
 		super(entityManager);
-		 shadow = new TextureRegion(new Texture("data/images/shadow.png"));
+		 
 	}
 	
 	public ShadowSystem(EntityManager entityManager, int priority) {
 		super(entityManager, priority);
-		shadow = new TextureRegion(new Texture("data/images/shadow.png"));
 	}
 
 	@Override
