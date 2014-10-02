@@ -14,5 +14,5 @@ public class RenderComponent implements Component {
     public TextureRegion texture;
     
     // This color will be added to the whole texture
-    public boolean isTintedRed = false;
+    public Color tintColor = null;
 }
