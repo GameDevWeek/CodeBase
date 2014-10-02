@@ -48,7 +48,9 @@ public class CameraSystem extends ECSystem {
               
               float followFactor = 0.0f;                          
               float centerDistance = followPos.cpy().sub(camera2DPos).len();
-              float maxCenterDistance = cvarMaxScreenCenterDistance.get() * camComp.smoothCamera.getZoom();
+              float maxCenterDistance = camComp.maxScreenCenterDistance * camComp.smoothCamera.getZoom();
+              
+              /*cvarMaxScreenCenterDistance.get()*/
               
               // If farther away than max distance, move towards the cat to contain max distance
               if (centerDistance > maxCenterDistance) {

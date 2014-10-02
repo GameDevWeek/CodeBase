@@ -50,7 +50,7 @@ public abstract class LaserCatMenu
 	{
 		//Variables
 		heightOfWidgetFrame = 0.25f;
-		widthOfWidgetFrame = 0.8f;
+		widthOfWidgetFrame = 0.65f;
 		
 		
 		// Adjusts the table and adds it to the stage
@@ -78,7 +78,7 @@ public abstract class LaserCatMenu
 		
 		// container for center labels and buttons, no background of its own
 		widgetFrame = new Table();
-		table.add(widgetFrame).align(Align.center).size(Value.percentWidth(widthOfWidgetFrame, table), Value.percentHeight(heightOfWidgetFrame,table)).space(20);
+		table.add(widgetFrame).bottom().size(Value.percentWidth(widthOfWidgetFrame, table), Value.percentHeight(heightOfWidgetFrame,table));
 		table.row();
 
 	
@@ -111,7 +111,7 @@ public abstract class LaserCatMenu
 		for(int i = 0; i<numberOfButtons; i++)
 		{
 			button[i] = new Button(catSkin, "bell");
-			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/numberOfButtons, table)).top().space(20).spaceTop(10);
+			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
 		}
 		name = null;
 }
