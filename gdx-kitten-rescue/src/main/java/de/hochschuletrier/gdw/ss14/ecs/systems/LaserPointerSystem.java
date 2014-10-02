@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CirclePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
@@ -29,19 +28,18 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
         // TODO Auto-generated method stub
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
 
-       // LaserPointerComponent laser = entityManager.getComponent(compos.get(0), LaserPointerComponent.class);
-       // CirclePhysicsComponent laserPhysix = entityManager.getComponent(compos.get(0), CirclePhysicsComponent.class);
+        LaserPointerComponent laser = entityManager.getComponent(compos.get(0), LaserPointerComponent.class);
         
-       
-//        switch(laser.input){
-//        case MOUSE: laserPhysix.physicsBody.setPosition(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-//            break;
-//        case KEYBOARD: 
-//            break;
-//        case GAMEPAD:
-//            break;
-//        default:
-//            break;
+        switch(laser.input){
+        case MOUSE: laser.position = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+            break;
+        case KEYBOARD: 
+            break;
+        case GAMEPAD:
+            break;
+        default:
+            break;
+        }
         
     }
 
