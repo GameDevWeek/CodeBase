@@ -81,7 +81,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
     @Override
     public void laserButtonPressed()
     {
-        logger.debug("Laser button pressed!");
+        //logger.debug("Laser button pressed!");
 
         Array<Integer> entities = entityManager.getAllEntitiesWithComponents(CatPropertyComponent.class);
 

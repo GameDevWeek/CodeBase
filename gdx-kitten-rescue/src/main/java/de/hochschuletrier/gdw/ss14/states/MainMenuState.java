@@ -41,7 +41,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
         Texture logo = assetManager.getTexture("logo");
         AnimationExtended walking = assetManager.getAnimation("walking");
-        this.music = Main.musicManager.getMusicStreamByStateName(GameStates.MAINMENU);
+        this.music = Main.MusicManager.getMusicStreamByStateName(GameStates.MAINMENU);
         Sound click = assetManager.getSound("click");
         
 //        music.play();
@@ -73,6 +73,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void update(float delta) {
     	mainMenu.update(delta);
+    	this.music.update();
     }
 
     @Override
@@ -119,7 +120,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return true;
+        return false;
     }
 
     @Override
