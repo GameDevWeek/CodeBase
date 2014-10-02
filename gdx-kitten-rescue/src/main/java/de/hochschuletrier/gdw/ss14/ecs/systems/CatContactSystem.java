@@ -20,7 +20,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
     private PhysixManager phyManager;
     private RayCastPhysics rcpc;
-    
+
     public CatContactSystem(EntityManager entityManager, PhysixManager physicsManager) {
         super(entityManager);
         phyManager = physicsManager;
@@ -29,14 +29,14 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     @Override
     public void fireCollision(PhysixContact contact) {
         PhysixBody owner = contact.getMyPhysixBody();//.getOwner();
-        
+
         Object o = contact.getOtherPhysixBody().getFixtureList().get(0).getUserData();
         PhysixEntity other = contact.getOtherPhysixBody().getOwner();
-        
+
         if(other instanceof CatPhysicsComponent){
             logger.debug("cat collides with dog ... or another cat");
-            
-            
+
+
         }else if(other instanceof ConePhysicsComponent){
             logger.debug("cat collides with sight-cone");
             phyManager.getWorld().rayCast(rcpc, other.getPosition(), owner.getPosition());
@@ -47,7 +47,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 //dog sees cat not
             }
             rcpc.reset();
-            
+
         }else if(other == null){
             if(!(o instanceof String)) return;
             String s = (String)o;
@@ -84,8 +84,17 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 catPropertyComponent.isHidden = true;
             }
 
+            Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+
+            for (Integer entity : lasers)
+            {
+                LaserPointerComponent laserPointerComponent = entityManager.getComponent(entity, LaserPointerComponent.class);
+
+                laserPointerComponent.isVisible = false;
+            }
+
         }
-        
+
     }
 
     @Override

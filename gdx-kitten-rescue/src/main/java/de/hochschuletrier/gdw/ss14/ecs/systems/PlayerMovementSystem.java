@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,11 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.physics.PhysicsActions;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
@@ -35,6 +31,14 @@ public class PlayerMovementSystem extends ECSystem{
     @Override
     public void update(float delta){
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, MovementComponent.class, PhysicsComponent.class, InputComponent.class, CatPropertyComponent.class);
+        Array<Integer> laser = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+
+        LaserPointerComponent laserPointerComponent = null;
+
+        if(laser.size > 0)
+        {
+            laserPointerComponent = entityManager.getComponent(laser.first(), LaserPointerComponent.class);
+        }
 
         for(Integer integer : compos){
             MovementComponent moveCompo = entityManager.getComponent(integer, MovementComponent.class);
@@ -152,15 +156,25 @@ public class PlayerMovementSystem extends ECSystem{
                 angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
             }
 
-            if(!catStateCompo.canSeeLaserPointer){
-                moveCompo.velocity = 0.0f;
-            }else{
-                phyCompo.setRotation(angle);
+            if(laserPointerComponent != null)
+            {
+                if(!laserPointerComponent.isVisible)
+                {
+                    moveCompo.velocity = 0.0f;
+                }
+
+                if(!catStateCompo.isHidden && laserPointerComponent.isVisible && catStateCompo.state != CatStateEnum.JUMP)
+                {
+                    phyCompo.setRotation(angle);
+                }
             }
+
+
 
             phyCompo.setVelocityX(moveCompo.positionVec.x*moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.positionVec.y*moveCompo.velocity);
             logger.debug("\n"+catStateCompo.timeTillJump);
         }
+
     }
 } 

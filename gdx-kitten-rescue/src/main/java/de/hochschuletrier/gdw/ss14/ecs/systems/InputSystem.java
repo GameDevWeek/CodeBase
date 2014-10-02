@@ -107,22 +107,30 @@ public class InputSystem extends ECSystem implements GameInputAdapter
     {
         //logger.debug("Laser button pressed!");
 
+        Array<Integer> laser = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+        if(laser.size > 0)
+        {
+            for (Integer entity : laser)
+            {
+                LaserPointerComponent laserPointerComponent = entityManager.getComponent(entity, LaserPointerComponent.class);
+
+                // toggle laser
+                if(laserPointerComponent.isVisible == true)
+                {
+                    laserPointerComponent.isVisible = false;
+                }
+                else
+                {
+                    laserPointerComponent.isVisible = true;
+                }
+            }
+        }
+
         Array<Integer> entities = entityManager.getAllEntitiesWithComponents(CatPropertyComponent.class);
 
         for (Integer entity : entities)
         {
             CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
-
-
-            // toggle laser
-            if(catPropertyComponent.canSeeLaserPointer == true)
-            {
-                catPropertyComponent.canSeeLaserPointer = false;
-            }
-            else
-            {
-                catPropertyComponent.canSeeLaserPointer = true;
-            }
 
             // check if cat should move out of box
             if (catPropertyComponent.isHidden)
