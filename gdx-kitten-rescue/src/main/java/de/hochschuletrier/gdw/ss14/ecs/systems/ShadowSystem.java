@@ -12,9 +12,11 @@ import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil.Mode;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /**
  * Draws dark Ellipse under Entities with ShadowComponent
@@ -60,6 +62,15 @@ public class ShadowSystem extends ECSystem{
 				
 				float shadowWidth = renderComp.texture.getRegionWidth() * shadowComp.z;
 				float shadowHeight = renderComp.texture.getRegionHeight() * shadowComp.z;
+				
+//				// Überprüfen, entity eine Katze ist und springt
+				CatPropertyComponent catPropComp = entityManager.getComponent(currentEnt, 
+						CatPropertyComponent.class);
+				if(catPropComp != null 
+						&& catPropComp.state == CatStateEnum.JUMP){
+					shadowWidth += 0.2f;
+					shadowHeight += 0.2f;
+				}
 				
 				DrawUtil.batch.draw(renderComp.texture,
                         physicsComp.getPosition().x - (shadowWidth / 2), 
