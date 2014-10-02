@@ -1,6 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
-import de.hochschuletrier.gdw.commons.gdx.assets.AnimationWithVariableFrameTime;
+import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 
 /**
  * @author David Neubauer
@@ -10,7 +10,7 @@ public class AnimationComponent implements Component {
     /**
      * Array of all animations like running, jumping ...
      */
-    public AnimationWithVariableFrameTime animation[];
+    public AnimationExtended animation[];
     
     /**
      * In sync with entity state like CatStateEnum.
