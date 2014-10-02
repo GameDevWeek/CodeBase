@@ -68,7 +68,8 @@ public class Game{
 
         // Rendering related systems
         engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
-        engine.addSystem(new AnimationSystem(entityManager, 1));
+        engine.addSystem(new ShadowSystem(entityManager, 1));
+        engine.addSystem(new AnimationSystem(entityManager, 2));
         engine.addSystem(new RenderSystem(entityManager, 1200));
     }
 
