@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.math.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,13 +13,11 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
 
     private static final Logger logger = LoggerFactory.getLogger(CatContactSystem.class);
-    
+
     public CatContactSystem(EntityManager entityManager) {
         super(entityManager);
     }
@@ -52,8 +52,13 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     isCatInZone = true;
                 }
                 if(isCatInZone){
-                    logger.debug("TOOOOT");
                     // cat fall down
+                    int player = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class).first();
+
+                    CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+                    PhysicsComponent physicsComponent = entityManager.getComponent(player, PhysicsComponent.class);
+
+                    catPropertyComponent.isAlive = false;
                 }
             }
         }
