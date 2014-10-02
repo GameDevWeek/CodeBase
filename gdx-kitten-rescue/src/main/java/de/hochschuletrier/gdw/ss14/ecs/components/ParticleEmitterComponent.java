@@ -9,7 +9,8 @@ import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
  */
 public class ParticleEmitterComponent implements Component {
     
-    // The lifetime of the emitter in seconds
+    // The lifetime of the emitter in seconds (if has limited lifetime)
+    public boolean hasLimitedLifetime = false;
     public float lifetimeLeft = 2.0f;
     
     public float particleLifetime = 5.0f;
