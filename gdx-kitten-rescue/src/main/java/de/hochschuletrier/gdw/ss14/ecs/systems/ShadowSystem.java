@@ -15,7 +15,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
 /**
  * Draws dark Ellipse under Entities with ShadowComponent
  * 
- * @author David
+ * @author David Liebemann
  *
  */
 public class ShadowSystem extends ECSystem{
@@ -25,12 +25,12 @@ public class ShadowSystem extends ECSystem{
 
 	public ShadowSystem(EntityManager entityManager) {
 		super(entityManager);
-		 shadow = new TextureRegion(new Texture("data/shadow.png"));
+		 shadow = new TextureRegion(new Texture("data/images/shadow.png"));
 	}
 	
 	public ShadowSystem(EntityManager entityManager, int priority) {
 		super(entityManager, priority);
-		shadow = new TextureRegion(new Texture("data/shadow.png"));
+		shadow = new TextureRegion(new Texture("data/images/shadow.png"));
 	}
 
 	@Override
