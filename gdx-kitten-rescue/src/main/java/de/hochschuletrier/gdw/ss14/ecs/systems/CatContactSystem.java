@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.utils.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.states.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +12,6 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
@@ -70,6 +67,23 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     //catPropertyComponent.state = CatStateEnum.FALL;
                 }
             }
+        }
+        else if(other instanceof CatBoxPhysicsComponent)
+        {
+            Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, CatPropertyComponent.class, RenderComponent.class);
+
+            if(entities.size > 0)
+            {
+                int player = entities.first();
+
+                RenderComponent renderComponent = entityManager.getComponent(player, RenderComponent.class);
+                CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+
+                entityManager.removeComponent(player, renderComponent);
+
+                catPropertyComponent.isHidden = true;
+            }
+
         }
         
     }

@@ -1,20 +1,12 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
-
-import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.InputState;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
-import de.hochschuletrier.gdw.ss14.input.InputManager;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.*;
+import de.hochschuletrier.gdw.ss14.ecs.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.*;
+import de.hochschuletrier.gdw.ss14.input.*;
+import org.slf4j.*;
 
 public class InputSystem extends ECSystem implements GameInputAdapter
 {
@@ -98,13 +90,24 @@ public class InputSystem extends ECSystem implements GameInputAdapter
         {
             CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
 
-            if (catPropertyComponent.canSeeLaserPointer == true)
+
+            // toggle laser
+            if(catPropertyComponent.canSeeLaserPointer == true)
             {
                 catPropertyComponent.canSeeLaserPointer = false;
             }
             else
             {
                 catPropertyComponent.canSeeLaserPointer = true;
+            }
+
+            // check if cat should move out of box
+            if (catPropertyComponent.isHidden)
+            {
+                catPropertyComponent.isHidden = !catPropertyComponent.isHidden;
+
+                RenderComponent renderComponent = new RenderComponent();
+                entityManager.addComponent(entity, renderComponent);
             }
         }
 
