@@ -29,4 +29,7 @@ public abstract class ECSystem
     {
         return priority;
     }
+    
+    public void shutdown() {
+    }
 }
