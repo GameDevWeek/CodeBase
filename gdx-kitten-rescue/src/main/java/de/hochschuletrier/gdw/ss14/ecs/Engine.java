@@ -35,8 +35,7 @@ public class Engine
 
     public void removeSystem(ECSystem system)
     {
-        if (system instanceof TileMapRenderingSystem)
-            ((TileMapRenderingSystem) system).shutdown();
+        system.shutdown();
         
         systems.removeValue(system, true);
     }
