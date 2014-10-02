@@ -1,6 +1,8 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -17,8 +19,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
  */
 public class RenderSystem extends ECSystem {
 
-    private ShaderProgram redTintedShader;
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    //private ShaderProgram redTintedShader;
 
     public RenderSystem(EntityManager entityManager, int priority) {
 
@@ -44,30 +45,32 @@ public class RenderSystem extends ECSystem {
 
             if (renderCompo.texture != null) {
 
-                if (renderCompo.isTintedRed) {
+                if (renderCompo.tintColor != null) {
                     DrawUtil.batch.end();
-
+                    
+                    //Gdx.gl20.glColorMask(true, false, false, true);
+                    //DrawUtil.batch.setShader(redTintedShader);
+                    DrawUtil.batch.setColor(renderCompo.tintColor);
                     DrawUtil.batch.begin();
-                    Gdx.gl20.glColorMask(true, false, false, true);
                 }
                 /*else
                  Gdx.gl20.glColorMask(true, true, true, true);*/
 
                 DrawUtil.batch.draw(renderCompo.texture,
-                        physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() / 2),
-                        physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2),
-                        renderCompo.texture.getRegionWidth() / 2,
-                        renderCompo.texture.getRegionHeight() / 2,
-                        renderCompo.texture.getRegionWidth(),
-                        renderCompo.texture.getRegionHeight(),
-                        1f,
-                        1f,
-                        (float) (physicsCompo.getRotation() * 180 / Math.PI));
-
-                if (renderCompo.isTintedRed) {
+                        physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() /2), 
+                        physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2), 
+                        renderCompo.texture.getRegionWidth() / 2, 
+                        renderCompo.texture.getRegionWidth() / 2, 
+                        renderCompo.texture.getRegionWidth(), 
+                        renderCompo.texture.getRegionHeight(), 
+                        1f, 
+                        1f, 
+                        (float)(physicsCompo.getRotation() * 180 / Math.PI));
+                
+                if (renderCompo.tintColor != null) {
                     DrawUtil.batch.end();
-
-                    Gdx.gl20.glColorMask(true, true, true, true);
+                    
+                    //DrawUtil.batch.setShader(null);
                     DrawUtil.batch.begin();
                 }
             }
@@ -75,8 +78,10 @@ public class RenderSystem extends ECSystem {
     }
 
     private void initializeShaders() {
-        //FileHandle vertShader = new FileHandle("data/shaders/passThrough.vs");
-        //FileHandle fragShader = new FileHandle("data/shaders/redTinted.fs");
-        //redTintedShader = new ShaderProgram(vertShader, fragShader);
+        /*FileHandle vertShader = Gdx.files.internal("data/shaders/passThrough.vs");
+        FileHandle fragShader = Gdx.files.internal("data/shaders/redTinted.fs");
+        redTintedShader = new ShaderProgram(vertShader, fragShader);
+        
+        System.out.println(redTintedShader.getLog());*/
     }
 }
