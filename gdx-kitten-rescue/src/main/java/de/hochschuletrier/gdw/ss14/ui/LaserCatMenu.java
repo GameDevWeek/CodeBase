@@ -34,7 +34,7 @@ public abstract class LaserCatMenu
 	//
 	protected static Table widgetFrame;
 	protected static Table table;
-	protected Skin catSkin, basicSkin;
+	protected static Skin catSkin, basicSkin;
 	protected static Stage stage;
 	protected static float heightOfWidgetFrame;
 	protected static float widthOfWidgetFrame;
@@ -96,23 +96,7 @@ public abstract class LaserCatMenu
 		LaserCatMenu.soundListener=new SoundListener();
 	}
 	
-	protected void addButtonsToFrame()
-	{
-		label = new Label[numberOfButtons];
 
-		for(int i=0; i<numberOfButtons; i++)
-		{
-			label[i] = new Label(name[i], basicSkin);
-			widgetFrame.add(label[i]).expandX().space(20).spaceBottom(10);
-		}
-		
-		widgetFrame.row();
-		for(int i = 0; i<numberOfButtons; i++)
-		{
-			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
-		}
-		name = null;
-}
 
 	public void dispose()
 	{
@@ -144,10 +128,16 @@ public abstract class LaserCatMenu
 		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
 			if(event.getListenerActor().getName().equals("bell"))
-				SoundManager.performAction(UIActions.BELLCLICKED);
+				SoundManager.performAction(UIActions.BELLOVER);
+//				playAnimation(event.getListenerActor());
 			else
-				SoundManager.performAction(UIActions.BUTTONCLICKED);
+				SoundManager.performAction(UIActions.BUTTONOVER);
 		}
 	}
+	
+//	private void animateBell(Button b)
+//	{
+//		
+//	}
 	
 }
