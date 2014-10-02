@@ -10,11 +10,11 @@ import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 
+import de.hochschuletrier.gdw.ss14.input.InputManager;
 import org.slf4j.Logger;
-import org.slf4j.*;
+import org.slf4j.LoggerFactory;
 
-public class Game
-{
+public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
     private Engine engine;
@@ -25,8 +25,7 @@ public class Game
 
     private Vector2 mapCenter = new Vector2();
 
-    public Game(AssetManagerX am)
-    {
+    public Game(AssetManagerX am){
         engine = new Engine();
         entityManager = new EntityManager();
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
@@ -37,12 +36,12 @@ public class Game
         EntityFactory.assetManager = am;
     }
 
-    public void init(AssetManagerX assetManager)
-    {
+    public void init(AssetManagerX assetManager){
+        InputManager.init();
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("ErsteTestMap");
+        mapManager.loadMap("Katzenklappentest");
         mapManager.setFloor(0);
     }
 
@@ -71,19 +70,20 @@ public class Game
 
     private void initializeTestComponents()
     {
-        int dogEntity = EntityFactory.constructDog(new Vector2(0, 0), 60.0f, 40.0f, 0, 100f);
-        int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
+//        int dogEntity1 = EntityFactory.constructDog(new Vector2(200,200), 60.0f, 40.0f, 0, 100f);
+//        int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
+//        int dogEntity3 = EntityFactory.constructDog(new Vector2(40,200), 60.0f, 40.0f, 0, 100f);
+//        int dogEntity4 = EntityFactory.constructDog(new Vector2(100, 350), 60.0f, 40.0f, 0, 100f);
+//        int dogEntity5 = EntityFactory.constructDog(new Vector2(400, 200), 60.0f, 40.0f, 0, 100f);
+//        int dogEntity6 = EntityFactory.constructDog(new Vector2(100, 200), 60.0f, 40.0f, 0, 100f);
     }
 
-    public TiledMap loadMap(String filename)
-    {
-        try
-        {
+    public TiledMap loadMap(String filename){
+        try{
             return new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
-        } catch (Exception ex)
-        {
-            throw new IllegalArgumentException(
-                    "Map konnte nicht geladen werden: " + filename);
+        }
+        catch(Exception ex){
+            throw new IllegalArgumentException("Map konnte nicht geladen werden: "+filename);
         }
     }
 
@@ -93,13 +93,12 @@ public class Game
         return null;
     }
 
-    public void update(float delta)
-    {
+    public void update(float delta){
+        InputManager.getInstance().update();
         engine.update(delta);
     }
 
-    public void render()
-    {
+    public void render(){
         engine.render();
     }
 }
