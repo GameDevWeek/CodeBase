@@ -12,13 +12,10 @@ public class MovementSystem extends ECSystem{
 
 	public MovementSystem(EntityManager entityManager) {
 		super(entityManager);
-		// TODO Auto-generated constructor stub
-		
 	}
 
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
 		Array<Integer> compos = entityManager.getAllEntitiesWithComponents(MovementComponent.class, PhysicsComponent.class, InputComponent.class);
 		
 		for (Integer integer : compos) {
@@ -30,25 +27,20 @@ public class MovementSystem extends ECSystem{
 			
 			float distance = moveCompo.directionVec.len();
 			
-			System.out.println("DISTANCE: " +  distance + " VELOCITY: " + moveCompo.velocity);
-			
 			if(distance >= 200){
 				
 				moveCompo.velocity += moveCompo.ACCELERATION * delta;
 				
-				/*
+				/**
 				 * Falls durch die letze Berechnung die Velocity höher als die Maximale Velocity berechnet wurde, setzen
 				 * wir  unsere velocity auf MAX_VELOCITY
 				 */
 				if(moveCompo.velocity >= moveCompo.MAX_VELOCITY){
 					moveCompo.velocity = moveCompo.MAX_VELOCITY;
 				}
-
 			}else if(distance >= 100){
-				
 				//moveCompo.velocity +=  moveCompo.ACCELERATION * delta;
-				
-				/*
+				/**
 				 * Falls wir von unserem Stand aus losgehen soll unsere Katze beschleunigen, bis sie "geht"
 				 */
 				if(moveCompo.velocity >= moveCompo.MIDDLE_VELOCITY){
@@ -57,7 +49,7 @@ public class MovementSystem extends ECSystem{
 					if(moveCompo.velocity <= moveCompo.MIDDLE_VELOCITY){
 						moveCompo.velocity = moveCompo.MIDDLE_VELOCITY;
 					}
-				/*
+				/**
 				 * Falls unsere Katze aus dem "Rennen" aus zu nah an unseren Laserpointer kommt, soll 
 				 * sie stetig langsamer werden
 				 */
@@ -69,14 +61,12 @@ public class MovementSystem extends ECSystem{
 				}
 				
 			}else{
-				//
-					moveCompo.velocity +=  moveCompo.DAMPING * 1.5f * delta;
-					if(moveCompo.velocity <= moveCompo.MIN_VELOCITY){
-						moveCompo.velocity = 0;
-					}
+                moveCompo.velocity +=  moveCompo.DAMPING * 1.5f * delta;
+                if(moveCompo.velocity <= moveCompo.MIN_VELOCITY){
+                    moveCompo.velocity = 0;
+                }
 			}
-			
-			System.out.println(moveCompo.MIN_VELOCITY + " " + moveCompo.MIDDLE_VELOCITY + " " + moveCompo.MAX_VELOCITY);
+
 			//Normalizing DirectionVector for Movement
 			moveCompo.directionVec = moveCompo.directionVec.nor();
 			float angle = (float)Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
@@ -84,12 +74,9 @@ public class MovementSystem extends ECSystem{
 			phyCompo.setVelocityX(moveCompo.directionVec.x * moveCompo.velocity);
 			phyCompo.setVelocityY(moveCompo.directionVec.y * moveCompo.velocity);
 		}
-		
 	}
 
 	@Override
 	public void render() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 }

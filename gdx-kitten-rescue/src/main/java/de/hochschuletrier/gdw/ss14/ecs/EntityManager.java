@@ -108,7 +108,7 @@ public class EntityManager
         T result = null;
         HashMap<Integer, ? extends Component> storage = componentStorage.get(componentType);
 
-        if (storage != null)
+        if (storage != null && storage.size() > 0)
         {
             result = (T) storage.get(entity);
         }
@@ -126,8 +126,7 @@ public class EntityManager
         }
         else
         {
-            List<T> result = new ArrayList<T>((java.util.Collection<T>) store.values());
-            return result;
+            return new ArrayList<T>((Collection<T>) store.values());
         }
     }
 
@@ -176,4 +175,57 @@ public class EntityManager
         return entityArray;
 
     }
+
+    public <T extends Component> void removeComponent(Integer entity, T component)
+    {
+        Class classToRemove;
+
+        if (component instanceof PhysicsComponent)
+        {
+            classToRemove = component.getClass().getSuperclass();
+        }
+        else
+        {
+            classToRemove = component.getClass();
+        }
+
+        HashMap<Integer, ? extends Component> store = componentStorage.get(classToRemove);
+        if (store == null)
+        {
+            return;
+        }
+
+        T result = (T) store.remove(entity);
+    }
+
+    /*
+    public <T extends Component> void removeComponent(int entity, T component)
+    {
+        Class classToRemove;
+
+        if (component instanceof PhysicsComponent)
+        {
+            classToRemove = component.getClass().getSuperclass();
+        }
+        else
+        {
+            classToRemove = component.getClass();
+        }
+
+        HashMap<Integer, ? extends Component> storage = componentStorage.get(classToRemove);
+
+        // there's no key set yet for the given component, create a new key
+        if (storage == null)
+        {
+            return;
+        }
+
+        ((HashMap<Integer, T>) storage).remove(entity, component);
+
+        if (storage.size() <= 0)
+        {
+            componentStorage.remove(classToRemove);
+        }
+    }
+    */
 }
