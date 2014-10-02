@@ -2,11 +2,15 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil.Mode;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
@@ -20,17 +24,16 @@ import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
  */
 public class ShadowSystem extends ECSystem{
 	
-	private TextureRegion shadow = null;
+	private int shadowOffset = 10;
 	
 
 	public ShadowSystem(EntityManager entityManager) {
 		super(entityManager);
-		 shadow = new TextureRegion(new Texture("data/images/shadow.png"));
+		 
 	}
 	
 	public ShadowSystem(EntityManager entityManager, int priority) {
 		super(entityManager, priority);
-		shadow = new TextureRegion(new Texture("data/images/shadow.png"));
 	}
 
 	@Override
@@ -50,15 +53,17 @@ public class ShadowSystem extends ECSystem{
 			if(shadowComp.alpha > 0f){
 				// set alpha
 				DrawUtil.batch.end();
-				DrawUtil.batch.setColor(0f, 0f, 0f, shadowComp.alpha);
+				Gdx.gl.glEnable(GL20.GL_BLEND);
+			    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			    DrawUtil.setColor(new Color(0,0,0,shadowComp.alpha));
 				DrawUtil.batch.begin();
 				
 				float shadowWidth = renderComp.texture.getRegionWidth() * shadowComp.z;
 				float shadowHeight = renderComp.texture.getRegionHeight() * shadowComp.z;
 				
-				DrawUtil.batch.draw(shadow,
+				DrawUtil.batch.draw(renderComp.texture,
                         physicsComp.getPosition().x - (shadowWidth / 2), 
-                        physicsComp.getPosition().y - (shadowHeight / 2), 
+                        physicsComp.getPosition().y - (shadowHeight / 2) + shadowOffset, 
                         shadowWidth / 2, 
                         shadowHeight / 2, 
                         shadowWidth, 
@@ -67,11 +72,20 @@ public class ShadowSystem extends ECSystem{
                         1f, 
                         (float)(physicsComp.getRotation() * 180 / Math.PI));
 				
+				DrawUtil.batch.end();
+				DrawUtil.resetColor();
+				Gdx.gl.glDisable(GL20.GL_BLEND);
+				DrawUtil.batch.begin();
+				
 			}
 			
 			
 		}
 		
+	}
+	
+	public void setShadowOffset(int offset){
+		this.shadowOffset = offset;
 	}
 	
 
