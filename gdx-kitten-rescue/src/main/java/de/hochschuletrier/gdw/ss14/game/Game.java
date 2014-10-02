@@ -28,7 +28,7 @@ public class Game{
 
     public Game(AssetManagerX am){
         engine = new Engine();
-        entityManager = new EntityManager();
+        entityManager = EntityManager.getInstance();
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
         mapManager = new MapManager(entityManager, physixManager, am);
 
