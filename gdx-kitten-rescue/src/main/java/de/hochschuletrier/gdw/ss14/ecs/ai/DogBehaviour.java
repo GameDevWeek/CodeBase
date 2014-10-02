@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.ecs.ai;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.*;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ public class DogBehaviour extends Behaviour {
     }
     
     class KatzeSichtbar extends BaseCondition{
-
+        //ist die Katze sichtbar?
         public KatzeSichtbar(BaseNode parent, Behaviour behaviour)
         {
             super(parent, behaviour);
@@ -38,19 +39,52 @@ public class DogBehaviour extends Behaviour {
      
         public State onEvaluate(float delta)
         {
-            
-               //result noch nur dummy:
+               //----
+               //TODO sobald möglich
+               //SUCCESS zurückgeben wenn Katze sichtbar, sonst FAILURE.
                State result = State.SUCCESS;
                return result;
         }
         
         
     }
+    
+    class BBLeer extends BaseCondition{
+     //ist das BlackBoard leer?
+        public BBLeer(BaseNode parent, Behaviour behaviour)
+        {
+            super(parent, behaviour);
+        }
+        
+        public State onEvaluate(float delta)
+        {
+           
+               Blackboard b = ((Blackboard) behaviour.getLocalBlackboard());
+               //----
+               //TODO wenn Blackboard leer -> success sonst failure.
+               //___________
+               State result = State.SUCCESS;
+               return result;
+        }
+        
+    }
+    
+    
+    
+    
+    
+    class Blackboard{
+        
+        
+    }
+    
+    
+    }
 
     
     
     
-}
+
 
 
 /*
