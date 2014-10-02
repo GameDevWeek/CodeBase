@@ -10,6 +10,7 @@ import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 
+import de.hochschuletrier.gdw.ss14.input.InputManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,13 +46,16 @@ public class Game{
         mapManager.setFloor(0);
     }
 
-    private void initializeSystems(){
+    private void initializeSystems()
+    {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
         engine.addSystem(new DogInputSystem(entityManager));
         engine.addSystem(new PlayerMovementSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
         engine.addSystem(new HitAnimationSystem(entityManager));
+        engine.addSystem(new ParticleEmitterSystem(entityManager));
+        engine.addSystem(new LimitedLifetimeSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
         engine.addSystem(new CatContactSystem(entityManager));
@@ -85,7 +89,8 @@ public class Game{
         }
     }
 
-    public TiledMap getMap(){
+    public TiledMap getMap()
+    {
 
         return null;
     }

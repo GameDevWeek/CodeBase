@@ -14,5 +14,6 @@ public class RenderComponent implements Component {
     public TextureRegion texture;
     
     // This color will be added to the whole texture
+    // null means: draw the texture normally
     public Color tintColor = null;
 }
