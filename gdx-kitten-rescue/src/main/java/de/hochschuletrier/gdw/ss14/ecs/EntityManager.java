@@ -10,14 +10,26 @@ import java.util.*;
  */
 public class EntityManager
 {
+    public static EntityManager instance;
+
     private int currentId = 0; // next unused ID
     private List<Integer> entityList;
     private HashMap<Class, HashMap<Integer, ? extends Component>> componentStorage;
 
-    public EntityManager()
+    private EntityManager()
     {
         entityList = new LinkedList<Integer>();
         componentStorage = new HashMap<Class, HashMap<Integer, ? extends Component>>();
+    }
+
+    public static EntityManager getInstance()
+    {
+        if(instance == null)
+        {
+           instance = new EntityManager();
+        }
+
+        return instance;
     }
 
     public int generateNewEntityID()
