@@ -1,6 +1,8 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
@@ -58,6 +60,10 @@ public class EntityFactory{
 
         CatPropertyComponent catProperties = new CatPropertyComponent();
         catProperties.state = CatStateEnum.IDLE;
+        
+        ParticleEmitterComponent particleEmitComp = new ParticleEmitterComponent();
+        particleEmitComp.particleTintColor = new Color(1,0,0,1);
+        particleEmitComp.emitRadius = 10f;
 
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
@@ -68,6 +74,7 @@ public class EntityFactory{
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
         manager.addComponent(entity, cam);
+        manager.addComponent(entity, particleEmitComp);
         //manager.addComponent(entity, new ConePhysicsComponent(catPhysix.getPosition(), 100,100,100));
         //manager.addComponent(entity, new HitAnimationComponent());
 

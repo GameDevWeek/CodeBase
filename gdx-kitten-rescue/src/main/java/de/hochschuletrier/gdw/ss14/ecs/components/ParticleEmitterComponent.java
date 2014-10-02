@@ -16,8 +16,8 @@ public class ParticleEmitterComponent implements Component {
     
     public float particleLifetime = 5.0f;
     
-    public float emitInterval = 0.1f;
-    public float emitRadius = 50f;
+    public float emitInterval = 0.15f;
+    public float emitRadius = 0f;
     
     public Color particleTintColor = null;
     

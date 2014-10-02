@@ -35,11 +35,13 @@ public class RenderSystem extends ECSystem {
     @Override
     public void render() {
         Array<Integer> entites = entityManager.getAllEntitiesWithComponents(RenderComponent.class, PhysicsComponent.class);
+        
 
         RenderComponent renderCompo;
         PhysicsComponent physicsCompo;
 
         for (Integer integer : entites) {
+            
             renderCompo = entityManager.getComponent(integer, RenderComponent.class);
             physicsCompo = entityManager.getComponent(integer, PhysicsComponent.class);
 
@@ -71,6 +73,7 @@ public class RenderSystem extends ECSystem {
                     DrawUtil.batch.end();
                     
                     //DrawUtil.batch.setShader(null);
+                    DrawUtil.batch.setColor(new Color(1,1,1,1));
                     DrawUtil.batch.begin();
                 }
             }
