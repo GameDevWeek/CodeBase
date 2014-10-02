@@ -33,6 +33,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
 import de.hochschuletrier.gdw.ss14.sound.MusicManager;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.GameStates;
 
 /**
@@ -111,6 +112,7 @@ public class Main extends StateBasedGame {
         gamePreferences.init();
 		musicManager = MusicManager.getInstance();
 		musicManager.init(this.assetManager);
+		SoundManager.setAssetManager(assetManager);
         setupGdx();
         skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
         consoleView.init(assetManager, skin);

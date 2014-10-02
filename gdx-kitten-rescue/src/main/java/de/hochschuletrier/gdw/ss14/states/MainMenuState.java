@@ -16,7 +16,9 @@ import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransi
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.ui.MainMenu;
+
+import de.hochschuletrier.gdw.ss14.ui.*;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 /**
  * Menu state
@@ -28,6 +30,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     
     private MainMenu mainMenu;
     InputInterceptor inputProcessor;
+    private LocalMusic music;
 
     public MainMenuState() {
     }
@@ -36,6 +39,12 @@ public class MainMenuState extends GameState implements InputProcessor {
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
 
+        Texture logo = assetManager.getTexture("logo");
+        AnimationExtended walking = assetManager.getAnimation("walking");
+        this.music = Main.musicManager.getMusicStreamByStateName(GameStates.MAINMENU);
+        Sound click = assetManager.getSound("click");
+        
+//        music.play();
 
         inputProcessor = new InputInterceptor(this) {
             @Override
@@ -43,9 +52,9 @@ public class MainMenuState extends GameState implements InputProcessor {
                 switch (keycode) {
                     case Keys.ESCAPE:
                         if (GameStates.GAMEPLAY.isActive()) {
-                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(100).reverse(), null);
+                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(500).reverse(), null);
                         } else {
-                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(100), null);
+                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(500), null);
                         }
                         return true;
                 }
@@ -70,6 +79,12 @@ public class MainMenuState extends GameState implements InputProcessor {
     public void onEnter() {
         mainMenu = new MainMenu();
         mainMenu.init(assetManager);
+		if (this.music.isMusicPlaying()) {
+			this.music.setFade('i', 2000);
+		} else {
+			this.music.play("menu");
+		}
+
         inputProcessor.setActive(true);
         inputProcessor.setBlocking(false);
     }
@@ -77,6 +92,10 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void onLeave() {
     	mainMenu.dispose();
+		if (this.music.isMusicPlaying()) {
+    		this.music.setFade('o', 2000);
+		}
+
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);
     }

@@ -98,7 +98,7 @@ public class Main extends StateBasedGame {
 
     @Override
     public void create() {
-        CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Internal));
+        CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Local));
         DrawUtil.init();
         setupDummyLoader();
         loadAssetLists();
