@@ -11,9 +11,10 @@ package de.hochschuletrier.gdw.ss14.states;
  */
 public enum CatStateEnum {
     HIT,
-    RUTSCHEN_LINKS,
-    RUTSCHEN_RECHTS,
+    SLIDE_LEFT,
+    SLIDE_RIGHT,
     IDLE,
-    LAUFEN,
-    RENNEN
+    WALK,
+    RUN,
+    JUMP
 }

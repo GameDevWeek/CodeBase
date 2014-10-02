@@ -2,8 +2,6 @@ package de.hochschuletrier.gdw.ss14.ecs.components;
 
 import com.badlogic.gdx.math.Vector2;
 
-import de.hochschuletrier.gdw.ss14.ecs.components.Component;
-
 public class MovementComponent implements Component{
 	
 	public float velocity;
@@ -22,6 +20,4 @@ public class MovementComponent implements Component{
 		MIN_VELOCITY = minVelo;
 		ACCELERATION = acceleration;
 	}
-	
-
 }

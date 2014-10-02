@@ -11,10 +11,10 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatStateComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.DogStateComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.HolePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.HitAnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
@@ -42,7 +42,7 @@ public class EntityFactory {
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);
-        CatStateComponent catState = new CatStateComponent();
+        CatPropertyComponent catProperty = new CatPropertyComponent();
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
         catAnimation.animation = new AnimationWithVariableFrameTime[6];
@@ -50,27 +50,29 @@ public class EntityFactory {
                 = loadAnimation("data/animations/Hit_rdy.png", 5, 1, new float[]{0.1f, 0.5f, 0.1f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
         catAnimation.animation[CatStateEnum.IDLE.ordinal()]
                 = loadAnimation("data/animations/Schwanz_rdy.png", 10, 1, 0.2f, Animation.PlayMode.LOOP);
-        catAnimation.animation[CatStateEnum.LAUFEN.ordinal()]
+        catAnimation.animation[CatStateEnum.WALK.ordinal()]
                 = loadAnimation("data/animations/Laufen_rdy.png", 4, 1, new float[]{0.1f, 0.2f, 0.1f, 0.2f}, Animation.PlayMode.LOOP);
-        catAnimation.animation[CatStateEnum.RENNEN.ordinal()]
+        catAnimation.animation[CatStateEnum.RUN.ordinal()]
                 = loadAnimation("data/animations/Rennen_rdy.png", 4, 1, new float[]{0.1f, 0.2f, 0.1f, 0.2f}, Animation.PlayMode.LOOP);
-        catAnimation.animation[CatStateEnum.RUTSCHEN_LINKS.ordinal()]
+        catAnimation.animation[CatStateEnum.SLIDE_LEFT.ordinal()]
                 = loadAnimation("data/animations/Rutschen_links_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
-        catAnimation.animation[CatStateEnum.RUTSCHEN_RECHTS.ordinal()]
+        catAnimation.animation[CatStateEnum.SLIDE_RIGHT.ordinal()]
                 = loadAnimation("data/animations/Rutschen_rechts_rdy.png", 5, 1, new float[]{0.1f, 0.2f, 0.5f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
 
         CameraComponent cam = new CameraComponent();
-        cam.cameraZoom = 3.0f;
+        cam.cameraZoom = 1.0f;
 
+        CatPropertyComponent catProperties = new CatPropertyComponent();
+        catProperties.state = CatStateEnum.IDLE;
+
+        manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
-        manager.addComponent(entity, catState);
+        manager.addComponent(entity, catProperty);
         manager.addComponent(entity, catPhysix);
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
-//        manager.addComponent(entity, new AnimationComponent());
-//        manager.addComponent(entity, new CameraComponent());
         manager.addComponent(entity, cam);
 
         return entity;
@@ -80,12 +82,12 @@ public class EntityFactory {
         int entity = manager.createEntity();
     }
 
-    public static void constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
+    public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
         MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
         InputComponent dogInput = new InputComponent();
-        DogStateComponent dogState = new DogStateComponent();
+        DogPropertyComponent dogState = new DogPropertyComponent();
         dogPhysix.initPhysics(phyManager);
         manager.addComponent(entity, dogState);
         manager.addComponent(entity, dogPhysix);
@@ -93,6 +95,7 @@ public class EntityFactory {
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
 //        manager.addComponent(entity, new AnimationComponent());
+        return entity;
     }
 
     public static void constructDoor() {
@@ -101,13 +104,6 @@ public class EntityFactory {
 
     public static void constructFood() {
         int entity = manager.createEntity();
-    }
-
-    public static void constructHole(Vector2 pos) {
-        int entity = manager.createEntity();
-        HolePhysicsComponent holePhysix = new HolePhysicsComponent();
-        holePhysix.initPhysics(phyManager);
-        manager.addComponent(entity, holePhysix);
     }
 
     public static void constructLamp() {

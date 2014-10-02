@@ -1,26 +1,23 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.ss14.game.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.game.ecs.components.CameraComponent;
+import de.hochschuletrier.gdw.ss14.game.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.game.ecs.components.TileMapRenderingComponent;
 import de.hochschuletrier.gdw.ss14.game.ecs.systems.CameraSystem;
 import de.hochschuletrier.gdw.ss14.game.ecs.systems.ECSystem;
 import de.hochschuletrier.gdw.ss14.game.ecs.systems.TileMapRenderingSystem;
-import de.hochschuletrier.gdw.ss14.game.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.game.ecs.components.PhysicsComponent;
-
-import java.util.Comparator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Comparator;
 
 public class Game {
 
