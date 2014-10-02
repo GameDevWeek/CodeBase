@@ -115,7 +115,7 @@ public class EntityFactory {
     
     public static void constructLaserPointer(Vector2 pos) {
         int entity = manager.createEntity();
-        LaserPointerComponent laser = new LaserPointerComponent(pos);
+//        LaserPointerComponent laser = new LaserPointerComponent(pos);
         
         manager.addComponent(entity, laser);
     }
