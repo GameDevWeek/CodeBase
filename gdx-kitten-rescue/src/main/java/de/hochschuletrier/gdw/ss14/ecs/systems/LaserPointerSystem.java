@@ -1,18 +1,22 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.*;
-import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.input.*;
-import org.slf4j.*;
+import org.slf4j.LoggerFactory;
 
-public class InputSystem extends ECSystem implements GameInputAdapter
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
+import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
+import de.hochschuletrier.gdw.ss14.input.InputManager;
+
+public class LaserPointerSystem extends ECSystem implements GameInputAdapter
 {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(InputSystem.class);
 
-    public InputSystem(EntityManager entityManager)
+    public LaserPointerSystem(EntityManager entityManager)
     {
         super(entityManager, 1);
         InputManager.getInstance().addGameInputAdapter(this);
@@ -22,25 +26,27 @@ public class InputSystem extends ECSystem implements GameInputAdapter
     public void update(float delta)
     {
         // TODO Auto-generated method stub
-        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, CameraComponent.class, PlayerComponent.class);
+        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
 
-        for (Integer integer : compos)
-        {
-            InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
-            CameraComponent camComp = entityManager.getComponent(integer, CameraComponent.class);
-            LaserPointerComponent laser = entityManager.getComponent(integer, LaserPointerComponent.class);
-            inputCompo.whereToGo = laser.position;
-            Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-//          vec = vec.mul(DrawUtil.batch.getProjectionMatrix());
-//          inputCompo.whereToGo = new Vector2(vec.x,vec.y);
-            vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
-            inputCompo.whereToGo = new Vector2(vec.x, vec.y);
+        LaserPointerComponent laser = entityManager.getComponent(compos.get(0), LaserPointerComponent.class);
+        
+       
+        switch(laser.input){
+        case MOUSE: laser.position = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+            break;
+        case KEYBOARD: 
+            break;
+        case GAMEPAD:
+            break;
+        default:
+            break;
         }
     }
 
     @Override
     public void render()
     {
+        //LASERPOINTER RENDERN
     }
 
     @Override
