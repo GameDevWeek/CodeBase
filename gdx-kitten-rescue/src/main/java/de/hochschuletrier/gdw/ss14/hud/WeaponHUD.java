@@ -15,14 +15,16 @@ public class WeaponHUD extends HudComponent implements GameInputAdapter {
     private Texture laser;
     private Texture waterpistol;
     
+    private float overlap = 0.3f;
+    
     public WeaponHUD(AssetManagerX assetManager) {
         super(assetManager);
         
         laser = assetManager.getTexture("weapon_laser");
         waterpistol = assetManager.getTexture("weapon_waterpistol");
         
-        super.width = laser.getWidth();
-        super.height = laser.getHeight();
+        super.width = laser.getWidth() * (1.0f + overlap);
+        super.height = laser.getHeight() * (1.0f + overlap);
         
         InputManager.getInstance().addGameInputAdapter(this);
     }
@@ -31,16 +33,26 @@ public class WeaponHUD extends HudComponent implements GameInputAdapter {
     public void render() {
         Main.getInstance().screenCamera.bind();
         
-        Texture tmp;
+        Texture back, front;
         if (isLaser) {
-            tmp = laser;
+            front = laser;
+            back = waterpistol;
         } else {
-            tmp = waterpistol;
+            front = waterpistol;
+            back = laser;
         }
         
-        // DrawUtil.drawRect(getX(), getY(), super.getWidth(), super.getHeigth(), Color.RED);
+        // back
+        DrawUtil.batch.draw(back, getX(), getY(),
+                back.getWidth() * getScale(), back.getHeight() * getScale(), 0, 0, 
+                back.getWidth(), back.getHeight(), false, true);
         
-        DrawUtil.batch.draw(tmp, getX(), getY(), super.getWidth(), super.getHeigth(), 0, 0, tmp.getWidth(), tmp.getHeight(), false, true);
+        // front
+        DrawUtil.batch.draw(front, getX() + (back.getWidth() * getScale() * overlap), getY() + (back.getHeight() * getScale() * overlap),
+                front.getWidth() * getScale(), front.getHeight() * getScale(), 0, 0, 
+                front.getWidth(), front.getHeight(), false, true);
+        
+        // DrawUtil.drawRect(getX(), getY(), super.getWidth(), super.getHeight(), Color.RED);
     }
     
     @Override
@@ -91,6 +103,4 @@ public class WeaponHUD extends HudComponent implements GameInputAdapter {
         // TODO Auto-generated method stub
         
     }
-    
-    
 }

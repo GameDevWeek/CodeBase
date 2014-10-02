@@ -15,11 +15,10 @@
  <tileset firstgid="739" source="Tilesets/Fallobjekte Kopie_128px.tsx"/>
  <tileset firstgid="742" source="Tilesets/Fallobjekte Kopie_258_px.tsx"/>
  <tileset firstgid="748" source="Tilesets/Wollknaeuel.tsx"/>
- <tileset firstgid="749" source="Tilesets/Kiste_Liegend_Halbe_groesse.tsx"/>
- <tileset firstgid="751" source="Tilesets/Nahrung.tsx"/>
- <tileset firstgid="752" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
- <tileset firstgid="753" source="Tilesets/TuerKlappe.tsx"/>
- <tileset firstgid="774" source="Tilesets/BodenTiles.tsx"/>
+ <tileset firstgid="749" source="Tilesets/Nahrung.tsx"/>
+ <tileset firstgid="750" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
+ <tileset firstgid="751" source="Tilesets/TuerKlappe.tsx"/>
+ <tileset firstgid="772" source="Tilesets/BodenTiles.tsx"/>
  <layer name="ground" width="45" height="45">
   <properties>
    <property name="floor" value="0"/>
@@ -73,17 +72,15 @@
   <object name="broom" gid="745" x="2991.27" y="1316.36"/>
   <object name="vase" gid="746" x="2985.21" y="1101.21"/>
   <object name="vase" gid="747" x="2970.06" y="1183.03"/>
-  <object name="catbox" gid="749" x="3253.21" y="1139.27"/>
-  <object name="catbox" gid="750" x="3253.21" y="1293.82"/>
-  <object name="catbox" gid="752" x="3482.18" y="1250.06"/>
-  <object name="food" gid="751" x="3265.7" y="1392.12"/>
+  <object name="catbox" gid="750" x="3482.18" y="1250.06"/>
+  <object name="food" gid="749" x="3265.7" y="1392.12"/>
   <object name="start" x="2441.1" y="2744.06" width="16" height="13.3333"/>
   <object name="wool" gid="748" x="3248" y="1480"/>
-  <object name="door" gid="761" x="2974.79" y="964.848"/>
-  <object name="door" gid="764" x="3102.06" y="961.818"/>
-  <object name="door" gid="765" x="3250.55" y="967.879"/>
+  <object name="door" gid="759" x="2974.79" y="964.848"/>
+  <object name="door" gid="762" x="3102.06" y="961.818"/>
+  <object name="door" gid="763" x="3250.55" y="967.879"/>
   <object name="vase" gid="747" x="2102.67" y="2562.67"/>
-  <object name="catbox" gid="752" x="2056.61" y="2236.3"/>
+  <object name="catbox" gid="750" x="2056.61" y="2236.3"/>
   <object name="dogspawn1" x="1546.15" y="845.46" width="25" height="25"/>
   <object name="dogspawn2" x="257.574" y="1812.12" width="25" height="25"/>
   <object name="dogpat1" x="1546.15" y="801.455" width="25" height="25"/>
@@ -91,10 +88,10 @@
   <object name="dogpat3" x="297.093" y="1823.87" width="25" height="25"/>
   <object name="dogpat4" x="265.784" y="1051.14" width="25" height="25"/>
   <object name="broom" gid="740" x="2118.18" y="1578.79"/>
-  <object name="food" gid="751" x="2594" y="904"/>
+  <object name="food" gid="749" x="2594" y="904"/>
   <object name="vase" gid="739" x="1778.67" y="509.333"/>
-  <object name="food" gid="751" x="766.667" y="272"/>
-  <object name="catbox" gid="752" x="746.667" y="1065.27"/>
+  <object name="food" gid="749" x="766.667" y="272"/>
+  <object name="catbox" gid="750" x="746.667" y="1065.27"/>
   <object name="broom" gid="745" x="174.667" y="842.667"/>
   <object name="stairs" gid="714" x="464" y="2808"/>
   <object name="lamp" gid="742" x="842.667" y="2253.33"/>
@@ -118,7 +115,7 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3YoQ0AIBAEwQ8I+i+JzmgAHIT/ZMT4Fadu9IgBXDPb3u8uzfloBgAAAAB4r9qHXO37Pv31mbsrNlfcBmcLHg2Ij6QfAAA=
+   H4sIAAAAAAAAC+3YsQ0AIAwDwQjE/jOxGQtAByKRrrj+C1cePWIA18y297tLcz6aAQAAAADeq/YhV/u+T3995u6KzRW3wdkCxq7tyqQfAAA=
   </data>
  </layer>
  <layer name="solid1" width="45" height="45" visible="0">
@@ -166,14 +163,12 @@
   <object name="broom" gid="745" x="2991.27" y="1316.36"/>
   <object name="vase" gid="746" x="2985.21" y="1101.21"/>
   <object name="vase" gid="747" x="2970.06" y="1183.03"/>
-  <object name="catbox" gid="749" x="3253.21" y="1139.27"/>
-  <object name="catbox" gid="750" x="3253.21" y="1293.82"/>
-  <object name="catbox" gid="752" x="3482.18" y="1250.06"/>
-  <object name="food" gid="751" x="3265.7" y="1392.12"/>
+  <object name="catbox" gid="750" x="3482.18" y="1250.06"/>
+  <object name="food" gid="749" x="3265.7" y="1392.12"/>
   <object name="wool" gid="748" x="3248" y="1480"/>
-  <object name="door" gid="761" x="2974.79" y="964.848"/>
-  <object name="door" gid="764" x="3102.06" y="961.818"/>
-  <object name="door" gid="765" x="3250.55" y="967.879"/>
+  <object name="door" gid="759" x="2974.79" y="964.848"/>
+  <object name="door" gid="762" x="3102.06" y="961.818"/>
+  <object name="door" gid="763" x="3250.55" y="967.879"/>
   <object name="dogpat6" x="2445.97" y="2624.67" width="25" height="25"/>
   <object name="dogpat5" x="1503" y="2642.35" width="25" height="25"/>
   <object name="dogpat8" x="1497.67" y="341.405" width="25" height="25"/>
@@ -195,16 +190,16 @@
   <object name="broom" gid="740" x="944" y="2473.33"/>
   <object name="wool" gid="748" x="1708" y="1955.33"/>
   <object name="lamp" gid="743" x="745.333" y="2125.33"/>
-  <object name="catbox" gid="752" x="1119.27" y="2157.09"/>
+  <object name="catbox" gid="750" x="1119.27" y="2157.09"/>
   <object name="broom" gid="744" x="1830.67" y="1919.33"/>
-  <object name="food" gid="751" x="963.636" y="909.091"/>
+  <object name="food" gid="749" x="963.636" y="909.091"/>
   <object name="wool" gid="748" x="1245.33" y="1709.33"/>
-  <object name="food" gid="751" x="1877.33" y="2690.67"/>
+  <object name="food" gid="749" x="1877.33" y="2690.67"/>
   <object name="vase" gid="739" x="296.97" y="233.333"/>
-  <object name="catbox" gid="752" x="395.879" y="369.697"/>
+  <object name="catbox" gid="750" x="395.879" y="369.697"/>
   <object name="broom" gid="744" x="2657.58" y="903.03"/>
-  <object name="food" gid="751" x="2174" y="1535"/>
-  <object name="catbox" gid="752" x="2036.36" y="372.727"/>
+  <object name="food" gid="749" x="2174" y="1535"/>
+  <object name="catbox" gid="750" x="2036.36" y="372.727"/>
   <object name="stairs" gid="714" x="2438" y="2788"/>
   <object name="wool" gid="748" x="2612.12" y="2209.09"/>
  </objectgroup>
@@ -258,7 +253,7 @@
    <property name="floor" value="2"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2XPQvCMBCGQ6vg5uYPFHTRQQVddPUDdPdrUxd1U3+HTm7+Dt3Et0PXJs2dPUrvgYfChTTvkF5SYxSluKzhBm4ttaS66zgXR3iCZ0stqe46njUd2JUO4QhH1ndgzCfgSOPOGE6I7/hmnDmiR5hbCo0ph2xRrEjv4xZse86Vyj6EI4F1KczhIuUcju9PUf4BpW9IQekbDdhkzOKKT9+I6cMBrPPFceKOM//hee7HPY9yhvvwRN4pnrOM16XwQuYlnivpIIpSYPLWNyLy1jd2cA8P0kFScIFXePOYW2HO4grlXlflDJICyr1OKjPlXieVmUJNaN2i/adI9Q3dz4qiKHL8AAyQrE6kHwAA
+   H4sIAAAAAAAAC+2Xqw7CQBBFN63B4fhAEjAggAQMWB4JeF4OMIADvgMUjs8Ah+BW1LbTnaGTpnOSkyaz2e4V29mtc4ZRXtZwA7cptaQ6dVyKIzzBc0otqU4dz5sO7GqHICKR9R049wkk0tAZwwnzHd+cM0f0GHOD0LkwFIuSivY+bsG251yt7EM4UliXwxwuMs6R+P4M4x9w+oYWnL7RgE3BLFR8+kZMHw5gXS4OiTvO/IfnuR/3PM4Z7sMTead4znJel8MLmZd4rrSDGEaJKVrfiCha39jBPTxoB8nABV7hzWNuRTgLFc69rioZJAOce51WZs69Tiszh5rSumX7T9HqG7afDcMw9PgB3EFhOaQfAAA=
   </data>
  </layer>
  <objectgroup name="actionlayer" visible="0">
@@ -274,21 +269,21 @@
   <object name="broom" gid="745" x="2991.27" y="1316.36"/>
   <object name="vase" gid="746" x="2985.21" y="1101.21"/>
   <object name="vase" gid="747" x="2970.06" y="1183.03"/>
-  <object name="catbox" gid="752" x="3482.18" y="1250.06"/>
-  <object name="food" gid="751" x="3265.7" y="1392.12"/>
+  <object name="catbox" gid="750" x="3482.18" y="1250.06"/>
+  <object name="food" gid="749" x="3265.7" y="1392.12"/>
   <object name="wool" gid="748" x="3248" y="1480"/>
-  <object name="door" gid="761" x="2974.79" y="964.848"/>
-  <object name="door" gid="764" x="3102.06" y="961.818"/>
-  <object name="door" gid="765" x="3250.55" y="967.879"/>
-  <object name="door" gid="765" x="2368.06" y="576.03"/>
+  <object name="door" gid="759" x="2974.79" y="964.848"/>
+  <object name="door" gid="762" x="3102.06" y="961.818"/>
+  <object name="door" gid="763" x="3250.55" y="967.879"/>
+  <object name="door" gid="763" x="2368.06" y="576.03"/>
   <object name="lamp" gid="742" x="2323" y="1923"/>
   <object name="broom" gid="740" x="1452" y="1372"/>
-  <object name="catbox" gid="752" x="2242.42" y="2109.09"/>
+  <object name="catbox" gid="750" x="2242.42" y="2109.09"/>
   <object name="wool" gid="748" x="2048" y="1356"/>
-  <object name="food" gid="751" x="1334.5" y="444.75"/>
-  <object name="food" gid="751" x="1416.67" y="702.667"/>
+  <object name="food" gid="749" x="1334.5" y="444.75"/>
+  <object name="food" gid="749" x="1416.67" y="702.667"/>
   <object name="wool" gid="748" x="1197.33" y="488"/>
-  <object name="catbox" gid="752" x="654.667" y="2561.33"/>
+  <object name="catbox" gid="750" x="654.667" y="2561.33"/>
   <object name="wool" gid="748" x="701.333" y="1437.33"/>
   <object name="dogspawn6" x="682.667" y="512" width="25" height="25"/>
  </objectgroup>

@@ -45,8 +45,8 @@ public class WaterlevelHUD extends HudComponent implements GameInputAdapter {
             }
         }
         
-        DrawUtil.fillRect(position.x, position.y, getWidth() * (currentPercent / 100f), getHeigth(), Color.BLUE);
-        DrawUtil.drawRect(position.x, position.y, getWidth(), getHeigth(), Color.BLACK);
+        DrawUtil.fillRect(position.x, position.y, getWidth() * (currentPercent / 100f), getHeight(), Color.BLUE);
+        DrawUtil.drawRect(position.x, position.y, getWidth(), getHeight(), Color.BLACK);
     }
     
     @Override
