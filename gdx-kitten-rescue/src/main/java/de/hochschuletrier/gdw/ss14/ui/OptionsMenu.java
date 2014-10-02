@@ -33,10 +33,10 @@ public class OptionsMenu extends LaserCatMenu
 		for (Button b : button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
-			b.addListener(this.optionsMenuListener);
+			//b.addListener(this.optionsMenuListener);
 		}
 
-		currentVolume = LocalMusic.getSystemVolume();
+		
 	}
 
 	protected void addButtonsToFrame()
@@ -72,6 +72,7 @@ public class OptionsMenu extends LaserCatMenu
 	{
 		public void clicked(InputEvent event, float x, float y)
 		{
+			currentVolume = LocalMusic.getSystemVolume();
 			for (int i = 0; i < numberOfButtons; i++)
 			{
 				if (button[i] != event.getListenerActor())
@@ -83,9 +84,7 @@ public class OptionsMenu extends LaserCatMenu
 					LocalMusic.setSystemVolume((float) ((currentVolume + 0.1) < 1.0 ? currentVolume + 0.1 : 1.0));
 					break;
 				case 1:
-					LocalMusic
-							.setSystemVolume((float) ((currentVolume - 0.1) > 0 ? currentVolume - 0.1
-									: 0));
+					LocalMusic.setSystemVolume((float) ((currentVolume - 0.1) > 0 ? currentVolume - 0.1	: 0));
 					break;
 				case 2:
 					System.out.println("Open Credits");
