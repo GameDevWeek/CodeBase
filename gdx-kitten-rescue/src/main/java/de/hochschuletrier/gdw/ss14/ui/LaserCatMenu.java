@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 public abstract class LaserCatMenu
 {
@@ -89,8 +90,8 @@ public abstract class LaserCatMenu
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
-		//table.debug(Debug.all);
-		widgetFrame.debug(Debug.all);
+		table.debug(Debug.all);
+		//widgetFrame.debug(Debug.all);
 		
 		LaserCatMenu.soundListener=new SoundListener();
 	}
@@ -141,7 +142,8 @@ public abstract class LaserCatMenu
 		}
 		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
-			System.out.println("Button over");
+			if (!this.isPressed())
+				SoundManager.performAction(UIActions.BELLOVER);
 		}
 	}
 	
