@@ -37,7 +37,7 @@ public class LocalMusic {
 	public static void setSystemVolume(float systemVolume) {
 		LocalMusic.SystemVolume = systemVolume;
 		Main.getInstance().gamePreferences.putFloat(PreferenceKeys.volumeMusic, systemVolume);
-		//Main.musicManager.sendVolumeToStreams(systemVolume);
+		Main.MusicManager.sendVolumeToStreams(systemVolume);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class LocalMusic {
 	public LocalMusic(AssetManagerX assetManager) {
 		this.assetManager = assetManager;
 		this.musicHandle = null;
-		LocalMusic.SystemVolume = Main.getInstance().gamePreferences.getFloat(PreferenceKeys.volumeMusic, 0.2f);
+		LocalMusic.SystemVolume = Main.getInstance().gamePreferences.getFloat(PreferenceKeys.volumeMusic, 0.1f);
 	}
 	
 	public void setVolume(float volume) {
@@ -76,7 +76,6 @@ public class LocalMusic {
 	public void update() {
 		float delta = Gdx.graphics.getDeltaTime();
 		float step = delta * (1000.0f / this.duration);
-		System.out.println(this.musicHandle + " :: " + this.musicHandle.getVolume());
 		
 		if (this.fading && this.musicHandle != null) {
 			float volume = this.musicHandle.getVolume();

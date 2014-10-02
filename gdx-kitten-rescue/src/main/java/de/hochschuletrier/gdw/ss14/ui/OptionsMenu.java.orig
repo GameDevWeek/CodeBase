@@ -33,7 +33,7 @@ public class OptionsMenu extends LaserCatMenu
 		for (Button b : button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
-			b.addListener(this.optionsMenuListener);
+			//b.addListener(this.optionsMenuListener);
 		}
 
 		
@@ -82,12 +82,9 @@ public class OptionsMenu extends LaserCatMenu
 				{
 				case 0:
 					LocalMusic.setSystemVolume((float) ((currentVolume + 0.1) < 1.0 ? currentVolume + 0.1 : 1.0));
-					System.out.println("Increase Volume");
 					break;
 				case 1:
 					LocalMusic.setSystemVolume((float) ((currentVolume - 0.1) > 0 ? currentVolume - 0.1	: 0));
-					System.out.println("Decrease Volume");
-
 					break;
 				case 2:
 					System.out.println("Open Credits");

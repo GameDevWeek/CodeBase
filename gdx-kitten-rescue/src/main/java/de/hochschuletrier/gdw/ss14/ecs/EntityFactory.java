@@ -10,24 +10,11 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
-import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.BehaviourComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
 
 public class EntityFactory{
 
@@ -90,8 +77,9 @@ public class EntityFactory{
         shadow.z = 1.0f;
 
         ParticleEmitterComponent particleEmitComp = new ParticleEmitterComponent();
-        particleEmitComp.particleTintColor = new Color(1,0,0,1);
+        particleEmitComp.particleTintColor = new Color(0.5f,0,0,0.8f);
         particleEmitComp.emitRadius = 10f;
+        particleEmitComp.emitterType = ParticleEmitterTypeEnum.PawParticleEmitter;
 
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
@@ -110,8 +98,12 @@ public class EntityFactory{
         return entity;
     }
 
-    public static int constructCatbox(){
+    public static int constructCatbox(Vector2 pos){
         int entity = manager.createEntity();
+
+        CatBoxPhysicsComponent catBoxPhysicsComponent = new CatBoxPhysicsComponent(pos, 80.0f, 80.0f, 0.0f);
+        catBoxPhysicsComponent.initPhysics(phyManager);
+        manager.addComponent(entity, catBoxPhysicsComponent);
 
         return entity;
     }

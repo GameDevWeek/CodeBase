@@ -44,7 +44,7 @@ public abstract class HudComponent {
 	    return this.width * this.scale;
 	}
 	
-	public float getHeigth() {
+	public float getHeight() {
 	    return this.height * this.scale;
 	}
 

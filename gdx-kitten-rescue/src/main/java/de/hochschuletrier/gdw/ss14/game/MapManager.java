@@ -200,7 +200,7 @@ public class MapManager
 //                                break;
 
                             case "catbox":
-                                // TODO: add object with entityFactory here
+                                EntityFactory.constructCatbox(pos);
                                 break;
 
                             case "stairs":

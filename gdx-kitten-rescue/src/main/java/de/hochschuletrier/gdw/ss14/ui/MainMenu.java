@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.ui;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -29,7 +30,7 @@ public class MainMenu extends LaserCatMenu
 		name[0] = "Start";
 		name[1] = "Levels";
 		name[2] = "Options";
-		name[3] = "Exit";
+		name[3] = "Exit Game";
 		
 		addButtonsToFrame();
 		actionListener = new UiActionListener();
@@ -77,12 +78,13 @@ public class MainMenu extends LaserCatMenu
 							GameStates.GAMEPLAY.activate();
 							break;
 						case 1:
+							GameStates.LEVELMENU.activate();
 							break;
 						case 2:
+							GameStates.OPTIONSMENU.activate();
 							break;
 						case 3:
-							break;
-						case 4:
+							System.exit(0);
 							break;
 						default:
 							System.out.println("You just fucked up");		

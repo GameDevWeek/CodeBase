@@ -10,11 +10,11 @@ import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.ui.PauseMenu;
+import de.hochschuletrier.gdw.ss14.ui.LevelMenu;
 
-public class PauseGameState extends GameState implements InputProcessor {
+public class LevelMenuState extends GameState implements InputProcessor {
     
-	 private PauseMenu pauseMenu;
+	 private LevelMenu levelMenu;
 	 InputInterceptor inputProcessor;
 	 private LocalMusic music;
 	
@@ -27,33 +27,19 @@ public class PauseGameState extends GameState implements InputProcessor {
         Sound click = assetManager.getSound("click");
         
         
-        inputProcessor = new InputInterceptor(this) {
-            @Override
-            public boolean keyUp(int keycode) {
-                switch (keycode) {
-                    case Keys.ESCAPE:
-                        if (GameStates.GAMEPLAY.isActive()) {
-                            GameStates.PAUSEGAME.activate(new SplitHorizontalTransition(800).reverse(), null);
-                        } else {
-                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(800), null);
-                        }
-                        return true;
-                }
-                return isActive && mainProcessor.keyUp(keycode);
-            }
-        };
+        inputProcessor = new InputInterceptor(this);
         Main.inputMultiplexer.addProcessor(inputProcessor);
     }
     
     @Override
     public void render() {
     	  Main.getInstance().screenCamera.bind();
-          pauseMenu.render();
+          levelMenu.render();
     }
     
     @Override
     public void update(float delta) {
-    	pauseMenu.update(delta);
+    	levelMenu.update(delta);
     	this.music.update();
     }
     
@@ -64,8 +50,8 @@ public class PauseGameState extends GameState implements InputProcessor {
 		} else {
 			this.music.play("menu");
 		}
-        pauseMenu = new PauseMenu();
-        pauseMenu.init(assetManager);
+        levelMenu = new LevelMenu();
+        levelMenu.init(assetManager);
         inputProcessor.setActive(true);
         inputProcessor.setBlocking(false);
     }
@@ -79,7 +65,7 @@ public class PauseGameState extends GameState implements InputProcessor {
     	if (this.music.isMusicPlaying()) {
     		this.music.setFade('o', 2000);
 		}
-    	pauseMenu.dispose();
+    	levelMenu.dispose();
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);
     }
