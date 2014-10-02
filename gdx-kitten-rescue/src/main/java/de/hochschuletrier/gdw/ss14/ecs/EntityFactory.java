@@ -22,7 +22,6 @@ import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
-
 public class EntityFactory {
 
     public static void constructBalk() {
@@ -39,7 +38,7 @@ public class EntityFactory {
 
     public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ICollisionListener contactsystem) {
         int entity = manager.createEntity();
-        
+
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
         catPhysix.mListeners.add(contactsystem);
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
@@ -48,8 +47,8 @@ public class EntityFactory {
         CatPropertyComponent catProperty = new CatPropertyComponent();
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
-        
-        catAnimation.animation = new AnimationExtended[6];
+
+        catAnimation.animation = new AnimationExtended[9];
         catAnimation.animation[CatStateEnum.HIT.ordinal()]
                 = assetManager.getAnimation("hit");
         catAnimation.animation[CatStateEnum.IDLE.ordinal()]
@@ -62,6 +61,12 @@ public class EntityFactory {
                 = assetManager.getAnimation("slide_left");
         catAnimation.animation[CatStateEnum.SLIDE_RIGHT.ordinal()]
                 = assetManager.getAnimation("slide_right");
+        catAnimation.animation[CatStateEnum.CRASH.ordinal()]
+                = assetManager.getAnimation("crash");
+        catAnimation.animation[CatStateEnum.FALL.ordinal()]
+                = assetManager.getAnimation("fall");
+        catAnimation.animation[CatStateEnum.DIE.ordinal()]
+                = assetManager.getAnimation("die");
 
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 1.0f;
@@ -90,8 +95,8 @@ public class EntityFactory {
 
     public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
         int entity = manager.createEntity();
-        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
-        MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
+        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
+        MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
         DogPropertyComponent dogState = new DogPropertyComponent();
         dogPhysix.initPhysics(phyManager);
@@ -142,4 +147,3 @@ public class EntityFactory {
 
     public static AssetManagerX assetManager;
 }
-
