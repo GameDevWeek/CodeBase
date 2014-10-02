@@ -92,8 +92,7 @@ public abstract class LaserCatMenu
 		//table.debug(Debug.all);
 		widgetFrame.debug(Debug.all);
 		
-		soundListener=new SoundListener();
-		soundListener.setButton(Buttons.LEFT);
+		LaserCatMenu.soundListener=new SoundListener();
 	}
 	
 	protected void addButtonsToFrame()
@@ -140,22 +139,12 @@ public abstract class LaserCatMenu
 		{
 			System.out.println("Button clicked");
 		}
-		public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
 			System.out.println("Button over");
+			return true;
 
 		}
-	}
-	
-	public class UIListener extends ChangeListener{
-
-		@Override
-		public void changed(ChangeEvent event, Actor actor)
-		{
-			// TODO Auto-generated method stub
-			System.out.println("Button clicked");
-		}
-		
 	}
 	
 }
