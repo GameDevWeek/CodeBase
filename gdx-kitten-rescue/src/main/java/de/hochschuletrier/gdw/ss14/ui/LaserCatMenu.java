@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 public abstract class LaserCatMenu
 {
@@ -92,8 +93,7 @@ public abstract class LaserCatMenu
 		table.debug(Debug.all);
 		//widgetFrame.debug(Debug.all);
 		
-		soundListener=new SoundListener();
-		soundListener.setButton(Buttons.LEFT);
+		LaserCatMenu.soundListener=new SoundListener();
 	}
 	
 	protected void addButtonsToFrame()
@@ -140,22 +140,11 @@ public abstract class LaserCatMenu
 		{
 			System.out.println("Button clicked");
 		}
-		public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
-			System.out.println("Button over");
-
+			if (!this.isPressed())
+				SoundManager.performAction(UIActions.BELLOVER);
 		}
-	}
-	
-	public class UIListener extends ChangeListener{
-
-		@Override
-		public void changed(ChangeEvent event, Actor actor)
-		{
-			// TODO Auto-generated method stub
-			System.out.println("Button clicked");
-		}
-		
 	}
 	
 }

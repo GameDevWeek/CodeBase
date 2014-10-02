@@ -27,12 +27,9 @@ public class MainMenu extends LaserCatMenu
 		name[3] = "Exit";
 		addButtonsToFrame();
 		
-		UIListener listener = new UIListener();
 		for (Button b:button)
 		{
-			//b.addMouseListener(this);
 			b.addListener(LaserCatMenu.soundListener);
-			b.addListener(listener);
 
 		}
 	}

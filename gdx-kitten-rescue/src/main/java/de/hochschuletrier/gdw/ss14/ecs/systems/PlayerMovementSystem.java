@@ -1,15 +1,26 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.utils.*;
-import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.states.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.utils.Array;
+
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /**
  * Created by Daniel Dreher on 01.10.2014.
  */
 public class PlayerMovementSystem extends ECSystem
 {
+    
+    Logger logger = LoggerFactory.getLogger(PlayerMovementSystem.class);
+    
     public PlayerMovementSystem(EntityManager entityManager)
     {
         super(entityManager, 1);
@@ -52,10 +63,10 @@ public class PlayerMovementSystem extends ECSystem
             float distance = moveCompo.directionVec.len();
 
             //Katze springt, wenn nah genug an Laserpointer
-            if (distance <= 30 && (catStateCompo.state == CatStateEnum.IDLE))
+            if (distance <= 70 && (catStateCompo.state == CatStateEnum.IDLE))
             {
                 catStateCompo.jumpBuffer += delta;
-                if (catStateCompo.jumpBuffer >= 500)
+                if (catStateCompo.jumpBuffer >= 0.5)
                 {
                     catStateCompo.state = CatStateEnum.JUMP;
 
@@ -112,6 +123,12 @@ public class PlayerMovementSystem extends ECSystem
             else if (catStateCompo.state == CatStateEnum.JUMP)
             {
                 moveCompo.velocity = 200;
+                catStateCompo.state = CatStateEnum.IDLE;
+                catStateCompo.jumpBuffer = 0;
+//                phyCompo.setRotation(phyCompo.getRotation());
+                if(distance <= 10){
+                    moveCompo.velocity = 0;
+                }
             }
             else
             {
@@ -122,11 +139,17 @@ public class PlayerMovementSystem extends ECSystem
                     moveCompo.velocity = 0;
                 }
             }
-
+            
+            float angle = 0;
             //Normalizing DirectionVector for Movement
             moveCompo.directionVec = moveCompo.directionVec.nor();
-            float angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
-
+            
+            if(catStateCompo.state == CatStateEnum.JUMP || catStateCompo.state == CatStateEnum.IDLE){
+                angle = phyCompo.getRotation();
+            }else{
+                angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
+            }
+            
             if (!catStateCompo.canSeeLaserPointer)
             {
                 moveCompo.velocity = 0.0f;
@@ -138,6 +161,7 @@ public class PlayerMovementSystem extends ECSystem
             }
             phyCompo.setVelocityX(moveCompo.directionVec.x * moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.directionVec.y * moveCompo.velocity);
+            logger.debug("\n" + catStateCompo.jumpBuffer);
         }
 
     }
