@@ -1,8 +1,7 @@
 package de.hochschuletrier.gdw.ss14.hud;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Texture;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
@@ -10,19 +9,20 @@ import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
 
-public class WaterlevelHUD extends HudComponent implements GameInputAdapter {
-    private float currentPercent = 100;
-    private boolean buttonDown = false;
+public class WeaponHUD extends HudComponent implements GameInputAdapter {
+    private boolean isLaser = true;
     
-    private WaterlevelHUD(AssetManagerX assetManager) {
-        super(assetManager);
-    }
+    private Texture laser;
+    private Texture waterpistol;
     
-    public WaterlevelHUD(AssetManagerX assetManager, float height, float width) {
+    public WeaponHUD(AssetManagerX assetManager) {
         super(assetManager);
         
-        super.width = width;
-        super.height = height;
+        laser = assetManager.getTexture("weapon_laser");
+        waterpistol = assetManager.getTexture("weapon_waterpistol");
+        
+        super.width = laser.getWidth();
+        super.height = laser.getHeight();
         
         InputManager.getInstance().addGameInputAdapter(this);
     }
@@ -31,22 +31,16 @@ public class WaterlevelHUD extends HudComponent implements GameInputAdapter {
     public void render() {
         Main.getInstance().screenCamera.bind();
         
-        if (buttonDown) {
-            currentPercent -= 10.0f * Gdx.graphics.getDeltaTime();
-            if (currentPercent < 0) {
-                currentPercent = 0f;
-            }
+        Texture tmp;
+        if (isLaser) {
+            tmp = laser;
         } else {
-            if (currentPercent < 100) {
-                currentPercent += 5.0f * Gdx.graphics.getDeltaTime();
-                if (currentPercent > 100) {
-                    currentPercent = 100.0f;
-                }
-            }
+            tmp = waterpistol;
         }
         
-        DrawUtil.fillRect(position.x, position.y, getWidth() * (currentPercent / 100f), getHeigth(), Color.BLUE);
-        DrawUtil.drawRect(position.x, position.y, getWidth(), getHeigth(), Color.BLACK);
+        // DrawUtil.drawRect(getX(), getY(), super.getWidth(), super.getHeigth(), Color.RED);
+        
+        DrawUtil.batch.draw(tmp, getX(), getY(), super.getWidth(), super.getHeigth(), 0, 0, tmp.getWidth(), tmp.getHeight(), false, true);
     }
     
     @Override
@@ -81,18 +75,15 @@ public class WaterlevelHUD extends HudComponent implements GameInputAdapter {
 
     @Override
     public void laserButtonPressed() {
-        // TODO Auto-generated method stub
-        
+        isLaser = !isLaser;
     }
 
     @Override
     public void waterPistolButtonDown() {
-        buttonDown = true;
     }
 
     @Override
     public void waterPistolButtonUp() {
-        buttonDown = false;
     }
 
     @Override
@@ -100,4 +91,6 @@ public class WaterlevelHUD extends HudComponent implements GameInputAdapter {
         // TODO Auto-generated method stub
         
     }
+    
+    
 }
