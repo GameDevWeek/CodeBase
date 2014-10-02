@@ -42,7 +42,7 @@ public class CatLifeHUD extends HudComponent{
 				getX() + super.getWidth() * i,
 				getY(), 
 				super.getWidth(),
-				super.getHeigth(),
+				super.getHeight(),
 				0, 0, tmp.getWidth(), tmp.getHeight(), false, true);
 		}
 	}
