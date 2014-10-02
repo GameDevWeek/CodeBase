@@ -2,10 +2,14 @@ package de.hochschuletrier.gdw.ss14.ecs.ai;
 
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.*;
-
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.utils.Array;
 
 
 public class DogBehaviour extends Behaviour {
@@ -74,8 +78,14 @@ public class DogBehaviour extends Behaviour {
     
     
     class Blackboard{
+        EntityManager em;
         
+        public Blackboard(EntityManager em)
+        { //Konstruktor ohne Argumente würde keinen Sinn machen, daher weggelassen.
+            this.em = em;
+        }
         
+        Array<Integer> dogEntities = em.getAllEntitiesWithComponents(InputComponent.class, EnemyComponent.class);
     }
     
     
