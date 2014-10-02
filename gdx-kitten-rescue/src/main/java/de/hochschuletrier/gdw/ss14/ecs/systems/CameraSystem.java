@@ -3,14 +3,18 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarFloat;
 
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
+import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 
 public class CameraSystem extends ECSystem {
         
+    private CVarFloat cvarMaxScreenCenterDistance = new CVarFloat("cam_maxScreenCenterDistance", 20, 1, 500, 0, "Maximum distance from the center");
+    
   /**
    * 
    * @param em          the entity manager
@@ -22,6 +26,7 @@ public class CameraSystem extends ECSystem {
   public CameraSystem( EntityManager em, int priority ) {
       
       super(em, priority); 
+      Main.getInstance().console.register(cvarMaxScreenCenterDistance);
   }
     
   @Override
@@ -44,6 +49,8 @@ public class CameraSystem extends ECSystem {
               float followFactor = 0.0f;                          
               float centerDistance = followPos.cpy().sub(camera2DPos).len();
               float maxCenterDistance = camComp.maxScreenCenterDistance * camComp.smoothCamera.getZoom();
+              
+              /*cvarMaxScreenCenterDistance.get()*/
               
               // If farther away than max distance, move towards the cat to contain max distance
               if (centerDistance > maxCenterDistance) {
@@ -84,6 +91,11 @@ public class CameraSystem extends ECSystem {
       
   }
   
+    @Override
+    public void shutdown() {
+        Main.getInstance().console.unregister(cvarMaxScreenCenterDistance);
+    }
+
   /*public void setBounds( Vector2 minBounds, Vector2 maxBounds ) {
       
       smoothCamera.setBounds(minBounds.x, minBounds.y, maxBounds.x, maxBounds.y);

@@ -94,8 +94,9 @@ public class MapManager
         for (Layer layer : mapComp.getMap().getLayers())
         {
             System.out.println(this.getClass().getName()+": "+layer.getIntProperty("floor", -1));
-            //if (layer.getIntProperty("floor", -1) == floor)
-            mapComp.renderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
+            //if (layer.getIntProperty("floor", -1) == floor) 
+            if (layer.isTileLayer())
+                mapComp.renderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
         }
     }
 
@@ -167,8 +168,7 @@ public class MapManager
                                 float y = mapObjects.get(j).getY();
                                 Vector2 pos = new Vector2(x, y);
                                 try {
-                                    CatContactSystem ccs = (CatContactSystem)Game.engine.getSystemOfType(CatContactSystem.class);
-                                    EntityFactory.constructCat(pos, 150, 75, 0, 50.0f, ccs);
+                                    EntityFactory.constructCat(pos, 150, 75, 0, 50.0f);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

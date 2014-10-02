@@ -19,12 +19,14 @@ public class MainMenu extends LaserCatMenu
 	public void init(AssetManagerX assetManager)
 	{
 		super.init(assetManager);
-		numberOfButtons = 4;
+		numberOfButtons = 6;
 		name = new String[numberOfButtons];
 		name[0] = "Start";
 		name[1] = "Levels";
 		name[2] = "Options";
 		name[3] = "Exit";
+		name[4] = "Test1";
+		name[5] = "Test2";
 		addButtonsToFrame();
 		
 		for (Button b:button)

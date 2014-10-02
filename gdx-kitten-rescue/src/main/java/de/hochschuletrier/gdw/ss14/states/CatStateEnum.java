@@ -16,5 +16,10 @@ public enum CatStateEnum {
     IDLE,
     WALK,
     RUN,
-    JUMP
+    JUMP,
+    CRASH,
+    FALL,
+    DIE,
+    DIE2,
+    POSITIVE_FOOD
 }
