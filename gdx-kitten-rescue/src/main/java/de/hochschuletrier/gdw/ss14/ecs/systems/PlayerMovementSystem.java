@@ -67,12 +67,12 @@ public class PlayerMovementSystem extends ECSystem{
                 catStateCompo.state = CatStateEnum.IDLE;
             }else if(moveCompo.velocity > 0 && moveCompo.velocity < moveCompo.middleVelocity){
                 catStateCompo.state = CatStateEnum.WALK;
-                SoundManager.performAction(PhysicsActions.CATWALK);
                 catStateCompo.timeTillJump = 0;
             }else if(moveCompo.velocity > moveCompo.middleVelocity && moveCompo.velocity < moveCompo.maxVelocity){
                 catStateCompo.state = CatStateEnum.RUN;
                 catStateCompo.timeTillJump = 0;
             }
+            SoundManager.performAction(PhysicsActions.CATWALK);
 
             logger.debug("\n"+catStateCompo.state);
             if(catStateCompo.state != CatStateEnum.JUMP){
