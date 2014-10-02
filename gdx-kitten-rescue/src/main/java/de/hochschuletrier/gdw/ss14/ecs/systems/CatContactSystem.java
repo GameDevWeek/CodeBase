@@ -1,20 +1,20 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.math.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.utils.Box2DBuild;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.ss14.RayCastPhysics;
-import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
 

@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14;
+package de.hochschuletrier.gdw.ss14.physics;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 
