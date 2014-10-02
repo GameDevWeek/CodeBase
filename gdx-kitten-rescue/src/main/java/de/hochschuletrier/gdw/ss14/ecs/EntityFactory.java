@@ -37,7 +37,9 @@ public class EntityFactory {
     }
 
     public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration) {
+        
         int entity = manager.createEntity();
+        
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent catInput = new InputComponent();
@@ -45,6 +47,7 @@ public class EntityFactory {
         CatPropertyComponent catProperty = new CatPropertyComponent();
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
+        
         catAnimation.animation = new AnimationWithVariableFrameTime[6];
         catAnimation.animation[CatStateEnum.HIT.ordinal()]
                 = loadAnimation("data/animations/Hit_rdy.png", 5, 1, new float[]{0.1f, 0.5f, 0.1f, 0.1f, 0.1f}, Animation.PlayMode.NORMAL);
@@ -74,6 +77,7 @@ public class EntityFactory {
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
         manager.addComponent(entity, cam);
+        //manager.addComponent(entity, new HitAnimationComponent());
 
         return entity;
     }
