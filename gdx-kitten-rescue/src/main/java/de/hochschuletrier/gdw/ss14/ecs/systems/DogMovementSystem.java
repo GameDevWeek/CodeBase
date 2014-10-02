@@ -1,10 +1,14 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.*;
-import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.states.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
 
 /**
  * Created by Daniel Dreher on 01.10.2014.
@@ -14,6 +18,12 @@ public class DogMovementSystem extends ECSystem
     public DogMovementSystem(EntityManager entityManager)
     {
         super(entityManager, 2);
+    }
+
+    @Override
+    public void render()
+    {
+
     }
 
     @Override
@@ -54,6 +64,12 @@ public class DogMovementSystem extends ECSystem
             directionVector.x = inputComponent.whereToGo.x - physicsComponent.getPosition().x;
             directionVector.y = inputComponent.whereToGo.y - physicsComponent.getPosition().y;
 
+            float distance = directionVector.len();
+
+            if(distance <= 30){
+                dogPropertyComponent.state = DogStateEnum.KILLING;
+            }
+
             // DON'T use sub-method of vector! (causes some strange bugs!)
             //movementComponent.directionVec = inputComponent.whereToGo.sub(physicsComponent.getPosition());
             movementComponent.directionVec = directionVector;
@@ -65,11 +81,5 @@ public class DogMovementSystem extends ECSystem
             physicsComponent.setVelocityX(movementComponent.directionVec.x * movementComponent.velocity);
             physicsComponent.setVelocityY(movementComponent.directionVec.y * movementComponent.velocity);
         }
-    }
-
-    @Override
-    public void render()
-    {
-
     }
 }
