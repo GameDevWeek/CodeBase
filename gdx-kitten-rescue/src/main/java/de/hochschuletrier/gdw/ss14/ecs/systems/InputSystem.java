@@ -3,10 +3,12 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
+
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 
-public class InputSystem extends ECSystem
+public class InputSystem extends ECSystem implements GameInputAdapter
 {
 
     public InputSystem(EntityManager entityManager)
@@ -36,5 +38,59 @@ public class InputSystem extends ECSystem
     @Override
     public void render()
     {
+    }
+
+    @Override
+    public void move(int screenX, int screenY) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void moveUp(float scale) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void moveDown(float scale) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void moveLeft(float scale) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void moveRight(float scale) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void laserButtonPressed() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void waterPistolButtonDown() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void waterPistolButtonUp() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void menueButtonPressed() {
+        // TODO Auto-generated method stub
+        
     }
 }
