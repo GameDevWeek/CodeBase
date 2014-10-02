@@ -29,6 +29,8 @@ public class SoundManager {
 		
 		switch(actualGamestate) {
 			case MAINMENU:
+			case OPTIONSMENU:
+			case PAUSEGAME:
 				switch(actionString) {
 					case "BELLOVER":
 						SoundManager.playSound("ui_bell"+SoundManager.random(1, 5));

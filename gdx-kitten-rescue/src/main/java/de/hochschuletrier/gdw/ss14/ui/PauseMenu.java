@@ -20,7 +20,7 @@ public class PauseMenu extends LaserCatMenu
 		name = new String[numberOfButtons];
 		name[0] = "Resume";
 		name[1] = "Options";
-		name[2] = "Exit";
+		name[2] = "Main Menu";
 		addButtonsToFrame();
 		
 		pauseMenuListener = new PauseMenuListener();
