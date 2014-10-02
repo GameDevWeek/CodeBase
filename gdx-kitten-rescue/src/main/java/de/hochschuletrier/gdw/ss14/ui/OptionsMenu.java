@@ -61,7 +61,9 @@ public class OptionsMenu extends LaserCatMenu
 		button[3].setName("bell");
 
 		for (Button b : button)
-			widgetFrame.add(b).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
+			widgetFrame.add(b).size(
+					Value.percentWidth(widthOfWidgetFrame / 6, table)).top()
+					.space(20).spaceTop(10);
 
 		name = null;
 	}
@@ -78,9 +80,7 @@ public class OptionsMenu extends LaserCatMenu
 				switch (i)
 				{
 				case 0:
-					LocalMusic
-							.setSystemVolume((float) ((currentVolume + 0.1) < 1.0 ? currentVolume + 0.1
-									: 1.0));
+					LocalMusic.setSystemVolume((float) ((currentVolume + 0.1) < 1.0 ? currentVolume + 0.1 : 1.0));
 					break;
 				case 1:
 					LocalMusic
