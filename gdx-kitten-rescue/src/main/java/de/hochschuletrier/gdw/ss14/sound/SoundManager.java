@@ -11,7 +11,10 @@ import de.hochschuletrier.gdw.ss14.ui.UIActions;
 
 public class SoundManager {
 	private static Sound sound;
+	private static Sound loop;
+	private static boolean isLooping;
 	private static AssetManagerX assetManager;
+	private static float SystemVolume = 0.4f;
 	
 	public static void performAction(Enum action) {
 		GameStates actualGamestate = null;
@@ -34,6 +37,14 @@ public class SoundManager {
 						SoundManager.playSound("ui_menu");
 				}
 				break;
+			case GAMEPLAY:
+				switch (actionString) {
+					case "CATWALK":
+						//SoundManager.playSound("gp_cat_victory");
+						//System.out.println("WALKING CAT!!!!");
+						break;
+				}
+				break;
 			default:
 				break;
 				
@@ -42,7 +53,21 @@ public class SoundManager {
 	
 	private static void playSound(String sound) {
 		SoundManager.sound = SoundManager.assetManager.getSound(sound);
-		SoundManager.sound.play();
+		SoundManager.sound.play(SoundManager.SystemVolume);
+	}
+	
+	private static void loopSound(String sound) {
+		if (SoundManager.isLooping) {
+			//SoundManager.loop.stop();
+			
+			return;
+		}
+		else {
+		SoundManager.isLooping = true;
+		
+		SoundManager.loop = SoundManager.assetManager.getSound(sound);
+		SoundManager.loop.loop(SoundManager.SystemVolume);
+		}
 	}
 	
 	public static void setAssetManager(AssetManagerX assetManager) {

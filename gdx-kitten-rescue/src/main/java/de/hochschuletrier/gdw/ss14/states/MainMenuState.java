@@ -39,6 +39,7 @@ public class MainMenuState extends GameState implements InputProcessor {
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
 
+     // do we need this block ??????
         Texture logo = assetManager.getTexture("logo");
         AnimationExtended walking = assetManager.getAnimation("walking");
         this.music = Main.MusicManager.getMusicStreamByStateName(GameStates.MAINMENU);
@@ -52,7 +53,7 @@ public class MainMenuState extends GameState implements InputProcessor {
                 switch (keycode) {
                     case Keys.ESCAPE:
                         if (GameStates.GAMEPLAY.isActive()) {
-                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(800).reverse(), null);
+                            GameStates.PAUSEGAME.activate(new SplitHorizontalTransition(800).reverse(), null);
                         } else {
                             GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(800), null);
                         }
