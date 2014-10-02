@@ -117,7 +117,7 @@ public abstract class LaserCatMenu
 		for(int i = 0; i<numberOfButtons; i++)
 		{
 			button[i] = new Button(catSkin, "bell");
-			widgetFrame.add(button[i]).height(Value.percentHeight(heightOfWidgetFrame,table)).width(Value.percentWidth(widthOfWidgetFrame/numberOfButtons, table)).top().space(20).spaceTop(10);
+			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/numberOfButtons, table)).top().space(20).spaceTop(10);
 		}
 		name = null;
 }
