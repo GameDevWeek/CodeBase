@@ -31,6 +31,9 @@ public class SoundManager {
 						break;
 				}
 				break;
+			default:
+				break;
+				
 		}
 	}
 	

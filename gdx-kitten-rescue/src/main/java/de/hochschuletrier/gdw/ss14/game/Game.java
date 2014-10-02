@@ -1,15 +1,15 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
-import com.badlogic.gdx.math.Vector2;
-import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.commons.tiled.LayerObject;
-import de.hochschuletrier.gdw.commons.tiled.TiledMap;
-import de.hochschuletrier.gdw.ss14.ecs.Engine;
-import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
-import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.*;
+
+import de.hochschuletrier.gdw.commons.gdx.assets.*;
+import de.hochschuletrier.gdw.commons.gdx.physix.*;
+import de.hochschuletrier.gdw.commons.tiled.*;
+import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
+
 import de.hochschuletrier.gdw.ss14.input.InputManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,8 @@ import org.slf4j.LoggerFactory;
 public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
-    private Engine engine;
+    private Array<ECSystem> systems;
+    public static Engine engine;
 
     private MapManager mapManager;
     private EntityManager entityManager;
@@ -45,15 +46,19 @@ public class Game{
         mapManager.setFloor(0);
     }
 
-    private void initializeSystems(){
+    private void initializeSystems()
+    {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
         engine.addSystem(new DogInputSystem(entityManager));
         engine.addSystem(new PlayerMovementSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
         engine.addSystem(new HitAnimationSystem(entityManager));
+        engine.addSystem(new ParticleEmitterSystem(entityManager));
+        engine.addSystem(new LimitedLifetimeSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
+        engine.addSystem(new CatContactSystem(entityManager));
 
         // physic systems
         engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
@@ -84,7 +89,8 @@ public class Game{
         }
     }
 
-    public TiledMap getMap(){
+    public TiledMap getMap()
+    {
 
         return null;
     }

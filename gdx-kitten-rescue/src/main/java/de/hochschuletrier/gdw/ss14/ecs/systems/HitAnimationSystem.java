@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;
 
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.HitAnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;

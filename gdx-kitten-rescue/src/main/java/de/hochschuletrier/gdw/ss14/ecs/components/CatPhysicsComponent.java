@@ -70,7 +70,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
         physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(0,( mHeight - mWidth)/2)));
         physicsBody.createFixture(fixturedef.shapeCircle(mWidth/2, new Vector2(0,(-mHeight + mWidth)/2)));
         setPhysicsBody(physicsBody);
-        
+        physicsBody.getFixtureList().forEach((f)->f.setUserData("dummy"));
         physicsBody.setOwner(this);
         
     }
@@ -78,6 +78,6 @@ public class CatPhysicsComponent extends PhysicsComponent {
     @Override
     protected void beginContact(PhysixContact contact) {
         super.beginContact(contact);
-        //mListeners.forEach((l)->l.fireCollision(contact));
+        mListeners.forEach((l)->l.fireCollision(contact));
     }
 }
