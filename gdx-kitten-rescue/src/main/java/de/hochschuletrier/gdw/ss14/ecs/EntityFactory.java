@@ -45,6 +45,8 @@ public class EntityFactory {
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);
         CatPropertyComponent catProperty = new CatPropertyComponent();
+        catProperty.lastCheckPoint = pos;
+
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
 
