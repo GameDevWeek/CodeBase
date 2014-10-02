@@ -58,6 +58,9 @@ public class EntityFactory{
 
         CatPropertyComponent catProperties = new CatPropertyComponent();
         catProperties.state = CatStateEnum.IDLE;
+        
+        ShadowComponent shadow = new ShadowComponent();
+        shadow.alpha = 0.5f;
 
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
@@ -68,6 +71,7 @@ public class EntityFactory{
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
         manager.addComponent(entity, cam);
+        manager.addComponent(entity, shadow);
         //manager.addComponent(entity, new ConePhysicsComponent(catPhysix.getPosition(), 100,100,100));
         //manager.addComponent(entity, new HitAnimationComponent());
 
