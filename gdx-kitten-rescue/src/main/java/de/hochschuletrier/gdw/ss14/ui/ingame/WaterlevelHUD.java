@@ -10,48 +10,73 @@ import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
 
-public class WaterlevelUI implements GameInputAdapter {
-    private AssetManagerX assetManager;
+public class WaterlevelHUD extends HudComponent implements GameInputAdapter {
     private float currentPercent = 100;
-    private Vector2 rectPos;
+    //private Vector2 rectPos;
     private float rectWidth;
     private float rectHeight;
     private boolean buttonDown = false;
     
-    public WaterlevelUI(AssetManagerX assetManager) {
-        this.assetManager = assetManager;
-        rectWidth = 300f;
-        rectHeight = 25f;
-        //InputManager.getInstance().addGameInputAdapter(this);
-        
+    private float posX = 0;
+    private float posY = 0;
+    
+    private float xOffset;
+    private float yOffset;
+    
+    public WaterlevelHUD(AssetManagerX assetManager) {
+        this(assetManager, null);
     }
     
+    public WaterlevelHUD(AssetManagerX assetManager, HudComponent parent) {
+        super(assetManager, parent);
+        xOffset = 0;
+        yOffset = 0;
+        
+        calcPos();
+        
+        if (parent == null) {
+            rectWidth = 300f;
+        } else {
+            rectWidth = parent.getWidth();
+        }
+        
+        rectHeight = 25f;
+        InputManager.getInstance().addGameInputAdapter(this);
+    }
+
+    @Override
     public void render() {
         Main.getInstance().screenCamera.bind();
         
         if (buttonDown) {
-            currentPercent -= 5.0f * Gdx.graphics.getDeltaTime();
+            currentPercent -= 10.0f * Gdx.graphics.getDeltaTime();
             if (currentPercent < 0) {
                 currentPercent = 0f;
             }
         } else {
             if (currentPercent < 100) {
-                currentPercent += 10.0f * Gdx.graphics.getDeltaTime();
+                currentPercent += 5.0f * Gdx.graphics.getDeltaTime();
                 if (currentPercent > 100) {
                     currentPercent = 100.0f;
                 }
             }
         }
         
-        Vector2 rectPos = new Vector2(Gdx.graphics.getWidth() - rectWidth - 50f, 50f);
-        
-        DrawUtil.fillRect(rectPos.x, rectPos.y, rectWidth * (currentPercent / 100f), rectHeight, Color.BLUE);
-        DrawUtil.drawRect(rectPos.x, rectPos.y, rectWidth, rectHeight, Color.BLACK);
-        
-        
-        
+        calcPos();
+        DrawUtil.fillRect(posX, posY, rectWidth * (currentPercent / 100f), rectHeight, Color.BLUE);
+        DrawUtil.drawRect(posX, posY, rectWidth, rectHeight, Color.BLACK);
     }
 
+    private void calcPos() {
+        if (parent != null) {
+            posX = parent.getX();
+            posY = parent.getY() + parent.getHeigth();
+        } else {
+            posX = Gdx.graphics.getWidth() - rectWidth - xOffset;
+            posY = yOffset;
+        }
+    }
+    
     @Override
     public void move(int screenX, int screenY) {
         // TODO Auto-generated method stub
@@ -102,5 +127,25 @@ public class WaterlevelUI implements GameInputAdapter {
     public void menueButtonPressed() {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public float getX() {
+        return posX;
+    }
+
+    @Override
+    public float getY() {
+        return posY;
+    }
+
+    @Override
+    public float getWidth() {
+        return this.rectWidth;
+    }
+
+    @Override
+    public float getHeigth() {
+        return this.rectHeight;
     }
 }

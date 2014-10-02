@@ -8,7 +8,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 
-public class CatLiveUI extends HudComponent{
+public class CatLiveHUD extends HudComponent{
 	
 	Texture catLiveFull;
 	Texture catLiveEmpty;
@@ -27,7 +27,7 @@ public class CatLiveUI extends HudComponent{
 	private float screenX;
 	private float screenY;
 	
-	public CatLiveUI(AssetManagerX assetManager) {
+	public CatLiveHUD(AssetManagerX assetManager) {
 		super(assetManager);
 		
 		catLiveFull = assetManager.getTexture("cat_live_full");

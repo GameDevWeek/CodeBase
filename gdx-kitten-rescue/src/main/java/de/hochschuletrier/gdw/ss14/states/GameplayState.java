@@ -20,7 +20,7 @@ import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.ui.ingame.IngameUI;
+import de.hochschuletrier.gdw.ss14.ui.ingame.IngameHUD;
 
 /**
  * Gameplay state
@@ -39,7 +39,7 @@ public class GameplayState extends GameState implements InputProcessor {
     private final Vector2 position = new Vector2(100, 100);
     private float totalMapWidth, totalMapHeight;
     
-    private IngameUI ingameUI;
+    private IngameHUD ingameHUD;
 
     public GameplayState() {
     }
@@ -52,7 +52,7 @@ public class GameplayState extends GameState implements InputProcessor {
         game.init(assetManager);
         Main.inputMultiplexer.addProcessor(this);
         
-        ingameUI = new IngameUI(assetManager);
+        ingameHUD = new IngameHUD(assetManager);
         
         // Setup camera
         /*TiledMap map = game.getMap();
@@ -77,7 +77,7 @@ public class GameplayState extends GameState implements InputProcessor {
         game.render();
         DrawUtil.fillRect(position.x - 10, position.y -10, 20, 20, Color.RED);*/
         game.render();        
-        ingameUI.render();
+        ingameHUD.render();
     }
 
     @Override
