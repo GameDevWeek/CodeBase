@@ -28,10 +28,10 @@ public class SoundManager {
 			case MAINMENU:
 				switch(actionString) {
 					case "BELLOVER":
-						SoundManager.playSound("click");
+						SoundManager.playSound("ui_bell"+SoundManager.random(1, 5));
 						break;
 					case "BELLCLICKED":
-						SoundManager.playSound("menu");
+						SoundManager.playSound("ui_menu");
 				}
 				break;
 			default:
@@ -47,5 +47,9 @@ public class SoundManager {
 	
 	public static void setAssetManager(AssetManagerX assetManager) {
 		SoundManager.assetManager = assetManager;
+	}
+
+	private static int random (int low, int high) {
+		return (int) Math.round(Math.random() * (high - low) + low);
 	}
 }
