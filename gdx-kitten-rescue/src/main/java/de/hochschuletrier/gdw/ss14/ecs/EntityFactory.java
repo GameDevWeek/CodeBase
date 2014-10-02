@@ -28,6 +28,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
 
 public class EntityFactory{
 
@@ -90,8 +91,9 @@ public class EntityFactory{
         shadow.z = 1.0f;
 
         ParticleEmitterComponent particleEmitComp = new ParticleEmitterComponent();
-        particleEmitComp.particleTintColor = new Color(1,0,0,1);
+        particleEmitComp.particleTintColor = new Color(0.75f,0,0,1);
         particleEmitComp.emitRadius = 10f;
+        particleEmitComp.emitterType = ParticleEmitterTypeEnum.PawParticleEmitter;
 
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);

@@ -24,6 +24,7 @@ import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
 public class ParticleEmitterSystem extends ECSystem {
     
     private TextureRegion[] LiquidParticleTextures;
+    private TextureRegion[] PawParticleTextures;
 
     public ParticleEmitterSystem(EntityManager entityManager) {
         
@@ -51,18 +52,18 @@ public class ParticleEmitterSystem extends ECSystem {
             }
             
             // Emit one particle for every passed cycle since last update
-            for (int i=0; i < lastCycle-currentCycle; ++i) {
+            for (int i=lastCycle-currentCycle-1; i >= 0 ; --i) {
                         
-                emitParticle(emitComp, entityManager.getComponent(ent, PhysicsComponent.class).getPosition());
+                emitParticle(emitComp, entityManager.getComponent(ent, PhysicsComponent.class), currentCycle-i);
                 
                 // Add one interval to lifetime if emitter has unlimited lifetime so no overflow is possible
-                if (!emitComp.hasLimitedLifetime)
-                    emitComp.lifetimeLeft += emitComp.emitInterval;
+                /*if (!emitComp.hasLimitedLifetime)
+                    emitComp.lifetimeLeft += emitComp.emitInterval;*/
             }
         }
     }
     
-    private void emitParticle( ParticleEmitterComponent emitComp, Vector2 basePosition ) {
+    private void emitParticle( ParticleEmitterComponent emitComp, PhysicsComponent physComp, int cycleNumber ) {
         
         Vector2 particlePos = new Vector2();
         TextureRegion tex = null;
@@ -73,16 +74,26 @@ public class ParticleEmitterSystem extends ECSystem {
         case LiquidParticleEmitter:
             int index = (int) (Math.random()*LiquidParticleTextures.length);
             tex = LiquidParticleTextures[index];
+            rotation = (float)(Math.random()*360.0);
+            
+            // Get random direction and then a random position within the emit radius
+            particlePos = new Vector2(1f, 0f).rotate((float)(Math.random()*360.0));
+            particlePos.scl((float)(Math.random() * emitComp.emitRadius));
+            particlePos.add(physComp.getPosition());
+
             break;
-        }
-        
-        // Get random direction and then a random position within the emit radius
-        particlePos = new Vector2(1f, 0f).rotate((float)(Math.random()*360.0));
-        particlePos.scl((float)(Math.random() * emitComp.emitRadius));
-        particlePos.add(basePosition);
-        
-        // Get random rotation for the particle texture
-        rotation = (float)(Math.random()*360.0);
+            
+        case PawParticleEmitter:
+            tex = PawParticleTextures[Math.abs(cycleNumber) % PawParticleTextures.length];
+            rotation = physComp.getRotation();
+            
+            // Alternate between right and left
+            float dir = (cycleNumber % 2 == 0) ? -1f : 1f;
+            particlePos = new Vector2(emitComp.emitRadius*dir, 0.0f);
+            particlePos.add(physComp.getPosition());
+            
+            break;
+        }       
             
         createParticle(particlePos, rotation, emitComp.particleTintColor, emitComp.particleLifetime, tex);
     }
@@ -99,10 +110,11 @@ public class ParticleEmitterSystem extends ECSystem {
         RenderComponent particleRender = new RenderComponent();
         particleRender.zIndex = -1;
         particleRender.texture = tex;
-        particleRender.tintColor = tintColor;
+        particleRender.tintColor = tintColor.cpy();
         
         LimitedLifetimeComponent limitComp = new LimitedLifetimeComponent();
-        limitComp.lifetimeLeft = lifetime;
+        limitComp.maxLifetime = lifetime;
+        limitComp.graduallyReduceAlpha = true;
         
         entityManager.addComponent(particleEnt, particlePhysics);
         entityManager.addComponent(particleEnt, particleRender);
@@ -115,6 +127,9 @@ public class ParticleEmitterSystem extends ECSystem {
                 
         tex = new Texture("data/animations/PartikelBlut.png");
         LiquidParticleTextures = TextureRegion.split(tex, tex.getWidth() / 10, tex.getHeight())[0];
+        
+        tex = new Texture("data/animations/Pfoten.png");
+        PawParticleTextures = TextureRegion.split(tex, tex.getWidth() / 2, tex.getHeight())[0];
     }
     
     @Override
