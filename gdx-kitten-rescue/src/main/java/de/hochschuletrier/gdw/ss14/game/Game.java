@@ -17,7 +17,8 @@ import org.slf4j.LoggerFactory;
 public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
-    private Engine engine;
+    private Array<ECSystem> systems;
+    public static Engine engine;
 
     private MapManager mapManager;
     private EntityManager entityManager;
@@ -57,6 +58,7 @@ public class Game{
         engine.addSystem(new LimitedLifetimeSystem(entityManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
+        engine.addSystem(new CatContactSystem(entityManager));
 
         // physic systems
         engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
