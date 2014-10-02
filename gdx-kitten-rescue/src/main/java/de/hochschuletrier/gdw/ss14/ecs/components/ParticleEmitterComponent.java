@@ -14,7 +14,7 @@ public class ParticleEmitterComponent implements Component {
     public boolean hasLimitedLifetime = false;
     public float lifetimeLeft = 2.0f;
     
-    public float particleLifetime = 5.0f;
+    public float particleLifetime = 10.0f;
     
     public float emitInterval = 0.15f;
     public float emitRadius = 0f;
