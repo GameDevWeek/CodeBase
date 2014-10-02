@@ -61,7 +61,7 @@ public class EntityFactory{
         
         ShadowComponent shadow = new ShadowComponent();
         shadow.alpha = 0.5f;
-        shadow.z = 0.6f;
+        shadow.z = 1.0f;
 
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
