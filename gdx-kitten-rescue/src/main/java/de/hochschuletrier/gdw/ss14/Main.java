@@ -33,6 +33,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
 import de.hochschuletrier.gdw.ss14.sound.MusicManager;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.GameStates;
 
 /**
@@ -41,7 +42,9 @@ import de.hochschuletrier.gdw.ss14.states.GameStates;
  */
 public class Main extends StateBasedGame {
 
-    public static final int WINDOW_HEIGHT = 768;
+	private static String[] mainArgs;
+	
+	public static final int WINDOW_HEIGHT = 768;
     public static final int WINDOW_WIDTH = 1024;
 
     private final AssetManagerX assetManager = new AssetManagerX();
@@ -109,6 +112,7 @@ public class Main extends StateBasedGame {
         gamePreferences.init();
 		musicManager = MusicManager.getInstance();
 		musicManager.init(this.assetManager);
+		SoundManager.setAssetManager(assetManager);
         setupGdx();
         skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
         consoleView.init(assetManager, skin);
@@ -131,8 +135,21 @@ public class Main extends StateBasedGame {
                 state.init(assetManager);
             }
         }
-        //GameStates.MAINMENU.activate();
+        
+    boolean mainMenu = false;
+    for (String arg:mainArgs)
+    {
+    	if(arg.equalsIgnoreCase("MainMenu"))
+    	{
+    		mainMenu = true;
+    	}
+    }
+    
+    if(mainMenu)
+        GameStates.MAINMENU.activate();
+    else
 		GameStates.GAMEPLAY.activate(null, null);
+    
     }
 
     @Override
@@ -191,7 +208,8 @@ public class Main extends StateBasedGame {
     }
 
     public static void main(String[] args) {
-        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+        mainArgs = args;
+    	LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "Laser Cat";
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;

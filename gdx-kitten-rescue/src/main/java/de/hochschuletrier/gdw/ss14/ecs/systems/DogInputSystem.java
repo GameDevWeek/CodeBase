@@ -1,43 +1,38 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.*;
+import de.hochschuletrier.gdw.ss14.ecs.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 
-import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
-import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
+public class DogInputSystem extends ECSystem
+{
 
-public class DogInputSystem extends ECSystem{
-
-    public DogInputSystem(EntityManager entityManager) {
-        super(entityManager,1);
-        // TODO Auto-generated constructor stub
-        
+    public DogInputSystem(EntityManager entityManager)
+    {
+        super(entityManager, 1);
     }
 
     @Override
-    public void update(float delta) {
-        // TODO Auto-generated method stub
-        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, EnemyComponent.class);
-        Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
-        for (Integer integer : compos) {
-            InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
-            PhysicsComponent phyCompo = entityManager.getComponent(compos2.get(0), PhysicsComponent.class);
-            inputCompo.whereToGo = phyCompo.getPosition();
-            System.out.print("");
+    public void update(float delta)
+    {
+        Array<Integer> dogEntities = entityManager.getAllEntitiesWithComponents(InputComponent.class, EnemyComponent.class);
+        Array<Integer> playerEntities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
+
+        if (playerEntities.first() != null)
+        {
+            int player = playerEntities.first();
+
+            for (Integer entity : dogEntities)
+            {
+                InputComponent inputComponent = entityManager.getComponent(entity, InputComponent.class);
+                PhysicsComponent physicsComponent = entityManager.getComponent(player, PhysicsComponent.class);
+                inputComponent.whereToGo = physicsComponent.getPosition();
+            }
         }
     }
 
     @Override
-    public void render() {
-        // TODO Auto-generated method stub
-        
+    public void render()
+    {
     }
-
 }

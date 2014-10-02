@@ -3,7 +3,6 @@ package de.hochschuletrier.gdw.ss14.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +17,9 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 
+import de.hochschuletrier.gdw.ss14.ui.*;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
+
 /**
  * Menu state
  *
@@ -25,16 +27,10 @@ import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
  */
 public class MainMenuState extends GameState implements InputProcessor {
 
-    public static final int WALKING_SPEED = 100;
-
-	private LocalMusic music;
-    private Sound click;
-    private Texture logo;
-    float stateTime = 0f;
-    private AnimationExtended walking;
-    private float x = 0;
-
+    
+    private MainMenu mainMenu;
     InputInterceptor inputProcessor;
+    private LocalMusic music;
 
     public MainMenuState() {
     }
@@ -43,10 +39,11 @@ public class MainMenuState extends GameState implements InputProcessor {
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
 
-        logo = assetManager.getTexture("logo");
-        walking = assetManager.getAnimation("walking");
+        Texture logo = assetManager.getTexture("logo");
+        AnimationExtended walking = assetManager.getAnimation("walking");
         this.music = Main.musicManager.getMusicStreamByStateName(GameStates.MAINMENU);
-        click = assetManager.getSound("click");
+        Sound click = assetManager.getSound("click");
+        
 //        music.play();
 
         inputProcessor = new InputInterceptor(this) {
@@ -55,9 +52,9 @@ public class MainMenuState extends GameState implements InputProcessor {
                 switch (keycode) {
                     case Keys.ESCAPE:
                         if (GameStates.GAMEPLAY.isActive()) {
-                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(100).reverse(), null);
+                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(500).reverse(), null);
                         } else {
-                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(100), null);
+                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(500), null);
                         }
                         return true;
                 }
@@ -70,43 +67,33 @@ public class MainMenuState extends GameState implements InputProcessor {
     @Override
     public void render() {
         Main.getInstance().screenCamera.bind();
-        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
-
-        DrawUtil.batch.draw(logo, 0, 0, logo.getWidth(), logo.getHeight(), 0, 0,
-                logo.getWidth(), logo.getHeight(), false, true);
-
-        DrawUtil.batch.draw(walking.getKeyFrame(stateTime), x,
-                512, walking.getKeyFrame(0f).getRegionWidth(), -walking.getKeyFrame(0f).getRegionHeight());
-    }
+        mainMenu.render();
+}
 
     @Override
     public void update(float delta) {
-    	music.update();
-        stateTime += delta;
-        x += delta * WALKING_SPEED;
-        if (x > 1024) {
-            x = -walking.getKeyFrame(0f).getRegionWidth();
-        }
+    	mainMenu.update(delta);
     }
 
     @Override
     public void onEnter() {
 		if (this.music.isMusicPlaying()) {
-			this.music.setFade('i', 4000);
+			this.music.setFade('i', 2000);
 		} else {
 			this.music.play("menu");
 		}
-    	
+        mainMenu = new MainMenu();
+        mainMenu.init(assetManager);
         inputProcessor.setActive(true);
-        inputProcessor.setBlocking(true);
+        inputProcessor.setBlocking(false);
     }
 
     @Override
     public void onLeave() {
 		if (this.music.isMusicPlaying()) {
-    		this.music.setFade('o', 4000);
+    		this.music.setFade('o', 2000);
 		}
-		
+    	mainMenu.dispose();
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);
     }
@@ -132,7 +119,6 @@ public class MainMenuState extends GameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        SoundEmitter.playGlobal(click, false, screenX, screenY, 0);
         return true;
     }
 

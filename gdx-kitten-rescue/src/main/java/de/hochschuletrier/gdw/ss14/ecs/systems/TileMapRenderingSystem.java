@@ -1,23 +1,16 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.Array;
-
 import de.hochschuletrier.gdw.commons.gdx.tiled.TiledMapRendererGdx;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.commons.tiled.Layer;
-import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.TileSet;
-import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
-import de.hochschuletrier.gdw.ss14.ecs.components.TileMapRenderingComponent;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.ecs.components.TileMapRenderingComponent;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Map Rendering System, using TiledMapRendererGdx by Santo Pfingsten
@@ -93,6 +86,6 @@ public class TileMapRenderingSystem extends ECSystem{
 	
 	@Override
 	public void update(float delta) {
-		// Nothing todo
+		// Nothing to do
 	}
 }

@@ -1,15 +1,11 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Array;
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
@@ -48,6 +44,15 @@ public class RenderSystem extends ECSystem {
 
             if (renderCompo.texture != null) {
 
+                if (renderCompo.isTintedRed) {
+                    DrawUtil.batch.end();
+
+                    DrawUtil.batch.begin();
+                    Gdx.gl20.glColorMask(true, false, false, true);
+                }
+                /*else
+                 Gdx.gl20.glColorMask(true, true, true, true);*/
+
                 DrawUtil.batch.draw(renderCompo.texture,
                         physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() / 2),
                         physicsCompo.getPosition().y - (renderCompo.texture.getRegionHeight() / 2),
@@ -58,12 +63,18 @@ public class RenderSystem extends ECSystem {
                         1f,
                         1f,
                         (float) (physicsCompo.getRotation() * 180 / Math.PI));
+
+                if (renderCompo.isTintedRed) {
+                    DrawUtil.batch.end();
+
+                    Gdx.gl20.glColorMask(true, true, true, true);
+                    DrawUtil.batch.begin();
+                }
             }
         }
     }
 
     private void initializeShaders() {
-
         //FileHandle vertShader = new FileHandle("data/shaders/passThrough.vs");
         //FileHandle fragShader = new FileHandle("data/shaders/redTinted.fs");
         //redTintedShader = new ShaderProgram(vertShader, fragShader);
