@@ -41,7 +41,7 @@ public class MainMenuState extends GameState implements InputProcessor {
 
         Texture logo = assetManager.getTexture("logo");
         AnimationExtended walking = assetManager.getAnimation("walking");
-        this.music = Main.musicManager.getMusicStreamByStateName(GameStates.MAINMENU);
+        this.music = Main.MusicManager.getMusicStreamByStateName(GameStates.MAINMENU);
         Sound click = assetManager.getSound("click");
         
 //        music.play();
