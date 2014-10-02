@@ -39,13 +39,21 @@ public class CheckCatDeadSystem extends ECSystem
                 float maxVelocity = movementComponent.maxVelocity;
                 float acceleration = movementComponent.acceleration;
 
+                int newAmountLives = catPropertyComponent.amountLives--;
+                if(newAmountLives<0)
+                {
+                    newAmountLives = 0;
+                }
+
+                // destroy entity (can't change position because of box2d)
                 physixManager.destroy(physicsComponent.physicsBody);
                 entityManager.deleteEntity(entity);
 
+                // create new player entity
                 int newPlayer = EntityFactory.constructCat(lastCheckpoint, maxVelocity, middleVelocity, minVelocity, acceleration);
 
-                // decrease lives
-                entityManager.getComponent(newPlayer, CatPropertyComponent.class).amountLives--;
+                // set new lives
+                entityManager.getComponent(newPlayer, CatPropertyComponent.class).amountLives = newAmountLives;
             }
         }
 
