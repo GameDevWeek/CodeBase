@@ -68,12 +68,14 @@ public class Game{
 
         // Rendering related systems
         engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
-        engine.addSystem(new AnimationSystem(entityManager, 1));
+        engine.addSystem(new ShadowSystem(entityManager, 1));
+        engine.addSystem(new AnimationSystem(entityManager, 2));
         engine.addSystem(new RenderSystem(entityManager, 1200));
     }
 
     private void initializeTestComponents()
     {
+        EntityFactory.constructLaserPointer(new Vector2(300,0));
 //        int dogEntity1 = EntityFactory.constructDog(new Vector2(200,200), 60.0f, 40.0f, 0, 100f);
 //        int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
 //        int dogEntity3 = EntityFactory.constructDog(new Vector2(40,200), 60.0f, 40.0f, 0, 100f);

@@ -59,10 +59,11 @@ public class CatPhysicsComponent extends PhysicsComponent {
         physicsBody.setAngularVelocity(0);
         
         physicsBody.createFixture(fixturedef.shapeBox(width, height-width));
+        physicsBody.createFixture(fixturedef.shapeCircle(0.1f)).setUserData("masscenter");
         physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,( height-width)/2)));
         physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,(-height+width)/2)));
         setPhysicsBody(physicsBody);
-        physicsBody.getFixtureList().forEach((f)->f.setUserData("dummy"));
+        
         physicsBody.setOwner(this);
     }
     
