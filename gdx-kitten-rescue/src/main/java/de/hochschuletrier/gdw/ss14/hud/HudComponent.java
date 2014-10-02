@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.ui.ingame;
+package de.hochschuletrier.gdw.ss14.hud;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 
