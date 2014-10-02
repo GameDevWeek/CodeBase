@@ -6,5 +6,53 @@
         "playType" : "LOOP",
         "columns": 7,
         "rows" : 1
+    },
+    "hit": {
+        "filename": "data/animations/Hit_rdy.png",
+        "frames" : 5,
+        "frameDuration": [0.1, 0.5, 0.1, 0.1, 0.1],
+        "playType" : "NORMAL",
+        "columns": 5,
+        "rows" : 1
+    },
+    "idle": {
+        "filename": "data/animations/Schwanz_rdy.png",
+        "frames" : 10,
+        "frameDuration": [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2],
+        "playType" : "LOOP",
+        "columns": 10,
+        "rows" : 1
+    },
+    "walk": {
+        "filename": "data/animations/Laufen_rdy.png",
+        "frames" : 4,
+        "frameDuration": [0.1, 0.2, 0.1, 0.2],
+        "playType" : "LOOP",
+        "columns": 4,
+        "rows" : 1
+    },
+    "run": {
+        "filename": "data/animations/Rennen_rdy.png",
+        "frames" : 4,
+        "frameDuration": [0.1, 0.2, 0.1, 0.2],
+        "playType" : "LOOP",
+        "columns": 4,
+        "rows" : 1
+    },
+    "slide_left": {
+        "filename": "data/animations/Rutschen_links_rdy.png",
+        "frames" : 5,
+        "frameDuration": [0.1, 0.2, 0.5, 0.1, 0.1],
+        "playType" : "NORMAL",
+        "columns": 5,
+        "rows" : 1
+    },
+    "slide_right": {
+        "filename": "data/animations/Rutschen_rechts_rdy.png",
+        "frames" : 5,
+        "frameDuration": [0.1, 0.2, 0.5, 0.1, 0.1],
+        "playType" : "NORMAL",
+        "columns": 5,
+        "rows" : 1
     }
 }
