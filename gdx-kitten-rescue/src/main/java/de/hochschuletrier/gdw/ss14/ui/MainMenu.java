@@ -29,7 +29,7 @@ public class MainMenu extends LaserCatMenu
 		name[0] = "Start";
 		name[1] = "Levels";
 		name[2] = "Options";
-		name[3] = "Exit";
+		name[3] = "Exit Game";
 		
 		addButtonsToFrame();
 		actionListener = new UiActionListener();

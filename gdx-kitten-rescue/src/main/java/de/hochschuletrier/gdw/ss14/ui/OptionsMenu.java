@@ -61,9 +61,7 @@ public class OptionsMenu extends LaserCatMenu
 		button[3].setName("bell");
 
 		for (Button b : button)
-			widgetFrame.add(b)
-					.size(Value.percentWidth(widthOfWidgetFrame / 6, table))
-					.top().space(20).spaceTop(10);
+			widgetFrame.add(b).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
 
 		name = null;
 	}
