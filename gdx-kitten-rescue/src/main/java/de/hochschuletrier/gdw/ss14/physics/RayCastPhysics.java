@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14;
+package de.hochschuletrier.gdw.ss14.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
