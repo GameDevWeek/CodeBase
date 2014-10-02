@@ -42,8 +42,8 @@ public class SoundManager {
 			case GAMEPLAY:
 				switch (actionString) {
 					case "CATWALK":
-						//SoundManager.playSound("gp_cat_victory");
-						//System.out.println("WALKING CAT!!!!");
+						SoundManager.loopSound("gp_cat_victory");
+						System.out.println("WALKING CAT!!!!");
 						break;
 				}
 				break;
