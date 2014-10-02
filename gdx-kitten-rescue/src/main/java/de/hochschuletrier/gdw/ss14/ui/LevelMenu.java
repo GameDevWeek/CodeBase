@@ -11,64 +11,59 @@ import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.states.GameStates;
 
-public class OptionsMenu extends LaserCatMenu
+public class LevelMenu extends LaserCatMenu
 {
-	private OptionsMenuListener optionsMenuListener;
-	private float currentVolume;
-
+	private LevelMenuListener levelMenuListener;
+	private int levelIndex;
+	private Label levelLabel;
+	private String levelString;
+	
 	@Override
 	public void init(AssetManagerX assetManager)
 	{
 		super.init(assetManager);
 		numberOfButtons = 4;
 		name = new String[numberOfButtons];
-		name[0] = "Volume Up";
-		name[1] = "Volume Down";
-		name[2] = "Credits";
+		name[0] = "Start";
+		name[1] = "Level+";
+		name[2] = "Level-";
 		name[3] = "Return";
 		addButtonsToFrame();
 
-		optionsMenuListener = new OptionsMenuListener();
+		levelMenuListener = new LevelMenuListener();
 
 		for (Button b : button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
-			b.addListener(this.optionsMenuListener);
+			b.addListener(this.levelMenuListener);
 		}
-
-		currentVolume = LocalMusic.getSystemVolume();
-	}
+}
 
 	protected void addButtonsToFrame()
 	{
 		button = new Button[numberOfButtons];
 		label = new Label[numberOfButtons];
 
-		for (int i = 0; i < numberOfButtons; i++)
+		for(int i=0; i<numberOfButtons; i++)
 		{
 			label[i] = new Label(name[i], basicSkin);
 			widgetFrame.add(label[i]).expandX().space(20).spaceBottom(10);
 		}
-
+		
 		widgetFrame.row();
-		button[0] = new Button(catSkin, "sound_push");
-		button[0].setName("button");
-		button[1] = new Button(catSkin, "sound_reduce");
-		button[1].setName("button");
-		button[2] = new Button(catSkin, "bell"); // Placeholder for image
-		button[2].setName("bell");
-		button[3] = new Button(catSkin, "bell"); // Placeholder for image
-		button[3].setName("bell");
-
-		for (Button b : button)
-			widgetFrame.add(b).size(
-					Value.percentWidth(widthOfWidgetFrame / 6, table)).top()
-					.space(20).spaceTop(10);
-
+		for(int i = 0; i<numberOfButtons; i++)
+		{
+			button[i] = new Button(catSkin, "bell");
+			button[i].setName("bell");
+			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
+		}
+		levelIndex = 0;
+		levelLabel = new Label(("Level: " + levelIndex), basicSkin);
+		widgetFrame.add(levelLabel);
 		name = null;
 	}
 
-	private class OptionsMenuListener extends ClickListener
+	private class LevelMenuListener extends ClickListener
 	{
 		public void clicked(InputEvent event, float x, float y)
 		{
@@ -80,20 +75,19 @@ public class OptionsMenu extends LaserCatMenu
 				switch (i)
 				{
 				case 0:
-					LocalMusic.setSystemVolume((float) ((currentVolume + 0.1) < 1.0 ? currentVolume + 0.1 : 1.0));
-					System.out.println("Increase Volume");
+					GameStates.GAMEPLAY.activate();
 					break;
 				case 1:
-					LocalMusic
-							.setSystemVolume((float) ((currentVolume - 0.1) > 0 ? currentVolume - 0.1
-									: 0));
-					System.out.println("Decrease Volume");
-
+					levelIndex = levelIndex > 0 ? (levelIndex-1) : 0;
+					levelLabel.setText("Level: " + levelIndex);
+					System.out.println("Decrease Level");
 					break;
 				case 2:
-					System.out.println("Open Credits");
+					levelIndex = levelIndex > 0 ? (levelIndex+1) : 0;
+					levelLabel.setText("Level: " + levelIndex);
+					System.out.println("Increase Level");
 					break;
-				default:
+				case 3:
 					GameStates.MAINMENU.activate();
 					break;
 				}

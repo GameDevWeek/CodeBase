@@ -12,6 +12,7 @@ public enum GameStates {
     LOADING(new LoadGameState()),
     MAINMENU(new MainMenuState()),
     GAMEPLAY(new GameplayState()),
+    LEVELMENU(new GameplayState()),
     SANDBOX(new SandboxState()),
     PAUSEGAME(new PauseGameState()),
     OPTIONSMENU(new OptionsMenuState());

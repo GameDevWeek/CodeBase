@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.ui;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -82,8 +83,7 @@ public class MainMenu extends LaserCatMenu
 							GameStates.OPTIONSMENU.activate();
 							break;
 						case 3:
-							break;
-						case 4:
+							System.exit(0);
 							break;
 						default:
 							System.out.println("You just fucked up");		
