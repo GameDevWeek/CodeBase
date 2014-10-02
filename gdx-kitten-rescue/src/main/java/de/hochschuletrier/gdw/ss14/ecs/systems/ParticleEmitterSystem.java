@@ -5,9 +5,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ss14.ecs.Engine;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CirclePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LimitedLifetimeComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
@@ -43,8 +51,8 @@ public class ParticleEmitterSystem extends ECSystem {
             }
             
             // Emit one particle for every passed cycle since last update
-            for (int i=0; i < currentCycle-lastCycle; ++i) {
-                                
+            for (int i=0; i < lastCycle-currentCycle; ++i) {
+                        
                 emitParticle(emitComp, entityManager.getComponent(ent, PhysicsComponent.class).getPosition());
                 
                 // Add one interval to lifetime if emitter has unlimited lifetime so no overflow is possible
@@ -71,29 +79,34 @@ public class ParticleEmitterSystem extends ECSystem {
         // Get random direction and then a random position within the emit radius
         particlePos = new Vector2(1f, 0f).rotate((float)(Math.random()*360.0));
         particlePos.scl((float)(Math.random() * emitComp.emitRadius));
+        particlePos.add(basePosition);
         
         // Get random rotation for the particle texture
         rotation = (float)(Math.random()*360.0);
             
-        createParticle(particlePos, rotation, emitComp.particleTintColor, tex);
+        createParticle(particlePos, rotation, emitComp.particleTintColor, emitComp.particleLifetime, tex);
     }
     
-    private void createParticle( Vector2 emitPosition, float rotation, Color tintColor, TextureRegion tex ) {
+    private void createParticle( Vector2 emitPosition, float rotation, Color tintColor, float lifetime, TextureRegion tex ) {
         
         int particleEnt = entityManager.createEntity();
         Vector2 particlePos = emitPosition;
         
         PhysicsComponent particlePhysics = new PhysicsComponent();
-        particlePhysics.physicsBody.setPosition(particlePos.cpy());
-        particlePhysics.setRotation(rotation);
+        particlePhysics.defaultPosition = particlePos.cpy();
+        particlePhysics.defaultRotation = rotation;
         
         RenderComponent particleRender = new RenderComponent();
         particleRender.zIndex = -1;
         particleRender.texture = tex;
         particleRender.tintColor = tintColor;
         
+        LimitedLifetimeComponent limitComp = new LimitedLifetimeComponent();
+        limitComp.lifetimeLeft = lifetime;
+        
         entityManager.addComponent(particleEnt, particlePhysics);
-        entityManager.addComponent(particleEnt, new RenderComponent());
+        entityManager.addComponent(particleEnt, particleRender);
+        entityManager.addComponent(particleEnt, limitComp);
     }
     
     private void loadParticleTextures() {

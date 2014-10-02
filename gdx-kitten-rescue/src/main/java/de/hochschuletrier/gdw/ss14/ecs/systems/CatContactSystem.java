@@ -29,7 +29,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
     @Override
     public void fireCollision(PhysixContact contact) {
-        PhysixEntity owner = contact.getMyPhysixBody().getOwner();
+        PhysixBody owner = contact.getMyPhysixBody();//.getOwner();
         
         Object o = contact.getOtherPhysixBody().getFixtureList().get(0).getUserData();
         PhysixEntity other = contact.getOtherPhysixBody().getOwner();
@@ -53,12 +53,13 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             if(!(o instanceof String)) return;
             String s = (String)o;
             if(s.equals("deadzone")){
-                //if(contact.getOtherPhysixBody().)
                 boolean isCatInZone = false;
-                for(Fixture f : contact.getOtherPhysixBody().getFixtureList()){
-                    isCatInZone |= f.testPoint(owner.getPosition());
+                if(contact.getMyFixture().getUserData() == null) return;
+                if(contact.getMyFixture().getUserData().equals("masscenter")){
+                    isCatInZone = true;
                 }
                 if(isCatInZone){
+                    logger.debug("TOOOOT");
                     // cat fall down
                 }
             }
