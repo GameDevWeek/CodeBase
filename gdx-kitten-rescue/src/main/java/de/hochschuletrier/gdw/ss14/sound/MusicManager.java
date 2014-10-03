@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.sound;
 import java.util.EnumMap;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.states.*;
 
 public class MusicManager {

@@ -20,6 +20,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatCooldownUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatJumpUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatMovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatStateUpdateSystem;
@@ -93,6 +94,7 @@ public class Game{
         engine.addSystem(new CatMovementSystem(entityManager));
         engine.addSystem(new CatJumpUpdateSystem(entityManager));
         engine.addSystem(new CatStateUpdateSystem(entityManager));
+        engine.addSystem(new CatCooldownUpdateSystem(entityManager));
         engine.addSystem(new WoolInfluenceSystem(entityManager));
 
        // engine.addSystem(new DogInputSystem(entityManager));

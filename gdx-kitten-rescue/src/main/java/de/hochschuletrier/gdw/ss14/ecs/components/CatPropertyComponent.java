@@ -10,6 +10,7 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 public class CatPropertyComponent implements Component
 {
     public static final int MAX_LIVES = 9;
+    public static final float CATBOX_COOLDOWN = 2.0f;
 
     public Vector2 lastCheckPoint;
     public int amountLives;
@@ -29,6 +30,9 @@ public class CatPropertyComponent implements Component
 
     public final float PLAYTIME = 1.5f;
     public float playTimeTimer = 0;
+
+    public boolean isCatBoxOnCooldown = false;
+    public float catBoxCooldownTimer = CATBOX_COOLDOWN;
 
     public ArrayList<ICatStateListener> StateListener;
 

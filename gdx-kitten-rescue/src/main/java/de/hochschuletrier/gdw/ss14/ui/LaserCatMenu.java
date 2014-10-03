@@ -1,24 +1,17 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Timer;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
@@ -37,14 +30,14 @@ public abstract class LaserCatMenu
 	//
 	protected static Table widgetFrame;
 	protected static Table table;
-	protected static Skin catSkin, basicSkin;
+	protected static Skin catSkin;
 	protected static Stage stage;
 	protected static float heightOfWidgetFrame;
 	protected static float widthOfWidgetFrame;
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
-	protected Button button[];
+	protected UIButton button[];
 	protected Label label[];
 	protected String name[];
 	protected int numberOfButtons;
@@ -63,7 +56,6 @@ public abstract class LaserCatMenu
 		stage.addActor(table);
 		table.setFillParent(true);
 		catSkin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
-		basicSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
 		
 	
 		// Sets Input so it can reach different layers, depending on focus
@@ -140,10 +132,8 @@ public abstract class LaserCatMenu
 	
 	private void animateRingingBell(Actor b)		// Should only receive Buttons as Parameter
 	{
-		Button button = (Button) b;
-		
-		b.rotateBy(90);
-		b.rotateBy(-90);
+
+		UIButton button = (UIButton) b;
 	}
 	
 }

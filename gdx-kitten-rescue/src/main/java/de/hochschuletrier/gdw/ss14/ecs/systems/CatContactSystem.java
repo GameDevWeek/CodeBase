@@ -73,27 +73,57 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             for (Integer p : compos) {
                 JumpablePropertyComponent property = entityManager.getComponent(p, JumpablePropertyComponent.class);
                 PhysicsComponent puddlecompo = entityManager.getComponent(p, PhysicsComponent.class);
-                if(puddlecompo == other && property.type == JumpableState.deadzone){
-                    boolean isCatInZone = false;
-                    if(contact.getMyFixture().getUserData() == null) return;
-                    if(contact.getMyFixture().getUserData().equals("masscenter")){
-                        isCatInZone = true;
-                    }
-                    if(isCatInZone){
-                        // cat fall down
-                        Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
-
-                        if(entities.size > 0)
+                if(puddlecompo == other)
+                {
+                    if(property.type == JumpableState.deadzone)
+                    {
+                        boolean isCatInZone = false;
+                        if (contact.getMyFixture().getUserData() == null) return;
+                        if (contact.getMyFixture().getUserData().equals("masscenter"))
                         {
-                            int player = entities.first();
-                            CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+                            isCatInZone = true;
+                        }
+                        if (isCatInZone)
+                        {
+                            // cat fall down
+                            Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
 
-                            //catPropertyComponent.isAlive = false;
-                            catPropertyComponent.setState(CatStateEnum.FALL);
+                            if (entities.size > 0)
+                            {
+                                int player = entities.first();
+                                CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+
+                                //catPropertyComponent.isAlive = false;
+                                catPropertyComponent.setState(CatStateEnum.FALL);
+                            }
+
+                        }
+                    } // end dead zone check
+                    else if(property.type == JumpableState.waterpuddle || property.type == JumpableState.bloodpuddle)
+                    {
+                        // TODO: DRY!
+                        boolean isCatInZone = false;
+                        if (contact.getMyFixture().getUserData() == null) return;
+                        if (contact.getMyFixture().getUserData().equals("masscenter"))
+                        {
+                            isCatInZone = true;
+                        }
+                        if (isCatInZone)
+                        {
+                            // cat fall down
+                            Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
+
+                            if (entities.size > 0)
+                            {
+                                int player = entities.first();
+                                CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+
+                                catPropertyComponent.isAlive = false;
+                            }
                         }
 
                     }
-                }
+                } // end if other
                 
             }
             
@@ -102,7 +132,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         }
         else if(other instanceof CatBoxPhysicsComponent)
         {
-            Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, CatPropertyComponent.class, RenderComponent.class);
+            Array<Integer> entities = entityManager.getAllEntitiesWithComponents(CatPropertyComponent.class, RenderComponent.class);
 
             if(entities.size > 0)
             {
@@ -111,11 +141,20 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 RenderComponent renderComponent = entityManager.getComponent(player, RenderComponent.class);
                 CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
 
-                entityManager.removeComponent(player, renderComponent);
-                
-                //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+                if(!catPropertyComponent.isCatBoxOnCooldown)
+                {
+                    catPropertyComponent.isCatBoxOnCooldown = true;
+                    catPropertyComponent.catBoxCooldownTimer = catPropertyComponent.CATBOX_COOLDOWN;
+                    entityManager.removeComponent(player, renderComponent);
 
-                catPropertyComponent.isHidden = true;
+                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+
+                    catPropertyComponent.isHidden = true;
+                }
+                else
+                {
+                    return;
+                }
             }
 
             Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);

@@ -12,13 +12,22 @@
         "catGray": {"a": 0.85, "b": 0.2, "g": 0.2, "r": 0.2}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
-        "bell": {"over": "main-menu-bell-down", "up": "main-menu-bell"},
+        "bell": {"over": "bell03", "up": "bell01"},
+        "bell0": {"over": "bell01", "up": "bell01"},
+        "bell1": {"over": "bell02", "up": "bell01"},
+        "bell2": {"over": "bell03", "up": "bell01"},
+        "bell3": {"over": "bell04", "up": "bell01"},
+        "bell4": {"over": "bell05", "up": "bell01"},
+        "bell5": {"over": "bell06", "up": "bell01"},
 		"sound_push": {"down": "sound-push-button-down", "up": "sound-push-button"},
         "sound_reduce": {"down": "sound-reduce-button-down", "up": "sound-reduce-button"}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
     	"start_button": {"down": "start-menu-button", "up": "start-menu-button-down", "font": "menu-font"}
-    }
+    },
+     "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+     	"default": {"font": "menu-font"}
+     }
     
 }
 
