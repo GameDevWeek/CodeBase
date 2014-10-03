@@ -10,7 +10,7 @@ import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 import de.hochschuletrier.gdw.ss14.ui.UIActions;
 
 import org.slf4j.Logger;
@@ -25,10 +25,10 @@ public class SoundManager {
 	public static float SystemVolume = 1.9f;
 	
 	public static void performAction(Enum action) {
-		GameStates actualGamestate = null;
+		GameStateEnum actualGamestate = null;
 		String actionString = action.name();
 
-		for (GameStates state : GameStates.values()) {
+		for (GameStateEnum state : GameStateEnum.values()) {
 			if (state.isActive()) {
 				actualGamestate = state;
 				break;

@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class LevelMenu extends LaserCatMenu
 {
@@ -94,7 +94,7 @@ public class LevelMenu extends LaserCatMenu
 				switch (i)
 				{
 				case 0:
-					GameStates.GAMEPLAY.activate();
+					GameStateEnum.GAMEPLAY.activate();
 					break;
 				case 1:
 					levelIndex = levelIndex > 0 ? (levelIndex-1) : 0;
@@ -107,7 +107,7 @@ public class LevelMenu extends LaserCatMenu
 					System.out.println("Increase Level to " + levelIndex);
 					break;
 				case 3:
-					GameStates.MAINMENU.activate();
+					GameStateEnum.MAINMENU.activate();
 					break;
 				}
 			}

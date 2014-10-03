@@ -57,7 +57,7 @@ public class Game{
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("Katzenklappentest");
+        mapManager.loadMap("Katzenklappentest"); 
         mapManager.setFloor(0);
         
         behaviourManager.activate();
@@ -89,11 +89,16 @@ public class Game{
         engine.addSystem(new WorldObjectsSystem(entityManager));
 
         // Rendering related systems
-        engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
+        TileMapRenderingSystem map = new TileMapRenderingSystem(entityManager, 0);
+        map.setLayerNameNotToRender("deco2");
+        engine.addSystem(map);
+        map = new TileMapRenderingSystem(entityManager, 1203);
+        map.setLayerNameToRender("deco2");
+        engine.addSystem(map);
         engine.addSystem(new ShadowSystem(entityManager, 9));
         engine.addSystem(new AnimationSystem(entityManager, 10));
         engine.addSystem(new RenderSystem(entityManager, 1200));
-        engine.addSystem(new LightMapSystem(entityManager, 1201));
+        engine.addSystem(new LightMapSystem(entityManager, 1206));
         //Behaviour System
         engine.addSystem(new BehaviourSystem(entityManager,behaviourManager ));
     }

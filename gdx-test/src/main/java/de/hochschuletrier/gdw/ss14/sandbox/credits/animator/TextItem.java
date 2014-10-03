@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,9 +11,10 @@ import java.util.Iterator;
  * @author Santo Pfingsten
  */
 public class TextItem extends Item {
-    public final TextStyle style;
-    public final String originalText;
-    public String shownText;
+    protected final TextStyle style;
+    protected final String originalText;
+    protected String shownText;
+    protected float xOffset;
 
     public ArrayList<TextChar> chars;
     private TextAnimation anim;
@@ -20,6 +23,19 @@ public class TextItem extends Item {
         originalText = text;
         shownText = text;
         this.style = style;
+        if(TextAlign.LEFT != style.align) {
+            BitmapFont.TextBounds bounds = style.font.getBounds(text);
+            if(style.align == TextAlign.RIGHT) {
+                xOffset = -bounds.width;
+            } else {
+                xOffset = -bounds.width/2;
+            }
+        }
+    }
+    
+    @Override
+    public void setPosition(Vector2 pos) {
+        position.set(pos.x + xOffset, pos.y);
     }
 
     @Override
