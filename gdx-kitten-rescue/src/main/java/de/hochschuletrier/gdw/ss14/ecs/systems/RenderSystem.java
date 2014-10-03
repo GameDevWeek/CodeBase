@@ -23,7 +23,7 @@ public class RenderSystem extends ECSystem {
     //private ShaderProgram redTintedShader;
     private RenderComponent renderComponents[];
     private PhysicsComponent physicsComponents[];
-
+    
     public RenderSystem(EntityManager entityManager, int priority) {
 
         super(entityManager, priority);
@@ -65,6 +65,10 @@ public class RenderSystem extends ECSystem {
         //sort arrays
         sortiere(renderComponents, physicsComponents);
         
+        Color currentTintColor = null;
+        
+        int colorChangeCount = 0;
+        
         // draw
         arrayPosition = 0;
         for (Integer integer : entites) {
@@ -73,16 +77,19 @@ public class RenderSystem extends ECSystem {
 
             if (renderCompo.texture != null) {
 
-                if (renderCompo.tintColor != null) {
-                    DrawUtil.batch.end();
-
+                if (!isSameColor(currentTintColor, renderCompo.tintColor)) {
+                    
                     //Gdx.gl20.glColorMask(true, false, false, true);
                     //DrawUtil.batch.setShader(redTintedShader);
-                    DrawUtil.batch.setColor(renderCompo.tintColor);
-                    DrawUtil.batch.begin();
+                    currentTintColor = renderCompo.tintColor;
+                    
+                    if (currentTintColor != null)
+                        DrawUtil.batch.setColor(currentTintColor);
+                    else
+                        DrawUtil.batch.setColor(new Color(1,1,1,1));
+                        
+                    colorChangeCount ++;
                 }
-                /*else
-                 Gdx.gl20.glColorMask(true, true, true, true);*/
 
                 DrawUtil.batch.draw(renderCompo.texture,
                         physicsCompo.getPosition().x - (renderCompo.texture.getRegionWidth() / 2),
@@ -94,17 +101,13 @@ public class RenderSystem extends ECSystem {
                         1f,
                         1f,
                         (float) (physicsCompo.getRotation() * 180 / Math.PI));
-
-                if (renderCompo.tintColor != null) {
-                    DrawUtil.batch.end();
-
-                    //DrawUtil.batch.setShader(null);
-                    DrawUtil.batch.setColor(new Color(1,1,1,1));
-                    DrawUtil.batch.begin();
-                }
             }
             arrayPosition++;
-        }
+        } // end for
+        
+        //System.out.println("\n\n" + "ColorChangeCount = "+colorChangeCount + "\n\n");
+        
+        DrawUtil.setColor(new Color(1,1,1,1));
     }
 
     private void initializeShaders() {
@@ -128,14 +131,23 @@ public class RenderSystem extends ECSystem {
     }
 
     public static int partition(RenderComponent r[], int links, int rechts, PhysicsComponent p[]) {
-        int pivot, i, j;
+        
+        RenderComponent pivot; 
+        int i, j;
+        
         RenderComponent renderCompHelp;
         PhysicsComponent physicsCompHelp;
-        pivot = r[rechts].zIndex;
+        
+        pivot = r[rechts];
         i = links;
         j = rechts - 1;
+        
         while (i <= j) {
-            if (r[i].zIndex > pivot) {
+            
+            // Sort after z-index or, if same, after tint color
+            if ((r[i].zIndex > pivot.zIndex) ||
+                    ((r[i].zIndex == pivot.zIndex) && (isGreaterColor(r[i].tintColor, pivot.tintColor)))) {
+                
                 // tausche x[i] und x[j]
                 renderCompHelp = r[i];
                 r[i] = r[j];
@@ -148,6 +160,7 @@ public class RenderSystem extends ECSystem {
                 i++;
             }
         }
+        
         // tausche x[i] und x[rechts]
         renderCompHelp = r[i];
         r[i] = r[rechts];
@@ -157,5 +170,47 @@ public class RenderSystem extends ECSystem {
         p[rechts] = physicsCompHelp;
 
         return i;
+    }
+    
+    public static boolean isSameColor( Color a, Color b ) {
+        
+        if ((a == null) && (b == null))
+            return true;
+        else if ((a == null) || (b == null))
+            return false;
+        
+        boolean isSameColor = true;
+        float delta = 0.0001f;
+        
+        isSameColor = isSameColor && (Math.abs(a.r - b.r) < delta);
+        isSameColor = isSameColor && (Math.abs(a.g - b.g) < delta);
+        isSameColor = isSameColor && (Math.abs(a.b - b.b) < delta);
+        isSameColor = isSameColor && (Math.abs(a.a - b.a) < delta);
+        
+        return isSameColor;
+    }
+    
+    public static boolean isGreaterColor( Color a, Color b ) {
+        
+        // null = null
+        if ((a == null) && (b == null))
+            return false;
+        
+        // null < any color
+        else if ((a == null) && (b != null))
+            return false;
+        
+        // any color > null
+        else if ((a != null) && (b == null))
+            return true;
+        
+        boolean isGreater = false;
+        
+        isGreater = isGreater || (a.r > b.r);
+        isGreater = isGreater || (a.g > b.g);
+        isGreater = isGreater || (a.b > b.b);
+        isGreater = isGreater || (a.a > b.a);
+        
+        return isGreater;
     }
 }
