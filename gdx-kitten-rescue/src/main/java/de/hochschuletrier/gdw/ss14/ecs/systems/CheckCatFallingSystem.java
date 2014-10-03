@@ -27,7 +27,7 @@ public class CheckCatFallingSystem extends ECSystem
             CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
             MovementComponent movementComponent = entityManager.getComponent(entity, MovementComponent.class);
 
-            if(catPropertyComponent.state == CatStateEnum.FALL)
+            if(catPropertyComponent.getState() == CatStateEnum.FALL)
             {
                 // check if animation is finished here
 
