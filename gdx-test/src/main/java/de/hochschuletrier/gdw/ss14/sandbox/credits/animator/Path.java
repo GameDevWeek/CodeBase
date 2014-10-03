@@ -5,17 +5,14 @@ import java.util.ArrayList;
 
 public class Path {
 
-    public ArrayList<Destination> destinations;
-    public ArrayList<AnimatorData.Path.Animation> animations;
+    public final ArrayList<Destination> destinations = new ArrayList();
+    public final ArrayList<Animation> animations = new ArrayList();
 
-    private static class Destination {
-
-        public final Vector2 position;
-        public final float speed;
-
-        public Destination(float x, float y, float speed) {
-            position = new Vector2(x, y);
-            this.speed = speed;
-        }
+    public void addAnimation(Animation destination) {
+        animations.add(destination);
+    }
+    
+    public void addDestination(Destination destination) {
+        destinations.add(destination);
     }
 }
