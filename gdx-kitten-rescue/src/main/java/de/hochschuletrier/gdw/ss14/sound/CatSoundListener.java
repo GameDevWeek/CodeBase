@@ -24,6 +24,7 @@ public class CatSoundListener implements ICatStateListener {
 	public CatSoundListener(AssetManagerX assetManager) {
 		this.assetManager = assetManager;
 		this.player = this.getPlayer();
+		this.register();
 	}
 	
 	public void register() {

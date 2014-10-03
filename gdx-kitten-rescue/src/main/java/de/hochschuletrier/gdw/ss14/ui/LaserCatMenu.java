@@ -142,8 +142,6 @@ public abstract class LaserCatMenu
 	{
 		Button button = (Button) b;
 		
-		b.rotateBy(90);
-		b.rotateBy(-90);
 	}
 	
 }
