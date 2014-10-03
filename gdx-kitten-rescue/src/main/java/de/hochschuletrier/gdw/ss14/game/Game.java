@@ -127,22 +127,30 @@ public class Game{
         return null;
     }
 
+    float timeSinceLastFPSShow = 0.0f;
     public void update(float delta){
         InputManager.getInstance().update();
         engine.update(delta);
         
+        // FPS
         if (frameTimes.size > currentFrameTimeIndex)
             frameTimes.set(currentFrameTimeIndex, delta);
         else
             frameTimes.add(delta);
             
         currentFrameTimeIndex = (currentFrameTimeIndex+1) % FPSFrameCount;
+        
+        timeSinceLastFPSShow += delta;
+        
+        if (timeSinceLastFPSShow >= 1.0f) {
+            showFPS();
+            timeSinceLastFPSShow = 0.0f;
+        }
+
     }
 
     public void render(){
         engine.render();
-        
-        showFPS();
     }
     
     public void showFPS() {
@@ -154,7 +162,7 @@ public class Game{
         
         averageFrameTime /= frameTimes.size;
         
-        String str = averageFrameTime+" s/Frame";
+        String str = (int)(averageFrameTime*1000f)+" ms/Frame";
         logger.info(str);
     }
 }
