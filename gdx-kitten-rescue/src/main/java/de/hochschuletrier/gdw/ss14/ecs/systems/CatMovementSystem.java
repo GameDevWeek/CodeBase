@@ -134,28 +134,23 @@ public class CatMovementSystem extends ECSystem
                         physicsComponent.setRotation(angle);
                     }
                 }
-                //positionVec not directionVec because sliding
-                physicsComponent.setVelocityX(movementComponent.positionVec.x * movementComponent.velocity);
-                physicsComponent.setVelocityY(movementComponent.positionVec.y * movementComponent.velocity);
-
             } // end if (state check)
-            else
+            else if (catPropertyComponent.state == CatStateEnum.JUMP)
             {
-                if (catPropertyComponent.state == CatStateEnum.JUMP)
-                {
-                    movementComponent.velocity = jumpDataComponent.jumpVelocity;
-                    physicsComponent.setVelocityX(jumpDataComponent.jumpDirection.x * movementComponent.velocity);
-                    physicsComponent.setVelocityY(jumpDataComponent.jumpDirection.y * movementComponent.velocity);
-                }
+                movementComponent.velocity = jumpDataComponent.jumpVelocity;
             }
-
+            else if(catPropertyComponent.state == CatStateEnum.FALL)
+            {
+                movementComponent.velocity = 0.0f;
+            }
+            //positionVec not directionVec because sliding
+            physicsComponent.setVelocityX(movementComponent.positionVec.x * movementComponent.velocity);
+            physicsComponent.setVelocityY(movementComponent.positionVec.y * movementComponent.velocity);
         }
-
     }
 
     @Override
-    public void render()
-    {
+    public void render(){
 
     }
 }
