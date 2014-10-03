@@ -7,6 +7,9 @@ public class LaserPointerComponent implements Component{
 
     public boolean isVisible;
     public Vector2 position;
+    public final float MAX_SPEED = 150f;
+    public float speed;
+    public final float ACCELERATION = 100f;
     
     public enum InputState {
         KEYBOARD,
