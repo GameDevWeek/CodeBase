@@ -17,9 +17,10 @@ public class CatPropertyComponent implements Component
     public boolean canSeeLaserPointer;
     public boolean isAlive, atePositiveFood;
     private CatStateEnum state;
-
+    
+    public boolean isInfluenced = false;
     public float influencedToLaser = 1;
-
+    
     public final float TIME_TILL_INFLUENCED = 2.5f;
     public float timeTillInfluencedTimer = 0;
 
