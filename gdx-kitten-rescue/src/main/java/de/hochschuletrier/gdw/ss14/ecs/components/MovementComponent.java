@@ -10,7 +10,6 @@ public class MovementComponent implements Component{
     public float maxVelocity;
     public float middleVelocity;
     public float minVelocity;
-    public float percentOfNewCatVelocity = .05f;//must 0..1 //default .05f = 5%
 	
 	public Vector2 directionVec;
     public Vector2 positionVec;

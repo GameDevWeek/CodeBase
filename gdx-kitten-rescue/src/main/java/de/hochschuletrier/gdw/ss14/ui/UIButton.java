@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -83,8 +84,8 @@ public class UIButton extends Button {
             else if (isChecked() && style.checked != null)
                 background = (isOver() && style.checkedOver != null) ? style.checkedOver
                         : style.checked;
-            else if (isOver() )
-                background = overAnimation.get(currentFrame);
+            else if (isOver() && style.over != null )
+                background = style.over;//overAnimation.get(currentFrame);
             else
                 background = style.up;
             offsetX = style.unpressedOffsetX;

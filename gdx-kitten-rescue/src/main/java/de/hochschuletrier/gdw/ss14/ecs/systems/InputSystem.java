@@ -74,18 +74,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
                 }
                 inputCompo.whereToGo = new Vector2(vec.x, vec.y);
                 entityManager.getComponent(waterPistol, PhysicsComponent.class).defaultPosition = inputCompo.whereToGo;
-           }else{
-                inputCompo.whereToGo = laser.position;
-                Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-                if(laser.input == InputState.MOUSE){
-                    vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
-                }
-                inputCompo.whereToGo = new Vector2(vec.x, vec.y);
-                Vector2 laserToWool = new Vector2();//woolPosition.sub(laser.position);
-                catProp.influencedToLaser -= delta/catProp.TIME_TILL_INFLUENCED;
-                catProp.timeTillInfluencedTimer += delta;
-                inputCompo.whereToGo = new Vector2(inputCompo.whereToGo.x + laserToWool.x * catProp.influencedToLaser, inputCompo.whereToGo.y + laserToWool.y * catProp.influencedToLaser);
-            }
+           }
         }
     }
 

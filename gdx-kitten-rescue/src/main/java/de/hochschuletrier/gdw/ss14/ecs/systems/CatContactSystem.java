@@ -17,7 +17,6 @@ import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
@@ -42,14 +41,14 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         Object o = contact.getOtherPhysixBody().getFixtureList().get(0).getUserData();
         PhysixEntity other = contact.getOtherPhysixBody().getOwner();
 
-        if(other instanceof CatPhysicsComponent){
+        if(other instanceof RectPhysicsComponent){
             logger.debug("cat collides with dog ... or another cat");
 
 
-        }else if(other instanceof ConePhysicsComponent){
+        }else if(other instanceof CatPhysicsComponent){
             logger.debug("cat collides with sight-cone");
             phyManager.getWorld().rayCast(rcp, other.getPosition(), owner.getPosition());
-            if(rcp.m_hit && rcp.m_fraction <= ((ConePhysicsComponent)other).mRadius){
+            if(rcp.m_hit && rcp.m_fraction <= ((CatPhysicsComponent)other).coneRadius){
                 for(Fixture f : other.physicsBody.getFixtureList()){
                     if(rcp.m_fixture == f){
                         EnemyComponent.seeCat = true;
@@ -62,10 +61,11 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             }
             rcp.reset();
         }else if(other instanceof WoolPhysicsComponent){
-            ((WoolPhysicsComponent) other).isSeen = true;
+            
             Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class);
             CatPropertyComponent player = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
             player.isInfluenced = true;
+            ((WoolPhysicsComponent) other).isSeen = true;
             logger.debug("WOOOOOOOOOOOOOOOLL");
         }else if(other instanceof JumpablePhysicsComponent){
             Array<Integer> compos = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
@@ -86,6 +86,16 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                         {
                             // cat fall down
                             Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
+
+                            if (entities.size > 0)
+                            {
+                                int player = entities.first();
+                                CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+
+                                //catPropertyComponent.isAlive = false;
+                                catPropertyComponent.setState(CatStateEnum.FALL);
+                            }
+
 
                             if (entities.size > 0)
                             {
@@ -148,6 +158,8 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
                     //catPropertyComponent.setState(CatStateEnum.HIDDEN);
 
+                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+
                     catPropertyComponent.isHidden = true;
                 }
                 else
@@ -183,14 +195,15 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         PhysixEntity other = contact.getOtherPhysixBody().getOwner();
         
         if(other instanceof WoolPhysicsComponent){
-            ((WoolPhysicsComponent) other).isSeen = false;
+            
             Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class);
             CatPropertyComponent player = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
+            ((WoolPhysicsComponent) other).isSeen = false;
             player.isInfluenced = false;
             
         }
         
-        if(other instanceof ConePhysicsComponent){
+        if(other instanceof CatPhysicsComponent){
             EnemyComponent.seeCat = false;
         }
         

@@ -9,12 +9,13 @@ import de.hochschuletrier.gdw.commons.gdx.physix.*;
  */
 public class WoolPhysicsComponent extends PhysicsComponent
 {
+    
+    public boolean isSeen = false;
     private Vector2 initPosition;
     private float radius;
     private float rotation;
     private float friction = 1000f;
     private float restitution = 0.1f;
-    public boolean isSeen = false;
 
     public WoolPhysicsComponent(Vector2 position, float radius, float rotation)
     {

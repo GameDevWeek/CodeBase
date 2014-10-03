@@ -49,7 +49,7 @@ public class MainMenu extends LaserCatMenu
 
 		for(int i=0; i<numberOfButtons; i++)
 		{
-			label[i] = new Label(name[i], basicSkin);
+			label[i] = new Label(name[i], catSkin);
 			widgetFrame.add(label[i]).expandX().space(20).spaceBottom(10);
 		}
 		

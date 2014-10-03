@@ -24,6 +24,7 @@ public class CatSoundListener implements ICatStateListener {
 	public CatSoundListener(AssetManagerX assetManager) {
 		this.assetManager = assetManager;
 		this.player = this.getPlayer();
+		this.register();
 	}
 	
 	public void register() {
@@ -39,11 +40,13 @@ public class CatSoundListener implements ICatStateListener {
 		return playerProperties;
 	}
 	
-	private void processSound(CatStateEnum catState) {
+	private void processSound(CatStateEnum catState, CatStateEnum oldState) {
 		switch(catState) {
 			case WALK:
+				this.walkSound("gp_cat_walk_laminate", oldState, catState);
+				break;
 			case RUN:
-				this.walkSound("gp_cat_walk_laminate");
+				this.walkSound("gp_cat_run_laminate", oldState, catState);
 				break;
 			default:
 				if (this.walkSound == null)
@@ -54,10 +57,12 @@ public class CatSoundListener implements ICatStateListener {
 		}
 	}
 	
-	private void walkSound(String sound) {
-		if (this.isLooping)
+	private void walkSound(String sound, CatStateEnum oldState, CatStateEnum newState) {
+		if (this.isLooping && oldState == newState)
 			return;
 		
+		if (this.walkSound != null)
+			this.walkSound.stop();
 		this.isLooping = true;
 		this.walkSound = this.assetManager.getSound(sound);
 		this.walkSound.loop(CatSoundListener.SystemVolume * LocalMusic.getSystemVolume());
@@ -65,6 +70,6 @@ public class CatSoundListener implements ICatStateListener {
 
 	@Override
 	public void stateChanged(CatStateEnum oldstate, CatStateEnum newstate) {
-		this.processSound(newstate);
+		this.processSound(newstate, oldstate);
 	}
 }
