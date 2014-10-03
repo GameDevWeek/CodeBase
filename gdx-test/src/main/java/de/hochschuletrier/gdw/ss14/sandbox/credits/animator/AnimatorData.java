@@ -55,7 +55,8 @@ public class AnimatorData {
     }
 
     public static class Item {
-        public String type;
+        public Float opacity;
+        public ItemType type;
         public Integer delay;
         public Integer x;
         public Integer y;
