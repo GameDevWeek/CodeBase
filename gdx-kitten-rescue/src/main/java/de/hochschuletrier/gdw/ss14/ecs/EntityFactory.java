@@ -62,7 +62,7 @@ public class EntityFactory{
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
 
-        catAnimation.animation = new AnimationExtended[11];
+        catAnimation.animation = new AnimationExtended[32];
         catAnimation.animation[CatStateEnum.HIT.ordinal()] = assetManager.getAnimation("hit");
         catAnimation.animation[CatStateEnum.IDLE.ordinal()] = assetManager.getAnimation("idle");
         catAnimation.animation[CatStateEnum.WALK.ordinal()] = assetManager.getAnimation("walk");
