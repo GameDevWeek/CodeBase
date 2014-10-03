@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
 
 public class CatPropertyComponent implements Component
 {
@@ -30,6 +31,8 @@ public class CatPropertyComponent implements Component
     public final float PLAYTIME = 1.5f;
     public float playTimeTimer = 0;
 
+    public GroundTypeState groundWalking;
+    
     public ArrayList<ICatStateListener> StateListener;
 
     public CatPropertyComponent()

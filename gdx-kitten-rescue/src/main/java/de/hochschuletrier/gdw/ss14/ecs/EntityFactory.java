@@ -19,6 +19,7 @@ import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
 import de.hochschuletrier.gdw.ss14.states.JumpableState;
 import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
 import ch.qos.logback.classic.Logger;
@@ -27,6 +28,8 @@ import ch.qos.logback.classic.Logger;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
+import de.hochschuletrier.gdw.ss14.ecs.components.GroundPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.GroundPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
@@ -117,8 +120,8 @@ public class EntityFactory{
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catProperty);
-        manager.addComponent(entity, catPhysix);
         manager.addComponent(entity, conePhysic);
+        manager.addComponent(entity, catPhysix);
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
@@ -223,6 +226,16 @@ public class EntityFactory{
         int entity = manager.createEntity();
     }
 
+    public static int constructFloor(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef, GroundTypeState type){
+        int entity = manager.createEntity();
+        GroundPhysicsComponent puddlephys = new GroundPhysicsComponent(bodydef, fixturedef);
+        manager.addComponent(entity, new GroundPropertyComponent(type));
+        manager.addComponent(entity, puddlephys);
+        puddlephys.initPhysics(phyManager);
+        
+        return entity;
+    }
+    
     public static void constructLamp(){
         int entity = manager.createEntity();
     }
