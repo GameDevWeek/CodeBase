@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 
 public class UIButton extends Button {
-    Array<Drawable> overAnimation;
-    float frameDuration;
+    Array<Drawable> overAnimation = new Array<Drawable>();
+    float frameDuration = 0.2f;
     float stateDuration;
     int currentFrame;
 
@@ -61,10 +61,11 @@ public class UIButton extends Button {
     public void act(float delta) {
         // TODO Auto-generated method stub
         super.act(delta);
-        if(stateDuration >= frameDuration){
-            currentFrame++;
+        if (overAnimation.size > 0 && stateDuration >= frameDuration) {
+            currentFrame = (currentFrame + 1) % overAnimation.size;
+            stateDuration = 0f;
         }
-        
+
         stateDuration += delta;
     }
 
@@ -84,10 +85,11 @@ public class UIButton extends Button {
             else if (isChecked() && style.checked != null)
                 background = (isOver() && style.checkedOver != null) ? style.checkedOver
                         : style.checked;
-            else if (isOver() && style.over != null )
-                background = style.over;//overAnimation.get(currentFrame);
-            else
-                background = style.up;
+            else if (isOver() && currentFrame < overAnimation.size)
+                if (overAnimation.get(currentFrame) != null) {
+                    background = overAnimation.get(currentFrame);
+                } else
+                    background = style.up;
             offsetX = style.unpressedOffsetX;
             offsetY = style.unpressedOffsetY;
         }
