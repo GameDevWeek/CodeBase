@@ -49,7 +49,7 @@ public class LevelMenu extends LaserCatMenu
 
 	protected void addButtonsToFrame()
 	{
-		button = new Button[numberOfButtons];
+		button = new UIButton[numberOfButtons];
 		label = new Label[numberOfButtons+1];
 
 		label[0] = new Label(name[0], basicSkin);
@@ -67,7 +67,7 @@ public class LevelMenu extends LaserCatMenu
 		widgetFrame.row();
 		for(int i = 0; i<numberOfButtons; i++)
 		{
-			button[i] = new Button(catSkin, "bell");
+			button[i] = new UIButton(catSkin, "bell");
 			button[i].setName("bell");
 		}
 		widgetFrame.add(button[0]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);

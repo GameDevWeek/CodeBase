@@ -44,7 +44,7 @@ public abstract class LaserCatMenu
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
-	protected Button button[];
+	protected UIButton button[];
 	protected Label label[];
 	protected String name[];
 	protected int numberOfButtons;
