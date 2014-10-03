@@ -3,13 +3,11 @@ package de.hochschuletrier.gdw.ss14.sandbox.credits;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.AnimatorData;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
+import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.AnimatorController;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextAlign;
-import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextAnimation;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextItem;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextStyle;
 import org.slf4j.Logger;
@@ -43,11 +41,9 @@ public class Credits extends SandboxGame {
         textItem.startAnimation(anim);
         
         try {
-            AnimatorData credits = JacksonReader.read("data/json/credits.json",
-                    AnimatorData.class);
-            System.out.println(credits.paths.size());
-        } catch (Exception e) {
-            e.printStackTrace();
+            AnimatorController ctrl = new AnimatorController(assetManager, "data/json/credits.json");
+        } catch (Exception ex) {
+            logger.error("Error loading credits", ex);
         }
     }
 
