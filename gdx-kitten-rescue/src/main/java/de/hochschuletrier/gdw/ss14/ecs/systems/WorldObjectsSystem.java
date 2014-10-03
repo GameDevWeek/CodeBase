@@ -1,5 +1,8 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
@@ -19,6 +22,8 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
  */
 public class WorldObjectsSystem extends ECSystem implements ICatStateListener {
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+    
     public WorldObjectsSystem(EntityManager entityManager) {
         super(entityManager);
     }
@@ -26,15 +31,21 @@ public class WorldObjectsSystem extends ECSystem implements ICatStateListener {
     @Override
     public void stateChanged(CatStateEnum oldstate, CatStateEnum newstate) {
         Array<Integer> compos;
+        logger.debug("test");
         switch(newstate){
-        case JUMP_BEGIN:
+        case JUMP:
             compos = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
             for (Integer p : compos) {
                 PhysicsComponent puddlecompo = entityManager.getComponent(p, PhysicsComponent.class);
                 puddlecompo.physicsBody.setActive(false);
             }
             break;
-        case JUMP_END:
+        default:
+            break;
+        }
+        
+        switch(oldstate){
+        case JUMP:
             compos = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
             for (Integer p : compos) {
                 PhysicsComponent puddlecompo = entityManager.getComponent(p, PhysicsComponent.class);
@@ -43,7 +54,6 @@ public class WorldObjectsSystem extends ECSystem implements ICatStateListener {
             break;
         default:
             break;
-        
         }
         
     }
