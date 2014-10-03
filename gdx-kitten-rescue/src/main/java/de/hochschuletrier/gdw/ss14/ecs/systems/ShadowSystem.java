@@ -65,17 +65,17 @@ public class ShadowSystem extends ECSystem{
 						CatPropertyComponent.class);
 				if(catPropComp != null){
 					switch(catPropComp.getState()){
-					case JUMP_BEGIN:
-						shadowWidth *= 1.25f;
-						shadowHeight *= 1.25f;
-						break;
+//					case JUMP_BEGIN:
+//						shadowWidth *= 1.25f;
+//						shadowHeight *= 1.25f;
+//						break;
 					case JUMP:
 						shadowWidth *= 1.35f;
 						shadowHeight *= 1.35f;
-					case JUMP_END:
-						shadowWidth *= 1.25f;
-						shadowHeight *= 1.25f;
-					}
+//					case JUMP_END:
+//						shadowWidth *= 1.25f;
+//						shadowHeight *= 1.25f;
+//					}
 				}
 				
 				DrawUtil.batch.draw(renderComp.texture,
@@ -97,8 +97,8 @@ public class ShadowSystem extends ECSystem{
 			}
 			
 			
+			}
 		}
-		
 	}
 	
 	public void setShadowOffset(int offset){
