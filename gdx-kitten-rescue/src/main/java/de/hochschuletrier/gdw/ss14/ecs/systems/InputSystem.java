@@ -68,37 +68,6 @@ public class InputSystem extends ECSystem implements GameInputAdapter
             }
             inputCompo.whereToGo = new Vector2(vec.x, vec.y);
             entityManager.getComponent(waterPistol, PhysicsComponent.class).defaultPosition = inputCompo.whereToGo;
-            
-            
-            for(Integer entity : compos3){
-                PhysicsComponent dogPhysicsComponent = entityManager.getComponent(entity, PhysicsComponent.class);
-                Vector2 distanceVector = new Vector2();
-                float distance = 0.0f;
-                Array<Fixture> fixtures = dogPhysicsComponent.physicsBody.getFixtureList();
-                if(waterPistolIsOn){
-                    if(timeInFear == 2){
-                        for(int i = 0; i < fixtures.size ; i++){
-                            if(fixtures.get(i).getShape().getType() == Shape.Type.Circle){
-                                distanceVector = laser.position.sub(fixtures.get(i).getBody().getPosition());
-                                distance = distanceVector.len();
-                                if(distance <= fixtures.get(i).getShape().getRadius()){
-                                   inputCompo.whereToGo.x *= -1;
-                                   inputCompo.whereToGo.y *= -1;
-                                   timeInFear -= delta;
-                                   break;
-                                }
-                            }
-                        }
-                    }else{
-                        timeInFear = (timeInFear > 0) ? (timeInFear - delta) : 2;
-                    }
-                }else{
-                    if(timeInFear != 2){
-                        timeInFear = (timeInFear > 0) ? (timeInFear - delta) : 2;
-                    }
-                }
-            }
-
         }
     }
 
