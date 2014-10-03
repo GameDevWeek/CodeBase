@@ -71,14 +71,14 @@ public class Behaviour extends BaseNode implements Root {
 		if (isLooping()) {
 			activate();
 		} else {
-			System.out.println("Behaviour " + name + " finished regularly.");
+			//System.out.println("Behaviour " + name + " finished regularly.");
 			manager.treeFinished(this);
 		}
 	}
 
 	@Override
 	public final void activate() {
-		System.out.println("Behaviour " + name + " activated.");
+		//System.out.println("Behaviour " + name + " activated.");
 		if (child != null) {
 			child.activate();
 		}
@@ -86,7 +86,7 @@ public class Behaviour extends BaseNode implements Root {
 
 	@Override
 	public final void deactivate() {
-		System.out.println("Behaviour " + name + " deactivated.");
+		//System.out.println("Behaviour " + name + " deactivated.");
 		if (child != null) {
 			child.deactivate();
 		}
