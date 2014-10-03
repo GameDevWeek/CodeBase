@@ -172,7 +172,7 @@ public class MapManager
             break;
         case waterpuddle: EntityFactory.constructPuddleOfWater(bodydef, fixturedef);break;
         case bloodpuddle: 
-            fixturedef.sensor(true);
+            fixturedef.sensor(false);
             EntityFactory.constructPuddleOfBlood(bodydef, fixturedef);break;
         case deadzone:
             fixturedef.sensor(true);
@@ -209,11 +209,19 @@ public class MapManager
         for (int i = 0; i < layers.size(); ++i)
         {
             ArrayList<LayerObject> mapObjects = layers.get(i).getObjects();
-
             if (mapObjects != null)
             {
+                ArrayList<Integer> dogIds = new ArrayList<>();
+                ArrayList<Vector2> dogpositions = new ArrayList<>();
+                ArrayList<String>  dogpatrolstring = new ArrayList<>();
+                
+                ArrayList<Vector2> patrolspots = new ArrayList<>();
+                ArrayList<Integer> spotIds = new ArrayList<>();
+                
+                
                 for (int j = 0; j < mapObjects.size(); ++j)
                 {
+                    
                     String objType = mapObjects.get(j).getName();
                     float x = mapObjects.get(j).getX();
                     float y = mapObjects.get(j).getY();
@@ -231,6 +239,18 @@ public class MapManager
                                     e.printStackTrace();
                                 }
 
+                                break;
+                                
+                            case "dogspawn":
+                                /* bogs are build later */
+                                dogpositions.add(pos);
+                                dogIds.add(mapObjects.get(j).getIntProperty("ID", -1));
+                                dogpatrolstring.add(mapObjects.get(j).getProperty("list", ""));
+                                break;
+                            case "patrolspot":
+                                /* used for building dogs */
+                                patrolspots.add(pos);
+                                spotIds.add(mapObjects.get(j).getIntProperty("ID", -1));
                                 break;
                             case "wool":
                                 EntityFactory.constructWool(pos);
@@ -267,6 +287,20 @@ public class MapManager
                         }
                     }
                 }   // end for (mapObjects)
+                
+                /* build dogs now */
+                for(Vector2 pos : dogpositions){
+                    
+                    ArrayList<Vector2> tmp = new ArrayList<>();
+                    for(String s : dogpatrolstring){
+                        for(String r : s.split(",")){
+                            tmp.add(patrolspots.get( spotIds.get(Integer.parseInt(r)) ));
+                        }
+                    }
+                    
+                    EntityFactory.constructSmartDog(pos, 100, 85, 0, 30, tmp);
+                }
+                /* end build dogs */
             }
         }   // end for (layer)
     }
