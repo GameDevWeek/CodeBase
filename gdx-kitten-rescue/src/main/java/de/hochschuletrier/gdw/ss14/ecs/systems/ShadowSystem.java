@@ -64,19 +64,7 @@ public class ShadowSystem extends ECSystem{
 //				// Überprüfen, entity eine Katze ist und springt
 				CatPropertyComponent catPropComp = entityManager.getComponent(currentEnt, 
 						CatPropertyComponent.class);
-				if(catPropComp != null){
-					switch(catPropComp.getState()){
-//					case JUMP_BEGIN:
-//						shadowWidth *= 1.25f;
-//						shadowHeight *= 1.25f;
-//						break;
-					case JUMP:
-						shadowWidth *= 1.35f;
-						shadowHeight *= 1.35f;
-//					case JUMP_END:
-//						shadowWidth *= 1.25f;
-//						shadowHeight *= 1.25f;
-//					}
+				
 //				// Überprüfen, ob entity springt
 				JumpDataComponent jumpComp = entityManager.getComponent(currentEnt, 
 						JumpDataComponent.class);
@@ -90,9 +78,7 @@ public class ShadowSystem extends ECSystem{
 					factorShadowSize += 1;
 					
 					shadowWidth *= factorShadowSize;
-					shadowHeight *= factorShadowSize;
-					
-					
+					shadowHeight *= factorShadowSize;	
 				}
 				
 				DrawUtil.batch.draw(renderComp.texture,
@@ -112,12 +98,10 @@ public class ShadowSystem extends ECSystem{
 				DrawUtil.batch.begin();
 				
 				}
-			
-			
-				}
-			}
 		}
-	}
+}
+		
+	
 	
 	public void setShadowOffset(int offset){
 	}
