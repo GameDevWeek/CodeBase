@@ -32,7 +32,7 @@ public class CheckCatDeadSystem extends ECSystem
             MovementComponent movementComponent = entityManager.getComponent(entity, MovementComponent.class);
             AnimationComponent animationComponent = entityManager.getComponent(entity, AnimationComponent.class);
 
-            if(catPropertyComponent.state == CatStateEnum.FALL)
+            if(catPropertyComponent.getState() == CatStateEnum.FALL)
             {
                 if(animationComponent.isFinished)
                 {
