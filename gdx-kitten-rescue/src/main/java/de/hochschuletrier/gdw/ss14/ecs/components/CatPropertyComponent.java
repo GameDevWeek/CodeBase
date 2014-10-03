@@ -1,7 +1,10 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 
+import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 public class CatPropertyComponent implements Component
@@ -13,7 +16,7 @@ public class CatPropertyComponent implements Component
     public boolean isHidden;
     public boolean canSeeLaserPointer;
     public boolean isAlive, atePositiveFood;
-    public CatStateEnum state;
+    private CatStateEnum state;
     
     public float influencedToLaser = 1;
     
@@ -26,6 +29,8 @@ public class CatPropertyComponent implements Component
     public final float PLAYTIME = 1.5f;
     public float playTimeTimer = 0;
     
+    public ArrayList<ICatStateListener> StateListener;
+    
     public CatPropertyComponent()
     {
         lastCheckPoint = new Vector2();
@@ -35,5 +40,17 @@ public class CatPropertyComponent implements Component
         atePositiveFood = false;
         state = CatStateEnum.IDLE;
         isHidden = false;
+        
+        StateListener = new ArrayList<>();
+    }
+    
+    public CatStateEnum getState(){
+        return state;
+    }
+    
+    public void setState(CatStateEnum newState){
+        if(newState == state)return;
+        StateListener.forEach((l)->l.stateChanged(state, newState));
+        state = newState;
     }
 }

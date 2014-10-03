@@ -1,4 +1,5 @@
 {
     "menu": "data/music/menu.ogg",
-	"ingame_calm"	:	"data/music/calm.mp3"
+	"ingame_calm"	:	"data/music/calm.ogg",
+	"ingame_alert"	:	"data/music/alert.ogg"
 }

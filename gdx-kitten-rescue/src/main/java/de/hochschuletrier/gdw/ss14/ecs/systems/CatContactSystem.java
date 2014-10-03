@@ -13,7 +13,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
+import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
@@ -70,12 +70,17 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     }
                     if(isCatInZone){
                         // cat fall down
-                        int player = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class).first();
+                        Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
 
-                        CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+                        if(entities.size > 0)
+                        {
+                            int player = entities.first();
+                            CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
 
-                        catPropertyComponent.isAlive = false;
-                        //catPropertyComponent.state = CatStateEnum.FALL;
+                            //catPropertyComponent.isAlive = false;
+                            catPropertyComponent.setState(CatStateEnum.FALL);
+                        }
+
                     }
                 }
                 
@@ -97,7 +102,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
                 entityManager.removeComponent(player, renderComponent);
                 
-                catPropertyComponent.state = CatStateEnum.HIDDEN;
+                catPropertyComponent.setState(CatStateEnum.HIDDEN);
 
                 catPropertyComponent.isHidden = true;
             }
