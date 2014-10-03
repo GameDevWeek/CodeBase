@@ -27,6 +27,12 @@ public class CatStateUpdateSystem extends ECSystem
             CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
             JumpDataComponent jumpDataComponent = entityManager.getComponent(entity, JumpDataComponent.class);
 
+            if(catPropertyComponent.isHidden)
+            {
+                catPropertyComponent.setState(CatStateEnum.HIDDEN);
+                return;
+            }
+
             if (catPropertyComponent.getState() == CatStateEnum.JUMP)
             {
                 if (jumpDataComponent.currentJumpTime >= jumpDataComponent.maxJumpTime)
