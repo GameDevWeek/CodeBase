@@ -13,7 +13,10 @@ import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 
 public class CameraSystem extends ECSystem {
         
-    private CVarFloat cvarMaxScreenCenterDistance = new CVarFloat("cam_maxScreenCenterDistance", 20, 1, 500, 0, "Maximum distance from the center");
+    // Use the default screen center distance of the CameraComponent as start value
+    private CVarFloat cvarMaxScreenCenterDistance = new CVarFloat("cam_maxScreenCenterDistance", 
+                                                            new CameraComponent().maxScreenCenterDistance, 
+                                                            1, 500, 0, "Maximum distance from the center");
     
   /**
    * 

@@ -1,12 +1,15 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
+import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
@@ -18,6 +21,10 @@ import org.slf4j.LoggerFactory;
 
 public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
+    private static final int FPSFrameCount = 10;
+    
+    private Array<Float> frameTimes = new Array<Float>();
+    private int currentFrameTimeIndex = 0;
 
     private Array<ECSystem> systems;
     public static Engine engine;
@@ -123,9 +130,31 @@ public class Game{
     public void update(float delta){
         InputManager.getInstance().update();
         engine.update(delta);
+        
+        if (frameTimes.size > currentFrameTimeIndex)
+            frameTimes.set(currentFrameTimeIndex, delta);
+        else
+            frameTimes.add(delta);
+            
+        currentFrameTimeIndex = (currentFrameTimeIndex+1) % FPSFrameCount;
     }
 
     public void render(){
         engine.render();
+        
+        showFPS();
+    }
+    
+    public void showFPS() {
+        
+        float averageFrameTime = 0.0f;
+        for (Float frameTime : frameTimes) {
+            averageFrameTime += frameTime;
+        }
+        
+        averageFrameTime /= frameTimes.size;
+        
+        String str = averageFrameTime+" s/Frame";
+        logger.info(str);
     }
 }
