@@ -50,6 +50,8 @@ public class EntityFactory{
         CatPropertyComponent catProperty = new CatPropertyComponent();
         catProperty.lastCheckPoint = pos;
 
+        JumpDataComponent jumpDataComponent = new JumpDataComponent();
+
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
 
@@ -83,6 +85,7 @@ public class EntityFactory{
         particleEmitComp.particleLifetime = 20f;
         particleEmitComp.emitInterval = 0.2f;
 
+        manager.addComponent(entity, jumpDataComponent);
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
