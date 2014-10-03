@@ -68,7 +68,6 @@ public class WoolInfluenceSystem extends ECSystem
                         catProp.timeTillInfluencedTimer += delta;
                         inputCompo.whereToGo = new Vector2(inputCompo.whereToGo.x + laserToWool.x * catProp.influencedToLaser, inputCompo.whereToGo.y + laserToWool.y * catProp.influencedToLaser);
                     }
-                    int j = 0;
                 }
             }
         }
