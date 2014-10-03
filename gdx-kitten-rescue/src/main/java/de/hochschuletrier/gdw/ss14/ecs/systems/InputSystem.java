@@ -5,11 +5,14 @@ import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.InputState;
@@ -23,8 +26,10 @@ public class InputSystem extends ECSystem implements GameInputAdapter
 {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(InputSystem.class);
     
-    int waterPistol;
-    ParticleEmitterComponent waterParticleEmitter;
+    public int waterPistol;
+    public ParticleEmitterComponent waterParticleEmitter;
+    public boolean waterPistolIsOn = false;
+    public float timeInFear = 2;
 
     public InputSystem(EntityManager entityManager)
     {
@@ -49,6 +54,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
         // TODO Auto-generated method stub
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, CameraComponent.class, PlayerComponent.class);
         Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+        Array<Integer> compos3 = entityManager.getAllEntitiesWithComponents(EnemyComponent.class);
 
         for (Integer integer : compos)
         {
@@ -63,6 +69,36 @@ public class InputSystem extends ECSystem implements GameInputAdapter
             }
             inputCompo.whereToGo = new Vector2(vec.x, vec.y);
             entityManager.getComponent(waterPistol, PhysicsComponent.class).defaultPosition = inputCompo.whereToGo;
+            
+            
+            for(Integer entity : compos3){
+                PhysicsComponent dogPhysicsComponent = entityManager.getComponent(entity, PhysicsComponent.class);
+                Vector2 distanceVector = new Vector2();
+                float distance = 0.0f;
+                Array<Fixture> fixtures = dogPhysicsComponent.physicsBody.getFixtureList();
+                if(waterPistolIsOn){
+                    if(timeInFear == 2){
+                        for(int i = 0; i < fixtures.size ; i++){
+                            if(fixtures.get(i).getShape().getType() == Shape.Type.Circle){
+                                distanceVector = laser.position.sub(fixtures.get(i).getBody().getPosition());
+                                distance = distanceVector.len();
+                                if(distance <= fixtures.get(i).getShape().getRadius()){
+                                   inputCompo.whereToGo.x *= -1;
+                                   inputCompo.whereToGo.y *= -1;
+                                   timeInFear -= delta;
+                                   break;
+                                }
+                            }
+                        }
+                    }else{
+                        timeInFear = (timeInFear > 0) ? (timeInFear - delta) : 2;
+                    }
+                }else{
+                    if(timeInFear != 2){
+                        timeInFear = (timeInFear > 0) ? (timeInFear - delta) : 2;
+                    }
+                }
+            }
 
         }
     }
@@ -135,6 +171,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
     {
         // TODO Auto-generated method stub
         entityManager.addComponent(waterPistol, waterParticleEmitter);
+        waterPistolIsOn = true;
     }
 
     @Override
@@ -142,6 +179,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
     {
         // TODO Auto-generated method stub
         entityManager.removeComponent(waterPistol, waterParticleEmitter);
+        waterPistolIsOn = false;
     }
 
     @Override
