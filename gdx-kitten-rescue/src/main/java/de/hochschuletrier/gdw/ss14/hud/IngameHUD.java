@@ -16,7 +16,7 @@ public class IngameHUD {
 		waterlevel = new WaterlevelHUD(assetManager, 25f, catLife.getWidth());
 		
 		weapon = new WeaponHUD(assetManager);
-		weapon.setScale(0.3f);
+		weapon.setScale(0.8f);
 	}
     public void render() {
         weapon.setPosition(Gdx.graphics.getWidth() - weapon.getWidth() - 15, 25);
