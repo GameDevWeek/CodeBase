@@ -57,7 +57,7 @@ public class Game{
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("Katzenklappentest");
+        mapManager.loadMap("Katzenklappentest"); 
         mapManager.setFloor(0);
         
         behaviourManager.activate();
