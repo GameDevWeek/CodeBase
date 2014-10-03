@@ -46,7 +46,7 @@ public class SoundManager {
 			case GAMEPLAY:
 				switch (actionString) {
 					case "CATWALK":
-						System.out.println("WALKING CAT!!!");
+						//System.out.println("WALKING CAT!!!");
 						Array<Integer> entities = new Array<Integer>();
 						entities = (EntityManager.getInstance().getAllEntitiesWithComponents(CatPropertyComponent.class));
 
