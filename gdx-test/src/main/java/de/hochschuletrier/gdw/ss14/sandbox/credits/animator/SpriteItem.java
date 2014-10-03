@@ -9,11 +9,17 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
  *
  * @author Santo Pfingsten
  */
-public class AnimationItem extends Item {
+public class SpriteItem extends Item {
 
     protected float scale;
     protected Texture texture;
     protected AnimationExtended animation;
+
+    public SpriteItem(float scale, float startTime, float angle, float opacity) {
+        super(startTime, angle, opacity);
+        this.scale = scale;
+        this.startTime = startTime;
+    }
 
     @Override
     public void update(float deltaTime) {
@@ -35,7 +41,8 @@ public class AnimationItem extends Item {
     }
 
     @Override
-    public void startAnimation(AnimatorData.Path.Animation animation) {
-
+    public void startAnimation(Animation animation) {
+//        this.animation = null;
+//        this.texture = texture;
     }
 }

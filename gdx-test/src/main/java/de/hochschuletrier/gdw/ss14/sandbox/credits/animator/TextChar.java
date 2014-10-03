@@ -23,7 +23,7 @@ public class TextChar {
     private float startTime;
     private boolean type;
 
-    public TextChar(BitmapFont font, String text, int index, AnimatorData.Path.Animation animation, float totalAnimationTime) {
+    public TextChar(BitmapFont font, String text, int index, Animation animation, float totalAnimationTime) {
         type = animation.animation.equals(TextAnimation.CONSTRUCT_TYPE.name());
         if(type)
             startTime = index * totalAnimationTime * 0.5f;
