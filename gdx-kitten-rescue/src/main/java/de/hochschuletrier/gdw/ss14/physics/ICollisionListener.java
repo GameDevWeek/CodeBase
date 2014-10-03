@@ -10,6 +10,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
  */
 public interface ICollisionListener {
 
-    public void fireCollision(PhysixContact contact);
+    public void fireBeginnCollision(PhysixContact contact);
+    public void fireEndCollision(PhysixContact contact);
     
 }

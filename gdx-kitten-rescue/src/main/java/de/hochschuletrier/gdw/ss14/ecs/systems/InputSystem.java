@@ -37,7 +37,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
         
         waterParticleEmitter = new ParticleEmitterComponent();
         waterParticleEmitter.particleTintColor = new Color(0,0,1,0.5f);
-        waterParticleEmitter.emitInterval = 0.002f;
+        waterParticleEmitter.emitInterval = 0.001f;
         waterParticleEmitter.particleLifetime = 3.0f;
         waterParticleEmitter.emitRadius = 10f;
         

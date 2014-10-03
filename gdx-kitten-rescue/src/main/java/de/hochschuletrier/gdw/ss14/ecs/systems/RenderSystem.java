@@ -79,8 +79,6 @@ public class RenderSystem extends ECSystem {
 
                 if (!isSameColor(currentTintColor, renderCompo.tintColor)) {
                     
-                    DrawUtil.batch.end();
-
                     //Gdx.gl20.glColorMask(true, false, false, true);
                     //DrawUtil.batch.setShader(redTintedShader);
                     currentTintColor = renderCompo.tintColor;
@@ -90,7 +88,6 @@ public class RenderSystem extends ECSystem {
                     else
                         DrawUtil.batch.setColor(new Color(1,1,1,1));
                         
-                    DrawUtil.batch.begin();
                     colorChangeCount ++;
                 }
 
@@ -108,11 +105,9 @@ public class RenderSystem extends ECSystem {
             arrayPosition++;
         } // end for
         
-        System.out.println("\n\n" + "ColorChangeCount = "+colorChangeCount + "\n\n");
+        //System.out.println("\n\n" + "ColorChangeCount = "+colorChangeCount + "\n\n");
         
-        DrawUtil.batch.end();
         DrawUtil.setColor(new Color(1,1,1,1));
-        DrawUtil.batch.begin();
     }
 
     private void initializeShaders() {

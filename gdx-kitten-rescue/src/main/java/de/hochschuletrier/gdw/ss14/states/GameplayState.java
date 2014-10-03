@@ -20,7 +20,10 @@ import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.hud.IngameHUD;
+import de.hochschuletrier.gdw.ss14.input.InputManager;
+import de.hochschuletrier.gdw.ss14.physics.PhysicsActions;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 /**
  * Gameplay state
@@ -49,6 +52,7 @@ public class GameplayState extends GameState implements InputProcessor {
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
         helicopter = assetManager.getSound("ouchWall");
+        InputManager.init();
         game = new Game(assetManager);
         game.init(assetManager);
         this.music = Main.MusicManager.getMusicStreamByStateName(GameStates.GAMEPLAY);
@@ -84,7 +88,10 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public void update(float delta) {
+        InputManager.getInstance().update();
+        
     	this.music.update();
+    	SoundManager.performAction(PhysicsActions.CATWALK);
         /*emitter.update();
         emitter.setPosition(cursor.x, cursor.y, 0);
         game.update(delta);
@@ -116,6 +123,7 @@ public class GameplayState extends GameState implements InputProcessor {
 			this.music.play("ingame_calm");
 		}
         emitter.dispose();
+        InputManager.getInstance().registerProcessor();
         //emitter.play(helicopter, true);
     }
 
@@ -125,6 +133,7 @@ public class GameplayState extends GameState implements InputProcessor {
     		this.music.setFade('o', 3000);
 		}
         emitter.dispose();
+        InputManager.getInstance().unregisterProcessor();
     }
 
     @Override

@@ -14,17 +14,15 @@ import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
-import de.hochschuletrier.gdw.ss14.input.InputManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
-    private static final int FPSFrameCount = 10;
+    private static final float FPSLogTime = 1.0f;
     
     private Array<Float> frameTimes = new Array<Float>();
-    private int currentFrameTimeIndex = 0;
 
     private Array<ECSystem> systems;
     public static Engine engine;
@@ -56,7 +54,6 @@ public class Game{
     }
 
     public void init(AssetManagerX assetManager){
-        InputManager.init();
         initializeSystems();
         initializeTestComponents();
 
@@ -71,14 +68,16 @@ public class Game{
     {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
+        engine.addSystem(new CatMovementSystem(entityManager));
+        engine.addSystem(new CatJumpUpdateSystem(entityManager));
+        engine.addSystem(new CatStateUpdateSystem(entityManager));
+
        // engine.addSystem(new DogInputSystem(entityManager));
-        engine.addSystem(new PlayerMovementSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
         engine.addSystem(new HitAnimationSystem(entityManager));
         engine.addSystem(new ParticleEmitterSystem(entityManager));
         engine.addSystem(new LimitedLifetimeSystem(entityManager));
         engine.addSystem(new LaserPointerSystem(entityManager));
-        //engine.addSystem(new ShadowSystem(entityManager));
         engine.addSystem(new CheckCatDeadSystem(entityManager, physixManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
@@ -90,10 +89,10 @@ public class Game{
 
         // Rendering related systems
         engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
-        engine.addSystem(new ShadowSystem(entityManager, 1));
-        engine.addSystem(new AnimationSystem(entityManager, 2));
+        engine.addSystem(new ShadowSystem(entityManager, 9));
+        engine.addSystem(new AnimationSystem(entityManager, 10));
         engine.addSystem(new RenderSystem(entityManager, 1200));
-        
+        engine.addSystem(new LightMapSystem(entityManager, 1201));
         //Behaviour System
         engine.addSystem(new BehaviourSystem(entityManager,behaviourManager ));
     }
@@ -127,22 +126,24 @@ public class Game{
         return null;
     }
 
+    float timeSinceLastFPSShow = 0.0f;
     public void update(float delta){
-        InputManager.getInstance().update();
         engine.update(delta);
         
-        if (frameTimes.size > currentFrameTimeIndex)
-            frameTimes.set(currentFrameTimeIndex, delta);
-        else
-            frameTimes.add(delta);
-            
-        currentFrameTimeIndex = (currentFrameTimeIndex+1) % FPSFrameCount;
+        // FPS
+        frameTimes.add(delta);
+        
+        timeSinceLastFPSShow += delta;        
+        if (timeSinceLastFPSShow >= FPSLogTime) {
+            showFPS();
+            frameTimes.clear();
+            timeSinceLastFPSShow = 0.0f;
+        }
+
     }
 
     public void render(){
         engine.render();
-        
-        showFPS();
     }
     
     public void showFPS() {
@@ -154,7 +155,8 @@ public class Game{
         
         averageFrameTime /= frameTimes.size;
         
-        String str = averageFrameTime+" s/Frame";
+        String str = (int)(averageFrameTime*1000f)+" ms/Frame";
+        str += " ("+(int)(1.0f/averageFrameTime)+" FPS)";
         logger.info(str);
     }
 }
