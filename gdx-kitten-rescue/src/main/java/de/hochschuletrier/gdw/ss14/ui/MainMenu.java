@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class MainMenu extends LaserCatMenu
 {
@@ -75,13 +75,13 @@ public class MainMenu extends LaserCatMenu
 					switch (i)
 					{
 						case 0:
-							GameStates.GAMEPLAY.activate();
+							GameStateEnum.GAMEPLAY.activate();
 							break;
 						case 1:
-							GameStates.LEVELMENU.activate();
+							GameStateEnum.LEVELMENU.activate();
 							break;
 						case 2:
-							GameStates.OPTIONSMENU.activate();
+							GameStateEnum.OPTIONSMENU.activate();
 							break;
 						case 3:
 							System.exit(0);

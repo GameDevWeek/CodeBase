@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class OptionsMenu extends LaserCatMenu
 {
@@ -93,7 +93,7 @@ public class OptionsMenu extends LaserCatMenu
 					System.out.println("Open Credits");
 					break;
 				default:
-					GameStates.MAINMENU.activate();
+					GameStateEnum.MAINMENU.activate();
 					break;
 				}
 			}
