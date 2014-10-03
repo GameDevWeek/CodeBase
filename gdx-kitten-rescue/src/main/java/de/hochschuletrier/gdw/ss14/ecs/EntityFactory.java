@@ -12,7 +12,9 @@ import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
+import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import de.hochschuletrier.gdw.ss14.states.JumpableState;
 import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
@@ -62,6 +64,7 @@ public class EntityFactory{
         catPhysix.initPhysics(phyManager);
         CatPropertyComponent catProperty = new CatPropertyComponent();
         catProperty.lastCheckPoint = pos;
+        catProperty.StateListener.add(new WorldObjectsSystem(manager));
 
         JumpDataComponent jumpDataComponent = new JumpDataComponent();
 
@@ -87,7 +90,7 @@ public class EntityFactory{
         cam.cameraZoom = 1.0f;
 
         CatPropertyComponent catProperties = new CatPropertyComponent();
-        catProperties.state = CatStateEnum.IDLE;
+        catProperties.setState(CatStateEnum.IDLE);
 
         ShadowComponent shadow = new ShadowComponent();
         shadow.alpha = 0.5f;

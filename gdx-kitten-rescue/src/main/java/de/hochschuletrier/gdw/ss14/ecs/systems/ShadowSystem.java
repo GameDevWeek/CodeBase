@@ -64,7 +64,7 @@ public class ShadowSystem extends ECSystem{
 				CatPropertyComponent catPropComp = entityManager.getComponent(currentEnt, 
 						CatPropertyComponent.class);
 				if(catPropComp != null){
-					switch(catPropComp.state){
+					switch(catPropComp.getState()){
 					case JUMP_BEGIN:
 						shadowWidth *= 1.25f;
 						shadowHeight *= 1.25f;
