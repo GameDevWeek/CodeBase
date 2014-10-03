@@ -14,6 +14,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
+import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import de.hochschuletrier.gdw.ss14.states.JumpableState;
@@ -26,6 +27,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
@@ -67,7 +69,8 @@ public class EntityFactory{
         jointPhysics.initPhysics(phyManager);
         CatPropertyComponent catProperty = new CatPropertyComponent();
         catProperty.lastCheckPoint = pos;
-        catProperty.StateListener.add(new WorldObjectsSystem(manager));
+        ICatStateListener stateSystem = (WorldObjectsSystem) Game.engine.getSystemOfType(WorldObjectsSystem.class);
+        catProperty.StateListener.add(stateSystem);
 
         JumpDataComponent jumpDataComponent = new JumpDataComponent();
 
@@ -100,11 +103,12 @@ public class EntityFactory{
         shadow.z = 1.0f;
 
         ParticleEmitterComponent particleEmitComp = new ParticleEmitterComponent();
-        particleEmitComp.particleTintColor = new Color(0.5f,0,0,0.8f);
+        particleEmitComp.particleTintColor = new Color(0.5f,0.5f,0.5f,0.5f);
         particleEmitComp.emitRadius = 10f;
         particleEmitComp.emitterType = ParticleEmitterTypeEnum.PawParticleEmitter;
         particleEmitComp.particleLifetime = 20f;
         particleEmitComp.emitInterval = 0.2f;
+        particleEmitComp.minimumParticleDistance = 15.0f;
 
         manager.addComponent(entity, jumpDataComponent);
         manager.addComponent(entity, catProperties);
@@ -119,6 +123,7 @@ public class EntityFactory{
         manager.addComponent(entity, cam);
         manager.addComponent(entity, shadow);
         manager.addComponent(entity, particleEmitComp);
+        manager.addComponent(entity, new LightComponent());
         //manager.addComponent(entity, new ConePhysicsComponent(catPhysix.getPosition(), 100,100,100));
         //manager.addComponent(entity, new HitAnimationComponent());
 
@@ -147,6 +152,7 @@ public class EntityFactory{
         conePhysic.initPhysics(phyManager);
         WeldJointPhysicsComponent jointPhysics = new WeldJointPhysicsComponent(dogPhysix.physicsBody.getBody(), conePhysic.physicsBody.getBody());
         jointPhysics.initPhysics(phyManager);
+        
         manager.addComponent(entity, dogState);
         manager.addComponent(entity, dogPhysix);
         manager.addComponent(entity, conePhysic);
@@ -154,8 +160,20 @@ public class EntityFactory{
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
-        //        manager.addComponent(entity, new AnimationComponent());
+        //        manager.addComponent(entity, new AnimationComponent());      
+        addDogParticleEmitter(entity);
+        
         return entity;
+    }
+    
+    private static void addDogParticleEmitter( int entity ) {
+        
+        ParticleEmitterComponent dogParticleEmitter = new ParticleEmitterComponent();
+        dogParticleEmitter.emitInterval = 0.2f;
+        dogParticleEmitter.emitRadius = 10f;
+        dogParticleEmitter.particleTintColor = new Color(0.5f,0,0,0.75f);
+        
+        manager.addComponent(entity, dogParticleEmitter);        
     }
 
     public static int constructSmartDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
@@ -180,7 +198,8 @@ public class EntityFactory{
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
         manager.addComponent(entity, bComp);
-
+        addDogParticleEmitter(entity);
+        
 //        manager.addComponent(entity, new AnimationComponent());
         return entity;
         

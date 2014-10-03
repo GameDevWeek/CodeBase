@@ -6,13 +6,12 @@ import com.badlogic.gdx.audio.Sound;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.ui.PauseMenu;
 
-public class PauseGameState extends GameState implements InputProcessor {
+public class PauseGameState extends KittenGameState implements InputProcessor {
     
 	 private PauseMenu pauseMenu;
 	 InputInterceptor inputProcessor;
@@ -23,7 +22,7 @@ public class PauseGameState extends GameState implements InputProcessor {
         this.assetManager = assetManager;
         
         // do we need this ??????
-        this.music = Main.MusicManager.getMusicStreamByStateName(GameStates.MAINMENU);
+        this.music = Main.MusicManager.getMusicStreamByStateName(GameStateEnum.MAINMENU);
         Sound click = assetManager.getSound("click");
         
         
@@ -32,10 +31,10 @@ public class PauseGameState extends GameState implements InputProcessor {
             public boolean keyUp(int keycode) {
                 switch (keycode) {
                     case Keys.ESCAPE:
-                        if (GameStates.GAMEPLAY.isActive()) {
-                            GameStates.PAUSEGAME.activate(new SplitHorizontalTransition(800).reverse(), null);
+                        if (GameStateEnum.GAMEPLAY.isActive()) {
+                            GameStateEnum.PAUSEGAME.activate(new SplitHorizontalTransition(800).reverse(), null);
                         } else {
-                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(800), null);
+                            GameStateEnum.GAMEPLAY.activate(new SplitHorizontalTransition(800), null);
                         }
                         return true;
                 }
@@ -58,7 +57,7 @@ public class PauseGameState extends GameState implements InputProcessor {
     }
     
     @Override
-    public void onEnter() {
+    public void onEnter(KittenGameState previousState) {
     	if (this.music.isMusicPlaying()) {
 			this.music.setFade('i',4000);
 		} else {
@@ -75,7 +74,7 @@ public class PauseGameState extends GameState implements InputProcessor {
     }
 
     @Override
-    public void onLeave() {
+    public void onLeave(KittenGameState nextState) {
     	if (this.music.isMusicPlaying()) {
     		this.music.setFade('o', 2000);
 		}

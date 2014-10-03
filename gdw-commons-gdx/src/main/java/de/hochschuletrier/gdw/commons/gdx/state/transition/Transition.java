@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.ScreenCamera;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
+import de.hochschuletrier.gdw.commons.gdx.state.BaseGameState;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
 /**
@@ -62,7 +62,7 @@ public class Transition<T extends Transition> {
         return (T) this;
     }
 
-    public final void render(ScreenCamera screenCamera, GameState from, GameState to) {
+    public final void render(ScreenCamera screenCamera, BaseGameState from, BaseGameState to) {
         fromFbo.begin();
         from.render();
         DrawUtil.batch.flush();

@@ -1,14 +1,11 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
@@ -18,6 +15,10 @@ import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.InputState;
+import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
 
@@ -36,10 +37,10 @@ public class InputSystem extends ECSystem implements GameInputAdapter
         InputManager.getInstance().addGameInputAdapter(this);
         
         waterParticleEmitter = new ParticleEmitterComponent();
-        waterParticleEmitter.particleTintColor = new Color(0,0,1,0.5f);
+        waterParticleEmitter.particleTintColor = new Color(0.25f,0.25f,0.5f,0.4f);
         waterParticleEmitter.emitInterval = 0.001f;
         waterParticleEmitter.particleLifetime = 3.0f;
-        waterParticleEmitter.emitRadius = 10f;
+        waterParticleEmitter.emitRadius = 17.5f;
         
         
         
@@ -60,14 +61,29 @@ public class InputSystem extends ECSystem implements GameInputAdapter
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
             CameraComponent camComp = entityManager.getComponent(integer, CameraComponent.class);
             LaserPointerComponent laser = entityManager.getComponent(compos2.get(0), LaserPointerComponent.class);
-            inputCompo.whereToGo = laser.position;
-                        
-            Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-            if(laser.input == InputState.MOUSE){
-                vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
+            CatPropertyComponent catProp = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
+            
+            if(!catProp.isInfluenced){
+                inputCompo.whereToGo = laser.position;
+                            
+                Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
+                if(laser.input == InputState.MOUSE){
+                    vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
+                }
+                inputCompo.whereToGo = new Vector2(vec.x, vec.y);
+                entityManager.getComponent(waterPistol, PhysicsComponent.class).defaultPosition = inputCompo.whereToGo;
+           }else{
+                inputCompo.whereToGo = laser.position;
+                Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
+                if(laser.input == InputState.MOUSE){
+                    vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
+                }
+                inputCompo.whereToGo = new Vector2(vec.x, vec.y);
+                Vector2 laserToWool = new Vector2();//woolPosition.sub(laser.position);
+                catProp.influencedToLaser -= delta/catProp.TIME_TILL_INFLUENCED;
+                catProp.timeTillInfluencedTimer += delta;
+                inputCompo.whereToGo = new Vector2(inputCompo.whereToGo.x + laserToWool.x * catProp.influencedToLaser, inputCompo.whereToGo.y + laserToWool.y * catProp.influencedToLaser);
             }
-            inputCompo.whereToGo = new Vector2(vec.x, vec.y);
-            entityManager.getComponent(waterPistol, PhysicsComponent.class).defaultPosition = inputCompo.whereToGo;
         }
     }
 

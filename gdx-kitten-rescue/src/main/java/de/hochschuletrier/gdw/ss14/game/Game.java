@@ -14,7 +14,6 @@ import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
-import de.hochschuletrier.gdw.ss14.input.InputManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,11 +54,10 @@ public class Game{
     }
 
     public void init(AssetManagerX assetManager){
-        InputManager.init();
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("Katzenklappentest");
+        mapManager.loadMap("Katzenklappentest"); 
         mapManager.setFloor(0);
         
         behaviourManager.activate();
@@ -88,13 +86,19 @@ public class Game{
         // physic systems
         engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
         engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
+        engine.addSystem(new WorldObjectsSystem(entityManager));
 
         // Rendering related systems
-        engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
-        engine.addSystem(new ShadowSystem(entityManager, 1));
-        engine.addSystem(new AnimationSystem(entityManager, 2));
+        TileMapRenderingSystem map = new TileMapRenderingSystem(entityManager, 0);
+        map.setLayerNameNotToRender("deco2");
+        engine.addSystem(map);
+        map = new TileMapRenderingSystem(entityManager, 1203);
+        map.setLayerNameToRender("deco2");
+        engine.addSystem(map);
+        engine.addSystem(new ShadowSystem(entityManager, 9));
+        engine.addSystem(new AnimationSystem(entityManager, 10));
         engine.addSystem(new RenderSystem(entityManager, 1200));
-        
+        engine.addSystem(new LightMapSystem(entityManager, 1206));
         //Behaviour System
         engine.addSystem(new BehaviourSystem(entityManager,behaviourManager ));
     }
@@ -130,7 +134,6 @@ public class Game{
 
     float timeSinceLastFPSShow = 0.0f;
     public void update(float delta){
-        InputManager.getInstance().update();
         engine.update(delta);
         
         // FPS
