@@ -56,7 +56,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             }
             rcpc.reset();
         }else if(other instanceof WoolPhysicsComponent){
-        
+            
         }else if(other instanceof JumpablePhysicsComponent){
             Array<Integer> compos = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
             for (Integer p : compos) {
