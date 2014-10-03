@@ -20,7 +20,6 @@ import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
@@ -143,7 +142,7 @@ if(other instanceof CatPhysicsComponent){
         }else if(other instanceof ConePhysicsComponent){
             logger.debug("cat collides with sight-cone");
             phyManager.getWorld().rayCast(rcp, other.getPosition(), owner.getPosition());
-            if(rcp.m_hit && rcp.m_fraction <= ((ConePhysicsComponent)other).mRadius){
+            if(rcp.m_hit && rcp.m_fraction <= ((CatPhysicsComponent)other).coneRadius){
                 for(Fixture f : other.physicsBody.getFixtureList()){
                     if(rcp.m_fixture == f){
                         EnemyComponent.seeCat = true;
@@ -156,7 +155,7 @@ if(other instanceof CatPhysicsComponent){
             }
             rcp.reset();
         }else if(other instanceof WoolPhysicsComponent){
-            ((WoolPhysicsComponent) other).isSeen = true;
+            
             Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class);
             CatPropertyComponent player = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
             player.isInfluenced = true;
@@ -199,7 +198,7 @@ if(other instanceof CatPhysicsComponent){
                             catPropertyComponent.groundWalking = ((GroundPropertyComponent) property).type;
                         }
                     }
-                }
+                } // end if other
                 
             }
             
@@ -208,7 +207,7 @@ if(other instanceof CatPhysicsComponent){
         }
         else if(other instanceof CatBoxPhysicsComponent)
         {
-            Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, CatPropertyComponent.class, RenderComponent.class);
+            Array<Integer> entities = entityManager.getAllEntitiesWithComponents(CatPropertyComponent.class, RenderComponent.class);
 
             if(entities.size > 0)
             {
@@ -217,11 +216,22 @@ if(other instanceof CatPhysicsComponent){
                 RenderComponent renderComponent = entityManager.getComponent(player, RenderComponent.class);
                 CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
 
-                entityManager.removeComponent(player, renderComponent);
-                
-                //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+                if(!catPropertyComponent.isCatBoxOnCooldown)
+                {
+                    catPropertyComponent.isCatBoxOnCooldown = true;
+                    catPropertyComponent.catBoxCooldownTimer = catPropertyComponent.CATBOX_COOLDOWN;
+                    entityManager.removeComponent(player, renderComponent);
 
-                catPropertyComponent.isHidden = true;
+                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+
+                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+
+                    catPropertyComponent.isHidden = true;
+                }
+                else
+                {
+                    return;
+                }
             }
 
             Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
@@ -233,6 +243,10 @@ if(other instanceof CatPhysicsComponent){
                 laserPointerComponent.isVisible = false;
             }
 
+        }
+        else if(other instanceof StairsPhysicsComponent)
+        {
+            // TODO: change floor here.
         }
 
 */

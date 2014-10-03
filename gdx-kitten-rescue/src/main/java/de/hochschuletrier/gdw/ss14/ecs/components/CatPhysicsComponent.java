@@ -7,6 +7,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.utils.Point;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 
 import java.util.ArrayList;
@@ -18,7 +19,11 @@ public class CatPhysicsComponent extends PhysicsComponent {
     public float friction;
     public float rotation;
     public float restitution;
+
+    public final float coneRadius = 30;
+    public final float coneCorner = 1.5f;
     
+    public ArrayList<Point> coneShape;
     public ArrayList<ICollisionListener> collisionListeners;
 
     /**
@@ -45,12 +50,16 @@ public class CatPhysicsComponent extends PhysicsComponent {
         this.rotation = rotation;
         this.friction = friction;
         this.restitution = restitution;
+        
+        coneShape = new ArrayList<>();
         collisionListeners = new ArrayList<>();
     }
 
     @Override
     public void initPhysics(PhysixManager manager) {
-
+        fillShapeList();
+        
+        PhysixFixtureDef conefixturedef = new PhysixFixtureDef(manager).density(1).sensor(true);
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
                 .friction(friction).restitution(restitution);
 
@@ -61,10 +70,25 @@ public class CatPhysicsComponent extends PhysicsComponent {
         
         physicsBody.createFixture(fixturedef.shapeBox(width, height-width));
         physicsBody.createFixture(fixturedef.shapeCircle(0.1f)).setUserData("masscenter");
+        physicsBody.createFixture(conefixturedef.shapePolygon(coneShape));
         physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,( height-width)/2)));
         physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,(-height+width)/2)));
         setPhysicsBody(physicsBody);
         physicsBody.setOwner(this);
+    }
+    
+    private void fillShapeList(){
+        coneShape = new ArrayList<Point>();
+        int anzPunkte = 7;
+        double startWinkel = (-coneCorner/2) + rotation; 
+        float delta = coneCorner / (anzPunkte-1);
+        
+        coneShape.add(new Point((int)0, (int)0));
+        
+        for(int i = 0; i < anzPunkte; i++){
+            coneShape.add(new Point((int)(Math.cos(startWinkel) * -coneRadius), (int)(Math.sin(startWinkel) * -coneRadius)));
+            startWinkel -= delta;
+        }
     }
     
     @Override

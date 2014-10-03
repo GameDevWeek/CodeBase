@@ -47,7 +47,6 @@ public class GameplayState extends KittenGameState implements InputProcessor {
         game.init(assetManager);
         this.music = Main.MusicManager.getMusicStreamByStateName(GameStateEnum.GAMEPLAY);
         this.playerSoundListener = new CatSoundListener(assetManager);
-        this.playerSoundListener.register();
         Main.inputMultiplexer.addProcessor(this);
        
         ingameHUD = new IngameHUD(assetManager);
