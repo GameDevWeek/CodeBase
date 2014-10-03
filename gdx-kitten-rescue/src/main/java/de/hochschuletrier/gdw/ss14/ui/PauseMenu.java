@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class PauseMenu extends LaserCatMenu
 {
@@ -65,13 +65,13 @@ public class PauseMenu extends LaserCatMenu
 					switch (i)
 					{
 						case 0:
-							GameStates.GAMEPLAY.activate();
+							GameStateEnum.GAMEPLAY.activate();
 							break;
 						case 1:
-							GameStates.OPTIONSMENU.activate();
+							GameStateEnum.OPTIONSMENU.activate();
 							break;
 						case 2:
-							GameStates.MAINMENU.activate();
+							GameStateEnum.MAINMENU.activate();
 							break;
 						default:
 							System.out.println("You just fucked up");		
