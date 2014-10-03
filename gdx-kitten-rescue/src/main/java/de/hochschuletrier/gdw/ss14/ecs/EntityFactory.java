@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.ecs;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
@@ -138,7 +139,11 @@ public class EntityFactory{
 
         CatBoxPhysicsComponent catBoxPhysicsComponent = new CatBoxPhysicsComponent(pos, 80.0f, 80.0f, 0.0f);
         catBoxPhysicsComponent.initPhysics(phyManager);
+
+        RenderComponent renderComponent = new RenderComponent();
+        renderComponent.texture = new TextureRegion(assetManager.getTexture("catbox"));
         manager.addComponent(entity, catBoxPhysicsComponent);
+        manager.addComponent(entity, renderComponent);
 
         return entity;
     }

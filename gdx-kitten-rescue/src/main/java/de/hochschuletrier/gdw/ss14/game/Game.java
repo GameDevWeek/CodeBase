@@ -39,6 +39,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.ShadowSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WoolInfluenceSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatCooldownUpdateSystem;
 
 public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
@@ -93,6 +94,7 @@ public class Game{
         engine.addSystem(new CatMovementSystem(entityManager));
         engine.addSystem(new CatJumpUpdateSystem(entityManager));
         engine.addSystem(new CatStateUpdateSystem(entityManager));
+        engine.addSystem(new CatCooldownUpdateSystem(entityManager));
         engine.addSystem(new WoolInfluenceSystem(entityManager));
 
        // engine.addSystem(new DogInputSystem(entityManager));
