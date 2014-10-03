@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.devcon.ConsoleCmd;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.utils.ClassUtils;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
@@ -25,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Santo Pfingsten
  */
-public class SandboxState extends GameState implements InputProcessor {
+public class SandboxState extends KittenGameState implements InputProcessor {
 
     private static final Logger logger = LoggerFactory.getLogger(SandboxState.class);
 
@@ -34,9 +33,6 @@ public class SandboxState extends GameState implements InputProcessor {
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
     private final HashMap<String, Class> sandboxClasses = new HashMap();
     BitmapFont font;
-
-    public SandboxState() {
-    }
 
     @Override
     public void init(AssetManagerX assetManager) {
@@ -75,14 +71,14 @@ public class SandboxState extends GameState implements InputProcessor {
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(KittenGameState previousState) {
         assert (game != null);
         logger.info("entering sandbox");
         Main.inputMultiplexer.addProcessor(this);
     }
 
     @Override
-    public void onLeave() {
+    public void onLeave(KittenGameState nextState) {
         logger.info("leaving sandbox");
         Main.inputMultiplexer.removeProcessor(this);
     }
@@ -163,7 +159,7 @@ public class SandboxState extends GameState implements InputProcessor {
                     game = (SandboxGame) clazz.newInstance();
                     game.init(assetManager);
                     logger.info("starting sandbox {}", gameName);
-                    GameStates.SANDBOX.activate(500);
+                    GameStateEnum.SANDBOX.activate(500);
                 } catch (InstantiationException | IllegalAccessException e) {
                     logger.error("Could not create instance of class", e);
                 }

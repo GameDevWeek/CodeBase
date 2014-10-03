@@ -1,17 +1,11 @@
 package de.hochschuletrier.gdw.ss14.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
-import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.Game;
@@ -21,7 +15,7 @@ import de.hochschuletrier.gdw.ss14.game.Game;
  * 
  * @author Santo Pfingsten
  */
-public class GameplayState extends GameState implements InputProcessor {
+public class GameplayState extends MyBaseGameState implements InputProcessor {
 
     private Game game;
     private Sound helicopter;
@@ -91,13 +85,13 @@ public class GameplayState extends GameState implements InputProcessor {
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(MyBaseGameState previousState) {
         emitter.dispose();
         emitter.play(helicopter, true);
     }
 
     @Override
-    public void onLeave() {
+    public void onLeave(MyBaseGameState nextState) {
         emitter.dispose();
     }
 
