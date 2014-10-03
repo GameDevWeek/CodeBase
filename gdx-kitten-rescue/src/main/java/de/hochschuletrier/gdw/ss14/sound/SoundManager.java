@@ -18,7 +18,7 @@ public class SoundManager {
 	private static Sound loop;
 	private static boolean isLooping;
 	private static AssetManagerX assetManager;
-	private static float SystemVolume = 0.9f;
+	private static float SystemVolume = 1.9f;
 	
 	public static void performAction(Enum action) {
 		GameStates actualGamestate = null;
@@ -51,7 +51,7 @@ public class SoundManager {
 						entities = (EntityManager.getInstance().getAllEntitiesWithComponents(CatPropertyComponent.class));
 						int playerEntityID = entities.first();
 						CatPropertyComponent playerProperties = EntityManager.getInstance().getComponent(playerEntityID, CatPropertyComponent.class);
-						if (playerProperties.state != CatStateEnum.WALK) {
+						if (playerProperties.getState() != CatStateEnum.WALK) {
 							SoundManager.loop.stop();
 							SoundManager.isLooping = false;
 						}
@@ -81,7 +81,7 @@ public class SoundManager {
 		SoundManager.isLooping = true;
 		
 		SoundManager.loop = SoundManager.assetManager.getSound(sound);
-		SoundManager.loop.loop(SoundManager.SystemVolume);
+		SoundManager.loop.loop(SoundManager.SystemVolume * LocalMusic.getSystemVolume());
 		}
 	}
 	
