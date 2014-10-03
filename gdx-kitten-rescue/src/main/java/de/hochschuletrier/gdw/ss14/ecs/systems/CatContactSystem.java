@@ -66,7 +66,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class);
             CatPropertyComponent player = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
             player.isInfluenced = true;
-            
+            logger.debug("WOOOOOOOOOOOOOOOLL");
         }else if(other instanceof JumpablePhysicsComponent){
             Array<Integer> compos = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
             for (Integer p : compos) {

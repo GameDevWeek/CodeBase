@@ -1,13 +1,15 @@
 {
+
+	"com.badlogic.gdx.graphics.g2d.BitmapFont": {
+        "menu-font": {"file": "data/fonts/menu.fnt"}
+   	},
     "com.badlogic.gdx.graphics.Color": {
         "green": {"a": 1, "b": 0, "g": 1, "r": 0},
         "white": {"a": 1, "b": 1, "g": 1, "r": 1},
         "red": {"a": 1, "b": 0, "g": 0, "r": 1},
         "yellow": {"a": 1, "b": 0, "g": 0.85, "r": 1},
         "black": {"a": 1, "b": 0, "g": 0, "r": 0},
-        "catGrey": {"a": 0.85, "b": 0.2, "g": 0.2, "r": 0.2}
-    },
-    "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+        "catGray": {"a": 0.85, "b": 0.2, "g": 0.2, "r": 0.2}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
         "bell": {"over": "main-menu-bell-down", "up": "main-menu-bell"},
@@ -15,7 +17,7 @@
         "sound_reduce": {"down": "sound-reduce-button-down", "up": "sound-reduce-button"}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-    	"start_button": {"down": "start-menu-button", "up": "start-menu-button-down"}
+    	"start_button": {"down": "start-menu-button", "up": "start-menu-button-down", "font": "menu-font"}
     }
     
 }
