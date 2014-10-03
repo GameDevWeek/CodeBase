@@ -1,12 +1,15 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
+import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
 
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
@@ -18,6 +21,10 @@ import org.slf4j.LoggerFactory;
 
 public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
+    private static final int FPSFrameCount = 10;
+    
+    private Array<Float> frameTimes = new Array<Float>();
+    private int currentFrameTimeIndex = 0;
 
     private Array<ECSystem> systems;
     public static Engine engine;
@@ -64,14 +71,16 @@ public class Game{
     {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
+        engine.addSystem(new CatMovementSystem(entityManager));
+        engine.addSystem(new CatJumpUpdateSystem(entityManager));
+        engine.addSystem(new CatStateUpdateSystem(entityManager));
+
        // engine.addSystem(new DogInputSystem(entityManager));
-        engine.addSystem(new PlayerMovementSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
         engine.addSystem(new HitAnimationSystem(entityManager));
         engine.addSystem(new ParticleEmitterSystem(entityManager));
         engine.addSystem(new LimitedLifetimeSystem(entityManager));
         engine.addSystem(new LaserPointerSystem(entityManager));
-        //engine.addSystem(new ShadowSystem(entityManager));
         engine.addSystem(new CheckCatDeadSystem(entityManager, physixManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
@@ -120,12 +129,42 @@ public class Game{
         return null;
     }
 
+    float timeSinceLastFPSShow = 0.0f;
     public void update(float delta){
         InputManager.getInstance().update();
         engine.update(delta);
+        
+        // FPS
+        if (frameTimes.size > currentFrameTimeIndex)
+            frameTimes.set(currentFrameTimeIndex, delta);
+        else
+            frameTimes.add(delta);
+            
+        currentFrameTimeIndex = (currentFrameTimeIndex+1) % FPSFrameCount;
+        
+        timeSinceLastFPSShow += delta;
+        
+        if (timeSinceLastFPSShow >= 1.0f) {
+            showFPS();
+            timeSinceLastFPSShow = 0.0f;
+        }
+
     }
 
     public void render(){
         engine.render();
+    }
+    
+    public void showFPS() {
+        
+        float averageFrameTime = 0.0f;
+        for (Float frameTime : frameTimes) {
+            averageFrameTime += frameTime;
+        }
+        
+        averageFrameTime /= frameTimes.size;
+        
+        String str = (int)(averageFrameTime*1000f)+" ms/Frame";
+        logger.info(str);
     }
 }

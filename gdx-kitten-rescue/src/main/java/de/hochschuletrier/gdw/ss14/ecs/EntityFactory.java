@@ -14,7 +14,20 @@ import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import de.hochschuletrier.gdw.ss14.states.JumpableState;
 import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
+import ch.qos.logback.classic.Logger;
+
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 
 public class EntityFactory{
 
@@ -50,10 +63,12 @@ public class EntityFactory{
         CatPropertyComponent catProperty = new CatPropertyComponent();
         catProperty.lastCheckPoint = pos;
 
+        JumpDataComponent jumpDataComponent = new JumpDataComponent();
+
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
 
-        catAnimation.animation = new AnimationExtended[11];
+        catAnimation.animation = new AnimationExtended[32];
         catAnimation.animation[CatStateEnum.HIT.ordinal()] = assetManager.getAnimation("hit");
         catAnimation.animation[CatStateEnum.IDLE.ordinal()] = assetManager.getAnimation("idle");
         catAnimation.animation[CatStateEnum.WALK.ordinal()] = assetManager.getAnimation("walk");
@@ -65,6 +80,8 @@ public class EntityFactory{
         catAnimation.animation[CatStateEnum.DIE.ordinal()] = assetManager.getAnimation("die");
         catAnimation.animation[CatStateEnum.DIE2.ordinal()] = assetManager.getAnimation("die2");
         catAnimation.animation[CatStateEnum.JUMP.ordinal()] = assetManager.getAnimation("jump");
+        catAnimation.animation[CatStateEnum.JUMP_BEGIN.ordinal()] = assetManager.getAnimation("jump_begin");
+        catAnimation.animation[CatStateEnum.JUMP_END.ordinal()] = assetManager.getAnimation("jump_end");
 
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 1.0f;
@@ -83,6 +100,7 @@ public class EntityFactory{
         particleEmitComp.particleLifetime = 20f;
         particleEmitComp.emitInterval = 0.2f;
 
+        manager.addComponent(entity, jumpDataComponent);
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
@@ -148,64 +166,77 @@ public class EntityFactory{
         return entity;
         
     }
-    
-    public static int constructDoor() {
 
+    public static void constructLaserPointer(Vector2 pos){
         int entity = manager.createEntity();
 
-        return entity;
-    }
-
-        public static int constructFood(){
-            int entity = manager.createEntity();
-
-            return entity;
-        }
-
-
-    public static int constructLamp(){
-        int entity = manager.createEntity();
-
-        return entity;
-    }
-
-    public static int constructLaserPointer(Vector2 pos){
-        int entity = manager.createEntity();
         LaserPointerComponent laser = new LaserPointerComponent(pos);
+        
         manager.addComponent(entity, laser);
-
-        return entity;
-
     }
 
-    public static int constructPuddleOfBlood(){
+    public static void constructDoor(){
         int entity = manager.createEntity();
-
-        return entity;
     }
 
-    public static int constructPuddleOfWater(){
+    public static void constructFood(){
         int entity = manager.createEntity();
+    }
 
+    public static void constructLamp(){
+        int entity = manager.createEntity();
+    }
+
+    public static int constructPuddleOfBlood(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
+        int entity = manager.createEntity();
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef);
+        manager.addComponent(entity, puddlephys);
+        manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.bloodpuddle));
+        puddlephys.initPhysics(phyManager);
+        
+        
         return entity;
     }
+
+    public static int constructPuddleOfWater(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
+        int entity = manager.createEntity();
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef);
+        manager.addComponent(entity, puddlephys);
+        manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.waterpuddle));
+        puddlephys.initPhysics(phyManager);
+        
+        
+        return entity;
+    }
+
+    public static int constructDeadzone(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
+        int entity = manager.createEntity();
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef);
+        manager.addComponent(entity, puddlephys);
+        manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.deadzone));
+        puddlephys.initPhysics(phyManager);
+        
+        
+        return entity;
+    }
+    
 
     public static int constructStairs(){
         int entity = manager.createEntity();
-
         return entity;
     }
 
     public static int constructVase(){
         int entity = manager.createEntity();
-
         return entity;
     }
+
 
     public static void constructWool(Vector2 pos){
         int entity = manager.createEntity();
 
-        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 50.0f, 50.0f, 0.0f);
+        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
+        RenderComponent woolRenderComponent = new RenderComponent();
         woolPhysicsComponent.initPhysics(phyManager);
         manager.addComponent(entity, woolPhysicsComponent);
 
@@ -218,8 +249,6 @@ public class EntityFactory{
         //manager.addComponent(entity, renderComponent);
     }
 
-
-
     public static EntityManager manager;
 
     public static PhysixManager phyManager;
@@ -228,3 +257,4 @@ public class EntityFactory{
     
     public static BehaviourManager behaviourManager;
 }
+
