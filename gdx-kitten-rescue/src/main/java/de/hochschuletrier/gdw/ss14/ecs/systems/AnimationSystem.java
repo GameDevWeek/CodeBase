@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.utils.Array;
+import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
@@ -38,6 +39,8 @@ public class AnimationSystem extends ECSystem {
             animationCompo.isFinished = 
                     animationCompo.animation[animationCompo.currentAnimationState].animationDuration 
                     <= animationCompo.animationTime;
+            if(animationCompo.animation[animationCompo.currentAnimationState].getPlayMode() != AnimationExtended.PlayMode.NORMAL)
+                animationCompo.isFinished = false;
                     
             
             //update time
