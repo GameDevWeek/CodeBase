@@ -12,7 +12,6 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
@@ -23,7 +22,7 @@ import de.hochschuletrier.gdw.ss14.sandbox.ui.PauseMenu;
  *
  * @author Santo Pfingsten
  */
-public class MainMenuState extends GameState implements InputProcessor {
+public class MainMenuState extends MyBaseGameState implements InputProcessor {
 
     public static final int WALKING_SPEED = 100;
 
@@ -59,10 +58,10 @@ public class MainMenuState extends GameState implements InputProcessor {
             public boolean keyUp(int keycode) {
                 switch (keycode) {
                     case Keys.ESCAPE:
-                        if (GameStates.GAMEPLAY.isActive()) {
-                            GameStates.MAINMENU.activate(new SplitHorizontalTransition(500).reverse(), null);
+                        if (GameStateEnum.GAMEPLAY.isActive()) {
+                            GameStateEnum.MAINMENU.activate(new SplitHorizontalTransition(500).reverse(), null);
                         } else {
-                            GameStates.GAMEPLAY.activate(new SplitHorizontalTransition(500), null);
+                            GameStateEnum.GAMEPLAY.activate(new SplitHorizontalTransition(500), null);
                         }
                         return true;
                 }
@@ -96,13 +95,13 @@ public class MainMenuState extends GameState implements InputProcessor {
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(MyBaseGameState previousState) {
         inputProcessor.setActive(true);
         inputProcessor.setBlocking(true);
     }
 
     @Override
-    public void onLeave() {
+    public void onLeave(MyBaseGameState nextState) {
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);
     }
