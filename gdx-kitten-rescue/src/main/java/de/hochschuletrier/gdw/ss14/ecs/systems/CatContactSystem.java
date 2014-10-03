@@ -150,21 +150,31 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 RenderComponent renderComponent = entityManager.getComponent(player, RenderComponent.class);
                 CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
 
-                if(!catPropertyComponent.isCatBoxOnCooldown)
+                boolean isCatInZone = false;
+                if (contact.getMyFixture().getUserData() == null) return;
+                if (contact.getMyFixture().getUserData().equals("masscenter"))
                 {
-                    catPropertyComponent.isCatBoxOnCooldown = true;
-                    catPropertyComponent.catBoxCooldownTimer = catPropertyComponent.CATBOX_COOLDOWN;
-                    entityManager.removeComponent(player, renderComponent);
-
-                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
-
-                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
-
-                    catPropertyComponent.isHidden = true;
+                    isCatInZone = true;
                 }
-                else
+                if (isCatInZone)
                 {
-                    return;
+
+                    if (!catPropertyComponent.isCatBoxOnCooldown)
+                    {
+                        catPropertyComponent.isCatBoxOnCooldown = true;
+                        catPropertyComponent.catBoxCooldownTimer = catPropertyComponent.CATBOX_COOLDOWN;
+                        entityManager.removeComponent(player, renderComponent);
+
+                        //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+
+                        //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+
+                        catPropertyComponent.isHidden = true;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
 
