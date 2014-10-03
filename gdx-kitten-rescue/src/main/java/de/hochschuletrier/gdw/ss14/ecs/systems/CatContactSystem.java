@@ -1,8 +1,10 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.utils.*;
+
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.states.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +17,9 @@ import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PuddlePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
@@ -53,26 +57,32 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             rcpc.reset();
         }else if(other instanceof WoolPhysicsComponent){
         
-        }else if(other instanceof PuddlePhysicsComponent){
+        }else if(other instanceof JumpablePhysicsComponent){
+            Array<Integer> compos = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
+            for (Integer p : compos) {
+                JumpablePropertyComponent property = entityManager.getComponent(p, JumpablePropertyComponent.class);
+                PhysicsComponent puddlecompo = entityManager.getComponent(p, PhysicsComponent.class);
+                if(puddlecompo == other && property.type == JumpableState.deadzone){
+                    boolean isCatInZone = false;
+                    if(contact.getMyFixture().getUserData() == null) return;
+                    if(contact.getMyFixture().getUserData().equals("masscenter")){
+                        isCatInZone = true;
+                    }
+                    if(isCatInZone){
+                        // cat fall down
+                        int player = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class).first();
+
+                        CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+
+                        catPropertyComponent.isAlive = false;
+                        //catPropertyComponent.state = CatStateEnum.FALL;
+                    }
+                }
+                
+            }
+            
         }else if(other == null){
             if(!(o instanceof String)) return;
-            String s = (String)o;
-            if(s.equals("deadzone")){
-                boolean isCatInZone = false;
-                if(contact.getMyFixture().getUserData() == null) return;
-                if(contact.getMyFixture().getUserData().equals("masscenter")){
-                    isCatInZone = true;
-                }
-                if(isCatInZone){
-                    // cat fall down
-                    int player = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class).first();
-
-                    CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
-
-                    catPropertyComponent.isAlive = false;
-                    //catPropertyComponent.state = CatStateEnum.FALL;
-                }
-            }
         }
         else if(other instanceof CatBoxPhysicsComponent)
         {

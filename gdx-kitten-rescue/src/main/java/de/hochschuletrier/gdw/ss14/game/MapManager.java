@@ -101,7 +101,7 @@ public class MapManager
     }
 
     private enum tile2entity{
-        none, waterpuddle
+        none, waterpuddle, deadzone, bloodpuddle
     }
     
     private void createPhysics()
@@ -116,9 +116,15 @@ public class MapManager
         generator.generate(tiledMap,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("blocked", false),
                 (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, "wall"));
+//        generator.generate(tiledMap,
+//                (Layer layer, TileInfo info) -> info.getBooleanProperty("deadzone", false),
+//                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, true, "deadzone"));
         generator.generate(tiledMap,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("deadzone", false),
-                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, true, "deadzone"));
+                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, tile2entity.deadzone));
+        generator.generate(tiledMap,
+                (Layer layer, TileInfo info) -> info.getBooleanProperty("blood puddle", false),
+                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, tile2entity.bloodpuddle));
         generator.generate(tiledMap,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("water puddle", false),
                 (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, tile2entity.waterpuddle));
@@ -164,6 +170,12 @@ public class MapManager
             body.createFixture(fixturedef);
             break;
         case waterpuddle: EntityFactory.constructPuddleOfWater(bodydef, fixturedef);break;
+        case bloodpuddle: 
+            fixturedef.sensor(true);
+            EntityFactory.constructPuddleOfBlood(bodydef, fixturedef);break;
+        case deadzone:
+            fixturedef.sensor(true);
+            EntityFactory.constructDeadzone(bodydef, fixturedef);break;
         }
         
     }

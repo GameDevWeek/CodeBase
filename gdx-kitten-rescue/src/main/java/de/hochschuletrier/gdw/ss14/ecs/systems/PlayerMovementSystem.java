@@ -97,11 +97,11 @@ public class PlayerMovementSystem extends ECSystem{
                 if (catStateCompo.state == CatStateEnum.JUMP) {
                     flag = false;
                 }
-                Array<Integer> puddles = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class);
+                Array<Integer> puddles = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
                 for (Integer p : puddles) {
                     PhysicsComponent puddlecompo = entityManager.getComponent(p, PhysicsComponent.class);
-                    if (!(puddlecompo instanceof PuddlePhysicsComponent))
-                        continue;
+//                    if (!(puddlecompo instanceof JumpablePhysicsComponent))
+//                        continue;
                     puddlecompo.physicsBody.setActive(flag);
                 }
             }
