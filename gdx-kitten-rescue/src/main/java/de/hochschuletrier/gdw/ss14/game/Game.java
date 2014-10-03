@@ -20,6 +20,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatCooldownUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatJumpUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatMovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatStateUpdateSystem;
@@ -39,7 +40,6 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.ShadowSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WoolInfluenceSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CatCooldownUpdateSystem;
 
 public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
