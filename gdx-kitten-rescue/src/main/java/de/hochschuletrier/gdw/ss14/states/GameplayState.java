@@ -1,21 +1,12 @@
 package de.hochschuletrier.gdw.ss14.states;
 
-import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
-import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.Game;
@@ -31,7 +22,7 @@ import de.hochschuletrier.gdw.ss14.sound.SoundManager;
  * 
  * @author Santo Pfingsten
  */
-public class GameplayState extends GameState implements InputProcessor {
+public class GameplayState extends KittenGameState implements InputProcessor {
 
     private Game game;
     private Sound helicopter;
@@ -47,9 +38,6 @@ public class GameplayState extends GameState implements InputProcessor {
     
     private IngameHUD ingameHUD;
 
-    public GameplayState() {
-    }
-
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
@@ -57,7 +45,7 @@ public class GameplayState extends GameState implements InputProcessor {
         InputManager.init();
         game = new Game(assetManager);
         game.init(assetManager);
-        this.music = Main.MusicManager.getMusicStreamByStateName(GameStates.GAMEPLAY);
+        this.music = Main.MusicManager.getMusicStreamByStateName(GameStateEnum.GAMEPLAY);
         this.playerSoundListener = new CatSoundListener(assetManager);
         Main.inputMultiplexer.addProcessor(this);
         
@@ -119,7 +107,7 @@ public class GameplayState extends GameState implements InputProcessor {
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(KittenGameState previousState) {
 		if (this.music.isMusicPlaying()) {
 			this.music.setFade('i', 3000);
 		} else {
@@ -131,7 +119,7 @@ public class GameplayState extends GameState implements InputProcessor {
     }
 
     @Override
-    public void onLeave() {
+    public void onLeave(KittenGameState nextState) {
 		if (this.music.isMusicPlaying()) {
     		this.music.setFade('o', 3000);
 		}

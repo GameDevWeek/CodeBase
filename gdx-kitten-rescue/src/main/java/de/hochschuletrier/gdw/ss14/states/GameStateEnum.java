@@ -2,12 +2,11 @@ package de.hochschuletrier.gdw.ss14.states;
 
 import com.badlogic.gdx.graphics.Color;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.FadeTransition;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.Transition;
 import de.hochschuletrier.gdw.ss14.Main;
 
-public enum GameStates {
+public enum GameStateEnum {
 
     LOADING(new LoadGameState()),
     MAINMENU(new MainMenuState()),
@@ -16,10 +15,11 @@ public enum GameStates {
     SANDBOX(new SandboxState()),
     PAUSEGAME(new PauseGameState()),
     OPTIONSMENU(new OptionsMenuState());
-    private final GameState state;
+    private final KittenGameState state;
 
-    GameStates(GameState state) {
+    GameStateEnum(KittenGameState state) {
         this.state = state;
+        state.gameStateEnum = this;
     }
 
     public void activate() {
@@ -35,7 +35,7 @@ public enum GameStates {
         Main.getInstance().changeState(state, out, in);
     }
 
-    public GameState get() {
+    public KittenGameState get() {
         return state;
     }
 
@@ -44,7 +44,7 @@ public enum GameStates {
     }
 
     public static void dispose() {
-        for (GameStates entry : GameStates.values()) {
+        for (GameStateEnum entry : GameStateEnum.values()) {
             entry.state.dispose();
         }
     }
