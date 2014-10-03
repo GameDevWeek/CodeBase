@@ -32,7 +32,6 @@ import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
-import de.hochschuletrier.gdw.ss14.sound.CatSoundListener;
 import de.hochschuletrier.gdw.ss14.sound.MusicManager;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.GameStates;
