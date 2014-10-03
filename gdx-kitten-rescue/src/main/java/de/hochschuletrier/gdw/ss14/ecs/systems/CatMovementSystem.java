@@ -1,18 +1,35 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.utils.*;
-import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.states.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpDataComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /**
  * Created by Daniel Dreher on 03.10.2014.
  */
 public class CatMovementSystem extends ECSystem
 {
+
+    public float maxVelocity = 0, acceleration = 0;
+
     public CatMovementSystem(EntityManager entityManager)
     {
         super(entityManager, 1);
+    }
+
+
+    @Override
+    public void render(){
+
     }
 
     @Override
@@ -39,9 +56,30 @@ public class CatMovementSystem extends ECSystem
 
             if (catPropertyComponent.getState() == CatStateEnum.IDLE || catPropertyComponent.getState() == CatStateEnum.WALK || catPropertyComponent.getState() == CatStateEnum.RUN)
             {
-                movementComponent.directionVec.x = inputComponent.whereToGo.x - physicsComponent.getPosition().x;
-                movementComponent.directionVec.y = inputComponent.whereToGo.y - physicsComponent.getPosition().y;
-                float distance = movementComponent.directionVec.len();
+                Vector2 tmp = new Vector2(inputComponent.whereToGo.x - physicsComponent.getPosition().x, inputComponent.whereToGo.y - physicsComponent.getPosition().y);
+                float distance = tmp.len();
+
+                //falls Maus nicht zu nah an Katze (glitscht nicht mehr
+                   if(!(distance <= 5)){
+                       movementComponent.directionVec.x = tmp.x;
+                       movementComponent.directionVec.y = tmp.y;
+                    }
+
+                   //Wenn Katze positive Nahrung gegessen hat, wird sie schneller
+                   if(maxVelocity == 0){
+                       maxVelocity = movementComponent.maxVelocity;
+                       acceleration = movementComponent.acceleration;
+                   }
+
+                   movementComponent.maxVelocity = maxVelocity;
+                   movementComponent.acceleration = acceleration;
+
+                   if(catPropertyComponent.atePositiveFood){
+                       movementComponent.maxVelocity *= 5;
+
+                       movementComponent.acceleration *= 5;
+
+                   }
 
                 //needed not normalized directions for sliding (more natural curves)
                 if(movementComponent.oldPositionVec==null){
@@ -56,6 +94,7 @@ public class CatMovementSystem extends ECSystem
                         + movementComponent.oldPositionVec.y*(1-movementComponent.percentOfNewCatVelocity);
                 movementComponent.oldPositionVec = movementComponent.positionVec;
                 movementComponent.positionVec.nor();//normalize position for PhysicsComponent
+
 
                 if (distance >= 200)
                 {
@@ -101,7 +140,7 @@ public class CatMovementSystem extends ECSystem
                     }
                 }
 
-                if (distance <= 70)
+                if (distance <= 70 && distance >= 30)
                 {
                     if (catPropertyComponent.getState() == CatStateEnum.IDLE)
                     {
@@ -156,8 +195,4 @@ public class CatMovementSystem extends ECSystem
         }
     }
 
-    @Override
-    public void render(){
-
-    }
 }
