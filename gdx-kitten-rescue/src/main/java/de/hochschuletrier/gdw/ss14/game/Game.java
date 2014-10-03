@@ -133,6 +133,7 @@ public class Game{
         //int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
 
         EntityFactory.constructLaserPointer(new Vector2(300,0));
+        EntityFactory.constructWool(new Vector2(3000,100));
         
 //        int dogEntity3 = EntityFactory.constructDog(new Vector2(40,200), 60.0f, 40.0f, 0, 100f);
 //        int dogEntity4 = EntityFactory.constructDog(new Vector2(100, 350), 60.0f, 40.0f, 0, 100f);
