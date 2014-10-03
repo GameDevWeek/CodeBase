@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
@@ -29,27 +30,23 @@ public class WorldObjectsSystem extends ECSystem implements ICatStateListener {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
     
-    private CatStateEnum oldstate, newstate;
-    private boolean dirty;
+    
+    
+    private ArrayList<CatStateEnum[]> states;
+    
     
     public WorldObjectsSystem(EntityManager entityManager) {
         super(entityManager);
-        dirty = false;
+        states = new ArrayList<>();
     }
 
     @Override
     public void stateChanged(CatStateEnum oldstate, CatStateEnum newstate) {
-        this.dirty = true;
-        this.oldstate = oldstate;
-        this.newstate = newstate;
-
+        CatStateEnum [] a = {oldstate, newstate};
+        states.add(a);
     }
 
-    @Override
-    public void update(float delta) {
-        // TODO Auto-generated method stub
-        if(! dirty) return;
-        if(this.newstate == null) return; 
+    private void doing(CatStateEnum oldstate, CatStateEnum newstate) {
         Array<Integer> compos;
         switch(newstate){
         case JUMP:
@@ -71,9 +68,13 @@ public class WorldObjectsSystem extends ECSystem implements ICatStateListener {
             break;
         default: break;
         }
-        this.oldstate = null;
-        this.newstate = null;
-        this.dirty = false;
+    }
+    
+    @Override
+    public void update(float delta) {
+        // TODO Auto-generated method stub
+        states.forEach((s)->doing(s[0], s[1]));
+        states.clear();
     }
 
     @Override
