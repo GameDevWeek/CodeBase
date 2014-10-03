@@ -50,6 +50,10 @@ public class AnimationExtended {
         }
         return keyFrames[frameNumber];
     }
+    
+    public PlayMode getPlayMode() {
+        return playMode;
+    }
 
     public int getKeyFrameIndex(float stateTime) {
         if (keyFrames.length == 1) {
