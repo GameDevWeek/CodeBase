@@ -43,6 +43,20 @@ public class CatMovementSystem extends ECSystem
                 movementComponent.directionVec.y = inputComponent.whereToGo.y - physicsComponent.getPosition().y;
                 float distance = movementComponent.directionVec.len();
 
+                //needed not normalized directions for sliding (more natural curves)
+                if(movementComponent.oldPositionVec==null){
+                    movementComponent.oldPositionVec=movementComponent.directionVec;
+                }
+                if(movementComponent.positionVec==null){
+                    movementComponent.positionVec=movementComponent.directionVec;
+                }
+                movementComponent.positionVec.x = movementComponent.directionVec.x*movementComponent.percentOfNewCatVelocity
+                        + movementComponent.oldPositionVec.x*(1-movementComponent.percentOfNewCatVelocity);
+                movementComponent.positionVec.y = movementComponent.directionVec.y*movementComponent.percentOfNewCatVelocity
+                        + movementComponent.oldPositionVec.y*(1-movementComponent.percentOfNewCatVelocity);
+                movementComponent.oldPositionVec = movementComponent.positionVec;
+                movementComponent.positionVec.nor();//normalize position for PhysicsComponent
+
                 if (distance >= 200)
                 {
                     movementComponent.velocity += movementComponent.acceleration * delta;
@@ -120,9 +134,9 @@ public class CatMovementSystem extends ECSystem
                         physicsComponent.setRotation(angle);
                     }
                 }
-
-                physicsComponent.setVelocityX(movementComponent.directionVec.x * movementComponent.velocity);
-                physicsComponent.setVelocityY(movementComponent.directionVec.y * movementComponent.velocity);
+                //positionVec not directionVec because sliding
+                physicsComponent.setVelocityX(movementComponent.positionVec.x * movementComponent.velocity);
+                physicsComponent.setVelocityY(movementComponent.positionVec.y * movementComponent.velocity);
 
             } // end if (state check)
             else
