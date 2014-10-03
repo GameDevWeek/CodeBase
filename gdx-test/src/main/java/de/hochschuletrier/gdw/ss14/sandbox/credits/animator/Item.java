@@ -14,6 +14,12 @@ public abstract class Item {
     protected float totalAnimationTime;
     protected float angle;
     protected float opacity;
+
+    public Item(float startTime, float angle, float opacity) {
+        this.startTime = startTime;
+        this.angle = angle;
+        this.opacity = opacity;
+    }
     
     public void setPosition(Vector2 pos) {
         position.set(pos);
@@ -23,5 +29,5 @@ public abstract class Item {
 
     public abstract void render();
 
-    public abstract void startAnimation(AnimatorData.Path.Animation animation);
+    public abstract void startAnimation(Animation animation);
 }

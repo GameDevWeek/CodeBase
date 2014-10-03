@@ -30,7 +30,7 @@ public abstract class LaserCatMenu
 	//
 	protected static Table widgetFrame;
 	protected static Table table;
-	protected static Skin catSkin, basicSkin;
+	protected static Skin catSkin;
 	protected static Stage stage;
 	protected static float heightOfWidgetFrame;
 	protected static float widthOfWidgetFrame;
@@ -56,7 +56,6 @@ public abstract class LaserCatMenu
 		stage.addActor(table);
 		table.setFillParent(true);
 		catSkin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
-		basicSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
 		
 	
 		// Sets Input so it can reach different layers, depending on focus
