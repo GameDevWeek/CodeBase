@@ -16,7 +16,7 @@ public class IngameHUD {
 		waterlevel = new WaterlevelHUD(assetManager, 25f, catLife.getWidth());
 		
 		weapon = new WeaponHUD(assetManager);
-		weapon.setScale(0.7f);
+		weapon.setScale(0.3f);
 	}
     public void render() {
         weapon.setPosition(Gdx.graphics.getWidth() - weapon.getWidth() - 15, 25);
@@ -29,11 +29,5 @@ public class IngameHUD {
     }
     
     public void update() {
-        /*
-        EntityManager man = new EntityManager();
-        int playerid = man.getAllEntitiesWithComponents(PlayerComponent.class, CatPropertyComponent.class).first();
-        CatPropertyComponent cat = man.getComponent(playerid, CatPropertyComponent.class);
-        cat.amountLives
-        */
     }
 }
