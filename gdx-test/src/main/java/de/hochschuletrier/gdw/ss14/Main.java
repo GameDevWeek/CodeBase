@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader.BitmapFontParameter;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -17,11 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarInt;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.TrueTypeFont;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.SleepDummyLoader;
 import de.hochschuletrier.gdw.commons.gdx.devcon.DevConsoleView;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundDistanceModel;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
@@ -30,6 +29,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextAnimation;
 import de.hochschuletrier.gdw.ss14.states.GameStates;
 
 /**
@@ -38,8 +38,10 @@ import de.hochschuletrier.gdw.ss14.states.GameStates;
  */
 public class Main extends StateBasedGame {
 
-    public static final int WINDOW_HEIGHT = 512;
+    public static final int WINDOW_HEIGHT = 600;
     public static final int WINDOW_WIDTH = 1024;
+    public static final CVarEnum<TextAnimation> textAnimation = new CVarEnum("text_animation", TextAnimation.CONSTRUCT_TYPE, TextAnimation.class, 0, "text animation type");
+    public static final CVarInt animationTime = new CVarInt("animation_time", 200, 0, 100000, 0, "text animation type");
 
     private final AssetManagerX assetManager = new AssetManagerX();
     private static Main instance;
@@ -107,6 +109,9 @@ public class Main extends StateBasedGame {
 
         this.console.register(emitterMode);
         emitterMode.addListener(this::onEmitterModeChanged);
+        
+        this.console.register(textAnimation);
+        this.console.register(animationTime);
     }
 
     public void onLoadComplete() {

@@ -163,7 +163,7 @@ public class SandboxState extends GameState implements InputProcessor {
                     game = (SandboxGame) clazz.newInstance();
                     game.init(assetManager);
                     logger.info("starting sandbox {}", gameName);
-                    GameStates.SANDBOX.activate(500);
+                    GameStates.SANDBOX.activate();
                 } catch (InstantiationException | IllegalAccessException e) {
                     logger.error("Could not create instance of class", e);
                 }
