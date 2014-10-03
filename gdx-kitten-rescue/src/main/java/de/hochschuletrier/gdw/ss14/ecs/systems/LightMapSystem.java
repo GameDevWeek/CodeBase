@@ -40,12 +40,11 @@ public class LightMapSystem extends ECSystem{
 
 	@Override
 	public void render() {
-		Array<Integer> entities = entityManager.getAllEntitiesWithComponents(RenderComponent.class, LightComponent.class);
+		Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class, LightComponent.class);
 		
 		for(Integer currentEnt : entities){
 			
 			LightComponent lightComp = entityManager.getComponent(currentEnt, LightComponent.class);
-			RenderComponent renderComp = entityManager.getComponent(currentEnt, RenderComponent.class);
 			PhysicsComponent pComp = entityManager.getComponent(currentEnt, PhysicsComponent.class);
 			// if shadow isn't not existin.... :Ds
 			if(lightComp.alpha > 0.0f){
