@@ -86,8 +86,8 @@ public class PlayerMovementSystem extends ECSystem{
             float distance = moveCompo.directionVec.len();
 
             if(distance <= 70 && (catStateCompo.state == CatStateEnum.IDLE)){
-                catStateCompo.timeTillJump += delta;
-                if(catStateCompo.timeTillJump >= 0.5){
+                catStateCompo.timeTillJumpTimer += delta;
+                if(catStateCompo.timeTillJumpTimer >= 0.5){
                     catStateCompo.state = CatStateEnum.JUMP;
                     // cat is jumping - disable all puddles (blood and water)
                 }
@@ -139,11 +139,7 @@ public class PlayerMovementSystem extends ECSystem{
                 }
             }else if(catStateCompo.state == CatStateEnum.JUMP){
                 moveCompo.velocity = 200;
-                catStateCompo.timeTillJump = 0;
-                catStateCompo.timeWhileJump += delta;
-                if(catStateCompo.timeWhileJump >= 1){
-                    catStateCompo.state = CatStateEnum.IDLE;
-                }
+                catStateCompo.timeTillJumpTimer = 0;
                 // phyCompo.setRotation(phyCompo.getRotation());
             }else{
                 moveCompo.velocity += moveCompo.damping*1.5f*delta;
@@ -188,7 +184,6 @@ public class PlayerMovementSystem extends ECSystem{
 
             phyCompo.setVelocityX(moveCompo.positionVec.x*moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.positionVec.y*moveCompo.velocity);
-            logger.debug("\n"+catStateCompo.timeTillJump);
         }
 
     }

@@ -14,9 +14,18 @@ public class CatPropertyComponent implements Component
     public boolean canSeeLaserPointer;
     public boolean isAlive, atePositiveFood;
     public CatStateEnum state;
-    public float timeTillJump = 0;
-    public float timeWhileJump = 0;
-
+    
+    public float influencedToLaser = 1;
+    
+    public final float TIME_TILL_INFLUENCED = 2.5f;
+    public float timeTillInfluencedTimer = 0;
+    
+    public final float TIME_TILL_JUMP = 1f;
+    public float timeTillJumpTimer = 0;
+    
+    public final float PLAYTIME = 1.5f;
+    public float playTimeTimer = 0;
+    
     public CatPropertyComponent()
     {
         lastCheckPoint = new Vector2();
