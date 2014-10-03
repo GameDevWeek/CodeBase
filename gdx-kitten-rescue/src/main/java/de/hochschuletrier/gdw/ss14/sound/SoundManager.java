@@ -2,10 +2,14 @@ package de.hochschuletrier.gdw.ss14.sound;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.state.*;
 import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import de.hochschuletrier.gdw.ss14.states.GameStates;
 import de.hochschuletrier.gdw.ss14.ui.UIActions;
 
@@ -42,17 +46,25 @@ public class SoundManager {
 			case GAMEPLAY:
 				switch (actionString) {
 					case "CATWALK":
-						//SoundManager.playSound("gp_cat_victory");
-						//System.out.println("WALKING CAT!!!!");
+						Array<Integer> entities = new Array<Integer>();
+						entities = (EntityManager.getInstance().getAllEntitiesWithComponents(CatPropertyComponent.class));
+						int a = entities.first();
+						CatPropertyComponent cp = EntityManager.getInstance().getComponent(a, CatPropertyComponent.class);
+						if (cp.state != CatStateEnum.WALK) {
+							SoundManager.loop.stop();
+							SoundManager.isLooping = false;
+						}
+						else 
+							SoundManager.loopSound("gp_cat_victory");
 						break;
-				}
+				} 
 				break;
 			default:
 				break;
 				
 		}
 	}
-	
+
 	private static void playSound(String sound) {
 		SoundManager.sound = SoundManager.assetManager.getSound(sound);
 		SoundManager.sound.play(SoundManager.SystemVolume);

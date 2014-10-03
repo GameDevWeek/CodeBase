@@ -10,21 +10,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
-import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.BehaviourComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
@@ -94,6 +80,8 @@ public class EntityFactory{
         particleEmitComp.particleTintColor = new Color(0.5f,0,0,0.8f);
         particleEmitComp.emitRadius = 10f;
         particleEmitComp.emitterType = ParticleEmitterTypeEnum.PawParticleEmitter;
+        particleEmitComp.particleLifetime = 20f;
+        particleEmitComp.emitInterval = 0.2f;
 
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
@@ -105,15 +93,19 @@ public class EntityFactory{
         manager.addComponent(entity, new PlayerComponent());
         manager.addComponent(entity, cam);
         manager.addComponent(entity, shadow);
-        //manager.addComponent(entity, particleEmitComp);
+        manager.addComponent(entity, particleEmitComp);
         //manager.addComponent(entity, new ConePhysicsComponent(catPhysix.getPosition(), 100,100,100));
         //manager.addComponent(entity, new HitAnimationComponent());
 
         return entity;
     }
 
-    public static int constructCatbox(){
+    public static int constructCatbox(Vector2 pos){
         int entity = manager.createEntity();
+
+        CatBoxPhysicsComponent catBoxPhysicsComponent = new CatBoxPhysicsComponent(pos, 80.0f, 80.0f, 0.0f);
+        catBoxPhysicsComponent.initPhysics(phyManager);
+        manager.addComponent(entity, catBoxPhysicsComponent);
 
         return entity;
     }

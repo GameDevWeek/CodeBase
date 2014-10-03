@@ -21,6 +21,11 @@ import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
 
+/**
+ * 
+ * @author Milan Rüll
+ *
+ */
 public class ParticleEmitterSystem extends ECSystem {
     
     private TextureRegion[] LiquidParticleTextures;
@@ -113,7 +118,7 @@ public class ParticleEmitterSystem extends ECSystem {
         particleRender.tintColor = tintColor.cpy();
         
         LimitedLifetimeComponent limitComp = new LimitedLifetimeComponent();
-        limitComp.maxLifetime = lifetime;
+        limitComp.lifetimeLeft = lifetime;
         limitComp.graduallyReduceAlpha = true;
         
         entityManager.addComponent(particleEnt, particlePhysics);

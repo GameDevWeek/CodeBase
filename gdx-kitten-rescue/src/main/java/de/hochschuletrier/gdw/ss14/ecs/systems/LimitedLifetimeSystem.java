@@ -25,7 +25,6 @@ public class LimitedLifetimeSystem extends ECSystem {
         for (Integer ent : arr) {
             
             LimitedLifetimeComponent limitedLifeComp = entityManager.getComponent(ent, LimitedLifetimeComponent.class);
-            limitedLifeComp.currentLifetime += delta;
             
             if (limitedLifeComp.graduallyReduceAlpha) {
                 
@@ -35,13 +34,15 @@ public class LimitedLifetimeSystem extends ECSystem {
                     if (rendComp.tintColor == null)
                         rendComp.tintColor = new Color(1,1,1,1);
                     
-                    rendComp.tintColor.a -= delta / limitedLifeComp.maxLifetime;
+                    // Remove as much percent of the alpha as percent of the lifetime
+                    rendComp.tintColor.a = rendComp.tintColor.a * (1.0f - (delta / (limitedLifeComp.lifetimeLeft)));
                     if (rendComp.tintColor.a < 0.0f)
                         rendComp.tintColor.a = 0.0f;
                 }
             }
             
-            if (limitedLifeComp.maxLifetime - limitedLifeComp.currentLifetime < 0.0f) {
+            limitedLifeComp.lifetimeLeft -= delta;
+            if (limitedLifeComp.lifetimeLeft < 0.0f) {
                 entityManager.deleteEntity(ent);
                 continue;
             }

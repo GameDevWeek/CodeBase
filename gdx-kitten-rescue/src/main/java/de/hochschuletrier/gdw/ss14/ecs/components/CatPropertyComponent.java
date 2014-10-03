@@ -10,6 +10,7 @@ public class CatPropertyComponent implements Component
     
     public Vector2 lastCheckPoint;
     public int amountLives;
+    public boolean isHidden;
     public boolean canSeeLaserPointer;
     public boolean isAlive, atePositiveFood;
     public CatStateEnum state;
@@ -24,5 +25,6 @@ public class CatPropertyComponent implements Component
         isAlive = true;
         atePositiveFood = false;
         state = CatStateEnum.IDLE;
+        isHidden = false;
     }
 }

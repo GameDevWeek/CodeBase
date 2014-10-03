@@ -7,8 +7,6 @@ package de.hochschuletrier.gdw.ss14.ecs.components;
  */
 public class LimitedLifetimeComponent implements Component {
 
-    public float maxLifetime = 5.0f;
+    public float lifetimeLeft = 5.0f;
     public boolean graduallyReduceAlpha = false;
-
-    public float currentLifetime = 0.0f;
 }
