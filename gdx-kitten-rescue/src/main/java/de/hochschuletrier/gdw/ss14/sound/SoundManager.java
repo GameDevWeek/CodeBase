@@ -13,9 +13,13 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import de.hochschuletrier.gdw.ss14.states.GameStates;
 import de.hochschuletrier.gdw.ss14.ui.UIActions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SoundManager {
 	private static Sound sound;
 	private static Sound loop;
+	private static Logger Logger = LoggerFactory.getLogger(SoundManager.class);
 	private static boolean isLooping;
 	private static AssetManagerX assetManager;
 	private static float SystemVolume = 1.9f;
@@ -56,8 +60,10 @@ public class SoundManager {
 							SoundManager.loop.stop();
 							SoundManager.isLooping = false;
 						}
-						else 
+						else { 
 							SoundManager.loopSound("gp_cat_walk_laminate");
+							//Logger.debug("Cat starts walking");
+						}
 						break;
 				} 
 				break;
