@@ -107,7 +107,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
                 entityManager.removeComponent(player, renderComponent);
                 
-                catPropertyComponent.setState(CatStateEnum.HIDDEN);
+                //catPropertyComponent.setState(CatStateEnum.HIDDEN);
 
                 catPropertyComponent.isHidden = true;
             }
