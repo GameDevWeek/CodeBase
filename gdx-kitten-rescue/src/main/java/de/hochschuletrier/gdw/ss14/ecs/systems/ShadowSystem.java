@@ -26,9 +26,6 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
  */
 public class ShadowSystem extends ECSystem{
 	
-	private int shadowOffset = 10;
-	
-
 	public ShadowSystem(EntityManager entityManager) {
 		super(entityManager);
 		 
@@ -73,8 +70,8 @@ public class ShadowSystem extends ECSystem{
 				}
 				
 				DrawUtil.batch.draw(renderComp.texture,
-                        physicsComp.getPosition().x - (shadowWidth / 2), 
-                        physicsComp.getPosition().y - (shadowHeight / 2) + shadowOffset, 
+                        physicsComp.getPosition().x - (shadowWidth / 2) + shadowComp.shadowOffsetX, 
+                        physicsComp.getPosition().y - (shadowHeight / 2) + shadowComp.shadowOffsetY, 
                         shadowWidth / 2, 
                         shadowHeight / 2, 
                         shadowWidth, 
@@ -96,7 +93,6 @@ public class ShadowSystem extends ECSystem{
 	}
 	
 	public void setShadowOffset(int offset){
-		this.shadowOffset = offset;
 	}
 	
 
