@@ -25,7 +25,8 @@ public class AnimationComponent implements Component {
     public float animationTime;
     
     /**
-     * True if the animation is finished or played one (if looped)
+     * True if the animation is finished.
+     * False is the animationMode isn't NORMAL or if the animation isn't finished.
      */
     public boolean isFinished;
 }

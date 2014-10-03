@@ -12,18 +12,20 @@ import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
+import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import de.hochschuletrier.gdw.ss14.states.JumpableState;
 import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
 import ch.qos.logback.classic.Logger;
 
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
-import de.hochschuletrier.gdw.ss14.ecs.components.PuddlePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
@@ -61,6 +63,9 @@ public class EntityFactory{
         catPhysix.initPhysics(phyManager);
         CatPropertyComponent catProperty = new CatPropertyComponent();
         catProperty.lastCheckPoint = pos;
+        catProperty.StateListener.add(new WorldObjectsSystem(manager));
+
+        JumpDataComponent jumpDataComponent = new JumpDataComponent();
 
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
@@ -77,14 +82,14 @@ public class EntityFactory{
         catAnimation.animation[CatStateEnum.DIE.ordinal()] = assetManager.getAnimation("die");
         catAnimation.animation[CatStateEnum.DIE2.ordinal()] = assetManager.getAnimation("die2");
         catAnimation.animation[CatStateEnum.JUMP.ordinal()] = assetManager.getAnimation("jump");
-        catAnimation.animation[CatStateEnum.JUMP_BEGIN.ordinal()] = assetManager.getAnimation("jump_begin");
-        catAnimation.animation[CatStateEnum.JUMP_END.ordinal()] = assetManager.getAnimation("jump_end");
+//        catAnimation.animation[CatStateEnum.JUMP_BEGIN.ordinal()] = assetManager.getAnimation("jump_begin");
+//        catAnimation.animation[CatStateEnum.JUMP_END.ordinal()] = assetManager.getAnimation("jump_end");
 
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 1.0f;
 
         CatPropertyComponent catProperties = new CatPropertyComponent();
-        catProperties.state = CatStateEnum.IDLE;
+        catProperties.setState(CatStateEnum.IDLE);
 
         ShadowComponent shadow = new ShadowComponent();
         shadow.alpha = 0.5f;
@@ -97,6 +102,7 @@ public class EntityFactory{
         particleEmitComp.particleLifetime = 20f;
         particleEmitComp.emitInterval = 0.2f;
 
+        manager.addComponent(entity, jumpDataComponent);
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
@@ -195,21 +201,39 @@ public class EntityFactory{
         int entity = manager.createEntity();
     }
 
-    public static void constructPuddleOfBlood(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
+    public static int constructPuddleOfBlood(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        manager.addComponent(entity, new PuddlePhysicsComponent(bodydef, fixturedef));
-        
-    }
-
-    public static int constructPuddleOfWater(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
-        int entity = manager.createEntity();
-        PuddlePhysicsComponent puddlephys = new PuddlePhysicsComponent(bodydef, fixturedef);
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef);
         manager.addComponent(entity, puddlephys);
+        manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.bloodpuddle));
         puddlephys.initPhysics(phyManager);
+        
         
         return entity;
     }
 
+    public static int constructPuddleOfWater(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
+        int entity = manager.createEntity();
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef);
+        manager.addComponent(entity, puddlephys);
+        manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.waterpuddle));
+        puddlephys.initPhysics(phyManager);
+        
+        
+        return entity;
+    }
+
+    public static int constructDeadzone(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
+        int entity = manager.createEntity();
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef);
+        manager.addComponent(entity, puddlephys);
+        manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.deadzone));
+        puddlephys.initPhysics(phyManager);
+        
+        
+        return entity;
+    }
+    
 
     public static int constructStairs(){
         int entity = manager.createEntity();
@@ -247,3 +271,4 @@ public class EntityFactory{
     
     public static BehaviourManager behaviourManager;
 }
+

@@ -59,15 +59,6 @@ public class Main extends StateBasedGame {
     }
 
     private void setupDummyLoader() {
-        // Just adding some sleep dummies for a progress bar test
-        InternalFileHandleResolver fileHandleResolver = new InternalFileHandleResolver();
-        assetManager.setLoader(SleepDummyLoader.SleepDummy.class, new SleepDummyLoader(
-                fileHandleResolver));
-        SleepDummyLoader.SleepDummyParameter dummyParam = new SleepDummyLoader.SleepDummyParameter(
-                100);
-        for (int i = 0; i < 50; i++) {
-            assetManager.load("dummy" + i, SleepDummyLoader.SleepDummy.class, dummyParam);
-        }
     }
 
     private void loadAssetLists() {

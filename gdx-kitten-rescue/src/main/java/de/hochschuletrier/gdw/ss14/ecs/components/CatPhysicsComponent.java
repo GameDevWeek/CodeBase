@@ -2,11 +2,12 @@ package de.hochschuletrier.gdw.ss14.ecs.components;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
+import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 
 import java.util.ArrayList;
 
@@ -70,6 +71,12 @@ public class CatPhysicsComponent extends PhysicsComponent {
     @Override
     protected void beginContact(PhysixContact contact) {
         super.beginContact(contact);
-        collisionListeners.forEach((l)->l.fireCollision(contact));
+        collisionListeners.forEach((l)->l.fireBeginnCollision(contact));
+    }
+    
+    @Override
+    protected void endContact(PhysixContact contact) {
+        super.endContact(contact);
+        collisionListeners.forEach((l)->l.fireEndCollision(contact));
     }
 }

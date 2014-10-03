@@ -61,7 +61,7 @@ public class PlayerMovementSystem extends ECSystem{
                 moveCompo.acceleration *= 5;
 
             }
-
+            /*
             // update states
             if(moveCompo.velocity == 0){
                 catStateCompo.state = CatStateEnum.IDLE;
@@ -72,10 +72,11 @@ public class PlayerMovementSystem extends ECSystem{
                 catStateCompo.state = CatStateEnum.RUN;
                 catStateCompo.timeTillJump = 0;
             }
+            */
             SoundManager.performAction(PhysicsActions.CATWALK);
 
-            logger.debug("\n"+catStateCompo.state);
-            if(catStateCompo.state != CatStateEnum.JUMP){
+            logger.debug("\n"+catStateCompo.getState());
+            if(catStateCompo.getState() != CatStateEnum.JUMP){
                  moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
             }
             moveCompo.positionVec = moveCompo.directionVec;
@@ -84,23 +85,23 @@ public class PlayerMovementSystem extends ECSystem{
             //Katze springt, wenn nah genug an Laserpointer
             float distance = moveCompo.directionVec.len();
 
-            if(distance <= 70 && (catStateCompo.state == CatStateEnum.IDLE)){
-                catStateCompo.timeTillJump += delta;
-                if(catStateCompo.timeTillJump >= 0.5){
-                    catStateCompo.state = CatStateEnum.JUMP;
+            if(distance <= 70 && (catStateCompo.getState() == CatStateEnum.IDLE)){
+                catStateCompo.timeTillJumpTimer += delta;
+                if(catStateCompo.timeTillJumpTimer >= 0.5){
+                    catStateCompo.setState(CatStateEnum.JUMP);
                     // cat is jumping - disable all puddles (blood and water)
                 }
             }
             {   //sets puddles 
                 boolean flag = true;
-                if (catStateCompo.state == CatStateEnum.JUMP) {
+                if (catStateCompo.getState() == CatStateEnum.JUMP) {
                     flag = false;
                 }
-                Array<Integer> puddles = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class);
+                Array<Integer> puddles = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
                 for (Integer p : puddles) {
                     PhysicsComponent puddlecompo = entityManager.getComponent(p, PhysicsComponent.class);
-                    if (!(puddlecompo instanceof PuddlePhysicsComponent))
-                        continue;
+//                    if (!(puddlecompo instanceof JumpablePhysicsComponent))
+//                        continue;
                     puddlecompo.physicsBody.setActive(flag);
                 }
             }
@@ -136,13 +137,9 @@ public class PlayerMovementSystem extends ECSystem{
                         moveCompo.velocity = moveCompo.middleVelocity;
                     }
                 }
-            }else if(catStateCompo.state == CatStateEnum.JUMP){
+            }else if(catStateCompo.getState() == CatStateEnum.JUMP){
                 moveCompo.velocity = 200;
-                catStateCompo.timeTillJump = 0;
-                catStateCompo.timeWhileJump += delta;
-                if(catStateCompo.timeWhileJump >= 1){
-                    catStateCompo.state = CatStateEnum.IDLE;
-                }
+                catStateCompo.timeTillJumpTimer = 0;
                 // phyCompo.setRotation(phyCompo.getRotation());
             }else{
                 moveCompo.velocity += moveCompo.damping*1.5f*delta;
@@ -164,7 +161,7 @@ public class PlayerMovementSystem extends ECSystem{
             moveCompo.directionVec = moveCompo.directionVec.nor();
             moveCompo.positionVec = moveCompo.positionVec.nor();
 
-            if(catStateCompo.state == CatStateEnum.JUMP){
+            if(catStateCompo.getState() == CatStateEnum.JUMP){
                 angle = phyCompo.getRotation();
             }else{
                 angle = (float) Math.atan2(-moveCompo.directionVec.x, moveCompo.directionVec.y);
@@ -177,7 +174,7 @@ public class PlayerMovementSystem extends ECSystem{
                     moveCompo.velocity = 0.0f;
                 }
 
-                if(!catStateCompo.isHidden && laserPointerComponent.isVisible && catStateCompo.state != CatStateEnum.JUMP)
+                if(!catStateCompo.isHidden && laserPointerComponent.isVisible && catStateCompo.getState() != CatStateEnum.JUMP)
                 {
                     phyCompo.setRotation(angle);
                 }
@@ -187,7 +184,6 @@ public class PlayerMovementSystem extends ECSystem{
 
             phyCompo.setVelocityX(moveCompo.positionVec.x*moveCompo.velocity);
             phyCompo.setVelocityY(moveCompo.positionVec.y*moveCompo.velocity);
-            logger.debug("\n"+catStateCompo.timeTillJump);
         }
 
     }

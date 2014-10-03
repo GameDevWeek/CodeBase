@@ -14,11 +14,13 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
+import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PuddlePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
@@ -34,7 +36,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     }
 
     @Override
-    public void fireCollision(PhysixContact contact) {
+    public void fireBeginnCollision(PhysixContact contact) {
         PhysixBody owner = contact.getMyPhysixBody();//.getOwner();
 
         Object o = contact.getOtherPhysixBody().getFixtureList().get(0).getUserData();
@@ -60,26 +62,37 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             rcp.reset();
         }else if(other instanceof WoolPhysicsComponent){
         
-        }else if(other instanceof PuddlePhysicsComponent){
+        }else if(other instanceof JumpablePhysicsComponent){
+            Array<Integer> compos = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
+            for (Integer p : compos) {
+                JumpablePropertyComponent property = entityManager.getComponent(p, JumpablePropertyComponent.class);
+                PhysicsComponent puddlecompo = entityManager.getComponent(p, PhysicsComponent.class);
+                if(puddlecompo == other && property.type == JumpableState.deadzone){
+                    boolean isCatInZone = false;
+                    if(contact.getMyFixture().getUserData() == null) return;
+                    if(contact.getMyFixture().getUserData().equals("masscenter")){
+                        isCatInZone = true;
+                    }
+                    if(isCatInZone){
+                        // cat fall down
+                        Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
+
+                        if(entities.size > 0)
+                        {
+                            int player = entities.first();
+                            CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+
+                            //catPropertyComponent.isAlive = false;
+                            catPropertyComponent.setState(CatStateEnum.FALL);
+                        }
+
+                    }
+                }
+                
+            }
+            
         }else if(other == null){
             if(!(o instanceof String)) return;
-            String s = (String)o;
-            if(s.equals("deadzone")){
-                boolean isCatInZone = false;
-                if(contact.getMyFixture().getUserData() == null) return;
-                if(contact.getMyFixture().getUserData().equals("masscenter")){
-                    isCatInZone = true;
-                }
-                if(isCatInZone){
-                    // cat fall down
-                    int player = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class).first();
-
-                    CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
-
-                    catPropertyComponent.isAlive = false;
-                    //catPropertyComponent.state = CatStateEnum.FALL;
-                }
-            }
         }
         else if(other instanceof CatBoxPhysicsComponent)
         {
@@ -93,6 +106,8 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
 
                 entityManager.removeComponent(player, renderComponent);
+                
+                catPropertyComponent.setState(CatStateEnum.HIDDEN);
 
                 catPropertyComponent.isHidden = true;
             }
@@ -115,4 +130,10 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
     @Override
     public void render() {}
+
+    @Override
+    public void fireEndCollision(PhysixContact contact) {
+        // TODO Auto-generated method stub
+        
+    }
 }
