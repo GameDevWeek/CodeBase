@@ -47,12 +47,12 @@ public class OptionsMenu extends LaserCatMenu
 
 		for (int i = 0; i < numberOfButtons; i++)
 		{
-			label[i] = new Label(name[i], basicSkin);
+			label[i] = new Label(name[i], catSkin);
 		}
 		
 		widgetFrame.add(label[0]).expandX().space(20).spaceBottom(10);
 		
-		Label spacer = new Label("", basicSkin);
+		Label spacer = new Label("", catSkin);
 		widgetFrame.add(spacer).expandX();
 		
 		widgetFrame.add(label[1]).expandX().space(20).spaceBottom(10);
@@ -66,7 +66,7 @@ public class OptionsMenu extends LaserCatMenu
 		button[0].setName("button");		
 		
 		currentVolume = LocalMusic.getSystemVolume();
-		volumeLabel = new Label (Integer.toString((int)currentVolume*10), basicSkin);
+		volumeLabel = new Label (Integer.toString((int)currentVolume*10), catSkin);
 
 		button[1] = new UIButton(catSkin, "sound_push");
 		button[1].setName("button");
