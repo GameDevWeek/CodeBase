@@ -10,27 +10,27 @@ import java.util.ArrayList;
  *
  * @author Santo Pfingsten
  */
-public abstract class StateBasedGame implements ApplicationListener {
+public abstract class StateBasedGame<T extends BaseGameState> implements ApplicationListener {
 
-    private GameState currentState, nextState, prevState;
+    private T currentState, nextState, prevState;
     private Transition entering, leaving;
     private long lastTime = System.currentTimeMillis();
     private final ArrayList<ScreenListener> screenListeners = new ArrayList();
     public final ScreenCamera screenCamera = new ScreenCamera();
 
-    public StateBasedGame() {
-        currentState = new GameState();
+    public StateBasedGame(T initialState) {
+        currentState = initialState;
     }
 
-    public GameState getCurrentState() {
+    public T getCurrentState() {
         return currentState;
     }
 
-    public void changeState(GameState state) {
+    public void changeState(T state) {
         changeState(state, null, null);
     }
 
-    public void changeState(GameState state, Transition out, Transition in) {
+    public void changeState(T state, Transition out, Transition in) {
         if (state == null) {
             throw new IllegalArgumentException("State must not be null!");
         }
@@ -45,8 +45,8 @@ public abstract class StateBasedGame implements ApplicationListener {
 
         nextState = state;
 
-        currentState.onLeave();
-        nextState.onEnter();
+        currentState.onLeave(nextState);
+        nextState.onEnter(currentState);
     }
 
     public void addScreenListener(ScreenListener listener) {
