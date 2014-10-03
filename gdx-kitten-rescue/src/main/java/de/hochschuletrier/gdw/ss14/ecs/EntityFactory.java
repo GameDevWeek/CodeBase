@@ -96,7 +96,7 @@ public class EntityFactory{
         shadow.z = 1.0f;
 
         ParticleEmitterComponent particleEmitComp = new ParticleEmitterComponent();
-        particleEmitComp.particleTintColor = new Color(0.5f,0,0,0.8f);
+        particleEmitComp.particleTintColor = new Color(0.5f,0.5f,0.5f,0.5f);
         particleEmitComp.emitRadius = 10f;
         particleEmitComp.emitterType = ParticleEmitterTypeEnum.PawParticleEmitter;
         particleEmitComp.particleLifetime = 20f;

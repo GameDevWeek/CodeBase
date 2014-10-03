@@ -21,6 +21,18 @@ public class ParticleEmitterComponent implements Component {
     
     public Color particleTintColor = null;
     
+    // Attributes needed for color fading
+    /*public Color fadeColor = null;
+    public float fadingTimeLeft = 0.0f;
+    
+    public void fadeColor( Color newColor, float time ) {
+        /*if (fadeColor != null)
+            particleTintColor = fadeColor;*/
+        /*
+        fadeColor = newColor.cpy();
+        fadingTimeLeft = time;
+    }*/
+    
     /*public boolean isDirectionalEmitter = false;
     public Vector2 emitDirection;
     public float emitAngle;*/

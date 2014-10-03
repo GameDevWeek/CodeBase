@@ -46,6 +46,14 @@ public class ParticleEmitterSystem extends ECSystem {
             
             ParticleEmitterComponent emitComp = entityManager.getComponent(ent, ParticleEmitterComponent.class);
             
+            // Color fading
+            /*if (emitComp.fadeColor != null) {
+                
+                emitComp.fadingTimeLeft -= delta;
+                
+                // TODO: continue coding here =D
+            }*/
+            
             int lastCycle = (int)(emitComp.lifetimeLeft / emitComp.emitInterval);
             emitComp.lifetimeLeft -= delta;
             int currentCycle = (int)(emitComp.lifetimeLeft / emitComp.emitInterval);
