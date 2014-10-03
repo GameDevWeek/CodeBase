@@ -48,8 +48,10 @@ public class MusicManager {
 	
 	public void sendVolumeToStreams(float systemVolume) {
 		for (GameStateEnum state : GameStateEnum.values()) {
-			if (this.musicStreamsList.get(state).isMusicPlaying())
+			if (this.musicStreamsList.get(state).isMusicPlaying() && state.isActive()) {
 				this.musicStreamsList.get(state).setVolume(systemVolume);
+				System.out.println("STREAM + "+ state.isActive());
+			}
 		}		
 	}
 }
