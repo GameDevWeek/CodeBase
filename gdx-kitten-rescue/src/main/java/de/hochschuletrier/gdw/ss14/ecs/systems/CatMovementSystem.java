@@ -91,8 +91,8 @@ public class CatMovementSystem extends ECSystem
                 {
                     if (catPropertyComponent.state == CatStateEnum.IDLE)
                     {
-                        catPropertyComponent.timeTillJump = catPropertyComponent.timeTillJump + delta;
-                        if (catPropertyComponent.timeTillJump >= 0.5)
+                        catPropertyComponent.timeTillJumpTimer = catPropertyComponent.timeTillJumpTimer + delta;
+                        if (catPropertyComponent.timeTillJumpTimer >= 0.5)
                         {
                             catPropertyComponent.state = CatStateEnum.JUMP;
                             jumpDataComponent.jumpDirection = movementComponent.directionVec.nor();
@@ -101,7 +101,7 @@ public class CatMovementSystem extends ECSystem
                 }
                 else
                 {
-                    catPropertyComponent.timeTillJump = 0.0f;
+                    catPropertyComponent.timeTillJumpTimer = 0.0f;
                 }
 
                 movementComponent.directionVec = movementComponent.directionVec.nor();
