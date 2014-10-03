@@ -11,6 +11,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 public class LaserPointerSystem extends ECSystem implements GameInputAdapter
 {
@@ -97,10 +98,12 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
             if (catPropertyComponent.canSeeLaserPointer == true)
             {
                 catPropertyComponent.canSeeLaserPointer = false;
+                SoundManager.performAction(LaserPointerActions.OFF);
             }
             else
             {
                 catPropertyComponent.canSeeLaserPointer = true;
+                SoundManager.performAction(LaserPointerActions.ON);
             }
         }
 
