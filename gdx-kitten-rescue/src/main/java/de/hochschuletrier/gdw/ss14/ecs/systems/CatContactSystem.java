@@ -35,7 +35,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     }
 
     @Override
-    public void fireCollision(PhysixContact contact) {
+    public void fireBeginnCollision(PhysixContact contact) {
         PhysixBody owner = contact.getMyPhysixBody();//.getOwner();
 
         Object o = contact.getOtherPhysixBody().getFixtureList().get(0).getUserData();
