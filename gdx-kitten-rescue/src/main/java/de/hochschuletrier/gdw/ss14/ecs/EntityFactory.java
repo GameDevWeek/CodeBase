@@ -1,9 +1,10 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
@@ -24,6 +25,8 @@ import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ExitMapPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ExitMapPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpDataComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
@@ -331,6 +334,15 @@ public class EntityFactory{
         //RenderComponent renderComponent = new RenderComponent();
         //renderComponent.texture = assetManager.getTexture();
         //manager.addComponent(entity, renderComponent);
+    }
+    
+    public static void constructMapChangeObj(Vector2 pos, float width, float height, File nextMap){
+        int entity = manager.createEntity();
+        
+        ExitMapPhysicsComponent exit = new ExitMapPhysicsComponent(pos, width, height);
+        ExitMapPropertyComponent exitProps = new ExitMapPropertyComponent(nextMap);
+        exit.initPhysics(phyManager);
+        manager.addComponent(entity, exit);
     }
 
     public static EntityManager manager;

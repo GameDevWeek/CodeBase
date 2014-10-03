@@ -272,10 +272,10 @@ public class MapManager
                                 // TODO: add object with entityFactory here
                                 break;
 
-// isn't an object
-//                            case "door":
-//                                // TODO: add object with entityFactory here
-//                                break;
+                            case "finish":
+                                // TODO: add object with entityFactory here
+//                                EntityFactory.constructMapChangeObj(pos, width, height, nextMap);
+                                break;
 
                             case "catbox":
                                 EntityFactory.constructCatbox(pos);
