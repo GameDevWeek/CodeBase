@@ -15,7 +15,7 @@ import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PuddlePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
@@ -53,7 +53,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             rcpc.reset();
         }else if(other instanceof WoolPhysicsComponent){
         
-        }else if(other instanceof PuddlePhysicsComponent){
+        }else if(other instanceof JumpablePhysicsComponent){
         }else if(other == null){
             if(!(o instanceof String)) return;
             String s = (String)o;
