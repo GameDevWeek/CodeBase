@@ -152,14 +152,18 @@ public class MapManager
         float x = rect.x * tileWidth + width / 2;
         float y = rect.y * tileHeight + height / 2;
 
-        PhysixBody body = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
-                .fixedRotation(false).create();
-        body.createFixture(new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
-                .category((short)floor));
+        PhysixBodyDef bodydef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
+                .fixedRotation(false);
+        
+        PhysixFixtureDef fixturedef = new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
+                .category((short)floor); 
         
         switch (t2e) {
-        case none: return;
-        case waterpuddle: EntityFactory.constructPuddleOfWater(body);break;
+        case none: 
+            PhysixBody body = bodydef.create();
+            body.createFixture(fixturedef);
+            break;
+        case waterpuddle: EntityFactory.constructPuddleOfWater(bodydef, fixturedef);break;
         }
         
     }

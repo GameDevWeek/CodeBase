@@ -3,6 +3,8 @@ package de.hochschuletrier.gdw.ss14.ecs.components;
 import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 
 /**
@@ -11,15 +13,21 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 public class PuddlePhysicsComponent extends PhysicsComponent
 {
     
+    private PhysixBodyDef bodydef;
+    private PhysixFixtureDef fixturedef;
     
-    
-    public PuddlePhysicsComponent(PhysixBody body) {
-        physicsBody = body;
+    public PuddlePhysicsComponent(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef) {
+        this.bodydef = bodydef;
+        this.fixturedef = fixturedef;
     }
     
     @Override
     public void initPhysics(PhysixManager manager) {
         super.initPhysics(manager);
+        
+        physicsBody = bodydef.create();
+        
+        physicsBody.createFixture(fixturedef);
         
         setPhysicsBody(physicsBody);
     }

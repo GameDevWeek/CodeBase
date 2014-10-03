@@ -1,11 +1,16 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
+import ch.qos.logback.classic.Logger;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
@@ -141,15 +146,19 @@ public class EntityFactory{
         int entity = manager.createEntity();
     }
 
-    public static void constructPuddleOfBlood(PhysixBody body){
+    public static void constructPuddleOfBlood(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        manager.addComponent(entity, new PuddlePhysicsComponent(body));
+        manager.addComponent(entity, new PuddlePhysicsComponent(bodydef, fixturedef));
         
     }
 
-    public static void constructPuddleOfWater(PhysixBody body){
+    public static int constructPuddleOfWater(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        manager.addComponent(entity, new PuddlePhysicsComponent(body));
+        PuddlePhysicsComponent puddlephys = new PuddlePhysicsComponent(bodydef, fixturedef);
+        manager.addComponent(entity, puddlephys);
+        puddlephys.initPhysics(phyManager);
+        
+        return entity;
     }
 
     public static void constructStairs(){
