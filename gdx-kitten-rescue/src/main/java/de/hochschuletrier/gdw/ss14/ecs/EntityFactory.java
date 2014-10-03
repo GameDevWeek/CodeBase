@@ -78,6 +78,8 @@ public class EntityFactory{
         catAnimation.animation[CatStateEnum.DIE.ordinal()] = assetManager.getAnimation("die");
         catAnimation.animation[CatStateEnum.DIE2.ordinal()] = assetManager.getAnimation("die2");
         catAnimation.animation[CatStateEnum.JUMP.ordinal()] = assetManager.getAnimation("jump");
+        catAnimation.animation[CatStateEnum.JUMP_BEGIN.ordinal()] = assetManager.getAnimation("jump_begin");
+        catAnimation.animation[CatStateEnum.JUMP_END.ordinal()] = assetManager.getAnimation("jump_end");
 
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 1.0f;

@@ -1,7 +1,9 @@
 package de.hochschuletrier.gdw.ss14.hud;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
@@ -16,6 +18,14 @@ public class WeaponHUD extends HudComponent implements GameInputAdapter {
     private Texture waterpistol;
     
     private float overlap = 0.3f;
+    
+    private float currentOverlap1 = 0;
+    private float currentOverlap2 = overlap;
+    
+    private float overlapSpeed = 3f;
+    private float progress = 0;
+    
+    private boolean move = false;
     
     public WeaponHUD(AssetManagerX assetManager) {
         super(assetManager);
@@ -33,24 +43,37 @@ public class WeaponHUD extends HudComponent implements GameInputAdapter {
     public void render() {
         Main.getInstance().screenCamera.bind();
         
-        Texture back, front;
-        if (isLaser) {
-            front = laser;
-            back = waterpistol;
-        } else {
-            front = waterpistol;
-            back = laser;
+        if (move) {
+            progress += Gdx.graphics.getDeltaTime() * overlapSpeed;
+            if (isLaser) {
+                currentOverlap1 = MathUtils.lerp(overlap, 0f, progress);
+                currentOverlap2 = MathUtils.lerp(0f, overlap, progress);
+            } else {
+                currentOverlap1 = MathUtils.lerp(0f, overlap, progress);
+                currentOverlap2 = MathUtils.lerp(overlap, 0f, progress);
+            }
+            
+            if (progress > 1 || progress < 0) move = false;
         }
         
-        // back
-        DrawUtil.batch.draw(back, getX(), getY(),
-                back.getWidth() * getScale(), back.getHeight() * getScale(), 0, 0, 
-                back.getWidth(), back.getHeight(), false, true);
+        if (isLaser) {
+            DrawUtil.batch.draw(waterpistol, getX() + (waterpistol.getWidth() * getScale() * currentOverlap1), getY() + (waterpistol.getHeight() * getScale() * currentOverlap1),
+                    waterpistol.getWidth() * getScale(), waterpistol.getHeight() * getScale(), 0, 0, 
+                    waterpistol.getWidth(), waterpistol.getHeight(), false, true);
+            
+            DrawUtil.batch.draw(laser, getX() + (laser.getWidth() * getScale() * currentOverlap2), getY() + (laser.getHeight() * getScale() * currentOverlap2),
+                    laser.getWidth() * getScale(), laser.getHeight() * getScale(), 0, 0, 
+                    laser.getWidth(), laser.getHeight(), false, true);
+        } else {
+            DrawUtil.batch.draw(laser, getX() + (laser.getWidth() * getScale() * currentOverlap2), getY() + (laser.getHeight() * getScale() * currentOverlap2),
+                    laser.getWidth() * getScale(), laser.getHeight() * getScale(), 0, 0, 
+                    laser.getWidth(), laser.getHeight(), false, true);
+            
+            DrawUtil.batch.draw(waterpistol, getX() + (waterpistol.getWidth() * getScale() * currentOverlap1), getY() + (waterpistol.getHeight() * getScale() * currentOverlap1),
+                    waterpistol.getWidth() * getScale(), waterpistol.getHeight() * getScale(), 0, 0, 
+                    waterpistol.getWidth(), waterpistol.getHeight(), false, true);
+        }
         
-        // front
-        DrawUtil.batch.draw(front, getX() + (back.getWidth() * getScale() * overlap), getY() + (back.getHeight() * getScale() * overlap),
-                front.getWidth() * getScale(), front.getHeight() * getScale(), 0, 0, 
-                front.getWidth(), front.getHeight(), false, true);
         
         // DrawUtil.drawRect(getX(), getY(), super.getWidth(), super.getHeight(), Color.RED);
     }
@@ -88,6 +111,11 @@ public class WeaponHUD extends HudComponent implements GameInputAdapter {
     @Override
     public void laserButtonPressed() {
         isLaser = !isLaser;
+        if (!move) {
+            move = true;
+            progress = 0f;
+        }
+        
     }
 
     @Override
