@@ -50,7 +50,7 @@ public class SoundManager {
 						entities = (EntityManager.getInstance().getAllEntitiesWithComponents(CatPropertyComponent.class));
 						int a = entities.first();
 						CatPropertyComponent cp = EntityManager.getInstance().getComponent(a, CatPropertyComponent.class);
-						if (cp.state != CatStateEnum.WALK) {
+						if (cp.getState() != CatStateEnum.WALK) {
 							SoundManager.loop.stop();
 							SoundManager.isLooping = false;
 						}
