@@ -34,6 +34,7 @@ public class TextItem extends Item {
                     updateFadeOut();
                     break;
                 case CONSTRUCT:
+                case CONSTRUCT_TYPE:
                     updateConstruct(delta);
                     break;
                 case TYPE:
@@ -77,7 +78,7 @@ public class TextItem extends Item {
         if (numChars > 0) {
             shownText = originalText.substring(0, numChars);
         } else {
-            shownText = originalText;
+            shownText = "";
             anim = null;
         }
     }
@@ -111,6 +112,7 @@ public class TextItem extends Item {
                     style.font.draw(DrawUtil.batch, originalText, position.x, position.y);
                     break;
                 case CONSTRUCT:
+                case CONSTRUCT_TYPE:
                     style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
                     for (TextChar tc : chars) {
                         tc.render(style.font, style.color, position, totalAnimationTime);
@@ -121,6 +123,7 @@ public class TextItem extends Item {
                     style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
                     break;
             }
+            style.font.setScale(1);
         } else {
             style.font.setColor(style.color);
             style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
@@ -138,6 +141,7 @@ public class TextItem extends Item {
             opacity = 1.0f;
             switch (anim) {
                 case CONSTRUCT:
+                case CONSTRUCT_TYPE:
                     shownText = "";
                     generateConstructChars(animation);
                     break;
