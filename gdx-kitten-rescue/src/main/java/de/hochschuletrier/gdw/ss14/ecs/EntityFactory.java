@@ -102,6 +102,7 @@ public class EntityFactory{
         particleEmitComp.emitterType = ParticleEmitterTypeEnum.PawParticleEmitter;
         particleEmitComp.particleLifetime = 20f;
         particleEmitComp.emitInterval = 0.2f;
+        particleEmitComp.minimumParticleDistance = 15.0f;
 
         manager.addComponent(entity, jumpDataComponent);
         manager.addComponent(entity, catProperties);
