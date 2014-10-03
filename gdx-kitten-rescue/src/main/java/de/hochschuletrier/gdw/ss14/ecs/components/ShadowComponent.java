@@ -16,5 +16,10 @@ public class ShadowComponent implements Component{
 	 *  z < 1 : Shadow gets smaller
 	 */
 	public float z = 1f;
+	/**
+	 * shadowOffset (pixels) to the right(x) and down(y)
+	 */
+	public int shadowOffsetX = 0;
+	public int shadowOffsetY = 10;
 	
 }

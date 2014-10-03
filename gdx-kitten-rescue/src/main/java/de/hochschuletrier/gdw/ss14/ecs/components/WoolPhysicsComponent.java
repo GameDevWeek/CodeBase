@@ -10,17 +10,15 @@ import de.hochschuletrier.gdw.commons.gdx.physix.*;
 public class WoolPhysicsComponent extends PhysicsComponent
 {
     private Vector2 initPosition;
-    private float width;
-    private float height;
+    private float radius;
     private float rotation;
-    private float friction = 1.0f;
-    private float restitution = 0.0f;
+    private float friction = 1000f;
+    private float restitution = 0.1f;
 
-    public WoolPhysicsComponent(Vector2 position, float width, float height, float rotation)
+    public WoolPhysicsComponent(Vector2 position, float radius, float rotation)
     {
         this.initPosition = position;
-        this.width = width;
-        this.height = height;
+        this.radius = radius;
         this.rotation = rotation;
 
     }
@@ -28,15 +26,16 @@ public class WoolPhysicsComponent extends PhysicsComponent
     @Override
     public void initPhysics(PhysixManager manager) {
 
-        PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
+        PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(10)
                 .friction(friction).restitution(restitution);
-
+        
         physicsBody = new PhysixBodyDef(BodyDef.BodyType.DynamicBody, manager)
                 .position(initPosition).fixedRotation(true).angle(rotation).create();
 
         physicsBody.setAngularVelocity(0);
-
-        physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,( height)/2)));
+        physicsBody.setMassData(100);
+        
+        physicsBody.createFixture(fixturedef.shapeCircle(radius));
         //physicsBody.createFixture(fixturedef.shapeBox(width, height));
         setPhysicsBody(physicsBody);
         physicsBody.setOwner(this);

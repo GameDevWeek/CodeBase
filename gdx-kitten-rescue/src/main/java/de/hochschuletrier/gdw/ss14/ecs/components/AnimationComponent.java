@@ -23,4 +23,9 @@ public class AnimationComponent implements Component {
      * Time that has passed since the beginning of the animation.
      */
     public float animationTime;
+    
+    /**
+     * True if the animation is finished or played one (if looped)
+     */
+    public boolean isFinished;
 }

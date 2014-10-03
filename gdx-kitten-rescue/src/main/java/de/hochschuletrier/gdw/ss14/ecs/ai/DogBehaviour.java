@@ -78,7 +78,7 @@ public class DogBehaviour extends Behaviour {
             InputComponent dog = bb.em
                     .getComponent(dogID, InputComponent.class);
             dog.whereToGo.set(pos);
-            logger.debug("Dog is Chasing!");
+            //logger.debug("Dog is Chasing!");
             return State.SUCCESS;
         }
 

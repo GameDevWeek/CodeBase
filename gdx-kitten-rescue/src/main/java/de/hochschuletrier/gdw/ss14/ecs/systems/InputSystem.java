@@ -7,9 +7,16 @@ import org.slf4j.LoggerFactory;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.InputState;
 import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
@@ -18,8 +25,10 @@ public class InputSystem extends ECSystem implements GameInputAdapter
 {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(InputSystem.class);
     
-    int waterPistol;
-    ParticleEmitterComponent waterParticleEmitter;
+    public int waterPistol;
+    public ParticleEmitterComponent waterParticleEmitter;
+    public boolean waterPistolIsOn = false;
+    public float timeInFear = 2;
 
     public InputSystem(EntityManager entityManager)
     {
@@ -44,6 +53,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
         // TODO Auto-generated method stub
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, CameraComponent.class, PlayerComponent.class);
         Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+        Array<Integer> compos3 = entityManager.getAllEntitiesWithComponents(EnemyComponent.class);
 
         for (Integer integer : compos)
         {
@@ -58,7 +68,6 @@ public class InputSystem extends ECSystem implements GameInputAdapter
             }
             inputCompo.whereToGo = new Vector2(vec.x, vec.y);
             entityManager.getComponent(waterPistol, PhysicsComponent.class).defaultPosition = inputCompo.whereToGo;
-
         }
     }
 
@@ -149,6 +158,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
     {
         // TODO Auto-generated method stub
         entityManager.addComponent(waterPistol, waterParticleEmitter);
+        waterPistolIsOn = true;
     }
 
     @Override
@@ -156,6 +166,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
     {
         // TODO Auto-generated method stub
         entityManager.removeComponent(waterPistol, waterParticleEmitter);
+        waterPistolIsOn = false;
     }
 
     @Override
