@@ -32,7 +32,6 @@ import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
-import de.hochschuletrier.gdw.ss14.sound.CatSoundListener;
 import de.hochschuletrier.gdw.ss14.sound.MusicManager;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
@@ -216,7 +215,7 @@ public class Main extends StateBasedGame<KittenGameState> {
     public static void main(String[] args) {
         mainArgs = args;
     	LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "Laser Cat";
+        cfg.title = "Laser Chaser: Zombie Racer";
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;
         cfg.useGL30 = false;

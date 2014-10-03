@@ -7,13 +7,17 @@ import com.badlogic.gdx.math.Vector2;
  * @author Santo Pfingsten
  */
 public abstract class Item {
-    public final Vector2 position = new Vector2(200, 400);
+    protected final Vector2 position = new Vector2();
 
-    public float startTime;
-    public float animationTime;
-    public float totalAnimationTime;
-    public float angle;
-    public float opacity;
+    protected float startTime;
+    protected float animationTime;
+    protected float totalAnimationTime;
+    protected float angle;
+    protected float opacity;
+    
+    public void setPosition(Vector2 pos) {
+        position.set(pos);
+    }
 
     public abstract void update(float deltaTime);
 

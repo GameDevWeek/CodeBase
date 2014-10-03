@@ -8,7 +8,7 @@
  </tile>
  <tile id="1">
   <properties>
-   <property name="blocked" value="true"/>
+   <property name="passable" value="true"/>
   </properties>
  </tile>
  <tile id="2">
@@ -53,7 +53,7 @@
  </tile>
  <tile id="10">
   <properties>
-   <property name="blocked" value="true"/>
+   <property name="passable" value="true"/>
   </properties>
  </tile>
  <tile id="11">
@@ -68,7 +68,7 @@
  </tile>
  <tile id="13">
   <properties>
-   <property name="blocked" value="true"/>
+   <property name="passable" value="true"/>
   </properties>
  </tile>
  <tile id="17">

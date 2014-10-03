@@ -16,7 +16,6 @@
  <tileset firstgid="727" source="Tilesets/Tuer.tsx"/>
  <tileset firstgid="748" source="Tilesets/Nahrung.tsx"/>
  <tileset firstgid="749" source="Tilesets/Wollknaeuel.tsx"/>
- <tileset firstgid="750" source="Tilesets/Treppe_Klein-Kopie.tsx"/>
  <layer name="ground" width="50" height="50">
   <properties>
    <property name="floor" value="0"/>
