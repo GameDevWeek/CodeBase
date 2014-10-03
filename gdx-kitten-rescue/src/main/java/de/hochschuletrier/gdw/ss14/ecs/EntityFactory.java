@@ -80,6 +80,8 @@ public class EntityFactory{
         particleEmitComp.particleTintColor = new Color(0.5f,0,0,0.8f);
         particleEmitComp.emitRadius = 10f;
         particleEmitComp.emitterType = ParticleEmitterTypeEnum.PawParticleEmitter;
+        particleEmitComp.particleLifetime = 20f;
+        particleEmitComp.emitInterval = 0.2f;
 
         manager.addComponent(entity, catProperties);
         manager.addComponent(entity, catAnimation);
