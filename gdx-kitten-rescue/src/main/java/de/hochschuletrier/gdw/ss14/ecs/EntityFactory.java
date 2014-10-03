@@ -145,6 +145,7 @@ public class EntityFactory{
         conePhysic.initPhysics(phyManager);
         WeldJointPhysicsComponent jointPhysics = new WeldJointPhysicsComponent(dogPhysix.physicsBody.getBody(), conePhysic.physicsBody.getBody());
         jointPhysics.initPhysics(phyManager);
+        
         manager.addComponent(entity, dogState);
         manager.addComponent(entity, dogPhysix);
         manager.addComponent(entity, conePhysic);
@@ -152,8 +153,20 @@ public class EntityFactory{
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
-        //        manager.addComponent(entity, new AnimationComponent());
+        //        manager.addComponent(entity, new AnimationComponent());      
+        addDogParticleEmitter(entity);
+        
         return entity;
+    }
+    
+    private static void addDogParticleEmitter( int entity ) {
+        
+        ParticleEmitterComponent dogParticleEmitter = new ParticleEmitterComponent();
+        dogParticleEmitter.emitInterval = 0.2f;
+        dogParticleEmitter.emitRadius = 10f;
+        dogParticleEmitter.particleTintColor = new Color(0.5f,0,0,0.75f);
+        
+        manager.addComponent(entity, dogParticleEmitter);        
     }
 
     public static int constructSmartDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
@@ -178,7 +191,8 @@ public class EntityFactory{
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
         manager.addComponent(entity, bComp);
-
+        addDogParticleEmitter(entity);
+        
 //        manager.addComponent(entity, new AnimationComponent());
         return entity;
         
