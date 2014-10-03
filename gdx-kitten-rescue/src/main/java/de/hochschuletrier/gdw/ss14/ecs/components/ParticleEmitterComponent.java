@@ -21,6 +21,9 @@ public class ParticleEmitterComponent implements Component {
     
     public Color particleTintColor = null;
     
+    public float minimumParticleDistance = 0.0f;
+    public Vector2 lastParticlePos = new Vector2();
+    
     // Attributes needed for color fading
     /*public Color fadeColor = null;
     public float fadingTimeLeft = 0.0f;
