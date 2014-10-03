@@ -1,9 +1,9 @@
 {
     "textStyles" : {
-        "credit_titel": { "color": "F8BB08", "font": "verdana_24" }
+        "credit_titel": { "color": "F8BB08", "font": "verdana", "size": 24 },
+        "teilnehmer": { "color": "FFFFFF", "font": "verdana", "size": 24 }
     },
     "paths" : {
-        "fixed_position": {},
         "text_path": {
            "destinations": [
             {"x": 500, "y": 800, "speed": 80 },
