@@ -14,6 +14,7 @@ public class WoolPhysicsComponent extends PhysicsComponent
     private float rotation;
     private float friction = 1000f;
     private float restitution = 0.1f;
+    public boolean isSeen = false;
 
     public WoolPhysicsComponent(Vector2 position, float radius, float rotation)
     {

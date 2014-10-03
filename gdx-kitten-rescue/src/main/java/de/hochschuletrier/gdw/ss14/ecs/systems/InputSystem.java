@@ -19,6 +19,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
 
@@ -55,6 +56,7 @@ public class InputSystem extends ECSystem implements GameInputAdapter
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(InputComponent.class, CameraComponent.class, PlayerComponent.class);
         Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         Array<Integer> compos3 = entityManager.getAllEntitiesWithComponents(EnemyComponent.class);
+        Array<Integer> compos4 = entityManager.getAllEntitiesWithComponents(WoolPhysicsComponent.class);
 
         for (Integer integer : compos)
         {
