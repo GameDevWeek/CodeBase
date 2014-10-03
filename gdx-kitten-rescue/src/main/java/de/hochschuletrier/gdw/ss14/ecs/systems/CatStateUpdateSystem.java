@@ -19,7 +19,6 @@ public class CatStateUpdateSystem extends ECSystem
     public void update(float delta)
     {
         Array<Integer> entities = entityManager.getAllEntitiesWithComponents(MovementComponent.class, JumpDataComponent.class, CatPropertyComponent.class);
-        Array<Integer> laser = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
 
         for (Integer entity : entities)
         {
