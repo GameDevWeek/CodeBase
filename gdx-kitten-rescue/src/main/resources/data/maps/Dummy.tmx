@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="50" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" source="Tilesets/BodenDachbodendunkel.tsx"/>
+ <tileset firstgid="29" source="Tilesets/BodenDachbodenhell.tsx"/>
+ <tileset firstgid="57" source="Tilesets/BodenTiles.tsx"/>
+ <tileset firstgid="85" source="Tilesets/SolidsTileset.tsx"/>
+ <tileset firstgid="341" source="Tilesets/LochTiles.tsx"/>
+ <tileset firstgid="376" source="Tilesets/LochTiles(Balken).tsx"/>
+ <tileset firstgid="411" source="Tilesets/fluessigkeiten_Halbe_groesse.tsx"/>
+ <tileset firstgid="441" source="Tilesets/fluessigkeiten_Halbe_groesse(Balken).tsx"/>
+ <tileset firstgid="471" source="Tilesets/SolidTileset(begehbar).tsx"/>
+ <tileset firstgid="727" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
+ <tileset firstgid="742" source="Tilesets/Tuer.tsx"/>
+ <tileset firstgid="763" source="Tilesets/LichteffektDachboden.tsx"/>
+ <tileset firstgid="766" source="Tilesets/Fallobjekte Kopie_128px.tsx"/>
+ <tileset firstgid="769" source="Tilesets/Fallobjekte Kopie_258_px.tsx"/>
+ <tileset firstgid="775" source="Tilesets/Wollknaeuel.tsx"/>
+ <tileset firstgid="776" source="Tilesets/Nahrung.tsx"/>
+ <tileset firstgid="777" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
+ <tileset firstgid="778" source="Tilesets/TuerKlappe.tsx"/>
+ <tileset firstgid="799" source="Tilesets/Herrchen.tsx"/>
+ <layer name="ground" width="35" height="50">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BgQAAAADDoPlTH+ECVQEAAAAAAADPAONT2v5YGwAA
+  </data>
+ </layer>
+ <layer name="solid1" width="35" height="50">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BgQAAAADDoPlTH+ECVQEAAAAAAADPAONT2v5YGwAA
+  </data>
+ </layer>
+ <layer name="gap" width="35" height="50">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BgQAAAADDoPlTH+ECVQEAAAAAAADPAONT2v5YGwAA
+  </data>
+ </layer>
+ <layer name="deco1" width="35" height="50">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BgQAAAADDoPlTH+ECVQEAAAAAAADPAONT2v5YGwAA
+  </data>
+ </layer>
+ <layer name="solid2" width="35" height="50">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BgQAAAADDoPlTH+ECVQEAAAAAAADPAONT2v5YGwAA
+  </data>
+ </layer>
+ <objectgroup name="actionlayer">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <object name="vase" gid="766" x="1161.45" y="1288.73"/>
+  <object name="broom" gid="767" x="1158.42" y="1428.12"/>
+  <object name="lamp" gid="768" x="1158.42" y="1573.58"/>
+  <object name="lamp" gid="769" x="1029.45" y="1514.3"/>
+  <object name="lamp" gid="770" x="1017.33" y="1580.97"/>
+  <object name="broom" gid="771" x="1005.21" y="1347.64"/>
+  <object name="broom" gid="772" x="1011.27" y="1420.36"/>
+  <object name="vase" gid="773" x="1005.21" y="1205.21"/>
+  <object name="vase" gid="774" x="990.06" y="1287.03"/>
+  <object name="catbox" gid="777" x="1310.18" y="1358.06"/>
+  <object name="food" gid="776" x="1285.7" y="1496.12"/>
+  <object name="start" x="1405.58" y="1455.64" width="56" height="48"/>
+  <object name="wool" gid="775" x="1268" y="1584"/>
+  <object name="door" gid="786" x="994.79" y="1068.85"/>
+  <object name="door" gid="789" x="1122.06" y="1065.82"/>
+  <object name="door" gid="790" x="1270.55" y="1071.88"/>
+  <object name="stairs" x="1000" y="1748"/>
+ </objectgroup>
+ <objectgroup name="renderlayer">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+ </objectgroup>
+ <layer name="deco2" width="35" height="50">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BgQAAAADDoPlTH+ECVQEAAAAAAADPAONT2v5YGwAA
+  </data>
+ </layer>
+</map>
