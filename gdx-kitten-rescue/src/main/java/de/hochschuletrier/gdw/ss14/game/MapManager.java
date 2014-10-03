@@ -298,7 +298,7 @@ public class MapManager
                         }
                     }
                     
-                    EntityFactory.constructDog(pos, 100, 85, 0, 30, tmp);
+                    EntityFactory.constructSmartDog(pos, 100, 85, 0, 30, tmp);
                 }
                 /* end build dogs */
             }

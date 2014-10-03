@@ -34,6 +34,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
 
 public class EntityFactory{
 
@@ -159,7 +160,19 @@ public class EntityFactory{
         conePhysic.initPhysics(phyManager);
         WeldJointPhysicsComponent jointPhysics = new WeldJointPhysicsComponent(dogPhysix.physicsBody.getBody(), conePhysic.physicsBody.getBody());
         jointPhysics.initPhysics(phyManager);
+        AnimationComponent dogAnimation = new AnimationComponent();
+        dogAnimation.animation = new AnimationExtended[15];
+        dogAnimation.animation[DogStateEnum.FALLING.ordinal()] = assetManager.getAnimation("pudel_fallen");
+        dogAnimation.animation[DogStateEnum.KILLING.ordinal()] = assetManager.getAnimation("pudel_beissen");
+        dogAnimation.animation[DogStateEnum.WALKING.ordinal()] = assetManager.getAnimation("pudel_laufen");
+        dogAnimation.animation[DogStateEnum.RUNNING.ordinal()] = assetManager.getAnimation("pudel_laufen"); //missing animation
+        dogAnimation.animation[DogStateEnum.SITTING.ordinal()] = assetManager.getAnimation("pudel_laufen"); //missing animation
+        dogAnimation.animation[DogStateEnum.JUMPING.ordinal()] = assetManager.getAnimation("pudel_springen");
+        RenderComponent dogRender  = new RenderComponent();
+        dogRender.zIndex = 5;
         
+        manager.addComponent(entity, dogAnimation);
+        manager.addComponent(entity, dogRender);
         manager.addComponent(entity, dogState);
         manager.addComponent(entity, dogPhysix);
         manager.addComponent(entity, conePhysic);
@@ -197,6 +210,19 @@ public class EntityFactory{
         conePhysic.initPhysics(phyManager);
         WeldJointPhysicsComponent jointPhysics = new WeldJointPhysicsComponent(dogPhysix.physicsBody.getBody(), conePhysic.physicsBody.getBody());
         jointPhysics.initPhysics(phyManager);
+        AnimationComponent dogAnimation = new AnimationComponent();
+        dogAnimation.animation = new AnimationExtended[15];
+        dogAnimation.animation[DogStateEnum.FALLING.ordinal()] = assetManager.getAnimation("pudel_fallen");
+        dogAnimation.animation[DogStateEnum.KILLING.ordinal()] = assetManager.getAnimation("pudel_beissen");
+        dogAnimation.animation[DogStateEnum.WALKING.ordinal()] = assetManager.getAnimation("pudel_laufen");
+        dogAnimation.animation[DogStateEnum.RUNNING.ordinal()] = assetManager.getAnimation("pudel_laufen"); //missing animation
+        dogAnimation.animation[DogStateEnum.SITTING.ordinal()] = assetManager.getAnimation("pudel_laufen"); //missing animation
+        dogAnimation.animation[DogStateEnum.JUMPING.ordinal()] = assetManager.getAnimation("pudel_springen");
+        RenderComponent dogRender  = new RenderComponent();
+        dogRender.zIndex = 5;
+        
+        manager.addComponent(entity, dogAnimation);
+        manager.addComponent(entity, dogRender);
         manager.addComponent(entity, dogState);
         manager.addComponent(entity, dogPhysix);
         manager.addComponent(entity, conePhysic);

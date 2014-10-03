@@ -1,22 +1,45 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
-import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.*;
-
-import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
-import de.hochschuletrier.gdw.commons.gdx.assets.*;
-import de.hochschuletrier.gdw.commons.gdx.physix.*;
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
-import de.hochschuletrier.gdw.commons.tiled.*;
-import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.systems.*;
-import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
+import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.tiled.LayerObject;
+import de.hochschuletrier.gdw.commons.tiled.TiledMap;
+import de.hochschuletrier.gdw.ss14.ecs.Engine;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatJumpUpdateSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatMovementSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatStateUpdateSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CheckCatDeadSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DogMovementSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.HitAnimationSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.LaserPointerSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.LightMapSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.LimitedLifetimeSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ParticleEmitterSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixUpdateSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ShadowSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.WoolInfluenceSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatCooldownUpdateSystem;
 
 public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
@@ -72,6 +95,7 @@ public class Game{
         engine.addSystem(new CatJumpUpdateSystem(entityManager));
         engine.addSystem(new CatStateUpdateSystem(entityManager));
         engine.addSystem(new CatCooldownUpdateSystem(entityManager));
+        engine.addSystem(new WoolInfluenceSystem(entityManager));
 
        // engine.addSystem(new DogInputSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));

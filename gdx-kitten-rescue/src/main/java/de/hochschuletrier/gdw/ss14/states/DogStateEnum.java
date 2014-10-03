@@ -13,5 +13,7 @@ public enum DogStateEnum {
     SITTING,
     RUNNING,
     KILLING,
-    WALKING
+    WALKING,
+    FALLING,
+    JUMPING
 }

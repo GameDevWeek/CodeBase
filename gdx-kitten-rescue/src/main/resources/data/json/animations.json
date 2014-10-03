@@ -110,5 +110,45 @@
         "playType" : "NORMAL",
         "columns": 11,
         "rows" : 1
+    },
+    "fight": {
+        "filename": "data/animations/Fight.png",
+        "frames" : 12,
+        "frameDuration": [0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
+        "playType" : "NORMAL",
+        "columns": 12,
+        "rows" : 1
+    },
+    "pudel_beissen": {
+        "filename": "data/animations/pudel_beissen.png",
+        "frames" : 4,
+        "frameDuration": [0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 4,
+        "rows" : 1
+    },
+    "pudel_fallen": {
+        "filename": "data/animations/pudel_fallen.png",
+        "frames" : 12,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 12,
+        "rows" : 1
+    },
+    "pudel_laufen": {
+        "filename": "data/animations/pudel_laufen.png",
+        "frames" : 6,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "LOOP",
+        "columns": 6,
+        "rows" : 1
+    },
+    "pudel_springen": {
+        "filename": "data/animations/pudel_springen.png",
+        "frames" : 9,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 9,
+        "rows" : 1
     }
 }
