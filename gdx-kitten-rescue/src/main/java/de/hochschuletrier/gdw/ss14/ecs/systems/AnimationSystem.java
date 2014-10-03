@@ -6,6 +6,7 @@ import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.Component;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 
@@ -65,6 +66,10 @@ public class AnimationSystem extends ECSystem {
             c = entityManager.getComponent(entity, CatPropertyComponent.class);
             if(c != null) {
                 return ((CatPropertyComponent)c).getState().ordinal();
+            }
+            c = entityManager.getComponent(entity, DogPropertyComponent.class);
+            if(c != null) {
+                return ((DogPropertyComponent)c).state.ordinal();
             }
             
             return -1;
