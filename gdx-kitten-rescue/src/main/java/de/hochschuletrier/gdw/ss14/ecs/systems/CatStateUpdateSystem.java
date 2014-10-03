@@ -27,27 +27,27 @@ public class CatStateUpdateSystem extends ECSystem
             CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
             JumpDataComponent jumpDataComponent = entityManager.getComponent(entity, JumpDataComponent.class);
 
-            if (catPropertyComponent.state == CatStateEnum.JUMP)
+            if (catPropertyComponent.getState() == CatStateEnum.JUMP)
             {
                 if (jumpDataComponent.currentJumpTime >= jumpDataComponent.maxJumpTime)
                 {
-                    catPropertyComponent.state = CatStateEnum.IDLE;
+                    catPropertyComponent.setState(CatStateEnum.IDLE);
                 }
             }
 
-            if (catPropertyComponent.state != CatStateEnum.JUMP)
+            if (catPropertyComponent.getState() != CatStateEnum.JUMP)
             {
                 if (movementComponent.velocity <= 0.0f)
                 {
-                    catPropertyComponent.state = CatStateEnum.IDLE;
+                    catPropertyComponent.setState(CatStateEnum.IDLE);
                 }
                 else if (movementComponent.velocity <= movementComponent.middleVelocity)
                 {
-                    catPropertyComponent.state = CatStateEnum.WALK;
+                    catPropertyComponent.setState(CatStateEnum.WALK);
                 }
                 else if (movementComponent.velocity >= movementComponent.middleVelocity)
                 {
-                    catPropertyComponent.state = CatStateEnum.RUN;
+                    catPropertyComponent.setState(CatStateEnum.RUN);
                 }
             }
         }

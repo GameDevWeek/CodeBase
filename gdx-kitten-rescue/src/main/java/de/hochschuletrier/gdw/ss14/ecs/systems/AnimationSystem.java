@@ -61,7 +61,7 @@ public class AnimationSystem extends ECSystem {
         
             c = entityManager.getComponent(entity, CatPropertyComponent.class);
             if(c != null) {
-                return ((CatPropertyComponent)c).state.ordinal();
+                return ((CatPropertyComponent)c).getState().ordinal();
             }
             
             return -1;

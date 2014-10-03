@@ -37,7 +37,7 @@ public class CatMovementSystem extends ECSystem
             JumpDataComponent jumpDataComponent = entityManager.getComponent(entity, JumpDataComponent.class);
 
 
-            if (catPropertyComponent.state == CatStateEnum.IDLE || catPropertyComponent.state == CatStateEnum.WALK || catPropertyComponent.state == CatStateEnum.RUN)
+            if (catPropertyComponent.getState() == CatStateEnum.IDLE || catPropertyComponent.getState() == CatStateEnum.WALK || catPropertyComponent.getState() == CatStateEnum.RUN)
             {
                 movementComponent.directionVec.x = inputComponent.whereToGo.x - physicsComponent.getPosition().x;
                 movementComponent.directionVec.y = inputComponent.whereToGo.y - physicsComponent.getPosition().y;
@@ -89,12 +89,12 @@ public class CatMovementSystem extends ECSystem
 
                 if (distance <= 70)
                 {
-                    if (catPropertyComponent.state == CatStateEnum.IDLE)
+                    if (catPropertyComponent.getState() == CatStateEnum.IDLE)
                     {
                         catPropertyComponent.timeTillJumpTimer = catPropertyComponent.timeTillJumpTimer + delta;
                         if (catPropertyComponent.timeTillJumpTimer >= catPropertyComponent.TIME_TILL_JUMP)
                         {
-                            catPropertyComponent.state = CatStateEnum.JUMP;
+                            catPropertyComponent.setState(CatStateEnum.JUMP);
                             jumpDataComponent.jumpDirection = movementComponent.directionVec.nor();
                         }
                     }
@@ -127,7 +127,7 @@ public class CatMovementSystem extends ECSystem
             } // end if (state check)
             else
             {
-                if (catPropertyComponent.state == CatStateEnum.JUMP)
+                if (catPropertyComponent.getState() == CatStateEnum.JUMP)
                 {
                     movementComponent.velocity = jumpDataComponent.jumpVelocity;
                     physicsComponent.setVelocityX(jumpDataComponent.jumpDirection.x * movementComponent.velocity);

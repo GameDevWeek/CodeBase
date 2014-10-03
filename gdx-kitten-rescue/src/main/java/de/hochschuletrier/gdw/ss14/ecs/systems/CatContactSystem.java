@@ -13,7 +13,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
+import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
@@ -97,7 +97,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
                 entityManager.removeComponent(player, renderComponent);
                 
-                catPropertyComponent.state = CatStateEnum.HIDDEN;
+                catPropertyComponent.setState(CatStateEnum.HIDDEN);
 
                 catPropertyComponent.isHidden = true;
             }
