@@ -57,7 +57,14 @@ public class InputManager {
                 instance.inputDevice = new InputGamePad();
                 break;
         }
-        Main.inputMultiplexer.addProcessor(instance.inputDevice);
+    }
+    
+    public void registerProcessor() {
+        inputDevice.registerProcessor();
+    }
+    
+    public void unregisterProcessor() {
+        inputDevice.unregisterProcessor();
     }
     
 }

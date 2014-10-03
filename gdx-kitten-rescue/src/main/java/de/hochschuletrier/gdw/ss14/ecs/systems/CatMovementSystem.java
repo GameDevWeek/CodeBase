@@ -19,7 +19,7 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 public class CatMovementSystem extends ECSystem
 {
 
-    public float maxVelocity = 0, acceleration = 0;
+    private float maxVelocity = 0.0f, acceleration = 0.0f, foodBuffer = 0.0f;
 
     public CatMovementSystem(EntityManager entityManager)
     {
@@ -59,13 +59,15 @@ public class CatMovementSystem extends ECSystem
                 Vector2 tmp = new Vector2(inputComponent.whereToGo.x - physicsComponent.getPosition().x, inputComponent.whereToGo.y - physicsComponent.getPosition().y);
                 float distance = tmp.len();
 
-                //falls Maus nicht zu nah an Katze (glitscht nicht mehr
+                //falls Maus nicht zu nah an Katze (glitscht nicht mehr)
                    if(!(distance <= 5)){
                        movementComponent.directionVec.x = tmp.x;
                        movementComponent.directionVec.y = tmp.y;
                     }
 
+
                    //Wenn Katze positive Nahrung gegessen hat, wird sie schneller
+
                    if(maxVelocity == 0){
                        maxVelocity = movementComponent.maxVelocity;
                        acceleration = movementComponent.acceleration;
@@ -74,11 +76,17 @@ public class CatMovementSystem extends ECSystem
                    movementComponent.maxVelocity = maxVelocity;
                    movementComponent.acceleration = acceleration;
 
+                   if(foodBuffer <= 3.0f){
                    if(catPropertyComponent.atePositiveFood){
+                       foodBuffer += delta;
                        movementComponent.maxVelocity *= 5;
 
                        movementComponent.acceleration *= 5;
 
+                   }}
+                   else{
+                       catPropertyComponent.atePositiveFood = false;
+                       foodBuffer = 0;
                    }
 
                 //needed not normalized directions for sliding (more natural curves)
