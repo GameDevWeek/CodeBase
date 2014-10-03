@@ -54,8 +54,8 @@ public class ConePhysicsComponent extends PhysicsComponent{
                 .fixedRotation(true).angle(mRotation)
                 .create();
         
-    
         physicsBody.createFixture(fixturedef.shapePolygon(mShape).category((short)-1).mask((short)0));
         setPhysicsBody(physicsBody);
+        physicsBody.setOwner(this);
     }
 }

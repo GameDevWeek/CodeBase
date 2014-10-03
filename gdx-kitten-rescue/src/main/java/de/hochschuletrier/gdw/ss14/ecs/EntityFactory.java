@@ -15,6 +15,15 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
+import ch.qos.logback.classic.Logger;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
+import de.hochschuletrier.gdw.ss14.ecs.components.PuddlePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 
 public class EntityFactory{
 
@@ -148,64 +157,59 @@ public class EntityFactory{
         return entity;
         
     }
-    
-    public static int constructDoor() {
 
+    public static void constructLaserPointer(Vector2 pos){
         int entity = manager.createEntity();
 
-        return entity;
-    }
-
-        public static int constructFood(){
-            int entity = manager.createEntity();
-
-            return entity;
-        }
-
-
-    public static int constructLamp(){
-        int entity = manager.createEntity();
-
-        return entity;
-    }
-
-    public static int constructLaserPointer(Vector2 pos){
-        int entity = manager.createEntity();
         LaserPointerComponent laser = new LaserPointerComponent(pos);
+        
         manager.addComponent(entity, laser);
-
-        return entity;
-
     }
 
-    public static int constructPuddleOfBlood(){
+    public static void constructDoor(){
         int entity = manager.createEntity();
-
-        return entity;
     }
 
-    public static int constructPuddleOfWater(){
+    public static void constructFood(){
         int entity = manager.createEntity();
+    }
 
+    public static void constructLamp(){
+        int entity = manager.createEntity();
+    }
+
+    public static void constructPuddleOfBlood(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
+        int entity = manager.createEntity();
+        manager.addComponent(entity, new PuddlePhysicsComponent(bodydef, fixturedef));
+        
+    }
+
+    public static int constructPuddleOfWater(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
+        int entity = manager.createEntity();
+        PuddlePhysicsComponent puddlephys = new PuddlePhysicsComponent(bodydef, fixturedef);
+        manager.addComponent(entity, puddlephys);
+        puddlephys.initPhysics(phyManager);
+        
         return entity;
     }
+
 
     public static int constructStairs(){
         int entity = manager.createEntity();
-
         return entity;
     }
 
     public static int constructVase(){
         int entity = manager.createEntity();
-
         return entity;
     }
+
 
     public static void constructWool(Vector2 pos){
         int entity = manager.createEntity();
 
-        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 50.0f, 50.0f, 0.0f);
+        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
+        RenderComponent woolRenderComponent = new RenderComponent();
         woolPhysicsComponent.initPhysics(phyManager);
         manager.addComponent(entity, woolPhysicsComponent);
 
@@ -217,8 +221,6 @@ public class EntityFactory{
         //renderComponent.texture = assetManager.getTexture();
         //manager.addComponent(entity, renderComponent);
     }
-
-
 
     public static EntityManager manager;
 
