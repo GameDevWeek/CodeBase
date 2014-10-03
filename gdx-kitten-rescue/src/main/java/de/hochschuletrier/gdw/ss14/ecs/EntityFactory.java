@@ -56,7 +56,7 @@ public class EntityFactory{
         int entity = manager.createEntity();
 
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f);
-        ConePhysicsComponent conePhysic = new ConePhysicsComponent(pos, 50, 0, 1.5f);
+        ConePhysicsComponent conePhysic = new ConePhysicsComponent(pos, 50, 1.5f, 1.57f);
         //catPhysix: position(x,y), width, height, rota, friction[0-1][ice-rubber], restitution[0-1][rock-ball]
         ICollisionListener contactSystem = (CatContactSystem) Game.engine.getSystemOfType(CatContactSystem.class);
         catPhysix.collisionListeners.add(contactSystem);
@@ -116,7 +116,7 @@ public class EntityFactory{
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catProperty);
         manager.addComponent(entity, catPhysix);
-        //manager.addComponent(entity, conePhysic);
+        manager.addComponent(entity, conePhysic);
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());

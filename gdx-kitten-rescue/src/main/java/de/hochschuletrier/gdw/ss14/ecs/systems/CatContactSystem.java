@@ -52,6 +52,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             if(rcp.m_hit && rcp.m_fraction <= ((ConePhysicsComponent)other).mRadius){
                 for(Fixture f : other.physicsBody.getFixtureList()){
                     if(rcp.m_fixture == f){
+                        EnemyComponent.seeCat = true;
                         logger.debug("Katze sichtbar für Hund");
                     }
                 }
@@ -148,6 +149,10 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             CatPropertyComponent player = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
             player.isInfluenced = false;
             
+        }
+        
+        if(other instanceof ConePhysicsComponent){
+            EnemyComponent.seeCat = false;
         }
         
     }
