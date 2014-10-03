@@ -13,6 +13,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil.Mode;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpDataComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
@@ -63,19 +64,21 @@ public class ShadowSystem extends ECSystem{
 //				// Überprüfen, entity eine Katze ist und springt
 				CatPropertyComponent catPropComp = entityManager.getComponent(currentEnt, 
 						CatPropertyComponent.class);
-				if(catPropComp != null){
-					switch(catPropComp.getState()){
-					case JUMP_BEGIN:
-						shadowWidth *= 1.25f;
-						shadowHeight *= 1.25f;
-						break;
-					case JUMP:
-						shadowWidth *= 1.35f;
-						shadowHeight *= 1.35f;
-					case JUMP_END:
-						shadowWidth *= 1.25f;
-						shadowHeight *= 1.25f;
+				
+//				// Überprüfen, ob entity springt
+				JumpDataComponent jumpComp = entityManager.getComponent(currentEnt, 
+						JumpDataComponent.class);
+				// Nur überprüfen, falls entity auch eine Jump Komponente hat
+				if(jumpComp != null){
+					float factorShadowSize = (jumpComp.currentJumpTime / jumpComp.maxJumpTime);
+					if(factorShadowSize >= jumpComp.maxJumpTime / 2){
+						factorShadowSize = 1 - factorShadowSize;
 					}
+					
+					factorShadowSize += 1;
+					
+					shadowWidth *= factorShadowSize;
+					shadowHeight *= factorShadowSize;	
 				}
 				
 				DrawUtil.batch.draw(renderComp.texture,
@@ -94,12 +97,11 @@ public class ShadowSystem extends ECSystem{
 				Gdx.gl.glDisable(GL20.GL_BLEND);
 				DrawUtil.batch.begin();
 				
-			}
-			
-			
+				}
 		}
+}
 		
-	}
+	
 	
 	public void setShadowOffset(int offset){
 	}
