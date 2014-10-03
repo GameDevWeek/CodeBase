@@ -22,7 +22,7 @@ public class BehaviourSystem extends ECSystem{
     @Override
     public void update(float delta) {
         behaviourManager.update(delta);
-        System.out.println("System updating");
+        //System.out.println("System updating");
     }
 
     @Override
