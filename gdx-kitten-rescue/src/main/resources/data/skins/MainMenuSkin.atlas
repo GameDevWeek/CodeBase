@@ -3,25 +3,39 @@ MainMenuSkin.png
 format: RGBA8888
 filter: MipMapLinearNearest,Nearest
 repeat: none
+game-title
+  rotate: false
+  xy: 1, 1703
+  size: 1106, 207
+  orig: 1106, 207
+  offset: 0, 0
+  index: -1
 main-menu-background
   rotate: false
-  xy: 1, 862
-  size: 1280, 1024
-  orig: 1280, 1024
+  xy: 1, 1164
+  size: 716, 537
+  orig: 716, 537
   offset: 0, 0
   index: -1
 main-menu-cat
   rotate: false
-  xy: 1, 303
+  xy: 1, 605
   size: 534, 557
   orig: 534, 557
   offset: 0, 0
   index: -1
-print-exemple
+cat-health-empty
   rotate: false
-  xy: 1283, 1761
-  size: 611, 125
-  orig: 611, 125
+  xy: 719, 1401
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+cat-health-full
+  rotate: false
+  xy: 1, 303
+  size: 300, 300
+  orig: 300, 300
   offset: 0, 0
   index: -1
 main-menu-bell-down
@@ -33,50 +47,50 @@ main-menu-bell-down
   index: -1
 main-menu-bell
   rotate: false
-  xy: 537, 560
+  xy: 719, 1099
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 sound-push-button-down
   rotate: false
-  xy: 1283, 1459
+  xy: 303, 303
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 sound-push-button
   rotate: false
-  xy: 839, 560
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
-sound-reduce-button-down
-  rotate: false
-  xy: 1283, 1157
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: -1
-sound-reduce-button
-  rotate: false
-  xy: 1585, 1459
+  xy: 303, 1
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 start-menu-button-down
   rotate: false
-  xy: 1283, 869
+  xy: 1109, 1624
   size: 310, 286
   orig: 310, 286
   offset: 0, 0
   index: -1
 start-menu-button
   rotate: false
-  xy: 1585, 1171
+  xy: 1421, 1624
   size: 310, 286
   orig: 310, 286
+  offset: 0, 0
+  index: -1
+sound-reduce-button-down
+  rotate: false
+  xy: 1733, 1610
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+sound-reduce-button
+  rotate: false
+  xy: 1021, 1322
+  size: 300, 300
+  orig: 300, 300
   offset: 0, 0
   index: -1

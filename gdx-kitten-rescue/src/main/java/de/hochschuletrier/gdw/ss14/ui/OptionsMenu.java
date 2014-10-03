@@ -10,16 +10,18 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.states.KittenGameState;
 
 public class OptionsMenu extends LaserCatMenu
 {
 	private OptionsMenuListener optionsMenuListener;
 	private float currentVolume;
+	private KittenGameState previousState;
 
-	@Override
-	public void init(AssetManagerX assetManager)
+	public void init(AssetManagerX assetManager, KittenGameState previousState)
 	{
 		super.init(assetManager);
+		this.previousState = previousState;
 		numberOfButtons = 4;
 		name = new String[numberOfButtons];
 		name[0] = "Volume Up";
@@ -93,7 +95,7 @@ public class OptionsMenu extends LaserCatMenu
 					System.out.println("Open Credits");
 					break;
 				default:
-					GameStateEnum.MAINMENU.activate();
+					previousState.getEnum().activate();
 					break;
 				}
 			}
