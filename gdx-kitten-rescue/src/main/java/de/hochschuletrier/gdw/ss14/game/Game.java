@@ -88,6 +88,7 @@ public class Game{
         // physic systems
         engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
         engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
+        engine.addSystem(new WorldObjectsSystem(entityManager));
 
         // Rendering related systems
         engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
