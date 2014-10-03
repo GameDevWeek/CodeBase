@@ -119,7 +119,7 @@
   <object name="broom" gid="781" x="174.667" y="842.667"/>
   <object name="lamp" gid="778" x="842.667" y="2253.33"/>
   <object name="wool" gid="784" x="342" y="2462"/>
-  <object x="252.25" y="2793.92" width="135.333" height="10.6667">
+  <object name="stairs" x="252.25" y="2793.92" width="135.333" height="10.6667">
    <properties>
     <property name="stairs" value="1"/>
    </properties>
@@ -246,12 +246,12 @@
   <object name="food" gid="785" x="2174" y="1535"/>
   <object name="catbox" gid="786" x="2036.36" y="372.727"/>
   <object name="wool" gid="784" x="2612.12" y="2209.09"/>
-  <object x="2497" y="2540" width="132.803" height="14.2955">
+  <object name="stairs" x="2497" y="2540" width="132.803" height="14.2955">
    <properties>
     <property name="stairs" value="1"/>
    </properties>
   </object>
-  <object x="255.5" y="2797" width="129.5" height="10">
+  <object name="stairs" x="255.5" y="2797" width="129.5" height="10">
    <properties>
     <property name="stairs" value="-1"/>
    </properties>
@@ -336,7 +336,7 @@
   <object name="catbox" gid="786" x="654.667" y="2561.33"/>
   <object name="wool" gid="784" x="701.333" y="1437.33"/>
   <object name="dogspawn6" x="682.667" y="512" width="25" height="25"/>
-  <object x="2499.33" y="2441.33" width="122" height="6.66667">
+  <object name="stairs" x="2499.33" y="2441.33" width="122" height="6.66667">
    <properties>
     <property name="stairs" value="-1"/>
    </properties>

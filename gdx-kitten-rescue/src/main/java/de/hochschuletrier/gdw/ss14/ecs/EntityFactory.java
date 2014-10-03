@@ -22,7 +22,6 @@ import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ExitMapPhysicsComponent;
@@ -46,6 +45,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
+import de.hochschuletrier.gdw.ss14.physics.SlideMass;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
 import de.hochschuletrier.gdw.ss14.states.JumpableState;
@@ -75,7 +75,6 @@ public class EntityFactory{
         int entity = manager.createEntity();
 
         CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f);
-        ConePhysicsComponent conePhysic = new ConePhysicsComponent(pos, 50, 1.5f, 1.57f);
         //catPhysix: position(x,y), width, height, rota, friction[0-1][ice-rubber], restitution[0-1][rock-ball]
         ICollisionListener contactSystem = (CatContactSystem) Game.engine.getSystemOfType(CatContactSystem.class);
         catPhysix.collisionListeners.add(contactSystem);
@@ -83,9 +82,8 @@ public class EntityFactory{
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);
-        conePhysic.initPhysics(phyManager);
-        WeldJointPhysicsComponent jointPhysics = new WeldJointPhysicsComponent(catPhysix.physicsBody.getBody(), conePhysic.physicsBody.getBody());
-        jointPhysics.initPhysics(phyManager);
+        //SlideMass sm = new SlideMass(catPhysix.physicsBody.getBody());
+        //sm.init(phyManager);
         CatPropertyComponent catProperty = new CatPropertyComponent();
         catProperty.lastCheckPoint = pos;
         ICatStateListener stateSystem = (WorldObjectsSystem) Game.engine.getSystemOfType(WorldObjectsSystem.class);
@@ -135,7 +133,6 @@ public class EntityFactory{
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catProperty);
         manager.addComponent(entity, catPhysix);
-        manager.addComponent(entity, conePhysic);
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);
         manager.addComponent(entity, new PlayerComponent());
@@ -166,15 +163,11 @@ public class EntityFactory{
     public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots){
         int entity = manager.createEntity();
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, .2f, 0f);
-        ConePhysicsComponent conePhysic = new ConePhysicsComponent(pos, 50, 0, 1.5f);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
         Behaviour verhalten;
         DogPropertyComponent dogState = new DogPropertyComponent(patrolspots);
         dogPhysix.initPhysics(phyManager);
-        conePhysic.initPhysics(phyManager);
-        WeldJointPhysicsComponent jointPhysics = new WeldJointPhysicsComponent(dogPhysix.physicsBody.getBody(), conePhysic.physicsBody.getBody());
-        jointPhysics.initPhysics(phyManager);
         AnimationComponent dogAnimation = new AnimationComponent();
         dogAnimation.animation = new AnimationExtended[15];
         dogAnimation.animation[DogStateEnum.FALLING.ordinal()] = assetManager.getAnimation("pudel_fallen");
@@ -190,8 +183,6 @@ public class EntityFactory{
         manager.addComponent(entity, dogRender);
         manager.addComponent(entity, dogState);
         manager.addComponent(entity, dogPhysix);
-        manager.addComponent(entity, conePhysic);
-        //manager.addComponent(entity, jointPhysics);
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
@@ -214,7 +205,6 @@ public class EntityFactory{
     public static int constructSmartDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots){
         int entity = manager.createEntity();
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
-        ConePhysicsComponent conePhysic = new ConePhysicsComponent(pos, 30, 0, 1.5f);
         MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
         InputComponent dogInput = new InputComponent();
         DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
@@ -222,9 +212,6 @@ public class EntityFactory{
         BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
         DogPropertyComponent dogState = new DogPropertyComponent(patrolspots);
         dogPhysix.initPhysics(phyManager);
-        conePhysic.initPhysics(phyManager);
-        WeldJointPhysicsComponent jointPhysics = new WeldJointPhysicsComponent(dogPhysix.physicsBody.getBody(), conePhysic.physicsBody.getBody());
-        jointPhysics.initPhysics(phyManager);
         AnimationComponent dogAnimation = new AnimationComponent();
         dogAnimation.animation = new AnimationExtended[15];
         dogAnimation.animation[DogStateEnum.FALLING.ordinal()] = assetManager.getAnimation("pudel_fallen");
@@ -240,8 +227,6 @@ public class EntityFactory{
         manager.addComponent(entity, dogRender);
         manager.addComponent(entity, dogState);
         manager.addComponent(entity, dogPhysix);
-        manager.addComponent(entity, conePhysic);
-        //manager.addComponent(entity, jointPhysics);
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());

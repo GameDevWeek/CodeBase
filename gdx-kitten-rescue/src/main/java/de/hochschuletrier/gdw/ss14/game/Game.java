@@ -1,4 +1,3 @@
-
 package de.hochschuletrier.gdw.ss14.game;
 
 
