@@ -12,6 +12,9 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 public class CatMovementSystem extends ECSystem{
 
     private float maxVelocity = 0.0f, acceleration = 0.0f, foodBuffer = 0.0f;
+    
+    // Max spinning velocity in angle (radiants) per second
+    private static final float MaxAngularVelocity = (float)(4*Math.PI); 
 
     public CatMovementSystem(EntityManager entityManager){
         super(entityManager, 1);
@@ -188,8 +191,26 @@ public class CatMovementSystem extends ECSystem{
                         }
                     }
 
-                    if(!catPropertyComponent.isHidden && laserPointerComponent.isVisible){
-                        physicsComponent.setRotation(angle);
+                    if (!catPropertyComponent.isHidden && laserPointerComponent.isVisible)
+                    {
+                        float currentRot = physicsComponent.getRotation();
+                        
+                        if (currentRot < 0f)
+                            currentRot += (float)(2*Math.PI);
+                        
+                        if (angle < 0f)
+                            angle += (float)(2*Math.PI);
+                        
+                        // Spin into the shortest direction towards the target angle
+                        float spinningAngle = angle - currentRot;
+                        if (Math.abs(spinningAngle) > Math.PI)
+                            spinningAngle = Math.signum(spinningAngle)*(Math.abs(spinningAngle)-(float)(2*Math.PI));
+                        
+                        // Clamp rotation between - and + max possible rotation
+                        if (Math.abs(spinningAngle) > MaxAngularVelocity*delta)
+                            spinningAngle = Math.signum(spinningAngle) * MaxAngularVelocity*delta;                        
+                        
+                        physicsComponent.setRotation(currentRot + spinningAngle);
                     }
                 }
             } // end if (state check)
@@ -205,5 +226,4 @@ public class CatMovementSystem extends ECSystem{
             physicsComponent.setVelocityY(movementComponent.positionVec.y*movementComponent.velocity);
         }
     }
-
 }

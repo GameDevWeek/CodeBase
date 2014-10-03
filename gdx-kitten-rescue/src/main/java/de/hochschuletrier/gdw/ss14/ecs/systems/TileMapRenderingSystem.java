@@ -24,6 +24,8 @@ public class TileMapRenderingSystem extends ECSystem{
 	 * renderer, doing background drawing stuff
 	 */
 	private TiledMapRendererGdx renderer;
+        private String layerNameToRender;
+        private String layerNameNotToRender;
 	
     public TileMapRenderingSystem(EntityManager entityManager){
         super(entityManager);
@@ -31,6 +33,19 @@ public class TileMapRenderingSystem extends ECSystem{
     
     public TileMapRenderingSystem(EntityManager entityManager, int priority){
         super(entityManager, priority);
+    }
+    
+    public void setLayerNameToRender(String name) {
+        this.layerNameToRender = name;
+    }
+    public void setLayerNameNotToRender(String name) {
+        this.layerNameNotToRender = name;
+    }
+    public String getLayerNameToRender() {
+        return this.layerNameToRender;
+    }
+    public String getlayerNameToRender() {
+        return this.layerNameNotToRender;
     }
     
 	
@@ -69,8 +84,11 @@ public class TileMapRenderingSystem extends ECSystem{
 			    if (currentComp.getMap().getLayers().size() > layerIndex) {
 			        
     				Layer layerToRender = currentComp.getMap().getLayers().get(layerIndex);
-                                if(layerToRender.isTileLayer())
+                                if (layerToRender.isTileLayer()
+                                        && (this.layerNameToRender == null || layerToRender.getName().equals(layerNameToRender))
+                                        && (this.layerNameNotToRender == null || !layerToRender.getName().equals(layerNameNotToRender))) {
                                     renderer.render(0, 0, layerToRender);
+                                }
 			    }
 			}
 		}

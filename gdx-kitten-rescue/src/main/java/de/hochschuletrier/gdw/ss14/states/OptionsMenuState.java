@@ -48,7 +48,7 @@ public class OptionsMenuState extends KittenGameState implements InputProcessor 
 			this.music.play("menu");
 		}
         optionsMenu = new OptionsMenu();
-        optionsMenu.init(assetManager);
+        optionsMenu.init(assetManager, previousState);
         inputProcessor.setActive(true);
         inputProcessor.setBlocking(false);
     }

@@ -9,6 +9,8 @@ import de.hochschuletrier.gdw.commons.gdx.physix.*;
  */
 public class WoolPhysicsComponent extends PhysicsComponent
 {
+    
+    public boolean isSeen = false;
     private Vector2 initPosition;
     private float radius;
     private float rotation;

@@ -48,7 +48,7 @@ public class GameplayState extends KittenGameState implements InputProcessor {
         this.music = Main.MusicManager.getMusicStreamByStateName(GameStateEnum.GAMEPLAY);
         this.playerSoundListener = new CatSoundListener(assetManager);
         Main.inputMultiplexer.addProcessor(this);
-        
+       
         ingameHUD = new IngameHUD(assetManager);
         
         // Setup camera
@@ -79,10 +79,8 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 
     @Override
     public void update(float delta) {
-        InputManager.getInstance().update();
-        
+        InputManager.getInstance().update(); 
     	this.music.update();
-    	this.playerSoundListener.updateCat();
         /*emitter.update();
         emitter.setPosition(cursor.x, cursor.y, 0);
         game.update(delta);

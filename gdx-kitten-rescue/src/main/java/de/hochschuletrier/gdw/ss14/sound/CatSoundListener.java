@@ -9,33 +9,44 @@ import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
-public class CatSoundListener {
+public class CatSoundListener implements ICatStateListener {
 	private Sound walkSound;
 	private Sound loop;
 	private boolean isLooping;
+	private CatPropertyComponent player;
+	private AssetManagerX assetManager;
 	private static Logger Logger = LoggerFactory.getLogger(SoundManager.class);
-	private static AssetManagerX assetManager;
 	private static float SystemVolume = 1.9f;
 	
 	public CatSoundListener(AssetManagerX assetManager) {
 		this.assetManager = assetManager;
+		this.player = this.getPlayer();
+		this.register();
 	}
 	
-	public void updateCat() {
+	public void register() {
+		this.player.StateListener.add(this);
+	}
+	
+	private CatPropertyComponent getPlayer() {
 		Array<Integer> allEntities = new Array<Integer>();
 		allEntities = (EntityManager.getInstance().getAllEntitiesWithComponents(CatPropertyComponent.class));
 		int playerEntityID = allEntities.first();
 		CatPropertyComponent playerProperties = EntityManager.getInstance().getComponent(playerEntityID, CatPropertyComponent.class);
-		this.processSound(playerProperties.getState());
+		
+		return playerProperties;
 	}
 	
-	private void processSound(CatStateEnum catState) {
+	private void processSound(CatStateEnum catState, CatStateEnum oldState) {
 		switch(catState) {
 			case WALK:
+				this.walkSound("gp_cat_walk_laminate", oldState, catState);
+				break;
 			case RUN:
-				this.walkSound("gp_cat_walk_laminate");
+				this.walkSound("gp_cat_run_laminate", oldState, catState);
 				break;
 			default:
 				if (this.walkSound == null)
@@ -46,12 +57,19 @@ public class CatSoundListener {
 		}
 	}
 	
-	private void walkSound(String sound) {
-		if (this.isLooping)
+	private void walkSound(String sound, CatStateEnum oldState, CatStateEnum newState) {
+		if (this.isLooping && oldState == newState)
 			return;
 		
+		if (this.walkSound != null)
+			this.walkSound.stop();
 		this.isLooping = true;
-		this.walkSound = CatSoundListener.assetManager.getSound(sound);
+		this.walkSound = this.assetManager.getSound(sound);
 		this.walkSound.loop(CatSoundListener.SystemVolume * LocalMusic.getSystemVolume());
+	}
+
+	@Override
+	public void stateChanged(CatStateEnum oldstate, CatStateEnum newstate) {
+		this.processSound(newstate, oldstate);
 	}
 }

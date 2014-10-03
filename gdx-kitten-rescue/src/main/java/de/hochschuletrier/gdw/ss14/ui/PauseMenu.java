@@ -34,19 +34,19 @@ public class PauseMenu extends LaserCatMenu
 	
 	protected void addButtonsToFrame()
 	{
-		button = new Button[numberOfButtons];
+		button = new UIButton[numberOfButtons];
 		label = new Label[numberOfButtons];
 
 		for(int i=0; i<numberOfButtons; i++)
 		{
-			label[i] = new Label(name[i], basicSkin);
+			label[i] = new Label(name[i], catSkin);
 			widgetFrame.add(label[i]).expandX().space(20).spaceBottom(10);
 		}
 		
 		widgetFrame.row();
 		for(int i = 0; i<numberOfButtons; i++)
 		{
-			button[i] = new Button(catSkin, "bell");
+			button[i] = new UIButton(catSkin, "bell");
 			button[i].setName("bell");
 			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
 		}

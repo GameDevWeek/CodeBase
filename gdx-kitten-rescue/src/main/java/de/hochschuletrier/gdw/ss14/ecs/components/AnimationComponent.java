@@ -6,7 +6,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
  * @author David Neubauer
  */
 public class AnimationComponent implements Component {
-
+    
     /**
      * Array of all animations like running, jumping ...
      */
