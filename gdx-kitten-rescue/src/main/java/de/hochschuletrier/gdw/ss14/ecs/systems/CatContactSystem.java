@@ -131,7 +131,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         }
         else if(other instanceof CatBoxPhysicsComponent)
         {
-            Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, CatPropertyComponent.class, RenderComponent.class);
+            Array<Integer> entities = entityManager.getAllEntitiesWithComponents(CatPropertyComponent.class, RenderComponent.class);
 
             if(entities.size > 0)
             {
@@ -140,11 +140,20 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 RenderComponent renderComponent = entityManager.getComponent(player, RenderComponent.class);
                 CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
 
-                entityManager.removeComponent(player, renderComponent);
-                
-                //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+                if(!catPropertyComponent.isCatBoxOnCooldown)
+                {
+                    catPropertyComponent.isCatBoxOnCooldown = true;
+                    catPropertyComponent.catBoxCooldownTimer = catPropertyComponent.CATBOX_COOLDOWN;
+                    entityManager.removeComponent(player, renderComponent);
 
-                catPropertyComponent.isHidden = true;
+                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+
+                    catPropertyComponent.isHidden = true;
+                }
+                else
+                {
+                    return;
+                }
             }
 
             Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);

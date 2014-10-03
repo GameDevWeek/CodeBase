@@ -71,6 +71,7 @@ public class Game{
         engine.addSystem(new CatMovementSystem(entityManager));
         engine.addSystem(new CatJumpUpdateSystem(entityManager));
         engine.addSystem(new CatStateUpdateSystem(entityManager));
+        engine.addSystem(new CatCooldownUpdateSystem(entityManager));
 
        // engine.addSystem(new DogInputSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
@@ -107,7 +108,7 @@ public class Game{
     {
         //int dogEntity = EntityFactory.constructDog(new Vector2(0, 0), 60.0f, 40.0f, 0, 100f);
         //int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
-        int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
+        //int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
 
         EntityFactory.constructLaserPointer(new Vector2(300,0));
         
