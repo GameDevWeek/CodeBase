@@ -42,7 +42,7 @@ public class DogInputSystem extends ECSystem
             {
                 InputComponent inputComponent = entityManager.getComponent(entity, InputComponent.class);
                 PhysicsComponent physicsComponent = entityManager.getComponent(player, PhysicsComponent.class);
-               
+                
                 inputComponent.whereToGo = physicsComponent.getPosition();
                 
                 
