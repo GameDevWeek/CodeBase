@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.ui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -10,16 +11,18 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.states.KittenGameState;
 
 public class OptionsMenu extends LaserCatMenu
 {
 	private OptionsMenuListener optionsMenuListener;
 	private float currentVolume;
+	private KittenGameState previousState;
 
-	@Override
-	public void init(AssetManagerX assetManager)
+	public void init(AssetManagerX assetManager, KittenGameState previousState)
 	{
 		super.init(assetManager);
+		this.previousState = previousState;
 		numberOfButtons = 4;
 		name = new String[numberOfButtons];
 		name[0] = "Volume Up";
@@ -41,7 +44,7 @@ public class OptionsMenu extends LaserCatMenu
 
 	protected void addButtonsToFrame()
 	{
-		button = new Button[numberOfButtons];
+		button = new UIButton[numberOfButtons];
 		label = new Label[numberOfButtons];
 
 		for (int i = 0; i < numberOfButtons; i++)
@@ -51,13 +54,13 @@ public class OptionsMenu extends LaserCatMenu
 		}
 
 		widgetFrame.row();
-		button[0] = new Button(catSkin, "sound_push");
+		button[0] = new UIButton(catSkin, "sound_push");
 		button[0].setName("button");
-		button[1] = new Button(catSkin, "sound_reduce");
+		button[1] = new UIButton(catSkin, "sound_reduce");
 		button[1].setName("button");
-		button[2] = new Button(catSkin, "bell"); // Placeholder for image
+		button[2] = new UIButton(catSkin, "bell"); // Placeholder for image
 		button[2].setName("bell");
-		button[3] = new Button(catSkin, "bell"); // Placeholder for image
+		button[3] = new UIButton(catSkin, "bell"); // Placeholder for image
 		button[3].setName("bell");
 
 		for (Button b : button)
@@ -81,6 +84,7 @@ public class OptionsMenu extends LaserCatMenu
 				switch (i)
 				{
 				case 0:
+					//button[i].setStyle("bell");
 					LocalMusic.setSystemVolume((float) ((currentVolume + 0.1) < 1.0 ? currentVolume + 0.1 : 1.0));
 					System.out.println("Increase Volume");
 					break;
@@ -93,7 +97,7 @@ public class OptionsMenu extends LaserCatMenu
 					System.out.println("Open Credits");
 					break;
 				default:
-					GameStateEnum.MAINMENU.activate();
+					previousState.getEnum().activate();
 					break;
 				}
 			}

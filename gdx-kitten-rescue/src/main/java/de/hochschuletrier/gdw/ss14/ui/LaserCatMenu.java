@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Timer;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
@@ -41,7 +44,7 @@ public abstract class LaserCatMenu
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
-	protected Button button[];
+	protected UIButton button[];
 	protected Label label[];
 	protected String name[];
 	protected int numberOfButtons;
@@ -51,8 +54,7 @@ public abstract class LaserCatMenu
 		//Variables
 		heightOfWidgetFrame = 0.25f;
 		widthOfWidgetFrame = 0.65f;
-		
-		
+				
 		// Adjusts the table and adds it to the stage
 		stage = new Stage();
 		
@@ -72,7 +74,7 @@ public abstract class LaserCatMenu
 
 		
 		//TitleTextImage
-		titleTextImage= new Image(catSkin.getDrawable("print-exemple"));
+		titleTextImage= new Image(catSkin.getDrawable("game-title"));
 		table.add(titleTextImage).top().size(Value.percentWidth(0.8f,  table),Value.percentHeight(0.25f, table)).expandX();
 		table.row();
 		
@@ -80,9 +82,6 @@ public abstract class LaserCatMenu
 		widgetFrame = new Table();
 		table.add(widgetFrame).bottom().size(Value.percentWidth(widthOfWidgetFrame, table), Value.percentHeight(heightOfWidgetFrame,table));
 		table.row();
-
-	
-		//catSkin.getDrawable("title");
 		
 		// MainCat Image
 		menuCatImage = new Image(catSkin.getDrawable("main-menu-cat"));
@@ -130,16 +129,21 @@ public abstract class LaserCatMenu
 			if (this.isPressed())
 					return;
 			if(event.getListenerActor().getName().equals("bell"))
+			{
 				SoundManager.performAction(UIActions.BELLOVER);
-//				playAnimation(event.getListenerActor());
+				animateRingingBell(event.getListenerActor());
+			}
 			else
 				SoundManager.performAction(UIActions.BUTTONOVER);
 		}
 	}
 	
-//	private void animateBell(Button b)
-//	{
-//		
-//	}
+	private void animateRingingBell(Actor b)		// Should only receive Buttons as Parameter
+	{
+		Button button = (Button) b;
+		
+		b.rotateBy(90);
+		b.rotateBy(-90);
+	}
 	
 }

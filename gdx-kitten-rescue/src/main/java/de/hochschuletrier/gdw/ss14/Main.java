@@ -215,7 +215,7 @@ public class Main extends StateBasedGame<KittenGameState> {
     public static void main(String[] args) {
         mainArgs = args;
     	LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "Laser Cat";
+        cfg.title = "Laser Chaser: Zombie Racer";
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;
         cfg.useGL30 = false;
