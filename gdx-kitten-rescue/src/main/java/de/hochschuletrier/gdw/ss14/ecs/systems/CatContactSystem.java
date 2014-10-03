@@ -97,6 +97,16 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                                 catPropertyComponent.setState(CatStateEnum.FALL);
                             }
 
+
+                            if (entities.size > 0)
+                            {
+                                int player = entities.first();
+                                CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+
+                                //catPropertyComponent.isAlive = false;
+                                catPropertyComponent.setState(CatStateEnum.FALL);
+                            }
+
                         }
                     } // end dead zone check
                     else if(property.type == JumpableState.waterpuddle || property.type == JumpableState.bloodpuddle)
@@ -146,6 +156,8 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     catPropertyComponent.isCatBoxOnCooldown = true;
                     catPropertyComponent.catBoxCooldownTimer = catPropertyComponent.CATBOX_COOLDOWN;
                     entityManager.removeComponent(player, renderComponent);
+
+                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
 
                     //catPropertyComponent.setState(CatStateEnum.HIDDEN);
 
