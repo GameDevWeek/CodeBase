@@ -64,8 +64,8 @@ public class LightMapSystem extends ECSystem{
 				// check if camera is on entity with light component. if yes, 
 				CameraComponent cameraComp = entityManager.getComponent(currentEnt, CameraComponent.class);
 				if(cameraComp!=null){
-					lightWidth += cameraComp.maxScreenCenterDistance;
-					lightHeight += cameraComp.maxScreenCenterDistance;
+					lightWidth += cameraComp.maxScreenCenterDistance * 2;
+					lightHeight += cameraComp.maxScreenCenterDistance * 2;
 				}
 				
 				DrawUtil.batch.draw(shadow,

@@ -94,7 +94,7 @@ public class Game{
         engine.addSystem(new ShadowSystem(entityManager, 1));
         engine.addSystem(new AnimationSystem(entityManager, 2));
         engine.addSystem(new RenderSystem(entityManager, 1200));
-        
+        engine.addSystem(new LightMapSystem(entityManager, 1201));
         //Behaviour System
         engine.addSystem(new BehaviourSystem(entityManager,behaviourManager ));
     }
