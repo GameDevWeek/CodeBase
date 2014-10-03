@@ -16,7 +16,8 @@ public class AnimatorData {
     public static class TextStyle {
         public String color;
         public String font;
-        public String align;
+        public Integer size;
+        public TextAlign align;
     }
 
     public static class Path {
