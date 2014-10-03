@@ -105,11 +105,18 @@ public class CatMovementSystem extends ECSystem
                 {
                     if (catPropertyComponent.getState() == CatStateEnum.IDLE)
                     {
-                        catPropertyComponent.timeTillJumpTimer = catPropertyComponent.timeTillJumpTimer + delta;
-                        if (catPropertyComponent.timeTillJumpTimer >= catPropertyComponent.TIME_TILL_JUMP)
+                        if (laserPointerComponent != null)
                         {
-                            catPropertyComponent.setState(CatStateEnum.JUMP);
-                            jumpDataComponent.jumpDirection = movementComponent.directionVec.nor();
+                            if (laserPointerComponent.isVisible)
+                            {
+                                catPropertyComponent.timeTillJumpTimer = catPropertyComponent.timeTillJumpTimer + delta;
+                                if (catPropertyComponent.timeTillJumpTimer >= catPropertyComponent.TIME_TILL_JUMP)
+                                {
+                                    catPropertyComponent.setState(CatStateEnum.JUMP);
+                                    jumpDataComponent.jumpDirection = movementComponent.directionVec.nor();
+                                }
+
+                            }
                         }
                     }
                 }
