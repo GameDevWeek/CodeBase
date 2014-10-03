@@ -189,6 +189,10 @@ public class CatMovementSystem extends ECSystem
             {
                 movementComponent.velocity = 0.0f;
             }
+            else if(catPropertyComponent.getState() == CatStateEnum.HIDDEN)
+            {
+                movementComponent.velocity = 0.0f;
+            }
             //positionVec not directionVec because sliding
             physicsComponent.setVelocityX(movementComponent.positionVec.x * movementComponent.velocity);
             physicsComponent.setVelocityY(movementComponent.positionVec.y * movementComponent.velocity);
