@@ -26,6 +26,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
@@ -115,6 +116,7 @@ public class EntityFactory{
         manager.addComponent(entity, cam);
         manager.addComponent(entity, shadow);
         manager.addComponent(entity, particleEmitComp);
+        manager.addComponent(entity, new LightComponent());
         //manager.addComponent(entity, new ConePhysicsComponent(catPhysix.getPosition(), 100,100,100));
         //manager.addComponent(entity, new HitAnimationComponent());
 
