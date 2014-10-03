@@ -13,6 +13,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil.Mode;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpDataComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
@@ -76,6 +77,22 @@ public class ShadowSystem extends ECSystem{
 //						shadowWidth *= 1.25f;
 //						shadowHeight *= 1.25f;
 //					}
+//				// Überprüfen, ob entity springt
+				JumpDataComponent jumpComp = entityManager.getComponent(currentEnt, 
+						JumpDataComponent.class);
+				// Nur überprüfen, falls entity auch eine Jump Komponente hat
+				if(jumpComp != null){
+					float factorShadowSize = (jumpComp.currentJumpTime / jumpComp.maxJumpTime);
+					if(factorShadowSize >= jumpComp.maxJumpTime / 2){
+						factorShadowSize = 1 - factorShadowSize;
+					}
+					
+					factorShadowSize += 1;
+					
+					shadowWidth *= factorShadowSize;
+					shadowHeight *= factorShadowSize;
+					
+					
 				}
 				
 				DrawUtil.batch.draw(renderComp.texture,
@@ -94,9 +111,10 @@ public class ShadowSystem extends ECSystem{
 				Gdx.gl.glDisable(GL20.GL_BLEND);
 				DrawUtil.batch.begin();
 				
-			}
+				}
 			
 			
+				}
 			}
 		}
 	}

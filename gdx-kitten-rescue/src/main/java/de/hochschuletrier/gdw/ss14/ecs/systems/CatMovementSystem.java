@@ -18,6 +18,9 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
  */
 public class CatMovementSystem extends ECSystem
 {
+
+    public float maxVelocity = 0, acceleration = 0;
+
     public CatMovementSystem(EntityManager entityManager)
     {
         super(entityManager, 1);
@@ -61,6 +64,22 @@ public class CatMovementSystem extends ECSystem
                        movementComponent.directionVec.x = tmp.x;
                        movementComponent.directionVec.y = tmp.y;
                     }
+
+                   //Wenn Katze positive Nahrung gegessen hat, wird sie schneller
+                   if(maxVelocity == 0){
+                       maxVelocity = movementComponent.maxVelocity;
+                       acceleration = movementComponent.acceleration;
+                   }
+
+                   movementComponent.maxVelocity = maxVelocity;
+                   movementComponent.acceleration = acceleration;
+
+                   if(catPropertyComponent.atePositiveFood){
+                       movementComponent.maxVelocity *= 5;
+
+                       movementComponent.acceleration *= 5;
+
+                   }
 
                 //needed not normalized directions for sliding (more natural curves)
                 if(movementComponent.oldPositionVec==null){
@@ -125,11 +144,18 @@ public class CatMovementSystem extends ECSystem
                 {
                     if (catPropertyComponent.getState() == CatStateEnum.IDLE)
                     {
-                        catPropertyComponent.timeTillJumpTimer = catPropertyComponent.timeTillJumpTimer + delta;
-                        if (catPropertyComponent.timeTillJumpTimer >= catPropertyComponent.TIME_TILL_JUMP)
+                        if (laserPointerComponent != null)
                         {
-                            catPropertyComponent.setState(CatStateEnum.JUMP);
-                            jumpDataComponent.jumpDirection = movementComponent.directionVec.nor();
+                            if (laserPointerComponent.isVisible)
+                            {
+                                catPropertyComponent.timeTillJumpTimer = catPropertyComponent.timeTillJumpTimer + delta;
+                                if (catPropertyComponent.timeTillJumpTimer >= catPropertyComponent.TIME_TILL_JUMP)
+                                {
+                                    catPropertyComponent.setState(CatStateEnum.JUMP);
+                                    jumpDataComponent.jumpDirection = movementComponent.directionVec.nor();
+                                }
+
+                            }
                         }
                     }
                 }
