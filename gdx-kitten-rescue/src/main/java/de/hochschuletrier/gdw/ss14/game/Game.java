@@ -21,10 +21,9 @@ import org.slf4j.LoggerFactory;
 
 public class Game{
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
-    private static final int FPSFrameCount = 10;
+    private static final float FPSLogTime = 1.0f;
     
     private Array<Float> frameTimes = new Array<Float>();
-    private int currentFrameTimeIndex = 0;
 
     private Array<ECSystem> systems;
     public static Engine engine;
@@ -135,17 +134,12 @@ public class Game{
         engine.update(delta);
         
         // FPS
-        if (frameTimes.size > currentFrameTimeIndex)
-            frameTimes.set(currentFrameTimeIndex, delta);
-        else
-            frameTimes.add(delta);
-            
-        currentFrameTimeIndex = (currentFrameTimeIndex+1) % FPSFrameCount;
+        frameTimes.add(delta);
         
-        timeSinceLastFPSShow += delta;
-        
-        if (timeSinceLastFPSShow >= 1.0f) {
+        timeSinceLastFPSShow += delta;        
+        if (timeSinceLastFPSShow >= FPSLogTime) {
             showFPS();
+            frameTimes.clear();
             timeSinceLastFPSShow = 0.0f;
         }
 
@@ -165,6 +159,7 @@ public class Game{
         averageFrameTime /= frameTimes.size;
         
         String str = (int)(averageFrameTime*1000f)+" ms/Frame";
+        str += " ("+(int)(1.0f/averageFrameTime)+" FPS)";
         logger.info(str);
     }
 }
