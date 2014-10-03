@@ -7,7 +7,7 @@ import de.hochschuletrier.gdw.ss14.states.JumpableState;
 
 public class JumpablePropertyComponent implements Component
 {
-    JumpableState type;
+    public JumpableState type;
     
     public JumpablePropertyComponent(JumpableState type)
     {
