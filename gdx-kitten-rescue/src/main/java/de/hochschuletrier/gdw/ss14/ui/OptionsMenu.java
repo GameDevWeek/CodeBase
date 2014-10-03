@@ -62,9 +62,6 @@ public class OptionsMenu extends LaserCatMenu
 		button[2].setName("bell");
 		button[3] = new UIButton(catSkin, "bell"); // Placeholder for image
 		button[3].setName("bell");
-		
-		//UIButton j = new UIButton(catSkin, "sound_push");
-		//j.setStyle(j.getSkin().get("bell", ButtonStyle.class));
 
 		for (Button b : button)
 			widgetFrame.add(b).size(
@@ -87,7 +84,7 @@ public class OptionsMenu extends LaserCatMenu
 				switch (i)
 				{
 				case 0:
-					//button[i].setStyle(button[i].getSkin().get("bell", ButtonStyle.class));
+					//button[i].setStyle("bell");
 					LocalMusic.setSystemVolume((float) ((currentVolume + 0.1) < 1.0 ? currentVolume + 0.1 : 1.0));
 					System.out.println("Increase Volume");
 					break;

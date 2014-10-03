@@ -35,7 +35,11 @@ public class UIButton extends Button {
 		super();
 	}
 	
-	public Skin getSkin() {
+	private Skin getSkin() {
 		return this.skin;
+	}
+	
+	public void setStyle(String skin) {
+		this.setStyle(this.getSkin().get(skin, ButtonStyle.class));
 	}
 }
