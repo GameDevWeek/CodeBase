@@ -70,12 +70,17 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     }
                     if(isCatInZone){
                         // cat fall down
-                        int player = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class).first();
+                        Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PlayerComponent.class, PhysicsComponent.class);
 
-                        CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
+                        if(entities.size > 0)
+                        {
+                            int player = entities.first();
+                            CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
 
-                        catPropertyComponent.isAlive = false;
-                        //catPropertyComponent.state = CatStateEnum.FALL;
+                            //catPropertyComponent.isAlive = false;
+                            catPropertyComponent.setState(CatStateEnum.FALL);
+                        }
+
                     }
                 }
                 

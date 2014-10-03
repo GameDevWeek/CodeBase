@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.states.*;
 
 /**
  * Created by Daniel Dreher on 02.10.2014.
@@ -29,6 +30,15 @@ public class CheckCatDeadSystem extends ECSystem
             PhysicsComponent physicsComponent = entityManager.getComponent(entity, PhysicsComponent.class);
             CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
             MovementComponent movementComponent = entityManager.getComponent(entity, MovementComponent.class);
+            AnimationComponent animationComponent = entityManager.getComponent(entity, AnimationComponent.class);
+
+            if(catPropertyComponent.getState() == CatStateEnum.FALL)
+            {
+                if(animationComponent.isFinished)
+                {
+                    catPropertyComponent.isAlive = false;
+                }
+            }
 
             if (!catPropertyComponent.isAlive)
             {
