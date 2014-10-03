@@ -73,8 +73,6 @@ public class PlayerMovementSystem extends ECSystem{
                 catStateCompo.timeTillJump = 0;
             }
             */
-            SoundManager.performAction(PhysicsActions.CATWALK);
-
             logger.debug("\n"+catStateCompo.state);
             if(catStateCompo.state != CatStateEnum.JUMP){
                  moveCompo.directionVec = inputCompo.whereToGo.sub(phyCompo.getPosition());
