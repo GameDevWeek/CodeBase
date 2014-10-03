@@ -46,18 +46,18 @@ public class SoundManager {
 			case GAMEPLAY:
 				switch (actionString) {
 					case "CATWALK":
-						System.out.println("WALKING CAT!!!");
+						//System.out.println("WALKING CAT!!!");
 						Array<Integer> entities = new Array<Integer>();
 						entities = (EntityManager.getInstance().getAllEntitiesWithComponents(CatPropertyComponent.class));
 
 						int playerEntityID = entities.first();
 						CatPropertyComponent playerProperties = EntityManager.getInstance().getComponent(playerEntityID, CatPropertyComponent.class);
-						if (playerProperties.getState() != CatStateEnum.WALK) {
+						if (playerProperties.getState() != CatStateEnum.WALK && playerProperties.getState() != CatStateEnum.RUN) {
 							SoundManager.loop.stop();
 							SoundManager.isLooping = false;
 						}
 						else 
-							SoundManager.loopSound("gp_cat_victory");
+							SoundManager.loopSound("gp_cat_walk_laminate");
 						break;
 				} 
 				break;
@@ -69,7 +69,7 @@ public class SoundManager {
 
 	private static void playSound(String sound) {
 		SoundManager.sound = SoundManager.assetManager.getSound(sound);
-		SoundManager.sound.play(SoundManager.SystemVolume);
+		SoundManager.sound.play(SoundManager.SystemVolume * LocalMusic.getSystemVolume());
 	}
 	
 	private static void loopSound(String sound) {
