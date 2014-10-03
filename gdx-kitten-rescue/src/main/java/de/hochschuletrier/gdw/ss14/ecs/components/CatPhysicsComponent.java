@@ -2,11 +2,12 @@ package de.hochschuletrier.gdw.ss14.ecs.components;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
-import de.hochschuletrier.gdw.ss14.ecs.ICollisionListener;
+import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 
 import java.util.ArrayList;
 
