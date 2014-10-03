@@ -179,6 +179,10 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             }
 
         }
+        else if(other instanceof StairsPhysicsComponent)
+        {
+            // TODO: change floor here.
+        }
 
     }
 

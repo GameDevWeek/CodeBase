@@ -15,29 +15,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
-import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.BehaviourComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ConePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpDataComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WeldJointPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
@@ -304,8 +282,13 @@ public class EntityFactory{
     }
     
 
-    public static int constructStairs(){
+    public static int constructStairs(Vector2 pos, float width, float height){
         int entity = manager.createEntity();
+
+        StairsPhysicsComponent stairsPhysicsComponent = new StairsPhysicsComponent(pos, width, height, 0.0f);
+        stairsPhysicsComponent.initPhysics(phyManager);
+
+        manager.addComponent(entity, stairsPhysicsComponent);
         return entity;
     }
 
