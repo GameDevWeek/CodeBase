@@ -20,8 +20,8 @@ public class ConePhysicsComponent extends PhysicsComponent{
      * 
      * @param position      startposition of the objects view
      * @param radius        the radius of the cone
-     * @param corner        the corner of the cone (width) in radians [0 .. 2*PI]
      * @param rotation      the rotation in radians [0 .. 2*PI]
+     * @param corner        the corner of the cone (width) in radians [0 .. 2*PI]
      * 
      **/
     

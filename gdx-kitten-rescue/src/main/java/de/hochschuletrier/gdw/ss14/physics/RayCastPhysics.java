@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class RayCastPhysics implements RayCastCallback{
     
+    public Fixture m_fixture;
     public boolean m_hit;
     public Vector2 m_point;
     public Vector2 m_normal;
@@ -42,6 +43,7 @@ public class RayCastPhysics implements RayCastCallback{
             m_point = point;
             m_normal = normal;
             m_fraction = fraction;
+            m_fixture = fixture;
             return 0f;
     }
 }
