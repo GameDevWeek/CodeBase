@@ -125,4 +125,10 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
     @Override
     public void render() {}
+
+    @Override
+    public void fireEndCollision(PhysixContact contact) {
+        // TODO Auto-generated method stub
+        
+    }
 }
