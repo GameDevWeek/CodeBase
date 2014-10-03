@@ -52,6 +52,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             if(rcp.m_hit && rcp.m_fraction <= ((ConePhysicsComponent)other).mRadius){
                 for(Fixture f : other.physicsBody.getFixtureList()){
                     if(rcp.m_fixture == f){
+                        EnemyComponent.seeCat = true;
                         logger.debug("Katze sichtbar für Hund");
                     }
                 }
@@ -61,6 +62,10 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             }
             rcp.reset();
         }else if(other instanceof WoolPhysicsComponent){
+            ((WoolPhysicsComponent) other).isSeen = true;
+            Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class);
+            CatPropertyComponent player = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
+            player.isInfluenced = true;
             
         }else if(other instanceof JumpablePhysicsComponent){
             Array<Integer> compos = entityManager.getAllEntitiesWithComponents(JumpablePropertyComponent.class);
@@ -134,6 +139,21 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     @Override
     public void fireEndCollision(PhysixContact contact) {
         // TODO Auto-generated method stub
+        PhysixBody owner = contact.getMyPhysixBody();//.getOwner();
+        Object o = contact.getOtherPhysixBody().getFixtureList().get(0).getUserData();
+        PhysixEntity other = contact.getOtherPhysixBody().getOwner();
+        
+        if(other instanceof WoolPhysicsComponent){
+            ((WoolPhysicsComponent) other).isSeen = false;
+            Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class);
+            CatPropertyComponent player = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
+            player.isInfluenced = false;
+            
+        }
+        
+        if(other instanceof ConePhysicsComponent){
+            EnemyComponent.seeCat = false;
+        }
         
     }
 }
