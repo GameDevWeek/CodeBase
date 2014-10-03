@@ -21,5 +21,7 @@ public class MovementComponent implements Component{
 		middleVelocity = middleVelo;
 		minVelocity = minVelo;
 		this.acceleration = acceleration;
+
+        directionVec = new Vector2();
 	}
 }

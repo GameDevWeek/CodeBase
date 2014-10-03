@@ -70,14 +70,16 @@ public class Game{
     {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
+        engine.addSystem(new CatMovementSystem(entityManager));
+        engine.addSystem(new CatJumpUpdateSystem(entityManager));
+        engine.addSystem(new CatStateUpdateSystem(entityManager));
+
        // engine.addSystem(new DogInputSystem(entityManager));
-        engine.addSystem(new PlayerMovementSystem(entityManager));
         engine.addSystem(new DogMovementSystem(entityManager));
         engine.addSystem(new HitAnimationSystem(entityManager));
         engine.addSystem(new ParticleEmitterSystem(entityManager));
         engine.addSystem(new LimitedLifetimeSystem(entityManager));
         engine.addSystem(new LaserPointerSystem(entityManager));
-        //engine.addSystem(new ShadowSystem(entityManager));
         engine.addSystem(new CheckCatDeadSystem(entityManager, physixManager));
 
         engine.addSystem(new CameraSystem(entityManager, 1024));

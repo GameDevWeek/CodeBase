@@ -10,13 +10,13 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 /**
  * Created by Daniel Dreher on 30.09.2014.
  */
-public class PuddlePhysicsComponent extends PhysicsComponent
+public class JumpablePhysicsComponent extends PhysicsComponent
 {
     
     private PhysixBodyDef bodydef;
     private PhysixFixtureDef fixturedef;
     
-    public PuddlePhysicsComponent(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef) {
+    public JumpablePhysicsComponent(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef) {
         this.bodydef = bodydef;
         this.fixturedef = fixturedef;
     }
