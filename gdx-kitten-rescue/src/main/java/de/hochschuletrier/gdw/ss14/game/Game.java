@@ -14,7 +14,6 @@ import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
-import de.hochschuletrier.gdw.ss14.input.InputManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +54,6 @@ public class Game{
     }
 
     public void init(AssetManagerX assetManager){
-        InputManager.init();
         initializeSystems();
         initializeTestComponents();
 
@@ -91,10 +89,10 @@ public class Game{
 
         // Rendering related systems
         engine.addSystem(new TileMapRenderingSystem(entityManager, 0));
-        engine.addSystem(new ShadowSystem(entityManager, 1));
-        engine.addSystem(new AnimationSystem(entityManager, 2));
+        engine.addSystem(new ShadowSystem(entityManager, 9));
+        engine.addSystem(new AnimationSystem(entityManager, 10));
         engine.addSystem(new RenderSystem(entityManager, 1200));
-        
+        engine.addSystem(new LightMapSystem(entityManager, 1201));
         //Behaviour System
         engine.addSystem(new BehaviourSystem(entityManager,behaviourManager ));
     }
@@ -130,7 +128,6 @@ public class Game{
 
     float timeSinceLastFPSShow = 0.0f;
     public void update(float delta){
-        InputManager.getInstance().update();
         engine.update(delta);
         
         // FPS

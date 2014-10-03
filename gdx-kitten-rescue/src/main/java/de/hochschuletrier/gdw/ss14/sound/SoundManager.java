@@ -53,7 +53,6 @@ public class SoundManager {
 						//System.out.println("WALKING CAT!!!");
 						Array<Integer> entities = new Array<Integer>();
 						entities = (EntityManager.getInstance().getAllEntitiesWithComponents(CatPropertyComponent.class));
-
 						int playerEntityID = entities.first();
 						CatPropertyComponent playerProperties = EntityManager.getInstance().getComponent(playerEntityID, CatPropertyComponent.class);
 						if (playerProperties.getState() != CatStateEnum.WALK && playerProperties.getState() != CatStateEnum.RUN) {

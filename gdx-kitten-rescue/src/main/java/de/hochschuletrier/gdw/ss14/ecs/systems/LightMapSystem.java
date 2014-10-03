@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil.Mode;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
@@ -39,23 +40,32 @@ public class LightMapSystem extends ECSystem{
 
 	@Override
 	public void render() {
-		Array<Integer> entities = entityManager.getAllEntitiesWithComponents(RenderComponent.class, LightComponent.class);
+		Array<Integer> entities = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class, LightComponent.class);
 		
 		for(Integer currentEnt : entities){
 			
 			LightComponent lightComp = entityManager.getComponent(currentEnt, LightComponent.class);
-			RenderComponent renderComp = entityManager.getComponent(currentEnt, RenderComponent.class);
 			PhysicsComponent pComp = entityManager.getComponent(currentEnt, PhysicsComponent.class);
+			// if shadow isn't not existin.... :Ds
 			if(lightComp.alpha > 0.0f){
 				
+				// set up all the alpha stuff
 				DrawUtil.batch.end();
 				Gdx.gl.glEnable(GL20.GL_BLEND);
 			    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 				DrawUtil.setColor(new Color(1,1,1,lightComp.alpha));
 				DrawUtil.batch.begin();
 				
+				
 				float lightWidth = Gdx.graphics.getWidth() ;
 				float lightHeight = Gdx.graphics.getHeight();
+				
+				// check if camera is on entity with light component. if yes, 
+				CameraComponent cameraComp = entityManager.getComponent(currentEnt, CameraComponent.class);
+				if(cameraComp!=null){
+					lightWidth += cameraComp.maxScreenCenterDistance * 2;
+					lightHeight += cameraComp.maxScreenCenterDistance * 2;
+				}
 				
 				DrawUtil.batch.draw(shadow,
 						pComp.getPosition().x - (lightWidth / 2), 
