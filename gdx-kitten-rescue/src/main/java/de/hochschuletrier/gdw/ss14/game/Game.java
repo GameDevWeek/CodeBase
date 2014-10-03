@@ -14,7 +14,6 @@ import de.hochschuletrier.gdw.commons.tiled.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
-import de.hochschuletrier.gdw.ss14.input.InputManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +54,6 @@ public class Game{
     }
 
     public void init(AssetManagerX assetManager){
-        InputManager.init();
         initializeSystems();
         initializeTestComponents();
 
@@ -130,7 +128,6 @@ public class Game{
 
     float timeSinceLastFPSShow = 0.0f;
     public void update(float delta){
-        InputManager.getInstance().update();
         engine.update(delta);
         
         // FPS
