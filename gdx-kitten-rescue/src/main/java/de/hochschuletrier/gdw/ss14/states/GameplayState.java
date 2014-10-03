@@ -20,7 +20,9 @@ import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.hud.IngameHUD;
+import de.hochschuletrier.gdw.ss14.physics.PhysicsActions;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 /**
  * Gameplay state
@@ -85,6 +87,7 @@ public class GameplayState extends GameState implements InputProcessor {
     @Override
     public void update(float delta) {
     	this.music.update();
+    	SoundManager.performAction(PhysicsActions.CATWALK);
         /*emitter.update();
         emitter.setPosition(cursor.x, cursor.y, 0);
         game.update(delta);
