@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits;
+package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
 
 import de.hochschuletrier.gdw.commons.jackson.JacksonList;
 import de.hochschuletrier.gdw.commons.jackson.JacksonMap;
