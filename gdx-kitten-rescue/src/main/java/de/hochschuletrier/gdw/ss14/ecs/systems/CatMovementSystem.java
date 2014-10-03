@@ -121,19 +121,18 @@ public class CatMovementSystem extends ECSystem
                     }
                 }
 
-                physicsComponent.setVelocityX(movementComponent.directionVec.x * movementComponent.velocity);
-                physicsComponent.setVelocityY(movementComponent.directionVec.y * movementComponent.velocity);
-
             } // end if (state check)
-            else
+            else if (catPropertyComponent.state == CatStateEnum.JUMP)
             {
-                if (catPropertyComponent.state == CatStateEnum.JUMP)
-                {
-                    movementComponent.velocity = jumpDataComponent.jumpVelocity;
-                    physicsComponent.setVelocityX(jumpDataComponent.jumpDirection.x * movementComponent.velocity);
-                    physicsComponent.setVelocityY(jumpDataComponent.jumpDirection.y * movementComponent.velocity);
-                }
+                movementComponent.velocity = jumpDataComponent.jumpVelocity;
             }
+            else if(catPropertyComponent.state == CatStateEnum.FALL)
+            {
+                movementComponent.velocity = 0.0f;
+            }
+
+            physicsComponent.setVelocityX(movementComponent.directionVec.x * movementComponent.velocity);
+            physicsComponent.setVelocityY(movementComponent.directionVec.y * movementComponent.velocity);
 
         }
 
