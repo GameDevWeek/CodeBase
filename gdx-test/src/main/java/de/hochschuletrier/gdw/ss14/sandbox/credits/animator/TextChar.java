@@ -21,9 +21,12 @@ public class TextChar {
     private final String text;
     private float animationTime;
     private float startTime;
+    private boolean type;
 
     public TextChar(BitmapFont font, String text, int index, AnimatorData.Path.Animation animation, float totalAnimationTime) {
-        startTime = index * totalAnimationTime * 0.5f;
+        type = animation.animation.equals(TextAnimation.CONSTRUCT_TYPE.name());
+        if(type)
+            startTime = index * totalAnimationTime * 0.5f;
         this.text = text.substring(index, index+1);
         if (index > 0) {
             BitmapFont.TextBounds bounds = font.getBounds(text, 0, index);
@@ -90,13 +93,22 @@ public class TextChar {
 
     public void render(BitmapFont font, Color color, Vector2 offset, float totalAnimationTime) {
         if (startTime == 0) {
-            float t = animationTime / totalAnimationTime;
-            color.a = Math.min(1.0f, t*2);
-//            t *= t;
-            Bezier.quadratic(temp2, t, start, control, end, temp1);
-            temp2.add(offset);
-            font.setColor(color);
-            font.draw(DrawUtil.batch, text, temp2.x, temp2.y);
+            if(type) {
+                for(float t = animationTime / totalAnimationTime; t> 0; t-=0.1f) {
+                    renderChar(font, color, offset, t);
+                }
+            } else {
+                renderChar(font, color, offset, animationTime / totalAnimationTime);
+            }
         }
+    }
+    
+    private void renderChar(BitmapFont font, Color color, Vector2 offset, float t) {
+        color.a = Math.min(1.0f, t*2);
+        Bezier.quadratic(temp2, t, start, control, end, temp1);
+        temp2.add(offset);
+        font.setColor(color);
+        font.setScale(0.5f + t*0.5f);
+        font.draw(DrawUtil.batch, text, temp2.x, temp2.y);
     }
 }

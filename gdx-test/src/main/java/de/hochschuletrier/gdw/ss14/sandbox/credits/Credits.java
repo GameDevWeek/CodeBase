@@ -1,16 +1,14 @@
 package de.hochschuletrier.gdw.ss14.sandbox.credits;
 
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.AnimatorData;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Bezier;
-import com.badlogic.gdx.math.Vector2;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextAlign;
+import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextAnimation;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextItem;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextStyle;
 import org.slf4j.Logger;
@@ -23,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class Credits extends SandboxGame {
 
     private static final Logger logger = LoggerFactory.getLogger(Credits.class);
-
+    
     private TextItem textItem;
     
     public Credits() {
@@ -31,10 +29,10 @@ public class Credits extends SandboxGame {
 
     @Override
     public void init(AssetManagerX assetManager) {
-        textItem = new TextItem("Hello World, you are a LONG son of a bitch!!!", new TextStyle(assetManager.getFont("verdana", 24), Color.WHITE.cpy(), TextAlign.LEFT));
+        textItem = new TextItem("Laser Chaser: Zombie Racer", new TextStyle(assetManager.getFont("verdana", 24), Color.WHITE.cpy(), TextAlign.LEFT));
         AnimatorData.Path.Animation anim = new AnimatorData.Path.Animation();
-        anim.animation = "CONSTRUCT";
-        anim.animationTime = 300;
+        anim.animation = Main.textAnimation.get().name();
+        anim.animationTime = Main.animationTime.get();
         anim.minAngle = 0;
         anim.maxAngle = 360;
         anim.minRadius = 200;
