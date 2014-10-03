@@ -81,13 +81,13 @@ public class CatPhysicsComponent extends PhysicsComponent {
         coneShape = new ArrayList<Point>();
         int anzPunkte = 7;
         double startWinkel = (-coneCorner/2) + rotation; 
-        float delta = coneCorner / anzPunkte;
+        float delta = coneCorner / (anzPunkte-1);
         
         coneShape.add(new Point((int)0, (int)0));
         
         for(int i = 0; i < anzPunkte; i++){
-            coneShape.add(new Point((int)(Math.cos(startWinkel) * coneRadius), (int)(Math.sin(startWinkel) * coneRadius)));
-            startWinkel += delta;
+            coneShape.add(new Point((int)(Math.cos(startWinkel) * -coneRadius), (int)(Math.sin(startWinkel) * -coneRadius)));
+            startWinkel -= delta;
         }
     }
     
