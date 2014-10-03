@@ -10,27 +10,27 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 public class CatPropertyComponent implements Component
 {
     public static final int MAX_LIVES = 9;
-    
+
     public Vector2 lastCheckPoint;
     public int amountLives;
     public boolean isHidden;
     public boolean canSeeLaserPointer;
     public boolean isAlive, atePositiveFood;
     private CatStateEnum state;
-    
+
     public float influencedToLaser = 1;
-    
+
     public final float TIME_TILL_INFLUENCED = 2.5f;
     public float timeTillInfluencedTimer = 0;
-    
+
     public final float TIME_TILL_JUMP = 1f;
     public float timeTillJumpTimer = 0;
-    
+
     public final float PLAYTIME = 1.5f;
     public float playTimeTimer = 0;
-    
+
     public ArrayList<ICatStateListener> StateListener;
-    
+
     public CatPropertyComponent()
     {
         lastCheckPoint = new Vector2();
@@ -40,14 +40,14 @@ public class CatPropertyComponent implements Component
         atePositiveFood = false;
         state = CatStateEnum.IDLE;
         isHidden = false;
-        
+
         StateListener = new ArrayList<>();
     }
-    
+
     public CatStateEnum getState(){
         return state;
     }
-    
+
     public void setState(CatStateEnum newState){
         if(newState == state)return;
         StateListener.forEach((l)->l.stateChanged(state, newState));
