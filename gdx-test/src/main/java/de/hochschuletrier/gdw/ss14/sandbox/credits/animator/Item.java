@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
  * @author Santo Pfingsten
  */
 public abstract class Item {
-    public final Vector2 position = new Vector2(200, 200);
+    public final Vector2 position = new Vector2(200, 400);
 
     public float startTime;
     public float animationTime;

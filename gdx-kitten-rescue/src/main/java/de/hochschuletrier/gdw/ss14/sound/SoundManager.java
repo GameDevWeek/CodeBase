@@ -13,12 +13,16 @@ import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import de.hochschuletrier.gdw.ss14.states.GameStates;
 import de.hochschuletrier.gdw.ss14.ui.UIActions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SoundManager {
 	private static Sound sound;
 	private static Sound loop;
+	private static Logger Logger = LoggerFactory.getLogger(SoundManager.class);
 	private static boolean isLooping;
 	private static AssetManagerX assetManager;
-	private static float SystemVolume = 1.9f;
+	public static float SystemVolume = 1.9f;
 	
 	public static void performAction(Enum action) {
 		GameStates actualGamestate = null;
@@ -45,20 +49,6 @@ public class SoundManager {
 				break;
 			case GAMEPLAY:
 				switch (actionString) {
-					case "CATWALK":
-						System.out.println("WALKING CAT!!!");
-						Array<Integer> entities = new Array<Integer>();
-						entities = (EntityManager.getInstance().getAllEntitiesWithComponents(CatPropertyComponent.class));
-
-						int playerEntityID = entities.first();
-						CatPropertyComponent playerProperties = EntityManager.getInstance().getComponent(playerEntityID, CatPropertyComponent.class);
-						if (playerProperties.getState() != CatStateEnum.WALK) {
-							SoundManager.loop.stop();
-							SoundManager.isLooping = false;
-						}
-						else 
-							SoundManager.loopSound("gp_cat_victory");
-						break;
 				} 
 				break;
 			default:
@@ -69,7 +59,7 @@ public class SoundManager {
 
 	private static void playSound(String sound) {
 		SoundManager.sound = SoundManager.assetManager.getSound(sound);
-		SoundManager.sound.play(SoundManager.SystemVolume);
+		SoundManager.sound.play(SoundManager.SystemVolume * LocalMusic.getSystemVolume());
 	}
 	
 	private static void loopSound(String sound) {

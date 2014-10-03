@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.*;
 
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
@@ -27,7 +28,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     private static final Logger logger = LoggerFactory.getLogger(CatContactSystem.class);
 
     private PhysixManager phyManager;
-    private RayCastPhysics rcpc;
+    private RayCastPhysics rcp;
 
     public CatContactSystem(EntityManager entityManager, PhysixManager physicsManager) {
         super(entityManager);
@@ -47,14 +48,18 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
         }else if(other instanceof ConePhysicsComponent){
             logger.debug("cat collides with sight-cone");
-            phyManager.getWorld().rayCast(rcpc, other.getPosition(), owner.getPosition());
-            if(rcpc.m_hit && rcpc.m_fraction <= ((ConePhysicsComponent)other).mRadius){
-                //dog sees cat
-                logger.debug("Katze sichtbar für Hund");
+            phyManager.getWorld().rayCast(rcp, other.getPosition(), owner.getPosition());
+            if(rcp.m_hit && rcp.m_fraction <= ((ConePhysicsComponent)other).mRadius){
+                for(Fixture f : other.physicsBody.getFixtureList()){
+                    if(rcp.m_fixture == f){
+                        logger.debug("Katze sichtbar für Hund");
+                    }
+                }
+                
             }else{
                 //dog sees cat not
             }
-            rcpc.reset();
+            rcp.reset();
         }else if(other instanceof WoolPhysicsComponent){
             
         }else if(other instanceof JumpablePhysicsComponent){
@@ -102,7 +107,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
                 entityManager.removeComponent(player, renderComponent);
                 
-                catPropertyComponent.setState(CatStateEnum.HIDDEN);
+                //catPropertyComponent.setState(CatStateEnum.HIDDEN);
 
                 catPropertyComponent.isHidden = true;
             }

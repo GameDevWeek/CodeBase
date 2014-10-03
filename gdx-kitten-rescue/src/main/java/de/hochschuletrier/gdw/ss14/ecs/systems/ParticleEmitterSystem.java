@@ -46,6 +46,12 @@ public class ParticleEmitterSystem extends ECSystem {
             
             ParticleEmitterComponent emitComp = entityManager.getComponent(ent, ParticleEmitterComponent.class);
             
+            // Color fading
+            /*if (emitComp.fadeColor != null) {
+                
+                emitComp.fadingTimeLeft -= delta;
+            }*/
+            
             int lastCycle = (int)(emitComp.lifetimeLeft / emitComp.emitInterval);
             emitComp.lifetimeLeft -= delta;
             int currentCycle = (int)(emitComp.lifetimeLeft / emitComp.emitInterval);
@@ -59,7 +65,15 @@ public class ParticleEmitterSystem extends ECSystem {
             // Emit one particle for every passed cycle since last update
             for (int i=lastCycle-currentCycle-1; i >= 0 ; --i) {
                         
-                emitParticle(emitComp, entityManager.getComponent(ent, PhysicsComponent.class), currentCycle-i);
+                PhysicsComponent physComp = entityManager.getComponent(ent, PhysicsComponent.class);
+                
+                if (emitComp.minimumParticleDistance > 0.0f) {
+                    if (emitComp.lastParticlePos.cpy().sub(physComp.getPosition()).len() < emitComp.minimumParticleDistance)
+                        break;
+                }
+                
+                emitParticle(emitComp, physComp, currentCycle-i);
+                emitComp.lastParticlePos = physComp.getPosition().cpy();
                 
                 // Add one interval to lifetime if emitter has unlimited lifetime so no overflow is possible
                 /*if (!emitComp.hasLimitedLifetime)
