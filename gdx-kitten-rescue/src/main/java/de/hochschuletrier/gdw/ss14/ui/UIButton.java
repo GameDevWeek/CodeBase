@@ -155,7 +155,6 @@ public class UIButton extends Table implements Disableable {
         if (overAnimation.size > 0 && stateDuration >= frameDuration) {
             currentFrame = (currentFrame + 1) % overAnimation.size;
             stateDuration = 0f;
-            System.out.println("Frame: " + currentFrame);
         }
 
         stateDuration += delta;
@@ -243,8 +242,6 @@ public class UIButton extends Table implements Disableable {
             else if (isOver() && currentFrame < overAnimation.size) {
                 if (overAnimation.get(currentFrame) != null) {
                     background = overAnimation.get(currentFrame);
-                    System.out.println("Drawing " + currentFrame);
-
                 }
             } else
                 background = style.up;

@@ -223,9 +223,7 @@ public class EntityFactory{
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0, mask, category, (short)-2);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
-        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
-        Behaviour verhalten = new DogBehaviour("SmartDog", localBlackboard, true, entity);
-        BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
+
         DogPropertyComponent dogState = new DogPropertyComponent(patrolspots);
         dogPhysix.initPhysics(phyManager);
         AnimationComponent dogAnimation = new AnimationComponent();
@@ -247,6 +245,10 @@ public class EntityFactory{
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
+        
+        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
+        Behaviour verhalten = new DogBehaviour("SmartDog", localBlackboard, true, entity);
+        BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
         manager.addComponent(entity, bComp);
         addDogParticleEmitter(entity);
 
@@ -345,7 +347,7 @@ public class EntityFactory{
 
     public static void constructWool(Vector2 pos){
         int entity = manager.createEntity();
-
+        
         WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
         RenderComponent woolRenderComponent = new RenderComponent();
         woolRenderComponent.texture = new TextureRegion(assetManager.getTexture("wool"));
@@ -391,4 +393,3 @@ public class EntityFactory{
 
     public static BehaviourManager behaviourManager;
 }
-
