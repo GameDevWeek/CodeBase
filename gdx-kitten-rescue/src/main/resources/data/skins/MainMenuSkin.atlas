@@ -31,20 +31,20 @@ main-menu-cat
   orig: 534, 557
   offset: 0, 0
   index: -1
+bell-down
+  rotate: false
+  xy: 1, 1
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
 bell
   rotate: false
   xy: 1, 1
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
-  index: 0
-bell
-  rotate: false
-  xy: 1, 1
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: 5
+  index: 2
 start-menu-button-down
   rotate: false
   xy: 763, 1391
@@ -59,27 +59,41 @@ start-menu-button
   orig: 310, 286
   offset: 0, 0
   index: -1
+bell-up
+  rotate: false
+  xy: 1387, 1377
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
 bell
   rotate: false
   xy: 1387, 1377
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
-  index: 1
+  index: 0
 bell
   rotate: false
   xy: 1387, 1377
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
-  index: 4
+  index: 5
 bell
   rotate: false
   xy: 719, 1089
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
-  index: 2
+  index: 1
+bell
+  rotate: false
+  xy: 719, 1089
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 4
 bell
   rotate: false
   xy: 1021, 1089

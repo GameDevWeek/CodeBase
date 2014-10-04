@@ -12,7 +12,7 @@
         "catGray": {"a": 0.85, "b": 0.2, "g": 0.2, "r": 0.2}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
-        "default": {"over": "bell_2", "up": "bell_0"},
+        "bell": {"over": "bell-down", "up": "bell-up"},
 		"sound_push": {"down": "sound-push-button-down", "up": "sound-push-button"},
         "sound_reduce": {"down": "sound-reduce-button-down", "up": "sound-reduce-button"}
    	},
