@@ -111,7 +111,7 @@ public class Main extends StateBasedGame<KittenGameState> {
 
     @Override
     public void create() {
-        CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Internal));
+        CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Local));
         DrawUtil.init();
         loadAssetLists();
         gamePreferences.init();

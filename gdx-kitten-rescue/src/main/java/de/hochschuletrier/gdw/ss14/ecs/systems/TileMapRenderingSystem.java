@@ -78,7 +78,7 @@ public class TileMapRenderingSystem extends ECSystem{
 		    
 			if (renderer == null) {
 			    
-    			HashMap<TileSet, Texture> tilesetImages = new HashMap();
+    			HashMap<TileSet, Texture> tilesetImages = new HashMap<TileSet, Texture>();
     			
     	        for (TileSet tileset : currentComp.getMap().getTileSets()) {
     	            TmxImage img = tileset.getImage();
@@ -138,8 +138,13 @@ public class TileMapRenderingSystem extends ECSystem{
 	}
 	
 	
+	float effectVelocity = 0.0f;
 	@Override
 	public void update(float delta) {
 		// Nothing to do
+	    
+	    mapEffectFactor += effectVelocity;
+	    if ((mapEffectFactor < 0f) || (mapEffectFactor > 1f))
+	        effectVelocity *= -1f;
 	}
 }
