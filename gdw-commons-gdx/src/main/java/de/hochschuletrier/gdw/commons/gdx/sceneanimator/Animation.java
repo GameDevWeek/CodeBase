@@ -1,11 +1,16 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
+package de.hochschuletrier.gdw.commons.gdx.sceneanimator;
 
+/**
+ *
+ * @author Santo Pfingsten
+ */
 public class Animation {
+
     public float time;
     public String animation;
     public float frametime;
     public String group;
-    
+
     // For text explosion animation
     public int minRadius;
     public int maxRadius;

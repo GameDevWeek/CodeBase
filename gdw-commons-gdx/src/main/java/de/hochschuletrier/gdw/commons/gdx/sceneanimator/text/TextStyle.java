@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
+package de.hochschuletrier.gdw.commons.gdx.sceneanimator.text;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
