@@ -33,7 +33,7 @@ public class DogBehaviour extends Behaviour {
         super(name, localBlackboard, isLooping);
 
         this.dogID = dogID;
-        setName("Catch the Cat oder patroullieren");
+        
         /* Setup Blackboard informations */
         bb = (DogBlackboard) localBlackboard;
         ic = bb.em.getComponent(dogID, InputComponent.class);
@@ -45,7 +45,30 @@ public class DogBehaviour extends Behaviour {
          * PhysicsComponent.class);
          */
         /* Setup Tree */
-
+        
+        /*
+        //Finales Soll-Verhalten mit SeeCat, Patrouille, ChaseCat und Ecken ausweichen:
+        setName("Catch the Cat, patrouillieren, katze sehen, und Ecken ausweichen.");
+        BaseNode root = new Selector(this);
+        Sequence hundHaengt = new Sequence(root);
+        Selector jagen = new Selector(root);
+        Selector hh = new Selector(hundHaengt);
+        new HundInRandomRichtung(hundHaengt);
+        new HundHaengt(hh);
+        Invert dogNotChase = new Invert(hh);
+        new DogIsChasing(dogNotChase);
+        Sequence katzenChase = new Sequence(jagen);
+        Sequence pat = new Sequence(jagen);
+        new DogSeesCat(katzenChase);
+        new ChaseCat(katzenChase);
+        Invert nichtsehend = new Invert(pat);
+        new Patroullieren(pat);
+        new DogSeesCat(nichtsehend);
+        */
+        
+        
+        //SeeCat Patrouille oder Chase Cat verhalten:
+        setName("Catch the Cat oder patroullieren");
         BaseNode root = new Selector(this);
         Sequence jageKatze = new Sequence(root);
         Sequence patroulliere = new Sequence(root);
@@ -56,7 +79,8 @@ public class DogBehaviour extends Behaviour {
         new Patroullieren(patroulliere);
         
         
-      /*  setName("Catch the Cat und weich Ecken aus");
+      /*//Katze verfolgen und ecken ausweichen verhalten:  
+        setName("Catch the Cat und weich Ecken aus");
         BaseNode root = new Selector(this);
         Sequence hundHaengt = new Sequence(root);
         new DogBehaviour.ChaseCat(root);
