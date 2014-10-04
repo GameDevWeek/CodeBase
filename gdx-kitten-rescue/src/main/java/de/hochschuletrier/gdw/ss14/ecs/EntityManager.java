@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.ecs;
 
 import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.game.*;
 
 import java.util.*;
 
@@ -83,6 +84,11 @@ public class EntityManager
     {
         Array<Integer> dogs = getAllEntitiesWithComponents(EnemyComponent.class);
 
+        if(Game.behaviourManager != null)
+        {
+            Game.behaviourManager.deleteAllBehaviours();
+        }
+
         for (Integer dog : dogs)
         {
             deletePhysicEntity(dog);
@@ -109,6 +115,16 @@ public class EntityManager
         }
     }
 
+    public void deleteAllStairs()
+    {
+        Array<Integer> stairs = getAllEntitiesWithComponents(StairComponent.class);
+
+        for (Integer stair : stairs)
+        {
+            deletePhysicEntity(stair);
+        }
+    }
+
     public void deletePhysicEntity(int entity)
     {
         PhysicsComponent physicsComponent = getComponent(entity, PhysicsComponent.class);
@@ -125,6 +141,7 @@ public class EntityManager
         deleteAllDogEntities();;
         deleteAllCatBoxEntities();
         deleteAllWoolEntities();
+        deleteAllStairs();
     }
 
     public void deleteAllEntities()

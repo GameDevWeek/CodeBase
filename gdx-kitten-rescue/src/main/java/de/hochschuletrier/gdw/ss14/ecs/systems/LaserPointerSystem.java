@@ -28,7 +28,7 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
 {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(InputSystem.class);
     
-    private static final float laserPointerAlpha = 0.5f;
+    private static final float laserPointerAlpha = 0.75f;
 
     public int waterPistol;
     public ParticleEmitterComponent waterParticleEmitter;
@@ -103,7 +103,7 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
             cursor = waterpistolCursor;
         }
         
-        DrawUtil.batch.setColor(1, 1, 1, 0.75f);;
+        DrawUtil.batch.setColor(1, 1, 1, laserPointerAlpha);
         DrawUtil.batch.draw(cursor, vec.x - (cursor.getWidth() / 2), vec.y - (cursor.getHeight() / 2));
         DrawUtil.batch.setColor(1,1,1,1);
     }

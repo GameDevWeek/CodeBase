@@ -12,7 +12,7 @@
         "catGray": {"a": 0.85, "b": 0.2, "g": 0.2, "r": 0.2},
         "mouseGray": {"a": 0.85, "b": 0.8, "g": 0.8, "r": 0.8}
     },
-    "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+    "de.hochschuletrier.gdw.ss14.ui.UIButton$ButtonStyle": {
         "bell": {"down": "bell-down", "up": "bell-up"},
 		"sound_push": {"down": "sound-push-button-down", "up": "sound-push-button"},
         "sound_reduce": {"down": "sound-reduce-button-down", "up": "sound-reduce-button"}
