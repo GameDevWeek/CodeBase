@@ -9,11 +9,8 @@ public abstract class BaseDecorator extends BaseNode {
 
 	BaseNode child;
 
-	Behaviour behaviour;
-
-	public BaseDecorator(BaseNode parent, Behaviour behaviour) {
+	public BaseDecorator(BaseNode parent ) {
 		super(parent);
-		this.behaviour = behaviour;
 	}
 
 	@Override

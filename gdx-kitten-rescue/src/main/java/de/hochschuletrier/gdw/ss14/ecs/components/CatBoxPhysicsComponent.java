@@ -31,6 +31,8 @@ public class CatBoxPhysicsComponent extends PhysicsComponent
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
                 .friction(friction).restitution(restitution).sensor(true);
 
+        initPosition.set(initPosition.x+width*.5f, initPosition.y + height*.5f);
+
         physicsBody = new PhysixBodyDef(BodyDef.BodyType.StaticBody, manager)
                 .position(initPosition).fixedRotation(true).angle(rotation).create();
 

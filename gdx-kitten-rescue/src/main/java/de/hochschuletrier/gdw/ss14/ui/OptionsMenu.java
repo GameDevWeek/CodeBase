@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Json;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
@@ -42,8 +43,10 @@ public class OptionsMenu extends LaserCatMenu
 		{
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.optionsMenuListener);
-			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 		}
+		button[2].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+		button[3].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+		button[4].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 
 		
 	}

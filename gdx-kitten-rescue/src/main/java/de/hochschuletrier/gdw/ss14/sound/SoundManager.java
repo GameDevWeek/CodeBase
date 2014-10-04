@@ -27,7 +27,8 @@ public class SoundManager {
 	public static void performAction(Enum action) {
 		GameStateEnum actualGamestate = null;
 		String actionString = action.name();
-
+		Integer tmp;
+		
 		for (GameStateEnum state : GameStateEnum.values()) {
 			if (state.isActive()) {
 				actualGamestate = state;
@@ -56,14 +57,29 @@ public class SoundManager {
 						SoundManager.playSound("gp_laser_off_temp");
 						break;
 					case "FALL":
-						Integer tmp = random(0,1);
+						tmp = random(0,1);
 						switch (tmp) {
 							case 0: SoundManager.playSound("gp_cat_fall1"); break;
 							case 1: SoundManager.playSound("gp_cat_fall2"); break;
 						}
 						break;
 					case "JUMP":
-						SoundManager.playSound("gp_cat_jump");
+						SoundManager.playSound("gp_cat_jump"); break;
+					case "JUMPING_IN_BOX": 
+						tmp = random(0,1);
+						switch (tmp) {
+							case 0: SoundManager.playSound("gp_cat_box_in1"); break;
+							case 1: SoundManager.playSound("gp_cat_box_in2"); break;
+						}
+						break;
+					case "KILLING": 
+						tmp = random(0,1);
+						switch (tmp) {
+							case 0: SoundManager.playSound("gp_dog_bite1"); break;
+							case 1: SoundManager.playSound("gp_dog_bite2"); break;
+							case 2: SoundManager.playSound("gp_dog_bite3"); break;
+						}
+						break;
 				} 
 				break;
 			default:

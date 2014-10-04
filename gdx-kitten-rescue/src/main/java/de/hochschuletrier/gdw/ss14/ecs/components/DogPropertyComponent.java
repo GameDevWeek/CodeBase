@@ -9,9 +9,12 @@ import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
 public class DogPropertyComponent implements Component{
     public DogStateEnum state;
     public ArrayList<Vector2> patrolspots;
+    public boolean dogIsChasing;
 
     public DogPropertyComponent(ArrayList<Vector2> patrolspots){
         state = DogStateEnum.SITTING;
+        dogIsChasing = true;
+
         this.patrolspots = patrolspots;
     }
 }
