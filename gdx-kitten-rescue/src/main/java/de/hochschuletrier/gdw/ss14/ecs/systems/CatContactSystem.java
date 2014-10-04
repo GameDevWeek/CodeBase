@@ -1,30 +1,31 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import javax.security.auth.callback.Callback;
-import javax.swing.text.html.parser.Entity;
-
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.utils.*;
-
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.states.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
-import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.Component;
+import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.GroundPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.StairsPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPropertyComponent;
+import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
+import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
 
@@ -109,11 +110,15 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 // katze hat treppe betreten
                 
             }
-        }else if( (c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class) ) != null ){
+        }else if( otherPhysic instanceof WoolPhysicsComponent || (c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class) ) != null ){
             /* other → is groundobject */
+            
             if(mySightCone){
                 if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                     ((CatPropertyComponent)d).isInfluenced = true;
+                if((c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class)) != null){
+                    ((WoolPhysicsComponent)c).isSeen = true;
+                }
             }else{
 //                if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
 //                    ((CatPropertyComponent)d)  play with wool
@@ -183,10 +188,13 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         if(myEntity == null || otherEntity == null || otherPhysic == null) return;
         
         Component c = null, d = null;
-        if( (c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class) ) != null ){
+        if(otherPhysic instanceof WoolPhysicsComponent || (c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class) ) != null ){
             /* other → is groundobject */
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                 ((CatPropertyComponent)d).isInfluenced = false;
+            if((c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class)) != null){
+                ((WoolPhysicsComponent)c).isSeen = false;
+            }
         }else if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
             // cat does not collide with dogPhysx anymore which means ...
             if(otherSightCone && !mySightCone){

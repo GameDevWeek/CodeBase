@@ -46,6 +46,7 @@ public class WoolInfluenceSystem extends ECSystem
            
                 if(woool.isSeen){
                     if(catProp.isInfluenced){
+                        logger.debug("\nIST BEEINFLUSST");
                         inputCompo.whereToGo = laser.position;
                         Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
                         vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
@@ -56,6 +57,7 @@ public class WoolInfluenceSystem extends ECSystem
                         inputCompo.whereToGo = new Vector2(inputCompo.whereToGo.x + laserToWool.x * catProp.influencedToLaser, inputCompo.whereToGo.y + laserToWool.y * catProp.influencedToLaser);
                     }
                 }
+                logger.debug("\nLASER: " + laser.position + "\nWOHIN:" + inputCompo.whereToGo);
             }
         }
     }
