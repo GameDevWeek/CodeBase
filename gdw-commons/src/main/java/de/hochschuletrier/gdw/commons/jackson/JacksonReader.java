@@ -1,21 +1,21 @@
 package de.hochschuletrier.gdw.commons.jackson;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +36,7 @@ public class JacksonReader {
             IllegalAccessException, InstantiationException, ParseException {
 
         try (InputStream fileIn = CurrentResourceLocator.read(filename);
-                InputStreamReader inReader = new InputStreamReader(fileIn);
+                InputStreamReader inReader = new InputStreamReader(fileIn, StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(inReader);
                 JsonParser parser = factory.createParser(bufferedReader);) {
             parser.nextToken();
@@ -50,7 +50,7 @@ public class JacksonReader {
             IllegalAccessException, InstantiationException, ParseException {
 
         try (InputStream fileIn = CurrentResourceLocator.read(filename);
-                InputStreamReader inReader = new InputStreamReader(fileIn);
+                InputStreamReader inReader = new InputStreamReader(fileIn, StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(inReader);
                 JsonParser parser = factory.createParser(bufferedReader);) {
             parser.nextToken();
@@ -64,7 +64,7 @@ public class JacksonReader {
             IllegalAccessException, InstantiationException, ParseException {
 
         try (InputStream fileIn = CurrentResourceLocator.read(filename);
-                InputStreamReader inReader = new InputStreamReader(fileIn);
+                InputStreamReader inReader = new InputStreamReader(fileIn, StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(inReader);
                 JsonParser parser = factory.createParser(bufferedReader);) {
             parser.nextToken();
@@ -145,13 +145,13 @@ public class JacksonReader {
 
             Field field = getDeclaredField(clazz, headerField);
             field.setAccessible(true);
-            
+
             JacksonList listAnnotation = (JacksonList) field.getAnnotation(JacksonList.class);
             if (listAnnotation != null) {
                 field.set(object, readList(listAnnotation.value(), parser));
             } else {
                 JacksonMap mapAnnotation = (JacksonMap) field.getAnnotation(JacksonMap.class);
-                if(mapAnnotation != null) {
+                if (mapAnnotation != null) {
                     field.set(object, readObjectMap(mapAnnotation.value(), parser));
                 } else {
                     field.set(object, readUnknownObject(field.getType(), parser));

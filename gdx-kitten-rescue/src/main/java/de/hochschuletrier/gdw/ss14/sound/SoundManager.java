@@ -55,6 +55,17 @@ public class SoundManager {
 					case "OFF":
 						SoundManager.playSound("gp_laser_off_temp");
 						break;
+					case "FALL":
+						Integer tmp = random(0,1);
+						switch (tmp) {
+							case 0: SoundManager.playSound("gp_cat_fall1"); break;
+							case 1: SoundManager.playSound("gp_cat_fall2"); break;
+						}
+						break;
+					case "JUMP":
+						SoundManager.playSound("gp_cat_jump"); break;
+					case "JUMPING_IN_BOX": 
+						SoundManager.playSound("gp_cat_box_in2"); break;
 				} 
 				break;
 			default:
@@ -63,7 +74,7 @@ public class SoundManager {
 		}
 	}
 
-	private static void playSound(String sound) {
+	public static void playSound(String sound) {
 		SoundManager.sound = SoundManager.assetManager.getSound(sound);
 		SoundManager.sound.play(SoundManager.SystemVolume * LocalMusic.getSystemVolume());
 	}

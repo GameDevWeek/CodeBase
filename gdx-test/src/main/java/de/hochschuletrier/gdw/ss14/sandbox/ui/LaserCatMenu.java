@@ -62,7 +62,7 @@ public abstract class LaserCatMenu extends SandboxGame
 		//Variables
 		heightOfWidgetFrame = 0.25f;
 		widthOfWidgetFrame = 0.6f;
-		frameDuration = 500;
+		frameDuration = 0.5f;
 		
 		
 		// Adjusts the table and adds it to the stage
