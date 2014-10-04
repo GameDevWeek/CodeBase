@@ -150,9 +150,6 @@ public class EntityFactory{
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1,0);
         MovementComponent dogMove = new MovementComponent(maxVelocity,middleVelocity,minVelocity,acceleration);
         InputComponent dogInput = new InputComponent();
-        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
-        Behaviour verhalten =  new DogBehaviour("SmartDog", localBlackboard, true , entity);
-        BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
         DogPropertyComponent dogState = new DogPropertyComponent();
         dogPhysix.initPhysics(phyManager);
         manager.addComponent(entity, dogState);
@@ -160,6 +157,10 @@ public class EntityFactory{
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
+
+        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
+        Behaviour verhalten =  new DogBehaviour("SmartDog", localBlackboard, true , entity);
+        BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
         manager.addComponent(entity, bComp);
 
 //        manager.addComponent(entity, new AnimationComponent());

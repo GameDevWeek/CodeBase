@@ -1,6 +1,5 @@
 package de.hochschuletrier.gdw.ss14.ecs.ai;
 
-
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.*;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.decorators.Invert;
@@ -33,43 +32,35 @@ public class DogBehaviour extends Behaviour {
     PhysicsComponent pc;
     Array<Integer> cat;
     PhysicsComponent cpc;
-    
+
     public DogBehaviour(String name, Object localBlackboard, boolean isLooping,
             int dogID) {
         super(name, localBlackboard, isLooping);
-        
+
         this.dogID = dogID;
         setName("Catch the Cat und weich Ecken aus");
-        /* Setup Blackboard informations*/
+        /* Setup Blackboard informations */
         bb = (DogBlackboard) localBlackboard;
-        ic = bb.em
-               .getComponent(dogID, InputComponent.class);
-        pc = bb.em
-               .getComponent(dogID, PhysicsComponent.class);
-        //muss schon Katze existieren...
-       /* cat = bb.em.getAllEntitiesWithComponents(
-                PlayerComponent.class, PhysicsComponent.class);
-        cpc = bb.em.getComponent(cat.first(),
-                PhysicsComponent.class);
-        */
-        /* Setup Tree */
-      BaseNode root = new Sequence(this);
-      new DogBehaviour.HundHaengt(root, this);
+        ic = bb.em.getComponent(dogID, InputComponent.class);
+        pc = bb.em.getComponent(dogID, PhysicsComponent.class);
+        // muss schon Katze existieren...
         /*
-          
-          BaseNode root = new Selector(this);
-         
+         * cat = bb.em.getAllEntitiesWithComponents( PlayerComponent.class,
+         * PhysicsComponent.class); cpc = bb.em.getComponent(cat.first(),
+         * PhysicsComponent.class);
+         */
+        /* Setup Tree */
+
+        BaseNode root = new Selector(this);
+
         Sequence hundHaengt = new Sequence(root);
         Sequence dogChase = new Sequence(root);
-        new DogBehaviour.HundHaengt(hundHaengt, this);
+        new DogBehaviour.HundHaengt(hundHaengt);
         new DogBehaviour.HundInRandomRichtung(hundHaengt);
         new DogBehaviour.ChaseCat(dogChase);
-        Invert merke = new Invert(dogChase, this);
-        new DogBehaviour.HundHaengt(merke, this);
-      */
+        Invert merke = new Invert(dogChase);
+        new DogBehaviour.HundHaengt(merke);
 
-        
-        
         // BITTE STEHEN LASSEN, VORLAGE:
         // UntilFailDecorator untFail = new UntilFailDecorator()
         /*
@@ -83,12 +74,10 @@ public class DogBehaviour extends Behaviour {
         // es ein Loop sein.
     }
 
-    
-    
     class KIAus extends BaseCondition {
 
-        public KIAus(BaseNode parent, Behaviour behaviour) {
-            super(parent, behaviour);
+        public KIAus(BaseNode parent) {
+            super(parent);
 
         }
 
@@ -100,176 +89,201 @@ public class DogBehaviour extends Behaviour {
         }
 
     }
-    
+
     class HundHaengt extends BaseCondition {
-        //Gibt Success zurück, wenn der Hund an einer Stelle hängt für eine gewisse Zeit.
-        
+        // Gibt Success zurück, wenn der Hund an einer Stelle hängt für eine
+        // gewisse Zeit.
         float timer;
         float MAX_TIME = 2;
-        Vector2 pos ;
-        Vector2 current;
+        Vector2 currentPos;
+        Vector2 oldPos;
+
+        boolean nochNichtGefeuert;
         PhysicsComponent pcNext;
-        Vector2 posNext;
         boolean zeitpunkt;
-        public HundHaengt(BaseNode parent, Behaviour behaviour) {
-            super(parent, behaviour);
-            timer = MAX_TIME*2; //*2 wegen differenzierter implementierung. zeitraum wird geteilt.
-           pos = new Vector2();
-           posNext = new Vector2();
-            //Beim Konstruktor hat DogBehaviour noch keine Components...
-         /*   pc = bb.em
-                    .getComponent(dogID, PhysicsComponent.class);
-            pos = pc.getPosition();
-            */
+
+        public HundHaengt(BaseNode parent) {
+            super(parent);
+            nochNichtGefeuert = true;
+            timer = MAX_TIME; // *2 wegen differenzierter implementierung.
+                              // zeitraum wird geteilt.
+            currentPos = new Vector2();
+            oldPos = new Vector2();
+            // Beim Konstruktor hat DogBehaviour noch keine Components...
+            /*
+             * pc = bb.em .getComponent(dogID, PhysicsComponent.class); pos =
+             * pc.getPosition();
+             */
         }
 
         @Override
         public State onEvaluate(float delta) {
-            //wird jeden Frame ausgeführt. 
-            System.out.println("Evaluate, timer: "+ timer);
+            // wird jeden Frame ausgeführt.
+            // logger.debug("HundHängt?");
+            // System.out.println("Evaluate, timer: "+ timer);
             State rueckgabe = State.FAILURE;
-           // current = pc.getPosition();
-            
+            // current = pc.getPosition();
 
-            
-            //Wenn die Zeit abgelaufen ist...
-            
+            // Wenn die Zeit abgelaufen ist...
 
-            
-            if (timer < 0f){
-                timer = MAX_TIME*2;
-                System.out.println("zwei bis null "+ timer);
-                pc = bb.em
-                        .getComponent(dogID, PhysicsComponent.class);
-                pos = pc.getPosition();
-                
-            }else{
-            
-        
-            
-                if(timer < MAX_TIME){
-                    System.out.println("Vier bis zwei "+ timer);
-                    //warum löst vier bis zwei ab zwei abwärts aus?
-                   // timer = MAX_TIME;
-                    
-                    pcNext = bb.em
-                            .getComponent(dogID, PhysicsComponent.class);
-                    posNext = pcNext.getPosition();
-                    
-                    //current = pc.getPosition();
-                    //Wenn die Position immer noch annährend gleich ist
-                    
-                    //---
-                    //!!!Folgendes kann zu wirrem rumrennen führen, wenn das Epsilon nicht gut angepasst ist und zu genau!!!
-                    //---
-                    if(posNext.epsilonEquals(pos, 1f)){
-                       // System.out.println("Position immer noch annährend gleich. posNext: " + posNext.x + " , " + posNext.y +". Pos: "+ pos.x + ", "+ pos.y);
-                        rueckgabe = State.SUCCESS;
-                        
-                     }else {
-                         
-                     
-                         rueckgabe = State.FAILURE;
-                      //   System.out.println("Position differenziert zu letztem mal. "+ + posNext.x + " , " + posNext.y +". Pos: "+ pos.x + ", "+ pos.y);                 
-                         } 
-                    }     
-            
-                
+            currentPos = new Vector2(pc.getPosition());
+            pc = bb.em.getComponent(dogID, PhysicsComponent.class);
+
+            if (oldPos.epsilonEquals(currentPos, 1f)) {
+                // System.out.println("zwei bis null "+ timer);
+                // System.out.println("Evaluate, timer: "+ timer);
+                // System.out.println("zwei bis null, pos gesetzt zu Timer: "+timer+" pos: "+pos.x+", "+pos.y+", posNext: "+posNext.x+
+                // ", "+posNext.y );
+                if (timer < 0f) {
+                    rueckgabe = State.SUCCESS;
+                } else {
+                    rueckgabe = State.FAILURE;
+                }
+
+                timer -= delta;
+            } else {
+                timer = MAX_TIME;
+                rueckgabe = State.FAILURE;
             }
-            timer -= delta;
-            return rueckgabe; //nur Success, wenn der Hund hängt.
+
+            oldPos.set(currentPos);
+
+           // logger.debug("HundHeangt: Rückgabe:  " + rueckgabe + " INstanz: "
+              //      + this);
+
+            return rueckgabe; // nur Success, wenn der Hund hängt.
+
+            /*
+             * else {
+             * 
+             * if (timer < MAX_TIME && nochNichtGefeuert) { //
+             * System.out.println("Vier bis zwei "+ timer); //
+             * System.out.println("Evaluate, timer: "+ timer); nochNichtGefeuert
+             * = false; // warum löst vier bis zwei ab zwei abwärts aus? //
+             * timer = MAX_TIME;
+             * 
+             * pcNext = bb.em.getComponent(dogID, PhysicsComponent.class);
+             * oldPos = new Vector2(pcNext.getPosition()); //
+             * System.out.println(
+             * "vier bis zwei, posNext gesetzt zu Timer: "+timer
+             * +" posNext: "+posNext
+             * .x+", "+posNext.y+", pos: "+pos.x+", "+pos.y+" Timer: "); //
+             * current = pc.getPosition(); // Wenn die Position immer noch
+             * annährend gleich ist
+             * 
+             * // --- // !!!Folgendes kann zu wirrem rumrennen führen, wenn das
+             * // Epsilon nicht gut angepasst ist und zu genau!!! // --- if
+             * (oldPos.epsilonEquals(pos, 1f)) {
+             * //logger.debug("Position immer noch annährend gleich.?");//
+             * posNext: // " + posNext.x + " // , // " + posNext.y +". // Pos:
+             * // "+ pos.x + ", // "+ // pos.y); rueckgabe = State.SUCCESS;
+             * 
+             * } else { rueckgabe = State.FAILURE;
+             * //logger.debug("Position differenziert zu letztem mal. "); // +
+             * // + // posNext.x // + // " , " // + // posNext.y // +". Pos: "+
+             * // pos.x // + // ", "+ // pos.y); } }
+             * 
+             * }
+             */
+
         }
     }
-    
-    class HundInRandomRichtung extends BaseTask{
-        //Hund geht in aktuelle Richtung plus Abweichung von 1-3Körperlängen
+
+    class HundInRandomRichtung extends BaseTask {
+        // Hund geht in aktuelle Richtung plus Abweichung von 1-3Körperlängen
         double high, low;
-        //Man hätte eigendlich noch eine zwischen-Klasse in die Vererbung fügen müssen zwischen PhysicsComponent und Cat-/DogPhysicsComponent
+        // Man hätte eigendlich noch eine zwischen-Klasse in die Vererbung fügen
+        // müssen zwischen PhysicsComponent und Cat-/DogPhysicsComponent
         CatPhysicsComponent cpc;
         DogPhysicsComponent dpc;
         float timer;
         float MAX_TIME = 2;
-        
+
         public HundInRandomRichtung(BaseNode parent) {
             super(parent);
             timer = MAX_TIME;
             x = (float) (Math.random() * (high - low) + low);
             y = (float) (Math.random() * (high - low) + low);
-            if(pc instanceof CatPhysicsComponent){
+            if (pc instanceof CatPhysicsComponent) {
                 cpc = (CatPhysicsComponent) pc;
             }
-              
-            if (pc instanceof DogPhysicsComponent){
+
+            if (pc instanceof DogPhysicsComponent) {
                 dpc = (DogPhysicsComponent) pc;
             }
-            
+
         }
 
         @Override
         public State onRun(float delta) {
-            
-           high = 0; low = 0;
-            //Hund geht in Richtung: Aktuelle Richtung plus irgendwas zwischen 1-3Körperlängen
-           if(pc instanceof CatPhysicsComponent){
-               low = cpc.height;
-               high = cpc.height*3;   
-           }
-             
-           if (pc instanceof DogPhysicsComponent){
-               low = dpc.mHeight;
-               high = dpc.mHeight*3;   
-           }
-             
-           if(timer < 0f){
-               timer = MAX_TIME;
-               ic.whereToGo = pc.getPosition().add(x, y);    
-           }
-           
+
+            high = 0;
+            low = 0;
+            // Hund geht in Richtung: Aktuelle Richtung plus irgendwas zwischen
+            // 1-3Körperlängen
+            if (pc instanceof CatPhysicsComponent) {
+                low = cpc.height;
+                high = cpc.height * 3;
+            }
+
+            if (pc instanceof DogPhysicsComponent) {
+                low = dpc.mHeight;
+                high = dpc.mHeight * 3;
+            }
+
+            if (timer < 0f) {
+                timer = MAX_TIME;
+                ic.whereToGo = pc.getPosition().add(x, y);
+            }
+
             timer -= delta;
-                                   
+
+            //logger.debug("HundInRandomRichtung: Rückgabe:  " + State.SUCCESS);
+            // System.out.println("HundInRandomRichtung: Rückgabe:  " +
+            // State.SUCCESS);
             return State.SUCCESS;
         }
 
         @Override
         public void onActivate() {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
         public void onDeactivate() {
             // TODO Auto-generated method stub
-            
+
         }
-        
+
     }
-    
-    
 
     class ChaseCat extends BaseTask {
 
         public ChaseCat(BaseNode parent) {
             super(parent);
-            //Im Konstruktor gibt es noch keine Components
-       /*     cat = bb.em.getAllEntitiesWithComponents(
-                    PlayerComponent.class, PhysicsComponent.class);
-            cpc = bb.em.getComponent(cat.first(),
-                    PhysicsComponent.class);
-            */
+            // Im Konstruktor gibt es noch keine Components
+            /*
+             * cat = bb.em.getAllEntitiesWithComponents( PlayerComponent.class,
+             * PhysicsComponent.class); cpc = bb.em.getComponent(cat.first(),
+             * PhysicsComponent.class);
+             */
         }
 
         @Override
         public State onRun(float delta) {
-            cat = bb.em.getAllEntitiesWithComponents(
-                    PlayerComponent.class, PhysicsComponent.class);
-            cpc = bb.em.getComponent(cat.first(),
+            cat = bb.em.getAllEntitiesWithComponents(PlayerComponent.class,
                     PhysicsComponent.class);
+            cpc = bb.em.getComponent(cat.first(), PhysicsComponent.class);
             Vector2 pos = cpc.getPosition();
 
             InputComponent dog = bb.em
                     .getComponent(dogID, InputComponent.class);
             dog.whereToGo.set(pos);
-            //logger.debug("Dog is Chasing!");
+            // logger.debug("Dog is Chasing!");
+
+          //  logger.debug("ChaseCat: Rückgabe:  " + State.SUCCESS);
+
             return State.SUCCESS;
         }
 
@@ -335,6 +349,7 @@ public class DogBehaviour extends Behaviour {
 
     public static class DogBlackboard {
         EntityManager em;
+
         public DogBlackboard(EntityManager em) {
             // TODO Auto-generated constructor stub
             this.em = em;

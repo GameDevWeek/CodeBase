@@ -160,6 +160,6 @@ public class Game{
         
         String str = (int)(averageFrameTime*1000f)+" ms/Frame";
         str += " ("+(int)(1.0f/averageFrameTime)+" FPS)";
-        logger.info(str);
+      //  logger.info(str);
     }
 }
