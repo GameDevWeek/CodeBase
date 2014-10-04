@@ -296,15 +296,21 @@ public class EntityFactory{
     }
 
 
-    public static int constructStairs(Vector2 pos, float width, float height, int targetFloor){
+    public static int constructStairs(Vector2 pos, float width, float height, int direction, short mask, short category){
         int entity = manager.createEntity();
 
-        StairsPhysicsComponent stairsPhysicsComponent = new StairsPhysicsComponent(pos, width, height, 0.0f);
+        StairsPhysicsComponent stairsPhysicsComponent = new StairsPhysicsComponent(pos, width, height, 0.0f, mask, category, (short) 0);
         stairsPhysicsComponent.initPhysics(phyManager);
+        stairsPhysicsComponent.physicsBody.getFixtureList().forEach((f)->{
+            Filter fil = f.getFilterData();
+            fil.categoryBits = category;
+            fil.maskBits = mask;
+        });
+
         stairsPhysicsComponent.owner = entity;
 
         StairComponent stairComponent = new StairComponent();
-        stairComponent.targetFloor = targetFloor;
+        stairComponent.changeFloorDirection = direction;
 
         manager.addComponent(entity, stairsPhysicsComponent);
         manager.addComponent(entity, stairComponent);

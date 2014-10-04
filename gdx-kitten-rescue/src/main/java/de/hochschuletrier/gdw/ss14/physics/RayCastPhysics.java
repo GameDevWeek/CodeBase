@@ -32,7 +32,7 @@ public class RayCastPhysics implements RayCastCallback{
     
     public RayCastPhysics()
     {
-            reset();
+        reset();
     }
     
     public void reset(){

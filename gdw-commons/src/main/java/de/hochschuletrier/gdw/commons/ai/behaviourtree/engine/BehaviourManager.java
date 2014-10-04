@@ -14,6 +14,11 @@ public class BehaviourManager {
 		this.globalBlackboard = globalBlackboard;
 	}
 
+    public void deleteAllBehaviours()
+    {
+        behaviours.clear();
+    }
+
 	public void update(float delta) {
 		if (isRunning && !isFinished()) {
 			for (Behaviour tree : behaviours) {
