@@ -72,8 +72,7 @@ public class Game {
         mapManager = new MapManager(entityManager, physixManager, am);
 
         globalBlackboard = new GlobalBlackboard(entityManager);
-        behaviourManager = new BehaviourManager(globalBlackboard);
-        
+        behaviourManager = new BehaviourManager(globalBlackboard);       
         
         EntityFactory.phyManager = physixManager;
         EntityFactory.manager = entityManager;
