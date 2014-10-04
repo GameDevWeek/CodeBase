@@ -371,9 +371,13 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                 ((CatPropertyComponent)d).isInfluenced = false;
                 ((WoolPhysicsComponent)otherPhysic).isSeen = false;
+                EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
+                enemyComponent.seeCat = false;
         }else if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
-
-        }else if((c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null){
+            EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
+            enemyComponent.seeCat = false;
+        }else {            
+            if((c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null){
             // cat does not collide with dogPhysx anymore which means ...
             if(otherSightCone && !mySightCone){
                 // ... dog does not see the cat anymore
@@ -381,7 +385,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             }
             EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
             enemyComponent.seeCat = false;
-        }
+        }}
 
         if(other instanceof StairsPhysicsComponent)
         {

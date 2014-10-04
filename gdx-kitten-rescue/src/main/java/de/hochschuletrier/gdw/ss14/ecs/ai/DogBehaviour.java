@@ -256,7 +256,7 @@ public class DogBehaviour extends Behaviour {
          
              EnemyComponent ec = bb.em.getComponent(dogID, EnemyComponent.class);
              hundSiehtKatze = ec.seeCat;
-             //System.out.println("Hund sieht Katze: "+hundSiehtKatze);
+             System.out.println("Hund sieht Katze: "+hundSiehtKatze);
              State rueckgabe;
              if(hundSiehtKatze)
                  rueckgabe = State.SUCCESS;
