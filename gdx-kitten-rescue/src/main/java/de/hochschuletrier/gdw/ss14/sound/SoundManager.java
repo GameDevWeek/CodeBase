@@ -49,6 +49,12 @@ public class SoundManager {
 				break;
 			case GAMEPLAY:
 				switch (actionString) {
+					case "ON":
+						SoundManager.playSound("gp_laser_on_temp");
+						break;
+					case "OFF":
+						SoundManager.playSound("gp_laser_off_temp");
+						break;
 				} 
 				break;
 			default:

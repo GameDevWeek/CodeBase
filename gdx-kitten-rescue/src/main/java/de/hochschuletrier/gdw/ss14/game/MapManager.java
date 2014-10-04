@@ -226,6 +226,8 @@ public class MapManager
                     float x = mapObjects.get(j).getX();
                     float y = mapObjects.get(j).getY();
                     Vector2 pos = new Vector2(x, y);
+                    float width = mapObjects.get(j).getWidth();
+                    float height = mapObjects.get(j).getHeight();
 
                     if (objType != null)
                     {
@@ -282,7 +284,7 @@ public class MapManager
                                 break;
 
                             case "stairs":
-                                // TODO: add object with entityFactory here
+                                EntityFactory.constructStairs(pos, width, height);
                                 break;
                         }
                     }

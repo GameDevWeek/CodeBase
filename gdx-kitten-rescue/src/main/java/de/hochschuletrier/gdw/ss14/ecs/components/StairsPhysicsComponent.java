@@ -5,9 +5,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 
 /**
- * Created by Daniel Dreher on 02.10.2014.
+ * Created by Daniel Dreher on 03.10.2014.
  */
-public class CatBoxPhysicsComponent extends PhysicsComponent
+public class StairsPhysicsComponent extends PhysicsComponent
 {
     private Vector2 initPosition;
     private float width;
@@ -16,17 +16,18 @@ public class CatBoxPhysicsComponent extends PhysicsComponent
     private float friction = 1.0f;
     private float restitution = 0.0f;
 
-    public CatBoxPhysicsComponent(Vector2 position, float width, float height, float rotation)
+    public StairsPhysicsComponent(Vector2 position, float width, float height, float rotation)
     {
         this.initPosition = position;
         this.width = width;
         this.height = height;
         this.rotation = rotation;
-
     }
 
     @Override
-    public void initPhysics(PhysixManager manager) {
+    public void initPhysics(PhysixManager manager)
+    {
+        super.initPhysics(manager);
 
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
                 .friction(friction).restitution(restitution).sensor(true);
@@ -36,8 +37,9 @@ public class CatBoxPhysicsComponent extends PhysicsComponent
 
         physicsBody.setAngularVelocity(0);
 
-        physicsBody.createFixture(fixturedef.shapeBox(width, height)).setUserData("CatBox");
+        physicsBody.createFixture(fixturedef.shapeBox(width, height)).setUserData("Stair");
         setPhysicsBody(physicsBody);
         physicsBody.setOwner(this);
+
     }
 }
