@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader.BitmapFontParameter;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -17,11 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarFloat;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.TrueTypeFont;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.SleepDummyLoader;
 import de.hochschuletrier.gdw.commons.gdx.devcon.DevConsoleView;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundDistanceModel;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
@@ -30,16 +29,20 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextAnimation;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.states.MyBaseGameState;
 
 /**
  * 
  * @author Santo Pfingsten
  */
-public class Main extends StateBasedGame {
+public class Main extends StateBasedGame<MyBaseGameState> {
 
-    public static final int WINDOW_HEIGHT = 512;
+    public static final int WINDOW_HEIGHT = 600;
     public static final int WINDOW_WIDTH = 1024;
+    public static final CVarEnum<TextAnimation> textAnimation = new CVarEnum("text_animation", TextAnimation.CONSTRUCT_TYPE, TextAnimation.class, 0, "text animation type");
+    public static final CVarFloat animationTime = new CVarFloat("animation_time", 0.2f, 0, 100, 0, "text animation time");
 
     private final AssetManagerX assetManager = new AssetManagerX();
     private static Main instance;
@@ -51,6 +54,9 @@ public class Main extends StateBasedGame {
     private final CVarEnum<SoundDistanceModel> distanceModel = new CVarEnum("snd_distanceModel", SoundDistanceModel.INVERSE, SoundDistanceModel.class, 0, "sound distance model");
     private final CVarEnum<SoundEmitter.Mode> emitterMode = new CVarEnum("snd_mode", SoundEmitter.Mode.STEREO, SoundEmitter.Mode.class, 0, "sound mode");
 
+    public Main() {
+        super(new MyBaseGameState());
+    }
     public static Main getInstance() {
         if (instance == null) {
             instance = new Main();
@@ -59,15 +65,6 @@ public class Main extends StateBasedGame {
     }
 
     private void setupDummyLoader() {
-        // Just adding some sleep dummies for a progress bar test
-        InternalFileHandleResolver fileHandleResolver = new InternalFileHandleResolver();
-        assetManager.setLoader(SleepDummyLoader.SleepDummy.class, new SleepDummyLoader(
-                fileHandleResolver));
-        SleepDummyLoader.SleepDummyParameter dummyParam = new SleepDummyLoader.SleepDummyParameter(
-                100);
-        for (int i = 0; i < 50; i++) {
-            assetManager.load("dummy" + i, SleepDummyLoader.SleepDummy.class, dummyParam);
-        }
     }
 
     private void loadAssetLists() {
@@ -108,30 +105,33 @@ public class Main extends StateBasedGame {
         addScreenListener(consoleView);
         inputMultiplexer.addProcessor(consoleView.getInputProcessor());
 
-        GameStates.LOADING.init(assetManager);
-        GameStates.LOADING.activate();
+        GameStateEnum.LOADING.init(assetManager);
+        GameStateEnum.LOADING.activate();
 
         this.console.register(distanceModel);
         distanceModel.addListener((CVar)->distanceModel.get().activate());
 
         this.console.register(emitterMode);
         emitterMode.addListener(this::onEmitterModeChanged);
+        
+        this.console.register(textAnimation);
+        this.console.register(animationTime);
     }
 
     public void onLoadComplete() {
-        for(GameStates state: GameStates.values()) {
-            if(state != GameStates.LOADING) {
+        for(GameStateEnum state: GameStateEnum.values()) {
+            if(state != GameStateEnum.LOADING) {
                 state.init(assetManager);
             }
         }
-        GameStates.MAINMENU.activate();
+        GameStateEnum.MAINMENU.activate();
 //		GameStates.GAMEPLAY.activate(new SplitVerticalTransition(500), null);
     }
 
     @Override
     public void dispose() {
         DrawUtil.batch.dispose();
-        GameStates.dispose();
+        GameStateEnum.dispose();
         consoleView.dispose();
         skin.dispose();
         SoundEmitter.disposeGlobal();
