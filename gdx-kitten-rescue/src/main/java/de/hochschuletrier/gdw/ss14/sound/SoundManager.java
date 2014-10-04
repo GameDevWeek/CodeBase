@@ -11,7 +11,7 @@ import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DogMovementSystem;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
-import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.gamestates.GameStateEnum;
 import de.hochschuletrier.gdw.ss14.ui.UIActions;
 
 import org.slf4j.Logger;
