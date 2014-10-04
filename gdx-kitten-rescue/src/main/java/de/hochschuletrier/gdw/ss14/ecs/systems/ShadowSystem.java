@@ -49,8 +49,11 @@ public class ShadowSystem extends ECSystem{
 			RenderComponent renderComp = entityManager.getComponent(currentEnt, RenderComponent.class);
 			PhysicsComponent physicsComp = entityManager.getComponent(currentEnt, PhysicsComponent.class);
 			ShadowComponent shadowComp = entityManager.getComponent(currentEnt, ShadowComponent.class);
+
+			if (renderComp.texture == null)
+			    continue;
 			
-			if(shadowComp.alpha > 0f){
+			if(shadowComp.alpha > 0f){    
 				// set alpha
 				DrawUtil.batch.end();
 				Gdx.gl.glEnable(GL20.GL_BLEND);

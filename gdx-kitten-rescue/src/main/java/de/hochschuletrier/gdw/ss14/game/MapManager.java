@@ -33,6 +33,7 @@ public class MapManager
     HashMap<TileSet, Texture> tilesetImages;
 
     private int levelEntity;
+    private int currentFloor = -1;
     
 
     public MapManager(EntityManager entityManager, PhysixManager physixManager, AssetManagerX assetmanager)
@@ -53,7 +54,7 @@ public class MapManager
         } catch (Exception ex)
         {
             throw new IllegalArgumentException(
-                    "Map konnte nicht geladen werden: " + filename);
+                    "Map konnte nicht geladen werden: " + filename, ex);
         }
 
         createTileSet();
@@ -69,7 +70,6 @@ public class MapManager
         }
 
         mapComp.setMap(getMap());
-        loadMapObjects();
     }
 
     public HashMap getTileSet()
@@ -90,16 +90,19 @@ public class MapManager
     public void setFloor(int floor)
     {
 
+        currentFloor = floor;
+
         TileMapRenderingComponent mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
         mapComp.renderedLayers.clear();
 
         for (Layer layer : mapComp.getMap().getLayers())
         {
             //System.out.println(this.getClass().getName()+": "+layer.getIntProperty("floor", -1));
-            //if (layer.getIntProperty("floor", -1) == floor) 
-            if (layer.isTileLayer())
+            if ((layer.getIntProperty("floor", -1) == floor) && (layer.isTileLayer()))
                 mapComp.renderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
         }
+        
+        loadMapObjects();
     }
 
     private enum tile2entity{
@@ -224,6 +227,9 @@ public class MapManager
 
         for (int i = 0; i < layers.size(); ++i)
         {
+            if (layers.get(i).getIntProperty("floor", -1) != currentFloor)
+                continue;
+            
             ArrayList<LayerObject> mapObjects = layers.get(i).getObjects();
             if (mapObjects != null)
             {
@@ -300,7 +306,16 @@ public class MapManager
                                 break;
 
                             case "stairs":
-                                EntityFactory.constructStairs(pos, width, height);
+                                // read out floor of mapobject properties, default is 0.
+                                int floor = 0;
+
+                                if(mapObjects.get(j).getProperties().getString("stairs") != null)
+                                {
+                                    String floorTargetProperty = mapObjects.get(j).getProperties().getString("stairs");
+                                    floor = Integer.parseInt(floorTargetProperty);
+                                }
+
+                                EntityFactory.constructStairs(pos, width, height, floor);
                                 break;
                         }
                     }
@@ -312,7 +327,8 @@ public class MapManager
                     ArrayList<Vector2> tmp = new ArrayList<>();
                     for(String s : dogpatrolstring){
                         for(String r : s.split(",")){
-                            tmp.add(patrolspots.get( spotIds.get(Integer.parseInt(r)) ));
+                            if(!r.isEmpty())
+                                tmp.add(patrolspots.get( spotIds.get(Integer.parseInt(r)) ));
                         }
                     }
                     

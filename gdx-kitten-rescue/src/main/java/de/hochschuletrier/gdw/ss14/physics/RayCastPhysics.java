@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.ss14.physics;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -13,6 +15,7 @@ public class RayCastPhysics implements RayCastCallback{
     public Vector2 m_point;
     public Vector2 m_normal;
     public float m_fraction;
+    public ArrayList<RayCastPhysics> collisions;
     
     public RayCastPhysics()
     {
@@ -38,12 +41,13 @@ public class RayCastPhysics implements RayCastCallback{
                             return -1f;
                     }
             }
-
+            
             m_hit = true;
             m_point = point;
             m_normal = normal;
             m_fraction = fraction;
             m_fixture = fixture;
-            return 0f;
+            collisions.add(this);
+            return 1f;
     }
 }
