@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
+import java.util.HashMap;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 
 /**
@@ -10,7 +12,7 @@ public class AnimationComponent implements Component {
     /**
      * Array of all animations like running, jumping ...
      */
-    public AnimationExtended animation[];
+    public HashMap<Integer, AnimationExtended> animation = new HashMap<Integer, AnimationExtended>();
     
     /**
      * In sync with entity state like CatStateEnum.

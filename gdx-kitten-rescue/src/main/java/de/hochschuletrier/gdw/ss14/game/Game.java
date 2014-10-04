@@ -1,11 +1,10 @@
-
-
 package de.hochschuletrier.gdw.ss14.game;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -27,6 +26,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.CatJumpUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatMovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatStateUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CheckCatDeadSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DeleteDeadPhysicEntitiesSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DogMovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.HitAnimationSystem;
@@ -42,13 +42,9 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.ShadowSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WoolInfluenceSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
+import de.hochschuletrier.gdw.ss14.input.InputManager;
+import de.hochschuletrier.gdw.ss14.input.InputMouse;
 
 public class Game {
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
@@ -59,7 +55,7 @@ public class Game {
     private Array<ECSystem> systems;
     public static Engine engine;
 
-    private MapManager mapManager;
+    public static MapManager mapManager;
     private EntityManager entityManager;
     private PhysixManager physixManager;
     
@@ -89,7 +85,7 @@ public class Game {
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("Katzenklappentest"); 
+        mapManager.loadMap("mehrstoeckigMap"); 
         mapManager.setFloor(0);
         
         behaviourManager.activate();
@@ -100,6 +96,7 @@ public class Game {
     {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
+        engine.addSystem(new DeleteDeadPhysicEntitiesSystem(entityManager, physixManager));
         engine.addSystem(new CatMovementSystem(entityManager));
         engine.addSystem(new CatJumpUpdateSystem(entityManager));
         engine.addSystem(new CatStateUpdateSystem(entityManager));
@@ -143,7 +140,12 @@ public class Game {
         //int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
         //int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
 
-        EntityFactory.constructLaserPointer(new Vector2(300,0));
+        if (InputManager.getInstance().getInputDevice().getDeviceType() == DeviceType.MOUSE) {
+            InputMouse mouse = (InputMouse) InputManager.getInstance().getInputDevice();
+            EntityFactory.constructLaserPointer(mouse.getCursorPosition());
+        } else {
+            EntityFactory.constructLaserPointer(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2));
+        }
         
 //        int dogEntity3 = EntityFactory.constructDog(new Vector2(40,200), 60.0f, 40.0f, 0, 100f);
 //        int dogEntity4 = EntityFactory.constructDog(new Vector2(100, 350), 60.0f, 40.0f, 0, 100f);
