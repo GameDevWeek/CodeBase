@@ -9,7 +9,7 @@ import com.badlogic.gdx.audio.Music;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.preferences.PreferenceKeys;
-import de.hochschuletrier.gdw.ss14.states.MainMenuState;
+import de.hochschuletrier.gdw.ss14.gamestates.MainMenuState;
 
 /**
  * Class for handling the music in GameplayState

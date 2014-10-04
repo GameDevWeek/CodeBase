@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.gamestates.GameStateEnum;
 
 public class PauseMenu extends LaserCatMenu
 {
