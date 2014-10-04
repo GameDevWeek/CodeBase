@@ -53,7 +53,7 @@ public class MapManager
         } catch (Exception ex)
         {
             throw new IllegalArgumentException(
-                    "Map konnte nicht geladen werden: " + filename + "\nError: "+ex.getMessage());
+                    "Map konnte nicht geladen werden: " + filename, ex);
         }
 
         createTileSet();
@@ -311,7 +311,8 @@ public class MapManager
                     ArrayList<Vector2> tmp = new ArrayList<>();
                     for(String s : dogpatrolstring){
                         for(String r : s.split(",")){
-                            tmp.add(patrolspots.get( spotIds.get(Integer.parseInt(r)) ));
+                            if(!r.isEmpty())
+                                tmp.add(patrolspots.get( spotIds.get(Integer.parseInt(r)) ));
                         }
                     }
                     
