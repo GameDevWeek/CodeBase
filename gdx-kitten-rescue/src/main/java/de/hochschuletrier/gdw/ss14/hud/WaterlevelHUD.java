@@ -16,6 +16,7 @@ import de.hochschuletrier.gdw.ss14.input.InputManager;
 
 public class WaterlevelHUD extends HudComponent {
     private Texture waterbar;
+    private Texture waterbar_filling;
     
     private float barPosX;
     private float barPosY;
@@ -30,15 +31,16 @@ public class WaterlevelHUD extends HudComponent {
         super(assetManager);
         
         waterbar = assetManager.getTexture("waterbar");
+        waterbar_filling = assetManager.getTexture("waterbar_filling");
         
         super.width = waterbar.getWidth();
         super.height = waterbar.getHeight();
         
-        barPosX = 75.0f;
-        barPosY = 20.f;
+        barPosX = 50.0f;
+        barPosY = 21.0f;
         
-        barWidth = 410.0f;
-        barHeight = 45.0f;
+        barWidth = waterbar_filling.getWidth();
+        barHeight = waterbar_filling.getHeight();
     }
     
     @Override
@@ -49,10 +51,9 @@ public class WaterlevelHUD extends HudComponent {
         Array<Integer> lasers = man.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = man.getComponent(lasers.first(), LaserPointerComponent.class);
         
-        DrawUtil.fillRect(calcBarPosX() + (calcBarWidth() - (calcBarWidth() * laser.currentWaterlevel)), calcBarPosY(), calcBarWidth() * laser.currentWaterlevel, calcBarHeight(), Color.BLUE);
-        //DrawUtil.drawRect(position.x, position.y, getWidth(), getHeight(), Color.BLACK);
-        
+        DrawUtil.batch.draw(waterbar_filling, calcBarPosX()+((calcBarWidth()-(calcBarWidth() * laser.currentWaterlevel))), calcBarPosY(), calcBarWidth(), calcBarHeight(),(int)(barWidth-(barWidth * laser.currentWaterlevel)), 0, waterbar_filling.getWidth(), waterbar_filling.getHeight(), false, true);
         DrawUtil.batch.draw(waterbar, this.position.x, this.position.y, getWidth(), getHeight(), 0, 0, waterbar.getWidth(), waterbar.getHeight(), false, true);
+        
     }
     
     private float calcBarPosX() {
@@ -70,4 +71,7 @@ public class WaterlevelHUD extends HudComponent {
     private float calcBarHeight() {
         return this.barHeight * getScale();
     }
+    
+    
+
 }

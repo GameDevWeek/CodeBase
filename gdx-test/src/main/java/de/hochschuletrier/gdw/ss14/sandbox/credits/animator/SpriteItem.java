@@ -2,7 +2,7 @@ package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Path;
+
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
@@ -17,8 +17,8 @@ public class SpriteItem extends Item {
     protected Texture texture;
     protected AnimationExtended animation;
 
-    public SpriteItem(float scale, float startTime, float angle, float opacity) {
-        super(startTime, angle, opacity);
+    public SpriteItem(String group, float scale, float startTime, float angle, float opacity) {
+        super(group, startTime, angle, opacity);
         this.scale = scale;
         this.startTime = startTime;
     }

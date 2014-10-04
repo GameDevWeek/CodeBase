@@ -12,6 +12,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.*;
 public class PhysicsComponent extends PhysixEntity implements Component
 {
     public boolean flaggedForRemoval = false;
+    public PhysixManager physixManager;
 
     // entity owning this component
     public int owner = -1;
@@ -19,6 +20,7 @@ public class PhysicsComponent extends PhysixEntity implements Component
     @Override
     public void initPhysics(PhysixManager manager)
     {
+        physixManager = manager;
         // initialize bodies and fixtures here
         // don't forget to use setPhysicsBody!
     }

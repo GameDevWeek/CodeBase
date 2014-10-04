@@ -29,7 +29,7 @@ public class CatPropertyComponent implements Component
     public final float TIME_TILL_JUMP = 0.5f;
     public float timeTillJumpTimer = 0;
 
-    public final float PLAYTIME = 1.5f;
+    public final float PLAYTIME = 3f;
     public float playTimeTimer = 0;
 
     public boolean isCatBoxOnCooldown = false;

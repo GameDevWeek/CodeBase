@@ -2,7 +2,7 @@ package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.Path;
+
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.utils.ColorUtil;
@@ -63,6 +63,7 @@ public class AnimatorController {
         TextStyle style;
         float itemStartTime = 0;
         float startTime, angle, opacity;
+        String group;
         for(Map.Entry<String, AnimatorData.Queue> entry: credits.queues.entrySet()) {
             AnimatorData.Queue value = entry.getValue();
             
@@ -71,13 +72,14 @@ public class AnimatorController {
                 startTime = itemData.delay != null ? (itemData.delay * 0.001f) : 0;
                 angle = itemData.angle != null ? itemData.angle : 0;
                 opacity = itemData.opacity != null ? itemData.opacity : 1;
+                group = itemData.group != null ? itemData.group : "";
                 
                 itemStartTime += startTime;
                 
                 switch(itemData.type) {
                     case TEXT:
                         style = textStyles.get(itemData.style);
-                        item = new TextItem(itemData.text, style, itemStartTime, angle, opacity);
+                        item = new TextItem(group, itemStartTime, angle, opacity, itemData.text, style);
                         
                         if(itemData.x != null && itemData.y != null) {
                             item.setPosition(temp.set(itemData.x, itemData.y));
@@ -103,6 +105,7 @@ public class AnimatorController {
                     animation.maxAngle = anim.maxAngle != null ? anim.maxAngle : 360;
                     animation.minCurveAngle = anim.minCurveAngle != null ? anim.minCurveAngle : 45;
                     animation.maxCurveAngle = anim.maxCurveAngle != null ? anim.maxCurveAngle : 135;
+                    animation.group = anim.group != null ? anim.group : "";
                     animations.add(animation);
                 }
             }
@@ -137,8 +140,13 @@ public class AnimatorController {
     }
     
     public void update(float delta) {
+        boolean done = true;
         for(Queue queue: queues.values()) {
             queue.update(delta);
+            if(!queue.isDone())
+                done = false;
         }
+        if(done)
+            reset();
     }
 }
