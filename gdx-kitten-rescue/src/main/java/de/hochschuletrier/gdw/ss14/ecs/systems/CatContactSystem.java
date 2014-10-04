@@ -168,6 +168,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 }
             }else{
                 entityManager.deletePhysicEntity(otherPhysic.owner);
+                ((CatPropertyComponent)d).setState(CatStateEnum.PLAYS_WITH_WOOL);
                 //                if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                 //                    ((CatPropertyComponent)d)  play with wool
             }
