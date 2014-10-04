@@ -78,7 +78,8 @@
 	"gp_dogIdle15": "data/sounds/Dog_Idle15.ogg",
 	"gp_dogIdle16": "data/sounds/Dog_Idle16.ogg",
 	"gp_dogIdle17": "data/sounds/Dog_Idle17.ogg",
-	"gp_dogIdle18": "data/sounds/Dog_Idle18.ogg"
+	"gp_dogIdle18": "data/sounds/Dog_Idle18.ogg",
 	
+	"gp_waterPistol": "data/sounds/waterpistol.ogg"
 	
 }
