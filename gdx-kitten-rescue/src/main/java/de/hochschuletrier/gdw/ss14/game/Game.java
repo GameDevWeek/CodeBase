@@ -89,7 +89,7 @@ public class Game {
         initializeSystems();
         initializeTestComponents();
         //Kartensetzen:
-        mapManager.loadMap("Level_NaepperSchnaepper"); 
+        mapManager.loadMap("mehrstoeckigMap"); 
         mapManager.setFloor(0);
         
         behaviourManager.activate();
