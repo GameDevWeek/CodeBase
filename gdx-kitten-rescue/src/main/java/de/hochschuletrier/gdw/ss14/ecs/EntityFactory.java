@@ -123,13 +123,8 @@ public class EntityFactory{
     public static int constructCatbox(Vector2 pos, short mask, short category){
         int entity = manager.createEntity();
 
-        CatBoxPhysicsComponent catBoxPhysicsComponent = new CatBoxPhysicsComponent(pos, 80.0f, 80.0f, 0.0f);
+        CatBoxPhysicsComponent catBoxPhysicsComponent = new CatBoxPhysicsComponent(pos, 80.0f, 80.0f, 0.0f, mask, category, (short) 0);
         catBoxPhysicsComponent.initPhysics(phyManager);
-        catBoxPhysicsComponent.physicsBody.getFixtureList().forEach((f)->{
-            Filter fil = f.getFilterData();
-            fil.categoryBits = category;
-            fil.maskBits = mask;
-        });
 
         RenderComponent renderComponent = new RenderComponent();
         renderComponent.texture = new TextureRegion(assetManager.getTexture("catbox"));
