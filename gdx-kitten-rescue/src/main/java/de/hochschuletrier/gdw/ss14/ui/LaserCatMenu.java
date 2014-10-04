@@ -80,12 +80,12 @@ public abstract class LaserCatMenu
 		
 		// MainCat Image
 		menuCatImage = new UIImage(catSkin.getDrawable("main-menu-cat"));
-		menuCatImage.setAnimation(catSkin, "menuCat", 500);
+		menuCatImage.setAnimation(catSkin, "menuCat", 0.1f);
 		table.add(menuCatImage).bottom().expandY();
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
-		table.debug(Debug.all);
+		//table.debug(Debug.all);
 		//widgetFrame.debug(Debug.all);
 		
 		LaserCatMenu.soundListener=new SoundListener();
@@ -122,13 +122,28 @@ public abstract class LaserCatMenu
 		}
 		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
+			super.enter(event, x, y, pointer, fromActor);
+			
 			if (this.isPressed())
 					return;
-	    	LaserCatMenu.menuCatImage.animate((UIButton) event.getListenerActor());
+			System.out.println("enter");
+	    	LaserCatMenu.menuCatImage.animate(true);
 			if(event.getListenerActor().getName().equals("bell"))
 				SoundManager.performAction(UIActions.BELLOVER);
 			else
 				SoundManager.performAction(UIActions.BUTTONOVER);
+		}
+		
+		@Override
+		public void exit(InputEvent event, float x, float y, int pointer,
+				Actor toActor)
+		{
+
+			super.exit(event, x, y, pointer, toActor);
+			System.out.println("exit");
+	    	LaserCatMenu.menuCatImage.animate(false);
+
+			
 		}
 	}
 }
