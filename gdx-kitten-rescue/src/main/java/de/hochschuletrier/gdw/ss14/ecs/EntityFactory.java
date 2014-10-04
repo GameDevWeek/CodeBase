@@ -79,7 +79,6 @@ public class EntityFactory{
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
 
-        //catAnimation.animation = new AnimationExtended[11];
         catAnimation.animation.put(CatStateEnum.HIT.ordinal(), assetManager.getAnimation("hit"));
         catAnimation.animation.put(CatStateEnum.IDLE.ordinal(), assetManager.getAnimation("idle"));
         catAnimation.animation.put(CatStateEnum.WALK.ordinal(), assetManager.getAnimation("walk"));
@@ -91,9 +90,8 @@ public class EntityFactory{
         catAnimation.animation.put(CatStateEnum.DIE.ordinal(), assetManager.getAnimation("die"));
         catAnimation.animation.put(CatStateEnum.DIE2.ordinal(), assetManager.getAnimation("die2"));
         catAnimation.animation.put(CatStateEnum.JUMP.ordinal(), assetManager.getAnimation("jump"));
-        
-        //        catAnimation.animation[CatStateEnum.JUMP_BEGIN.ordinal()] = assetManager.getAnimation("jump_begin");
-        //        catAnimation.animation[CatStateEnum.JUMP_END.ordinal()] = assetManager.getAnimation("jump_end");
+        catAnimation.animation.put(CatStateEnum.JUMPING_IN_BOX.ordinal(), assetManager.getAnimation("cat_jumping_in_box"));
+        catAnimation.animation.put(CatStateEnum.PLAYS_WITH_WOOL.ordinal(), assetManager.getAnimation("cat_plays_with_wool"));
 
         CameraComponent cam = new CameraComponent();
         cam.cameraZoom = 1.0f;
@@ -140,8 +138,12 @@ public class EntityFactory{
 
         RenderComponent renderComponent = new RenderComponent();
         renderComponent.texture = new TextureRegion(assetManager.getTexture("catbox"));
+
+        CatBoxComponent catBoxComponent = new CatBoxComponent();
+
         manager.addComponent(entity, catBoxPhysicsComponent);
         manager.addComponent(entity, renderComponent);
+        manager.addComponent(entity, catBoxComponent);
 
         return entity;
     }
