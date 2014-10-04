@@ -328,6 +328,16 @@ public class EntityFactory{
         //manager.addComponent(entity, renderComponent);
     }
 
+    public static void constructFinish(Vector2 pos, float width, float height)
+    {
+        int entity = manager.createEntity();
+
+        FinishPhysicsComponent finishPhysicsComponent = new FinishPhysicsComponent(pos, width, height, 0.0f);
+        finishPhysicsComponent.initPhysics(phyManager);
+
+        manager.addComponent(entity, finishPhysicsComponent);
+    }
+
     public static EntityManager manager;
 
     public static PhysixManager phyManager;

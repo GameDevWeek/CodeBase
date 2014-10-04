@@ -159,6 +159,15 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             }
 
         } // end check for StairPhysicsComponent
+        else if(other instanceof FinishPhysicsComponent)
+        {
+            if(mySightCone)
+            {
+                return;
+            }
+
+            // TODO: goal reached! set outro sequence here.
+        }
 
     }
 
