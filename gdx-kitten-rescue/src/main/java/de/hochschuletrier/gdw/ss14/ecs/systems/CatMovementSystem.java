@@ -216,9 +216,12 @@ public class CatMovementSystem extends ECSystem{
                         
                         // Clamp rotation between - and + max possible rotation
                         if (Math.abs(spinningAngle) > MaxAngularVelocity*delta)
-                            spinningAngle = Math.signum(spinningAngle) * MaxAngularVelocity*delta;                        
+                            spinningAngle = Math.signum(spinningAngle) * MaxAngularVelocity*delta;      
                         
-                        physicsComponent.setRotation(currentRot + spinningAngle);
+                        // Clamp between -360 and +360 degrees
+                        float newRotation = currentRot + spinningAngle;
+                        newRotation -= Math.signum(newRotation)*(float)(2*Math.PI)*(int)(newRotation / (2*Math.PI));
+                        physicsComponent.setRotation(newRotation);
                     }
                 }
             } // end if (state check)

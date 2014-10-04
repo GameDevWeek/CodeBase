@@ -33,11 +33,7 @@ public class TileMapRenderingSystem extends ECSystem{
     private String layerNameNotToRender;
         
     private ShaderProgram mapEffectShader;
-    
-    public static float mapEffectTimeLeft = 1.0f;  
-    private float mapEffectFactor = 0.0f;
-
-	
+    	
     public TileMapRenderingSystem(EntityManager entityManager){
         super(entityManager);
         initializeShaders();
@@ -61,7 +57,21 @@ public class TileMapRenderingSystem extends ECSystem{
         return this.layerNameNotToRender;
     }
     
-	
+    private TiledMapRendererGdx initializeRenderer(TileMapRenderingComponent comp) {
+        
+        HashMap<TileSet, Texture> tilesetImages = new HashMap<TileSet, Texture>();
+        
+        for (TileSet tileset : comp.getMap().getTileSets()) {
+            TmxImage img = tileset.getImage();
+            String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
+            tilesetImages.put(tileset, new Texture(filename));
+        }
+                    
+        renderer = new TiledMapRendererGdx(comp.getMap(), tilesetImages);
+        comp.renderer = renderer;
+        return renderer;
+    }
+    
 	/**
 	 * Render all Layers in all TileMapRenderingComponents
 	 * 
@@ -69,29 +79,24 @@ public class TileMapRenderingSystem extends ECSystem{
 	 * They contain the map data and the Layers that should be drawn at the moment.
 	 * These will be rendered.
 	 */
+    float currentMapFadeFactor = 0.0f;
 	public void render(){
 		// Get all TileMapRenderingComponents. Most likely will be only one...
 		List<TileMapRenderingComponent> arr = entityManager.getAllComponentsOfType(TileMapRenderingComponent.class);
 		
 		for(TileMapRenderingComponent currentComp : arr){
-			
-		    renderer = currentComp.renderer;
 		    
-			if (renderer == null) {
+		    renderer = currentComp.renderer;	    
+			if (renderer == null)
+			    renderer = initializeRenderer(currentComp);
+
+			// If a layer transition is currently happening
+			if (currentComp.nextRenderedLayers != null) {
 			    
-    			HashMap<TileSet, Texture> tilesetImages = new HashMap<TileSet, Texture>();
-    			
-    	        for (TileSet tileset : currentComp.getMap().getTileSets()) {
-    	            TmxImage img = tileset.getImage();
-    	            String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
-    	            tilesetImages.put(tileset, new Texture(filename));
-    	        }
-    	        	        
-    			renderer = new TiledMapRendererGdx(currentComp.getMap(), tilesetImages);
-    			currentComp.renderer = renderer;
+    			//float currentMapFadeFactor = currentComp.;			
+    			//setMapEffectShader(currentMapFadeFactor);
 			}
-			
-			setMapEffectShader();
+			setMapEffectShader(currentMapFadeFactor);
 	         			
 			// go through the layers that should be rendered			
 			for(Integer layerIndex : currentComp.renderedLayers){
@@ -112,12 +117,12 @@ public class TileMapRenderingSystem extends ECSystem{
 		}
 	}
 	
-	private void setMapEffectShader() {
+	private void setMapEffectShader( float effectFactor ) {
 	    
         DrawUtil.batch.flush();
 
         DrawUtil.batch.setShader(mapEffectShader);
-        mapEffectShader.setUniformf("u_effectFactor", mapEffectFactor);
+        mapEffectShader.setUniformf("u_effectFactor", effectFactor);
 	}
 	
 	private void initializeShaders() {
@@ -141,6 +146,9 @@ public class TileMapRenderingSystem extends ECSystem{
 	
 	@Override
 	public void update(float delta) {
-		
+		// Nothing to do
+	    currentMapFadeFactor += 0.01f;
+	    if (currentMapFadeFactor > 1.0f)
+	        currentMapFadeFactor = 0.0f;
 	}
 }
