@@ -241,6 +241,14 @@ public class CatMovementSystem extends ECSystem{
                 movementComponent.velocity = 0.0f;
             }else if(catPropertyComponent.getState() == CatStateEnum.HIDDEN){
                 movementComponent.velocity = 0.0f;
+            }else if(catPropertyComponent.getState() == CatStateEnum.PLAYS_WITH_WOOL){
+                movementComponent.velocity = 0.0f;
+                if(catPropertyComponent.playTimeTimer < catPropertyComponent.PLAYTIME){
+                    catPropertyComponent.playTimeTimer += delta;
+                }else{
+                    catPropertyComponent.playTimeTimer = 0;
+                    catPropertyComponent.setState(CatStateEnum.IDLE);
+                }
             }
             //positionVec not directionVec because sliding
             physicsComponent.setVelocityX(movementComponent.positionVec.x*movementComponent.velocity);
