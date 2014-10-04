@@ -1,18 +1,12 @@
 package de.hochschuletrier.gdw.ss14.ecs.ai;
 
+import java.util.ArrayList;
+
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.*;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.decorators.Invert;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.DogPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
 
 import org.slf4j.Logger;
@@ -39,7 +33,7 @@ public class DogBehaviour extends Behaviour {
         super(name, localBlackboard, isLooping);
 
         this.dogID = dogID;
-        setName("Catch the Cat und weich Ecken aus");
+        setName("Catch the Cat oder patroullieren");
         /* Setup Blackboard informations */
         bb = (DogBlackboard) localBlackboard;
         ic = bb.em.getComponent(dogID, InputComponent.class);
@@ -53,7 +47,17 @@ public class DogBehaviour extends Behaviour {
         /* Setup Tree */
 
         BaseNode root = new Selector(this);
-
+        Sequence jageKatze = new Sequence(root);
+        Sequence patroulliere = new Sequence(root);
+        new DogSeesCat(jageKatze);
+        new ChaseCat(jageKatze);
+        Invert nichtsSehend = new Invert(patroulliere);
+        new DogSeesCat(nichtsSehend);
+        new Patroullieren(patroulliere);
+        
+        
+      /*  setName("Catch the Cat und weich Ecken aus");
+        BaseNode root = new Selector(this);
         Sequence hundHaengt = new Sequence(root);
         new DogBehaviour.ChaseCat(root);
         Selector hh = new Selector(hundHaengt);
@@ -62,7 +66,7 @@ public class DogBehaviour extends Behaviour {
         new DogIsChasing(dogNotChase);
         new HundHaengt(hh);
         
-        
+        */
         
      
    
@@ -219,6 +223,84 @@ public class DogBehaviour extends Behaviour {
         
     }
 
+    class DogSeesCat extends BaseCondition{
+
+        public DogSeesCat(BaseNode parent) {
+            super(parent);
+        }
+
+        @Override
+        public State onEvaluate(float delta) {
+            boolean hundSiehtKatze;
+         
+             EnemyComponent ec = bb.em.getComponent(dogID, EnemyComponent.class);
+             hundSiehtKatze = ec.seeCat;
+             System.out.println("Hund sieht Katze: "+hundSiehtKatze);
+             State rueckgabe;
+             if(hundSiehtKatze)
+                 rueckgabe = State.SUCCESS;
+             else
+                 rueckgabe = State.FAILURE;
+            return rueckgabe;
+        }
+        
+        
+    }
+    
+    class Patroullieren extends BaseTask {
+        DogPropertyComponent proper;
+        ArrayList<Vector2> patrolPunkte;
+        int naechsterPatrolpunktIndex;
+        Vector2 currentPos;
+        
+        public Patroullieren(BaseNode parent) {
+            super(parent);
+            naechsterPatrolpunktIndex = 0;
+        }
+
+        @Override
+        public State onRun(float delta) {
+           proper = bb.em.getComponent(dogID, DogPropertyComponent.class);
+           patrolPunkte =  proper.patrolspots;
+           int laenge = patrolPunkte.size();
+           if (laenge <= 0){
+               //Wenn keine Punkte da sind wird nichts getan.
+           } else{
+               //von i bis länge hochzählen
+               ic.whereToGo = patrolPunkte.get(naechsterPatrolpunktIndex);
+               currentPos = new Vector2(pc.getPosition());
+               if(patrolPunkte.get(naechsterPatrolpunktIndex).epsilonEquals(currentPos, 1f)){
+                   //nächsterPunkt, wenn man angekommen ist
+                   if(patrolPunkte.size()< naechsterPatrolpunktIndex+1){
+                       //dann kann man einfach den nächsten setzen (+1)
+                       naechsterPatrolpunktIndex += 1;
+                   } else {
+                       //wieder vorne anfangen
+                       naechsterPatrolpunktIndex = 0;
+                   }
+               }    
+               ic.whereToGo = patrolPunkte.get(naechsterPatrolpunktIndex);
+           }
+               
+           
+            return State.SUCCESS;
+        }
+
+        @Override
+        public void onActivate() {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void onDeactivate() {
+            // TODO Auto-generated method stub
+            
+        }
+        
+        
+    }
+    
     class HundInRandomRichtung extends BaseTask {
         // Hund geht in aktuelle Richtung plus Abweichung von 1-3Körperlängen
         double high, low;
