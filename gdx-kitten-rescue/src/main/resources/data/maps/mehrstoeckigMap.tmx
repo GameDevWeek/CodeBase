@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="45" height="45" tilewidth="64" tileheight="64">
- <tileset firstgid="1" source="Tilesets/BodenDachbodendunkel.tsx"/>
+ <tileset firstgid="1" name="BodenDachbodendunkel" tilewidth="64" tileheight="64">
+  <image source="Tilesets/BodenDachbodendunkel.png" width="448" height="256"/>
+  <tile id="0">
+   <properties>
+    <property name="woodfloor" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="woodfloor" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="woodbeam" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="woodbeam" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="woodbeam" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="woodbeam" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="woodbeam" value="true"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="kitchenfloor" value="true"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="woodbeam" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
  <tileset firstgid="29" source="Tilesets/BodenDachbodenhell.tsx"/>
  <tileset firstgid="57" source="Tilesets/SolidsTileset.tsx"/>
  <tileset firstgid="313" source="Tilesets/LochTiles.tsx"/>
@@ -138,15 +185,15 @@
    H4sIAAAAAAAAC+3YSQrCUBBF0TJRx1G3YUvsNqZDN6auQN2Tz6HwvxC7qsA9cEeB8AYFgZjhV2ZqrhbeQxpYq43afvCOndp/Z044vdJ7AdqgLMyOHbNTorOywnvhs6H2jNRF266JbqrS80Gw3XhP6j4fd3nwHpaRu0/uEv/S59uPDG4DOZFuY6wmauo9pIFaLdXKewgAtEA30DcHsXjcRtT/Cq/wXwEA4OkO79Kfo6QfAAA=
   </data>
  </layer>
- <layer name="ground" width="45" height="45" visible="0">
+ <layer name="ground" width="45" height="45">
   <properties>
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3YoQ0AIAxE0Yb9J0N3ICaog9AmTzz/xanLFZHANbvwu0tzP5oBAAAAAN6b9iFP+76rv75z98TmidugdgDkvA8LpB8AAA==
+   H4sIAAAAAAAAC+3YsQ0AIAwDwYgJsv9ITMUC0IFIpCuu/8KVMyISuGaOvd9dmuvRDAAAAADwXrcPudv3ffrrK3d3bO64Dc4W76rRoqQfAAA=
   </data>
  </layer>
- <layer name="solid1" width="45" height="45" visible="0">
+ <layer name="solid1" width="45" height="45">
   <properties>
    <property name="floor" value="1"/>
   </properties>
@@ -154,7 +201,7 @@
    H4sIAAAAAAAAC+2ZOU8DMRCFZ/4W4go3ItxniBQKqKGAn0fBUXBUHAVHBQXUUEDNWyUWxlnFWcd27MVP+qS1tJodvbVmxvIgEW1HxBCYA8NgBIyCChgL8HkcTIDZVs4LYBEsgWWwEuDzKliTcm6AHQpbu2CPfnPeBwd9zUivQ3BEyWfXSj77UZl9Vt87YaJTbtb6PLL6PwmmlDjTYIY69widb936rL53g3xvuVnr88jq/zrYUOJsgi3qrUeY+vyCfF+5Q+ACekOcd3bvs82cvxDnu0DOpj5/4BufkflsM2fVZ129/Q8+10Cd7PYeVz6rdTWv9ppK+Cz8sOWzWlfzaq+phB+ix+j8CGHeEH6IHqPzo8zzRkhKPvuRaR/s5/8w7YM2c/Y1b8TQB9P8/FfJZz85u/LZ5d7w5XNs55QqGGhhQyLWPLk7p8j3AzYkx+vmDGR6ThH3BWfczjm4AJfK3rnC+pr19w+6md/0nCLuC+64nXvwAB6VnJ+wfmb9/YNu5i/zXBeSks9+FKPPLmd5V5L3htzfinLMvVP0m1nf/AHrHSerpB8AAA==
   </data>
  </layer>
- <layer name="gap" width="45" height="45" visible="0">
+ <layer name="gap" width="45" height="45">
   <properties>
    <property name="floor" value="1"/>
   </properties>
@@ -162,7 +209,7 @@
    H4sIAAAAAAAAC+2YQQ7CIBBF26NVN2jiSm+hHsMTVC/iCWUWTRoCdghOmG/+S2YFaR/Dp00YBkJ+w3Msl0eQXAW0/i68x3J5BrHfSK7CXOjvy7k3+T8egJkT56VQQPMVtM6ab+4Ux3dJ7Tv2Q+Mc4vghqWMn55r/2gXQOe116jx1zkuOLefQsA6r9V7jM2+ruivekVtHy7xatvrskW/OHrMsrJ3Piix7IIDlQvb+BObM89cfr+ePtGF5X2GVc0tny5wj3A3lQHQmdaDtMcpdKyEEjw+KIB9epB8AAA==
   </data>
  </layer>
- <layer name="deco1" width="45" height="45" visible="0">
+ <layer name="deco1" width="45" height="45">
   <properties>
    <property name="floor" value="1"/>
   </properties>
@@ -170,7 +217,7 @@
    H4sIAAAAAAAAC+2ZWU7DMBCGk9wAnuAobBIPCB4qUcEDHIdFFQiQgIKgLVdhXwpUQMuRGKuJGIwzmdieNJH6SaNWsRv9Hv+O03EQjBnjxnEYBK2Q7nOR0W7iJQqCbkq8RnZaFVl6m9DWgbiy0NwjdH04aD7P0HIJ7acWehVSmtug50xIt5RmBUe3jZ/7oGuA4h3pdNWsSPOIi591ep41FwHO+3dFNFeZLfDZNsSOB78VRSPWuh9rrwKNiujEYM27hH61R5/EQe0Ps9A2BzEf/v2+4DE3WPMecV/8/KX2hwmIScP1JY+aD+Beh3EcEfdtMTVPQUwbrtdG6MGmtqd1tWf7Roq2JM8zyDM+/UKR9d6wmNKe5Bm35x1H3vF2mO8NKxl5xu3UOExw++UlK8+r8FmHWINYJ8ZhgtsvL1Se0+bWNA4T3H55ofIsNbeumPK8GedFam5dWTZoobxcVsqUUy41Yv2VlTKvP0U9/B9lXn8Uo1h/nHdnG4rwuU1thaIIn7vU30xI+hzXtnzmWtLnuCbn2x+StJnv0FJIPAM44Fq9Dcl6uomGcStYt1PnDF/a/T+ZZwx6zVV58z4axoOQZpPeBK7u5L9d4k1pzVS9XpG3lvwI/Z/ieCZ+ex3Ze8i3Zi53kf189LVzBcybYP3bRbNCPxsZ1+t/+QE3G13CpB8AAA==
   </data>
  </layer>
- <layer name="solid2" width="45" height="45" visible="0">
+ <layer name="solid2" width="45" height="45">
   <properties>
    <property name="floor" value="1"/>
   </properties>
@@ -178,7 +225,7 @@
    H4sIAAAAAAAAC+2Zy0rDQBSGT1IV1K36fLrQeltUwbsrwXpdufH2AFX7ABUE30c3aitCXflnEUiCaeacNHMSnQ9+Qiedzt9yLpMp0d/nGrqBbgVjWtxDD1BbMPbf6fpEPV/bBY8+/LZwvdM2wqFG5NXSb49DEwaaLNpnhBVo1eJ6w2AP2tc2weQMOtc2MYAXj+jV01t/HlpgzunD77ei5w1okzlnBHVtFBpTqseHUJM5Zwpep6GZiGdXN+xQ9rrh0MPlIA/THrMELUdea+agaY/ZgXZzrJO2N5XsRU17zAl0Kvj8YdOA1gzfm4wN7Rxcz7hfhxYpHhvafTDr996CtikeGzZz8OCXsc+MfWYHeqR4bNjkQjgvWTdsx3MYnxySdcN2PIfxyaFMPcWUvD0lL2FOcShLT3E4iuIIOtY2weQSuhLMk5wLBbz5RO/Qh8I5i+RcKOALXmdxnUu5/1Tgd5GcC4UM2s89V+x/h4AqenYUS5780ITzbFsVfgDy4Fm6pB8AAA==
   </data>
  </layer>
- <objectgroup name="actionlayer" visible="0">
+ <objectgroup name="actionlayer">
   <properties>
    <property name="floor" value="1"/>
   </properties>
@@ -257,12 +304,12 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="renderlayer" visible="0">
+ <objectgroup name="renderlayer">
   <properties>
    <property name="floor" value="1"/>
   </properties>
  </objectgroup>
- <layer name="deco2" width="45" height="45" visible="0">
+ <layer name="deco2" width="45" height="45">
   <properties>
    <property name="floor" value="1"/>
   </properties>

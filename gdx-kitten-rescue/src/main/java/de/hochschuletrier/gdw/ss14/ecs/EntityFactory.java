@@ -79,18 +79,19 @@ public class EntityFactory{
         //catPhysix.physicsBody.setLinearVelocity(catMove.velocity, catMove.velocity);
         AnimationComponent catAnimation = new AnimationComponent();
 
-        catAnimation.animation = new AnimationExtended[32];
-        catAnimation.animation[CatStateEnum.HIT.ordinal()] = assetManager.getAnimation("hit");
-        catAnimation.animation[CatStateEnum.IDLE.ordinal()] = assetManager.getAnimation("idle");
-        catAnimation.animation[CatStateEnum.WALK.ordinal()] = assetManager.getAnimation("walk");
-        catAnimation.animation[CatStateEnum.RUN.ordinal()] = assetManager.getAnimation("run");
-        catAnimation.animation[CatStateEnum.SLIDE_LEFT.ordinal()] = assetManager.getAnimation("slide_left");
-        catAnimation.animation[CatStateEnum.SLIDE_RIGHT.ordinal()] = assetManager.getAnimation("slide_right");
-        catAnimation.animation[CatStateEnum.CRASH.ordinal()] = assetManager.getAnimation("crash");
-        catAnimation.animation[CatStateEnum.FALL.ordinal()] = assetManager.getAnimation("fall");
-        catAnimation.animation[CatStateEnum.DIE.ordinal()] = assetManager.getAnimation("die");
-        catAnimation.animation[CatStateEnum.DIE2.ordinal()] = assetManager.getAnimation("die2");
-        catAnimation.animation[CatStateEnum.JUMP.ordinal()] = assetManager.getAnimation("jump");
+        //catAnimation.animation = new AnimationExtended[11];
+        catAnimation.animation.put(CatStateEnum.HIT.ordinal(), assetManager.getAnimation("hit"));
+        catAnimation.animation.put(CatStateEnum.IDLE.ordinal(), assetManager.getAnimation("idle"));
+        catAnimation.animation.put(CatStateEnum.WALK.ordinal(), assetManager.getAnimation("walk"));
+        catAnimation.animation.put(CatStateEnum.RUN.ordinal(), assetManager.getAnimation("run"));
+        catAnimation.animation.put(CatStateEnum.SLIDE_LEFT.ordinal(), assetManager.getAnimation("slide_left"));
+        catAnimation.animation.put(CatStateEnum.SLIDE_RIGHT.ordinal(), assetManager.getAnimation("slide_right"));
+        catAnimation.animation.put(CatStateEnum.CRASH.ordinal(), assetManager.getAnimation("crash"));
+        catAnimation.animation.put(CatStateEnum.FALL.ordinal(), assetManager.getAnimation("fall"));
+        catAnimation.animation.put(CatStateEnum.DIE.ordinal(), assetManager.getAnimation("die"));
+        catAnimation.animation.put(CatStateEnum.DIE2.ordinal(), assetManager.getAnimation("die2"));
+        catAnimation.animation.put(CatStateEnum.JUMP.ordinal(), assetManager.getAnimation("jump"));
+        
         //        catAnimation.animation[CatStateEnum.JUMP_BEGIN.ordinal()] = assetManager.getAnimation("jump_begin");
         //        catAnimation.animation[CatStateEnum.JUMP_END.ordinal()] = assetManager.getAnimation("jump_end");
 
@@ -158,13 +159,14 @@ public class EntityFactory{
         DogPropertyComponent dogState = new DogPropertyComponent(patrolspots);
         dogPhysix.initPhysics(phyManager);
         AnimationComponent dogAnimation = new AnimationComponent();
-        dogAnimation.animation = new AnimationExtended[15];
-        dogAnimation.animation[DogStateEnum.FALLING.ordinal()] = assetManager.getAnimation("pudel_fallen");
-        dogAnimation.animation[DogStateEnum.KILLING.ordinal()] = assetManager.getAnimation("pudel_beissen");
-        dogAnimation.animation[DogStateEnum.WALKING.ordinal()] = assetManager.getAnimation("pudel_laufen");
-        dogAnimation.animation[DogStateEnum.RUNNING.ordinal()] = assetManager.getAnimation("pudel_laufen"); //missing animation
-        dogAnimation.animation[DogStateEnum.SITTING.ordinal()] = assetManager.getAnimation("pudel_laufen"); //missing animation
-        dogAnimation.animation[DogStateEnum.JUMPING.ordinal()] = assetManager.getAnimation("pudel_springen");
+
+        dogAnimation.animation.put(DogStateEnum.FALLING.ordinal(), assetManager.getAnimation("pudel_fallen"));
+        dogAnimation.animation.put(DogStateEnum.KILLING.ordinal(), assetManager.getAnimation("pudel_beissen"));
+        dogAnimation.animation.put(DogStateEnum.WALKING.ordinal(), assetManager.getAnimation("pudel_laufen"));
+        dogAnimation.animation.put(DogStateEnum.RUNNING.ordinal(), assetManager.getAnimation("pudel_laufen")); //missing animation
+        dogAnimation.animation.put(DogStateEnum.SITTING.ordinal(), assetManager.getAnimation("pudel_laufen")); //missing animation
+        dogAnimation.animation.put(DogStateEnum.JUMPING.ordinal(), assetManager.getAnimation("pudel_springen"));
+        
         RenderComponent dogRender = new RenderComponent();
         dogRender.zIndex = 5;
 
@@ -202,13 +204,14 @@ public class EntityFactory{
         DogPropertyComponent dogState = new DogPropertyComponent(patrolspots);
         dogPhysix.initPhysics(phyManager);
         AnimationComponent dogAnimation = new AnimationComponent();
-        dogAnimation.animation = new AnimationExtended[15];
-        dogAnimation.animation[DogStateEnum.FALLING.ordinal()] = assetManager.getAnimation("pudel_fallen");
-        dogAnimation.animation[DogStateEnum.KILLING.ordinal()] = assetManager.getAnimation("pudel_beissen");
-        dogAnimation.animation[DogStateEnum.WALKING.ordinal()] = assetManager.getAnimation("pudel_laufen");
-        dogAnimation.animation[DogStateEnum.RUNNING.ordinal()] = assetManager.getAnimation("pudel_laufen"); //missing animation
-        dogAnimation.animation[DogStateEnum.SITTING.ordinal()] = assetManager.getAnimation("pudel_laufen"); //missing animation
-        dogAnimation.animation[DogStateEnum.JUMPING.ordinal()] = assetManager.getAnimation("pudel_springen");
+        
+        dogAnimation.animation.put(DogStateEnum.FALLING.ordinal(), assetManager.getAnimation("pudel_fallen"));
+        dogAnimation.animation.put(DogStateEnum.KILLING.ordinal(), assetManager.getAnimation("pudel_beissen"));
+        dogAnimation.animation.put(DogStateEnum.WALKING.ordinal(), assetManager.getAnimation("pudel_laufen"));
+        dogAnimation.animation.put(DogStateEnum.RUNNING.ordinal(), assetManager.getAnimation("pudel_laufen")); //missing animation
+        dogAnimation.animation.put(DogStateEnum.SITTING.ordinal(), assetManager.getAnimation("pudel_laufen")); //missing animation
+        dogAnimation.animation.put(DogStateEnum.JUMPING.ordinal(), assetManager.getAnimation("pudel_springen"));
+        
         RenderComponent dogRender = new RenderComponent();
         dogRender.zIndex = 5;
 
