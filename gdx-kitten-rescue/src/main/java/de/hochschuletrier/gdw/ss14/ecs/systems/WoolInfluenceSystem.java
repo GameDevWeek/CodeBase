@@ -39,6 +39,7 @@ public class WoolInfluenceSystem extends ECSystem
         CatPropertyComponent catProp;
         CameraComponent camComp;
         LaserPointerComponent laser;
+        PhysicsComponent catPhysix = entityManager.getComponent(compos.get(0), PhysicsComponent.class);
         
         for (Integer integer : compos)
         {
@@ -60,6 +61,7 @@ public class WoolInfluenceSystem extends ECSystem
                     Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
                     vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
                     inputCompo.whereToGo = new Vector2(vec.x, vec.y);
+                    Vector2 directionToLaser = laser.position.sub(catPhysix.getPosition());
                     Vector2 laserToWool = woool.physicsBody.getPosition().sub(inputCompo.whereToGo);
                     catProp.influencedToLaser -= delta/catProp.TIME_TILL_INFLUENCED;
                     catProp.timeTillInfluencedTimer += delta;
@@ -67,7 +69,7 @@ public class WoolInfluenceSystem extends ECSystem
                                 ")\nWoolPosition: (" + woool.physicsBody.getX() + ", " + woool.physicsBody.getY() + 
                                 ")\nLaserToWool: (" + laserToWool.x + ", " + laserToWool.y + ")" +
                                 "\nDistance: " + laserToWool.len());
-                    inputCompo.whereToGo = new Vector2(inputCompo.whereToGo.x + laserToWool.x * catProp.influencedToLaser, inputCompo.whereToGo.y + laserToWool.y * catProp.influencedToLaser);
+                    inputCompo.whereToGo = new Vector2(directionToLaser.x + laserToWool.x * catProp.influencedToLaser, directionToLaser.y + laserToWool.y * catProp.influencedToLaser);
                     logger.debug("\nNEW POSITION: (" + inputCompo.whereToGo.x + ", " + inputCompo.whereToGo.y + ")");
                     System.out.println("");
                 }
