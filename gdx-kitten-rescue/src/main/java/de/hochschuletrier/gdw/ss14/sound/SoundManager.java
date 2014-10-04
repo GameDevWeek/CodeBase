@@ -71,6 +71,15 @@ public class SoundManager {
 							case 0: SoundManager.playSound("gp_cat_box_in1"); break;
 							case 1: SoundManager.playSound("gp_cat_box_in2"); break;
 						}
+						break;
+					case "KILLING": 
+						tmp = random(0,1);
+						switch (tmp) {
+							case 0: SoundManager.playSound("gp_dog_bite1"); break;
+							case 1: SoundManager.playSound("gp_dog_bite2"); break;
+							case 2: SoundManager.playSound("gp_dog_bite3"); break;
+						}
+						break;
 				} 
 				break;
 			default:
