@@ -144,7 +144,6 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
                     catPropertyComponent.isCatBoxOnCooldown = true;
                     catPropertyComponent.catBoxCooldownTimer = CatPropertyComponent.CATBOX_COOLDOWN;
-                    System.out.println("Set cooldown to true.");
 
                     // toggle laser
                     Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
