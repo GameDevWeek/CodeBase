@@ -2,8 +2,10 @@ package de.hochschuletrier.gdw.ss14.input;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.ss14.input.infos.InputInfo;
 import de.hochschuletrier.gdw.ss14.input.infos.InputSettings;
@@ -12,6 +14,7 @@ public class InputMouse extends InputDevice {
     private HashMap<String, InputAction> inputMapping;
     
     public InputMouse() {
+        devicType = DeviceType.MOUSE;
         readMapping();
     }
     
@@ -90,5 +93,21 @@ public class InputMouse extends InputDevice {
     @Override
     public void update() {
         // nothing to do
+    }
+    
+    public void setCursorPosition(int x, int y) {
+        Gdx.input.setCursorPosition(x, y);
+    }
+    
+    public Vector2 getCursorPosition() {
+        return new Vector2(Gdx.input.getX(), Gdx.input.getY()); 
+    }
+    
+    public int getX() {
+        return Gdx.input.getX();
+    }
+    
+    public int getY() {
+        return Gdx.input.getY();
     }
 }

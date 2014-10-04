@@ -14,6 +14,10 @@ public class InputGamePad extends InputDevice implements ControllerListener {
 
 	private HashMap<Integer, Float> pressedKeys = new HashMap<>();
 	
+	public InputGamePad() {
+	    devicType = DeviceType.GAMEPAD;
+	}
+	
 	protected enum InputDirection {
 	    UP, LEFT, DOWN, RIGHT
 	}
