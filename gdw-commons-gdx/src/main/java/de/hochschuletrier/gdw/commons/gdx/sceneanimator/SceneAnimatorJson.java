@@ -1,11 +1,17 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
+package de.hochschuletrier.gdw.commons.gdx.sceneanimator;
 
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.text.TextAlign;
 import de.hochschuletrier.gdw.commons.jackson.JacksonList;
 import de.hochschuletrier.gdw.commons.jackson.JacksonMap;
 import java.util.List;
 import java.util.Map;
 
-public class AnimatorData {
+/**
+ *
+ * @author Santo Pfingsten
+ */
+class SceneAnimatorJson {
+
     @JacksonMap(TextStyle.class)
     public Map<String, TextStyle> textStyles;
     @JacksonMap(Path.class)
@@ -14,6 +20,7 @@ public class AnimatorData {
     public Map<String, Queue> queues;
 
     public static class TextStyle {
+
         public String color;
         public String font;
         public Integer size;
@@ -21,11 +28,13 @@ public class AnimatorData {
     }
 
     public static class Path {
+
         PathType type;
         @JacksonList(Destination.class)
         public List<Destination> destinations;
 
         public static class Destination {
+
             public Float x;
             public Float y;
             public Float speed;
@@ -33,6 +42,7 @@ public class AnimatorData {
     }
 
     public static class Queue {
+
         public Integer time;
         public String path;
         public String next;
@@ -41,8 +51,9 @@ public class AnimatorData {
         public List<Item> items;
         @JacksonList(Animation.class)
         public List<Animation> animations;
-        
+
         public static class Animation {
+
             public Integer time;
             public String animation;
             public Integer frametime;
@@ -59,6 +70,7 @@ public class AnimatorData {
     }
 
     public static class Item {
+
         public String group;
         public Float opacity;
         public ItemType type;

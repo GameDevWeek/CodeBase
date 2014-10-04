@@ -1,5 +1,7 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
+package de.hochschuletrier.gdw.commons.gdx.sceneanimator;
 
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.text.TextItem;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.text.TextStyle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -14,74 +16,79 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AnimatorController {
+/**
+ * This is alpha, some things might not work yet..
+ *
+ * @author Santo Pfingsten
+ */
+public class SceneAnimator {
 
     private final HashMap<String, TextStyle> textStyles = new HashMap();
     private final HashMap<String, Queue> queues = new HashMap();
     private final HashMap<String, Path<Vector2>> paths = new HashMap();
-    
-    public AnimatorController(AssetManagerX assetManager, String filename) throws IOException, UnsupportedEncodingException,
+
+    public SceneAnimator(AssetManagerX assetManager, String filename) throws IOException, UnsupportedEncodingException,
             NoSuchFieldException, IllegalArgumentException, IllegalAccessException,
             InstantiationException, ParseException {
-        AnimatorData credits = JacksonReader.read(filename, AnimatorData.class);
+        SceneAnimatorJson credits = JacksonReader.read(filename, SceneAnimatorJson.class);
 
         initStyles(credits, assetManager);
         initPaths(credits);
         initQueues(credits);
     }
 
-    private void initStyles(AnimatorData credits, AssetManagerX assetManager) {
-        for(Map.Entry<String, AnimatorData.TextStyle> entry: credits.textStyles.entrySet()) {
-            AnimatorData.TextStyle value = entry.getValue();
+    private void initStyles(SceneAnimatorJson credits, AssetManagerX assetManager) {
+        for (Map.Entry<String, SceneAnimatorJson.TextStyle> entry : credits.textStyles.entrySet()) {
+            SceneAnimatorJson.TextStyle value = entry.getValue();
             BitmapFont font = assetManager.getFont(value.font, value.size);
             Color color = ColorUtil.fromHexString(value.color);
             textStyles.put(entry.getKey(), new TextStyle(font, color, value.align));
         }
     }
 
-    private void initPaths(AnimatorData credits) {
-        for(Map.Entry<String, AnimatorData.Path> entry: credits.paths.entrySet()) {
-            AnimatorData.Path value = entry.getValue();
+    private void initPaths(SceneAnimatorJson credits) {
+        for (Map.Entry<String, SceneAnimatorJson.Path> entry : credits.paths.entrySet()) {
+            SceneAnimatorJson.Path value = entry.getValue();
             ArrayList<Destination> destinations = new ArrayList();
-            
-            for(AnimatorData.Path.Destination dest: value.destinations) {
+
+            for (SceneAnimatorJson.Path.Destination dest : value.destinations) {
                 Destination destination = new Destination();
                 destination.x = dest.x != null ? dest.x : 0;
                 destination.y = dest.y != null ? dest.y : 0;
                 destination.speed = dest.speed != null ? dest.speed : 0;
                 destinations.add(destination);
             }
-            
+
             LinearPath path = new LinearPath(destinations);
             paths.put(entry.getKey(), path);
         }
     }
 
-    private void initQueues(AnimatorData credits) {
+    private void initQueues(SceneAnimatorJson credits) {
         Vector2 temp = new Vector2();
         Item item;
         TextStyle style;
         float itemStartTime = 0;
         float startTime, angle, opacity;
         String group;
-        for(Map.Entry<String, AnimatorData.Queue> entry: credits.queues.entrySet()) {
-            AnimatorData.Queue value = entry.getValue();
-            
+        for (Map.Entry<String, SceneAnimatorJson.Queue> entry : credits.queues.entrySet()) {
+            SceneAnimatorJson.Queue value = entry.getValue();
+
             ArrayList<Item> items = new ArrayList();
-            for(AnimatorData.Item itemData: value.items) {
+            for (SceneAnimatorJson.Item itemData : value.items) {
                 startTime = itemData.delay != null ? (itemData.delay * 0.001f) : 0;
                 angle = itemData.angle != null ? itemData.angle : 0;
                 opacity = itemData.opacity != null ? itemData.opacity : 1;
                 group = itemData.group != null ? itemData.group : "";
-                
+
                 itemStartTime += startTime;
-                
-                switch(itemData.type) {
+
+                switch (itemData.type) {
                     case TEXT:
                         style = textStyles.get(itemData.style);
                         item = new TextItem(group, itemStartTime, angle, opacity, itemData.text, style);
-                        
-                        if(itemData.x != null && itemData.y != null) {
+
+                        if (itemData.x != null && itemData.y != null) {
                             item.setPosition(temp.set(itemData.x, itemData.y));
                         }
                         items.add(item);
@@ -90,10 +97,10 @@ public class AnimatorController {
                         break;
                 }
             }
-            
+
             ArrayList<Animation> animations = new ArrayList();
-            if(value.animations != null) {
-                for(AnimatorData.Queue.Animation anim: value.animations) {
+            if (value.animations != null) {
+                for (SceneAnimatorJson.Queue.Animation anim : value.animations) {
                     Animation animation = new Animation();
                     animation.time = anim.time != null ? (anim.time * 0.001f) : 0;
                     animation.animation = anim.animation;
@@ -109,44 +116,48 @@ public class AnimatorController {
                     animations.add(animation);
                 }
             }
-            
+
             startTime = value.time != null ? (value.time * 0.001f) : 0;
             Path<Vector2> path = (value.path != null) ? paths.get(value.path) : null;
             Queue queue = new Queue(startTime, path, items, animations);
             queues.put(entry.getKey(), queue);
         }
-        
+
         // Solve next and finalNext
-        for(Map.Entry<String, AnimatorData.Queue> entry: credits.queues.entrySet()) {
-            AnimatorData.Queue value = entry.getValue();
+        for (Map.Entry<String, SceneAnimatorJson.Queue> entry : credits.queues.entrySet()) {
+            SceneAnimatorJson.Queue value = entry.getValue();
             Queue queue = queues.get(entry.getKey());
-            if(value.next != null)
+            if (value.next != null) {
                 queue.next = queues.get(value.next);
-            if(value.finalNext != null)
+            }
+            if (value.finalNext != null) {
                 queue.finalNext = queues.get(value.finalNext);
+            }
         }
     }
-    
+
     public void reset() {
-        for(Queue queue: queues.values()) {
+        for (Queue queue : queues.values()) {
             queue.reset();
         }
     }
-    
+
     public void render() {
-        for(Queue queue: queues.values()) {
+        for (Queue queue : queues.values()) {
             queue.render();
         }
     }
-    
+
     public void update(float delta) {
         boolean done = true;
-        for(Queue queue: queues.values()) {
+        for (Queue queue : queues.values()) {
             queue.update(delta);
-            if(!queue.isDone())
+            if (!queue.isDone()) {
                 done = false;
+            }
         }
-        if(done)
+        if (done) {
             reset();
+        }
     }
 }
