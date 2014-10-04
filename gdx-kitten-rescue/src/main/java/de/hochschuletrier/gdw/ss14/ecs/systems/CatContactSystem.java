@@ -231,33 +231,33 @@ if(other instanceof CatPhysicsComponent){
                 RenderComponent renderComponent = entityManager.getComponent(player, RenderComponent.class);
                 CatPropertyComponent catPropertyComponent = entityManager.getComponent(player, CatPropertyComponent.class);
 
-                if(!catPropertyComponent.isCatBoxOnCooldown)
+                boolean isCatInZone = false;
+                if (contact.getMyFixture().getUserData() == null) return;
+                if (contact.getMyFixture().getUserData().equals("masscenter"))
                 {
-                    catPropertyComponent.isCatBoxOnCooldown = true;
-                    catPropertyComponent.catBoxCooldownTimer = catPropertyComponent.CATBOX_COOLDOWN;
-                    entityManager.removeComponent(player, renderComponent);
-
-                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
-
-                    //catPropertyComponent.setState(CatStateEnum.HIDDEN);
-
-                    catPropertyComponent.isHidden = true;
+                    isCatInZone = true;
                 }
-                else
+                if (isCatInZone)
                 {
-                    return;
+
+                    if (!catPropertyComponent.isCatBoxOnCooldown)
+                    {
+                        catPropertyComponent.isCatBoxOnCooldown = true;
+                        catPropertyComponent.catBoxCooldownTimer = catPropertyComponent.CATBOX_COOLDOWN;
+                        entityManager.removeComponent(player, renderComponent);
+
+                        //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+
+                        //catPropertyComponent.setState(CatStateEnum.HIDDEN);
+
+                        catPropertyComponent.isHidden = true;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
-
-            Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
-
-            for (Integer entity : lasers)
-            {
-                LaserPointerComponent laserPointerComponent = entityManager.getComponent(entity, LaserPointerComponent.class);
-
-                laserPointerComponent.isVisible = false;
-            }
-
         }
         else if(other instanceof StairsPhysicsComponent)
         {
