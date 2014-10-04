@@ -17,17 +17,28 @@ public abstract class InputDevice extends InputAdapter {
     
 	protected LinkedList<GameInputAdapter> listener = new LinkedList<>();
 	protected DeviceType devicType;
+	protected boolean isRegistred = false;
 	
 	public DeviceType getDeviceType() {
 	    return devicType;
 	}
 	
+	public boolean isRegistred() {
+	    return isRegistred;
+	}
+	
 	public void registerProcessor() {
-	    Main.inputMultiplexer.addProcessor(this);
+	    if (!isRegistred) {
+	        Main.inputMultiplexer.addProcessor(this);
+	        isRegistred = true;
+	    }
 	}
 	
 	public void unregisterProcessor() {
-	    Main.inputMultiplexer.removeProcessor(this);
+	    if (isRegistred) {
+    	    Main.inputMultiplexer.removeProcessor(this);
+    	    isRegistred = false;
+	    }
 	}
 	
     /**
