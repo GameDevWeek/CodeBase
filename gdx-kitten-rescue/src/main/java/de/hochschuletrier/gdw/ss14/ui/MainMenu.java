@@ -10,7 +10,7 @@ import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class MainMenu extends LaserCatMenu
 {
-	private UiActionListener actionListener;
+	private MainMenuListener actionListener;
 	
 	@Override
 	public void init(AssetManagerX assetManager)
@@ -24,7 +24,7 @@ public class MainMenu extends LaserCatMenu
 		name[3] = "Exit Game";
 		
 		addButtonsToFrame();
-		actionListener = new UiActionListener();
+		actionListener = new MainMenuListener();
 		
 		for (UIButton b:button)
 		{
@@ -55,7 +55,7 @@ public class MainMenu extends LaserCatMenu
 		name = null;
 	}
 	
-	private class UiActionListener extends ClickListener
+	private class MainMenuListener extends ClickListener
 	{
 		public void clicked(InputEvent event, float x, float y)
 		{
