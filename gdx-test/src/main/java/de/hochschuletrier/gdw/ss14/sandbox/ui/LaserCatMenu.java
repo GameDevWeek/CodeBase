@@ -46,6 +46,7 @@ public abstract class LaserCatMenu extends SandboxGame
 	protected static Stage stage;
 	protected static float heightOfWidgetFrame;
 	protected static float widthOfWidgetFrame;
+	protected static float frameDuration;
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
@@ -61,6 +62,7 @@ public abstract class LaserCatMenu extends SandboxGame
 		//Variables
 		heightOfWidgetFrame = 0.25f;
 		widthOfWidgetFrame = 0.6f;
+		frameDuration = 500;
 		
 		
 		// Adjusts the table and adds it to the stage
