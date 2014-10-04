@@ -27,7 +27,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     private static final Logger logger = LoggerFactory.getLogger(CatContactSystem.class);
 
     private PhysixManager phyManager;
-    private RayCastPhysics rcp;
+    private RayCastPhysics rcp = new RayCastPhysics();
 
 //    private ArrayList<Vector2> raycst_start;
 //    private ArrayList<Vector2> raycst_end;
@@ -44,10 +44,20 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         raycst_targetPhys = new ArrayList<>();
     }
 
+    
+    private void removeRayCast(PhysicsComponent a, PhysicsComponent b){
+        int i = 0;
+        while(!(raycst_startPhys.get(i) == a && raycst_targetPhys.get(i) == b)
+              && ! (i > raycst_startPhys.size())){
+            i++;
+        }
+        raycst_startPhys.remove(i);
+        raycst_targetPhys.remove(i);
+    }
 
     private void addRayCast(PhysicsComponent a, PhysicsComponent b){
         raycst_startPhys.add(a);
-        raycst_startPhys.add(b);
+        raycst_targetPhys.add(b);
     }
     
     @Override
@@ -190,13 +200,23 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
             int entity = ((StairsPhysicsComponent) other).owner;
 
-            if(entity >= 0){
-                StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+            if(entity >= 0)
+            {
+                CatPropertyComponent catPropertyComponent = entityManager.getComponent(myEntity, CatPropertyComponent.class);
 
-                if(stairComponent != null){
-                    // TODO: change floor here
-                    Game.mapManager.setFloor(stairComponent.targetFloor);
+                if(catPropertyComponent != null && catPropertyComponent.canChangeMap)
+                {
+                    catPropertyComponent.canChangeMap = false;
 
+                    StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+                    if(stairComponent != null)
+                    {
+                        // TODO: change floor here
+                        Game.mapManager.targetFloor = Game.mapManager.currentFloor + stairComponent.changeFloorDirection;
+                        Game.mapManager.isChangingFloor = true;
+                        //Game.mapManager.setFloor(stairComponent.targetFloor);
+
+                    }
                 }
 
             }
@@ -215,7 +235,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     @Override
     public void update(float delta){
         /// do all raycast fun:
-        for(int i = 0; i < raycst_startPhys.size(); i++){
+        for(int i = 0; i < raycst_startPhys.size(); ++i){
             phyManager.getWorld().rayCast(rcp, 
                     raycst_startPhys.get(i).physicsBody.getPosition(), 
                     raycst_targetPhys.get(i).physicsBody.getPosition());
@@ -228,7 +248,8 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 }
                 
                 for(Fixture s : raycst_startPhys.get(i).physicsBody.getFixtureList()){
-                    if(     s.getUserData().equals("sightcone") ||  // target has to be sightcone
+                    if(     (s.getUserData() != null &&
+                            s.getUserData().equals("sightcone")) ||  // target has to be sightcone
                             s != rcst.m_fixture) continue;          // target has to be one of the fixtures
                     freeSight = true;
                 }
@@ -282,11 +303,12 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         // get all neccessary information
         Array<Integer> physicEntities = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class);
         Integer myEntity = null, otherEntity = null;
-        PhysicsComponent otherPhysic = null;
+        PhysicsComponent myPhysic = null, otherPhysic = null;
         for(Integer i : physicEntities){
             PhysicsComponent tmp = entityManager.getComponent(i, PhysicsComponent.class);
             if(tmp.physicsBody == contact.getMyPhysixBody()){
                 myEntity = i;
+                myPhysic = tmp;
             }
             if(tmp.physicsBody == contact.getOtherPhysixBody()){
                 otherEntity = i;
@@ -324,8 +346,29 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             // cat does not collide with dogPhysx anymore which means ...
             if(otherSightCone && !mySightCone){
                 // ... dog does not see the cat anymore
-
+                this.removeRayCast(otherPhysic, myPhysic);
+                
             }
+
+        }
+
+        if(other instanceof StairsPhysicsComponent)
+        {
+            if(mySightCone)
+            {
+                return;
+            }
+
+            int entity =  ((StairsPhysicsComponent) other).owner;
+
+            CatPropertyComponent catPropertyComponent = entityManager.getComponent(myEntity, CatPropertyComponent.class);
+            StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+
+            if(catPropertyComponent != null && stairComponent.changeFloorDirection > 0 && !catPropertyComponent.canChangeMap)
+            {
+                catPropertyComponent.canChangeMap = true;
+            }
+
 
         }
 

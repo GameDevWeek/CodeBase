@@ -17,6 +17,8 @@ import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
  */
 public class AnimationSystem extends ECSystem {
     
+    
+    
     public AnimationSystem(EntityManager entityManager, int priority) {
         super(entityManager, priority);
     }
@@ -24,15 +26,17 @@ public class AnimationSystem extends ECSystem {
     @Override
     public void update(float delta) {
         Array<Integer> entities = entityManager.getAllEntitiesWithComponents(RenderComponent.class,
-                AnimationComponent.class,
-                PhysicsComponent.class);
+                AnimationComponent.class);
 
         AnimationComponent animationCompo;
         RenderComponent renderCompo;
+        PhysicsComponent physicsCompo;
         
         for (Integer entity : entities) {
             animationCompo = entityManager.getComponent(entity, AnimationComponent.class);
             renderCompo = entityManager.getComponent(entity, RenderComponent.class);
+            physicsCompo = entityManager.getComponent(entity, PhysicsComponent.class);
+            
             AnimationExtended currentAnim = animationCompo.animation.get(animationCompo.currentAnimationState);
             int state = getEntityState(entity);
             if (state < 0) continue;
@@ -48,7 +52,13 @@ public class AnimationSystem extends ECSystem {
                     
             
             //update time
-            animationCompo.animationTime += delta;
+            if (physicsCompo != null && animationCompo.speedUpFactor.get(animationCompo.currentAnimationState) != null) {
+                animationCompo.animationTime
+                        += delta * physicsCompo.getVelocity().len()
+                        / animationCompo.speedUpFactor.get(animationCompo.currentAnimationState);
+            } else {
+                animationCompo.animationTime += delta;
+            }
             
             // Change animation if neccessary (and reset it)
             if(animationCompo.currentAnimationState != state) {
