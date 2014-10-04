@@ -289,13 +289,18 @@ public class EntityFactory{
     }
 
 
-    public static int constructStairs(Vector2 pos, float width, float height){
+    public static int constructStairs(Vector2 pos, float width, float height, int targetFloor){
         int entity = manager.createEntity();
 
         StairsPhysicsComponent stairsPhysicsComponent = new StairsPhysicsComponent(pos, width, height, 0.0f);
         stairsPhysicsComponent.initPhysics(phyManager);
+        stairsPhysicsComponent.owner = entity;
+
+        StairComponent stairComponent = new StairComponent();
+        stairComponent.targetFloor = targetFloor;
 
         manager.addComponent(entity, stairsPhysicsComponent);
+        manager.addComponent(entity, stairComponent);
         return entity;
     }
 
@@ -321,6 +326,16 @@ public class EntityFactory{
         //RenderComponent renderComponent = new RenderComponent();
         //renderComponent.texture = assetManager.getTexture();
         //manager.addComponent(entity, renderComponent);
+    }
+
+    public static void constructFinish(Vector2 pos, float width, float height)
+    {
+        int entity = manager.createEntity();
+
+        FinishPhysicsComponent finishPhysicsComponent = new FinishPhysicsComponent(pos, width, height, 0.0f);
+        finishPhysicsComponent.initPhysics(phyManager);
+
+        manager.addComponent(entity, finishPhysicsComponent);
     }
 
     public static EntityManager manager;

@@ -46,7 +46,7 @@ public class InputManager {
         
         instance = new InputManager();
         
-        switch (GameSettings.getInstance().getInputDevice()) {
+        switch (GameSettings.getInstance().getInputDeviceType()) {
             case MOUSE:
                 instance.inputDevice = new InputMouse();
                 break;

@@ -143,7 +143,30 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 return;
             }
 
-            // TODO: change floor here.
+            int entity = ((StairsPhysicsComponent) other).owner;
+
+            if(entity >= 0)
+            {
+                StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+
+                if(stairComponent != null)
+                {
+                    // TODO: change floor here
+                    Game.mapManager.setFloor(stairComponent.targetFloor);
+
+                }
+
+            }
+
+        } // end check for StairPhysicsComponent
+        else if(other instanceof FinishPhysicsComponent)
+        {
+            if(mySightCone)
+            {
+                return;
+            }
+
+            // TODO: goal reached! set outro sequence here.
         }
 
     }
