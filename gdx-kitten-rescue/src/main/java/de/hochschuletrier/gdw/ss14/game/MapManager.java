@@ -179,7 +179,7 @@ public class MapManager
                 .fixedRotation(false);
         
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
-                .category((short)floor); 
+                .category((short)floor).mask((short) 0xFFFFFFFF); 
         
         switch (t2e) {
         case none: 
