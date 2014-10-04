@@ -123,18 +123,39 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             /* other → is groundobject */
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                 ((CatPropertyComponent)d).groundWalking = ((GroundPropertyComponent)c).type;
-        }else if( otherPhysic instanceof CatBoxPhysicsComponent ){
+        }
+        else if( otherPhysic instanceof CatBoxPhysicsComponent )
+        {
             if(mySightCone) return; // katze sieht katzenbox → egal
-            if ((d = entityManager.getComponent(myEntity, CatPhysicsComponent.class)) != null)
-                 entityManager.removeComponent(myEntity, d);
+
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
-                ((CatPropertyComponent)d).isHidden = true;
-                
-            Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
-            for (Integer entity : lasers){
-                LaserPointerComponent laserPointerComponent = entityManager.getComponent(entity, LaserPointerComponent.class);
-                laserPointerComponent.toolState = ToolState.WATERPISTOL;
+            {
+                CatPropertyComponent catPropertyComponent = (CatPropertyComponent) d;
+
+                if(!catPropertyComponent.isCatBoxOnCooldown)
+                {
+                    if ((d = entityManager.getComponent(myEntity, RenderComponent.class)) != null)
+                    {
+                        entityManager.removeComponent(myEntity, d);
+                    }
+
+                    catPropertyComponent.isHidden = true;
+
+                    catPropertyComponent.isCatBoxOnCooldown = true;
+                    catPropertyComponent.catBoxCooldownTimer = CatPropertyComponent.CATBOX_COOLDOWN;
+                    System.out.println("Set cooldown to true.");
+
+                    // toggle laser
+                    Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+                    for (Integer entity : lasers)
+                    {
+                        LaserPointerComponent laserPointerComponent = entityManager.getComponent(entity, LaserPointerComponent.class);
+                        laserPointerComponent.toolState = ToolState.WATERPISTOL;
+                    }
+                }
+
             }
+
         }
         else if(other instanceof StairsPhysicsComponent)
         {
