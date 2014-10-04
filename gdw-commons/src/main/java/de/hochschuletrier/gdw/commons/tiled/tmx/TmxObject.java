@@ -35,10 +35,10 @@ public class TmxObject {
     protected float y;
     @XStreamAlias("width")
     @XStreamAsAttribute
-    protected Integer width;
+    protected Float width;
     @XStreamAlias("height")
     @XStreamAsAttribute
-    protected Integer height;
+    protected Float height;
 
     public SafeProperties getProperties() {
         return properties;
@@ -112,19 +112,19 @@ public class TmxObject {
         this.y = value;
     }
 
-    public Integer getWidth() {
+    public Float getWidth() {
         return width;
     }
 
-    public void setWidth(Integer value) {
+    public void setWidth(Float value) {
         this.width = value;
     }
 
-    public Integer getHeight() {
+    public Float getHeight() {
         return height;
     }
 
-    public void setHeight(Integer value) {
+    public void setHeight(Float value) {
         this.height = value;
     }
 }
