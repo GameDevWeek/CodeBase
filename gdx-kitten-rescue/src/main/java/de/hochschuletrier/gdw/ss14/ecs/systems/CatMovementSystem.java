@@ -2,7 +2,6 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
@@ -80,6 +79,9 @@ public class CatMovementSystem extends ECSystem{
                 }
 
                 //sliding stuff start
+                //System.out.println(" dirVec:"+movementComponent.directionVec+" phyComp:"+physicsComponent.getPosition()+" lpComp:"+laserPointerComponent
+                //       .position+" wToGo:"+inputComponent.whereToGo+" dist:"+distance);
+
                 if(movementComponent.positionVec == null){
                     movementComponent.positionVec = new Vector2(movementComponent.directionVec.x, movementComponent.directionVec.y);
                 }
@@ -107,13 +109,13 @@ public class CatMovementSystem extends ECSystem{
                 }
                 //sliding stuff end
 
-                if(distance >= 200 && laserPointerComponent.toolState == ToolState.LASER){
+                if(distance >= 200 && catSeesLaserPointer(laserPointerComponent, catPropertyComponent)){
                     movementComponent.velocity += movementComponent.acceleration*delta;
 
                     if(movementComponent.velocity >= movementComponent.maxVelocity){
                         movementComponent.velocity = movementComponent.maxVelocity;
                     }
-                }else if(distance >= 100 && laserPointerComponent.toolState == ToolState.LASER){
+                }else if(distance >= 100 && catSeesLaserPointer(laserPointerComponent, catPropertyComponent)){
                     /**
                      * Falls wir von unserem Stand aus losgehen soll unsere Katze beschleunigen, bis sie "geht"
                      */
@@ -133,7 +135,7 @@ public class CatMovementSystem extends ECSystem{
                             movementComponent.velocity = movementComponent.middleVelocity;
                         }
                     }
-                }else if(laserPointerComponent.toolState == ToolState.LASER){
+                }else if(catSeesLaserPointer(laserPointerComponent, catPropertyComponent)){
                     movementComponent.velocity += movementComponent.damping*1.5f*delta;
                     if(movementComponent.velocity <= movementComponent.minVelocity){
                         movementComponent.velocity = 0;
@@ -149,7 +151,6 @@ public class CatMovementSystem extends ECSystem{
                                     catPropertyComponent.setState(CatStateEnum.JUMP);
                                     jumpDataComponent.jumpDirection = movementComponent.directionVec.nor();
                                 }
-
                             }
                         }
                     }
@@ -166,9 +167,14 @@ public class CatMovementSystem extends ECSystem{
                     percentNewCatVelo *= .5f;
                 }
 
-                if(!(laserPointerComponent.toolState == ToolState.LASER)){
+                if(!(catSeesLaserPointer(laserPointerComponent, catPropertyComponent))){
                     movementComponent.velocity = movementComponent.velocity*(1-delta);
                     percentNewCatVelo = .0f;
+                }
+
+                //dirty hack for preventing the cat from sliding away from start point
+                if(distance > 500){
+                    movementComponent.velocity = 0;
                 }
 
                 movementComponent.positionVec.x = movementComponent.directionVec.x*percentNewCatVelo+movementComponent.oldPositionVec.x*(1-percentNewCatVelo);
@@ -183,7 +189,7 @@ public class CatMovementSystem extends ECSystem{
                 float angle = (float) Math.atan2(-movementComponent.directionVec.x, movementComponent.directionVec.y);
 
                 if(laserPointerComponent != null){
-                    if(!(laserPointerComponent.toolState == ToolState.LASER)){
+                    if(!(catSeesLaserPointer(laserPointerComponent, catPropertyComponent))){
                         if(movementComponent.velocity < 10f){//slowdown on laserPointer off stops to 0 if speed < 10
                             movementComponent.velocity = 0.0f;
                             movementComponent.oldPositionVec.x = movementComponent.positionVec.x;
@@ -193,7 +199,7 @@ public class CatMovementSystem extends ECSystem{
                         }
                     }
 
-                    if (!catPropertyComponent.isHidden && laserPointerComponent.toolState == ToolState.LASER)
+                    if (!catPropertyComponent.isHidden && catSeesLaserPointer(laserPointerComponent, catPropertyComponent))
                     {
                         float currentRot = physicsComponent.getRotation();
                         
@@ -227,5 +233,9 @@ public class CatMovementSystem extends ECSystem{
             physicsComponent.setVelocityX(movementComponent.positionVec.x*movementComponent.velocity);
             physicsComponent.setVelocityY(movementComponent.positionVec.y*movementComponent.velocity);
         }
+    }
+
+    public boolean catSeesLaserPointer(LaserPointerComponent laserPointerComponent, CatPropertyComponent catPropertyComponent){
+        return catPropertyComponent.canSeeLaserPointer && laserPointerComponent != null && laserPointerComponent.toolState == ToolState.LASER;
     }
 }

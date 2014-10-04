@@ -36,7 +36,10 @@ public class AnimationSystem extends ECSystem {
             AnimationExtended currentAnim = animationCompo.animation.get(animationCompo.currentAnimationState);
             int state = getEntityState(entity);
             if (state < 0) continue;
-            if (currentAnim == null) continue;
+            if (currentAnim == null) {
+                renderCompo.texture = null;
+                continue;
+            }
             
             //set isFinished flag of animationCompo
             animationCompo.isFinished = currentAnim.animationDuration <= animationCompo.animationTime;
