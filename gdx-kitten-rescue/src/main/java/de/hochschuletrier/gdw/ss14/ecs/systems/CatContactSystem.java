@@ -22,6 +22,7 @@ import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 
@@ -112,7 +113,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
             for (Integer entity : lasers){
                 LaserPointerComponent laserPointerComponent = entityManager.getComponent(entity, LaserPointerComponent.class);
-                laserPointerComponent.isVisible = false;
+                laserPointerComponent.toolState = ToolState.WATERPISTOL;
             }
         }
         
