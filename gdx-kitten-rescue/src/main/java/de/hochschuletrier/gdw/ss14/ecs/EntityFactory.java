@@ -56,10 +56,10 @@ public class EntityFactory{
         return entity;
     }
 
-    public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration){
+    public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, short mask, short category){
         int entity = manager.createEntity();
 
-        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f);
+        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f, mask, category, (short)0);
         //catPhysix: position(x,y), width, height, rota, friction[0-1][ice-rubber], restitution[0-1][rock-ball]
         ICollisionListener contactSystem = (CatContactSystem) Game.engine.getSystemOfType(CatContactSystem.class);
         catPhysix.collisionListeners.add(contactSystem);
@@ -145,9 +145,9 @@ public class EntityFactory{
         return entity;
     }
 
-    public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots){
+    public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots, short mask , short category){
         int entity = manager.createEntity();
-        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, .2f, 0f);
+        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, .2f, 0f, mask, category, (short)-2);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
         Behaviour verhalten;
@@ -187,9 +187,9 @@ public class EntityFactory{
         manager.addComponent(entity, dogParticleEmitter);
     }
 
-    public static int constructSmartDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots){
+    public static int constructSmartDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots,  short mask , short category){
         int entity = manager.createEntity();
-        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0);
+        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0, mask, category, (short)-2);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
         DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
@@ -255,7 +255,7 @@ public class EntityFactory{
 
     public static int constructPuddleOfBlood(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef);
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.category((short)-2));
         manager.addComponent(entity, puddlephys);
         manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.bloodpuddle));
         puddlephys.initPhysics(phyManager);
@@ -265,7 +265,7 @@ public class EntityFactory{
 
     public static int constructPuddleOfWater(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef);
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.category((short)-2));
         manager.addComponent(entity, puddlephys);
         manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.waterpuddle));
         puddlephys.initPhysics(phyManager);

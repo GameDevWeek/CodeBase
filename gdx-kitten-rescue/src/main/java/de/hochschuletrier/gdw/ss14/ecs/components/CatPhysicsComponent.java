@@ -19,7 +19,8 @@ public class CatPhysicsComponent extends PhysicsComponent {
     public float friction;
     public float rotation;
     public float restitution;
-
+    public short mask, category;
+    
     public final float coneRadius = 30;
     public final float coneCorner = 1.5f;
     
@@ -39,8 +40,14 @@ public class CatPhysicsComponent extends PhysicsComponent {
      * @param restitution
      *            the restitution (elasticity) [0..1][low restitution is like rock - high like a ball]
      */
+    
     public CatPhysicsComponent(Vector2 position, float width, float height,
             float rotation, float friction, float restitution) {
+        this(position, width, height, rotation, friction, restitution, (short)0, (short)0, (short)0);
+    }
+    
+    public CatPhysicsComponent(Vector2 position, float width, float height,
+            float rotation, float friction, float restitution, short mask, short category, short group) {
         
         if(height <= width) throw new IllegalArgumentException("cat needs to be higher than fat");
         
@@ -50,7 +57,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
         this.rotation = rotation;
         this.friction = friction;
         this.restitution = restitution;
-        
+        this.mask = mask;
         coneShape = new ArrayList<>();
         collisionListeners = new ArrayList<>();
     }
@@ -61,7 +68,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
         
         PhysixFixtureDef conefixturedef = new PhysixFixtureDef(manager).density(1).sensor(true);
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
-                .friction(friction).restitution(restitution);
+                .friction(friction).restitution(restitution).mask(mask).category(category);
 
         physicsBody = new PhysixBodyDef(BodyType.DynamicBody, manager)
                 .position(position).fixedRotation(true).angle(rotation).create();
