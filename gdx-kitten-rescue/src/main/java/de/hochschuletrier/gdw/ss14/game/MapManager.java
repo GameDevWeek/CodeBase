@@ -37,7 +37,7 @@ public class MapManager
 
     public int targetFloor = 0;
     public boolean isChangingFloor = false;
-    
+
 
     public MapManager(EntityManager entityManager, PhysixManager physixManager, AssetManagerX assetmanager)
     {
@@ -104,14 +104,14 @@ public class MapManager
             if ((layer.getIntProperty("floor", -1) == floor) && (layer.isTileLayer()))
                 mapComp.renderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
         }
-        
+
         loadMapObjects();
     }
 
     private enum tile2entity{
         none, waterpuddle, deadzone, bloodpuddle, parketfloor, kitchenfloor
     }
-    
+
     private void createPhysics()
     {
         // Generate static world
@@ -119,7 +119,7 @@ public class MapManager
         int tileHeight = tiledMap.getTileHeight();
         //                     
 
-        
+
         RectangleGenerator generator = new RectangleGenerator();
         for(int i = 0; i < 16; i++){
             short floor = (short)(Math.pow(2, i));
@@ -174,7 +174,7 @@ public class MapManager
                 .category((short)floor));
         return body;
     }*/
-    
+
     private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, tile2entity t2e)
     {
         float width = rect.width * tileWidth;
@@ -184,17 +184,17 @@ public class MapManager
 
         PhysixBodyDef bodydef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
                 .fixedRotation(false);
-        
+
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
                 .category((short) floor).mask((short) 0b1111111111111111);
         switch (t2e) {
-        case none: 
+        case none:
             PhysixBody body = bodydef.create();
             body.createFixture(fixturedef);
             body.getBody().setUserData("wall");
             break;
         case waterpuddle: EntityFactory.constructPuddleOfWater(bodydef, fixturedef);break;
-        case bloodpuddle: 
+        case bloodpuddle:
             fixturedef.sensor(false);
             EntityFactory.constructPuddleOfBlood(bodydef, fixturedef);break;
         case deadzone:
@@ -203,13 +203,13 @@ public class MapManager
         case kitchenfloor:
             fixturedef.sensor(true);
             EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.kitchenfloor);break;
-        case parketfloor:    
+        case parketfloor:
             fixturedef.sensor(true);
             EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.woodenfloor);break;
         }
-        
+
     }
-       
+
     private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, boolean flag, String userdata)
     {
         float width = rect.width * tileWidth;
@@ -223,7 +223,7 @@ public class MapManager
                 .category((short)floor));
         body.getFixtureList().forEach((f)->f.setUserData(userdata));
         body.getFixtureList().forEach((f)->f.setSensor(flag));
-        
+
     }
 
     public TiledMap getMap()
@@ -239,21 +239,21 @@ public class MapManager
         {
             if (layers.get(i).getIntProperty("floor", -1) != currentFloor)
                 continue;
-            
+
             ArrayList<LayerObject> mapObjects = layers.get(i).getObjects();
             if (mapObjects != null)
             {
                 ArrayList<Integer> dogIds = new ArrayList<>();
                 ArrayList<Vector2> dogpositions = new ArrayList<>();
                 ArrayList<String>  dogpatrolstring = new ArrayList<>();
-                
+
                 ArrayList<Vector2> patrolspots = new ArrayList<>();
                 ArrayList<Integer> spotIds = new ArrayList<>();
-               
+
                 short mask = 0, category = 0;
                 for (int j = 0; j < mapObjects.size(); ++j)
                 {
-                    
+
                     String objType = mapObjects.get(j).getName();
                     float x = mapObjects.get(j).getX();
                     float y = mapObjects.get(j).getY();
@@ -263,23 +263,18 @@ public class MapManager
 
                     mask = (short)Math.pow(2, mapObjects.get(j).getIntProperty("floor", 0));
                     category = (short)0b1111111111111111;
-                    
+
                     if (objType != null)
                     {
                         switch (objType)
                         {
                             case "start":
-                                try {
-                                    EntityFactory.constructCat(pos, 150, 75, 0, 50.0f,
-                                            mask, category
-                                            );
-                                    
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                if(entityManager.getAllEntitiesWithComponents(PlayerComponent.class).size == 0)
+                                {
+                                    EntityFactory.constructCat(pos, 150, 75, 0, 50.0f, mask, category );
                                 }
-
                                 break;
-                                
+
                             case "dogspawn":
                                 /* dogs are build later */
                                 dogpositions.add(pos);
@@ -338,7 +333,7 @@ public class MapManager
                 
                 /* build dogs now */
                 for(Vector2 pos : dogpositions){
-                    
+
                     ArrayList<Vector2> tmp = new ArrayList<>();
                     for(String s : dogpatrolstring){
                         if(dogpatrolstring.size() == 0) continue;
