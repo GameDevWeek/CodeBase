@@ -17,7 +17,7 @@ public class GameSettings {
     
     private Float volume = 1.0f;
     private Boolean fullscreen = false;
-    private InputDevice.DeviceType inputDeviceType = DeviceType.GAMEPAD;
+    private InputDevice.DeviceType inputDeviceType = DeviceType.MOUSE;
     
     public GameSettings() {
     }
