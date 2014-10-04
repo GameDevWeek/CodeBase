@@ -14,7 +14,7 @@ import de.hochschuletrier.gdw.commons.tiled.TiledMap;
  */
 public class TileMapRenderingComponent implements Component{
 	
-    public static float LayerSwitchTime = 2.0f;
+    public static float LayerSwitchTime = 4.0f;
 
     private TiledMap map = null;
 	public Array<Integer> renderedLayers = new Array<Integer>();

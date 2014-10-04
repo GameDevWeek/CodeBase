@@ -31,7 +31,7 @@ public class DogPhysicsComponent extends PhysicsComponent {
     public DogPhysicsComponent(Vector2 position, float width, float height,
             float rotation, float friciton, float restitutioin) {
         
-        if(height <= width) throw new IllegalArgumentException("cat needs to be higher than fat");
+        if(height <= width) throw new IllegalArgumentException("cat needs to be higher than fat"); //cat/dog?
         
         mPosition = position;
         mWidth = width;

@@ -1,7 +1,8 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
-import de.hochschuletrier.gdw.ss14.ecs.systems.*;
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,33 @@ import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.ss14.ecs.Engine;
 import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatCooldownUpdateSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatJumpUpdateSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatMovementSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CatStateUpdateSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ChangeMapSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.CheckCatDeadSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DeleteDeadPhysicEntitiesSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DogMovementSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.HitAnimationSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.LaserPointerSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.LightMapSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.LimitedLifetimeSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ParticleEmitterSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixUpdateSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ShadowSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.WoolInfluenceSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
 import de.hochschuletrier.gdw.ss14.input.InputMouse;
@@ -30,6 +57,7 @@ public class Game {
 
     private Array<ECSystem> systems;
     public static Engine engine;
+
 
     public static MapManager mapManager;
     private EntityManager entityManager;
@@ -48,7 +76,8 @@ public class Game {
         mapManager = new MapManager(entityManager, physixManager, am);
 
         globalBlackboard = new GlobalBlackboard(entityManager);
-        behaviourManager = new BehaviourManager(globalBlackboard);       
+        behaviourManager = new BehaviourManager(globalBlackboard);
+
         
         EntityFactory.phyManager = physixManager;
         EntityFactory.manager = entityManager;
@@ -60,7 +89,7 @@ public class Game {
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("mehrstoeckigmap");
+        mapManager.loadMap("mehrstoeckigMap"); 
         mapManager.setFloor(0);
         
         behaviourManager.activate();
@@ -114,7 +143,8 @@ public class Game {
     {
         //int dogEntity = EntityFactory.constructDog(new Vector2(0, 0), 60.0f, 40.0f, 0, 100f);
         //int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
-        //int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
+        ArrayList<Vector2> patrolSpots= new ArrayList<>();
+        int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500f, 350f), 60.0f, 40.0f, 0f, 100f, patrolSpots, (short)0,(short) 0f);
 
         EntityFactory.constructLaserPointer(new Vector2(300,0));
         EntityFactory.constructWool(new Vector2(3000,100));
@@ -148,6 +178,8 @@ public class Game {
 
     float timeSinceLastFPSShow = 0.0f;
     public void update(float delta){
+        InputManager.getInstance().update();
+
         engine.update(delta);
         
         // FPS
