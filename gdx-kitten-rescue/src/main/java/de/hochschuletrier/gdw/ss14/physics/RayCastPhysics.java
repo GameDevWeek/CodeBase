@@ -41,6 +41,7 @@ public class RayCastPhysics implements RayCastCallback{
         m_normal = null;
         m_fraction = 0;
         collisions.clear();
+        collisionBodys.clear();
     }
 
     public float reportRayFixture(Fixture fixture,  Vector2 point,
