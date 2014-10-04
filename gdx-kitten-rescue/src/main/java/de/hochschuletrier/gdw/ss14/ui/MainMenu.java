@@ -1,21 +1,12 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.ss14.sound.SoundManager;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class MainMenu extends LaserCatMenu
 {
@@ -35,28 +26,29 @@ public class MainMenu extends LaserCatMenu
 		addButtonsToFrame();
 		actionListener = new UiActionListener();
 		
-		for (Button b:button)
+		for (UIButton b:button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.actionListener);
+			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 		}
 	}
 	
 	protected void addButtonsToFrame()
 	{
-		button = new Button[numberOfButtons];
+		button = new UIButton[numberOfButtons];
 		label = new Label[numberOfButtons];
 
 		for(int i=0; i<numberOfButtons; i++)
 		{
-			label[i] = new Label(name[i], basicSkin);
+			label[i] = new Label(name[i], catSkin);
 			widgetFrame.add(label[i]).expandX().space(20).spaceBottom(10);
 		}
 		
 		widgetFrame.row();
 		for(int i = 0; i<numberOfButtons; i++)
 		{
-			button[i] = new Button(catSkin, "bell");
+			button[i] = new UIButton(catSkin, "bell");
 			button[i].setName("bell");
 			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
 		}
@@ -75,13 +67,13 @@ public class MainMenu extends LaserCatMenu
 					switch (i)
 					{
 						case 0:
-							GameStates.GAMEPLAY.activate();
+							GameStateEnum.GAMEPLAY.activate();
 							break;
 						case 1:
-							GameStates.LEVELMENU.activate();
+							GameStateEnum.LEVELMENU.activate();
 							break;
 						case 2:
-							GameStates.OPTIONSMENU.activate();
+							GameStateEnum.OPTIONSMENU.activate();
 							break;
 						case 3:
 							System.exit(0);

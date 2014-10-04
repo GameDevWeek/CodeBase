@@ -16,13 +16,13 @@ public enum CatStateEnum {
     IDLE,
     WALK,
     RUN,
-    JUMP_BEGIN,
     JUMP,
-    JUMP_END,
     CRASH,
     FALL,
     DIE,
     DIE2,
     POSITIVE_FOOD,
-    HIDDEN
+    HIDDEN,
+    JUMPING_IN_BOX,
+    PLAYS_WITH_WOOL,
 }

@@ -10,21 +10,25 @@ import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 import de.hochschuletrier.gdw.ss14.ui.UIActions;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SoundManager {
 	private static Sound sound;
 	private static Sound loop;
+	private static Logger Logger = LoggerFactory.getLogger(SoundManager.class);
 	private static boolean isLooping;
 	private static AssetManagerX assetManager;
-	private static float SystemVolume = 0.4f;
+	public static float SystemVolume = 1.9f;
 	
 	public static void performAction(Enum action) {
-		GameStates actualGamestate = null;
+		GameStateEnum actualGamestate = null;
 		String actionString = action.name();
 
-		for (GameStates state : GameStates.values()) {
+		for (GameStateEnum state : GameStateEnum.values()) {
 			if (state.isActive()) {
 				actualGamestate = state;
 				break;
@@ -45,18 +49,21 @@ public class SoundManager {
 				break;
 			case GAMEPLAY:
 				switch (actionString) {
-					case "CATWALK":
-						Array<Integer> entities = new Array<Integer>();
-						entities = (EntityManager.getInstance().getAllEntitiesWithComponents(CatPropertyComponent.class));
-						int a = entities.first();
-						CatPropertyComponent cp = EntityManager.getInstance().getComponent(a, CatPropertyComponent.class);
-						if (cp.state != CatStateEnum.WALK) {
-							SoundManager.loop.stop();
-							SoundManager.isLooping = false;
-						}
-						else 
-							SoundManager.loopSound("gp_cat_victory");
+					case "ON":
+						SoundManager.playSound("gp_laser_on_temp");
 						break;
+					case "OFF":
+						SoundManager.playSound("gp_laser_off_temp");
+						break;
+					case "FALL":
+						Integer tmp = random(0,1);
+						switch (tmp) {
+							case 0: SoundManager.playSound("gp_cat_fall1"); break;
+							case 1: SoundManager.playSound("gp_cat_fall2"); break;
+						}
+						break;
+					case "JUMP":
+						SoundManager.playSound("gp_cat_jump");
 				} 
 				break;
 			default:
@@ -65,9 +72,9 @@ public class SoundManager {
 		}
 	}
 
-	private static void playSound(String sound) {
+	public static void playSound(String sound) {
 		SoundManager.sound = SoundManager.assetManager.getSound(sound);
-		SoundManager.sound.play(SoundManager.SystemVolume);
+		SoundManager.sound.play(SoundManager.SystemVolume * LocalMusic.getSystemVolume());
 	}
 	
 	private static void loopSound(String sound) {
@@ -80,7 +87,7 @@ public class SoundManager {
 		SoundManager.isLooping = true;
 		
 		SoundManager.loop = SoundManager.assetManager.getSound(sound);
-		SoundManager.loop.loop(SoundManager.SystemVolume);
+		SoundManager.loop.loop(SoundManager.SystemVolume * LocalMusic.getSystemVolume());
 		}
 	}
 	

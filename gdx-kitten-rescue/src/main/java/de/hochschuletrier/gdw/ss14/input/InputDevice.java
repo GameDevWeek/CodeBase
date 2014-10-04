@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
+import de.hochschuletrier.gdw.ss14.Main;
+
 public abstract class InputDevice extends InputAdapter {
 
     public static enum DeviceType {
@@ -13,7 +15,20 @@ public abstract class InputDevice extends InputAdapter {
         GAMEPAD
     };
     
-	protected LinkedList<GameInputAdapter> listener = new LinkedList<>(); 
+	protected LinkedList<GameInputAdapter> listener = new LinkedList<>();
+	protected DeviceType devicType;
+	
+	public DeviceType getDeviceType() {
+	    return devicType;
+	}
+	
+	public void registerProcessor() {
+	    Main.inputMultiplexer.addProcessor(this);
+	}
+	
+	public void unregisterProcessor() {
+	    Main.inputMultiplexer.removeProcessor(this);
+	}
 	
     /**
      * 

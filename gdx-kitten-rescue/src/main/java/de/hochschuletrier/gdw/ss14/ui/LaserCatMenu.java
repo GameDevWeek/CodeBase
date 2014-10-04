@@ -1,20 +1,16 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
@@ -26,22 +22,23 @@ public abstract class LaserCatMenu
 	private static Image menuCatImage, titleTextImage;
 	// For debug drawing
 	private ShapeRenderer shapeRenderer; 
-	protected static SoundListener soundListener;
 
 	
 	//
 	// Vererbtes Zeug
 	//
 	protected static Table widgetFrame;
+	protected static SoundListener soundListener;
 	protected static Table table;
-	protected static Skin catSkin, basicSkin;
+	protected static Skin catSkin;
 	protected static Stage stage;
 	protected static float heightOfWidgetFrame;
 	protected static float widthOfWidgetFrame;
+	protected static float frameDuration;
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
-	protected Button button[];
+	protected UIButton button[];
 	protected Label label[];
 	protected String name[];
 	protected int numberOfButtons;
@@ -51,8 +48,8 @@ public abstract class LaserCatMenu
 		//Variables
 		heightOfWidgetFrame = 0.25f;
 		widthOfWidgetFrame = 0.65f;
-		
-		
+		frameDuration = 0.05f;
+				
 		// Adjusts the table and adds it to the stage
 		stage = new Stage();
 		
@@ -61,7 +58,6 @@ public abstract class LaserCatMenu
 		stage.addActor(table);
 		table.setFillParent(true);
 		catSkin = new Skin(Gdx.files.internal("data/skins/MainMenuSkin.json"));
-		basicSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
 		
 	
 		// Sets Input so it can reach different layers, depending on focus
@@ -72,7 +68,7 @@ public abstract class LaserCatMenu
 
 		
 		//TitleTextImage
-		titleTextImage= new Image(catSkin.getDrawable("print-exemple"));
+		titleTextImage= new Image(catSkin.getDrawable("game-title"));
 		table.add(titleTextImage).top().size(Value.percentWidth(0.8f,  table),Value.percentHeight(0.25f, table)).expandX();
 		table.row();
 		
@@ -80,9 +76,6 @@ public abstract class LaserCatMenu
 		widgetFrame = new Table();
 		table.add(widgetFrame).bottom().size(Value.percentWidth(widthOfWidgetFrame, table), Value.percentHeight(heightOfWidgetFrame,table));
 		table.row();
-
-	
-		//catSkin.getDrawable("title");
 		
 		// MainCat Image
 		menuCatImage = new Image(catSkin.getDrawable("main-menu-cat"));
@@ -131,15 +124,8 @@ public abstract class LaserCatMenu
 					return;
 			if(event.getListenerActor().getName().equals("bell"))
 				SoundManager.performAction(UIActions.BELLOVER);
-//				playAnimation(event.getListenerActor());
 			else
 				SoundManager.performAction(UIActions.BUTTONOVER);
 		}
 	}
-	
-//	private void animateBell(Button b)
-//	{
-//		
-//	}
-	
 }

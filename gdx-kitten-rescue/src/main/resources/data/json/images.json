@@ -4,6 +4,10 @@
     "menuBackground": "data/images/CatWorld.jpg",
     "cat_live_full": "data/images/cat_live_full.png",
     "cat_live_empty": "data/images/cat_live_empty.png",
-    "weapon_laser": "data/images/weapon_laser.png",
-    "weapon_waterpistol": "data/images/weapon_waterpistol.png"
+    "weapon_laser": "data/images/laser_icon_version2.png",
+    "weapon_waterpistol": "data/images/water_icon_version2.png",
+    "catbox": "data/images/catbox.png",
+    "waterbar": "data/images/water_bar.png",
+    "laser_cursor": "data/images/laser.png",
+    "waterpistol_cursor": "data/images/crosshair2.png"
 }

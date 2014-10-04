@@ -34,13 +34,14 @@ import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
 import de.hochschuletrier.gdw.ss14.sound.MusicManager;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.states.KittenGameState;
 
 /**
  * 
  * @author Santo Pfingsten
  */
-public class Main extends StateBasedGame {
+public class Main extends StateBasedGame<KittenGameState> {
 
 	private static String[] mainArgs;
 	
@@ -60,6 +61,9 @@ public class Main extends StateBasedGame {
     private final CVarEnum<SoundDistanceModel> distanceModel = new CVarEnum("snd_distanceModel", SoundDistanceModel.INVERSE, SoundDistanceModel.class, 0, "sound distance model");
     private final CVarEnum<SoundEmitter.Mode> emitterMode = new CVarEnum("snd_mode", SoundEmitter.Mode.STEREO, SoundEmitter.Mode.class, 0, "sound mode");
 
+    public Main() {
+        super(new KittenGameState());
+    }
     public static Main getInstance() {
         if (instance == null) {
             instance = new Main();
@@ -107,7 +111,7 @@ public class Main extends StateBasedGame {
 
     @Override
     public void create() {
-        CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Internal));
+        CurrentResourceLocator.set(new GdxResourceLocator(Files.FileType.Local));
         DrawUtil.init();
         loadAssetLists();
         gamePreferences.init();
@@ -120,8 +124,8 @@ public class Main extends StateBasedGame {
         addScreenListener(consoleView);
         inputMultiplexer.addProcessor(consoleView.getInputProcessor());
 
-        GameStates.LOADING.init(assetManager);
-        GameStates.LOADING.activate();
+        GameStateEnum.LOADING.init(assetManager);
+        GameStateEnum.LOADING.activate();
 
         this.console.register(distanceModel);
         distanceModel.addListener((CVar)->distanceModel.get().activate());
@@ -131,8 +135,8 @@ public class Main extends StateBasedGame {
     }
 
     public void onLoadComplete() {
-        for(GameStates state: GameStates.values()) {
-            if(state != GameStates.LOADING) {
+        for(GameStateEnum state: GameStateEnum.values()) {
+            if(state != GameStateEnum.LOADING) {
                 state.init(assetManager);
             }
         }
@@ -147,16 +151,16 @@ public class Main extends StateBasedGame {
     }
     
     if(mainMenu)
-        GameStates.MAINMENU.activate();
+        GameStateEnum.MAINMENU.activate();
     else
-		GameStates.GAMEPLAY.activate(null, null);
+		GameStateEnum.GAMEPLAY.activate(null, null);
     
     }
 
     @Override
     public void dispose() {
         DrawUtil.batch.dispose();
-        GameStates.dispose();
+        GameStateEnum.dispose();
         consoleView.dispose();
         skin.dispose();
         SoundEmitter.disposeGlobal();
@@ -211,7 +215,7 @@ public class Main extends StateBasedGame {
     public static void main(String[] args) {
         mainArgs = args;
     	LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "Laser Cat";
+        cfg.title = "Laser Chaser: Zombie Racer";
         cfg.width = WINDOW_WIDTH;
         cfg.height = WINDOW_HEIGHT;
         cfg.useGL30 = false;

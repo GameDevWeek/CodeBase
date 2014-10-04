@@ -1,17 +1,18 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
-import com.badlogic.gdx.Gdx;
+import java.util.Map;
+import java.util.Set;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.ss14.Main;
-import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.states.GameStates;
+import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
+import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class LevelMenu extends LaserCatMenu
 {
@@ -19,13 +20,16 @@ public class LevelMenu extends LaserCatMenu
 	private Integer levelIndex;
 	private Label levelLabel;
 	private String levelString;
-	
+	private Map<String, String> mapJson;
+	private int numberOfLevels;
+	private String[] mapKeyArray;
+
 	@Override
 	public void init(AssetManagerX assetManager)
 	{
 		super.init(assetManager);
-		System.out.println("init LevelMenu");
-		
+		loadJson();
+
 		levelIndex = new Integer(0);
 		
 		numberOfButtons = 4;
@@ -38,25 +42,47 @@ public class LevelMenu extends LaserCatMenu
 
 		levelMenuListener = new LevelMenuListener();
 
-		for (Button b : button)
+		for (UIButton b : button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.levelMenuListener);
+			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 		}
 		
 
 }
 
+	private void loadJson()
+	{
+		   try 
+		   {
+	           Map <String, String> mapJson = JacksonReader.readMap("data/maps/MapJsonDummy.json",String.class);
+	           Set<String> mapKeySet = mapJson.keySet();
+	           numberOfLevels = mapKeySet.size();
+	           for (String string: mapKeySet)
+	        	   System.out.println("from mapKeySet: " + string);
+	           
+	           mapKeyArray = new String[numberOfLevels];
+	           mapKeyArray = (String[]) mapKeySet.toArray();
+	           for (String string: mapKeySet)
+	        	   System.out.println(string);
+		   } catch (Exception e) 
+		   {
+	            e.printStackTrace();
+	        }		
+	       
+	}
+
 	protected void addButtonsToFrame()
 	{
-		button = new Button[numberOfButtons];
+		button = new UIButton[numberOfButtons];
 		label = new Label[numberOfButtons+1];
 
-		label[0] = new Label(name[0], basicSkin);
-		label[1] = new Label(name[1], basicSkin);
-		label[2] = new Label("Level\n(no works yet)", basicSkin);
-		label[3] = new Label(name[2], basicSkin);
-		label[4] = new Label(name[3], basicSkin);
+		label[0] = new Label(name[0], catSkin);
+		label[1] = new Label(name[1], catSkin);
+		label[2] = new Label("Level\n(no works yet)", catSkin);
+		label[3] = new Label(name[2], catSkin);
+		label[4] = new Label(name[3], catSkin);
 
 		for(Label l: label)
 		{
@@ -67,13 +93,13 @@ public class LevelMenu extends LaserCatMenu
 		widgetFrame.row();
 		for(int i = 0; i<numberOfButtons; i++)
 		{
-			button[i] = new Button(catSkin, "bell");
+			button[i] = new UIButton(catSkin, "bell");
 			button[i].setName("bell");
 		}
 		widgetFrame.add(button[0]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
 		widgetFrame.add(button[1]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
 		
-		levelLabel = new Label(levelIndex.toString(), basicSkin);
+		levelLabel = new Label(levelIndex.toString(), catSkin);
 		widgetFrame.add(levelLabel).center();
 		
 		widgetFrame.add(button[2]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
@@ -94,7 +120,7 @@ public class LevelMenu extends LaserCatMenu
 				switch (i)
 				{
 				case 0:
-					GameStates.GAMEPLAY.activate();
+					GameStateEnum.GAMEPLAY.activate();
 					break;
 				case 1:
 					levelIndex = levelIndex > 0 ? (levelIndex-1) : 0;
@@ -107,7 +133,7 @@ public class LevelMenu extends LaserCatMenu
 					System.out.println("Increase Level to " + levelIndex);
 					break;
 				case 3:
-					GameStates.MAINMENU.activate();
+					GameStateEnum.MAINMENU.activate();
 					break;
 				}
 			}

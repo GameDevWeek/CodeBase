@@ -65,10 +65,10 @@
     },
     "fall": {
         "filename": "data/animations/fall.png",
-        "frames" : 10,
-        "frameDuration": [0.5,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
+        "frames" : 11,
+        "frameDuration": [0.5,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
         "playType" : "NORMAL",
-        "columns": 10,
+        "columns": 11,
         "rows" : 1
     },
     "jump_beginn": {
@@ -109,6 +109,110 @@
         "frameDuration": [0.2,0.2,0.2,0.5,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
         "playType" : "NORMAL",
         "columns": 11,
+        "rows" : 1
+    },
+    "fight": {
+        "filename": "data/animations/Fight.png",
+        "frames" : 12,
+        "frameDuration": [0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
+        "playType" : "NORMAL",
+        "columns": 12,
+        "rows" : 1
+    },
+    "pudel_beissen": {
+        "filename": "data/animations/pudel_beissen.png",
+        "frames" : 4,
+        "frameDuration": [0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 4,
+        "rows" : 1
+    },
+    "pudel_fallen": {
+        "filename": "data/animations/pudel_fallen.png",
+        "frames" : 12,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 12,
+        "rows" : 1
+    },
+    "pudel_laufen": {
+        "filename": "data/animations/pudel_laufen.png",
+        "frames" : 6,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "LOOP",
+        "columns": 6,
+        "rows" : 1
+    },
+    "pudel_springen": {
+        "filename": "data/animations/pudel_springen.png",
+        "frames" : 9,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 9,
+        "rows" : 1
+    },
+    "cat_jumping_in_box": {
+        "filename": "data/animations/Box.png",
+        "frames" : 7,
+        "frameDuration": [0.2,0.2,0.2,0.2,0.2,0.2,0.2],
+        "playType" : "NORMAL",
+        "columns": 7,
+        "rows" : 1
+    },
+    "cat_plays_with_wool": {
+        "filename": "data/animations/Ball_of_wool.png",
+        "frames" : 15,
+        "frameDuration": [0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2],
+        "playType" : "NORMAL",
+        "columns": 15,
+        "rows" : 1
+    },
+    "mops_beissen": {
+        "filename": "data/animations/mops_beissen.png",
+        "frames" : 6,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 6,
+        "rows" : 1
+    },
+    "mops_fallen": {
+        "filename": "data/animations/mops_fallen.png",
+        "frames" : 9,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 9,
+        "rows" : 1
+    },
+    "mops_laufen": {
+        "filename": "data/animations/mops_laufen.png",
+        "frames" : 6,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "LOOP",
+        "columns": 6,
+        "rows" : 1
+    },
+    "mops_springen": {
+        "filename": "data/animations/mops_springen.png",
+        "frames" : 7,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 7,
+        "rows" : 1
+    },
+    "mops_idle": {
+        "filename": "data/animations/mops_idle.png",
+        "frames" : 1,
+        "frameDuration": [0.1],
+        "playType" : "LOOP",
+        "columns": 1,
+        "rows" : 1
+    },
+    "pudel_idle": {
+        "filename": "data/animations/pudel_idle.png",
+        "frames" : 1,
+        "frameDuration": [0.1],
+        "playType" : "LOOP",
+        "columns": 1,
         "rows" : 1
     }
 }

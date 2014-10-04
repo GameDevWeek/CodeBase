@@ -19,7 +19,6 @@ public class CatStateUpdateSystem extends ECSystem
     public void update(float delta)
     {
         Array<Integer> entities = entityManager.getAllEntitiesWithComponents(MovementComponent.class, JumpDataComponent.class, CatPropertyComponent.class);
-        Array<Integer> laser = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
 
         for (Integer entity : entities)
         {
@@ -27,27 +26,34 @@ public class CatStateUpdateSystem extends ECSystem
             CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
             JumpDataComponent jumpDataComponent = entityManager.getComponent(entity, JumpDataComponent.class);
 
-            if (catPropertyComponent.state == CatStateEnum.JUMP)
+            if(catPropertyComponent.isHidden)
+            {
+                catPropertyComponent.setState(CatStateEnum.HIDDEN);
+                return;
+            }
+
+            if (catPropertyComponent.getState() == CatStateEnum.JUMP)
             {
                 if (jumpDataComponent.currentJumpTime >= jumpDataComponent.maxJumpTime)
                 {
-                    catPropertyComponent.state = CatStateEnum.IDLE;
+                    catPropertyComponent.setState(CatStateEnum.IDLE);
                 }
             }
 
-            if (catPropertyComponent.state != CatStateEnum.JUMP)
+            if (catPropertyComponent.getState() != CatStateEnum.JUMP
+                && catPropertyComponent.getState() != CatStateEnum.FALL)
             {
                 if (movementComponent.velocity <= 0.0f)
                 {
-                    catPropertyComponent.state = CatStateEnum.IDLE;
+                    catPropertyComponent.setState(CatStateEnum.IDLE);
                 }
                 else if (movementComponent.velocity <= movementComponent.middleVelocity)
                 {
-                    catPropertyComponent.state = CatStateEnum.WALK;
+                    catPropertyComponent.setState(CatStateEnum.WALK);
                 }
                 else if (movementComponent.velocity >= movementComponent.middleVelocity)
                 {
-                    catPropertyComponent.state = CatStateEnum.RUN;
+                    catPropertyComponent.setState(CatStateEnum.RUN);
                 }
             }
         }

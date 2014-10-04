@@ -12,7 +12,6 @@
  <tileset firstgid="136" source="Tilesets/SolidsTileset.tsx"/>
  <tileset firstgid="392" source="Tilesets/SolidTileset(begehbar).tsx"/>
  <tileset firstgid="648" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
- <tileset firstgid="663" source="Tilesets/Treppe_Klein-Kopie.tsx"/>
  <tileset firstgid="664" source="Tilesets/Tuer.tsx"/>
  <tileset firstgid="685" source="Tilesets/Wollknaeuel.tsx"/>
  <layer name="ground" width="30" height="15">

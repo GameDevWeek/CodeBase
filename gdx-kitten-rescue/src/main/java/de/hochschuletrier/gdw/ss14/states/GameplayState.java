@@ -1,59 +1,55 @@
 package de.hochschuletrier.gdw.ss14.states;
 
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
-import de.hochschuletrier.gdw.commons.gdx.state.GameState;
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
-import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.utils.FpsCalculator;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.hud.IngameHUD;
+import de.hochschuletrier.gdw.ss14.input.InputManager;
+import de.hochschuletrier.gdw.ss14.physics.PhysicsActions;
+import de.hochschuletrier.gdw.ss14.sound.CatSoundListener;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 /**
  * Gameplay state
  * 
  * @author Santo Pfingsten
  */
-public class GameplayState extends GameState implements InputProcessor {
+public class GameplayState extends KittenGameState implements InputProcessor {
 
     private Game game;
     private Sound helicopter;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
-    private LocalMusic music;
+    private LocalMusic music, hurryMusic;
 
     private final SoundEmitter emitter = new SoundEmitter();
+	private static CatSoundListener playerSoundListener;
     private final LimitedSmoothCamera camera = new LimitedSmoothCamera();
     private final Vector2 position = new Vector2(100, 100);
     private float totalMapWidth, totalMapHeight;
     
     private IngameHUD ingameHUD;
 
-    public GameplayState() {
-    }
-
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
         helicopter = assetManager.getSound("ouchWall");
+        InputManager.init();
         game = new Game(assetManager);
         game.init(assetManager);
-        this.music = Main.MusicManager.getMusicStreamByStateName(GameStates.GAMEPLAY);
+        this.music = Main.MusicManager.getMusicStreamByStateName(GameStateEnum.GAMEPLAY);
+        this.playerSoundListener = new CatSoundListener(assetManager);
         Main.inputMultiplexer.addProcessor(this);
-        
+       
         ingameHUD = new IngameHUD(assetManager);
         
         // Setup camera
@@ -84,6 +80,7 @@ public class GameplayState extends GameState implements InputProcessor {
 
     @Override
     public void update(float delta) {
+        InputManager.getInstance().update(); 
     	this.music.update();
         /*emitter.update();
         emitter.setPosition(cursor.x, cursor.y, 0);
@@ -109,22 +106,27 @@ public class GameplayState extends GameState implements InputProcessor {
     }
 
     @Override
-    public void onEnter() {
+    public void onEnter(KittenGameState previousState) {
 		if (this.music.isMusicPlaying()) {
 			this.music.setFade('i', 3000);
 		} else {
 			this.music.play("ingame_calm");
 		}
         emitter.dispose();
+        InputManager.getInstance().registerProcessor();
+        Gdx.input.setCursorCatched(true);
         //emitter.play(helicopter, true);
     }
 
     @Override
-    public void onLeave() {
+    public void onLeave(KittenGameState nextState) {
 		if (this.music.isMusicPlaying()) {
     		this.music.setFade('o', 3000);
 		}
         emitter.dispose();
+        InputManager.getInstance().unregisterProcessor();
+        Gdx.input.setCursorImage(null, 0, 0);
+        Gdx.input.setCursorCatched(false);
     }
 
     @Override

@@ -3,11 +3,12 @@ package de.hochschuletrier.gdw.ss14.sound;
 import java.util.EnumMap;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.states.*;
 
 public class MusicManager {
 	private static MusicManager Instance;
-	private EnumMap<GameStates, LocalMusic> musicStreamsList;
+	private EnumMap<GameStateEnum, LocalMusic> musicStreamsList;
 	private AssetManagerX assetManager;
 
 	
@@ -20,18 +21,18 @@ public class MusicManager {
 	public MusicManager() {}
 	
 	public void init(AssetManagerX assetManager) {
-		this.musicStreamsList = new EnumMap<GameStates, LocalMusic> (GameStates.class);
+		this.musicStreamsList = new EnumMap<GameStateEnum, LocalMusic> (GameStateEnum.class);
 		this.assetManager = assetManager;
 		this.fillStreamList();
 	}
 	
 	private void fillStreamList() {
-		for (GameStates state : GameStates.values()) {
+		for (GameStateEnum state : GameStateEnum.values()) {
 			this.musicStreamsList.put(state, new LocalMusic(this.assetManager));
 		}
 	}
 	
-	public LocalMusic getMusicStreamByStateName(GameStates stateName) {
+	public LocalMusic getMusicStreamByStateName(GameStateEnum stateName) {
 		if (this.musicStreamsList.containsKey(stateName)) 
 			return this.musicStreamsList.get(stateName);
 		else
@@ -39,14 +40,14 @@ public class MusicManager {
 	}
 	
 	public void stopAllStreams() {
-		for (GameStates state : GameStates.values()) {
+		for (GameStateEnum state : GameStateEnum.values()) {
 			if (this.musicStreamsList.get(state).isMusicPlaying())
 				this.musicStreamsList.get(state).stop();
 		}		
 	}
 	
 	public void sendVolumeToStreams(float systemVolume) {
-		for (GameStates state : GameStates.values()) {
+		for (GameStateEnum state : GameStateEnum.values()) {
 			if (this.musicStreamsList.get(state).isMusicPlaying())
 				this.musicStreamsList.get(state).setVolume(systemVolume);
 		}		

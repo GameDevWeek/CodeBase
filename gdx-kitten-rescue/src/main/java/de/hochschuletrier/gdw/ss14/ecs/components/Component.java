@@ -5,4 +5,5 @@ package de.hochschuletrier.gdw.ss14.ecs.components;
  */
 public interface Component
 {
+    
 }

@@ -9,6 +9,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 
 public class CirclePhysicsComponent extends PhysicsComponent{
+    
     public Vector2          mPosition;
     public float            mRadius;
     public float            mFriction;

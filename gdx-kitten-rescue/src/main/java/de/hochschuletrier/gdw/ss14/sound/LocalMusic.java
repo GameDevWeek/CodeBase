@@ -69,6 +69,10 @@ public class LocalMusic {
 		this.musicHandle.setVolume(volume);
 	}
 	
+	public float getVolume() {
+		return this.musicHandle.getVolume();
+	}
+	
 	public char getFadingDirection() { return this.fadingDirection; }
 	public boolean getFading() { return this.fading; }
 

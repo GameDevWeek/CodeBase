@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.ecs;
 
 import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.game.*;
 
 import java.util.*;
 
@@ -24,9 +25,9 @@ public class EntityManager
 
     public static EntityManager getInstance()
     {
-        if(instance == null)
+        if (instance == null)
         {
-           instance = new EntityManager();
+            instance = new EntityManager();
         }
 
         return instance;
@@ -77,6 +78,70 @@ public class EntityManager
         {
             store.remove(entity);
         }
+    }
+
+    public void deleteAllDogEntities()
+    {
+        Array<Integer> dogs = getAllEntitiesWithComponents(EnemyComponent.class);
+
+        if(Game.behaviourManager != null)
+        {
+            Game.behaviourManager.deleteAllBehaviours();
+        }
+
+        for (Integer dog : dogs)
+        {
+            deletePhysicEntity(dog);
+        }
+    }
+
+    public void deleteAllCatBoxEntities()
+    {
+        Array<Integer> catBoxes = getAllEntitiesWithComponents(CatBoxComponent.class);
+
+        for (Integer catBox : catBoxes)
+        {
+            deletePhysicEntity(catBox);
+        }
+    }
+
+    public void deleteAllWoolEntities()
+    {
+        Array<Integer> catBoxes = getAllEntitiesWithComponents(WoolPropertyComponent.class);
+
+        for (Integer catBox : catBoxes)
+        {
+            deletePhysicEntity(catBox);
+        }
+    }
+
+    public void deleteAllStairs()
+    {
+        Array<Integer> stairs = getAllEntitiesWithComponents(StairComponent.class);
+
+        for (Integer stair : stairs)
+        {
+            deletePhysicEntity(stair);
+        }
+    }
+
+    public void deletePhysicEntity(int entity)
+    {
+        PhysicsComponent physicsComponent = getComponent(entity, PhysicsComponent.class);
+
+        if(physicsComponent != null)
+        {
+            // set flaggedForRemoval so a system can clean up all the bodies and then delete the entity.
+            physicsComponent.flaggedForRemoval = true;
+        }
+    }
+
+    public void deleteAllGameplayRelatedEntitiesExcludingCat()
+    {
+        deleteAllDogEntities();;
+        deleteAllCatBoxEntities();
+        deleteAllWoolEntities();
+        deleteAllStairs();
     }
 
     public void deleteAllEntities()
@@ -140,6 +205,45 @@ public class EntityManager
         {
             return new ArrayList<T>((Collection<T>) store.values());
         }
+    }
+
+
+    public <T extends Component> List<T> getAllComponentsOfType(int entity, Class<T> componentType)
+    {
+        List<T> allComponents = getAllComponentsOfEntity(entity);
+        LinkedList<T> returnList = new LinkedList<>();
+
+        // check which elements of allComponents are instances of the class componentType
+        for (T t : allComponents)
+        {
+            if (t.getClass() == componentType || t.getClass().getSuperclass() == componentType)
+            {
+                returnList.addLast(t);
+            }
+        }
+
+        return returnList;
+    }
+
+    public <T extends Component> List<T> getAllComponentsOfEntity(int entity)
+    {
+        LinkedList<T> components = new LinkedList<T>();
+
+        for (HashMap<Integer, ? extends Component> store : componentStorage.values())
+        {
+            if (store == null)
+            {
+                continue;
+            }
+
+            T component = (T) store.get(entity);
+
+            if (component != null)
+            {
+                components.addLast(component);
+            }
+        }
+        return components;
     }
 
     private <T extends Component> Set<Integer> getAllEntitiesWithComponent(Class<T> componentType)
@@ -210,34 +314,4 @@ public class EntityManager
         T result = (T) store.remove(entity);
     }
 
-    /*
-    public <T extends Component> void removeComponent(int entity, T component)
-    {
-        Class classToRemove;
-
-        if (component instanceof PhysicsComponent)
-        {
-            classToRemove = component.getClass().getSuperclass();
-        }
-        else
-        {
-            classToRemove = component.getClass();
-        }
-
-        HashMap<Integer, ? extends Component> storage = componentStorage.get(classToRemove);
-
-        // there's no key set yet for the given component, create a new key
-        if (storage == null)
-        {
-            return;
-        }
-
-        ((HashMap<Integer, T>) storage).remove(entity, component);
-
-        if (storage.size() <= 0)
-        {
-            componentStorage.remove(classToRemove);
-        }
-    }
-    */
 }

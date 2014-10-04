@@ -8,6 +8,10 @@ public class InputKeyboard extends InputDevice {
 
     private HashSet<Integer> pressedKeys = new HashSet<>();
     
+    public InputKeyboard() {
+        devicType = DeviceType.KEYBOARD;
+    }
+    
 	@Override
 	public boolean keyDown(int keycode) {
 	    if (super.keyDown(keycode)) return true;
