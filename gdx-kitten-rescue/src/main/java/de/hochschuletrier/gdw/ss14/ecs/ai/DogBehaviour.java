@@ -7,6 +7,7 @@ import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
@@ -54,12 +55,19 @@ public class DogBehaviour extends Behaviour {
         BaseNode root = new Selector(this);
 
         Sequence hundHaengt = new Sequence(root);
-        Sequence dogChase = new Sequence(root);
-        new DogBehaviour.HundHaengt(hundHaengt);
-        new DogBehaviour.HundInRandomRichtung(hundHaengt);
-        new DogBehaviour.ChaseCat(dogChase);
-        Invert merke = new Invert(dogChase);
-        new DogBehaviour.HundHaengt(merke);
+        new DogBehaviour.ChaseCat(root);
+        Selector hh = new Selector(hundHaengt);
+        new HundInRandomRichtung(hundHaengt);
+        Invert dogNotChase = new Invert(hh);
+        new DogIsChasing(dogNotChase);
+        new HundHaengt(hh);
+        
+        
+        
+     
+   
+        //Invert merke = new Invert(dogChase);
+        //new DogBehaviour.HundHaengt(merke);
 
         // BITTE STEHEN LASSEN, VORLAGE:
         // UntilFailDecorator untFail = new UntilFailDecorator()
@@ -105,8 +113,7 @@ public class DogBehaviour extends Behaviour {
         public HundHaengt(BaseNode parent) {
             super(parent);
             nochNichtGefeuert = true;
-            timer = MAX_TIME; // *2 wegen differenzierter implementierung.
-                              // zeitraum wird geteilt.
+            timer = MAX_TIME; 
             currentPos = new Vector2();
             oldPos = new Vector2();
             // Beim Konstruktor hat DogBehaviour noch keine Components...
@@ -188,6 +195,29 @@ public class DogBehaviour extends Behaviour {
 
         }
     }
+    
+    class DogIsChasing extends BaseCondition {
+        /** gibt zurück ob der Hund am Jagen ist.*/
+        boolean hundJagt;
+        
+        public DogIsChasing(BaseNode parent) {
+            super(parent);
+        }
+
+        @Override
+        public State onEvaluate(float delta) {
+            DogPropertyComponent dpc = bb.em.getComponent(dogID, DogPropertyComponent.class);
+            hundJagt = dpc.dogIsChasing;
+            State rueckgabe = State.FAILURE;
+            if(hundJagt)
+                rueckgabe = State.SUCCESS;
+            else
+                rueckgabe = State.FAILURE;
+            return rueckgabe;
+        }
+        
+        
+    }
 
     class HundInRandomRichtung extends BaseTask {
         // Hund geht in aktuelle Richtung plus Abweichung von 1-3Körperlängen
@@ -197,29 +227,68 @@ public class DogBehaviour extends Behaviour {
         CatPhysicsComponent cpc;
         DogPhysicsComponent dpc;
         float timer;
+        boolean timerLaeuft;
         float MAX_TIME = 2;
 
         public HundInRandomRichtung(BaseNode parent) {
+            /**Muss erstellt werden nachdem Dog/CatPhysicsComponent angemeldet wurde.
+             *  Soll: Zielpunkt wird zufällig rechts oder links rum um 90Grad um den Hund rotiert, um 1-3 Körperlängen (zufällig) verlängert*/
             super(parent);
             timer = MAX_TIME;
+            timerLaeuft = false;
+            //x, y sind die zufälligen Abweichungen in Körperlängen
             x = (float) (Math.random() * (high - low) + low);
-            y = (float) (Math.random() * (high - low) + low);
+            //es wird bei der neuen Implementierung nur eine abweichung für beide Werte benötigt.
+           // y = (float) (Math.random() * (high - low) + low);
             if (pc instanceof CatPhysicsComponent) {
                 cpc = (CatPhysicsComponent) pc;
+                low = cpc.height;
+                high = cpc.height * 3;
             }
 
             if (pc instanceof DogPhysicsComponent) {
                 dpc = (DogPhysicsComponent) pc;
+                low = dpc.mHeight;
+                high = dpc.mHeight * 3;
             }
 
         }
 
         @Override
         public State onRun(float delta) {
-
-            high = 0;
-            low = 0;
-            // Hund geht in Richtung: Aktuelle Richtung plus irgendwas zwischen
+            //Vorgehen: 
+            //1. Zielpunkt um 90 Grad um Hund rotieren. Zufällig ob rechts oder links rum
+            //2. Zielpunkt in die richtung analog zu vorheriger zufallsrichtung um 1-3 Körperlängen verlängern
+            Vector2 aktuellerZielpunkt;
+            Vector2 positionDesHundes;
+            Vector2 neuesZiel= new Vector2();
+            DogPropertyComponent dprc = bb.em.getComponent(dogID, DogPropertyComponent.class);
+            
+            if (timerLaeuft) {
+            //nur Pointer!!!:
+           positionDesHundes = pc.getPosition();
+           aktuellerZielpunkt = ic.whereToGo;
+           Vector2 entfernung;
+           entfernung = new Vector2( (positionDesHundes.x-aktuellerZielpunkt.x), (positionDesHundes.y-aktuellerZielpunkt.y));           
+           high = 10;
+           low = 0;
+           //random zwischen high und low:
+           double zufall = (Math.random() * (high - low) + low);
+           //-------------
+           //TODO: randbedingungen, falls der Zielpunkt ausserhalb der Karte ist gibt es fehler??? Oder ist das kein Problem???
+           //-------------
+           if(zufall < 5){
+               //in der hälfte der Fälle sagt Laplace: "
+               //plus
+               neuesZiel.x = aktuellerZielpunkt.x + entfernung.y;
+               neuesZiel.y = aktuellerZielpunkt.y + entfernung.x;
+               
+           } else {
+               //minus
+               neuesZiel.x = aktuellerZielpunkt.x - entfernung.y;
+               neuesZiel.y = aktuellerZielpunkt.y - entfernung.x;
+           }
+           //2.: Wenn x von entfernung kleiner ist als y von entfernung dann x verlängern um zufällig 1-3 körperlängen.           
             // 1-3Körperlängen
             if (pc instanceof CatPhysicsComponent) {
                 low = cpc.height;
@@ -230,12 +299,24 @@ public class DogBehaviour extends Behaviour {
                 low = dpc.mHeight;
                 high = dpc.mHeight * 3;
             }
+            float verlaengerung = (float) (Math.random() * (high - low) + low);
+            if(entfernung.x < entfernung.y)
+            neuesZiel.x += verlaengerung;
+            else
+            neuesZiel.y += verlaengerung;
+            }
+            ic.whereToGo = neuesZiel;
 
             if (timer < 0f) {
                 timer = MAX_TIME;
-                ic.whereToGo = pc.getPosition().add(x, y);
+                ic.whereToGo = neuesZiel;
+                timerLaeuft = true;
+                dprc.dogIsChasing = false;
+                
+            }else {
+                timerLaeuft = false;
+                dprc.dogIsChasing = true;
             }
-
             timer -= delta;
 
             //logger.debug("HundInRandomRichtung: Rückgabe:  " + State.SUCCESS);
@@ -279,6 +360,8 @@ public class DogBehaviour extends Behaviour {
 
             InputComponent dog = bb.em
                     .getComponent(dogID, InputComponent.class);
+            DogPropertyComponent dpc = bb.em.getComponent(dogID, DogPropertyComponent.class);
+            dpc.dogIsChasing = true;
             dog.whereToGo.set(pos);
             // logger.debug("Dog is Chasing!");
 

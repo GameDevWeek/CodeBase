@@ -157,7 +157,8 @@ public class EntityFactory{
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
-
+        //WICHTIG!!
+        //DogBehaviour benötigt einige der obigen Komponenten!
         DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
         Behaviour verhalten =  new DogBehaviour("SmartDog", localBlackboard, true , entity);
         BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
