@@ -40,8 +40,7 @@ public class CatStateUpdateSystem extends ECSystem
                 }
             }
 
-            if (catPropertyComponent.getState() != CatStateEnum.JUMP
-                && catPropertyComponent.getState() != CatStateEnum.FALL)
+            if (catPropertyComponent.getState() != CatStateEnum.JUMP && catPropertyComponent.getState() != CatStateEnum.FALL && catPropertyComponent.getState() != CatStateEnum.DIE)
             {
                 if (movementComponent.velocity <= 0.0f)
                 {
