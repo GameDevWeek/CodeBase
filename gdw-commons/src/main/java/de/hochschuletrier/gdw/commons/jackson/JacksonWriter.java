@@ -88,12 +88,12 @@ public class JacksonWriter {
             throws InstantiationException, IllegalAccessException, IOException,
             NoSuchFieldException, ParseException {
         generator.writeStartObject();
-        for(Map.Entry<String, ?> entry: map.entrySet()) {
+        for (Map.Entry<String, ?> entry : map.entrySet()) {
             generator.writeFieldName(entry.getKey());
             writeSingleObject(entry.getValue(), generator);
         }
         generator.writeEndObject();
-        
+
     }
 
     private static void writeObject(Object object, JsonGenerator generator)

@@ -21,29 +21,15 @@ public class Credits extends SandboxGame {
 
     private static final Logger logger = LoggerFactory.getLogger(Credits.class);
     
-    private TextItem textItem;
+    private AnimatorController animatorController;
     
     public Credits() {
     }
 
     @Override
     public void init(AssetManagerX assetManager) {
-        textItem = new TextItem("Laser Chaser: Zombie Racer", new TextStyle(assetManager.getFont("verdana", 24), Color.WHITE.cpy(), TextAlign.LEFT), 0, 0, 1);
-        textItem.setPosition(new Vector2(200, 400));
-        Animation anim = new Animation();
-        anim.animation = Main.textAnimation.get().name();
-        anim.animationTime = Main.animationTime.get();
-        anim.minAngle = 0;
-        anim.maxAngle = 360;
-        anim.minRadius = 200;
-        anim.maxRadius = 300;
-        anim.minCurveAngle = 45;
-        anim.maxCurveAngle = 135;
-        anim.time = 0;
-        textItem.startAnimation(anim);
-        
         try {
-            AnimatorController ctrl = new AnimatorController(assetManager, "data/json/credits.json");
+            animatorController = new AnimatorController(assetManager, "data/json/credits.json");
         } catch (Exception ex) {
             logger.error("Error loading credits", ex);
         }
@@ -56,12 +42,16 @@ public class Credits extends SandboxGame {
     @Override
     public void render() {
         Main.getInstance().screenCamera.bind();
-        textItem.render();
+//        textItem.render();
+        if(animatorController != null)
+            animatorController.render();
     }
 
     @Override
     public void update(float delta) {
         
-        textItem.update(delta);
+//        textItem.update(null, delta);
+        if(animatorController != null)
+            animatorController.update(delta);
     }
 }

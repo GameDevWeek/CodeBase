@@ -115,6 +115,16 @@ public class EntityManager
         }
     }
 
+    public void deleteAllStairs()
+    {
+        Array<Integer> stairs = getAllEntitiesWithComponents(StairComponent.class);
+
+        for (Integer stair : stairs)
+        {
+            deletePhysicEntity(stair);
+        }
+    }
+
     public void deletePhysicEntity(int entity)
     {
         PhysicsComponent physicsComponent = getComponent(entity, PhysicsComponent.class);
@@ -131,6 +141,7 @@ public class EntityManager
         deleteAllDogEntities();;
         deleteAllCatBoxEntities();
         deleteAllWoolEntities();
+        deleteAllStairs();
     }
 
     public void deleteAllEntities()
