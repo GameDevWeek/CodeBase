@@ -1,22 +1,12 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
-
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
-
-import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
-
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
-
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
-
-import java.util.ArrayList;
 
 /**
  * Created by Daniel Dreher on 03.10.2014.
@@ -92,7 +82,8 @@ public class CatMovementSystem extends ECSystem{
                 //test if cat sees the pointer //don't ask why this way
                 catPropertyComponent.canSeeLaserPointer = false;
                 if(distance < 500 && laserPointerComponent.toolState == ToolState.LASER){
-                    RayCastPhysics rayCastPhysics = new RayCastPhysics();
+                    //sees the pointer in every case
+                    /*RayCastPhysics rayCastPhysics = new RayCastPhysics();
 
                     physicsComponent.physixManager.getWorld().rayCast(rayCastPhysics, physicsComponent.getPosition(), laserPointerComponent.position);
                     if(rayCastPhysics.m_hit){
@@ -112,7 +103,8 @@ public class CatMovementSystem extends ECSystem{
                     }else{
                         catPropertyComponent.canSeeLaserPointer = true;
                     }
-                    rayCastPhysics.reset();
+                    rayCastPhysics.reset();*/
+                    catPropertyComponent.canSeeLaserPointer = true;
                 }else{
                     catPropertyComponent.canSeeLaserPointer = false;
                 }

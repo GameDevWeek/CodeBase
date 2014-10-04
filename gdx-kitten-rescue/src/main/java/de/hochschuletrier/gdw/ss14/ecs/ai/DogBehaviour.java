@@ -1,19 +1,16 @@
 package de.hochschuletrier.gdw.ss14.ecs.ai;
 
-import java.util.ArrayList;
-
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.*;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.decorators.Invert;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
 
 public class DogBehaviour extends Behaviour {
     private static final Logger logger = LoggerFactory
@@ -235,7 +232,7 @@ public class DogBehaviour extends Behaviour {
          
              EnemyComponent ec = bb.em.getComponent(dogID, EnemyComponent.class);
              hundSiehtKatze = ec.seeCat;
-             System.out.println("Hund sieht Katze: "+hundSiehtKatze);
+             //System.out.println("Hund sieht Katze: "+hundSiehtKatze);
              State rueckgabe;
              if(hundSiehtKatze)
                  rueckgabe = State.SUCCESS;
