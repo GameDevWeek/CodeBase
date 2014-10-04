@@ -5,8 +5,8 @@ import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.BaseNode;
 
 public class Invert extends BaseDecorator {
 
-	public Invert(BaseNode parent, Behaviour tree) {
-		super(parent, tree);
+	public Invert(BaseNode parent ) {
+		super(parent);
 
 	}
 

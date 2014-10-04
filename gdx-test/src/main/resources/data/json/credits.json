@@ -7,7 +7,7 @@
         "text_path": {
             "type": "linear",
             "destinations": [
-                {"x": 500, "y": 800, "speed": 80 },
+                {"x": 500, "y": 600, "speed": 80 },
                 {"x": 500, "y": -100, "speed": 80 }
             ]
         },
@@ -32,12 +32,17 @@
             "next": "cat",
             "items" : [
                 { "type": "text", "style" : "credit_titel", "text": "Organisation", "delay": "1150" },
-                { "type": "text", "style" : "teilnehmer", "text": "Santo Pfingsten", "delay": "750" }
+                { "type": "text", "style" : "teilnehmer", "text": "Santo Pfingsten", "delay": "750" },
+                { "type": "text", "style" : "teilnehmer", "text": "Torsen Scholer", "delay": "750" },
+                { "type": "text", "style" : "teilnehmer", "text": "Kristina Kölln", "delay": "750" },
+                { "type": "text", "style" : "teilnehmer", "text": "Minh Dao", "delay": "750" }
             ],
             "animations": [
-                { "time": 0, "animation": "clear" },
-                { "time": 3000, "animation": "explode_in", "animationTime": 100 },
-                { "time": 6000, "animation": "fade_out", "animationTime": 100 }
+                { "time": 0, "animation": "construct_type", "animationTime": 300,
+                    "minRadius" : 100, "maxRadius" : 300,
+                    "minAngle" : 0, "maxAngle" : 360,
+                    "minCurveAngle": 45, "maxCurveAngle": 135
+                }
             ]
         },
         "cat": {
