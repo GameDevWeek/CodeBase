@@ -294,6 +294,7 @@ public class EntityFactory{
 
         StairsPhysicsComponent stairsPhysicsComponent = new StairsPhysicsComponent(pos, width, height, 0.0f);
         stairsPhysicsComponent.initPhysics(phyManager);
+        stairsPhysicsComponent.owner = entity;
 
         StairComponent stairComponent = new StairComponent();
         stairComponent.targetFloor = targetFloor;

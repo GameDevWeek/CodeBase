@@ -13,6 +13,9 @@ public class PhysicsComponent extends PhysixEntity implements Component
 {
     public boolean flaggedForRemoval = false;
 
+    // entity owning this component
+    public int owner = -1;
+
     @Override
     public void initPhysics(PhysixManager manager)
     {
