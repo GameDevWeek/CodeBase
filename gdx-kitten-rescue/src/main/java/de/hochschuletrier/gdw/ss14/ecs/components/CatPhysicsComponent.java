@@ -74,7 +74,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
         super.physixManager = manager;
         fillShapeList();
         
-        PhysixFixtureDef conefixturedef = new PhysixFixtureDef(manager).density(1).sensor(true);
+        PhysixFixtureDef conefixturedef = new PhysixFixtureDef(manager).density(1).mask(mask).category(category).sensor(true);
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
                 .friction(friction).restitution(restitution).mask(mask).category(category).groupIndex(group);
 
