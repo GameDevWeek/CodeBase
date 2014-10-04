@@ -12,13 +12,15 @@ public class Queue {
     public Queue finalNext;
     protected final ArrayList<Item> todoItems;
     protected final ArrayList<Item> doneItems = new ArrayList();
+    public final ArrayList<Animation> animations;
 
-    public Queue(float time, Path path, ArrayList<Item> items) {
+    public Queue(float time, Path path, ArrayList<Item> items, ArrayList<Animation> animations) {
         startTime = time;
         originalStartTime = time;
         this.path = path;
         todoItems = items;
         //todoItems.sort();
+        this.animations = animations;
     }
 
     public void reset() {
