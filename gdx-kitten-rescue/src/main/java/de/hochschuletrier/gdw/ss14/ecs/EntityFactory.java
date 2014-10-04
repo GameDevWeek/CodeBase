@@ -1,5 +1,8 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -7,36 +10,51 @@ import com.badlogic.gdx.physics.box2d.Filter;
 
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
-import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.BehaviourComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ExitMapPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ExitMapPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.FinishPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.GroundPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.GroundPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpDataComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.StairComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.StairsPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
-import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
 import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
+import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
 import de.hochschuletrier.gdw.ss14.states.JumpableState;
 import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
-
-import java.util.ArrayList;
-
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 
 public class EntityFactory{
 
@@ -331,6 +349,7 @@ public class EntityFactory{
         WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
         RenderComponent woolRenderComponent = new RenderComponent();
         woolPhysicsComponent.initPhysics(phyManager);
+        woolPhysicsComponent.owner = entity;
         manager.addComponent(entity, woolPhysicsComponent);
         manager.addComponent(entity, new WoolPropertyComponent());
 
@@ -341,6 +360,15 @@ public class EntityFactory{
         //RenderComponent renderComponent = new RenderComponent();
         //renderComponent.texture = assetManager.getTexture();
         //manager.addComponent(entity, renderComponent);
+    }
+    
+    public static void constructMapChangeObj(Vector2 pos, float width, float height, File nextMap){
+        int entity = manager.createEntity();
+        
+        ExitMapPhysicsComponent exit = new ExitMapPhysicsComponent(pos, width, height);
+        ExitMapPropertyComponent exitProps = new ExitMapPropertyComponent(nextMap);
+        exit.initPhysics(phyManager);
+        manager.addComponent(entity, exit);
     }
 
     public static void constructFinish(Vector2 pos, float width, float height)

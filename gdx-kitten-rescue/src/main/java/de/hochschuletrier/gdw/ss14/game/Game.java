@@ -60,7 +60,7 @@ public class Game {
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("mehrstoeckigMap"); 
+        mapManager.loadMap("Katzenklappentest"); 
         mapManager.setFloor(0);
         
         behaviourManager.activate();
@@ -116,6 +116,8 @@ public class Game {
         //int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
         //int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
 
+        EntityFactory.constructLaserPointer(new Vector2(300,0));
+        EntityFactory.constructWool(new Vector2(3000,100));
         if (InputManager.getInstance().getInputDevice().getDeviceType() == DeviceType.MOUSE) {
             InputMouse mouse = (InputMouse) InputManager.getInstance().getInputDevice();
             EntityFactory.constructLaserPointer(mouse.getCursorPosition());
