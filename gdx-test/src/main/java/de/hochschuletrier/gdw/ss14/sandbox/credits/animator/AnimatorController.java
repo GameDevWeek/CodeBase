@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.utils.ColorUtil;
@@ -17,7 +18,7 @@ public class AnimatorController {
 
     private final HashMap<String, TextStyle> textStyles = new HashMap();
     private final HashMap<String, Queue> queues = new HashMap();
-    private final HashMap<String, Path> paths = new HashMap();
+    private final HashMap<String, Path<Vector2>> paths = new HashMap();
     
     public AnimatorController(AssetManagerX assetManager, String filename) throws IOException, UnsupportedEncodingException,
             NoSuchFieldException, IllegalArgumentException, IllegalAccessException,
@@ -47,10 +48,11 @@ public class AnimatorController {
                 Destination destination = new Destination();
                 destination.x = dest.x != null ? dest.x : 0;
                 destination.y = dest.y != null ? dest.y : 0;
+                destination.speed = dest.speed != null ? dest.speed : 0;
                 destinations.add(destination);
             }
             
-            Path path = new Path(destinations);
+            LinearPath path = new LinearPath(destinations);
             paths.put(entry.getKey(), path);
         }
     }
@@ -59,6 +61,7 @@ public class AnimatorController {
         Vector2 temp = new Vector2();
         Item item;
         TextStyle style;
+        float itemStartTime = 0;
         float startTime, angle, opacity;
         for(Map.Entry<String, AnimatorData.Queue> entry: credits.queues.entrySet()) {
             AnimatorData.Queue value = entry.getValue();
@@ -69,10 +72,13 @@ public class AnimatorController {
                 angle = itemData.angle != null ? itemData.angle : 0;
                 opacity = itemData.opacity != null ? itemData.opacity : 1;
                 
+                itemStartTime += startTime;
+                
                 switch(itemData.type) {
                     case TEXT:
                         style = textStyles.get(itemData.style);
-                        item = new TextItem(itemData.text, style, startTime, angle, opacity);
+                        item = new TextItem(itemData.text, style, itemStartTime, angle, opacity);
+                        
                         if(itemData.x != null && itemData.y != null) {
                             item.setPosition(temp.set(itemData.x, itemData.y));
                         }
@@ -102,7 +108,7 @@ public class AnimatorController {
             }
             
             startTime = value.time != null ? (value.time * 0.001f) : 0;
-            Path path = (value.path != null) ? paths.get(value.path) : null;
+            Path<Vector2> path = (value.path != null) ? paths.get(value.path) : null;
             Queue queue = new Queue(startTime, path, items, animations);
             queues.put(entry.getKey(), queue);
         }
@@ -121,6 +127,18 @@ public class AnimatorController {
     public void reset() {
         for(Queue queue: queues.values()) {
             queue.reset();
+        }
+    }
+    
+    public void render() {
+        for(Queue queue: queues.values()) {
+            queue.render();
+        }
+    }
+    
+    public void update(float delta) {
+        for(Queue queue: queues.values()) {
+            queue.update(delta);
         }
     }
 }
