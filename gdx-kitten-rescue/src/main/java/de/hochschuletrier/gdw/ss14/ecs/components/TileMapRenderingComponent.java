@@ -14,15 +14,27 @@ import de.hochschuletrier.gdw.commons.tiled.TiledMap;
  */
 public class TileMapRenderingComponent implements Component{
 	
-	private TiledMap map = null;
+    public static float LayerSwitchTime = 2.0f;
+
+    private TiledMap map = null;
 	public Array<Integer> renderedLayers = new Array<Integer>();
 	
 	// Used to switch floors
-	public Array<Integer> nextRenderedLayers = null;
+	private Array<Integer> nextRenderedLayers = null;
 	public float currentSwitchTime = 0.0f;
-	public float layerSwitchTime = 2.0f;
 	
 	public TiledMapRendererGdx renderer = null;
+	
+	public Array<Integer> getNextRenderedLayers() {
+	    
+	    return nextRenderedLayers;
+	}
+	
+	public void fadeToRenderedLayers( Array<Integer> nrl ) {
+	    
+	    nextRenderedLayers = nrl;
+	    currentSwitchTime = 0.0f;
+	}
 	
 	public void setMap( TiledMap newMap ) {
 	    

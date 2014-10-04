@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.game;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
@@ -93,15 +94,18 @@ public class MapManager
         currentFloor = floor;
 
         TileMapRenderingComponent mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
-        mapComp.renderedLayers.clear();
+        Array<Integer> newRenderedLayers = new Array<Integer>();
 
         for (Layer layer : mapComp.getMap().getLayers())
         {
             //System.out.println(this.getClass().getName()+": "+layer.getIntProperty("floor", -1));
-            if ((layer.getIntProperty("floor", -1) == floor) && (layer.isTileLayer()))
-                mapComp.renderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
+            if ((layer.getIntProperty("floor", -1) == floor) && (layer.isTileLayer())) {
+                
+                newRenderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
+            }
         }
         
+        mapComp.fadeToRenderedLayers(newRenderedLayers);
         loadMapObjects();
     }
 

@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.commons.gdx.tiled.TiledMapRendererGdx;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.commons.tiled.Layer;
 import de.hochschuletrier.gdw.commons.tiled.TileSet;
+import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.TileMapRenderingComponent;
@@ -79,7 +81,6 @@ public class TileMapRenderingSystem extends ECSystem{
 	 * They contain the map data and the Layers that should be drawn at the moment.
 	 * These will be rendered.
 	 */
-    float currentMapFadeFactor = 0.0f;
 	public void render(){
 		// Get all TileMapRenderingComponents. Most likely will be only one...
 		List<TileMapRenderingComponent> arr = entityManager.getAllComponentsOfType(TileMapRenderingComponent.class);
@@ -90,31 +91,39 @@ public class TileMapRenderingSystem extends ECSystem{
 			if (renderer == null)
 			    renderer = initializeRenderer(currentComp);
 
-			// If a layer transition is currently happening
-			if (currentComp.nextRenderedLayers != null) {
-			    
-    			//float currentMapFadeFactor = currentComp.;			
-    			//setMapEffectShader(currentMapFadeFactor);
-			}
-			setMapEffectShader(currentMapFadeFactor);
-	         			
-			// go through the layers that should be rendered			
-			for(Integer layerIndex : currentComp.renderedLayers){
-				
-			    if (currentComp.getMap().getLayers().size() > layerIndex) {
-			        
-    				Layer layerToRender = currentComp.getMap().getLayers().get(layerIndex);
-                                if (layerToRender.isTileLayer()
-                                        && (this.layerNameToRender == null || layerToRender.getName().equals(layerNameToRender))
-                                        && (this.layerNameNotToRender == null || !layerToRender.getName().equals(layerNameNotToRender))) {
-                                    
-                                    renderer.render(0, 0, layerToRender);
-                                }
-			    }
-			 }
+			float currentMapFadeFactor = 0.0f;
 			
-             DrawUtil.batch.setShader(null);
+			// If a layer transition is currently happening
+			if (currentComp.getNextRenderedLayers() != null) {
+			    
+    			currentMapFadeFactor = currentComp.currentSwitchTime / TileMapRenderingComponent.LayerSwitchTime;	
+    			setMapEffectShader(currentMapFadeFactor);
+    			drawLayersWithIndices(currentComp.getMap(), currentComp.getNextRenderedLayers());
+    			setMapEffectShader(1.0f - currentMapFadeFactor);
+			}
+	         			
+			drawLayersWithIndices(currentComp.getMap(), currentComp.renderedLayers);
+            DrawUtil.batch.setShader(null);
 		}
+	}
+	
+	private void drawLayersWithIndices( TiledMap map, Array<Integer> indices ) {
+	    
+        // go through the layers that should be rendered            
+        for(Integer layerIndex : indices){
+            
+            if (map.getLayers().size() > layerIndex) {
+                
+                Layer layerToRender = map.getLayers().get(layerIndex);
+                if (layerToRender.isTileLayer()
+                        && (this.layerNameToRender == null || layerToRender.getName().equals(layerNameToRender))
+                        && (this.layerNameNotToRender == null || !layerToRender.getName().equals(layerNameNotToRender))) {
+                    
+                    renderer.render(0, 0, layerToRender);
+                }
+            }
+         }
+	    
 	}
 	
 	private void setMapEffectShader( float effectFactor ) {
@@ -146,9 +155,19 @@ public class TileMapRenderingSystem extends ECSystem{
 	
 	@Override
 	public void update(float delta) {
-		// Nothing to do
-	    currentMapFadeFactor += 0.01f;
-	    if (currentMapFadeFactor > 1.0f)
-	        currentMapFadeFactor = 0.0f;
+	    
+        List<TileMapRenderingComponent> arr = entityManager.getAllComponentsOfType(TileMapRenderingComponent.class);
+        for(TileMapRenderingComponent currentComp : arr){
+            
+            if (currentComp.getNextRenderedLayers() != null) {
+                
+                currentComp.currentSwitchTime += delta;
+                if (currentComp.currentSwitchTime >= TileMapRenderingComponent.LayerSwitchTime) {
+                    
+                    currentComp.renderedLayers = currentComp.getNextRenderedLayers();
+                    currentComp.fadeToRenderedLayers(null);
+                }
+            }
+        }
 	}
 }
