@@ -1,7 +1,12 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+
 import de.hochschuletrier.gdw.commons.gdx.tiled.TiledMapRendererGdx;
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.commons.tiled.Layer;
 import de.hochschuletrier.gdw.commons.tiled.TileSet;
@@ -24,15 +29,22 @@ public class TileMapRenderingSystem extends ECSystem{
 	 * renderer, doing background drawing stuff
 	 */
 	private TiledMapRendererGdx renderer;
-        private String layerNameToRender;
-        private String layerNameNotToRender;
+    private String layerNameToRender;
+    private String layerNameNotToRender;
+        
+    private ShaderProgram mapEffectShader;
+    
+    float mapEffectFactor = 0.0f;
+
 	
     public TileMapRenderingSystem(EntityManager entityManager){
         super(entityManager);
+        initializeShaders();
     }
     
     public TileMapRenderingSystem(EntityManager entityManager, int priority){
         super(entityManager, priority);
+        initializeShaders();
     }
     
     public void setLayerNameToRender(String name) {
@@ -66,7 +78,7 @@ public class TileMapRenderingSystem extends ECSystem{
 		    
 			if (renderer == null) {
 			    
-    			HashMap<TileSet, Texture> tilesetImages = new HashMap();
+    			HashMap<TileSet, Texture> tilesetImages = new HashMap<TileSet, Texture>();
     			
     	        for (TileSet tileset : currentComp.getMap().getTileSets()) {
     	            TmxImage img = tileset.getImage();
@@ -77,6 +89,8 @@ public class TileMapRenderingSystem extends ECSystem{
     			renderer = new TiledMapRendererGdx(currentComp.getMap(), tilesetImages);
     			currentComp.renderer = renderer;
 			}
+			
+			setMapEffectShader();
 	         			
 			// go through the layers that should be rendered			
 			for(Integer layerIndex : currentComp.renderedLayers){
@@ -87,11 +101,31 @@ public class TileMapRenderingSystem extends ECSystem{
                                 if (layerToRender.isTileLayer()
                                         && (this.layerNameToRender == null || layerToRender.getName().equals(layerNameToRender))
                                         && (this.layerNameNotToRender == null || !layerToRender.getName().equals(layerNameNotToRender))) {
+                                    
                                     renderer.render(0, 0, layerToRender);
                                 }
 			    }
-			}
+			 }
+			
+             DrawUtil.batch.setShader(null);
 		}
+	}
+	
+	private void setMapEffectShader() {
+	    
+        DrawUtil.batch.flush();
+
+        DrawUtil.batch.setShader(mapEffectShader);
+        mapEffectShader.setUniformf("u_effectFactor", mapEffectFactor);
+	}
+	
+	private void initializeShaders() {
+	    
+        FileHandle vertShader = Gdx.files.internal("data/shaders/passThrough.vs");
+        FileHandle fragShader = Gdx.files.internal("data/shaders/mapEffect.fs");
+        mapEffectShader = new ShaderProgram(vertShader, fragShader);
+        
+        System.out.println(mapEffectShader.getLog());
 	}
 	
 	@Override
@@ -104,8 +138,13 @@ public class TileMapRenderingSystem extends ECSystem{
 	}
 	
 	
+	float effectVelocity = 0.0f;
 	@Override
 	public void update(float delta) {
 		// Nothing to do
+	    
+	    mapEffectFactor += effectVelocity;
+	    if ((mapEffectFactor < 0f) || (mapEffectFactor > 1f))
+	        effectVelocity *= -1f;
 	}
 }

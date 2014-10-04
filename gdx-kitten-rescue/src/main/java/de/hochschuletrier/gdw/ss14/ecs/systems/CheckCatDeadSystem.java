@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.*;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
@@ -56,11 +57,15 @@ public class CheckCatDeadSystem extends ECSystem
                 }
 
                 // destroy entity (can't change position because of box2d)
+                
+                short mask = physicsComponent.physicsBody.getFixtureList().get(0).getFilterData().maskBits;
+                short category = physicsComponent.physicsBody.getFixtureList().get(0).getFilterData().categoryBits;
+                
                 physixManager.destroy(physicsComponent.physicsBody);
                 entityManager.deleteEntity(entity);
-
+                
                 // create new player entity
-                int newPlayer = EntityFactory.constructCat(lastCheckpoint, maxVelocity, middleVelocity, minVelocity, acceleration);
+                int newPlayer = EntityFactory.constructCat(lastCheckpoint, maxVelocity, middleVelocity, minVelocity, acceleration, mask, category);
 
                 // set new lives
                 entityManager.getComponent(newPlayer, CatPropertyComponent.class).amountLives = newAmountLives;
