@@ -1,6 +1,12 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
@@ -12,6 +18,7 @@ import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +29,27 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     private PhysixManager phyManager;
     private RayCastPhysics rcp;
 
+//    private ArrayList<Vector2> raycst_start;
+//    private ArrayList<Vector2> raycst_end;
+    private ArrayList<PhysicsComponent> raycst_startPhys;
+    private ArrayList<PhysicsComponent> raycst_targetPhys;
+    
+    
     public CatContactSystem(EntityManager entityManager, PhysixManager physicsManager){
         super(entityManager);
         phyManager = physicsManager;
+//        raycst_start = new ArrayList<>();
+//        raycst_end = new ArrayList<>();
+        raycst_startPhys = new ArrayList<>();
+        raycst_targetPhys = new ArrayList<>();
     }
 
 
+    private void addRayCast(PhysicsComponent a, PhysicsComponent b){
+        raycst_startPhys.add(a);
+        raycst_startPhys.add(b);
+    }
+    
     @Override
     public void fireBeginnCollision(PhysixContact contact){
         PhysixBody owner = contact.getMyPhysixBody();//.getOwner();
@@ -39,10 +61,11 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         // get all neccessary information
         Array<Integer> physicEntities = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class);
         Integer myEntity = null, otherEntity = null;
-        PhysicsComponent otherPhysic = null;
+        PhysicsComponent myPhysic = null, otherPhysic = null;
         for(Integer i : physicEntities){
             PhysicsComponent tmp = entityManager.getComponent(i, PhysicsComponent.class);
             if(tmp.physicsBody == contact.getMyPhysixBody()){
+                myPhysic = tmp;
                 myEntity = i;
             }
             if(tmp.physicsBody == contact.getOtherPhysixBody()){
@@ -67,7 +90,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
         //////////
         // if something wierd happens, one of these is null then dont go on
-        if(myEntity == null || otherEntity == null || otherPhysic == null){
+        if(myEntity == null || myPhysic == null || otherEntity == null || otherPhysic == null){
             return;
         }
 
@@ -84,7 +107,8 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 // kollidiert mit hund (oder anderer katze)
                 if(otherSightCone){
                     // katzenkörper berührt hunde sichtfeld
-
+                    // melde raycast von hund nach katze an:
+                    this.addRayCast(otherPhysic, myPhysic);
                 }else{
                     // katzenkörper berührt hundekörper
 
@@ -189,7 +213,29 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     }
 
     @Override
-    public void update(float delta){}
+    public void update(float delta){
+        /// do all raycast fun:
+        for(int i = 0; i < raycst_startPhys.size(); i++){
+            phyManager.getWorld().rayCast(rcp, 
+                    raycst_startPhys.get(i).physicsBody.getPosition(), 
+                    raycst_targetPhys.get(i).physicsBody.getPosition());
+            
+            for (RayCastPhysics rcst : rcp.collisions) {
+                if(rcst.m_fixture.getBody().getUserData() != null &&
+                        rcst.m_fixture.getBody().getUserData().equals("wall")){
+                    // there is a wall object, we cant see through
+                    break;
+                }
+                
+                for(Fixture s : raycst_startPhys.get(i).physicsBody.getFixtureList()){
+                    if(s != rcst.m_fixture) continue;
+                    
+                }
+            }
+            rcp.reset();
+        }
+        
+    }
 
     @Override
     public void render(){}

@@ -188,6 +188,7 @@ public class MapManager
         case none: 
             PhysixBody body = bodydef.create();
             body.createFixture(fixturedef);
+            body.getBody().setUserData("wall");
             break;
         case waterpuddle: EntityFactory.constructPuddleOfWater(bodydef, fixturedef);break;
         case bloodpuddle: 
