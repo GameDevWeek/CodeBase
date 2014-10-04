@@ -7,10 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.ss14.game.GameSettings;
 import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
-import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.states.KittenGameState;
 
@@ -27,7 +25,7 @@ public class OptionsMenu extends LaserCatMenu
 	public void init(AssetManagerX assetManager, KittenGameState previousState)
 	{
 		super.init(assetManager);
-		this.currentInput = GameSettings.getInstance().getInputDeviceType();
+		this.currentInput = InputManager.readSettings();
 		numberOfInputs = DeviceType.values().length;
 		this.previousState = previousState;
 		numberOfButtons = 5;
@@ -138,8 +136,8 @@ public class OptionsMenu extends LaserCatMenu
 					label[3].setText("Input: " + currentInput.toString());
 					break;
 				default:
+				    InputManager.getInstance().changeInputDevice(currentInput);
 					previousState.getEnum().activate();
-					InputManager.getInstance().changeInputDevice(currentInput);
 					break;
 				}
 			}
