@@ -13,9 +13,6 @@ public class LaserPointerComponent implements Component{
     public ToolState toolState;
     public boolean waterpistolIsUsed;
     
-    public Pixmap laserCursor;
-    public Pixmap waterpistolCursor;
-    
     /*
      * !!! isVisible is now: toolState == ToolState.LASER !!!
      */
@@ -31,9 +28,6 @@ public class LaserPointerComponent implements Component{
         waterpistolIsUsed = false;
         currentWaterlevel = 1.0f;
         this.position = position;
-        laserCursor = new Pixmap(Gdx.files.internal("data/images/laser.png"));
-        waterpistolCursor = new Pixmap(Gdx.files.internal("data/images/crosshair2.png"));
-        Gdx.input.setCursorImage(laserCursor, laserCursor.getWidth() / 2, laserCursor.getHeight() / 2);
     }
 
 }

@@ -7,5 +7,7 @@
     "weapon_laser": "data/images/laser_icon_version2.png",
     "weapon_waterpistol": "data/images/water_icon_version2.png",
     "catbox": "data/images/catbox.png",
-    "waterbar": "data/images/water_bar.png"
+    "waterbar": "data/images/water_bar.png",
+    "laser_cursor": "data/images/laser.png",
+    "waterpistol_cursor": "data/images/crosshair2.png"
 }
