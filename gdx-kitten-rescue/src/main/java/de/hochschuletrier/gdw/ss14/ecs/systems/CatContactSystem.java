@@ -17,6 +17,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolStat
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 import org.slf4j.Logger;
@@ -134,6 +135,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 }
                 if((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null){
                     ((CatPropertyComponent) d).setState(CatStateEnum.FALL);
+                    SoundManager.performAction(CatStateEnum.FALL); // sound activate falling cat
                 }
                 break;
             default:
@@ -212,6 +214,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     if(stairComponent != null && stairComponent.changeFloorDirection > 0)
                     {
                         // TODO: change floor here
+                        catPropertyComponent.idOfLastTouchedStair = ((StairsPhysicsComponent) other).owner;
                         Game.mapManager.targetFloor = Game.mapManager.currentFloor + stairComponent.changeFloorDirection;
                         Game.mapManager.isChangingFloor = true;
                         //Game.mapManager.setFloor(stairComponent.targetFloor);
@@ -364,9 +367,16 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             CatPropertyComponent catPropertyComponent = entityManager.getComponent(myEntity, CatPropertyComponent.class);
             StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
 
-            if(catPropertyComponent != null && stairComponent.changeFloorDirection > 0 && !catPropertyComponent.canChangeMap)
+            if(contact.getMyFixture().getUserData() != null && contact.getMyFixture().getUserData().equals("masscenter"))
             {
-                catPropertyComponent.canChangeMap = true;
+                if(catPropertyComponent != null && !catPropertyComponent.canChangeMap)
+                {
+                    if(catPropertyComponent.idOfLastTouchedStair != ((StairsPhysicsComponent) other).owner)
+                    {
+                        catPropertyComponent.canChangeMap = true;
+                        System.out.println("cat can now change map again.");
+                    }
+                }
             }
 
 

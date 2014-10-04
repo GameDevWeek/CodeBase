@@ -35,6 +35,7 @@ public class CatPropertyComponent implements Component
     public boolean isCatBoxOnCooldown = false;
     public float catBoxCooldownTimer = CATBOX_COOLDOWN;
 
+    public int idOfLastTouchedStair = -1;
     public boolean canChangeMap = true;
 
     public GroundTypeState groundWalking;
