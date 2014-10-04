@@ -35,12 +35,13 @@ public class AnimationSystem extends ECSystem {
             renderCompo = entityManager.getComponent(entity, RenderComponent.class);
             int state = getEntityState(entity);
             if (state < 0) continue;
+            if (animationCompo.animation.get(animationCompo.currentAnimationState) == null) continue;
             
             //set isFinished flag of animationCompo
             animationCompo.isFinished = 
-                    animationCompo.animation[animationCompo.currentAnimationState].animationDuration 
+                    animationCompo.animation.get(animationCompo.currentAnimationState).animationDuration 
                     <= animationCompo.animationTime;
-            if(animationCompo.animation[animationCompo.currentAnimationState].getPlayMode() != AnimationExtended.PlayMode.NORMAL)
+            if(animationCompo.animation.get(animationCompo.currentAnimationState).getPlayMode() != AnimationExtended.PlayMode.NORMAL)
                 animationCompo.isFinished = false;
                     
             
@@ -54,8 +55,9 @@ public class AnimationSystem extends ECSystem {
             }
             
             // update animation-frame
-            if (animationCompo.currentAnimationState < animationCompo.animation.length)
-                renderCompo.texture = animationCompo.animation[animationCompo.currentAnimationState].getKeyFrame(animationCompo.animationTime);
+            AnimationExtended currentAnim = animationCompo.animation.get(animationCompo.currentAnimationState);
+            if (currentAnim != null)
+                renderCompo.texture = currentAnim.getKeyFrame(animationCompo.animationTime);
             
         }
     }
