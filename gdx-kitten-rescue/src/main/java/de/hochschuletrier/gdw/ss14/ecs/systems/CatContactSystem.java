@@ -166,13 +166,23 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
             int entity = ((StairsPhysicsComponent) other).owner;
 
-            if(entity >= 0){
-                StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+            if(entity >= 0)
+            {
+                CatPropertyComponent catPropertyComponent = entityManager.getComponent(myEntity, CatPropertyComponent.class);
 
-                if(stairComponent != null){
-                    // TODO: change floor here
-                    Game.mapManager.setFloor(stairComponent.targetFloor);
+                if(catPropertyComponent != null && catPropertyComponent.canChangeMap)
+                {
+                    catPropertyComponent.canChangeMap = false;
 
+                    StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+                    if(stairComponent != null)
+                    {
+                        // TODO: change floor here
+                        Game.mapManager.targetFloor = Game.mapManager.currentFloor + stairComponent.changeFloorDirection;
+                        Game.mapManager.isChangingFloor = true;
+                        //Game.mapManager.setFloor(stairComponent.targetFloor);
+
+                    }
                 }
 
             }
@@ -249,6 +259,26 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 // ... dog does not see the cat anymore
 
             }
+
+        }
+
+        if(other instanceof StairsPhysicsComponent)
+        {
+            if(mySightCone)
+            {
+                return;
+            }
+
+            int entity =  ((StairsPhysicsComponent) other).owner;
+
+            CatPropertyComponent catPropertyComponent = entityManager.getComponent(myEntity, CatPropertyComponent.class);
+            StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+
+            if(catPropertyComponent != null && stairComponent.changeFloorDirection > 0 && !catPropertyComponent.canChangeMap)
+            {
+                catPropertyComponent.canChangeMap = true;
+            }
+
 
         }
 
