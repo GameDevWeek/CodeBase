@@ -1,5 +1,7 @@
 {
     "menu": "data/music/menu.ogg",
 	"ingame_calm"	:	"data/music/calm.ogg",
-	"ingame_alert"	:	"data/music/alert.ogg"
+	"ingame_alert"	:	"data/music/alert.ogg",
+	"main_loop"	:	"data/music/main_loop.ogg",
+	"pause_loop"	:	"data/music/pause_loop.ogg"
 }
