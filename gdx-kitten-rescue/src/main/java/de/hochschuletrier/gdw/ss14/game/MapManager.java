@@ -322,7 +322,7 @@ public class MapManager
 
                             case "stairs":
                                 // read out floor of mapobject properties, default is 0.
-                                int floor = 0;
+                                int floor = 1;
 
                                 if(mapObjects.get(j).getProperties().getString("stairs") != null)
                                 {
