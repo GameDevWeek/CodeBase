@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author Santo Pfingsten
  */
-class SceneAnimatorJson {
+public class SceneAnimatorJson {
 
     @JacksonMap(TextStyle.class)
     public Map<String, TextStyle> textStyles;
