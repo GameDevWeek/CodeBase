@@ -2,9 +2,11 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /**
@@ -149,6 +151,7 @@ public class CatMovementSystem extends ECSystem{
                                 catPropertyComponent.timeTillJumpTimer = catPropertyComponent.timeTillJumpTimer+delta;
                                 if(catPropertyComponent.timeTillJumpTimer >= catPropertyComponent.TIME_TILL_JUMP){
                                     catPropertyComponent.setState(CatStateEnum.JUMP);
+                                    SoundManager.performAction(CatStateEnum.JUMP);
                                     jumpDataComponent.jumpDirection = movementComponent.directionVec.nor();
                                 }
                             }
