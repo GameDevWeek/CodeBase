@@ -140,8 +140,12 @@ public class EntityFactory{
 
         RenderComponent renderComponent = new RenderComponent();
         renderComponent.texture = new TextureRegion(assetManager.getTexture("catbox"));
+
+        CatBoxComponent catBoxComponent = new CatBoxComponent();
+
         manager.addComponent(entity, catBoxPhysicsComponent);
         manager.addComponent(entity, renderComponent);
+        manager.addComponent(entity, catBoxComponent);
 
         return entity;
     }

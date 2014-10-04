@@ -39,9 +39,9 @@ public class TextChar {
         start.x += end.x;
 
         if (MathUtils.randomBoolean()) {
-            angle += MathUtils.random(45, 135);
+            angle += MathUtils.random(animation.minCurveAngle, animation.maxCurveAngle);
         } else {
-            angle -= MathUtils.random(45, 135);
+            angle -= MathUtils.random(animation.minCurveAngle, animation.maxCurveAngle);
         }
         if (angle < 0) {
             angle += 360;

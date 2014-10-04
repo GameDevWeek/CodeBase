@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.*;
 
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.game.*;
 import de.hochschuletrier.gdw.ss14.states.*;
 
 import org.slf4j.Logger;
@@ -135,8 +136,15 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 laserPointerComponent.toolState = ToolState.WATERPISTOL;
             }
         }
-        
-        /////////
+        else if(other instanceof StairsPhysicsComponent)
+        {
+            if(mySightCone)
+            {
+                return;
+            }
+
+            // TODO: change floor here.
+        }
 
     }
 

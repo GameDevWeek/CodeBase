@@ -79,6 +79,47 @@ public class EntityManager
         }
     }
 
+    public void deleteAllDogEntities()
+    {
+        Array<Integer> dogs = getAllEntitiesWithComponents(EnemyComponent.class);
+
+        for (Integer dog : dogs)
+        {
+            deletePhysicEntity(dog);
+        }
+    }
+
+    public void deleteAllCatBoxEntities()
+    {
+        Array<Integer> catBoxes = getAllEntitiesWithComponents(CatBoxComponent.class);
+
+        for (Integer catBox : catBoxes)
+        {
+            deletePhysicEntity(catBox);
+        }
+    }
+
+    public void deleteAllWoolEntities()
+    {
+        Array<Integer> catBoxes = getAllEntitiesWithComponents(WoolPropertyComponent.class);
+
+        for (Integer catBox : catBoxes)
+        {
+            deletePhysicEntity(catBox);
+        }
+    }
+
+    private void deletePhysicEntity(int entity)
+    {
+        PhysicsComponent physicsComponent = getComponent(entity, PhysicsComponent.class);
+
+        if(physicsComponent != null)
+        {
+            // set flaggedForRemoval so a system can clean up all the bodies and then delete the entity.
+            physicsComponent.flaggedForRemoval = true;
+        }
+    }
+
     public void deleteAllEntities()
     {
         entityList.clear();

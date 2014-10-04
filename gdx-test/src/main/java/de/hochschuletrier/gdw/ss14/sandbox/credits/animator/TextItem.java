@@ -154,7 +154,7 @@ public class TextItem extends Item {
             anim = TextAnimation.valueOf(animation.animation.toUpperCase());
             animationTime = 0;
             if (animation.animationTime > 0) {
-                totalAnimationTime = animation.animationTime * 0.001f;
+                totalAnimationTime = animation.animationTime;
             }
             opacity = 1.0f;
             switch (anim) {
