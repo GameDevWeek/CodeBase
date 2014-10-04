@@ -79,35 +79,28 @@ public class CatMovementSystem extends ECSystem{
                     foodBuffer = 0;
                 }
 
+                ////sliding stuff start////
+                if(movementComponent.positionVec == null)
+                    movementComponent.positionVec = new Vector2(movementComponent.directionVec.x, movementComponent.directionVec.y);
+                if(movementComponent.oldPositionVec == null)
+                    movementComponent.oldPositionVec = new Vector2(movementComponent.positionVec.x, movementComponent.positionVec.y);
+                ////sliding stuff end////
+
                 //test if cat sees the pointer //don't ask why this way
                 catPropertyComponent.canSeeLaserPointer = false;
                 if(distance < 500 && laserPointerComponent.toolState == ToolState.LASER){
-                    //sees the pointer in every case
-                    /*RayCastPhysics rayCastPhysics = new RayCastPhysics();
+                    /*float physicAngle2 = (float) Math.atan2(-(movementComponent.oldPositionVec.x-movementComponent.directionVec.x),
+                            movementComponent.oldPositionVec.y-movementComponent.directionVec.y);
+                    catPropertyComponent.canSeeLaserPointer = (physicAngle2 > 1.7f);
+                    //if(0f == physicAngle)catPropertyComponent.canSeeLaserPointer = false;
 
-                    physicsComponent.physixManager.getWorld().rayCast(rayCastPhysics, physicsComponent.getPosition(), laserPointerComponent.position);
-                    if(rayCastPhysics.m_hit){
-                        ArrayList<Body> rayCastPhysicses= rayCastPhysics.collisionBodys;
-                        for(int j = 0; j < rayCastPhysicses.size(); j++){
-                            for(Body body:rayCastPhysicses){
-                                if(body.getType() == BodyDef.BodyType.StaticBody){
-                                    Array<Fixture> fixtures =body.getFixtureList();
-                                    for(Fixture fixture:body.getFixtureList()){
-                                        catPropertyComponent.canSeeLaserPointer = fixture.isSensor();
-                                    }
-                                }else{
-                                    catPropertyComponent.canSeeLaserPointer = true;
-                                }
-                            }
-                        }
-                    }else{
-                        catPropertyComponent.canSeeLaserPointer = true;
-                    }
-                    rayCastPhysics.reset();*/
+                    System.out.print(physicAngle2+" ");*/
                     catPropertyComponent.canSeeLaserPointer = true;
                 }else{
                     catPropertyComponent.canSeeLaserPointer = false;
                 }
+
+                //System.out.print(catPropertyComponent.canSeeLaserPointer);
 
                 if(distance >= 200 && catPropertyComponent.canSeeLaserPointer){
                     movementComponent.velocity += movementComponent.acceleration*delta;
@@ -168,15 +161,12 @@ public class CatMovementSystem extends ECSystem{
                 }
 
                 ////sliding stuff start////
-                if(movementComponent.positionVec == null)
-                    movementComponent.positionVec = new Vector2(movementComponent.directionVec.x, movementComponent.directionVec.y);
-                if(movementComponent.oldPositionVec == null)
-                    movementComponent.oldPositionVec = new Vector2(movementComponent.positionVec.x, movementComponent.positionVec.y);
-
-                float percentNewCatVelo = 1;//if next stuff fails than 100% of actual direction
+                //if next stuff fails than 100% of actual direction
+                //DON'T MAKE IT 0 IN ANY CASE ! it must be at least have .0001f
+                float percentNewCatVelo = 1;
                 if(distance < 5){
                     //pointer to near to cat - no direction change
-                    percentNewCatVelo = .0f;
+                    percentNewCatVelo = .0001f;
                 }else if(movementComponent.velocity < movementComponent.middleVelocity){
                     //no sliding between 0 and middleVelocity
                     percentNewCatVelo = 1;
@@ -201,7 +191,7 @@ public class CatMovementSystem extends ECSystem{
                 if(!catPropertyComponent.canSeeLaserPointer){
                     //slow down on laserPointer of
                     movementComponent.velocity = movementComponent.velocity*(1-delta);
-                    percentNewCatVelo = .0f;
+                    percentNewCatVelo = .0001f;
                 }
 
                 movementComponent.positionVec.x = movementComponent.directionVec.x*percentNewCatVelo+movementComponent.oldPositionVec.x*(1-percentNewCatVelo);
@@ -225,8 +215,6 @@ public class CatMovementSystem extends ECSystem{
                         if(movementComponent.velocity < 10f){
                             //slowdown on laserPointer off stops to 0 if speed < 10
                             movementComponent.velocity = 0.0f;
-                            movementComponent.oldPositionVec.x = movementComponent.positionVec.x;
-                            movementComponent.oldPositionVec.y = movementComponent.positionVec.y;
                         }else if(movementComponent.slidingLock){
                             //slowdown on laserPointer off with slidingLock
                             movementComponent.velocity = movementComponent.velocity - 10*delta;
