@@ -7,12 +7,18 @@ import java.util.Map.Entry;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
 public class InputGamePad extends InputDevice implements ControllerListener {
 
 	private HashMap<Integer, Float> pressedKeys = new HashMap<>();
+	
+	public InputGamePad() {
+	    devicType = DeviceType.GAMEPAD;
+	}
 	
 	protected enum InputDirection {
 	    UP, LEFT, DOWN, RIGHT
@@ -23,16 +29,16 @@ public class InputGamePad extends InputDevice implements ControllerListener {
     	for (Entry<Integer, Float> direction : this.pressedKeys.entrySet()) {
             switch (direction.getKey()) {
                 case 0: // InputDirection.UP = 0
-                    this.fireMoveUp(direction.getValue());
+                    this.fireMoveUp(Math.abs(direction.getValue()));
                     break;
                 case 1: // InputDirection.LEFT = 1
-                    this.fireMoveLeft(direction.getValue());
+                    this.fireMoveLeft(Math.abs(direction.getValue()));
                     break;
                 case 2: // InputDirection.DOWN = 2
-                    this.fireMoveDown(direction.getValue());
+                    this.fireMoveDown(Math.abs(direction.getValue()));
                     break;
                 case 3: // InputDirection.RIGHT = 3
-                    this.fireMoveRight(direction.getValue());
+                    this.fireMoveRight(Math.abs(direction.getValue()));
                     break;
             }
         }        
@@ -122,6 +128,16 @@ public class InputGamePad extends InputDevice implements ControllerListener {
 	public boolean accelerometerMoved(Controller controller, int accelerometerCode, Vector3 value) {
 		return false;
 	}
+
+    @Override
+    public void registerProcessor() {
+        Controllers.addListener(this);
+    }
+
+    @Override
+    public void unregisterProcessor() {
+        Controllers.addListener(this);
+    }
 	
 	
 
