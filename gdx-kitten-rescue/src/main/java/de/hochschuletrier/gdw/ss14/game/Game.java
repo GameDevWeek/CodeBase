@@ -3,6 +3,7 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
+import de.hochschuletrier.gdw.ss14.ecs.systems.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,31 +18,7 @@ import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import de.hochschuletrier.gdw.ss14.ecs.Engine;
 import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.systems.AnimationSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.BehaviourSystem.GlobalBlackboard;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CameraSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CatCooldownUpdateSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CatJumpUpdateSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CatMovementSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CatStateUpdateSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CheckCatDeadSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.DogMovementSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.HitAnimationSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.InputSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.LaserPointerSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.LightMapSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.LimitedLifetimeSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.ParticleEmitterSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixDebugRenderSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.PhysixUpdateSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.RenderSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.ShadowSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.WoolInfluenceSystem;
-import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 
 
 import org.slf4j.Logger;
@@ -59,7 +36,7 @@ public class Game {
     private Array<ECSystem> systems;
     public static Engine engine;
 
-    private MapManager mapManager;
+    public static MapManager mapManager;
     private EntityManager entityManager;
     private PhysixManager physixManager;
     
@@ -100,6 +77,7 @@ public class Game {
     {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
+        engine.addSystem(new DeleteDeadPhysicEntitiesSystem(entityManager, physixManager));
         engine.addSystem(new CatMovementSystem(entityManager));
         engine.addSystem(new CatJumpUpdateSystem(entityManager));
         engine.addSystem(new CatStateUpdateSystem(entityManager));
