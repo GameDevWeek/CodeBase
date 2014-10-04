@@ -45,8 +45,10 @@ public class OptionsMenu extends LaserCatMenu
 		{
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.optionsMenuListener);
-			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 		}
+		button[2].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+		button[3].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+		button[4].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 
 		
 	}
