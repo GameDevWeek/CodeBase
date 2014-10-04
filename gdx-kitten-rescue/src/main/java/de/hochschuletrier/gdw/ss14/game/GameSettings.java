@@ -17,7 +17,7 @@ public class GameSettings {
     
     private Float volume = 1.0f;
     private Boolean fullscreen = false;
-    private InputDevice.DeviceType inputDevice = DeviceType.MOUSE;
+    private InputDevice.DeviceType inputDeviceType = DeviceType.GAMEPAD;
     
     public GameSettings() {
     }
@@ -38,12 +38,12 @@ public class GameSettings {
         this.fullscreen = fullscreen;
     }
 
-    public InputDevice.DeviceType getInputDevice() {
-        return inputDevice;
+    public InputDevice.DeviceType getInputDeviceType() {
+        return inputDeviceType;
     }
 
     public void setInputDevice(InputDevice.DeviceType inputDevice) {
-        this.inputDevice = inputDevice;
+        this.inputDeviceType = inputDevice;
     }
 
     public void write() {
