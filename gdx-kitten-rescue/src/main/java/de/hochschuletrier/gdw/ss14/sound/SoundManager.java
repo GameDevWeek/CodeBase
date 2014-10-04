@@ -84,7 +84,7 @@ public class SoundManager {
 						}
 						break;
 					case "SUCCESS": // muss noch geändert werden
-						System.out.println(hundBellenVerzoegerung);
+					
 						if(hundBellenVerzoegerung > 60) {							
 							tmp = random(0,7);
 							switch (tmp) {
