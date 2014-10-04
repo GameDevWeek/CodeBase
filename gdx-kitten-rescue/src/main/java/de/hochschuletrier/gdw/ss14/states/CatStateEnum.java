@@ -22,5 +22,7 @@ public enum CatStateEnum {
     DIE,
     DIE2,
     POSITIVE_FOOD,
-    HIDDEN
+    HIDDEN,
+    JUMPING_IN_BOX,
+    PLAYS_WITH_WOOL,
 }
