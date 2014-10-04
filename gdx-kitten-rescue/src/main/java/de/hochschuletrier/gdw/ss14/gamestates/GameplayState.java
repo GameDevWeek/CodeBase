@@ -112,7 +112,7 @@ public class GameplayState extends KittenGameState implements InputProcessor {
         emitter.dispose();
         //emitter.play(helicopter, true);
 
-        if(previousState instanceof LevelMenuState)
+        if(previousState instanceof LevelMenuState || previousState instanceof MainMenuState)
         {
             Game game = new Game(assetManager);
             game.init(assetManager);
