@@ -24,7 +24,7 @@ public class TextChar {
     private boolean type;
 
     public TextChar(BitmapFont font, String text, int index, Animation animation, float totalAnimationTime) {
-        type = animation.animation.equals(TextAnimation.CONSTRUCT_TYPE.name());
+        type = animation.animation.equalsIgnoreCase(TextAnimation.CONSTRUCT_TYPE.name());
         if(type)
             startTime = index * totalAnimationTime * 0.5f;
         this.text = text.substring(index, index+1);
@@ -39,9 +39,9 @@ public class TextChar {
         start.x += end.x;
 
         if (MathUtils.randomBoolean()) {
-            angle += MathUtils.random(45, 135);
+            angle += MathUtils.random(animation.minCurveAngle, animation.maxCurveAngle);
         } else {
-            angle -= MathUtils.random(45, 135);
+            angle -= MathUtils.random(animation.minCurveAngle, animation.maxCurveAngle);
         }
         if (angle < 0) {
             angle += 360;

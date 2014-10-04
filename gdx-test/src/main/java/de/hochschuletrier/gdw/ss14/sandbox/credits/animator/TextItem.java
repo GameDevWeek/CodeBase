@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ public class TextItem extends Item {
     public ArrayList<TextChar> chars;
     private TextAnimation anim;
 
-    public TextItem(String text, TextStyle style, float startTime, float angle, float opacity) {
-        super(startTime, angle, opacity);
+    public TextItem(String group, float startTime, float angle, float opacity, String text, TextStyle style) {
+        super(group, startTime, angle, opacity);
         
         originalText = text;
         shownText = text;
@@ -41,26 +42,30 @@ public class TextItem extends Item {
     }
 
     @Override
-    public void update(float delta) {
-        animationTime += delta;
-        if (anim != null) {
-            switch (anim) {
-                case FADE_IN:
-                    updateFadeIn();
-                    break;
-                case FADE_OUT:
-                    updateFadeOut();
-                    break;
-                case CONSTRUCT:
-                case CONSTRUCT_TYPE:
-                    updateConstruct(delta);
-                    break;
-                case TYPE:
-                    updateType();
-                    break;
-                case UNTYPE:
-                    updateUntype();
-                    break;
+    public void update(Path<Vector2> path, float delta) {
+        super.update(path, delta);
+        
+        if(startTime == 0) {
+            animationTime += delta;
+            if (anim != null) {
+                switch (anim) {
+                    case FADE_IN:
+                        updateFadeIn();
+                        break;
+                    case FADE_OUT:
+                        updateFadeOut();
+                        break;
+                    case CONSTRUCT:
+                    case CONSTRUCT_TYPE:
+                        updateConstruct(delta);
+                        break;
+                    case TYPE:
+                        updateType();
+                        break;
+                    case UNTYPE:
+                        updateUntype();
+                        break;
+                }
             }
         }
     }
@@ -121,30 +126,32 @@ public class TextItem extends Item {
 
     @Override
     public void render() {
-        style.color.a = opacity;
-        if (anim != null) {
-            style.font.setColor(style.color);
-            switch (anim) {
-                case FADE_IN:
-                case FADE_OUT:
-                    style.font.draw(DrawUtil.batch, originalText, position.x, position.y);
-                    break;
-                case CONSTRUCT:
-                case CONSTRUCT_TYPE:
-                    style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
-                    for (TextChar tc : chars) {
-                        tc.render(style.font, style.color, position, totalAnimationTime);
-                    }
-                    break;
-                case TYPE:
-                case UNTYPE:
-                    style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
-                    break;
+        if(startTime == 0) {
+            style.color.a = opacity;
+            if (anim != null) {
+                style.font.setColor(style.color);
+                switch (anim) {
+                    case FADE_IN:
+                    case FADE_OUT:
+                        style.font.draw(DrawUtil.batch, originalText, position.x, position.y);
+                        break;
+                    case CONSTRUCT:
+                    case CONSTRUCT_TYPE:
+                        style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
+                        for (TextChar tc : chars) {
+                            tc.render(style.font, style.color, position, totalAnimationTime);
+                        }
+                        break;
+                    case TYPE:
+                    case UNTYPE:
+                        style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
+                        break;
+                }
+                style.font.setScale(1);
+            } else {
+                style.font.setColor(style.color);
+                style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
             }
-            style.font.setScale(1);
-        } else {
-            style.font.setColor(style.color);
-            style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
         }
     }
 
@@ -154,7 +161,7 @@ public class TextItem extends Item {
             anim = TextAnimation.valueOf(animation.animation.toUpperCase());
             animationTime = 0;
             if (animation.animationTime > 0) {
-                totalAnimationTime = animation.animationTime * 0.001f;
+                totalAnimationTime = animation.animationTime;
             }
             opacity = 1.0f;
             switch (anim) {
