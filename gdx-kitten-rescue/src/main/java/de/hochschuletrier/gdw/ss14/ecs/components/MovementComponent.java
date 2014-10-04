@@ -10,6 +10,8 @@ public class MovementComponent implements Component{
     public float maxVelocity;
     public float middleVelocity;
     public float minVelocity;
+
+    public boolean slidingLock;
 	
 	public Vector2 directionVec;
     public Vector2 positionVec;

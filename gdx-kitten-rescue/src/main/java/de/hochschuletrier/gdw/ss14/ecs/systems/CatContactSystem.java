@@ -1,39 +1,23 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import java.util.ArrayList;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
-
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.Component;
-import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.FinishPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.GroundPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.StairComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.StairsPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
 
@@ -69,6 +53,14 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     }
 
     private void addRayCast(PhysicsComponent a, PhysicsComponent b){
+        
+        // Don't add if the pair already exists.
+        if ((raycst_startPhys.contains(a)) && (raycst_targetPhys.contains(b))) {
+            
+            if ((raycst_startPhys.indexOf(a) == raycst_targetPhys.indexOf(b)))           
+                return;
+        }
+        
         raycst_startPhys.add(a);
         raycst_targetPhys.add(b);
     }
@@ -160,16 +152,15 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             }
         }else if( otherPhysic instanceof WoolPhysicsComponent || (c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class) ) != null ){
             /* other → is groundobject */
-            
+            d = entityManager.getComponent(myEntity, CatPropertyComponent.class);
             if(mySightCone){
-                if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null){
+                if (d != null){
                     ((CatPropertyComponent)d).isInfluenced = true;
                     ((WoolPhysicsComponent)otherPhysic).isSeen = true;
                 }
             }else{
                 entityManager.deletePhysicEntity(otherPhysic.owner);
-                //                if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
-                //                    ((CatPropertyComponent)d)  play with wool
+                ((CatPropertyComponent)d).setState(CatStateEnum.PLAYS_WITH_WOOL);
             }
         }else if((c = entityManager.getComponent(otherEntity, GroundPropertyComponent.class)) != null){
             /* other → is groundobject */
@@ -296,12 +287,14 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             if(startEntity != null && targetEntity != null)
             {
                 c = entityManager.getComponent(startEntity, EnemyComponent.class);
+                EnemyComponent enemyComponent = entityManager.getComponent(startEntity, EnemyComponent.class);
                 if (c != null)
                 {
                     d = entityManager.getComponent(targetEntity, PlayerComponent.class);
                     if (d != null)
                     {
                         //dog sees cat
+                        enemyComponent.seeCat = true;
                     }
 
                 }
@@ -378,17 +371,21 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                 ((CatPropertyComponent)d).isInfluenced = false;
                 ((WoolPhysicsComponent)otherPhysic).isSeen = false;
+                EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
+                enemyComponent.seeCat = false;
         }else if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
-
-        }else if((c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null){
+            EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
+            enemyComponent.seeCat = false;
+        }else {            
+            if((c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null){
             // cat does not collide with dogPhysx anymore which means ...
             if(otherSightCone && !mySightCone){
                 // ... dog does not see the cat anymore
                 this.removeRayCast(otherPhysic, myPhysic);
-                
             }
-
-        }
+            EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
+            enemyComponent.seeCat = false;
+        }}
 
         if(other instanceof StairsPhysicsComponent)
         {

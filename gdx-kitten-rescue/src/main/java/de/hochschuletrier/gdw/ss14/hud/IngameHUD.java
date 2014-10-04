@@ -14,7 +14,6 @@ public class IngameHUD {
 		catLife.setScale(0.2f);
 		
 		waterlevel = new WaterlevelHUD(assetManager, 25f, catLife.getWidth());
-		waterlevel.setScale(0.8f);
 		
 		weapon = new WeaponHUD(assetManager);
 		weapon.setScale(0.8f);

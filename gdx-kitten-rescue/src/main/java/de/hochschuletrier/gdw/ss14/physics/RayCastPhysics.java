@@ -1,12 +1,11 @@
 package de.hochschuletrier.gdw.ss14.physics;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import com.badlogic.gdx.physics.box2d.World;
+
+import java.util.ArrayList;
 
 public class RayCastPhysics implements RayCastCallback{
     
@@ -16,6 +15,7 @@ public class RayCastPhysics implements RayCastCallback{
     public Vector2 m_normal;
     public float m_fraction;
     public ArrayList<RayCastPhysics> collisions = new ArrayList<>();
+    public ArrayList<Body> collisionBodys = new ArrayList<>();
     
     /**
      * Creating a RayCastCallback
@@ -41,27 +41,29 @@ public class RayCastPhysics implements RayCastCallback{
         m_normal = null;
         m_fraction = 0;
         collisions.clear();
+        collisionBodys.clear();
     }
 
     public float reportRayFixture(Fixture fixture,  Vector2 point,
              Vector2 normal, float fraction)
     {
-            Body body = fixture.getBody();
-            Object userData = body.getUserData();
-            if (userData != null)
-            {
-                    int index = (Integer)userData.hashCode();
-                    if (index == 0){
-                            return -1f;
-                    }
-            }
-            
-            m_hit = true;
-            m_point = point;
-            m_normal = normal;
-            m_fraction = fraction;
-            m_fixture = fixture;
-            collisions.add(this);
-            return 1f;
+        Body body = fixture.getBody();
+        collisionBodys.add(body);
+        Object userData = body.getUserData();
+        if (userData != null)
+        {
+                int index = (Integer)userData.hashCode();
+                if (index == 0){
+                        return -1f;
+                }
+        }
+
+        m_hit = true;
+        m_point = point;
+        m_normal = normal;
+        m_fraction = fraction;
+        m_fixture = fixture;
+        collisions.add(this);
+        return 1f;
     }
 }

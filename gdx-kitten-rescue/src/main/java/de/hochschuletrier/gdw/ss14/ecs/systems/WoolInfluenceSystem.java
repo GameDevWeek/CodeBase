@@ -63,6 +63,7 @@ public class WoolInfluenceSystem extends ECSystem
 //                    laserToWool.scl(0.5f);
                     
                     inputCompo.whereToGo.set(woool.getPosition());
+                    
                 }
                 if(catProp.timeTillInfluencedTimer >= catProp.TIME_TILL_INFLUENCED){
                     catProp.timeTillInfluencedTimer = 0;
