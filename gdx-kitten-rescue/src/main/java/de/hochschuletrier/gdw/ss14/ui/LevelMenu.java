@@ -1,16 +1,12 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.ss14.Main;
-import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class LevelMenu extends LaserCatMenu
@@ -38,10 +34,11 @@ public class LevelMenu extends LaserCatMenu
 
 		levelMenuListener = new LevelMenuListener();
 
-		for (Button b : button)
+		for (UIButton b : button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.levelMenuListener);
+			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 		}
 		
 

@@ -5,5 +5,5 @@ package de.hochschuletrier.gdw.ss14.ecs.components;
  */
 public class StairComponent implements Component
 {
-    public int targetFloor = 0;
+    public int changeFloorDirection = 0;
 }
