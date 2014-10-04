@@ -1,10 +1,13 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
@@ -66,6 +69,14 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     }
 
     private void addRayCast(PhysicsComponent a, PhysicsComponent b){
+        
+        // Don't add if the pair already exists.
+        if ((raycst_startPhys.contains(a)) && (raycst_targetPhys.contains(b))) {
+            
+            if ((raycst_startPhys.indexOf(a) == raycst_targetPhys.indexOf(b)))           
+                return;
+        }
+        
         raycst_startPhys.add(a);
         raycst_targetPhys.add(b);
     }
@@ -157,16 +168,15 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             }
         }else if( otherPhysic instanceof WoolPhysicsComponent || (c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class) ) != null ){
             /* other → is groundobject */
-            
+            d = entityManager.getComponent(myEntity, CatPropertyComponent.class);
             if(mySightCone){
-                if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null){
+                if (d != null){
                     ((CatPropertyComponent)d).isInfluenced = true;
                     ((WoolPhysicsComponent)otherPhysic).isSeen = true;
                 }
             }else{
                 entityManager.deletePhysicEntity(otherPhysic.owner);
-                //                if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
-                //                    ((CatPropertyComponent)d)  play with wool
+                ((CatPropertyComponent)d).setState(CatStateEnum.PLAYS_WITH_WOOL);
             }
         }else if((c = entityManager.getComponent(otherEntity, GroundPropertyComponent.class)) != null){
             /* other → is groundobject */
@@ -189,6 +199,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     }
 
                     catPropertyComponent.setState(CatStateEnum.JUMPING_IN_BOX);
+                    catPropertyComponent.isHidden = true;
                     SoundManager.performAction(CatStateEnum.JUMPING_IN_BOX);
 
                     catPropertyComponent.isCatBoxOnCooldown = true;

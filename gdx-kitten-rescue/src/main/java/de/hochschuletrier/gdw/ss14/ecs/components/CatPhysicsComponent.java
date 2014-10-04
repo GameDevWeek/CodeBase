@@ -71,6 +71,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
 
     @Override
     public void initPhysics(PhysixManager manager) {
+        super.physixManager = manager;
         fillShapeList();
         
         PhysixFixtureDef conefixturedef = new PhysixFixtureDef(manager).density(1).sensor(true);

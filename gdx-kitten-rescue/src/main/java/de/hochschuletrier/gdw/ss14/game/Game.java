@@ -144,7 +144,7 @@ public class Game {
         //int dogEntity = EntityFactory.constructDog(new Vector2(0, 0), 60.0f, 40.0f, 0, 100f);
         //int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
         ArrayList<Vector2> patrolSpots= new ArrayList<>();
-        int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500f, 350f), 60.0f, 40.0f, 0f, 100f, patrolSpots, (short)0,(short) 0f);
+        //int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500f, 350f), 60.0f, 40.0f, 0f, 100f, patrolSpots, (short)0,(short) 0);
 
         EntityFactory.constructLaserPointer(new Vector2(300,0));
         EntityFactory.constructWool(new Vector2(3000,100));
