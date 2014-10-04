@@ -70,8 +70,8 @@ public class LayerObject {
 
         x = (int)node.getX();
         y = (int)node.getY();
-        width = (node.getWidth() == null) ? 0 : node.getWidth();
-        height = (node.getHeight() == null) ? 0 : node.getHeight();
+        width = (node.getWidth() == null) ? 0 : node.getWidth().intValue();
+        height = (node.getHeight() == null) ? 0 : node.getHeight().intValue();
 
         if (primitive == Primitive.POLYGON || primitive == Primitive.POLYLINE) {
             TmxPointList pointsNode = node.getPolygon();
