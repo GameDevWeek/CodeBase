@@ -115,7 +115,6 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     @Override
     public void moveUp(float scale)
     {
-        System.out.println("MOVE UP");
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
         laser.position = new Vector2(laser.position.x, laser.position.y - (scale * 10.0f));

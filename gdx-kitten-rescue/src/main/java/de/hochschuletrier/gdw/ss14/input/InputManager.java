@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.GameSettings;
+import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
 
 public class InputManager {
     private static final Logger logger = LoggerFactory.getLogger(InputManager.class);
@@ -46,17 +47,7 @@ public class InputManager {
         
         instance = new InputManager();
         
-        switch (GameSettings.getInstance().getInputDeviceType()) {
-            case MOUSE:
-                instance.inputDevice = new InputMouse();
-                break;
-            case KEYBOARD:
-                instance.inputDevice = new InputKeyboard();
-                break;
-            case GAMEPAD:
-                instance.inputDevice = new InputGamePad();
-                break;
-        }
+        instance.changeInputDevice(GameSettings.getInstance().getInputDeviceType());
     }
     
     public void registerProcessor() {
@@ -65,6 +56,24 @@ public class InputManager {
     
     public void unregisterProcessor() {
         inputDevice.unregisterProcessor();
+    }
+    
+    public void changeInputDevice(DeviceType deviceType) {
+        if (inputDevice != null) {
+            unregisterProcessor();
+        }
+        
+        switch (deviceType) {
+            case MOUSE:
+                inputDevice = new InputMouse();
+                break;
+            case KEYBOARD:
+                inputDevice = new InputKeyboard();
+                break;
+            case GAMEPAD:
+                inputDevice = new InputGamePad();
+                break;
+        }
     }
     
 }
