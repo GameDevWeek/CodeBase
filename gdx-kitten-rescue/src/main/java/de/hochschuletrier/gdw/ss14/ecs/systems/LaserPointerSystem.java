@@ -153,45 +153,54 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
         Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(lasers.first(), LaserPointerComponent.class);
         
-        if (cat.isHidden) {
-            for (Integer entity : cats)
+            if (!laser.waterpistolIsUsed)
             {
-                CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
-
-                // check if cat should move out of box
-                if (catPropertyComponent.isHidden)
+                if (cat.isHidden)
                 {
-                    catPropertyComponent.isHidden = !catPropertyComponent.isHidden;
+                    for (Integer entity : cats)
+                    {
+                        CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
 
-                    RenderComponent renderComponent = new RenderComponent();
-                    entityManager.addComponent(entity, renderComponent);
+                        // check if cat should move out of box
+                        if (catPropertyComponent.isHidden)
+                        {
+                            catPropertyComponent.isHidden = !catPropertyComponent.isHidden;
+
+                            RenderComponent renderComponent = new RenderComponent();
+                            entityManager.addComponent(entity, renderComponent);
+                        }
+                    }
                 }
-            }
-        } else {
-            if (!laser.waterpistolIsUsed) {
+
                 if (laser.toolState == ToolState.LASER) {
                     laser.toolState = ToolState.WATERPISTOL;
                 } else {
                     laser.toolState = ToolState.LASER;
                 }
-                
+
+                CatPropertyComponent catPropertyComponent = null;
                 for (Integer entity : cats)
                 {
-                    CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
+                    catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
+                }
 
-                    if (catPropertyComponent.canSeeLaserPointer == true)
-                    {
-                        catPropertyComponent.canSeeLaserPointer = false;
-                        SoundManager.performAction(LaserPointerActions.OFF);
-                    }
-                    else
+                if(laser.toolState == ToolState.LASER)
+                {
+                    SoundManager.performAction(LaserPointerActions.ON);
+                    if(catPropertyComponent != null)
                     {
                         catPropertyComponent.canSeeLaserPointer = true;
-                        SoundManager.performAction(LaserPointerActions.ON);
+                    }
+                }
+                else if(laser.toolState == ToolState.WATERPISTOL)
+                {
+                    SoundManager.performAction(LaserPointerActions.OFF);
+                    if(catPropertyComponent != null)
+                    {
+                        catPropertyComponent.canSeeLaserPointer = false;
                     }
                 }
             }
-        }
     }
 
     @Override
