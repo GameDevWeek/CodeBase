@@ -21,16 +21,26 @@ public class AnimatorData {
     }
 
     public static class Path {
+        PathType type;
         @JacksonList(Destination.class)
         public List<Destination> destinations;
-        @JacksonList(Animation.class)
-        public List<Animation> animations;
 
         public static class Destination {
             public Float x;
             public Float y;
             public Float speed;
         }
+    }
+
+    public static class Queue {
+        public Integer time;
+        public String path;
+        public String next;
+        public String finalNext;
+        @JacksonList(Item.class)
+        public List<Item> items;
+        @JacksonList(Animation.class)
+        public List<Animation> animations;
         
         public static class Animation {
             public Integer time;
@@ -45,15 +55,6 @@ public class AnimatorData {
             public Integer maxCurveAngle;
             public Integer animationTime;
         }
-    }
-
-    public static class Queue {
-        public Integer time;
-        public String path;
-        public String next;
-        public String finalNext;
-        @JacksonList(Item.class)
-        public List<Item> items;
     }
 
     public static class Item {
