@@ -44,6 +44,16 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         raycst_targetPhys = new ArrayList<>();
     }
 
+    
+    private void removeRayCast(PhysicsComponent a, PhysicsComponent b){
+        int i = 0;
+        while(!(raycst_startPhys.get(i) == a && raycst_targetPhys.get(i) == b)
+              ){
+            i++;
+        }
+        raycst_startPhys.remove(i);
+        raycst_startPhys.remove(i);
+    }
 
     private void addRayCast(PhysicsComponent a, PhysicsComponent b){
         raycst_startPhys.add(a);
@@ -215,7 +225,9 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     @Override
     public void update(float delta){
         /// do all raycast fun:
-        for(int i = 0; i < raycst_startPhys.size(); i++){
+        if(raycst_startPhys.size() == 0) return;
+        if(raycst_targetPhys.size() == 0) return;
+        for(int i = 0; i < raycst_startPhys.size(); ++i){
             phyManager.getWorld().rayCast(rcp, 
                     raycst_startPhys.get(i).physicsBody.getPosition(), 
                     raycst_targetPhys.get(i).physicsBody.getPosition());
@@ -324,7 +336,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             // cat does not collide with dogPhysx anymore which means ...
             if(otherSightCone && !mySightCone){
                 // ... dog does not see the cat anymore
-
+                
             }
 
         }
