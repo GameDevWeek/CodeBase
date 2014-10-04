@@ -70,7 +70,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
         
         physicsBody.createFixture(fixturedef.shapeBox(width, height-width));
         physicsBody.createFixture(fixturedef.shapeCircle(0.1f)).setUserData("masscenter");
-        physicsBody.createFixture(conefixturedef.shapePolygon(coneShape));
+        physicsBody.createFixture(conefixturedef.shapePolygon(coneShape)).setUserData("sightcone");
         physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,( height-width)/2)));
         physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,(-height+width)/2)));
         setPhysicsBody(physicsBody);

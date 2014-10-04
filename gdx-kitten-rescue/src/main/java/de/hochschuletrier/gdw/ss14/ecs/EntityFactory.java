@@ -117,7 +117,6 @@ public class EntityFactory{
         manager.addComponent(entity, catAnimation);
         manager.addComponent(entity, new RenderComponent());
         manager.addComponent(entity, catProperty);
-        manager.addComponent(entity, conePhysic);
         manager.addComponent(entity, catPhysix);
         manager.addComponent(entity, catMove);
         manager.addComponent(entity, catInput);

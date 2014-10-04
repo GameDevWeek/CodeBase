@@ -55,11 +55,20 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             if(tmp.physicsBody == contact.getOtherPhysixBody()){ otherEntity = i; otherPhysic = tmp; }
         }
         // checks if the center of the cat is collided
-        boolean isCatInZone = false;
-        if(contact.getMyFixture().getUserData() != null && contact.getMyFixture().getUserData().equals("masscenter")){
-            isCatInZone = true;
+        boolean isCatInZone = false, mySightCone = false, otherSightCone = false;
+        if(contact.getMyFixture().getUserData() != null){
+            if(contact.getMyFixture().getUserData().equals("masscenter")){
+                isCatInZone = true;
+            }else if(contact.getMyFixture().getUserData().equals("sightcone")){
+                mySightCone = true;
+            }
         }
-        
+        if(contact.getOtherFixture().getUserData() != null){
+            if(contact.getOtherFixture().getUserData().equals("sightcone")){
+                otherSightCone = true;
+            }
+        }
+            
         //////////
         // if something wierd happens, one of these is null then dont go on
         if(myEntity == null || otherEntity == null || otherPhysic == null) return;
@@ -67,18 +76,23 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         Component c = null, d = null;
         if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
             /*other → is enemy */
-            if(otherPhysic instanceof ConePhysicsComponent){
-                // → in sichtradius des hundes
-                phyManager.getWorld().rayCast(rcp, other.getPosition(), owner.getPosition());
-                
-            }else if(otherPhysic instanceof CatPhysicsComponent){
-                // → mit einem hund kollidiert
+            if(otherPhysic instanceof CatPhysicsComponent){
+                if(mySightCone) return; // katze sieht hund/ oder sichtfelder berühren sich → egal
+                // kollidiert mit hund (oder anderer katze)
+                if(otherSightCone){
+                    // katzenkörper berührt hunde sichtfeld
+                    
+                }else{
+                    // katzenkörper berührt hundekörper
+                    
+                }
             }
             
         }else if( (c = entityManager.getComponent(otherEntity, JumpablePropertyComponent.class) ) != null ){
             /*other → is jumpable object */
             switch(((JumpablePropertyComponent)c).type){
             case deadzone:
+                if(! isCatInZone) break;
                 if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                     ((CatPropertyComponent)d).setState(CatStateEnum.FALL);  
             break;
@@ -89,6 +103,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                 ((CatPropertyComponent)d).groundWalking = ((GroundPropertyComponent)c).type;
         }else if( otherPhysic instanceof CatBoxPhysicsComponent ){
+            if(mySightCone) return; // katze sieht katzenbox → egal
             if ((d = entityManager.getComponent(myEntity, CatPhysicsComponent.class)) != null)
                  entityManager.removeComponent(myEntity, d);
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
