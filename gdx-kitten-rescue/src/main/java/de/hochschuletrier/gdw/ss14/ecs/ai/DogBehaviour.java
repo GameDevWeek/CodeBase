@@ -91,6 +91,9 @@ public class DogBehaviour extends Behaviour {
         Invert dogNotChase = new Invert(hh);
         new DogIsChasing(dogNotChase);
         new HundHaengt(hh);
+
+        // don't forget to activate behaviour on instantiation ;)
+        this.activate();
         
         
         
