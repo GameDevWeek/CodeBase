@@ -1,28 +1,22 @@
 {
     "textStyles" : {
-        "credit_titel": { "color": "F8BB08", "font": "verdana_24" }
+        "credit_titel": { "color": "F8BB08", "font": "verdana", "size": 24 },
+        "teilnehmer": { "color": "FFFFFF", "font": "verdana", "size": 24 }
     },
     "paths" : {
-        "fixed_position": {},
         "text_path": {
-           "destinations": [
-            {"x": 500, "y": 800, "speed": 80 },
-            {"x": 500, "y": -100, "speed": 80 }
-           ],
-           "animations": [
-                { "time": 0, "animation": "clear" },
-                { "time": 3000, "animation": "explode_in", "animationTime": 100 },
-                { "time": 6000, "animation": "fade_out", "animationTime": 100 }
-           ]
+            "type": "linear",
+            "destinations": [
+                {"x": 500, "y": 800, "speed": 80 },
+                {"x": 500, "y": -100, "speed": 80 }
+            ]
         },
         "cat_path": {
-           "destinations": [
-            {"x": 500, "y": 800, "speed": -1 },
-            {"x": 500, "y": -100, "speed": 80 }
-           ],
-           "animations": [
-                { "time": 0, "animation": "astronaut_walking", "frametime": 100 }
-           ]
+            "type": "linear",
+            "destinations": [
+                {"x": 500, "y": 800, "speed": -1 },
+                {"x": 500, "y": -100, "speed": 80 }
+            ]
         }
     },
     "queues": {
@@ -39,6 +33,11 @@
             "items" : [
                 { "type": "text", "style" : "credit_titel", "text": "Organisation", "delay": "1150" },
                 { "type": "text", "style" : "teilnehmer", "text": "Santo Pfingsten", "delay": "750" }
+            ],
+            "animations": [
+                { "time": 0, "animation": "clear" },
+                { "time": 3000, "animation": "explode_in", "animationTime": 100 },
+                { "time": 6000, "animation": "fade_out", "animationTime": 100 }
             ]
         },
         "cat": {
@@ -47,6 +46,9 @@
             "finalNext": "reset",
             "items" : [
                 { "type": "sprite", "animation": "astronaut_walking", "scale" : "0.5", "angle": 0, "oriented" : true }
+            ],
+            "animations": [
+                { "time": 0, "animation": "astronaut_walking", "frametime": 100 }
             ]
         }
     }
