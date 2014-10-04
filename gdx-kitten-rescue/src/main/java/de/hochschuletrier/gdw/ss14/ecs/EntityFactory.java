@@ -84,7 +84,9 @@ public class EntityFactory{
         catAnimation.animation.put(CatStateEnum.HIT.ordinal(), assetManager.getAnimation("hit"));
         catAnimation.animation.put(CatStateEnum.IDLE.ordinal(), assetManager.getAnimation("idle"));
         catAnimation.animation.put(CatStateEnum.WALK.ordinal(), assetManager.getAnimation("walk"));
+        catAnimation.speedUpFactor.put(CatStateEnum.WALK.ordinal(), 40f);
         catAnimation.animation.put(CatStateEnum.RUN.ordinal(), assetManager.getAnimation("run"));
+        catAnimation.speedUpFactor.put(CatStateEnum.RUN.ordinal(), 100f);
         catAnimation.animation.put(CatStateEnum.SLIDE_LEFT.ordinal(), assetManager.getAnimation("slide_left"));
         catAnimation.animation.put(CatStateEnum.SLIDE_RIGHT.ordinal(), assetManager.getAnimation("slide_right"));
         catAnimation.animation.put(CatStateEnum.CRASH.ordinal(), assetManager.getAnimation("crash"));
@@ -155,7 +157,7 @@ public class EntityFactory{
         return entity;
     }
 
-    public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots, short mask , short category){
+    /*public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots, short mask , short category){
         int entity = manager.createEntity();
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, .2f, 0f, mask, category, (short)-2);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
@@ -186,7 +188,7 @@ public class EntityFactory{
         addDogParticleEmitter(entity);
 
         return entity;
-    }
+    }*/
 
     private static void addDogParticleEmitter(int entity){
 
