@@ -34,7 +34,8 @@ public class TileMapRenderingSystem extends ECSystem{
         
     private ShaderProgram mapEffectShader;
     
-    float mapEffectFactor = 0.0f;
+    public static float mapEffectTimeLeft = 1.0f;  
+    private float mapEffectFactor = 0.0f;
 
 	
     public TileMapRenderingSystem(EntityManager entityManager){
@@ -138,13 +139,8 @@ public class TileMapRenderingSystem extends ECSystem{
 	}
 	
 	
-	float effectVelocity = 0.0f;
 	@Override
 	public void update(float delta) {
-		// Nothing to do
-	    
-	    mapEffectFactor += effectVelocity;
-	    if ((mapEffectFactor < 0f) || (mapEffectFactor > 1f))
-	        effectVelocity *= -1f;
+		
 	}
 }

@@ -27,6 +27,8 @@ import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 public class LaserPointerSystem extends ECSystem implements GameInputAdapter
 {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(InputSystem.class);
+    
+    private static final float laserPointerAlpha = 0.75f;
 
     public int waterPistol;
     public ParticleEmitterComponent waterParticleEmitter;
@@ -36,7 +38,7 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     
     public LaserPointerSystem(EntityManager entityManager)
     {
-        super(entityManager, 1);
+        super(entityManager, 2048);
         InputManager.getInstance().addGameInputAdapter(this);
         
         waterParticleEmitter = new ParticleEmitterComponent();
@@ -101,7 +103,9 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
             cursor = waterpistolCursor;
         }
         
+        DrawUtil.batch.setColor(1, 1, 1, laserPointerAlpha);
         DrawUtil.batch.draw(cursor, vec.x - (cursor.getWidth() / 2), vec.y - (cursor.getHeight() / 2));
+        DrawUtil.batch.setColor(1,1,1,1);
     }
 
     @Override
@@ -115,7 +119,6 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     @Override
     public void moveUp(float scale)
     {
-        System.out.println("MOVE UP");
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
         laser.position = new Vector2(laser.position.x, laser.position.y - (scale * 10.0f));

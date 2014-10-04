@@ -1,20 +1,11 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class MainMenu extends LaserCatMenu
@@ -35,10 +26,11 @@ public class MainMenu extends LaserCatMenu
 		addButtonsToFrame();
 		actionListener = new UiActionListener();
 		
-		for (Button b:button)
+		for (UIButton b:button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.actionListener);
+			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 		}
 	}
 	
