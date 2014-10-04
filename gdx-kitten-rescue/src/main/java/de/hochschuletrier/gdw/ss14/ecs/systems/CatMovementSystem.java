@@ -138,9 +138,16 @@ public class CatMovementSystem extends ECSystem{
                         }
                     }
                 }else if(catSeesLaserPointer(laserPointerComponent, catPropertyComponent)){
-                    movementComponent.velocity += movementComponent.damping*1.5f*delta;
-                    if(movementComponent.velocity <= movementComponent.minVelocity){
-                        movementComponent.velocity = 0;
+                    if(catPropertyComponent.isInfluenced){
+                        movementComponent.velocity += movementComponent.acceleration*1.5f*delta;
+                        if(movementComponent.velocity <= movementComponent.minVelocity){
+                            movementComponent.velocity = 0;
+                        }
+                    }else{
+                        movementComponent.velocity += movementComponent.damping*1.5f*delta;
+                        if(movementComponent.velocity <= movementComponent.minVelocity){
+                            movementComponent.velocity = 0;
+                        }
                     }
                 }
 
@@ -219,9 +226,12 @@ public class CatMovementSystem extends ECSystem{
                         
                         // Clamp rotation between - and + max possible rotation
                         if (Math.abs(spinningAngle) > MaxAngularVelocity*delta)
-                            spinningAngle = Math.signum(spinningAngle) * MaxAngularVelocity*delta;                        
+                            spinningAngle = Math.signum(spinningAngle) * MaxAngularVelocity*delta;      
                         
-                        physicsComponent.setRotation(currentRot + spinningAngle);
+                        // Clamp between -360 and +360 degrees
+                        float newRotation = currentRot + spinningAngle;
+                        newRotation -= Math.signum(newRotation)*(float)(2*Math.PI)*(int)(newRotation / (2*Math.PI));
+                        physicsComponent.setRotation(newRotation);
                     }
                 }
             } // end if (state check)

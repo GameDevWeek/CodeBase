@@ -146,6 +146,8 @@ public class Game {
         ArrayList<Vector2> patrolSpots= new ArrayList<>();
         int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500f, 350f), 60.0f, 40.0f, 0f, 100f, patrolSpots, (short)0,(short) 0f);
 
+        EntityFactory.constructLaserPointer(new Vector2(300,0));
+        EntityFactory.constructWool(new Vector2(3000,100));
         if (InputManager.getInstance().getInputDevice().getDeviceType() == DeviceType.MOUSE) {
             InputMouse mouse = (InputMouse) InputManager.getInstance().getInputDevice();
             EntityFactory.constructLaserPointer(mouse.getCursorPosition());
