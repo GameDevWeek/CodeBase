@@ -2,11 +2,14 @@ package de.hochschuletrier.gdw.ss14.ecs.ai;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.*;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.decorators.Invert;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -258,10 +261,14 @@ public class DogBehaviour extends Behaviour {
              hundSiehtKatze = ec.seeCat;
              System.out.println("Hund sieht Katze: "+hundSiehtKatze);
              State rueckgabe;
-             if(hundSiehtKatze)
+             if(hundSiehtKatze){
                  rueckgabe = State.SUCCESS;
-             else
+                 SoundManager.performAction(state.SUCCESS);
+             }
+             else {
                  rueckgabe = State.FAILURE;
+                 SoundManager.performAction(state.FAILURE);
+             }
             return rueckgabe;
         }
         
