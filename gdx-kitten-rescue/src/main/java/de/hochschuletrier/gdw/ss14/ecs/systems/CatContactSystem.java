@@ -77,6 +77,9 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         if(myEntity == null || otherEntity == null || otherPhysic == null) return;
         
         Component c = null, d = null;
+        /* c → used to check if the other has component xy 
+         * d → used to get a specific "my" component to react to the collision
+         * */
         if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
             /*other → is enemy */
             if(otherPhysic instanceof CatPhysicsComponent){
@@ -101,10 +104,20 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             break;
             default:break;
             }
+        }else if( (c = entityManager.getComponent(otherEntity, StairsPhysicsComponent.class) ) != null ){
+            if(isCatInZone){
+                // katze hat treppe betreten
+                
+            }
         }else if( (c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class) ) != null ){
             /* other → is groundobject */
-            if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
-                ((CatPropertyComponent)d).isInfluenced = true;
+            if(mySightCone){
+                if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
+                    ((CatPropertyComponent)d).isInfluenced = true;
+            }else{
+//                if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
+//                    ((CatPropertyComponent)d)  play with wool
+            }
         }else if( (c = entityManager.getComponent(otherEntity, GroundPropertyComponent.class) ) != null ){
             /* other → is groundobject */
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
@@ -174,24 +187,16 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             /* other → is groundobject */
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                 ((CatPropertyComponent)d).isInfluenced = false;
+        }else if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
+            // cat does not collide with dogPhysx anymore which means ...
+            if(otherSightCone && !mySightCone){
+                // ... dog does not see the cat anymore
+                
+            }
+            
         }
         
-//        // TODO Auto-generated method stub
-//        PhysixBody owner = contact.getMyPhysixBody();//.getOwner();
-//        Object o = contact.getOtherPhysixBody().getFixtureList().get(0).getUserData();
-//        PhysixEntity other = contact.getOtherPhysixBody().getOwner();
-//        
-//        if(other instanceof WoolPhysicsComponent){
-//            ((WoolPhysicsComponent) other).isSeen = false;
-//            Array<Integer> compos = entityManager.getAllEntitiesWithComponents(PlayerComponent.class);
-//            CatPropertyComponent player = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
-//            player.isInfluenced = false;
-//            
-//        }
-//        
-//        if(other instanceof ConePhysicsComponent){
-//            EnemyComponent.seeCat = false;
-//        }
+
         
     }
 }
