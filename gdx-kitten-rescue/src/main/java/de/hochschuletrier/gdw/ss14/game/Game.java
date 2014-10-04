@@ -88,8 +88,8 @@ public class Game {
     public void init(AssetManagerX assetManager){
         initializeSystems();
         initializeTestComponents();
-
-        mapManager.loadMap("mehrstoeckigMap"); 
+        //Kartensetzen:
+        mapManager.loadMap("Level_NaepperSchnaepper"); 
         mapManager.setFloor(0);
         
         behaviourManager.activate();

@@ -416,16 +416,20 @@ public class DogBehaviour extends Behaviour {
             neuesZiel.y += verlaengerung;
             }
             ic.whereToGo = neuesZiel;
-
+            
+            //!!!______________
+            //TODO:
+            //!!!________________
             if (timer < 0f) {
                 timer = MAX_TIME;
                 ic.whereToGo = neuesZiel;
-                timerLaeuft = true;
-                dprc.dogIsChasing = false;
-                
+                //timerLaeuft = true;
+                timerLaeuft = !timerLaeuft;
+               // dprc.dogIsChasing = false;
+                dprc.dogIsChasing = !dprc.dogIsChasing;
             }else {
-                timerLaeuft = false;
-                dprc.dogIsChasing = true;
+              //  timerLaeuft = false;
+                //dprc.dogIsChasing = true;
             }
             timer -= delta;
 
