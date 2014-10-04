@@ -1,10 +1,11 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
+package de.hochschuletrier.gdw.commons.gdx.sceneanimator.text;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Animation;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
 /**
@@ -12,6 +13,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
  * @author Santo Pfingsten
  */
 public class TextChar {
+
     private static final Vector2 temp1 = new Vector2();
     private static final Vector2 temp2 = new Vector2();
 
@@ -25,9 +27,10 @@ public class TextChar {
 
     public TextChar(BitmapFont font, String text, int index, Animation animation, float totalAnimationTime) {
         type = animation.animation.equalsIgnoreCase(TextAnimation.CONSTRUCT_TYPE.name());
-        if(type)
+        if (type) {
             startTime = index * totalAnimationTime * 0.5f;
-        this.text = text.substring(index, index+1);
+        }
+        this.text = text.substring(index, index + 1);
         if (index > 0) {
             BitmapFont.TextBounds bounds = font.getBounds(text, 0, index);
             end.x = bounds.width;
@@ -93,8 +96,8 @@ public class TextChar {
 
     public void render(BitmapFont font, Color color, Vector2 offset, float totalAnimationTime) {
         if (startTime == 0) {
-            if(type) {
-                for(float t = animationTime / totalAnimationTime; t> 0; t-=0.1f) {
+            if (type) {
+                for (float t = animationTime / totalAnimationTime; t > 0; t -= 0.1f) {
                     renderChar(font, color, offset, t);
                 }
             } else {
@@ -102,13 +105,13 @@ public class TextChar {
             }
         }
     }
-    
+
     private void renderChar(BitmapFont font, Color color, Vector2 offset, float t) {
-        color.a = Math.min(1.0f, t*2);
+        color.a = Math.min(1.0f, t * 2);
         Bezier.quadratic(temp2, t, start, control, end, temp1);
         temp2.add(offset);
         font.setColor(color);
-        font.setScale(0.5f + t*0.5f);
+        font.setScale(0.5f + t * 0.5f);
         font.draw(DrawUtil.batch, text, temp2.x, temp2.y);
     }
 }

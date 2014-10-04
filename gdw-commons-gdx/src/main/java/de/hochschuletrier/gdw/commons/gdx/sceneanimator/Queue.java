@@ -1,10 +1,12 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
-
+package de.hochschuletrier.gdw.commons.gdx.sceneanimator;
 
 import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
-import java.util.Iterator;
 
+/**
+ *
+ * @author Santo Pfingsten
+ */
 public class Queue {
 
     protected final float originalStartTime;
@@ -26,37 +28,37 @@ public class Queue {
 
     public void reset() {
         startTime = originalStartTime;
-        for(Item item: items) {
+        for (Item item : items) {
             item.reset(animations);
         }
     }
-    
+
     public void start() {
         startTime = 0;
     }
-    
+
     public void render() {
-        if(startTime == 0) {
+        if (startTime == 0) {
             // render items
-            for(Item item: items) {
+            for (Item item : items) {
                 item.render();
             }
         }
     }
-    
+
     public void update(float delta) {
-        if(startTime > 0) {
+        if (startTime > 0) {
             startTime -= delta;
-            if(startTime > 0) {
+            if (startTime > 0) {
                 return;
-            } else if(startTime < 0) {
+            } else if (startTime < 0) {
                 delta = -startTime;
                 startTime = 0;
             }
         }
-        if(startTime == 0) {
+        if (startTime == 0) {
             // update items
-            for(Item item: items) {
+            for (Item item : items) {
                 item.update(path, delta);
             }
         }
@@ -64,11 +66,11 @@ public class Queue {
 
     boolean isDone() {
         boolean done = false;
-        if(startTime == 0) {
+        if (startTime == 0) {
             done = true;
             // update items
-            for(Item item: items) {
-                if(!item.isDone(path)) {
+            for (Item item : items) {
+                if (!item.isDone(path)) {
                     done = false;
                     break;
                 }

@@ -1,8 +1,11 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
+package de.hochschuletrier.gdw.commons.gdx.sceneanimator.text;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 import com.badlogic.gdx.math.Vector2;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Animation;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Item;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Path;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +15,7 @@ import java.util.Iterator;
  * @author Santo Pfingsten
  */
 public class TextItem extends Item {
+
     protected final TextStyle style;
     protected final String originalText;
     protected String shownText;
@@ -22,20 +26,20 @@ public class TextItem extends Item {
 
     public TextItem(String group, float startTime, float angle, float opacity, String text, TextStyle style) {
         super(group, startTime, angle, opacity);
-        
+
         originalText = text;
         shownText = text;
         this.style = style;
-        if(TextAlign.LEFT != style.align) {
+        if (TextAlign.LEFT != style.align) {
             BitmapFont.TextBounds bounds = style.font.getBounds(text);
-            if(style.align == TextAlign.RIGHT) {
+            if (style.align == TextAlign.RIGHT) {
                 xOffset = -bounds.width;
             } else {
-                xOffset = -bounds.width/2;
+                xOffset = -bounds.width / 2;
             }
         }
     }
-    
+
     @Override
     public void setPosition(Vector2 pos) {
         position.set(pos.x + xOffset, pos.y);
@@ -44,8 +48,8 @@ public class TextItem extends Item {
     @Override
     public void update(Path<Vector2> path, float delta) {
         super.update(path, delta);
-        
-        if(startTime == 0) {
+
+        if (startTime == 0) {
             animationTime += delta;
             if (anim != null) {
                 switch (anim) {
@@ -126,7 +130,7 @@ public class TextItem extends Item {
 
     @Override
     public void render() {
-        if(startTime == 0) {
+        if (startTime == 0) {
             style.color.a = opacity;
             if (anim != null) {
                 style.font.setColor(style.color);
