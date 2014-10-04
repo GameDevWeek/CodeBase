@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
@@ -66,7 +67,11 @@ public class DogMovementSystem extends ECSystem
             directionVector.y = inputComponent.whereToGo.y - physicsComponent.getPosition().y;
 
             float distance = directionVector.len();
-
+            
+            if(DogBehaviour.canSeeCat == false) {
+            	SoundManager.performAction(DogStateEnum.IDLE, distance);
+            }            
+            
             if(distance <= 30){
                 dogPropertyComponent.state = DogStateEnum.KILLING;
                 SoundManager.performAction(DogStateEnum.KILLING);
@@ -84,4 +89,5 @@ public class DogMovementSystem extends ECSystem
             physicsComponent.setVelocityY(movementComponent.directionVec.y * movementComponent.velocity);
         }
     }
+    
 }

@@ -10,7 +10,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.states.KittenGameState;
+import de.hochschuletrier.gdw.ss14.gamestates.KittenGameState;
 
 public class OptionsMenu extends LaserCatMenu
 {

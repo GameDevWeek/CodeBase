@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.*;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
@@ -10,6 +11,7 @@ import de.hochschuletrier.gdw.ss14.game.*;
 import de.hochschuletrier.gdw.ss14.physics.*;
 import de.hochschuletrier.gdw.ss14.sound.*;
 import de.hochschuletrier.gdw.ss14.states.*;
+
 import org.slf4j.Logger;
 import org.slf4j.*;
 
@@ -174,14 +176,6 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
                     break;
                 default:
                     break;
-            }
-        }
-        else if ((c = entityManager.getComponent(otherEntity, StairsPhysicsComponent.class)) != null)
-        {
-            if (isCatInZone)
-            {
-                // katze hat treppe betreten
-
             }
         }
         else if (otherPhysic instanceof WoolPhysicsComponent || (c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class)) != null)
@@ -435,8 +429,9 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
             /* other → is groundobject */
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null){
                 ((CatPropertyComponent)d).isInfluenced = false;
-                EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
-                enemyComponent.seeCat = false;
+                EnemyComponent eec = entityManager.getComponent(otherEntity, EnemyComponent.class);
+                if(eec != null)
+                  eec.seeCat = false;
             }
                 ((WoolPhysicsComponent)otherPhysic).isSeen = false;
                 

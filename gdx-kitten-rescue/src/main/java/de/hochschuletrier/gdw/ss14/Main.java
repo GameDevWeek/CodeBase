@@ -34,8 +34,8 @@ import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
 import de.hochschuletrier.gdw.ss14.sound.MusicManager;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
-import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
-import de.hochschuletrier.gdw.ss14.states.KittenGameState;
+import de.hochschuletrier.gdw.ss14.gamestates.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.gamestates.KittenGameState;
 
 /**
  * 

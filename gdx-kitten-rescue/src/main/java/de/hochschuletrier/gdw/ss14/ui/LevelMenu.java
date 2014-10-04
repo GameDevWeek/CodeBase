@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.jackson.*;
-import de.hochschuletrier.gdw.ss14.states.*;
+import de.hochschuletrier.gdw.ss14.gamestates.*;
 
 import java.util.*;
 

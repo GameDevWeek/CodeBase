@@ -88,7 +88,7 @@ public class Game {
     public void init(AssetManagerX assetManager){
         initializeSystems();
         initializeTestComponents();
-
+        //Kartensetzen:
         mapManager.loadMap("mehrstoeckigMap"); 
         mapManager.setFloor(0);
         
