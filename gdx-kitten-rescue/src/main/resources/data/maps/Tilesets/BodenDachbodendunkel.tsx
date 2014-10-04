@@ -11,6 +11,16 @@
    <property name="woodfloor" value="true"/>
   </properties>
  </tile>
+ <tile id="2">
+  <properties>
+   <property name="woodfloor" value="true"/>
+  </properties>
+ </tile>
+ <tile id="3">
+  <properties>
+   <property name="woodfloor" value="true"/>
+  </properties>
+ </tile>
  <tile id="7">
   <properties>
    <property name="woodbeam" value="true"/>
@@ -34,6 +44,11 @@
  <tile id="14">
   <properties>
    <property name="woodbeam" value="true"/>
+  </properties>
+ </tile>
+ <tile id="15">
+  <properties>
+   <property name="kitchenfloor" value="true"/>
   </properties>
  </tile>
  <tile id="21">

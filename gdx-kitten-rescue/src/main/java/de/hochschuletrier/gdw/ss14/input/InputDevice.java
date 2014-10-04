@@ -15,7 +15,12 @@ public abstract class InputDevice extends InputAdapter {
         GAMEPAD
     };
     
-	protected LinkedList<GameInputAdapter> listener = new LinkedList<>(); 
+	protected LinkedList<GameInputAdapter> listener = new LinkedList<>();
+	protected DeviceType devicType;
+	
+	public DeviceType getDeviceType() {
+	    return devicType;
+	}
 	
 	public void registerProcessor() {
 	    Main.inputMultiplexer.addProcessor(this);
