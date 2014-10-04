@@ -288,7 +288,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             /* c → used to check if the other has component xy 
              * d → used to get a specific "my" component to react to the collision
              * */
-            if((c = entityManager.getComponent(startEntity, EnemyComponent.class)) != null){
+            /*if((c = entityManager.getComponent(startEntity, EnemyComponent.class)) != null){
                 if((d = entityManager.getComponent(targetEntity, PlayerComponent.class)) != null){
                     //dog sees cat
                 }
@@ -297,7 +297,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 if(raycst_targetPhys.get(i) instanceof WoolPhysicsComponent){
                     //cat sees wool
                 }
-            }
+            }*/
             
             
             rcp.reset();

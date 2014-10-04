@@ -96,10 +96,10 @@ public class TileMapRenderingSystem extends ECSystem{
 			// If a layer transition is currently happening
 			if (currentComp.getNextRenderedLayers() != null) {
 			    
-    			currentMapFadeFactor = currentComp.currentSwitchTime / TileMapRenderingComponent.LayerSwitchTime;	
-    			setMapEffectShader(currentMapFadeFactor);
     			drawLayersWithIndices(currentComp.getMap(), currentComp.getNextRenderedLayers());
     			setMapEffectShader(1.0f - currentMapFadeFactor);
+                currentMapFadeFactor = currentComp.currentSwitchTime / TileMapRenderingComponent.LayerSwitchTime;   
+                setMapEffectShader(currentMapFadeFactor);
 			}
 	         			
 			drawLayersWithIndices(currentComp.getMap(), currentComp.renderedLayers);
