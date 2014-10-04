@@ -27,6 +27,10 @@ import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 public class LaserPointerSystem extends ECSystem implements GameInputAdapter
 {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(InputSystem.class);
+    
+    private static final float laserPointerAlpha = 0.75f;
+    private float lastMousePostionX = 0;
+    private float lastMousePositionY = 0;
 
     public int waterPistol;
     public ParticleEmitterComponent waterParticleEmitter;
@@ -36,7 +40,7 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     
     public LaserPointerSystem(EntityManager entityManager)
     {
-        super(entityManager, 1);
+        super(entityManager, 2048);
         InputManager.getInstance().addGameInputAdapter(this);
         
         waterParticleEmitter = new ParticleEmitterComponent();
@@ -101,7 +105,9 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
             cursor = waterpistolCursor;
         }
         
+        DrawUtil.batch.setColor(1, 1, 1, laserPointerAlpha);
         DrawUtil.batch.draw(cursor, vec.x - (cursor.getWidth() / 2), vec.y - (cursor.getHeight() / 2));
+        DrawUtil.batch.setColor(1,1,1,1);
     }
 
     @Override
@@ -109,16 +115,51 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     {
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
-        laser.position = new Vector2(screenX, screenY);
+        
+        // calculate delta because the screenX/screenY vars can be outside of the game
+        float deltaX, deltaY;
+        float newPosX, newPosY;
+        deltaX = screenX - lastMousePostionX;
+        deltaY = screenY - lastMousePositionY;
+        newPosX = laser.position.x + deltaX;
+        newPosY = laser.position.y + deltaY;
+        lastMousePostionX = screenX;
+        lastMousePositionY = screenY;
+        
+        //limit position to screen
+        if (newPosX > Gdx.graphics.getWidth()) {
+            newPosX = Gdx.graphics.getWidth();
+        }
+        if (newPosX < 0) {
+            newPosX = 0;
+        }
+        if (newPosY > Gdx.graphics.getHeight()) {
+            newPosY = Gdx.graphics.getHeight();
+        }
+        if (newPosY < 0) {
+            newPosY = 0;
+        }
+        
+        laser.position = new Vector2(newPosX, newPosY);
     }
 
     @Override
     public void moveUp(float scale)
     {
-        System.out.println("MOVE UP");
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
-        laser.position = new Vector2(laser.position.x, laser.position.y - (scale * 10.0f));
+        
+        float newY = laser.position.y - (scale * 10.0f);
+        
+        //limit position to screen
+        if (newY > Gdx.graphics.getHeight()) {
+            newY = Gdx.graphics.getHeight();
+        }
+        if (newY < 0) {
+            newY = 0;
+        }
+        
+        laser.position = new Vector2(laser.position.x, newY);
     }
 
     @Override
@@ -126,7 +167,18 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     {
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
-        laser.position = new Vector2(laser.position.x, laser.position.y + (scale * 10.0f));
+        
+        float newY = laser.position.y + (scale * 10.0f);
+        
+        //limit position to screen
+        if (newY > Gdx.graphics.getHeight()) {
+            newY = Gdx.graphics.getHeight();
+        }
+        if (newY < 0) {
+            newY = 0;
+        }
+        
+        laser.position = new Vector2(laser.position.x, newY);
     }
 
     @Override
@@ -134,7 +186,18 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     {
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
-        laser.position = new Vector2(laser.position.x - (scale * 10.0f), laser.position.y);
+        
+        float newX = laser.position.x - (scale * 10.0f);
+        
+        //limit position to screen
+        if (newX > Gdx.graphics.getWidth()) {
+            newX = Gdx.graphics.getWidth();
+        }
+        if (newX < 0) {
+            newX = 0;
+        }
+        
+        laser.position = new Vector2(newX - (scale * 10.0f), laser.position.y);
     }
 
     @Override
@@ -142,7 +205,18 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     {
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
-        laser.position = new Vector2(laser.position.x + (scale * 10.0f), laser.position.y);
+        
+        float newX = laser.position.x + (scale * 10.0f);
+        
+        //limit position to screen
+        if (newX > Gdx.graphics.getWidth()) {
+            newX = Gdx.graphics.getWidth();
+        }
+        if (newX < 0) {
+            newX = 0;
+        }
+        
+        laser.position = new Vector2(newX, laser.position.y);
     }
 
     @Override

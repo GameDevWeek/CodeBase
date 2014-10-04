@@ -1,6 +1,8 @@
 package de.hochschuletrier.gdw.ss14.game;
 
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +27,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.CatCooldownUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatJumpUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatMovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatStateUpdateSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.ChangeMapSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CheckCatDeadSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DeleteDeadPhysicEntitiesSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DogMovementSystem;
@@ -55,12 +58,13 @@ public class Game {
     private Array<ECSystem> systems;
     public static Engine engine;
 
+
     public static MapManager mapManager;
     private EntityManager entityManager;
     private PhysixManager physixManager;
     
     /* Behaviour */
-    private BehaviourManager behaviourManager;
+    public static BehaviourManager behaviourManager;
     private GlobalBlackboard globalBlackboard;
     
     private Vector2 mapCenter = new Vector2();
@@ -73,7 +77,7 @@ public class Game {
 
         globalBlackboard = new GlobalBlackboard(entityManager);
         behaviourManager = new BehaviourManager(globalBlackboard);
-        
+
         
         EntityFactory.phyManager = physixManager;
         EntityFactory.manager = entityManager;
@@ -97,6 +101,7 @@ public class Game {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
         engine.addSystem(new DeleteDeadPhysicEntitiesSystem(entityManager, physixManager));
+        engine.addSystem(new ChangeMapSystem(entityManager));
         engine.addSystem(new CatMovementSystem(entityManager));
         engine.addSystem(new CatJumpUpdateSystem(entityManager));
         engine.addSystem(new CatStateUpdateSystem(entityManager));
@@ -138,8 +143,11 @@ public class Game {
     {
         //int dogEntity = EntityFactory.constructDog(new Vector2(0, 0), 60.0f, 40.0f, 0, 100f);
         //int dogEntity2 = EntityFactory.constructDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
-        //int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500, 350), 60.0f, 40.0f, 0, 100f);
+        ArrayList<Vector2> patrolSpots= new ArrayList<>();
+        //int dogEntity3 = EntityFactory.constructSmartDog(new Vector2(500f, 350f), 60.0f, 40.0f, 0f, 100f, patrolSpots, (short)0,(short) 0);
 
+        EntityFactory.constructLaserPointer(new Vector2(300,0));
+        EntityFactory.constructWool(new Vector2(3000,100));
         if (InputManager.getInstance().getInputDevice().getDeviceType() == DeviceType.MOUSE) {
             InputMouse mouse = (InputMouse) InputManager.getInstance().getInputDevice();
             EntityFactory.constructLaserPointer(mouse.getCursorPosition());
@@ -170,6 +178,8 @@ public class Game {
 
     float timeSinceLastFPSShow = 0.0f;
     public void update(float delta){
+        InputManager.getInstance().update();
+
         engine.update(delta);
         
         // FPS

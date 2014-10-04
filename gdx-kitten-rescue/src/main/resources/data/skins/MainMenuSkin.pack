@@ -1,0 +1,110 @@
+
+MainMenuSkin.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bell
+  rotate: false
+  xy: 1, 721
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 1
+bell
+  rotate: false
+  xy: 1, 721
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 6
+bell
+  rotate: false
+  xy: 1, 529
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 2
+bell
+  rotate: false
+  xy: 1, 529
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 5
+bell
+  rotate: false
+  xy: 193, 721
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 3
+bell
+  rotate: false
+  xy: 1, 337
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: 4
+no_sound
+  rotate: false
+  xy: 193, 529
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: -1
+no_sound_onclick
+  rotate: false
+  xy: 385, 721
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: -1
+sound
+  rotate: false
+  xy: 1, 145
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: -1
+sound_onclick
+  rotate: false
+  xy: 193, 337
+  size: 190, 190
+  orig: 190, 190
+  offset: 0, 0
+  index: -1
+hauptmenu_stardt
+  rotate: false
+  xy: 385, 544
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: -1
+hauptmenu_stardt_onclick
+  rotate: false
+  xy: 577, 736
+  size: 190, 175
+  orig: 190, 175
+  offset: 0, 0
+  index: -1
+back1
+  rotate: false
+  xy: 1, 1
+  size: 190, 142
+  orig: 190, 142
+  offset: 0, 0
+  index: -1
+startscreen
+  rotate: false
+  xy: 193, 201
+  size: 190, 134
+  orig: 190, 134
+  offset: 0, 0
+  index: -1
+LaserChaserZombieRacer
+  rotate: false
+  xy: 385, 494
+  size: 190, 48
+  orig: 190, 48
+  offset: 0, 0
+  index: -1

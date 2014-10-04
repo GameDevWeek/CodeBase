@@ -1,5 +1,8 @@
 package de.hochschuletrier.gdw.ss14.ecs;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -7,36 +10,51 @@ import com.badlogic.gdx.physics.box2d.Filter;
 
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
-import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.BehaviourComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ExitMapPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ExitMapPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.FinishPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.GroundPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.GroundPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpDataComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.StairComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.StairsPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.WoolPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
-import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
 import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
+import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
 import de.hochschuletrier.gdw.ss14.states.JumpableState;
 import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
-
-import java.util.ArrayList;
-
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 
 public class EntityFactory{
 
@@ -84,7 +102,9 @@ public class EntityFactory{
         catAnimation.animation.put(CatStateEnum.HIT.ordinal(), assetManager.getAnimation("hit"));
         catAnimation.animation.put(CatStateEnum.IDLE.ordinal(), assetManager.getAnimation("idle"));
         catAnimation.animation.put(CatStateEnum.WALK.ordinal(), assetManager.getAnimation("walk"));
+        catAnimation.speedUpFactor.put(CatStateEnum.WALK.ordinal(), 40f);
         catAnimation.animation.put(CatStateEnum.RUN.ordinal(), assetManager.getAnimation("run"));
+        catAnimation.speedUpFactor.put(CatStateEnum.RUN.ordinal(), 100f);
         catAnimation.animation.put(CatStateEnum.SLIDE_LEFT.ordinal(), assetManager.getAnimation("slide_left"));
         catAnimation.animation.put(CatStateEnum.SLIDE_RIGHT.ordinal(), assetManager.getAnimation("slide_right"));
         catAnimation.animation.put(CatStateEnum.CRASH.ordinal(), assetManager.getAnimation("crash"));
@@ -155,7 +175,7 @@ public class EntityFactory{
         return entity;
     }
 
-    public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots, short mask , short category){
+    /*public static int constructDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots, short mask , short category){
         int entity = manager.createEntity();
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, .2f, 0f, mask, category, (short)-2);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
@@ -186,7 +206,7 @@ public class EntityFactory{
         addDogParticleEmitter(entity);
 
         return entity;
-    }
+    }*/
 
     private static void addDogParticleEmitter(int entity){
 
@@ -203,9 +223,7 @@ public class EntityFactory{
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0, mask, category, (short)-2);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
-        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
-        Behaviour verhalten = new DogBehaviour("SmartDog", localBlackboard, true, entity);
-        BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
+
         DogPropertyComponent dogState = new DogPropertyComponent(patrolspots);
         dogPhysix.initPhysics(phyManager);
         AnimationComponent dogAnimation = new AnimationComponent();
@@ -227,6 +245,10 @@ public class EntityFactory{
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
+        
+        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
+        Behaviour verhalten = new DogBehaviour("SmartDog", localBlackboard, true, entity);
+        BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
         manager.addComponent(entity, bComp);
         addDogParticleEmitter(entity);
 
@@ -296,15 +318,21 @@ public class EntityFactory{
     }
 
 
-    public static int constructStairs(Vector2 pos, float width, float height, int targetFloor){
+    public static int constructStairs(Vector2 pos, float width, float height, int direction, short mask, short category){
         int entity = manager.createEntity();
 
-        StairsPhysicsComponent stairsPhysicsComponent = new StairsPhysicsComponent(pos, width, height, 0.0f);
+        StairsPhysicsComponent stairsPhysicsComponent = new StairsPhysicsComponent(pos, width, height, 0.0f, mask, category, (short) 0);
         stairsPhysicsComponent.initPhysics(phyManager);
+        stairsPhysicsComponent.physicsBody.getFixtureList().forEach((f)->{
+            Filter fil = f.getFilterData();
+            fil.categoryBits = category;
+            fil.maskBits = mask;
+        });
+
         stairsPhysicsComponent.owner = entity;
 
         StairComponent stairComponent = new StairComponent();
-        stairComponent.targetFloor = targetFloor;
+        stairComponent.changeFloorDirection = direction;
 
         manager.addComponent(entity, stairsPhysicsComponent);
         manager.addComponent(entity, stairComponent);
@@ -319,12 +347,15 @@ public class EntityFactory{
 
     public static void constructWool(Vector2 pos){
         int entity = manager.createEntity();
-
+        
         WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
         RenderComponent woolRenderComponent = new RenderComponent();
+        woolRenderComponent.texture = new TextureRegion(assetManager.getTexture("wool"));
         woolPhysicsComponent.initPhysics(phyManager);
+        woolPhysicsComponent.owner = entity;
         manager.addComponent(entity, woolPhysicsComponent);
         manager.addComponent(entity, new WoolPropertyComponent());
+        manager.addComponent(entity, woolRenderComponent);
 
         //        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, 0f, 0f);
         //        catPhysix.initPhysics(phyManager);
@@ -333,6 +364,15 @@ public class EntityFactory{
         //RenderComponent renderComponent = new RenderComponent();
         //renderComponent.texture = assetManager.getTexture();
         //manager.addComponent(entity, renderComponent);
+    }
+    
+    public static void constructMapChangeObj(Vector2 pos, float width, float height, File nextMap){
+        int entity = manager.createEntity();
+        
+        ExitMapPhysicsComponent exit = new ExitMapPhysicsComponent(pos, width, height);
+        ExitMapPropertyComponent exitProps = new ExitMapPropertyComponent(nextMap);
+        exit.initPhysics(phyManager);
+        manager.addComponent(entity, exit);
     }
 
     public static void constructFinish(Vector2 pos, float width, float height)
@@ -353,4 +393,3 @@ public class EntityFactory{
 
     public static BehaviourManager behaviourManager;
 }
-

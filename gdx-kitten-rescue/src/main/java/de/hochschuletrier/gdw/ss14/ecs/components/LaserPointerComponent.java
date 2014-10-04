@@ -9,6 +9,9 @@ public class LaserPointerComponent implements Component{
     public static final float WATER_CONSUMPTION_SPEED = 0.1f; // percent/second
     public static final float WATER_REFILL_SPEED = 0.05f; // percent/second
     public Vector2 position;
+    public final float MAX_SPEED = 150f;
+    public float speed;
+    public final float ACCELERATION = 100f;
     public float currentWaterlevel; // in percent: 1.0 = 100%
     public ToolState toolState;
     public boolean waterpistolIsUsed;

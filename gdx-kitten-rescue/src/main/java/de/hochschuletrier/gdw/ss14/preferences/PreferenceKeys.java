@@ -11,5 +11,6 @@ public enum PreferenceKeys {
 	playerName,
 	gameWindowHeight,
 	gameWindowWidth,
-	mapName
+	mapName,
+	inputDevice
 }
