@@ -45,8 +45,8 @@ public class EntityFactory{
 
     public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, short mask, short category){
         int entity = manager.createEntity();
+        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f, mask, category, (short)0);
 
-        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f, mask, category, (short) 0);
         //catPhysix: position(x,y), width, height, rota, friction[0-1][ice-rubber], restitution[0-1][rock-ball]
         ICollisionListener contactSystem = (CatContactSystem) Game.engine.getSystemOfType(CatContactSystem.class);
         catPhysix.collisionListeners.add(contactSystem);

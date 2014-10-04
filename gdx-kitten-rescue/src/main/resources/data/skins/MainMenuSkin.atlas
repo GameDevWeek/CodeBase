@@ -33,11 +33,39 @@ main-menu-background
   index: -1
 main-menu-cat
   rotate: false
-  xy: 1602, 1224
-  size: 534, 557
-  orig: 534, 557
+  xy: 1602, 1244
+  size: 565, 537
+  orig: 565, 537
   offset: 0, 0
   index: -1
+menuCat
+  rotate: false
+  xy: 1602, 1244
+  size: 565, 537
+  orig: 565, 537
+  offset: 0, 0
+  index: 0
+menuCat
+  rotate: false
+  xy: 2169, 1244
+  size: 565, 537
+  orig: 565, 537
+  offset: 0, 0
+  index: 1
+menuCat
+  rotate: false
+  xy: 1602, 705
+  size: 565, 537
+  orig: 565, 537
+  offset: 0, 0
+  index: 2
+menuCat
+  rotate: false
+  xy: 2169, 705
+  size: 565, 537
+  orig: 565, 537
+  offset: 0, 0
+  index: 3
 bell-down
   rotate: false
   xy: 1, 1
@@ -54,85 +82,85 @@ bell
   index: 2
 bell-up
   rotate: false
-  xy: 1602, 922
+  xy: 303, 1
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
-bell
-  rotate: false
-  xy: 1602, 922
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: 0
-bell
-  rotate: false
-  xy: 1602, 922
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: 5
-bell
-  rotate: false
-  xy: 2138, 1481
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: 1
-bell
-  rotate: false
-  xy: 2138, 1481
-  size: 300, 300
-  orig: 300, 300
-  offset: 0, 0
-  index: 4
 bell
   rotate: false
   xy: 303, 1
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
-  index: 3
-sound-push-button-down
+  index: 0
+bell
+  rotate: false
+  xy: 303, 1
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 5
+bell
   rotate: false
   xy: 605, 1
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
-  index: -1
-sound-push-button
+  index: 1
+bell
+  rotate: false
+  xy: 605, 1
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: 4
+bell
   rotate: false
   xy: 907, 1
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
-  index: -1
-sound-reduce-button-down
+  index: 3
+sound-push-button-down
   rotate: false
   xy: 1209, 1
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
+sound-push-button
+  rotate: false
+  xy: 1481, 403
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+sound-reduce-button-down
+  rotate: false
+  xy: 1783, 403
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+sound-reduce-button
+  rotate: false
+  xy: 2085, 403
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
 start-menu-button-down
   rotate: false
-  xy: 2628, 1756
+  xy: 2387, 417
   size: 310, 286
   orig: 310, 286
   offset: 0, 0
   index: -1
 start-menu-button
   rotate: false
-  xy: 2940, 1756
+  xy: 1511, 115
   size: 310, 286
   orig: 310, 286
-  offset: 0, 0
-  index: -1
-sound-reduce-button
-  rotate: false
-  xy: 3252, 1742
-  size: 300, 300
-  orig: 300, 300
   offset: 0, 0
   index: -1

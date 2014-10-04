@@ -24,6 +24,8 @@ public class SoundManager {
 	private static AssetManagerX assetManager;
 	public static float SystemVolume = 1.9f;
 	
+	private static int hundBellenVerzoegerung = 0;
+	
 	public static void performAction(Enum action) {
 		GameStateEnum actualGamestate = null;
 		String actionString = action.name();
@@ -74,13 +76,31 @@ public class SoundManager {
 						}
 						break;
 					case "KILLING": 
-						tmp = random(0,1);
+						tmp = random(0,2);
 						switch (tmp) {
 							case 0: SoundManager.playSound("gp_dog_bite1"); break;
 							case 1: SoundManager.playSound("gp_dog_bite2"); break;
 							case 2: SoundManager.playSound("gp_dog_bite3"); break;
 						}
 						break;
+					case "SUCCESS": // muss noch geändert werden
+					
+						if(hundBellenVerzoegerung > 60) {							
+							tmp = random(0,7);
+							switch (tmp) {
+								case 0: SoundManager.playSound("gp_dogAngry01"); break;
+								case 1: SoundManager.playSound("gp_dogAngry02"); break;
+								case 2: SoundManager.playSound("gp_dogAngry03"); break;
+								case 3: SoundManager.playSound("gp_dogAngry04"); break;
+								case 4: SoundManager.playSound("gp_dogAngry05"); break;
+								case 5: case 6: case 7: break; // nichts machen !!
+							}
+							hundBellenVerzoegerung = 0;
+						}
+						else {
+							hundBellenVerzoegerung++;
+						}
+						
 				} 
 				break;
 			default:
