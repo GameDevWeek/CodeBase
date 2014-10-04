@@ -41,6 +41,8 @@ public class AnimatorData {
             public Integer maxRadius;
             public Integer minAngle;
             public Integer maxAngle;
+            public Integer minCurveAngle;
+            public Integer maxCurveAngle;
             public Integer animationTime;
         }
     }

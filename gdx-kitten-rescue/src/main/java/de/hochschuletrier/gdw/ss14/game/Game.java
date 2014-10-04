@@ -27,6 +27,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.CatJumpUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatMovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatStateUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CheckCatDeadSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DeleteDeadPhysicEntitiesSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DogMovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.HitAnimationSystem;
@@ -43,13 +44,6 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.TileMapRenderingSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WoolInfluenceSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-
 public class Game {
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
     private static final float FPSLogTime = 1.0f;
@@ -59,7 +53,7 @@ public class Game {
     private Array<ECSystem> systems;
     public static Engine engine;
 
-    private MapManager mapManager;
+    public static MapManager mapManager;
     private EntityManager entityManager;
     private PhysixManager physixManager;
     
@@ -100,6 +94,7 @@ public class Game {
     {
         // Game logic related systems
         engine.addSystem(new InputSystem(entityManager));
+        engine.addSystem(new DeleteDeadPhysicEntitiesSystem(entityManager, physixManager));
         engine.addSystem(new CatMovementSystem(entityManager));
         engine.addSystem(new CatJumpUpdateSystem(entityManager));
         engine.addSystem(new CatStateUpdateSystem(entityManager));

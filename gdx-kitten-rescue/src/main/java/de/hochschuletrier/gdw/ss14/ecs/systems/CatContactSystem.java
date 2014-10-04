@@ -22,7 +22,6 @@ import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolStat
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.StairsPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPropertyComponent;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
@@ -140,8 +139,15 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 laserPointerComponent.toolState = ToolState.WATERPISTOL;
             }
         }
-        
-        /////////
+        else if(other instanceof StairsPhysicsComponent)
+        {
+            if(mySightCone)
+            {
+                return;
+            }
+
+            // TODO: change floor here.
+        }
 
     }
 
