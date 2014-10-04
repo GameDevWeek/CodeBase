@@ -211,7 +211,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     catPropertyComponent.canChangeMap = false;
 
                     StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
-                    if(stairComponent != null)
+                    if(stairComponent != null && stairComponent.changeFloorDirection > 0)
                     {
                         // TODO: change floor here
                         catPropertyComponent.idOfLastTouchedStair = ((StairsPhysicsComponent) other).owner;
