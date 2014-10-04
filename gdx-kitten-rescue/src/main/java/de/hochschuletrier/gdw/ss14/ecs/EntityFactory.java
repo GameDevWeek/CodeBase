@@ -311,10 +311,10 @@ public class EntityFactory{
         return entity;
     }
 
-    public static void constructWool(Vector2 pos){
+    public static void constructWool(Vector2 pos, short mask, short category){
         int entity = manager.createEntity();
 
-        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
+        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f, mask, category, (short) 0);
         RenderComponent woolRenderComponent = new RenderComponent();
         woolRenderComponent.texture = new TextureRegion(assetManager.getTexture("wool"));
         woolPhysicsComponent.initPhysics(phyManager);

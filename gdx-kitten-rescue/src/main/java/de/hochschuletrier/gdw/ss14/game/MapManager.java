@@ -291,7 +291,7 @@ public class MapManager
                                 spotIds.add(mapObjects.get(j).getIntProperty("ID", -1));
                                 break;
                             case "wool":
-                                EntityFactory.constructWool(pos);
+                                EntityFactory.constructWool(pos, mask, category);
                                 break;
 
                             case "vase":
