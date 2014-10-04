@@ -14,6 +14,7 @@ import de.hochschuletrier.gdw.commons.utils.Rectangle;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
+import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
 
 import java.util.*;
 
@@ -102,7 +103,7 @@ public class MapManager
     }
 
     private enum tile2entity{
-        none, waterpuddle, deadzone, bloodpuddle
+        none, waterpuddle, deadzone, bloodpuddle, parketfloor, kitchenfloor
     }
     
     private void createPhysics()
@@ -129,6 +130,15 @@ public class MapManager
         generator.generate(tiledMap,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("water puddle", false),
                 (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, tile2entity.waterpuddle));
+        generator.generate(tiledMap,
+                (Layer layer, TileInfo info) -> info.getBooleanProperty("woodfloor", false),
+                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, tile2entity.parketfloor));
+        generator.generate(tiledMap,
+                (Layer layer, TileInfo info) -> info.getBooleanProperty("woodbeam", false),
+                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, tile2entity.parketfloor));
+        generator.generate(tiledMap,
+                (Layer layer, TileInfo info) -> info.getBooleanProperty("kitchenfloor", false),
+                (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, tile2entity.kitchenfloor));
 
         
     }
@@ -177,6 +187,12 @@ public class MapManager
         case deadzone:
             fixturedef.sensor(true);
             EntityFactory.constructDeadzone(bodydef, fixturedef);break;
+        case kitchenfloor:
+            fixturedef.sensor(true);
+            EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.kitchenfloor);break;
+        case parketfloor:    
+            fixturedef.sensor(true);
+            EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.woodenfloor);break;
         }
         
     }
