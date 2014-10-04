@@ -405,7 +405,6 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     if(catPropertyComponent.idOfLastTouchedStair != ((StairsPhysicsComponent) other).owner)
                     {
                         catPropertyComponent.canChangeMap = true;
-                        System.out.println("cat can now change map again.");
                     }
                 }
             }
