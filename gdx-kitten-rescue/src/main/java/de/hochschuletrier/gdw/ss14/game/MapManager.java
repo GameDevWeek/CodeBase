@@ -299,7 +299,16 @@ public class MapManager
                                 break;
 
                             case "stairs":
-                                EntityFactory.constructStairs(pos, width, height);
+                                // read out floor of mapobject properties, default is 0.
+                                int floor = 0;
+
+                                if(mapObjects.get(j).getProperties().getString("stairs") != null)
+                                {
+                                    String floorTargetProperty = mapObjects.get(j).getProperties().getString("stairs");
+                                    floor = Integer.parseInt(floorTargetProperty);
+                                }
+
+                                EntityFactory.constructStairs(pos, width, height, floor);
                                 break;
                         }
                     }
