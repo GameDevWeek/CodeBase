@@ -66,7 +66,7 @@ public class DogBehaviour extends Behaviour {
         new DogSeesCat(nichtsehend);
         */
         
-        
+        /*
         //SeeCat Patrouille oder Chase Cat verhalten:
         setName("Catch the Cat oder patroullieren");
         BaseNode root = new Selector(this);
@@ -77,9 +77,9 @@ public class DogBehaviour extends Behaviour {
         Invert nichtsSehend = new Invert(patroulliere);
         new DogSeesCat(nichtsSehend);
         new Patroullieren(patroulliere);
+        */
         
-        
-      /*//Katze verfolgen und ecken ausweichen verhalten:  
+      //Katze verfolgen und ecken ausweichen verhalten:  
         setName("Catch the Cat und weich Ecken aus");
         BaseNode root = new Selector(this);
         Sequence hundHaengt = new Sequence(root);
@@ -90,7 +90,7 @@ public class DogBehaviour extends Behaviour {
         new DogIsChasing(dogNotChase);
         new HundHaengt(hh);
         
-        */
+        
         
      
    
