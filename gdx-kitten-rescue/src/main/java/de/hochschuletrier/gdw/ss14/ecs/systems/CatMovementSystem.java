@@ -2,8 +2,10 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /**
@@ -105,13 +107,13 @@ public class CatMovementSystem extends ECSystem{
                 }
                 //sliding stuff end
 
-                if(distance >= 200 && laserPointerComponent.isVisible){
+                if(distance >= 200 && laserPointerComponent.toolState == ToolState.LASER){
                     movementComponent.velocity += movementComponent.acceleration*delta;
 
                     if(movementComponent.velocity >= movementComponent.maxVelocity){
                         movementComponent.velocity = movementComponent.maxVelocity;
                     }
-                }else if(distance >= 100 && laserPointerComponent.isVisible){
+                }else if(distance >= 100 && laserPointerComponent.toolState == ToolState.LASER){
                     /**
                      * Falls wir von unserem Stand aus losgehen soll unsere Katze beschleunigen, bis sie "geht"
                      */
@@ -131,7 +133,7 @@ public class CatMovementSystem extends ECSystem{
                             movementComponent.velocity = movementComponent.middleVelocity;
                         }
                     }
-                }else if(laserPointerComponent.isVisible){
+                }else if(laserPointerComponent.toolState == ToolState.LASER){
                     movementComponent.velocity += movementComponent.damping*1.5f*delta;
                     if(movementComponent.velocity <= movementComponent.minVelocity){
                         movementComponent.velocity = 0;
@@ -141,7 +143,7 @@ public class CatMovementSystem extends ECSystem{
                 if(distance <= 70 && distance >= 30){
                     if(catPropertyComponent.getState() == CatStateEnum.IDLE){
                         if(laserPointerComponent != null){
-                            if(laserPointerComponent.isVisible){
+                            if(laserPointerComponent.toolState == ToolState.LASER){
                                 catPropertyComponent.timeTillJumpTimer = catPropertyComponent.timeTillJumpTimer+delta;
                                 if(catPropertyComponent.timeTillJumpTimer >= catPropertyComponent.TIME_TILL_JUMP){
                                     catPropertyComponent.setState(CatStateEnum.JUMP);
@@ -164,7 +166,7 @@ public class CatMovementSystem extends ECSystem{
                     percentNewCatVelo *= .5f;
                 }
 
-                if(!laserPointerComponent.isVisible){
+                if(!(laserPointerComponent.toolState == ToolState.LASER)){
                     movementComponent.velocity = movementComponent.velocity*(1-delta);
                     percentNewCatVelo = .0f;
                 }
@@ -181,7 +183,7 @@ public class CatMovementSystem extends ECSystem{
                 float angle = (float) Math.atan2(-movementComponent.directionVec.x, movementComponent.directionVec.y);
 
                 if(laserPointerComponent != null){
-                    if(!laserPointerComponent.isVisible){
+                    if(!(laserPointerComponent.toolState == ToolState.LASER)){
                         if(movementComponent.velocity < 10f){//slowdown on laserPointer off stops to 0 if speed < 10
                             movementComponent.velocity = 0.0f;
                             movementComponent.oldPositionVec.x = movementComponent.positionVec.x;
@@ -191,7 +193,7 @@ public class CatMovementSystem extends ECSystem{
                         }
                     }
 
-                    if (!catPropertyComponent.isHidden && laserPointerComponent.isVisible)
+                    if (!catPropertyComponent.isHidden && laserPointerComponent.toolState == ToolState.LASER)
                     {
                         float currentRot = physicsComponent.getRotation();
                         

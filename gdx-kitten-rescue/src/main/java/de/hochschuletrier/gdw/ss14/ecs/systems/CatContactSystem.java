@@ -177,16 +177,6 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     }
                 }
             }
-
-            Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
-
-            for (Integer entity : lasers)
-            {
-                LaserPointerComponent laserPointerComponent = entityManager.getComponent(entity, LaserPointerComponent.class);
-
-                laserPointerComponent.isVisible = false;
-            }
-
         }
         else if(other instanceof StairsPhysicsComponent)
         {

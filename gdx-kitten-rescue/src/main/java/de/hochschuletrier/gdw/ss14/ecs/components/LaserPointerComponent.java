@@ -4,21 +4,24 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class LaserPointerComponent implements Component{
-
-    public boolean isVisible;
+    public static final float WATER_CONSUMPTION_SPEED = 0.1f; // percent/second
+    public static final float WATER_REFILL_SPEED = 0.05f; // percent/second
+    //public boolean isVisible;
     public Vector2 position;
+    public float currentWaterlevel; // in percent: 1.0 = 100%
+    public ToolState toolState;
+    public boolean waterpistolIsUsed;
     
-    public enum InputState {
-        KEYBOARD,
-        MOUSE,
-        GAMEPAD,
+    public enum ToolState {
+        LASER,
+        WATERPISTOL
     }
     
-    public InputState input;
-    
     public LaserPointerComponent(Vector2 position){
-        isVisible = true;
-        input = InputState.MOUSE;
+        //isVisible = true;
+        toolState = ToolState.LASER;
+        waterpistolIsUsed = false;
+        currentWaterlevel = 1.0f;
         this.position = position;
     }
 
