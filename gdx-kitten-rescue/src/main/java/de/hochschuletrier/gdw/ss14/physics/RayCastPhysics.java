@@ -17,6 +17,19 @@ public class RayCastPhysics implements RayCastCallback{
     public ArrayList<RayCastPhysics> collisions = new ArrayList<>();
     public ArrayList<Body> collisionBodys = new ArrayList<>();
     
+    /**
+     * Creating a RayCastCallback
+     *
+     * @param m_fixture  → the fixture of the collision
+     * @param m_hit      → true if the RayCast ever hit something
+     * @param m_point    → the point of the initial intersection
+     * @param m_normal   → the normal vector at the point of intersection
+     * @param m_fraction → used to define the behavior of the RayCast after collision
+     * @param collisions → Array with all collisions of the RayCast, 
+     *    stored in RayCastPhysics Objects including the collisions data
+     * 
+     */
+    
     public RayCastPhysics()
     {
         reset();
@@ -27,6 +40,7 @@ public class RayCastPhysics implements RayCastCallback{
         m_point = null;
         m_normal = null;
         m_fraction = 0;
+        collisions.clear();
     }
 
     public float reportRayFixture(Fixture fixture,  Vector2 point,

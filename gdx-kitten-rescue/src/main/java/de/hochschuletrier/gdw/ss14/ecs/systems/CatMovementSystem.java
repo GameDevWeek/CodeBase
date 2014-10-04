@@ -5,10 +5,15 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
+
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
+
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
+
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 import java.util.ArrayList;
@@ -138,10 +143,18 @@ public class CatMovementSystem extends ECSystem{
                             movementComponent.velocity = movementComponent.middleVelocity;
                         }
                     }
+
                 }else if(catPropertyComponent.canSeeLaserPointer){
-                    movementComponent.velocity += movementComponent.damping*1.5f*delta;
-                    if(movementComponent.velocity <= movementComponent.minVelocity){
-                        movementComponent.velocity = 0;
+                    if(catPropertyComponent.isInfluenced){
+                        movementComponent.velocity += movementComponent.acceleration*1.5f*delta;
+                        if(movementComponent.velocity <= movementComponent.minVelocity){
+                            movementComponent.velocity = 0;
+                        }
+                    }else{
+                        movementComponent.velocity += movementComponent.damping*1.5f*delta;
+                        if(movementComponent.velocity <= movementComponent.minVelocity){
+                            movementComponent.velocity = 0;
+                        }
                     }
                 }
 
@@ -152,6 +165,7 @@ public class CatMovementSystem extends ECSystem{
                                 catPropertyComponent.timeTillJumpTimer = catPropertyComponent.timeTillJumpTimer+delta;
                                 if(catPropertyComponent.timeTillJumpTimer >= catPropertyComponent.TIME_TILL_JUMP){
                                     catPropertyComponent.setState(CatStateEnum.JUMP);
+                                    SoundManager.performAction(CatStateEnum.JUMP);
                                     jumpDataComponent.jumpDirection = movementComponent.directionVec.nor();
                                 }
                             }
@@ -248,9 +262,12 @@ public class CatMovementSystem extends ECSystem{
                         
                         // Clamp rotation between - and + max possible rotation
                         if (Math.abs(spinningAngle) > MaxAngularVelocity*delta)
-                            spinningAngle = Math.signum(spinningAngle) * MaxAngularVelocity*delta;
-
-                        physicsComponent.setRotation(currentRot + spinningAngle);
+                            spinningAngle = Math.signum(spinningAngle) * MaxAngularVelocity*delta;      
+                        
+                        // Clamp between -360 and +360 degrees
+                        float newRotation = currentRot + spinningAngle;
+                        newRotation -= Math.signum(newRotation)*(float)(2*Math.PI)*(int)(newRotation / (2*Math.PI));
+                        physicsComponent.setRotation(newRotation);
                     }
                 }
             } // end if (state check)

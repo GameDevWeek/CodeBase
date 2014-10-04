@@ -20,6 +20,7 @@ import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.states.*;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class EntityFactory{
@@ -45,7 +46,7 @@ public class EntityFactory{
     public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, short mask, short category){
         int entity = manager.createEntity();
 
-        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f, mask, category, (short)0);
+        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f, mask, category, (short) 0);
         //catPhysix: position(x,y), width, height, rota, friction[0-1][ice-rubber], restitution[0-1][rock-ball]
         ICollisionListener contactSystem = (CatContactSystem) Game.engine.getSystemOfType(CatContactSystem.class);
         catPhysix.collisionListeners.add(contactSystem);
@@ -128,7 +129,7 @@ public class EntityFactory{
             Filter fil = f.getFilterData();
             fil.categoryBits = category;
             fil.maskBits = mask;
-            });
+        });
 
         RenderComponent renderComponent = new RenderComponent();
         renderComponent.texture = new TextureRegion(assetManager.getTexture("catbox"));
@@ -185,25 +186,23 @@ public class EntityFactory{
         manager.addComponent(entity, dogParticleEmitter);
     }
 
-    public static int constructSmartDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots,  short mask , short category){
+    public static int constructSmartDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots, short mask, short category){
         int entity = manager.createEntity();
-        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0, mask, category, (short)-2);
+        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0, mask, category, (short) -2);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
-        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
-        Behaviour verhalten = new DogBehaviour("SmartDog", localBlackboard, true, entity);
-        BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
+
         DogPropertyComponent dogState = new DogPropertyComponent(patrolspots);
         dogPhysix.initPhysics(phyManager);
         AnimationComponent dogAnimation = new AnimationComponent();
-        
+
         dogAnimation.animation.put(DogStateEnum.FALLING.ordinal(), assetManager.getAnimation("pudel_fallen"));
         dogAnimation.animation.put(DogStateEnum.KILLING.ordinal(), assetManager.getAnimation("pudel_beissen"));
         dogAnimation.animation.put(DogStateEnum.WALKING.ordinal(), assetManager.getAnimation("pudel_laufen"));
         dogAnimation.animation.put(DogStateEnum.RUNNING.ordinal(), assetManager.getAnimation("pudel_laufen"));
         dogAnimation.animation.put(DogStateEnum.SITTING.ordinal(), assetManager.getAnimation("pudel_idle"));
         dogAnimation.animation.put(DogStateEnum.JUMPING.ordinal(), assetManager.getAnimation("pudel_springen"));
-        
+
         RenderComponent dogRender = new RenderComponent();
         dogRender.zIndex = 5;
 
@@ -214,6 +213,10 @@ public class EntityFactory{
         manager.addComponent(entity, dogMove);
         manager.addComponent(entity, dogInput);
         manager.addComponent(entity, new EnemyComponent());
+
+        DogBehaviour.DogBlackboard localBlackboard = new DogBlackboard(manager);
+        Behaviour verhalten = new DogBehaviour("SmartDog", localBlackboard, true, entity);
+        BehaviourComponent bComp = new BehaviourComponent(verhalten, behaviourManager);
         manager.addComponent(entity, bComp);
         addDogParticleEmitter(entity);
 
@@ -244,17 +247,17 @@ public class EntityFactory{
         manager.addComponent(entity, new GroundPropertyComponent(type));
         manager.addComponent(entity, puddlephys);
         puddlephys.initPhysics(phyManager);
-        
+
         return entity;
     }
-    
+
     public static void constructLamp(){
         int entity = manager.createEntity();
     }
 
     public static int constructPuddleOfBlood(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.groupIndex((short)-2));
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.groupIndex((short) -2));
         manager.addComponent(entity, puddlephys);
         manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.bloodpuddle));
         puddlephys.initPhysics(phyManager);
@@ -264,7 +267,7 @@ public class EntityFactory{
 
     public static int constructPuddleOfWater(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.groupIndex((short)-2));
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.groupIndex((short) -2));
         manager.addComponent(entity, puddlephys);
         manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.waterpuddle));
         puddlephys.initPhysics(phyManager);
@@ -281,7 +284,6 @@ public class EntityFactory{
 
         return entity;
     }
-
 
     public static int constructStairs(Vector2 pos, float width, float height, int direction, short mask, short category){
         int entity = manager.createEntity();
@@ -309,15 +311,17 @@ public class EntityFactory{
         return entity;
     }
 
-
     public static void constructWool(Vector2 pos){
         int entity = manager.createEntity();
 
         WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
         RenderComponent woolRenderComponent = new RenderComponent();
+        woolRenderComponent.texture = new TextureRegion(assetManager.getTexture("wool"));
         woolPhysicsComponent.initPhysics(phyManager);
+        woolPhysicsComponent.owner = entity;
         manager.addComponent(entity, woolPhysicsComponent);
         manager.addComponent(entity, new WoolPropertyComponent());
+        manager.addComponent(entity, woolRenderComponent);
 
         //        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, 0f, 0f);
         //        catPhysix.initPhysics(phyManager);
@@ -328,8 +332,16 @@ public class EntityFactory{
         //manager.addComponent(entity, renderComponent);
     }
 
-    public static void constructFinish(Vector2 pos, float width, float height)
-    {
+    public static void constructMapChangeObj(Vector2 pos, float width, float height, File nextMap){
+        int entity = manager.createEntity();
+
+        ExitMapPhysicsComponent exit = new ExitMapPhysicsComponent(pos, width, height);
+        ExitMapPropertyComponent exitProps = new ExitMapPropertyComponent(nextMap);
+        exit.initPhysics(phyManager);
+        manager.addComponent(entity, exit);
+    }
+
+    public static void constructFinish(Vector2 pos, float width, float height){
         int entity = manager.createEntity();
 
         FinishPhysicsComponent finishPhysicsComponent = new FinishPhysicsComponent(pos, width, height, 0.0f);
@@ -346,4 +358,3 @@ public class EntityFactory{
 
     public static BehaviourManager behaviourManager;
 }
-

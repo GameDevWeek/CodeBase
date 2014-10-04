@@ -6,11 +6,9 @@ import de.hochschuletrier.gdw.commons.ai.behaviourtree.interfaces.Leaf;
 //BaseCondition ist ein spezielles Blatt zum Auswerten einfacher Bedingungen.
 
 public abstract class BaseCondition extends BaseNode implements Leaf {
-	Behaviour behaviour;
 
-	public BaseCondition(BaseNode parent, Behaviour behaviour) {
+	public BaseCondition(BaseNode parent ) {
 		super(parent);
-		this.behaviour = behaviour;
 	}
 
 	@Override
@@ -18,6 +16,7 @@ public abstract class BaseCondition extends BaseNode implements Leaf {
 		State result = onEvaluate(delta);
 		switch (result) {
 		case SUCCESS:
+	        parent.childTerminated(this, State.SUCCESS);
 			break;
 		case FAILURE:
 			deactivate();
