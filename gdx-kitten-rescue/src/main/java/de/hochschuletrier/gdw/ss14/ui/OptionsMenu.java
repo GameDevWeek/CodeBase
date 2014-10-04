@@ -31,7 +31,7 @@ public class OptionsMenu extends LaserCatMenu
 
 		optionsMenuListener = new OptionsMenuListener();
 
-		for (UIButton b : button)
+		for (UIAnimatedButton b : button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.optionsMenuListener);
@@ -42,7 +42,7 @@ public class OptionsMenu extends LaserCatMenu
 
 	protected void addButtonsToFrame()
 	{
-		button = new UIButton[numberOfButtons];
+		button = new UIAnimatedButton[numberOfButtons];
 		label = new Label[numberOfButtons];
 
 		for (int i = 0; i < numberOfButtons; i++)
@@ -62,17 +62,17 @@ public class OptionsMenu extends LaserCatMenu
 		
 
 		widgetFrame.row();
-		button[0] = new UIButton(catSkin, "sound_reduce");
+		button[0] = new UIAnimatedButton(catSkin, "sound_reduce");
 		button[0].setName("button");		
 		
 		currentVolume = LocalMusic.getSystemVolume();
 		volumeLabel = new Label (Integer.toString((int)currentVolume*10), catSkin);
 
-		button[1] = new UIButton(catSkin, "sound_push");
+		button[1] = new UIAnimatedButton(catSkin, "sound_push");
 		button[1].setName("button");
-		button[2] = new UIButton(catSkin, "bell"); // Placeholder for image
+		button[2] = new UIAnimatedButton(catSkin, "bell"); // Placeholder for image
 		button[2].setName("bell");
-		button[3] = new UIButton(catSkin, "bell"); // Placeholder for image
+		button[3] = new UIAnimatedButton(catSkin, "bell"); // Placeholder for image
 		button[3].setName("bell");
 
 		widgetFrame.add(button[0]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);

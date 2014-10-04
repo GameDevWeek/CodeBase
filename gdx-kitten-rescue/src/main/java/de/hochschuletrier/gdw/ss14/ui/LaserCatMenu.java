@@ -37,7 +37,7 @@ public abstract class LaserCatMenu
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
-	protected UIButton button[];
+	protected UIAnimatedButton button[];
 	protected Label label[];
 	protected String name[];
 	protected int numberOfButtons;
@@ -133,7 +133,7 @@ public abstract class LaserCatMenu
 	private void animateRingingBell(Actor b)		// Should only receive Buttons as Parameter
 	{
 
-		UIButton button = (UIButton) b;
+		UIAnimatedButton button = (UIAnimatedButton) b;
 	}
 	
 }
