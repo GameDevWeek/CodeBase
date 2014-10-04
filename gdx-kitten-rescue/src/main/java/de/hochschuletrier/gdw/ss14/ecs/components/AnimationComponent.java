@@ -34,7 +34,6 @@ public class AnimationComponent implements Component {
     
     /**
      * Set this if the animation should change the speed in relation to the speed of the object.
-     * 1.0f disables this feature.
      * A good default value is around 50 and 100;
      * Lower values means quicker animations.
      */
