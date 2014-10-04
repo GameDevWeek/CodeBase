@@ -38,6 +38,7 @@ public class SoundManager {
 		switch(actualGamestate) {
 			case MAINMENU:
 			case OPTIONSMENU:
+			case LEVELMENU:
 			case PAUSEGAME:
 				switch(actionString) {
 					case "BELLOVER":
