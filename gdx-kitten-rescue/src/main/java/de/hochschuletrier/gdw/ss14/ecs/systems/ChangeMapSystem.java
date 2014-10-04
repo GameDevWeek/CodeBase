@@ -36,8 +36,18 @@ public class ChangeMapSystem extends ECSystem {
                     CatPhysicsComponent cpc = (CatPhysicsComponent) entityManager
                             .getComponent(entity, PhysicsComponent.class);
 
-                    EntityFactory.constructCat(cpc.getPosition(), 150, 75, 0,
+                    int newCat = EntityFactory.constructCat(cpc.getPosition(), 150, 75, 0,
                             50.0f, (short) (cpc.mask << 1), cpc.category);
+
+                    // set lives
+                    CatPropertyComponent catPropertyComponentOld = entityManager.getComponent(entity, CatPropertyComponent.class);
+                    CatPropertyComponent catPropertyComponentNew = entityManager.getComponent(newCat, CatPropertyComponent.class);
+
+                    if(catPropertyComponentOld != null && catPropertyComponentNew != null)
+                    {
+                        catPropertyComponentNew.amountLives = catPropertyComponentOld.amountLives;
+                    }
+
                     entityManager.deletePhysicEntity(entity);
                 }
             }
