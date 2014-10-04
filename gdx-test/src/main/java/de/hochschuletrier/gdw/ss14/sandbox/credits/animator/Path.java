@@ -4,14 +4,9 @@ import java.util.ArrayList;
 
 public class Path {
 
-    public final ArrayList<Destination> destinations = new ArrayList();
-    public final ArrayList<Animation> animations = new ArrayList();
-
-    public void addAnimation(Animation destination) {
-        animations.add(destination);
-    }
+    public final ArrayList<Destination> destinations;
     
-    public void addDestination(Destination destination) {
-        destinations.add(destination);
+    public Path(ArrayList<Destination> destinations) {
+        this.destinations = destinations;
     }
 }
