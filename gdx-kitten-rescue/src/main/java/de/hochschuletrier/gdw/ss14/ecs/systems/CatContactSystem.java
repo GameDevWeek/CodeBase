@@ -368,11 +368,13 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         Component c = null, d = null;
         if(otherPhysic instanceof WoolPhysicsComponent || (c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class) ) != null ){
             /* other → is groundobject */
-            if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
+            if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null){
                 ((CatPropertyComponent)d).isInfluenced = false;
-                ((WoolPhysicsComponent)otherPhysic).isSeen = false;
                 EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
                 enemyComponent.seeCat = false;
+            }
+                ((WoolPhysicsComponent)otherPhysic).isSeen = false;
+                
         }else if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
             EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
             enemyComponent.seeCat = false;
