@@ -8,6 +8,7 @@ import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,21 +44,23 @@ public class AnimatorController {
             
             for(AnimatorData.Path.Destination dest: value.destinations) {
                 Destination destination = new Destination();
-                destination.position.x = dest.x != null ? dest.x : 0;
-                destination.position.y = dest.y != null ? dest.y : 0;
+                destination.x = dest.x != null ? dest.x : 0;
+                destination.y = dest.y != null ? dest.y : 0;
                 path.addDestination(destination);
             }
             
             for(AnimatorData.Path.Animation anim: value.animations) {
                 Animation animation = new Animation();
-                animation.time = anim.time != null ? anim.time : 0;
+                animation.time = anim.time != null ? (anim.time * 0.001f) : 0;
                 animation.animation = anim.animation;
-                animation.animationTime = anim.animationTime != null ? anim.animationTime : 0;
-                animation.frametime = anim.frametime != null ? anim.frametime : 0;
-                animation.maxAngle = anim.maxAngle != null ? anim.maxAngle : 360;
-                animation.minAngle = anim.minAngle != null ? anim.minAngle : 0;
+                animation.animationTime = anim.animationTime != null ? (anim.animationTime * 0.001f) : 0;
+                animation.frametime = anim.frametime != null ? (anim.frametime * 0.001f) : 0;
                 animation.minRadius = anim.minRadius != null ? anim.minRadius : 0;
                 animation.maxRadius = anim.maxRadius != null ? anim.maxRadius : 50;
+                animation.minAngle = anim.minAngle != null ? anim.minAngle : 0;
+                animation.maxAngle = anim.maxAngle != null ? anim.maxAngle : 360;
+                animation.minCurveAngle = anim.minCurveAngle != null ? anim.minCurveAngle : 45;
+                animation.maxCurveAngle = anim.maxCurveAngle != null ? anim.maxCurveAngle : 135;
                 path.addAnimation(animation);
             }
             paths.put(entry.getKey(), path);
@@ -70,9 +73,7 @@ public class AnimatorController {
         for(Map.Entry<String, AnimatorData.Queue> entry: credits.queues.entrySet()) {
             AnimatorData.Queue value = entry.getValue();
             
-            Path path = (value.path != null) ? paths.get(value.path) : null;
-            Queue queue = new Queue(value.time, path);
-            
+            ArrayList<Item> items = new ArrayList();
             for(AnimatorData.Item item: value.items) {
                 startTime = item.delay != null ? (item.delay * 0.001f) : 0;
                 angle = item.angle != null ? item.angle : 0;
@@ -81,13 +82,32 @@ public class AnimatorController {
                 switch(item.type) {
                     case TEXT:
                         style = textStyles.get(item.style);
-                        queue.addItem(new TextItem(item.text, style, startTime, angle, opacity));
+                        items.add(new TextItem(item.text, style, startTime, angle, opacity));
                         break;
                     case SPRITE:
                         break;
                 }
             }
+            startTime = value.time != null ? (value.time * 0.001f) : 0;
+            Path path = (value.path != null) ? paths.get(value.path) : null;
+            Queue queue = new Queue(startTime, path, items);
             queues.put(entry.getKey(), queue);
+        }
+        
+        // Solve next and finalNext
+        for(Map.Entry<String, AnimatorData.Queue> entry: credits.queues.entrySet()) {
+            AnimatorData.Queue value = entry.getValue();
+            Queue queue = queues.get(entry.getKey());
+            if(value.next != null)
+                queue.next = queues.get(value.next);
+            if(value.finalNext != null)
+                queue.finalNext = queues.get(value.finalNext);
+        }
+    }
+    
+    public void reset() {
+        for(Queue queue: queues.values()) {
+            queue.reset();
         }
     }
 }

@@ -7,7 +7,6 @@ import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.Animation;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.AnimatorController;
-import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.AnimatorData;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextAlign;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextItem;
 import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextStyle;
@@ -38,6 +37,8 @@ public class Credits extends SandboxGame {
         anim.maxAngle = 360;
         anim.minRadius = 200;
         anim.maxRadius = 300;
+        anim.minCurveAngle = 45;
+        anim.maxCurveAngle = 135;
         anim.time = 0;
         textItem.startAnimation(anim);
         
