@@ -46,6 +46,7 @@ public class AnimatorData {
             public Integer time;
             public String animation;
             public Integer frametime;
+            public String group;
             // For text explosion animation
             public Integer minRadius;
             public Integer maxRadius;
@@ -58,6 +59,7 @@ public class AnimatorData {
     }
 
     public static class Item {
+        public String group;
         public Float opacity;
         public ItemType type;
         public Integer delay;
