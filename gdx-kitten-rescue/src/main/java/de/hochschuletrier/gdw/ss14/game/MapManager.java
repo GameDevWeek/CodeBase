@@ -33,7 +33,10 @@ public class MapManager
     HashMap<TileSet, Texture> tilesetImages;
 
     private int levelEntity;
-    private int currentFloor = -1;
+    public int currentFloor = -1;
+
+    public int targetFloor = 0;
+    public boolean isChangingFloor = false;
     
 
     public MapManager(EntityManager entityManager, PhysixManager physixManager, AssetManagerX assetmanager)
@@ -183,7 +186,7 @@ public class MapManager
                 .fixedRotation(false);
         
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
-                .category((short)floor).mask((short)0b1111111111111111); 
+                .category((short) floor).mask((short) 0b1111111111111111);
         switch (t2e) {
         case none: 
             PhysixBody body = bodydef.create();
@@ -327,7 +330,7 @@ public class MapManager
                                     floor = Integer.parseInt(floorTargetProperty);
                                 }
 
-                                EntityFactory.constructStairs(pos, width, height, floor);
+                                EntityFactory.constructStairs(pos, width, height, floor, mask, category);
                                 break;
                         }
                     }
@@ -342,8 +345,16 @@ public class MapManager
                         if(spotIds.size() == 0) continue;
                         for(String r : s.split(",")){
                             if(!r.isEmpty())
-                                if( spotIds.get(Integer.parseInt(r)) <= 0 ) continue;
-                                tmp.add(patrolspots.get( spotIds.get(Integer.parseInt(r)) ));
+                            {
+                                if (spotIds.get(Integer.parseInt(r)) <= 0)
+                                {
+                                    continue;
+                                }
+                                if (r != "")
+                                {
+                                    tmp.add(patrolspots.get(spotIds.get(Integer.parseInt(r))));
+                                }
+                            }
                         }
                     }
                     EntityFactory.constructSmartDog(pos, 100, 85, 0, 30, tmp, mask, category);
