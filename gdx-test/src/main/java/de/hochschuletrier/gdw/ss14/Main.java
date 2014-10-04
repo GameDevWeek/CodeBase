@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
-import de.hochschuletrier.gdw.commons.devcon.cvar.CVarInt;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.TrueTypeFont;
@@ -41,8 +40,6 @@ public class Main extends StateBasedGame<MyBaseGameState> {
 
     public static final int WINDOW_HEIGHT = 600;
     public static final int WINDOW_WIDTH = 1024;
-    public static final CVarEnum<TextAnimation> textAnimation = new CVarEnum("text_animation", TextAnimation.CONSTRUCT_TYPE, TextAnimation.class, 0, "text animation type");
-    public static final CVarInt animationTime = new CVarInt("animation_time", 200, 0, 100000, 0, "text animation type");
 
     private final AssetManagerX assetManager = new AssetManagerX();
     private static Main instance;
@@ -113,9 +110,6 @@ public class Main extends StateBasedGame<MyBaseGameState> {
 
         this.console.register(emitterMode);
         emitterMode.addListener(this::onEmitterModeChanged);
-        
-        this.console.register(textAnimation);
-        this.console.register(animationTime);
     }
 
     public void onLoadComplete() {

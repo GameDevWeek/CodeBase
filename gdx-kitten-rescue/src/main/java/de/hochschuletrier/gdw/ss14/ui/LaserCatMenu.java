@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -19,21 +20,22 @@ import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 public abstract class LaserCatMenu
 {
-	private static Image menuCatImage, titleTextImage;
+	private static UIImage menuCatImage;
+	private static Image titleTextImage;
 	// For debug drawing
 	private ShapeRenderer shapeRenderer; 
-	protected static SoundListener soundListener;
-
 	
 	//
 	// Vererbtes Zeug
 	//
 	protected static Table widgetFrame;
+	protected static SoundListener soundListener;
 	protected static Table table;
 	protected static Skin catSkin;
 	protected static Stage stage;
 	protected static float heightOfWidgetFrame;
 	protected static float widthOfWidgetFrame;
+	protected static float frameDuration;
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
@@ -47,6 +49,7 @@ public abstract class LaserCatMenu
 		//Variables
 		heightOfWidgetFrame = 0.25f;
 		widthOfWidgetFrame = 0.65f;
+		frameDuration = 0.05f;
 				
 		// Adjusts the table and adds it to the stage
 		stage = new Stage();
@@ -76,7 +79,8 @@ public abstract class LaserCatMenu
 		table.row();
 		
 		// MainCat Image
-		menuCatImage = new Image(catSkin.getDrawable("main-menu-cat"));
+		menuCatImage = new UIImage(catSkin.getDrawable("main-menu-cat"));
+		menuCatImage.setAnimation(catSkin, "menuCat", 500);
 		table.add(menuCatImage).bottom().expandY();
 
 		// Debug Lines
@@ -120,20 +124,11 @@ public abstract class LaserCatMenu
 		{
 			if (this.isPressed())
 					return;
+	    	LaserCatMenu.menuCatImage.animate((UIButton) event.getListenerActor());
 			if(event.getListenerActor().getName().equals("bell"))
-			{
 				SoundManager.performAction(UIActions.BELLOVER);
-				animateRingingBell(event.getListenerActor());
-			}
 			else
 				SoundManager.performAction(UIActions.BUTTONOVER);
 		}
 	}
-	
-	private void animateRingingBell(Actor b)		// Should only receive Buttons as Parameter
-	{
-
-		UIButton button = (UIButton) b;
-	}
-	
 }

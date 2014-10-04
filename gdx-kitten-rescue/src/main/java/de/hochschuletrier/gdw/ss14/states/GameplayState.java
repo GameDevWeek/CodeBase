@@ -1,9 +1,9 @@
 package de.hochschuletrier.gdw.ss14.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
-
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
@@ -12,10 +12,8 @@ import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.hud.IngameHUD;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
-import de.hochschuletrier.gdw.ss14.physics.PhysicsActions;
 import de.hochschuletrier.gdw.ss14.sound.CatSoundListener;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 /**
  * Gameplay state
@@ -113,6 +111,7 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 		}
         emitter.dispose();
         InputManager.getInstance().registerProcessor();
+        Gdx.input.setCursorCatched(true);
         //emitter.play(helicopter, true);
     }
 
@@ -123,6 +122,8 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 		}
         emitter.dispose();
         InputManager.getInstance().unregisterProcessor();
+        Gdx.input.setCursorImage(null, 0, 0);
+        Gdx.input.setCursorCatched(false);
     }
 
     @Override

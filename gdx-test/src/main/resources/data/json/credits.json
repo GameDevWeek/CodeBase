@@ -1,28 +1,26 @@
 {
     "textStyles" : {
-        "credit_titel": { "color": "F8BB08", "font": "verdana", "size": 24 },
-        "teilnehmer": { "color": "FFFFFF", "font": "verdana", "size": 24 }
+        "credit_titel": { "color": "F8BB08", "font": "oswald", "size": 32, "align": "center" },
+        "credit_titel_l": { "color": "F8BB08", "font": "oswald", "size": 32, "align": "right" },
+        "credit_titel_r": { "color": "F8BB08", "font": "oswald", "size": 32, "align": "left" },
+        "teilnehmer": { "color": "FFFFFF", "font": "oswald", "size": 32, "align": "center" },
+        "teilnehmer_l": { "color": "FFFFFF", "font": "oswald", "size": 32, "align": "right" },
+        "teilnehmer_r": { "color": "FFFFFF", "font": "oswald", "size": 32, "align": "left" }
     },
     "paths" : {
         "text_path": {
-           "destinations": [
-            {"x": 500, "y": 800, "speed": 80 },
-            {"x": 500, "y": -100, "speed": 80 }
-           ],
-           "animations": [
-                { "time": 0, "animation": "clear" },
-                { "time": 3000, "animation": "explode_in", "animationTime": 100 },
-                { "time": 6000, "animation": "fade_out", "animationTime": 100 }
-           ]
+            "type": "linear",
+            "destinations": [
+                {"x": 500, "y": 600, "speed": 80 },
+                {"x": 500, "y": -100, "speed": 80 }
+            ]
         },
         "cat_path": {
-           "destinations": [
-            {"x": 500, "y": 800, "speed": -1 },
-            {"x": 500, "y": -100, "speed": 80 }
-           ],
-           "animations": [
-                { "time": 0, "animation": "astronaut_walking", "frametime": 100 }
-           ]
+            "type": "linear",
+            "destinations": [
+                {"x": 500, "y": 800, "speed": -1 },
+                {"x": 500, "y": -100, "speed": 80 }
+            ]
         }
     },
     "queues": {
@@ -37,8 +35,56 @@
             "path" : "text_path",
             "next": "cat",
             "items" : [
-                { "type": "text", "style" : "credit_titel", "text": "Organisation", "delay": "1150" },
-                { "type": "text", "style" : "teilnehmer", "text": "Santo Pfingsten", "delay": "750" }
+                { "type": "text", "group" : "title", "style" : "credit_titel", "text": "Organisation", "delay": "1150" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Santo Pfingsten  ", "delay": "550" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Torsen Scholer", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Kristina Kölln  ", "delay": "550" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Minh Dao", "delay": "0" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Entwicklung:  ", "delay": "1150" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Physik", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Janina Noell  ", "delay": "550" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Benjamin Albsmeier", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Oliwer Biwer  ", "delay": "550" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Entwicklung:  ", "delay": "1150" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Rendering", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Milan Rüll  ", "delay": "550" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  David Neubauer", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "David Liebemann  ", "delay": "550" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Entwicklung:  ", "delay": "1150" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Gamelogik", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Daniel Dreher  ", "delay": "550" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Fabio Gimmillaro", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Sandra Weyand  ", "delay": "550" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Michaela Mös", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Heinrich Unrau  ", "delay": "550" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Entwicklung: ", "delay": "1150" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Input", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Arnold Oberzeiser  ", "delay": "550" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "Tobias Meier  ", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Thomas Jürgensen  ", "delay": "550" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Entwicklung:  ", "delay": "1150" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Menü", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Markus Schmieder  ", "delay": "550" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Simon Zeidler", "delay": "0" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Entwicklung:  ", "delay": "1150" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Heads Up Display", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Arnold Oberzeiser  ", "delay": "550" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Tobias Meier", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Thomas Jürgensen  ", "delay": "550" }
+            ],
+            "animations": [
+                { "time": 0, "animation": "UNTYPE_INSTANT", "group": "title"},
+                { "time": 0, "animation": "UNTYPE_INSTANT"},
+                { "time": 500, "animation": "construct", "animationTime": 1000,
+                    "minRadius" : 100, "maxRadius" : 300,
+                    "minAngle" : -45, "maxAngle" : 225,
+                    "minCurveAngle": 45, "maxCurveAngle": 135
+                },
+                { "time": 500, "animation": "construct_type", "animationTime": 200, "group": "title",
+                    "minRadius" : 60, "maxRadius" : 60,
+                    "minAngle" : -90, "maxAngle" : -90,
+                    "minCurveAngle": 15, "maxCurveAngle": 45
+                }
             ]
         },
         "cat": {
@@ -47,6 +93,9 @@
             "finalNext": "reset",
             "items" : [
                 { "type": "sprite", "animation": "astronaut_walking", "scale" : "0.5", "angle": 0, "oriented" : true }
+            ],
+            "animations": [
+                { "time": 0, "animation": "astronaut_walking", "frametime": 100 }
             ]
         }
     }

@@ -4,8 +4,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Json;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
+import de.hochschuletrier.gdw.ss14.input.InputManager;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.states.KittenGameState;
 
@@ -15,18 +18,23 @@ public class OptionsMenu extends LaserCatMenu
 	private float currentVolume;
 	private String volumeString;
 	private Label volumeLabel;
+	private DeviceType currentInput;
+	private int numberOfInputs;
 	private KittenGameState previousState;
 
 	public void init(AssetManagerX assetManager, KittenGameState previousState)
 	{
 		super.init(assetManager);
+		this.currentInput = InputManager.readSettings();
+		numberOfInputs = DeviceType.values().length;
 		this.previousState = previousState;
-		numberOfButtons = 4;
+		numberOfButtons = 5;
 		name = new String[numberOfButtons];
 		name[0] = "Volume Down";
 		name[1] = "Volume Up";
 		name[2] = "Credits";
-		name[3] = "Return";
+		name[3] = "Input: " + currentInput.toString();
+		name[4] = "Return";
 		addButtonsToFrame();
 
 		optionsMenuListener = new OptionsMenuListener();
@@ -36,6 +44,9 @@ public class OptionsMenu extends LaserCatMenu
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.optionsMenuListener);
 		}
+		button[2].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+		button[3].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+		button[4].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 
 		
 	}
@@ -58,6 +69,8 @@ public class OptionsMenu extends LaserCatMenu
 		widgetFrame.add(label[1]).expandX().space(20).spaceBottom(10);
 		widgetFrame.add(label[2]).expandX().space(20).spaceBottom(10);
 		widgetFrame.add(label[3]).expandX().space(20).spaceBottom(10);
+		widgetFrame.add(label[4]).expandX().space(20).spaceBottom(10);
+
 
 		
 
@@ -70,10 +83,12 @@ public class OptionsMenu extends LaserCatMenu
 
 		button[1] = new UIButton(catSkin, "sound_push");
 		button[1].setName("button");
-		button[2] = new UIButton(catSkin, "bell"); // Placeholder for image
+		button[2] = new UIButton(catSkin, "bell");
 		button[2].setName("bell");
-		button[3] = new UIButton(catSkin, "bell"); // Placeholder for image
+		button[3] = new UIButton(catSkin, "bell");
 		button[3].setName("bell");
+		button[4] = new UIButton(catSkin, "bell");
+		button[4].setName("bell");
 
 		widgetFrame.add(button[0]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
 
@@ -82,6 +97,7 @@ public class OptionsMenu extends LaserCatMenu
 		widgetFrame.add(button[1]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);		
 		widgetFrame.add(button[2]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
 		widgetFrame.add(button[3]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
+		widgetFrame.add(button[4]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
 
 		
 		
@@ -97,7 +113,7 @@ public class OptionsMenu extends LaserCatMenu
 			{
 				if (button[i] != event.getListenerActor())
 					continue;
-				System.out.println("Enter Button-SwitchCase");
+				System.out.println("Enter UIButton-SwitchCase");
 				switch (i)
 				{
 				case 0:
@@ -113,7 +129,14 @@ public class OptionsMenu extends LaserCatMenu
 				case 2:
 					System.out.println("Open Credits");
 					break;
+				case 3: 
+					System.out.println("Switch Input");
+					currentInput = DeviceType.values()[(currentInput.ordinal()+1)%numberOfInputs];
+					
+					label[3].setText("Input: " + currentInput.toString());
+					break;
 				default:
+				    InputManager.getInstance().changeInputDevice(currentInput);
 					previousState.getEnum().activate();
 					break;
 				}

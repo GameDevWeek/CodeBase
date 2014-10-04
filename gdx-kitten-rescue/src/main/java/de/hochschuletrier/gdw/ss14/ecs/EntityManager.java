@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.ecs;
 
 import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.game.*;
 
 import java.util.*;
 
@@ -77,6 +78,70 @@ public class EntityManager
         {
             store.remove(entity);
         }
+    }
+
+    public void deleteAllDogEntities()
+    {
+        Array<Integer> dogs = getAllEntitiesWithComponents(EnemyComponent.class);
+
+        if(Game.behaviourManager != null)
+        {
+            Game.behaviourManager.deleteAllBehaviours();
+        }
+
+        for (Integer dog : dogs)
+        {
+            deletePhysicEntity(dog);
+        }
+    }
+
+    public void deleteAllCatBoxEntities()
+    {
+        Array<Integer> catBoxes = getAllEntitiesWithComponents(CatBoxComponent.class);
+
+        for (Integer catBox : catBoxes)
+        {
+            deletePhysicEntity(catBox);
+        }
+    }
+
+    public void deleteAllWoolEntities()
+    {
+        Array<Integer> catBoxes = getAllEntitiesWithComponents(WoolPropertyComponent.class);
+
+        for (Integer catBox : catBoxes)
+        {
+            deletePhysicEntity(catBox);
+        }
+    }
+
+    public void deleteAllStairs()
+    {
+        Array<Integer> stairs = getAllEntitiesWithComponents(StairComponent.class);
+
+        for (Integer stair : stairs)
+        {
+            deletePhysicEntity(stair);
+        }
+    }
+
+    public void deletePhysicEntity(int entity)
+    {
+        PhysicsComponent physicsComponent = getComponent(entity, PhysicsComponent.class);
+
+        if(physicsComponent != null)
+        {
+            // set flaggedForRemoval so a system can clean up all the bodies and then delete the entity.
+            physicsComponent.flaggedForRemoval = true;
+        }
+    }
+
+    public void deleteAllGameplayRelatedEntitiesExcludingCat()
+    {
+        deleteAllDogEntities();;
+        deleteAllCatBoxEntities();
+        deleteAllWoolEntities();
+        deleteAllStairs();
     }
 
     public void deleteAllEntities()

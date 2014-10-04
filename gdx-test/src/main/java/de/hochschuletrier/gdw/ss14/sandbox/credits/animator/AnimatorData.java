@@ -21,27 +21,14 @@ public class AnimatorData {
     }
 
     public static class Path {
+        PathType type;
         @JacksonList(Destination.class)
         public List<Destination> destinations;
-        @JacksonList(Animation.class)
-        public List<Animation> animations;
 
         public static class Destination {
             public Float x;
             public Float y;
             public Float speed;
-        }
-        
-        public static class Animation {
-            public Integer time;
-            public String animation;
-            public Integer frametime;
-            // For text explosion animation
-            public Integer minRadius;
-            public Integer maxRadius;
-            public Integer minAngle;
-            public Integer maxAngle;
-            public Integer animationTime;
         }
     }
 
@@ -52,9 +39,27 @@ public class AnimatorData {
         public String finalNext;
         @JacksonList(Item.class)
         public List<Item> items;
+        @JacksonList(Animation.class)
+        public List<Animation> animations;
+        
+        public static class Animation {
+            public Integer time;
+            public String animation;
+            public Integer frametime;
+            public String group;
+            // For text explosion animation
+            public Integer minRadius;
+            public Integer maxRadius;
+            public Integer minAngle;
+            public Integer maxAngle;
+            public Integer minCurveAngle;
+            public Integer maxCurveAngle;
+            public Integer animationTime;
+        }
     }
 
     public static class Item {
+        public String group;
         public Float opacity;
         public ItemType type;
         public Integer delay;
