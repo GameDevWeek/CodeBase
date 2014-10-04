@@ -12,7 +12,6 @@ import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.InputState;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
@@ -49,9 +48,7 @@ public class WoolInfluenceSystem extends ECSystem
                     if(catProp.isInfluenced){
                         inputCompo.whereToGo = laser.position;
                         Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-                        if(laser.input == InputState.MOUSE){
-                            vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
-                        }
+                        vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
                         inputCompo.whereToGo = new Vector2(vec.x, vec.y);
                         Vector2 laserToWool = new Vector2();//wool.physicsBody.getPosition().sub(laser.position);
                         catProp.influencedToLaser -= delta/catProp.TIME_TILL_INFLUENCED;

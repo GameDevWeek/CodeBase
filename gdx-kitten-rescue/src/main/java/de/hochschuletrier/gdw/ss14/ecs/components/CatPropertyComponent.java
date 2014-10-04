@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
 
 public class CatPropertyComponent implements Component
 {
@@ -34,6 +35,8 @@ public class CatPropertyComponent implements Component
     public boolean isCatBoxOnCooldown = false;
     public float catBoxCooldownTimer = CATBOX_COOLDOWN;
 
+    public GroundTypeState groundWalking;
+    
     public ArrayList<ICatStateListener> StateListener;
 
     public CatPropertyComponent()

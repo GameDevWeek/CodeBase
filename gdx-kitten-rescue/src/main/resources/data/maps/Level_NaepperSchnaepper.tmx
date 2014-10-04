@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" source="Tilesets/BodenDachbodendunkel.tsx"/>
+ <tileset firstgid="29" source="Tilesets/BodenDachbodenhell.tsx"/>
+ <tileset firstgid="57" source="Tilesets/SolidsTileset.tsx"/>
+ <tileset firstgid="313" source="Tilesets/LochTiles.tsx"/>
+ <tileset firstgid="348" source="Tilesets/fluessigkeiten_Halbe_groesse.tsx"/>
+ <tileset firstgid="378" source="Tilesets/SolidTileset(begehbar).tsx"/>
+ <tileset firstgid="634" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
+ <tileset firstgid="649" source="Tilesets/Tuer.tsx"/>
+ <tileset firstgid="670" source="Tilesets/LichteffektDachboden.tsx"/>
+ <tileset firstgid="673" source="Tilesets/Fallobjekte Kopie_128px.tsx"/>
+ <tileset firstgid="676" source="Tilesets/Fallobjekte Kopie_258_px.tsx"/>
+ <tileset firstgid="682" source="Tilesets/Wollknaeuel.tsx"/>
+ <tileset firstgid="683" source="Tilesets/Nahrung.tsx"/>
+ <tileset firstgid="684" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
+ <tileset firstgid="685" source="Tilesets/TuerKlappe.tsx"/>
+ <tileset firstgid="706" source="Tilesets/BodenTiles.tsx"/>
+ <tileset firstgid="734" source="Tilesets/LochTiles(Balken).tsx"/>
+ <tileset firstgid="769" source="Tilesets/Treppe.tsx"/>
+ <tileset firstgid="778" source="Tilesets/Herrchen.tsx"/>
+ <layer name="ground" width="30" height="30">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3NsQ0AIAwDsLSXczoPwFgJIQ+eXUkKYFB//gEAd6vPvG/Y275KaBAOAAA=
+  </data>
+ </layer>
+ <layer name="solid1" width="30" height="30">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2VSQoCMRBF09cS5wls5xFU0IWudaEHEFe6daV7vYHuPZpfYrApY0vHlAMaeHRoQn5+SP1yhRDumwiDzouIeHTzIApiIA4SIGl5ngJpkCO6JVAGFVAFNcvzOmhodHugL/jGAAw1uiMwZtSdgKlG9+9XjpmBxtG5/fctfuk5/TKmG2CfR37pOXUZo77njMiALINfXcZ4M6IJWkx+TWrOhl+TN/hrfkMXiuK1fnV934bfLTJq58h1fjVO+/6zfvfQPFx0vTWu6vpe37fp11vjqq7v9X3bfukarvdM/dL9uOpX+W0L2R/oflx+F9Bcgrkj3xLtD1x+19DbgJUj3xLtD5+Wz0F0TfLKxj2b+NXdc0Fcc5sb1RdO+SsCyRAOAAA=
+  </data>
+ </layer>
+ <layer name="gap" width="30" height="30">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjADcoZBwYO6llryPQHCc82BnNHmrZ7QE0wxMP9qKxvejmYwPUDGdSwEDYOQoGFjxjYmB4wUR/ez2IzAvUAG+B/nuHhN/Tyb/oZQ29/AsLW7vR/DwKRsEoGAVDHgAAPh7H+RAOAAA=
+  </data>
+ </layer>
+ <layer name="deco1" width="30" height="30">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2UWQrCMBRFU6tWQd2PI36IgnXehbM4fDhswGHRXiHF+GhiSNPihxcO1bbJacLLY+yfX8/cYWwBlk6yzj33bSN6yxhf4VSFa438roON4NpFWPMcNDXHtvDeAayF97+teQpmIffPoKPp9Z3PfdbxHsEp5P49xNvA/xFhDCZkn1ca33sFN8mzAcYPyfyyBF4d5z/vvOp5EXGOsnD+6mT/VfV8iegVz2GLeFX1/DBwBb3mtc624PKJV1XPJpH1Grpe25H1GrreOL2+5tkXY1rPQa8xjY16NolpPaviuIylOK5reXJF0nBlONkEvR5cOU4+Qa9ObPRnVeLsz6rY7s+6+dafMyALvBi/ISwFUASlhL2y9EEX9CzN9wQ2d4oDEA4AAA==
+  </data>
+ </layer>
+ <layer name="solid2" width="30" height="30">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3WSwqDMBRAUafVTbZC1WEr1LoBPzuwnxWom+wVFF6hDQ1V3uRdOAiGmGQSDAJr6o4HnuLdEcmXMdc8n3oM2OOAGBcUYmx0zPs05tMJZ+SoUP/5PcuyLNkO4SxS3stWyTNKvufN5+dyL1u6NWgV1u1wU1h37eT/xa+lyLbZjrMrSoV1Lb3snn3vBbSUFUYQDgAA
+  </data>
+ </layer>
+ <objectgroup name="actionlayer">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <object name="vase" gid="673" x="1425.45" y="308.73"/>
+  <object name="broom" gid="674" x="338.42" y="304.12"/>
+  <object name="lamp" gid="675" x="434.42" y="1825.58"/>
+  <object name="lamp" gid="676" x="1629.45" y="1778.3"/>
+  <object name="catbox" gid="684" x="1534.18" y="450.06"/>
+  <object name="start" x="305.58" y="1779.64" width="56" height="48"/>
+  <object name="wool" gid="682" x="1088" y="912"/>
+  <object name="vase" gid="673" x="1421.45" y="532.73"/>
+  <object name="vase" gid="673" x="1493.45" y="604.73"/>
+  <object name="lamp" gid="675" x="1028.84" y="880.61"/>
+  <object name="dogspawn" x="266.667" y="275.758" width="21.2121" height="21.2121">
+   <properties>
+    <property name="id" value="1"/>
+    <property name="pat" value="0,1"/>
+   </properties>
+  </object>
+  <object x="1522" y="1331.33" width="151.333" height="22">
+   <properties>
+    <property name="stairs" value="1"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="268" y="326" width="32" height="26">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="796" y="340" width="28" height="24">
+   <properties>
+    <property name="id" value="1"/>
+   </properties>
+  </object>
+  <object name="food" gid="683" x="983.152" y="1592.61"/>
+  <object name="dogspawn" x="1629.7" y="1010.36" width="27.2727" height="27.2727">
+   <properties>
+    <property name="id" value="2"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="renderlayer">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+ </objectgroup>
+ <layer name="deco2" width="30" height="30">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAW0AFeYGBiuAvE1Jvraexto3x0gvkuEvfPxqCFXbjCBnAGytwaI59EgjBYQMLMHi9hBRgaGQ0BcBcTVBHANEO8H4gOMlLv1ItCMS0DcBcTdBHAPEJ8H4gtUsHcU0AYMRHoeSLAYmhYXAulFgzxdgvI4oXxOK0Aonw9WQK30LAjEQtQxiiQgAcSSJKiHpePFgzhORgH5YKiXz0OhnB0JAABuOb9kEA4AAA==
+  </data>
+ </layer>
+ <layer name="ground" width="30" height="30">
+  <properties>
+   <property name="floor" value="1"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3KsQkAAAgEMXH/rX4xK3tbIQfpLl0VAAAA3tuu/wDQMhItEA4AAA==
+  </data>
+ </layer>
+ <layer name="solid1" width="30" height="30">
+  <properties>
+   <property name="floor" value="1"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2WSQ+CMBCF53cZF9wVQXFfDnrQsx70jj/dx6FJ03RKgaLE8JIvacik00eHYXwi8n9EE5y+REvKOwNt0AEe6IKew3VCHwzAVMk7BwsQgSVYOVwnrMFGk/cMLlSeruCmyXsHDynu7SBXLK2f4KXJWxW/chxXd6ZaGoKRtJ+tXzmOqztTLW3BzoHfoveQ1696LhvJdfVvftPOWZbftHPWfmu/efLK8QFoMIQpfrO+ZxF/pGzzhupnDCbE93lVIt4j/X+CmzdUP3twIL7PqxLx3H+i6vOGa+nqOWBiY+Z5Hun8Nh3uz4n7fj0yzylFxd1vROY5xWY/U31yefPKtr9wdcX1NVtCy31En/wAQvgspRAOAAA=
+  </data>
+ </layer>
+ <layer name="gap" width="30" height="30">
+  <properties>
+   <property name="floor" value="1"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMglEwCoYmcGRkYHBmpL+9HkA7vQbAXhBIGkB7YXgg7KU3oLa9z5jwp1Vahe9bJsJpFd1eariBGHtHwSgYBYMDAABCcDliEA4AAA==
+  </data>
+ </layer>
+ <layer name="deco2" width="30" height="30">
+  <properties>
+   <property name="floor" value="1"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2U2QrCMBREbxrXT3IDHwQfBLd3N7TVz/DTnWACIZBwa0NoJQMDoX04THLvEGVlZbVd7+Lrf+caXuZ2SxNBNIVn8EKk4y4t1iohd22xNgm5W7B28AF+wCf47OELSVRoS9mcfXM4dw+3B1ZfexCZe8H55eEOwRppjwNcM6vzwKyqey2tf76sdVR3Vk3W0BtzxJnVq5PV3HmT3Jy8Fb4/tVXWyjr/KrUje70jx4S76ZPb8al6vivc2D3FVeyeajuX048fE+W8LhAOAAA=
+  </data>
+ </layer>
+ <layer name="solid2" width="30" height="30">
+  <properties>
+   <property name="floor" value="1"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+WWOQ7CMBBFrZyFjo4TAQ1rATSsByAJBVCxXIDlAHA8fmPJUjw243gIiC+9wnbkH8+XrVHqv3UEJ3AOHKeJUhnIk+KaS1dwA/fA8RZ+O7BPims2DcDwjf8KVQ/0LfNLsBL0nYOFZT4HG0HfFGSC+3P1K/mumb6x8j0wfWPlyz0vVWduvtzzUnXm5nth+lJ1lr6/VJ21JkK+VJ2l7y9VZ+n3mZJ0vj7VPuyn861H2s/sO1zS+Zq+TdAC7QBfs+9wSedr+o7AWJW/Wx3Q9XzTKOlh0xTMBPb16QGeFfhWKd/7LCXqfZbWt/STL9BI45kQDgAA
+  </data>
+ </layer>
+ <objectgroup name="actionlayer">
+  <properties>
+   <property name="floor" value="0"/>
+  </properties>
+  <object name="vase" gid="673" x="257.45" y="565.821"/>
+  <object name="broom" gid="674" x="560.723" y="288.484"/>
+  <object name="lamp" gid="675" x="664.965" y="1470.67"/>
+  <object name="lamp" gid="676" x="1637.45" y="886.3"/>
+  <object name="catbox" gid="684" x="919.998" y="1699.64"/>
+  <object name="wool" gid="682" x="286.303" y="335.03"/>
+  <object name="vase" gid="673" x="1594.18" y="338.791"/>
+  <object name="vase" gid="673" x="320.723" y="789.578"/>
+  <object name="lamp" gid="675" x="942.42" y="287.58"/>
+  <object name="dogspawn" x="420.485" y="1813.09" width="30.303" height="27.2727">
+   <properties>
+    <property name="id" value="1"/>
+    <property name="pat" value="0,1"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="469.212" y="1818.12" width="34.6667" height="30.6667">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="141.394" y="1808.42" width="36" height="36">
+   <properties>
+    <property name="id" value="1"/>
+   </properties>
+  </object>
+  <object name="dogspawn" x="777.333" y="825.333" width="38.6667" height="41.3333">
+   <properties>
+    <property name="id" value="2"/>
+    <property name="pat" value="2,3"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="780" y="888" width="36" height="28">
+   <properties>
+    <property name="id" value="2"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="782.667" y="586.667" width="36" height="40">
+   <properties>
+    <property name="id" value="3"/>
+   </properties>
+  </object>
+  <object x="1386.67" y="1829.33" width="172" height="30.6667">
+   <properties>
+    <property name="stairs" value="1"/>
+   </properties>
+  </object>
+  <object name="wool" gid="682" x="1380.24" y="1571.39"/>
+  <object name="lamp" gid="676" x="1592" y="1677.21"/>
+  <object name="food" gid="683" x="1038" y="714"/>
+ </objectgroup>
+ <objectgroup name="renderlayer">
+  <properties>
+   <property name="floor" value="1"/>
+  </properties>
+ </objectgroup>
+ <layer name="deco2" width="30" height="30">
+  <properties>
+   <property name="floor" value="1"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAUjDcxnooxPrBwymAdVd5CRgeEQEFcBcTWJuAaI9wPxAUaIWQuItBsELgL1XALiLiCuBeLZJOA5QHweiC8wEm8fOuiiQO9QAPOIiIsTJIYBKfGLD9zAYi9yOkRPV9QC2PyLnA57qJCusAFs/sUHiAlnYuL3BQ3S+OJhlG+olZ5pAYiJ31EwdMFo/NIW4Gun0BKQ205pAOJGILYEYmsgrgPielo6FAomAPFEIPYEYm8g7gPifjrYSwwYzOUzvQAAmbfmPxAOAAA=
+  </data>
+ </layer>
+ <layer name="ground" width="30" height="30">
+  <properties>
+   <property name="floor" value="2"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC5NlYGCQA2LZAaIHwq6BsFsWze5ReweHvQ1MCIzPPGLSy3CydyDil172EvI/LdxHTLjTI5yJSU/k2kstd9LKXlDY09teWJyPFHtHYroaLvZSix61d9TeUXuHpr0AVXxR5hAOAAA=
+  </data>
+ </layer>
+ <layer name="solid11" width="30" height="30">
+  <properties>
+   <property name="floor" value="2"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2WSQvCMBCF53eJS+tu3XerYA961oP+f3wHQ4Ik2my1YgY+SA7JmweTzCRElHyJKtgXRE3QHYI6aIAIxKDpYC3uW6ANBi+6EzAFMzAHCwdrcb8EK4nuEWTkL07gLNG9gKtH3Ru4S3SDX7cR/Aa/n86Z5Bn85rtHPGdSh7/qNwWHHHm+y1vHbw/0iffxDuhq6Jr63YId8T6+BhsN3X/7rypPxlSsX9U8aeuX1V1E8vlSNU/a+mV1p5ovyzZPlrUv2IbsHY2I17lv2Dt6ABe2BqEQDgAA
+  </data>
+ </layer>
+ <layer name="gap" width="30" height="30">
+  <properties>
+   <property name="floor" value="2"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2WywrCMBBFk/yVCEoVRcWCoH/h2/r4XXe6qW5dOqEZmA6tTdpYFHrhEqXxnk6SaRWiUaP6FEgheo7uy+S3SxhX4LV058ZKiAfzS6XnLCB3TDwxnB2Me/ChBHfEMmkuvTd6/amSWo+GG5Wo24bL5+jrWCt1VJE7Nft4U8kYgucsM4u7r8Dl+XlC7ga8JZ8vJfbaRSfIPxPOuQZmFWHf9h3vMciZr8+CTRbuKz+7WWqROXFOn+vvNlkuXC1cn/BDv32Dm9fnbePrl+rV4s9L7HPsdZesMuJ8bdv99c2ui+tLNu/huyrOcWXis78Dnhl3ZXo9nx65yMSzPSC9MZTp/vHJpbnTjLUNa+AW2Sc36/8Vt+072UVF9f5TT/6C3h75fvIQDgAA
+  </data>
+ </layer>
+ <layer name="deco1" width="30" height="30">
+  <properties>
+   <property name="floor" value="2"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2Vyw6CMBBFW/ARPwnxQQzqwgTUDX/vxrDSnX6AQ+zEUuiLUlzoJDch2s5h2rkDIf/4tYgoIXNQDFqwZ51w7ZJ25yYOe1OHvXvF3hX8dwStJWsOnurFvLJ381Xvlt3lbuB62wLP/gQ6e6gX84tyYfGRQZ7cY34xRN+aejFie1RS5RLv1bQ3cd+GNmWSS7xXXW/i+bT19jV4exxrVeUS69VxZX2f0LrPU0uu7pxlfV/9zvtcx7U950wxLzHQ06pcvH9sZkBuwHeZY7pQsW24l6DuZ1ExrXtdNm9szq5i3gLzd3T5DnVl9sW9WzKr6KNvyi9xXeul4ec5DJtr++AWLf06AtaYaeKBW0j80ZX7AO6TCf2HvjSZZ1OONbPgDhEv4JgZDRAOAAA=
+  </data>
+ </layer>
+ <layer name="solid2" width="30" height="30">
+  <properties>
+   <property name="floor " value="2"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2WOQsCMRCFZS39Gx6Fnb9IK89CK8/es/fq1EZtvECx8PhnPsFhgyTrmGQXBB98MC6zeVHn7SYU+msMJmBq0MNZ411LsAJrgx7OGk8VQemLvXEUCbt1HhQkPU3Qsuwrqg4akut9MHjVMRBXkND07YKe5PoMzMGCuQ7tTZTOvnZgDw6M3uiXa39SG3QYfUnLvkMwYvSlLHr6kSNRQeeIZoGTI5l2DubOcT9vUG8ddT+JZkGVI47Ogs9RqGV5pzyZzuANPnfB64L6yvi+JjOYBTnNe02yXgU1zXs//c5eOTqCk6Fv0DkiX90cecnrP6S5MsmRSraf139f+74m7yPyTYOMosePHNHMlkFF0aNzrhOle8bzI0e/pAdJUb56EA4AAA==
+  </data>
+ </layer>
+ <objectgroup name="actionlayer">
+  <properties>
+   <property name="floor" value="2"/>
+  </properties>
+  <object name="vase" gid="673" x="1387.09" y="308.669"/>
+  <object name="broom" gid="674" x="1574.54" y="1721.57"/>
+  <object name="catbox" gid="684" x="269.695" y="1335.39"/>
+  <object name="wool" gid="682" x="827.152" y="505.212"/>
+  <object name="vase" gid="673" x="1443.27" y="1063.21"/>
+  <object name="lamp" gid="675" x="1292.24" y="1331.4"/>
+  <object name="door" gid="696" x="960" y="960"/>
+  <object x="1407.09" y="1667.64" width="130.303" height="33.3333">
+   <properties>
+    <property name="stairs" value="-1"/>
+   </properties>
+  </object>
+  <object name="dogspawn" x="618" y="1822" width="46" height="28">
+   <properties>
+    <property name="id" value="1"/>
+    <property name="pat" value="0,1"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="372" y="1822" width="44" height="32">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="872" y="1816" width="50" height="28">
+   <properties>
+    <property name="id" value="1"/>
+   </properties>
+  </object>
+  <object name="dogspawn" x="836" y="262" width="32" height="30">
+   <properties>
+    <property name="id" value="2"/>
+    <property name="pat" value="2,3"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="382" y="266" width="34" height="32">
+   <properties>
+    <property name="id" value="2"/>
+   </properties>
+  </object>
+  <object name="dogpat" x="1230" y="268" width="36" height="32">
+   <properties>
+    <property name="id" value="3"/>
+   </properties>
+  </object>
+  <object gid="697" x="640" y="960.333"/>
+  <object name="catbox" gid="684" x="1533.33" y="450.545"/>
+  <object name="vase" gid="673" x="1389.09" y="366.669"/>
+  <object name="food" gid="683" x="489.212" y="828.97"/>
+  <object name="finish" x="1475.76" y="251.545" width="48.4848" height="57.5758"/>
+  <object x="1497.33" y="293.333" width="5.33333"/>
+  <object x="1529.33" y="438.667"/>
+ </objectgroup>
+ <objectgroup name="renderlayer">
+  <properties>
+   <property name="floor" value="2"/>
+  </properties>
+ </objectgroup>
+ <layer name="deco2" width="30" height="30">
+  <properties>
+   <property name="floor" value="2"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAW0APpAbADEhnS21wyIzYHYgoC6+UyEzSKkhhgzYGAeCWqJBQtoYOYoGAWUgIOMDAyHgLgKiGuAeD8QH2Cknvm48tFFoB2XgLgLiHuA+DwQXyDS3qGcj2D+HQWjgBQwWh8NboBcjlZjwbQCsHJ0FhDPxoJpDRpwiAsDsQgQi9LeCXAgBcXSQCyDQ81oPhpeAADpZdbDEA4AAA==
+  </data>
+ </layer>
+</map>
