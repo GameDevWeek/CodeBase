@@ -136,9 +136,16 @@ public class CatMovementSystem extends ECSystem{
                         }
                     }
                 }else if(catSeesLaserPointer(laserPointerComponent, catPropertyComponent)){
-                    movementComponent.velocity += movementComponent.damping*1.5f*delta;
-                    if(movementComponent.velocity <= movementComponent.minVelocity){
-                        movementComponent.velocity = 0;
+                    if(catPropertyComponent.isInfluenced){
+                        movementComponent.velocity += movementComponent.acceleration*1.5f*delta;
+                        if(movementComponent.velocity <= movementComponent.minVelocity){
+                            movementComponent.velocity = 0;
+                        }
+                    }else{
+                        movementComponent.velocity += movementComponent.damping*1.5f*delta;
+                        if(movementComponent.velocity <= movementComponent.minVelocity){
+                            movementComponent.velocity = 0;
+                        }
                     }
                 }
 

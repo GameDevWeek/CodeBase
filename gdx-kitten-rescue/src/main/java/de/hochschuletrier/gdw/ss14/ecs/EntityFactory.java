@@ -341,6 +341,7 @@ public class EntityFactory{
         WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
         RenderComponent woolRenderComponent = new RenderComponent();
         woolPhysicsComponent.initPhysics(phyManager);
+        woolPhysicsComponent.owner = entity;
         manager.addComponent(entity, woolPhysicsComponent);
         manager.addComponent(entity, new WoolPropertyComponent());
 
