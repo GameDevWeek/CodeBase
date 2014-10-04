@@ -306,6 +306,10 @@ public class MapManager
                                 // TODO: add object with entityFactory here
                                 break;
 
+                            case "finish":
+                                // TODO: add object with entityFactory here
+//                                EntityFactory.constructMapChangeObj(pos, width, height, nextMap);
+                                break;
 // isn't an object
 //                            case "door":category
 //                                // TODO: add object with entityFactory here
