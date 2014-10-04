@@ -109,7 +109,7 @@ public class EntityManager
         }
     }
 
-    private void deletePhysicEntity(int entity)
+    public void deletePhysicEntity(int entity)
     {
         PhysicsComponent physicsComponent = getComponent(entity, PhysicsComponent.class);
 
@@ -118,6 +118,13 @@ public class EntityManager
             // set flaggedForRemoval so a system can clean up all the bodies and then delete the entity.
             physicsComponent.flaggedForRemoval = true;
         }
+    }
+
+    public void deleteAllGameplayRelatedEntitiesExcludingCat()
+    {
+        deleteAllDogEntities();;
+        deleteAllCatBoxEntities();
+        deleteAllWoolEntities();
     }
 
     public void deleteAllEntities()
