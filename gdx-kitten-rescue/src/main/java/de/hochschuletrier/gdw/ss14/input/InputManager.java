@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.ss14.input;
 
+import java.util.LinkedList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +15,7 @@ public class InputManager {
     public static final DeviceType STANDARD_DEVICETYPE = DeviceType.MOUSE;
     private static final Logger logger = LoggerFactory.getLogger(InputManager.class);
     private static InputManager instance;
+    protected LinkedList<GameInputAdapter> listener = new LinkedList<>();
     
     public static InputManager getInstance () {
         if (instance == null) {
@@ -38,11 +41,13 @@ public class InputManager {
     }
     
     public void addGameInputAdapter(GameInputAdapter gia) {
-        inputDevice.addGameInputAdapter(gia);
+        listener.add(gia);
+        addListenerToDevice(gia);
     }
     
     public void removeGameInputAdapter(GameInputAdapter gia) {
-        inputDevice.addGameInputAdapter(gia);
+        listener.add(gia);
+        removeListenerFromDevice(gia);
     }
     
     public void update() {
@@ -63,16 +68,23 @@ public class InputManager {
     }
     
     public void registerProcessor() {
-        inputDevice.registerProcessor();
+        if (inputDevice != null) {
+            inputDevice.registerProcessor();
+        }
     }
     
     public void unregisterProcessor() {
-        inputDevice.unregisterProcessor();
+        if (inputDevice != null) {
+            inputDevice.unregisterProcessor();
+        }
     }
     
     public void changeInputDevice(DeviceType deviceType) {
+        boolean wasRegistred = false;
         if (inputDevice != null) {
+            wasRegistred = inputDevice.isRegistred;
             unregisterProcessor();
+            removeAllListenerFromDevice();
         }
         
         switch (deviceType) {
@@ -87,7 +99,12 @@ public class InputManager {
                 break;
         }
         
+        addAllListenerToDevice();
         writeSettings(inputDevice.devicType);
+        
+        if (wasRegistred) {
+            inputDevice.registerProcessor();
+        }
     }
     
     public static DeviceType readSettings() {
@@ -103,6 +120,26 @@ public class InputManager {
     
     public static void writeSettings(DeviceType deviceType) {
         Main.getInstance().gamePreferences.putString(PreferenceKeys.inputDevice, deviceType.name());
+    }
+    
+    private void addListenerToDevice(GameInputAdapter gia) {
+        inputDevice.addGameInputAdapter(gia);
+    }
+    
+    private void addAllListenerToDevice() {
+        for (GameInputAdapter gia : listener) {
+            addListenerToDevice(gia);
+        }
+    }
+    
+    private void removeListenerFromDevice(GameInputAdapter gia) {
+        inputDevice.removeGameInputAdapter(gia);
+    }
+    
+    private void removeAllListenerFromDevice() {
+        for (GameInputAdapter gia : listener) {
+            removeListenerFromDevice(gia);
+        }
     }
     
 }

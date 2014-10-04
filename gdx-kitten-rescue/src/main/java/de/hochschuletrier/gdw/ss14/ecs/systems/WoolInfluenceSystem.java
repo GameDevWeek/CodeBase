@@ -3,12 +3,14 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
@@ -23,7 +25,7 @@ public class WoolInfluenceSystem extends ECSystem
     
     public WoolInfluenceSystem(EntityManager entityManager)
     {
-        super(entityManager, 10);
+        super(entityManager, 12);
     }
 
     @Override
@@ -34,27 +36,37 @@ public class WoolInfluenceSystem extends ECSystem
         Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         Array<Integer> compos4 = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class, WoolPropertyComponent.class);
         
+        WoolPhysicsComponent woool = null;
+        CatPropertyComponent catProp;
+        CameraComponent camComp;
+        LaserPointerComponent laser;
+        PhysicsComponent catPhysix = entityManager.getComponent(compos.get(0), PhysicsComponent.class);
+        
         for (Integer integer : compos)
         {
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
-            CameraComponent camComp = entityManager.getComponent(integer, CameraComponent.class);
-            LaserPointerComponent laser = entityManager.getComponent(compos2.get(0), LaserPointerComponent.class);
-            CatPropertyComponent catProp = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
+            camComp = entityManager.getComponent(integer, CameraComponent.class);
+            laser = entityManager.getComponent(compos2.get(0), LaserPointerComponent.class);
+            catProp = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
             for(Integer entity : compos4){
                 PhysicsComponent wool = entityManager.getComponent(entity, PhysicsComponent.class);
-                WoolPhysicsComponent woool = (WoolPhysicsComponent) wool;
-           
+                woool = (WoolPhysicsComponent) wool;
                 if(woool.isSeen){
-                    if(catProp.isInfluenced){
-                        inputCompo.whereToGo = laser.position;
-                        Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-                        vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
-                        inputCompo.whereToGo = new Vector2(vec.x, vec.y);
-                        Vector2 laserToWool = new Vector2();//wool.physicsBody.getPosition().sub(laser.position);
-                        catProp.influencedToLaser -= delta/catProp.TIME_TILL_INFLUENCED;
-                        catProp.timeTillInfluencedTimer += delta;
-                        inputCompo.whereToGo = new Vector2(inputCompo.whereToGo.x + laserToWool.x * catProp.influencedToLaser, inputCompo.whereToGo.y + laserToWool.y * catProp.influencedToLaser);
-                    }
+                    break;
+                }
+            }
+            if(woool != null){
+                if(catProp.isInfluenced){
+//                    Vector2 laserPos = laser.position.cpy();
+//                    Vector2 laserToWool = woool.getPosition().cpy().sub(laserPos);
+//                    catProp.influencedToLaser =  MathUtils.clamp(catProp.influencedToLaser, 0f, 1f);
+//                    laserToWool.scl(0.5f);
+                    
+                    inputCompo.whereToGo.set(woool.getPosition());
+                    
+                }
+                if(catProp.timeTillInfluencedTimer >= catProp.TIME_TILL_INFLUENCED){
+                    catProp.timeTillInfluencedTimer = 0;
                 }
             }
         }

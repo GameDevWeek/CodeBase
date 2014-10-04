@@ -8,6 +8,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
 
 /**
@@ -68,6 +69,7 @@ public class DogMovementSystem extends ECSystem
 
             if(distance <= 30){
                 dogPropertyComponent.state = DogStateEnum.KILLING;
+                SoundManager.performAction(DogStateEnum.KILLING);
             }
 
             // DON'T use sub-method of vector! (causes some strange bugs!)

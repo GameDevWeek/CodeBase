@@ -8,12 +8,12 @@
     "gp_broom1": "data/sounds/Broom_Debris01_Edit.ogg",
     "gp_broom2": "data/sounds/Broom_Debris02_Edit.ogg", 			~~~ Besen f�llt um
     "gp_cat_box_in1": "data/sounds/Cat_BoxIn01_Edit.ogg",
-    "gp_cat_box_in2": "data/sounds/Cat_BoxIn02_Edit.ogg", 			~~~ Katze schl�pft in die Box
+    "gp_cat_box_in2": "data/sounds/Cat_BoxIn02_Edit.ogg", 			IST DRIN Katze schl�pft in die Box
     "gp_cat_walk_carpet": "data/sounds/Cat_Carpet01_Edit.ogg",
 	"gp_cat_run_carpet": "data/sounds/Cat_Carpet02_Edit.ogg",
     "gp_dog_bite1": "data/sounds/Cat_DogBite01_Edit.ogg",
     "gp_dog_bite2": "data/sounds/Cat_DogBite02_Edit.ogg",
-    "gp_dog_bite3": "data/sounds/Cat_DogBite03_Edit.ogg",		 	~~~ Katze wird vom Hund gebissen
+    "gp_dog_bite3": "data/sounds/Cat_DogBite03_Edit.ogg",		 	Müste drin sein (Testen nicht möglich !!) Katze wird vom Hund gebissen
     "gp_cat_fall1": "data/sounds/Cat_Fall01_Edit.ogg",
     "gp_cat_fall2": "data/sounds/Cat_Fall02_Edit.ogg", 		   		IST DRIN Katze f�llt ins Loch
     "gp_cat_jump": "data/sounds/Cat_Jump01_Edit.ogg", 				IST DRIN Katze springt

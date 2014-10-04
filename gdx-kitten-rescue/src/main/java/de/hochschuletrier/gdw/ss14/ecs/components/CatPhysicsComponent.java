@@ -1,5 +1,10 @@
 package de.hochschuletrier.gdw.ss14.ecs.components;
 
+import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
@@ -10,9 +15,8 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.utils.Point;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 
-import java.util.ArrayList;
-
 public class CatPhysicsComponent extends PhysicsComponent {
+    //Auch Hunde haben CatPhysics Component!
     public Vector2 position;
     public float width;
     public float height;
@@ -27,6 +31,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
     public ArrayList<Point> coneShape;
     public ArrayList<ICollisionListener> collisionListeners;
 
+    Logger logger = LoggerFactory.getLogger(CatPhysicsComponent.class);
     /**
      * Creating a CatPhysicsComponent
      *
@@ -84,6 +89,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
         physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,(-height+width)/2)));
         setPhysicsBody(physicsBody);
         physicsBody.setOwner(this);
+       logger.debug("\nCatposition: (" + physicsBody.getX() + ", " + physicsBody.getY() + ")");
     }
     
     private void fillShapeList(){
