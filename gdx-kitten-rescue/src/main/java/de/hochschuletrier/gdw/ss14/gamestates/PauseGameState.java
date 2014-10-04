@@ -78,6 +78,17 @@ public class PauseGameState extends KittenGameState implements InputProcessor {
     	if (this.music.isMusicPlaying()) {
     		this.music.setFade('o', 2000);
 		}
+
+        // TODO: remove this shit and properly fade music!
+        if(nextState instanceof GameplayState)
+        {
+            if (this.music.isMusicPlaying())
+            {
+                this.music.stop();
+
+            }
+        }
+
     	pauseMenu.dispose();
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);

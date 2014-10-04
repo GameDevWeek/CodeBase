@@ -26,7 +26,7 @@ public class GameplayState extends KittenGameState implements InputProcessor {
     private Sound helicopter;
     private final Vector2 cursor = new Vector2();
     private final FpsCalculator fpsCalc = new FpsCalculator(200, 100, 16);
-    private LocalMusic music, hurryMusic;
+    public LocalMusic music, hurryMusic;
 
     private final SoundEmitter emitter = new SoundEmitter();
 	private static CatSoundListener playerSoundListener;
@@ -77,7 +77,7 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 
     @Override
     public void update(float delta) {
-        InputManager.getInstance().update(); 
+        InputManager.getInstance().update();
     	this.music.update();
         /*emitter.update();
         emitter.setPosition(cursor.x, cursor.y, 0);
@@ -112,7 +112,7 @@ public class GameplayState extends KittenGameState implements InputProcessor {
         emitter.dispose();
         //emitter.play(helicopter, true);
 
-        if(!(previousState instanceof PauseGameState))
+        if(previousState instanceof LevelMenuState)
         {
             Game game = new Game(assetManager);
             game.init(assetManager);
