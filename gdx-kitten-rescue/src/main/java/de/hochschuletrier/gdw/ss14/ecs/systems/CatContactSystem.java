@@ -115,9 +115,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             if(mySightCone){
                 if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                     ((CatPropertyComponent)d).isInfluenced = true;
-                if((c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class)) != null){
-                    ((WoolPhysicsComponent)c).isSeen = true;
-                }
+                    ((WoolPhysicsComponent)otherPhysic).isSeen = true;
             }else{
 //                if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
 //                    ((CatPropertyComponent)d)  play with wool
@@ -198,9 +196,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             /* other → is groundobject */
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
                 ((CatPropertyComponent)d).isInfluenced = false;
-            if((c = entityManager.getComponent(otherEntity, WoolPhysicsComponent.class)) != null){
-                ((WoolPhysicsComponent)c).isSeen = false;
-            }
+                ((WoolPhysicsComponent)otherPhysic).isSeen = false;
         }else if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
             // cat does not collide with dogPhysx anymore which means ...
             if(otherSightCone && !mySightCone){

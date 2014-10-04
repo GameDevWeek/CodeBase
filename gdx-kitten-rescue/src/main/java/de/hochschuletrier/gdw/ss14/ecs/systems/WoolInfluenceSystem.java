@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.InputComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
@@ -23,7 +24,7 @@ public class WoolInfluenceSystem extends ECSystem
     
     public WoolInfluenceSystem(EntityManager entityManager)
     {
-        super(entityManager, 10);
+        super(entityManager, 12);
     }
 
     @Override
@@ -34,30 +35,45 @@ public class WoolInfluenceSystem extends ECSystem
         Array<Integer> compos2 = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         Array<Integer> compos4 = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class, WoolPropertyComponent.class);
         
+        WoolPhysicsComponent woool = null;
+        CatPropertyComponent catProp;
+        CameraComponent camComp;
+        LaserPointerComponent laser;
+        
         for (Integer integer : compos)
         {
             InputComponent inputCompo = entityManager.getComponent(integer, InputComponent.class);
-            CameraComponent camComp = entityManager.getComponent(integer, CameraComponent.class);
-            LaserPointerComponent laser = entityManager.getComponent(compos2.get(0), LaserPointerComponent.class);
-            CatPropertyComponent catProp = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
+            camComp = entityManager.getComponent(integer, CameraComponent.class);
+            laser = entityManager.getComponent(compos2.get(0), LaserPointerComponent.class);
+            catProp = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
             for(Integer entity : compos4){
                 PhysicsComponent wool = entityManager.getComponent(entity, PhysicsComponent.class);
-                WoolPhysicsComponent woool = (WoolPhysicsComponent) wool;
-           
+                woool = (WoolPhysicsComponent) wool;
                 if(woool.isSeen){
-                    if(catProp.isInfluenced){
-                        logger.debug("\nIST BEEINFLUSST");
-                        inputCompo.whereToGo = laser.position;
-                        Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-                        vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
-                        inputCompo.whereToGo = new Vector2(vec.x, vec.y);
-                        Vector2 laserToWool = new Vector2();//wool.physicsBody.getPosition().sub(laser.position);
-                        catProp.influencedToLaser -= delta/catProp.TIME_TILL_INFLUENCED;
-                        catProp.timeTillInfluencedTimer += delta;
-                        inputCompo.whereToGo = new Vector2(inputCompo.whereToGo.x + laserToWool.x * catProp.influencedToLaser, inputCompo.whereToGo.y + laserToWool.y * catProp.influencedToLaser);
-                    }
+                    break;
                 }
-                logger.debug("\nLASER: " + laser.position + "\nWOHIN:" + inputCompo.whereToGo);
+            }
+            if(woool != null){
+                if(catProp.isInfluenced){
+                    logger.debug("\nIST BEEINFLUSST");
+                    inputCompo.whereToGo = laser.position;
+                    Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
+                    vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
+                    inputCompo.whereToGo = new Vector2(vec.x, vec.y);
+                    Vector2 laserToWool = woool.physicsBody.getPosition().sub(inputCompo.whereToGo);
+                    catProp.influencedToLaser -= delta/catProp.TIME_TILL_INFLUENCED;
+                    catProp.timeTillInfluencedTimer += delta;
+                    logger.debug("\nLaserPosition: (" + inputCompo.whereToGo.x + ", " + inputCompo.whereToGo.y + 
+                                ")\nWoolPosition: (" + woool.physicsBody.getX() + ", " + woool.physicsBody.getY() + 
+                                ")\nLaserToWool: (" + laserToWool.x + ", " + laserToWool.y + ")" +
+                                "\nDistance: " + laserToWool.len());
+                    inputCompo.whereToGo = new Vector2(inputCompo.whereToGo.x + laserToWool.x * catProp.influencedToLaser, inputCompo.whereToGo.y + laserToWool.y * catProp.influencedToLaser);
+                    logger.debug("\nNEW POSITION: (" + inputCompo.whereToGo.x + ", " + inputCompo.whereToGo.y + ")");
+                    System.out.println("");
+                }
+                if(catProp.timeTillInfluencedTimer >= catProp.TIME_TILL_INFLUENCED){
+                    catProp.timeTillInfluencedTimer = 0;
+                }
             }
         }
     }
