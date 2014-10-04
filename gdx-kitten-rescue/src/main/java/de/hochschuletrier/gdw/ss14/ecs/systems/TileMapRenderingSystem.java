@@ -138,7 +138,7 @@ public class TileMapRenderingSystem extends ECSystem{
 	}
 	
 	
-	float effectVelocity = 0.005f;
+	float effectVelocity = 0.0f;
 	@Override
 	public void update(float delta) {
 		// Nothing to do
