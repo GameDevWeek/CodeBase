@@ -219,7 +219,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             phyManager.getWorld().rayCast(rcp, 
                     raycst_startPhys.get(i).physicsBody.getPosition(), 
                     raycst_targetPhys.get(i).physicsBody.getPosition());
-            
+            boolean freeSight = false;
             for (RayCastPhysics rcst : rcp.collisions) {
                 if(rcst.m_fixture.getBody().getUserData() != null &&
                         rcst.m_fixture.getBody().getUserData().equals("wall")){
@@ -228,10 +228,41 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 }
                 
                 for(Fixture s : raycst_startPhys.get(i).physicsBody.getFixtureList()){
-                    if(s != rcst.m_fixture) continue;
-                    
+                    if(     s.getUserData().equals("sightcone") ||  // target has to be sightcone
+                            s != rcst.m_fixture) continue;          // target has to be one of the fixtures
+                    freeSight = true;
                 }
             }
+            /////////////
+            // get all neccessary information
+            Array<Integer> physicEntities = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class);
+            Integer startEntity = null, targetEntity = null;
+            for(Integer entity : physicEntities){
+                PhysicsComponent tmp = entityManager.getComponent(entity, PhysicsComponent.class);
+                if(tmp.physicsBody == raycst_startPhys.get(i).physicsBody){
+                    startEntity = entity;
+                }
+                if(tmp.physicsBody == raycst_targetPhys.get(i).physicsBody){
+                    targetEntity = entity;
+                }
+            }
+            
+            Component c = null, d = null;
+            /* c → used to check if the other has component xy 
+             * d → used to get a specific "my" component to react to the collision
+             * */
+            if((c = entityManager.getComponent(startEntity, EnemyComponent.class)) != null){
+                if((d = entityManager.getComponent(targetEntity, PlayerComponent.class)) != null){
+                    //dog sees cat
+                }
+                
+            }else if((c = entityManager.getComponent(startEntity, PlayerComponent.class)) != null){
+                if(raycst_targetPhys.get(i) instanceof WoolPhysicsComponent){
+                    //cat sees wool
+                }
+            }
+            
+            
             rcp.reset();
         }
         
