@@ -33,6 +33,7 @@ public class MapManager
     HashMap<TileSet, Texture> tilesetImages;
 
     private int levelEntity;
+    private int currentFloor = -1;
     
 
     public MapManager(EntityManager entityManager, PhysixManager physixManager, AssetManagerX assetmanager)
@@ -89,6 +90,8 @@ public class MapManager
 
     public void setFloor(int floor)
     {
+
+        currentFloor = floor;
 
         TileMapRenderingComponent mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
         mapComp.renderedLayers.clear();
@@ -223,6 +226,9 @@ public class MapManager
 
         for (int i = 0; i < layers.size(); ++i)
         {
+            if (layers.get(i).getIntProperty("floor", -1) != currentFloor)
+                continue;
+            
             ArrayList<LayerObject> mapObjects = layers.get(i).getObjects();
             if (mapObjects != null)
             {
