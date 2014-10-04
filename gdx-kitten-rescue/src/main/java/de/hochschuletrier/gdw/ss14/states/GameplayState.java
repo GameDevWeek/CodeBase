@@ -114,6 +114,7 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 		}
         emitter.dispose();
         InputManager.getInstance().registerProcessor();
+        Gdx.input.setCursorCatched(true);
         //emitter.play(helicopter, true);
     }
 
@@ -125,6 +126,7 @@ public class GameplayState extends KittenGameState implements InputProcessor {
         emitter.dispose();
         InputManager.getInstance().unregisterProcessor();
         Gdx.input.setCursorImage(null, 0, 0);
+        Gdx.input.setCursorCatched(false);
     }
 
     @Override
