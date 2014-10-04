@@ -209,9 +209,10 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     catPropertyComponent.canChangeMap = false;
 
                     StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
-                    if(stairComponent != null && stairComponent.changeFloorDirection > 0)
+                    if(stairComponent != null)
                     {
                         // TODO: change floor here
+                        catPropertyComponent.idOfLastTouchedStair = ((StairsPhysicsComponent) other).owner;
                         Game.mapManager.targetFloor = Game.mapManager.currentFloor + stairComponent.changeFloorDirection;
                         Game.mapManager.isChangingFloor = true;
                         //Game.mapManager.setFloor(stairComponent.targetFloor);
@@ -364,9 +365,16 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             CatPropertyComponent catPropertyComponent = entityManager.getComponent(myEntity, CatPropertyComponent.class);
             StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
 
-            if(catPropertyComponent != null && stairComponent.changeFloorDirection > 0 && !catPropertyComponent.canChangeMap)
+            if(contact.getMyFixture().getUserData() != null && contact.getMyFixture().getUserData().equals("masscenter"))
             {
-                catPropertyComponent.canChangeMap = true;
+                if(catPropertyComponent != null && !catPropertyComponent.canChangeMap)
+                {
+                    if(catPropertyComponent.idOfLastTouchedStair != ((StairsPhysicsComponent) other).owner)
+                    {
+                        catPropertyComponent.canChangeMap = true;
+                        System.out.println("cat can now change map again.");
+                    }
+                }
             }
 
 
