@@ -11,6 +11,8 @@ import de.hochschuletrier.gdw.commons.gdx.physix.*;
 // use this class as parent for other physicsComponents (e.g. CatPhysicsComponent, DogPhysicsComponent, ...)
 public class PhysicsComponent extends PhysixEntity implements Component
 {
+    public boolean flaggedForRemoval = false;
+
     @Override
     public void initPhysics(PhysixManager manager)
     {

@@ -53,7 +53,7 @@ public class MapManager
         } catch (Exception ex)
         {
             throw new IllegalArgumentException(
-                    "Map konnte nicht geladen werden: " + filename);
+                    "Map konnte nicht geladen werden: " + filename + "\nError: "+ex.getMessage());
         }
 
         createTileSet();
@@ -96,8 +96,7 @@ public class MapManager
         for (Layer layer : mapComp.getMap().getLayers())
         {
             //System.out.println(this.getClass().getName()+": "+layer.getIntProperty("floor", -1));
-            //if (layer.getIntProperty("floor", -1) == floor) 
-            if (layer.isTileLayer())
+            if ((layer.getIntProperty("floor", -1) == floor) && (layer.isTileLayer()))
                 mapComp.renderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
         }
     }
