@@ -2,11 +2,14 @@ package de.hochschuletrier.gdw.ss14.ecs.ai;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.*;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.nodes.decorators.Invert;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +33,7 @@ public class DogBehaviour extends Behaviour {
         super(name, localBlackboard, isLooping);
 
         this.dogID = dogID;
-        setName("Catch the Cat oder patroullieren");
+        
         /* Setup Blackboard informations */
         bb = (DogBlackboard) localBlackboard;
         ic = bb.em.getComponent(dogID, InputComponent.class);
@@ -42,7 +45,30 @@ public class DogBehaviour extends Behaviour {
          * PhysicsComponent.class);
          */
         /* Setup Tree */
-
+        
+        /*
+        //Finales Soll-Verhalten mit SeeCat, Patrouille, ChaseCat und Ecken ausweichen:
+        setName("Catch the Cat, patrouillieren, katze sehen, und Ecken ausweichen.");
+        BaseNode root = new Selector(this);
+        Sequence hundHaengt = new Sequence(root);
+        Selector jagen = new Selector(root);
+        Selector hh = new Selector(hundHaengt);
+        new HundInRandomRichtung(hundHaengt);
+        new HundHaengt(hh);
+        Invert dogNotChase = new Invert(hh);
+        new DogIsChasing(dogNotChase);
+        Sequence katzenChase = new Sequence(jagen);
+        Sequence pat = new Sequence(jagen);
+        new DogSeesCat(katzenChase);
+        new ChaseCat(katzenChase);
+        Invert nichtsehend = new Invert(pat);
+        new Patroullieren(pat);
+        new DogSeesCat(nichtsehend);
+        */
+        
+        /*
+        //SeeCat Patrouille oder Chase Cat verhalten:
+        setName("Catch the Cat oder patroullieren");
         BaseNode root = new Selector(this);
         Sequence jageKatze = new Sequence(root);
         Sequence patroulliere = new Sequence(root);
@@ -51,9 +77,10 @@ public class DogBehaviour extends Behaviour {
         Invert nichtsSehend = new Invert(patroulliere);
         new DogSeesCat(nichtsSehend);
         new Patroullieren(patroulliere);
+        */
         
-        
-      /*  setName("Catch the Cat und weich Ecken aus");
+      //Katze verfolgen und ecken ausweichen verhalten:  
+        setName("Catch the Cat und weich Ecken aus");
         BaseNode root = new Selector(this);
         Sequence hundHaengt = new Sequence(root);
         new DogBehaviour.ChaseCat(root);
@@ -63,7 +90,7 @@ public class DogBehaviour extends Behaviour {
         new DogIsChasing(dogNotChase);
         new HundHaengt(hh);
         
-        */
+        
         
      
    
@@ -232,12 +259,16 @@ public class DogBehaviour extends Behaviour {
          
              EnemyComponent ec = bb.em.getComponent(dogID, EnemyComponent.class);
              hundSiehtKatze = ec.seeCat;
-             //System.out.println("Hund sieht Katze: "+hundSiehtKatze);
+             System.out.println("Hund sieht Katze: "+hundSiehtKatze);
              State rueckgabe;
-             if(hundSiehtKatze)
+             if(hundSiehtKatze){
                  rueckgabe = State.SUCCESS;
-             else
+                 SoundManager.performAction(state.SUCCESS);
+             }
+             else {
                  rueckgabe = State.FAILURE;
+                 SoundManager.performAction(state.FAILURE);
+             }
             return rueckgabe;
         }
         
@@ -385,16 +416,20 @@ public class DogBehaviour extends Behaviour {
             neuesZiel.y += verlaengerung;
             }
             ic.whereToGo = neuesZiel;
-
+            
+            //!!!______________
+            //TODO:
+            //!!!________________
             if (timer < 0f) {
                 timer = MAX_TIME;
                 ic.whereToGo = neuesZiel;
-                timerLaeuft = true;
-                dprc.dogIsChasing = false;
-                
+                //timerLaeuft = true;
+                timerLaeuft = !timerLaeuft;
+               // dprc.dogIsChasing = false;
+                dprc.dogIsChasing = !dprc.dogIsChasing;
             }else {
-                timerLaeuft = false;
-                dprc.dogIsChasing = true;
+              //  timerLaeuft = false;
+                //dprc.dogIsChasing = true;
             }
             timer -= delta;
 
