@@ -1,12 +1,17 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
+import java.util.Map;
+import java.util.Set;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 
 public class LevelMenu extends LaserCatMenu
@@ -15,13 +20,16 @@ public class LevelMenu extends LaserCatMenu
 	private Integer levelIndex;
 	private Label levelLabel;
 	private String levelString;
-	
+	private Map<String, String> mapJson;
+	private int numberOfLevels;
+	private String[] mapKeyArray;
+
 	@Override
 	public void init(AssetManagerX assetManager)
 	{
 		super.init(assetManager);
-		System.out.println("init LevelMenu");
-		
+		loadJson();
+
 		levelIndex = new Integer(0);
 		
 		numberOfButtons = 4;
@@ -43,6 +51,26 @@ public class LevelMenu extends LaserCatMenu
 		
 
 }
+
+	private void loadJson()
+	{
+		   try 
+		   {
+	           Map <String, String> mapJson = JacksonReader.readMap("data/maps/MapJsonDummy.json",String.class);
+	           Set<String> mapKeySet = mapJson.keySet();
+	           numberOfLevels = mapKeySet.size();
+	           for (String string: mapKeySet)
+	        	   System.out.println("from mapKeySet: " + string);
+	           
+	           mapKeyArray = (String[]) mapKeySet.toArray();
+	           for (String string: mapKeySet)
+	        	   System.out.println(string);
+		   } catch (Exception e) 
+		   {
+	            e.printStackTrace();
+	        }		
+	       
+	}
 
 	protected void addButtonsToFrame()
 	{
