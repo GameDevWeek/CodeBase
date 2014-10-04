@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.game.GameSettings;
 import de.hochschuletrier.gdw.ss14.input.InputDevice.DeviceType;
+import de.hochschuletrier.gdw.ss14.input.InputManager;
+import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.states.KittenGameState;
 
@@ -134,6 +136,7 @@ public class OptionsMenu extends LaserCatMenu
 					break;
 				default:
 					previousState.getEnum().activate();
+					InputManager.getInstance().changeInputDevice(currentInput);
 					break;
 				}
 			}
