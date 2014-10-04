@@ -70,7 +70,6 @@ public class MapManager
         }
 
         mapComp.setMap(getMap());
-        loadMapObjects();
     }
 
     public HashMap getTileSet()
@@ -102,6 +101,8 @@ public class MapManager
             if ((layer.getIntProperty("floor", -1) == floor) && (layer.isTileLayer()))
                 mapComp.renderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
         }
+        
+        loadMapObjects();
     }
 
     private enum tile2entity{
