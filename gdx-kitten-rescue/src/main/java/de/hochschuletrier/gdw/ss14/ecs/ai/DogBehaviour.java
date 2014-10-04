@@ -27,6 +27,8 @@ public class DogBehaviour extends Behaviour {
     PhysicsComponent pc;
     Array<Integer> cat;
     PhysicsComponent cpc;
+    
+    public static boolean canSeeCat= false;
 
     public DogBehaviour(String name, Object localBlackboard, boolean isLooping,
             int dogID) {

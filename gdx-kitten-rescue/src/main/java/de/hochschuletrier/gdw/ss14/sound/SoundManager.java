@@ -9,6 +9,7 @@ import de.hochschuletrier.gdw.commons.gdx.state.*;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DogMovementSystem;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 import de.hochschuletrier.gdw.ss14.ui.UIActions;
@@ -25,8 +26,9 @@ public class SoundManager {
 	public static float SystemVolume = 1.9f;
 	
 	private static int hundBellenVerzoegerung = 0;
+	private static int hundSchnueffelVerzoegerung = 0;
 	
-	public static void performAction(Enum action) {
+	public static void performAction(Enum action, float distance) {
 		GameStateEnum actualGamestate = null;
 		String actionString = action.name();
 		Integer tmp;
@@ -83,7 +85,7 @@ public class SoundManager {
 							case 2: SoundManager.playSound("gp_dog_bite3"); break;
 						}
 						break;
-					case "SUCCESS": // muss noch geändert werden
+					case "SUCCESS":
 					
 						if(hundBellenVerzoegerung > 60) {							
 							tmp = random(0,7);
@@ -100,6 +102,43 @@ public class SoundManager {
 						else {
 							hundBellenVerzoegerung++;
 						}
+						break;
+					case "IDLE": 
+						if (distance < 1000) {
+							if(hundSchnueffelVerzoegerung > 60) {
+								tmp = random(0,23);
+								float saveSV = SoundManager.SystemVolume;
+								SoundManager.SystemVolume = (100 - (distance / 10))/100 * SoundManager.SystemVolume;
+								switch (tmp) {
+									case 0: SoundManager.playSound("gp_dogIdle01"); break;
+									case 1: SoundManager.playSound("gp_dogIdle02"); break;
+									case 2: SoundManager.playSound("gp_dogIdle03"); break;
+									case 3: SoundManager.playSound("gp_dogIdle04"); break;
+									case 4: SoundManager.playSound("gp_dogIdle05"); break;
+									case 5: SoundManager.playSound("gp_dogIdle06"); break;
+									case 6: SoundManager.playSound("gp_dogIdle07"); break;
+									case 7: SoundManager.playSound("gp_dogIdle08"); break;
+									case 8: SoundManager.playSound("gp_dogIdle09"); break;
+									case 9: SoundManager.playSound("gp_dogIdle10"); break;
+									case 10: SoundManager.playSound("gp_dogIdle11"); break;
+									case 11: SoundManager.playSound("gp_dogIdle12"); break;
+									case 12: SoundManager.playSound("gp_dogIdle13"); break;
+									case 13: SoundManager.playSound("gp_dogIdle14"); break;
+									case 14: SoundManager.playSound("gp_dogIdle15"); break;
+									case 15: SoundManager.playSound("gp_dogIdle16"); break;
+									case 16: SoundManager.playSound("gp_dogIdle17"); break;
+									case 17: SoundManager.playSound("gp_dogIdle18"); break;
+									case 18: case 19: case 20: case 21: case 22: case 23: break; //nichts machen!!								
+								}
+								SoundManager.SystemVolume = saveSV;
+								hundSchnueffelVerzoegerung = 0;
+							}
+							else {
+								hundSchnueffelVerzoegerung++;
+							}
+							
+						}
+						
 						
 				} 
 				break;
@@ -107,6 +146,10 @@ public class SoundManager {
 				break;
 				
 		}
+	}
+	
+	public static void performAction(Enum action) {
+		performAction(action, 0f);
 	}
 
 	public static void playSound(String sound) {
