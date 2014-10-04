@@ -69,6 +69,14 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     }
 
     private void addRayCast(PhysicsComponent a, PhysicsComponent b){
+        
+        // Don't add if the pair already exists.
+        if ((raycst_startPhys.contains(a)) && (raycst_targetPhys.contains(b))) {
+            
+            if ((raycst_startPhys.indexOf(a) == raycst_targetPhys.indexOf(b)))           
+                return;
+        }
+        
         raycst_startPhys.add(a);
         raycst_targetPhys.add(b);
     }
