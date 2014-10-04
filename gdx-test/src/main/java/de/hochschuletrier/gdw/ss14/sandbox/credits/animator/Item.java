@@ -20,6 +20,9 @@ public abstract class Item {
         this.angle = angle;
         this.opacity = opacity;
     }
+
+    public void reset() {
+    }
     
     public void setPosition(Vector2 pos) {
         position.set(pos);
