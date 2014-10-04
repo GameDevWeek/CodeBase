@@ -141,8 +141,14 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
             if (!laser.waterpistolIsUsed) {
                 if (laser.toolState == ToolState.LASER) {
                     laser.toolState = ToolState.WATERPISTOL;
+                    Gdx.input.setCursorImage(laser.waterpistolCursor, 
+                            laser.waterpistolCursor.getWidth() / 2, 
+                            laser.waterpistolCursor.getHeight() / 2);
                 } else {
                     laser.toolState = ToolState.LASER;
+                    Gdx.input.setCursorImage(laser.laserCursor, 
+                            laser.laserCursor.getWidth() / 2, 
+                            laser.laserCursor.getHeight() / 2);
                 }
                 
                 for (Integer entity : cats)
