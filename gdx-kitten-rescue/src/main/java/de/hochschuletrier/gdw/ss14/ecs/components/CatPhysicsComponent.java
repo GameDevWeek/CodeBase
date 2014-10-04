@@ -16,6 +16,7 @@ import de.hochschuletrier.gdw.commons.utils.Point;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 
 public class CatPhysicsComponent extends PhysicsComponent {
+    //Auch Hunde haben CatPhysics Component!
     public Vector2 position;
     public float width;
     public float height;
