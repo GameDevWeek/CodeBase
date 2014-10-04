@@ -53,7 +53,7 @@ public class MapManager
         } catch (Exception ex)
         {
             throw new IllegalArgumentException(
-                    "Map konnte nicht geladen werden: " + filename);
+                    "Map konnte nicht geladen werden: " + filename, ex);
         }
 
         createTileSet();
@@ -96,8 +96,7 @@ public class MapManager
         for (Layer layer : mapComp.getMap().getLayers())
         {
             //System.out.println(this.getClass().getName()+": "+layer.getIntProperty("floor", -1));
-            //if (layer.getIntProperty("floor", -1) == floor) 
-            if (layer.isTileLayer())
+            if ((layer.getIntProperty("floor", -1) == floor) && (layer.isTileLayer()))
                 mapComp.renderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
         }
     }
@@ -312,7 +311,16 @@ public class MapManager
                                 break;
 
                             case "stairs":
-                                EntityFactory.constructStairs(pos, width, height);
+                                // read out floor of mapobject properties, default is 0.
+                                int floor = 0;
+
+                                if(mapObjects.get(j).getProperties().getString("stairs") != null)
+                                {
+                                    String floorTargetProperty = mapObjects.get(j).getProperties().getString("stairs");
+                                    floor = Integer.parseInt(floorTargetProperty);
+                                }
+
+                                EntityFactory.constructStairs(pos, width, height, floor);
                                 break;
                         }
                     }
@@ -324,7 +332,8 @@ public class MapManager
                     ArrayList<Vector2> tmp = new ArrayList<>();
                     for(String s : dogpatrolstring){
                         for(String r : s.split(",")){
-                            tmp.add(patrolspots.get( spotIds.get(Integer.parseInt(r)) ));
+                            if(!r.isEmpty())
+                                tmp.add(patrolspots.get( spotIds.get(Integer.parseInt(r)) ));
                         }
                     }
                     EntityFactory.constructSmartDog(pos, 100, 85, 0, 30, tmp, mask, category);
