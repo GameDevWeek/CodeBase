@@ -50,6 +50,7 @@ public class Sequence extends BaseNode {
 				this.deactivate();
 				this.parent.childTerminated(this, state);
 			} else {
+			    children.get(currentChild).deactivate();
 				this.currentChild++;
 				this.children.get(this.currentChild).activate();
 			}
