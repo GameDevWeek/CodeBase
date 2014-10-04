@@ -27,7 +27,7 @@ public class OptionsMenu extends LaserCatMenu
 		this.currentInput = GameSettings.getInstance().getInputDeviceType();
 		numberOfInputs = DeviceType.values().length;
 		this.previousState = previousState;
-		numberOfButtons = 4;
+		numberOfButtons = 5;
 		name = new String[numberOfButtons];
 		name[0] = "Volume Down";
 		name[1] = "Volume Up";
@@ -38,10 +38,11 @@ public class OptionsMenu extends LaserCatMenu
 
 		optionsMenuListener = new OptionsMenuListener();
 
-		for (UIAnimatedButton b : button)
+		for (UIButton b : button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.optionsMenuListener);
+			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 		}
 
 		
@@ -49,7 +50,7 @@ public class OptionsMenu extends LaserCatMenu
 
 	protected void addButtonsToFrame()
 	{
-		button = new UIAnimatedButton[numberOfButtons];
+		button = new UIButton[numberOfButtons];
 		label = new Label[numberOfButtons];
 
 		for (int i = 0; i < numberOfButtons; i++)
@@ -71,19 +72,19 @@ public class OptionsMenu extends LaserCatMenu
 		
 
 		widgetFrame.row();
-		button[0] = new UIAnimatedButton(catSkin, "sound_reduce");
+		button[0] = new UIButton(catSkin, "sound_reduce");
 		button[0].setName("button");		
 		
 		currentVolume = LocalMusic.getSystemVolume();
 		volumeLabel = new Label (Integer.toString((int)currentVolume*10), catSkin);
 
-		button[1] = new UIAnimatedButton(catSkin, "sound_push");
+		button[1] = new UIButton(catSkin, "sound_push");
 		button[1].setName("button");
-		button[2] = new UIAnimatedButton(catSkin, "bell");
+		button[2] = new UIButton(catSkin, "bell");
 		button[2].setName("bell");
-		button[3] = new UIAnimatedButton(catSkin, "bell");
+		button[3] = new UIButton(catSkin, "bell");
 		button[3].setName("bell");
-		button[4] = new UIAnimatedButton(catSkin, "bell");
+		button[4] = new UIButton(catSkin, "bell");
 		button[4].setName("bell");
 
 		widgetFrame.add(button[0]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
@@ -109,7 +110,7 @@ public class OptionsMenu extends LaserCatMenu
 			{
 				if (button[i] != event.getListenerActor())
 					continue;
-				System.out.println("Enter Button-SwitchCase");
+				System.out.println("Enter UIButton-SwitchCase");
 				switch (i)
 				{
 				case 0:
@@ -129,6 +130,8 @@ public class OptionsMenu extends LaserCatMenu
 					System.out.println("Switch Input");
 					currentInput = DeviceType.values()[(currentInput.ordinal()+1)%numberOfInputs];
 					
+					label[3].setText("Input: " + currentInput.toString());
+					break;
 				default:
 					previousState.getEnum().activate();
 					break;

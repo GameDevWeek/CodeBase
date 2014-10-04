@@ -9,10 +9,11 @@
         "red": {"a": 1, "b": 0, "g": 0, "r": 1},
         "yellow": {"a": 1, "b": 0, "g": 0.85, "r": 1},
         "black": {"a": 1, "b": 0, "g": 0, "r": 0},
-        "catGray": {"a": 0.85, "b": 0.2, "g": 0.2, "r": 0.2}
+        "catGray": {"a": 0.85, "b": 0.2, "g": 0.2, "r": 0.2},
+        "mouseGray": {"a": 0.85, "b": 0.8, "g": 0.8, "r": 0.8}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
-        "bell": {"over": "bell-down", "up": "bell-up"},
+        "bell": {"down": "bell-down", "up": "bell-up"},
 		"sound_push": {"down": "sound-push-button-down", "up": "sound-push-button"},
         "sound_reduce": {"down": "sound-reduce-button-down", "up": "sound-reduce-button"}
    	},
@@ -20,7 +21,7 @@
     	"start_button": {"down": "start-menu-button", "up": "start-menu-button-down", "font": "menu-font"}
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
-    	"default": {"font": "menu-font", "fontColor": "catGray"}
+    	"default": {"font": "menu-font", "fontColor": "mouseGray"}
     }
 }
 

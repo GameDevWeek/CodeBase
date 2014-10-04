@@ -1,7 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -25,16 +24,17 @@ public class PauseMenu extends LaserCatMenu
 		
 		pauseMenuListener = new PauseMenuListener();
 		
-		for (Button b:button)
+		for (UIButton b:button)
 		{
 			b.addListener(LaserCatMenu.soundListener);
 			b.addListener(this.pauseMenuListener);
+			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
 		}
 	}
 	
 	protected void addButtonsToFrame()
 	{
-		button = new UIAnimatedButton[numberOfButtons];
+		button = new UIButton[numberOfButtons];
 		label = new Label[numberOfButtons];
 
 		for(int i=0; i<numberOfButtons; i++)
@@ -46,7 +46,7 @@ public class PauseMenu extends LaserCatMenu
 		widgetFrame.row();
 		for(int i = 0; i<numberOfButtons; i++)
 		{
-			button[i] = new UIAnimatedButton(catSkin, "bell");
+			button[i] = new UIButton(catSkin, "bell");
 			button[i].setName("bell");
 			widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame/6, table)).top().space(20).spaceTop(10);
 		}
