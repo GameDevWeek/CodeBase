@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
-
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
-import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
@@ -20,23 +18,9 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
-import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
-import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
-import de.hochschuletrier.gdw.ss14.states.DogStateEnum;
-import de.hochschuletrier.gdw.ss14.states.JumpableState;
-import de.hochschuletrier.gdw.ss14.states.ParticleEmitterTypeEnum;
+import de.hochschuletrier.gdw.ss14.states.*;
 
 import java.util.ArrayList;
-
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LightComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ShadowComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 
 public class EntityFactory{
 
@@ -67,6 +51,7 @@ public class EntityFactory{
         catPhysix.collisionListeners.add(contactSystem);
 
         MovementComponent catMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
+        catMove.slidingLock = false;
         InputComponent catInput = new InputComponent();
         catPhysix.initPhysics(phyManager);
         //SlideMass sm = new SlideMass(catPhysix.physicsBody.getBody());
