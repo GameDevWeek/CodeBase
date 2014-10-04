@@ -17,6 +17,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolStat
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 import org.slf4j.Logger;
@@ -134,6 +135,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 }
                 if((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null){
                     ((CatPropertyComponent) d).setState(CatStateEnum.FALL);
+                    SoundManager.performAction(CatStateEnum.FALL); // sound activate falling cat
                 }
                 break;
             default:
