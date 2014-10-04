@@ -79,8 +79,8 @@ public class CatMovementSystem extends ECSystem{
                 }
 
                 //sliding stuff start
-                System.out.println(" dirVec:"+movementComponent.directionVec+" phyComp:"+physicsComponent.getPosition()+" lpComp:"+laserPointerComponent
-                                .position+" wToGo:"+inputComponent.whereToGo+" dist:"+distance);
+                //System.out.println(" dirVec:"+movementComponent.directionVec+" phyComp:"+physicsComponent.getPosition()+" lpComp:"+laserPointerComponent
+                //       .position+" wToGo:"+inputComponent.whereToGo+" dist:"+distance);
 
                 if(movementComponent.positionVec == null){
                     movementComponent.positionVec = new Vector2(movementComponent.directionVec.x, movementComponent.directionVec.y);
