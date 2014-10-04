@@ -1,12 +1,17 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
 import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+
+import java.util.ArrayList;
 
 /**
  * Created by Daniel Dreher on 03.10.2014.
@@ -79,18 +84,33 @@ public class CatMovementSystem extends ECSystem{
                     foodBuffer = 0;
                 }
 
-                //test if cat sees the pointer
+                //test if cat sees the pointer //don't ask why this way
                 catPropertyComponent.canSeeLaserPointer = false;
                 if(distance < 500 && laserPointerComponent.toolState == ToolState.LASER){
-                    RayCastPhysics rc = new RayCastPhysics();
-                    //if()
-                    physicsComponent.physixManager.getWorld().rayCast(rc, movementComponent.directionVec, laserPointerComponent.position);
-                    if(!rc.m_hit){
+                    RayCastPhysics rayCastPhysics = new RayCastPhysics();
+
+                    physicsComponent.physixManager.getWorld().rayCast(rayCastPhysics, physicsComponent.getPosition(), laserPointerComponent.position);
+                    if(rayCastPhysics.m_hit){
+                        ArrayList<Body> rayCastPhysicses= rayCastPhysics.collisionBodys;
+                        for(int j = 0; j < rayCastPhysicses.size(); j++){
+                            for(Body body:rayCastPhysicses){
+                                if(body.getType() == BodyDef.BodyType.StaticBody){
+                                    Array<Fixture> fixtures =body.getFixtureList();
+                                    for(Fixture fixture:body.getFixtureList()){
+                                        catPropertyComponent.canSeeLaserPointer = fixture.isSensor();
+                                    }
+                                }else{
+                                    catPropertyComponent.canSeeLaserPointer = true;
+                                }
+                            }
+                        }
+                    }else{
                         catPropertyComponent.canSeeLaserPointer = true;
                     }
+                    rayCastPhysics.reset();
+                }else{
+                    catPropertyComponent.canSeeLaserPointer = false;
                 }
-
-                System.out.println(catPropertyComponent.canSeeLaserPointer);
 
                 if(distance >= 200 && catPropertyComponent.canSeeLaserPointer){
                     movementComponent.velocity += movementComponent.acceleration*delta;
@@ -220,7 +240,7 @@ public class CatMovementSystem extends ECSystem{
                         
                         if (angle < 0f)
                             angle += (float)(2*Math.PI);
-                        
+
                         // Spin into the shortest direction towards the target angle
                         float spinningAngle = angle - currentRot;
                         if (Math.abs(spinningAngle) > Math.PI)
@@ -228,8 +248,8 @@ public class CatMovementSystem extends ECSystem{
                         
                         // Clamp rotation between - and + max possible rotation
                         if (Math.abs(spinningAngle) > MaxAngularVelocity*delta)
-                            spinningAngle = Math.signum(spinningAngle) * MaxAngularVelocity*delta;                        
-                        
+                            spinningAngle = Math.signum(spinningAngle) * MaxAngularVelocity*delta;
+
                         physicsComponent.setRotation(currentRot + spinningAngle);
                     }
                 }
