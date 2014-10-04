@@ -15,7 +15,7 @@ public class RayCastPhysics implements RayCastCallback{
     public Vector2 m_point;
     public Vector2 m_normal;
     public float m_fraction;
-    public ArrayList<RayCastPhysics> collisions;
+    public ArrayList<RayCastPhysics> collisions = new ArrayList<>();
     
     public RayCastPhysics()
     {
