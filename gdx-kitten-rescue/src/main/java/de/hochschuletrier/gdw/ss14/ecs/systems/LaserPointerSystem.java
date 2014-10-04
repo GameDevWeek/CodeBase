@@ -4,10 +4,14 @@ import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
@@ -27,6 +31,9 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     public int waterPistol;
     public ParticleEmitterComponent waterParticleEmitter;
     
+    public Texture laserCursor;
+    public Texture waterpistolCursor;
+    
     public LaserPointerSystem(EntityManager entityManager)
     {
         super(entityManager, 1);
@@ -40,6 +47,9 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
         
         waterPistol = entityManager.createEntity();
         entityManager.addComponent(waterPistol, new PhysicsComponent());
+        
+        laserCursor = EntityFactory.assetManager.getTexture("laser_cursor");
+        waterpistolCursor = EntityFactory.assetManager.getTexture("waterpistol_cursor");
     }
 
     @Override
@@ -75,7 +85,23 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     @Override
     public void render()
     {
-        //LASERPOINTER RENDERN
+        Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+        LaserPointerComponent laser = entityManager.getComponent(lasers.first(), LaserPointerComponent.class);
+        
+        Array<Integer> cams = entityManager.getAllEntitiesWithComponents(CameraComponent.class);
+        CameraComponent cam = entityManager.getComponent(cams.first(), CameraComponent.class);
+        
+        Vector3 vec = new Vector3(laser.position, 1.0f);
+        vec = cam.smoothCamera.getOrthographicCamera().unproject(vec);
+        
+        Texture cursor = null;
+        if (laser.toolState == ToolState.LASER) {
+            cursor = laserCursor;
+        } else {
+            cursor = waterpistolCursor;
+        }
+        
+        DrawUtil.batch.draw(cursor, vec.x - (cursor.getWidth() / 2), vec.y - (cursor.getHeight() / 2));
     }
 
     @Override
@@ -89,29 +115,34 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     @Override
     public void moveUp(float scale)
     {
-        // TODO Auto-generated method stub
-
+        System.out.println("MOVE UP");
+        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+        LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
+        laser.position = new Vector2(laser.position.x, laser.position.y - (scale * 10.0f));
     }
 
     @Override
     public void moveDown(float scale)
     {
-        // TODO Auto-generated method stub
-
+        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+        LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
+        laser.position = new Vector2(laser.position.x, laser.position.y + (scale * 10.0f));
     }
 
     @Override
     public void moveLeft(float scale)
     {
-        // TODO Auto-generated method stub
-
+        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+        LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
+        laser.position = new Vector2(laser.position.x - (scale * 10.0f), laser.position.y);
     }
 
     @Override
     public void moveRight(float scale)
     {
-        // TODO Auto-generated method stub
-
+        Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+        LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
+        laser.position = new Vector2(laser.position.x + (scale * 10.0f), laser.position.y);
     }
 
     @Override
@@ -123,51 +154,54 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
         Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(lasers.first(), LaserPointerComponent.class);
         
-        if (cat.isHidden) {
-            for (Integer entity : cats)
+            if (!laser.waterpistolIsUsed)
             {
-                CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
-
-                // check if cat should move out of box
-                if (catPropertyComponent.isHidden)
+                if (cat.isHidden)
                 {
-                    catPropertyComponent.isHidden = !catPropertyComponent.isHidden;
+                    for (Integer entity : cats)
+                    {
+                        CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
 
-                    RenderComponent renderComponent = new RenderComponent();
-                    entityManager.addComponent(entity, renderComponent);
+                        // check if cat should move out of box
+                        if (catPropertyComponent.isHidden)
+                        {
+                            catPropertyComponent.isHidden = !catPropertyComponent.isHidden;
+
+                            RenderComponent renderComponent = new RenderComponent();
+                            entityManager.addComponent(entity, renderComponent);
+                        }
+                    }
                 }
-            }
-        } else {
-            if (!laser.waterpistolIsUsed) {
+
                 if (laser.toolState == ToolState.LASER) {
                     laser.toolState = ToolState.WATERPISTOL;
-                    Gdx.input.setCursorImage(laser.waterpistolCursor, 
-                            laser.waterpistolCursor.getWidth() / 2, 
-                            laser.waterpistolCursor.getHeight() / 2);
                 } else {
                     laser.toolState = ToolState.LASER;
-                    Gdx.input.setCursorImage(laser.laserCursor, 
-                            laser.laserCursor.getWidth() / 2, 
-                            laser.laserCursor.getHeight() / 2);
                 }
-                
+
+                CatPropertyComponent catPropertyComponent = null;
                 for (Integer entity : cats)
                 {
-                    CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
+                    catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
+                }
 
-                    if (catPropertyComponent.canSeeLaserPointer == true)
-                    {
-                        catPropertyComponent.canSeeLaserPointer = false;
-                        SoundManager.performAction(LaserPointerActions.OFF);
-                    }
-                    else
+                if(laser.toolState == ToolState.LASER)
+                {
+                    SoundManager.performAction(LaserPointerActions.ON);
+                    if(catPropertyComponent != null)
                     {
                         catPropertyComponent.canSeeLaserPointer = true;
-                        SoundManager.performAction(LaserPointerActions.ON);
+                    }
+                }
+                else if(laser.toolState == ToolState.WATERPISTOL)
+                {
+                    SoundManager.performAction(LaserPointerActions.OFF);
+                    if(catPropertyComponent != null)
+                    {
+                        catPropertyComponent.canSeeLaserPointer = false;
                     }
                 }
             }
-        }
     }
 
     @Override
