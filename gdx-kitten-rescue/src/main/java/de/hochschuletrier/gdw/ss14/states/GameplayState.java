@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
@@ -123,6 +124,7 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 		}
         emitter.dispose();
         InputManager.getInstance().unregisterProcessor();
+        Gdx.input.setCursorImage(null, 0, 0);
     }
 
     @Override

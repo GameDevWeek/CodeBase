@@ -19,7 +19,9 @@ public class TextItem extends Item {
     public ArrayList<TextChar> chars;
     private TextAnimation anim;
 
-    public TextItem(String text, TextStyle style) {
+    public TextItem(String text, TextStyle style, float startTime, float angle, float opacity) {
+        super(startTime, angle, opacity);
+        
         originalText = text;
         shownText = text;
         this.style = style;
@@ -110,7 +112,7 @@ public class TextItem extends Item {
         }
     }
 
-    private void generateConstructChars(AnimatorData.Path.Animation animation) {
+    private void generateConstructChars(Animation animation) {
         chars = new ArrayList();
         for (int i = 0; i < originalText.length(); i++) {
             chars.add(new TextChar(style.font, originalText, i, animation, totalAnimationTime));
@@ -147,12 +149,12 @@ public class TextItem extends Item {
     }
 
     @Override
-    public void startAnimation(AnimatorData.Path.Animation animation) {
+    public void startAnimation(Animation animation) {
         try {
             anim = TextAnimation.valueOf(animation.animation.toUpperCase());
             animationTime = 0;
-            if (animation.animationTime != null) {
-                totalAnimationTime = animation.animationTime * 0.001f;
+            if (animation.animationTime > 0) {
+                totalAnimationTime = animation.animationTime;
             }
             opacity = 1.0f;
             switch (anim) {
