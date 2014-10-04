@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -56,22 +57,12 @@ public class WoolInfluenceSystem extends ECSystem
             }
             if(woool != null){
                 if(catProp.isInfluenced){
-                    logger.debug("\nIST BEEINFLUSST");
-                    inputCompo.whereToGo = laser.position;
-                    Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
-                    vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
-                    inputCompo.whereToGo = new Vector2(vec.x, vec.y);
-                    Vector2 directionToLaser = laser.position.sub(catPhysix.getPosition());
-                    Vector2 laserToWool = woool.physicsBody.getPosition().sub(inputCompo.whereToGo);
-                    catProp.influencedToLaser -= delta/catProp.TIME_TILL_INFLUENCED;
-                    catProp.timeTillInfluencedTimer += delta;
-                    logger.debug("\nLaserPosition: (" + inputCompo.whereToGo.x + ", " + inputCompo.whereToGo.y + 
-                                ")\nWoolPosition: (" + woool.physicsBody.getX() + ", " + woool.physicsBody.getY() + 
-                                ")\nLaserToWool: (" + laserToWool.x + ", " + laserToWool.y + ")" +
-                                "\nDistance: " + laserToWool.len());
-                    inputCompo.whereToGo = new Vector2(directionToLaser.x + laserToWool.x * catProp.influencedToLaser, directionToLaser.y + laserToWool.y * catProp.influencedToLaser);
-                    logger.debug("\nNEW POSITION: (" + inputCompo.whereToGo.x + ", " + inputCompo.whereToGo.y + ")");
-                    System.out.println("");
+//                    Vector2 laserPos = laser.position.cpy();
+//                    Vector2 laserToWool = woool.getPosition().cpy().sub(laserPos);
+//                    catProp.influencedToLaser =  MathUtils.clamp(catProp.influencedToLaser, 0f, 1f);
+//                    laserToWool.scl(0.5f);
+                    
+                    inputCompo.whereToGo.set(woool.getPosition());
                 }
                 if(catProp.timeTillInfluencedTimer >= catProp.TIME_TILL_INFLUENCED){
                     catProp.timeTillInfluencedTimer = 0;

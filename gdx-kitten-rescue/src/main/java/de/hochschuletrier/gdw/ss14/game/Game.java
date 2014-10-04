@@ -84,7 +84,7 @@ public class Game {
         initializeSystems();
         initializeTestComponents();
 
-        mapManager.loadMap("mehrstoeckigMap"); 
+        mapManager.loadMap("Katzenklappentest"); 
         mapManager.setFloor(0);
         
         behaviourManager.activate();
