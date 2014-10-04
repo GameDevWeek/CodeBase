@@ -63,7 +63,9 @@ public class SoundManager {
 						}
 						break;
 					case "JUMP":
-						SoundManager.playSound("gp_cat_jump");
+						SoundManager.playSound("gp_cat_jump"); break;
+					case "JUMPING_IN_BOX": 
+						SoundManager.playSound("gp_cat_box_in2"); break;
 				} 
 				break;
 			default:
