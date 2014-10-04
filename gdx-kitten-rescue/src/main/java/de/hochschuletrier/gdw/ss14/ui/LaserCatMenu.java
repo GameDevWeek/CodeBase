@@ -48,7 +48,7 @@ public abstract class LaserCatMenu
 		//Variables
 		heightOfWidgetFrame = 0.25f;
 		widthOfWidgetFrame = 0.65f;
-		frameDuration = 500.0f;
+		frameDuration = 0.05f;
 				
 		// Adjusts the table and adds it to the stage
 		stage = new Stage();

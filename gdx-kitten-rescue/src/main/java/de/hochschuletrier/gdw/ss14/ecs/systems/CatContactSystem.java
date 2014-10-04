@@ -1,10 +1,10 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
-
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
@@ -21,6 +21,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.StairComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.StairsPhysicsComponent;
@@ -36,14 +37,39 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     private static final Logger logger = LoggerFactory.getLogger(CatContactSystem.class);
 
     private PhysixManager phyManager;
-    private RayCastPhysics rcp;
+    private RayCastPhysics rcp = new RayCastPhysics();
 
+//    private ArrayList<Vector2> raycst_start;
+//    private ArrayList<Vector2> raycst_end;
+    private ArrayList<PhysicsComponent> raycst_startPhys;
+    private ArrayList<PhysicsComponent> raycst_targetPhys;
+    
+    
     public CatContactSystem(EntityManager entityManager, PhysixManager physicsManager){
         super(entityManager);
         phyManager = physicsManager;
+//        raycst_start = new ArrayList<>();
+//        raycst_end = new ArrayList<>();
+        raycst_startPhys = new ArrayList<>();
+        raycst_targetPhys = new ArrayList<>();
     }
 
+    
+    private void removeRayCast(PhysicsComponent a, PhysicsComponent b){
+        int i = 0;
+        while(!(raycst_startPhys.get(i) == a && raycst_targetPhys.get(i) == b)
+              && ! (i > raycst_startPhys.size())){
+            i++;
+        }
+        raycst_startPhys.remove(i);
+        raycst_targetPhys.remove(i);
+    }
 
+    private void addRayCast(PhysicsComponent a, PhysicsComponent b){
+        raycst_startPhys.add(a);
+        raycst_targetPhys.add(b);
+    }
+    
     @Override
     public void fireBeginnCollision(PhysixContact contact){
         PhysixBody owner = contact.getMyPhysixBody();//.getOwner();
@@ -55,10 +81,11 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         // get all neccessary information
         Array<Integer> physicEntities = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class);
         Integer myEntity = null, otherEntity = null;
-        PhysicsComponent otherPhysic = null;
+        PhysicsComponent myPhysic = null, otherPhysic = null;
         for(Integer i : physicEntities){
             PhysicsComponent tmp = entityManager.getComponent(i, PhysicsComponent.class);
             if(tmp.physicsBody == contact.getMyPhysixBody()){
+                myPhysic = tmp;
                 myEntity = i;
             }
             if(tmp.physicsBody == contact.getOtherPhysixBody()){
@@ -83,7 +110,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
         //////////
         // if something wierd happens, one of these is null then dont go on
-        if(myEntity == null || otherEntity == null || otherPhysic == null){
+        if(myEntity == null || myPhysic == null || otherEntity == null || otherPhysic == null){
             return;
         }
 
@@ -100,7 +127,8 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 // kollidiert mit hund (oder anderer katze)
                 if(otherSightCone){
                     // katzenkörper berührt hunde sichtfeld
-
+                    // melde raycast von hund nach katze an:
+                    this.addRayCast(otherPhysic, myPhysic);
                 }else{
                     // katzenkörper berührt hundekörper
 
@@ -116,6 +144,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                 }
                 if((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null){
                     ((CatPropertyComponent) d).setState(CatStateEnum.FALL);
+                    SoundManager.performAction(CatStateEnum.FALL); // sound activate falling cat
                 }
                 break;
             default:
@@ -185,13 +214,24 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
 
             int entity = ((StairsPhysicsComponent) other).owner;
 
-            if(entity >= 0){
-                StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+            if(entity >= 0)
+            {
+                CatPropertyComponent catPropertyComponent = entityManager.getComponent(myEntity, CatPropertyComponent.class);
 
-                if(stairComponent != null){
-                    // TODO: change floor here
-                    Game.mapManager.setFloor(stairComponent.targetFloor);
+                if(catPropertyComponent != null && catPropertyComponent.canChangeMap)
+                {
+                    catPropertyComponent.canChangeMap = false;
 
+                    StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+                    if(stairComponent != null && stairComponent.changeFloorDirection > 0)
+                    {
+                        // TODO: change floor here
+                        catPropertyComponent.idOfLastTouchedStair = ((StairsPhysicsComponent) other).owner;
+                        Game.mapManager.targetFloor = Game.mapManager.currentFloor + stairComponent.changeFloorDirection;
+                        Game.mapManager.isChangingFloor = true;
+                        //Game.mapManager.setFloor(stairComponent.targetFloor);
+
+                    }
                 }
 
             }
@@ -209,7 +249,61 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
     }
 
     @Override
-    public void update(float delta){}
+    public void update(float delta){
+        /// do all raycast fun:
+        for(int i = 0; i < raycst_startPhys.size(); ++i){
+            phyManager.getWorld().rayCast(rcp, 
+                    raycst_startPhys.get(i).physicsBody.getPosition(), 
+                    raycst_targetPhys.get(i).physicsBody.getPosition());
+            boolean freeSight = false;
+            for (RayCastPhysics rcst : rcp.collisions) {
+                if(rcst.m_fixture.getBody().getUserData() != null &&
+                        rcst.m_fixture.getBody().getUserData().equals("wall")){
+                    // there is a wall object, we cant see through
+                    break;
+                }
+                
+                for(Fixture s : raycst_startPhys.get(i).physicsBody.getFixtureList()){
+                    if(     (s.getUserData() != null &&
+                            s.getUserData().equals("sightcone")) ||  // target has to be sightcone
+                            s != rcst.m_fixture) continue;          // target has to be one of the fixtures
+                    freeSight = true;
+                }
+            }
+            /////////////
+            // get all neccessary information
+            Array<Integer> physicEntities = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class);
+            Integer startEntity = null, targetEntity = null;
+            for(Integer entity : physicEntities){
+                PhysicsComponent tmp = entityManager.getComponent(entity, PhysicsComponent.class);
+                if(tmp.physicsBody == raycst_startPhys.get(i).physicsBody){
+                    startEntity = entity;
+                }
+                if(tmp.physicsBody == raycst_targetPhys.get(i).physicsBody){
+                    targetEntity = entity;
+                }
+            }
+            
+            Component c = null, d = null;
+            /* c → used to check if the other has component xy 
+             * d → used to get a specific "my" component to react to the collision
+             * */
+            if((c = entityManager.getComponent(startEntity, EnemyComponent.class)) != null){
+                if((d = entityManager.getComponent(targetEntity, PlayerComponent.class)) != null){
+                    //dog sees cat
+                }
+                
+            }else if((c = entityManager.getComponent(startEntity, PlayerComponent.class)) != null){
+                if(raycst_targetPhys.get(i) instanceof WoolPhysicsComponent){
+                    //cat sees wool
+                }
+            }
+            
+            
+            rcp.reset();
+        }
+        
+    }
 
     @Override
     public void render(){}
@@ -225,11 +319,12 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
         // get all neccessary information
         Array<Integer> physicEntities = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class);
         Integer myEntity = null, otherEntity = null;
-        PhysicsComponent otherPhysic = null;
+        PhysicsComponent myPhysic = null, otherPhysic = null;
         for(Integer i : physicEntities){
             PhysicsComponent tmp = entityManager.getComponent(i, PhysicsComponent.class);
             if(tmp.physicsBody == contact.getMyPhysixBody()){
                 myEntity = i;
+                myPhysic = tmp;
             }
             if(tmp.physicsBody == contact.getOtherPhysixBody()){
                 otherEntity = i;
@@ -269,8 +364,36 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
             // cat does not collide with dogPhysx anymore which means ...
             if(otherSightCone && !mySightCone){
                 // ... dog does not see the cat anymore
-
+                this.removeRayCast(otherPhysic, myPhysic);
+                
             }
+
+        }
+
+        if(other instanceof StairsPhysicsComponent)
+        {
+            if(mySightCone)
+            {
+                return;
+            }
+
+            int entity =  ((StairsPhysicsComponent) other).owner;
+
+            CatPropertyComponent catPropertyComponent = entityManager.getComponent(myEntity, CatPropertyComponent.class);
+            StairComponent stairComponent = entityManager.getComponent(entity, StairComponent.class);
+
+            if(contact.getMyFixture().getUserData() != null && contact.getMyFixture().getUserData().equals("masscenter"))
+            {
+                if(catPropertyComponent != null && !catPropertyComponent.canChangeMap)
+                {
+                    if(catPropertyComponent.idOfLastTouchedStair != ((StairsPhysicsComponent) other).owner)
+                    {
+                        catPropertyComponent.canChangeMap = true;
+                        System.out.println("cat can now change map again.");
+                    }
+                }
+            }
+
 
         }
 
