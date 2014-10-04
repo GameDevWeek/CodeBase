@@ -63,9 +63,12 @@ public class LevelMenu extends LaserCatMenu
 	        	   System.out.println("from mapKeySet: " + string);
 	           
 	           mapKeyArray = new String[numberOfLevels];
-	           mapKeyArray = (String[]) mapKeySet.toArray();
-	           for (String string: mapKeySet)
-	        	   System.out.println(string);
+	           for(int i = 0; i<numberOfLevels; i++)
+	        	   mapKeyArray[i] = new String((String) mapKeySet.toArray()[numberOfLevels-1-i]);
+	           
+	           for (String string: mapKeyArray)
+	        	   System.out.println("from mapKeyArray: " + string);
+	           
 		   } catch (Exception e) 
 		   {
 	            e.printStackTrace();
