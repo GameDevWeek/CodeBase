@@ -1,30 +1,18 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import javax.security.auth.callback.Callback;
-import javax.swing.text.html.parser.Entity;
-
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.utils.*;
-
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.states.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CatContactSystem extends ECSystem implements ICollisionListener{
 
