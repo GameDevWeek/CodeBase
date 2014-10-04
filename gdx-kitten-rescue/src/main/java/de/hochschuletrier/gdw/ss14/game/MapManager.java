@@ -49,9 +49,9 @@ public class MapManager
         levelEntity = entityManager.createEntity();
     }
 
-    public void loadMap(String mapName)
+    public void loadMap(String path)
     {
-        String filename = folderLocation + mapName + fileType;
+        String filename = path;
         try
         {
             this.tiledMap = new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);

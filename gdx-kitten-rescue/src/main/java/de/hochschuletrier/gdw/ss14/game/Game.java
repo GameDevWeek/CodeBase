@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import java.util.ArrayList;
 
+import de.hochschuletrier.gdw.ss14.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,6 +73,7 @@ public class Game {
     public Game(AssetManagerX am){
         engine = new Engine();
         entityManager = EntityManager.getInstance();
+        entityManager.deleteAllEntities();
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
         mapManager = new MapManager(entityManager, physixManager, am);
 
@@ -89,7 +91,7 @@ public class Game {
         initializeSystems();
         initializeTestComponents();
         //Kartensetzen:
-        mapManager.loadMap("mehrstoeckigMap"); 
+        mapManager.loadMap(LevelMenu.getCurrentLevel());
         mapManager.setFloor(0);
         
         behaviourManager.activate();

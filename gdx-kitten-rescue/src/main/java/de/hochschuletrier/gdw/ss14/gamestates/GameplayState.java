@@ -40,11 +40,11 @@ public class GameplayState extends KittenGameState implements InputProcessor {
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
         helicopter = assetManager.getSound("ouchWall");
-        InputManager.init();
         game = new Game(assetManager);
-        game.init(assetManager);
+        //game.init(assetManager);
         this.music = Main.MusicManager.getMusicStreamByStateName(GameStateEnum.GAMEPLAY);
-        this.playerSoundListener = new CatSoundListener(assetManager);
+        //this.playerSoundListener = new CatSoundListener(assetManager);
+        InputManager.init();
         Main.inputMultiplexer.addProcessor(this);
        
         ingameHUD = new IngameHUD(assetManager);
@@ -110,9 +110,17 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 			this.music.play("ingame_calm");
 		}
         emitter.dispose();
+        //emitter.play(helicopter, true);
+
+        if(!(previousState instanceof PauseGameState))
+        {
+            Game game = new Game(assetManager);
+            game.init(assetManager);
+            this.playerSoundListener = new CatSoundListener(assetManager);
+        }
+
         InputManager.getInstance().registerProcessor();
         Gdx.input.setCursorCatched(true);
-        //emitter.play(helicopter, true);
     }
 
     @Override

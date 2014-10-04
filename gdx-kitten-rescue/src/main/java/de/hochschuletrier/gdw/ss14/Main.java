@@ -155,19 +155,19 @@ public class Main extends StateBasedGame<KittenGameState> {
             }
         }
         
-    boolean mainMenu = false;
-    for (String arg:mainArgs)
-    {
-    	if(arg.equalsIgnoreCase("MainMenu"))
-    	{
-    		mainMenu = true;
-    	}
-    }
-    
-    if(mainMenu)
+//    boolean mainMenu = false;
+//    for (String arg:mainArgs)
+//    {
+//    	if(arg.equalsIgnoreCase("MainMenu"))
+//    	{
+//    		mainMenu = true;
+//    	}
+//    }
+//
+//    if(mainMenu)
         GameStateEnum.MAINMENU.activate();
-    else
-		GameStateEnum.GAMEPLAY.activate(null, null);
+//    else
+//		GameStateEnum.GAMEPLAY.activate(null, null);
     
     }
 
