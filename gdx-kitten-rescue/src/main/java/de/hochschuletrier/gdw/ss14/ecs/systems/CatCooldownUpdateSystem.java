@@ -30,7 +30,6 @@ public class CatCooldownUpdateSystem extends ECSystem
                 if(catPropertyComponent.catBoxCooldownTimer <= 0.0f)
                 {
                     catPropertyComponent.isCatBoxOnCooldown = false;
-                    System.out.println("Set cooldown to false.");
                 }
 
             }
