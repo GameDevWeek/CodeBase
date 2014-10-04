@@ -19,7 +19,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
     public float friction;
     public float rotation;
     public float restitution;
-    public short mask, category;
+    public short mask, category, group;
     
     public final float coneRadius = 30;
     public final float coneCorner = 1.5f;
@@ -58,6 +58,8 @@ public class CatPhysicsComponent extends PhysicsComponent {
         this.friction = friction;
         this.restitution = restitution;
         this.mask = mask;
+        this.category = category;
+        this.group = group;
         coneShape = new ArrayList<>();
         collisionListeners = new ArrayList<>();
     }
@@ -68,7 +70,7 @@ public class CatPhysicsComponent extends PhysicsComponent {
         
         PhysixFixtureDef conefixturedef = new PhysixFixtureDef(manager).density(1).sensor(true);
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
-                .friction(friction).restitution(restitution).mask(mask).category(category);
+                .friction(friction).restitution(restitution).mask(mask).category(category).groupIndex(group);
 
         physicsBody = new PhysixBodyDef(BodyType.DynamicBody, manager)
                 .position(position).fixedRotation(true).angle(rotation).create();

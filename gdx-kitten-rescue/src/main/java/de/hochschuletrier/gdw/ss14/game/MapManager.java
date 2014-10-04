@@ -119,7 +119,7 @@ public class MapManager
         
         RectangleGenerator generator = new RectangleGenerator();
         for(int i = 0; i < 16; i++){
-            short floor = (short)Math.pow(2, i);
+            short floor = (short)(Math.pow(2, i));
             final int j = i;
         generator.generate(tiledMap,
                 (Layer layer, TileInfo info) ->info.getBooleanProperty("blocked", false)
@@ -183,8 +183,7 @@ public class MapManager
                 .fixedRotation(false);
         
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
-                .category((short)floor).mask((short) 0xFFFFFFFF); 
-        
+                .category((short)floor).mask((short)0b1111111111111111); 
         switch (t2e) {
         case none: 
             PhysixBody body = bodydef.create();
@@ -259,7 +258,7 @@ public class MapManager
                     float height = mapObjects.get(j).getHeight();
 
                     mask = (short)Math.pow(2, mapObjects.get(j).getIntProperty("floor", 0));
-                    category = (short) Short.reverseBytes((short)0);
+                    category = (short)0b1111111111111111;
                     
                     if (objType != null)
                     {
@@ -278,7 +277,7 @@ public class MapManager
                                 break;
                                 
                             case "dogspawn":
-                                /* bogs are build later */
+                                /* dogs are build later */
                                 dogpositions.add(pos);
                                 dogIds.add(mapObjects.get(j).getIntProperty("ID", -1));
                                 dogpatrolstring.add(mapObjects.get(j).getProperty("pat", ""));
@@ -309,12 +308,12 @@ public class MapManager
                                 break;
 
 // isn't an object
-//                            case "door":
+//                            case "door":category
 //                                // TODO: add object with entityFactory here
 //                                break;
 
                             case "catbox":
-                                EntityFactory.constructCatbox(pos);
+                                EntityFactory.constructCatbox(pos, mask, category);
                                 break;
 
                             case "stairs":
@@ -338,8 +337,11 @@ public class MapManager
                     
                     ArrayList<Vector2> tmp = new ArrayList<>();
                     for(String s : dogpatrolstring){
+                        if(dogpatrolstring.size() == 0) continue;
+                        if(spotIds.size() == 0) continue;
                         for(String r : s.split(",")){
                             if(!r.isEmpty())
+                                if( spotIds.get(Integer.parseInt(r)) <= 0 ) continue;
                                 tmp.add(patrolspots.get( spotIds.get(Integer.parseInt(r)) ));
                         }
                     }

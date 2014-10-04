@@ -3,6 +3,8 @@ package de.hochschuletrier.gdw.ss14.ecs;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
+
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
@@ -130,11 +132,16 @@ public class EntityFactory{
         return entity;
     }
 
-    public static int constructCatbox(Vector2 pos){
+    public static int constructCatbox(Vector2 pos, short mask, short category){
         int entity = manager.createEntity();
 
         CatBoxPhysicsComponent catBoxPhysicsComponent = new CatBoxPhysicsComponent(pos, 80.0f, 80.0f, 0.0f);
         catBoxPhysicsComponent.initPhysics(phyManager);
+        catBoxPhysicsComponent.physicsBody.getFixtureList().forEach((f)->{
+            Filter fil = f.getFilterData();
+            fil.categoryBits = category;
+            fil.maskBits = mask;
+            });
 
         RenderComponent renderComponent = new RenderComponent();
         renderComponent.texture = new TextureRegion(assetManager.getTexture("catbox"));
@@ -260,7 +267,7 @@ public class EntityFactory{
 
     public static int constructPuddleOfBlood(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.category((short)-2));
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.groupIndex((short)-2));
         manager.addComponent(entity, puddlephys);
         manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.bloodpuddle));
         puddlephys.initPhysics(phyManager);
@@ -270,7 +277,7 @@ public class EntityFactory{
 
     public static int constructPuddleOfWater(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.category((short)-2));
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.groupIndex((short)-2));
         manager.addComponent(entity, puddlephys);
         manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.waterpuddle));
         puddlephys.initPhysics(phyManager);
