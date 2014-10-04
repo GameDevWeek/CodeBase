@@ -160,7 +160,7 @@ public class MapManager
         }
     }
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, String userdata){
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, String userdata){
         addShape(physixManager, rect, tileWidth, tileHeight, floor, false, userdata);
     }
     
@@ -179,7 +179,7 @@ public class MapManager
         return body;
     }*/
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, tile2entity t2e)
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, tile2entity t2e)
     {
         float width = rect.width * tileWidth;
         float height = rect.height * tileHeight;
@@ -214,7 +214,7 @@ public class MapManager
 
     }
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, boolean flag, String userdata)
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, boolean flag, String userdata)
     {
         float width = rect.width * tileWidth;
         float height = rect.height * tileHeight;
@@ -265,7 +265,7 @@ public class MapManager
                     float width = mapObjects.get(j).getWidth();
                     float height = mapObjects.get(j).getHeight();
 
-                    mask = (short)Math.pow(2, mapObjects.get(j).getIntProperty("floor", 0));
+                    mask = (short)Math.pow(2, layers.get(i).getIntProperty("floor", 0));
                     category = (short)0b1111111111111111;
 
                     if (objType != null)
