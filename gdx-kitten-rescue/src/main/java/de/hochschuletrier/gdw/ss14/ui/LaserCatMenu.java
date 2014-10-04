@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -19,10 +20,10 @@ import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 public abstract class LaserCatMenu
 {
-	private static Image menuCatImage, titleTextImage;
+	private static UIImage menuCatImage;
+	private static Image titleTextImage;
 	// For debug drawing
 	private ShapeRenderer shapeRenderer; 
-
 	
 	//
 	// Vererbtes Zeug
@@ -78,7 +79,8 @@ public abstract class LaserCatMenu
 		table.row();
 		
 		// MainCat Image
-		menuCatImage = new Image(catSkin.getDrawable("main-menu-cat"));
+		menuCatImage = new UIImage(catSkin.getDrawable("main-menu-cat"));
+		menuCatImage.setAnimation(catSkin, "menuCat", 500);
 		table.add(menuCatImage).bottom().expandY();
 
 		// Debug Lines
@@ -122,6 +124,7 @@ public abstract class LaserCatMenu
 		{
 			if (this.isPressed())
 					return;
+	    	LaserCatMenu.menuCatImage.animate((UIButton) event.getListenerActor());
 			if(event.getListenerActor().getName().equals("bell"))
 				SoundManager.performAction(UIActions.BELLOVER);
 			else
