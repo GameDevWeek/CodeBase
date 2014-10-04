@@ -131,12 +131,18 @@ public class InputGamePad extends InputDevice implements ControllerListener {
 
     @Override
     public void registerProcessor() {
-        Controllers.addListener(this);
+        if (!isRegistred) {
+            Controllers.addListener(this);
+            isRegistred = true;
+        }
     }
 
     @Override
     public void unregisterProcessor() {
-        Controllers.addListener(this);
+        if (isRegistred) {
+            Controllers.addListener(this);
+            isRegistred = false;
+        }
     }
 	
 	

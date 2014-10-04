@@ -347,13 +347,15 @@ public class EntityFactory{
 
     public static void constructWool(Vector2 pos){
         int entity = manager.createEntity();
-
+        
         WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
         RenderComponent woolRenderComponent = new RenderComponent();
+        woolRenderComponent.texture = new TextureRegion(assetManager.getTexture("wool"));
         woolPhysicsComponent.initPhysics(phyManager);
         woolPhysicsComponent.owner = entity;
         manager.addComponent(entity, woolPhysicsComponent);
         manager.addComponent(entity, new WoolPropertyComponent());
+        manager.addComponent(entity, woolRenderComponent);
 
         //        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, 0f, 0f);
         //        catPhysix.initPhysics(phyManager);

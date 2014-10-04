@@ -1,10 +1,13 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
@@ -197,6 +200,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener{
                     }
 
                     catPropertyComponent.setState(CatStateEnum.JUMPING_IN_BOX);
+                    catPropertyComponent.isHidden = true;
                     SoundManager.performAction(CatStateEnum.JUMPING_IN_BOX);
 
                     catPropertyComponent.isCatBoxOnCooldown = true;
