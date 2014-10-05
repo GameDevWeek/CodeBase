@@ -19,9 +19,10 @@ public class WeaponHUD extends HudComponent {
     private ToolState currentState;
     
     private Texture laser;
-    private Texture waterpistol;
+    private Texture laser_off;
+   
     
-    private float overlap = 0.3f;
+    private float overlap = 0.1f;
     
     private float currentOverlap1 = 0;
     private float currentOverlap2 = overlap;
@@ -35,7 +36,8 @@ public class WeaponHUD extends HudComponent {
         super(assetManager);
         
         laser = assetManager.getTexture("weapon_laser");
-        waterpistol = assetManager.getTexture("weapon_waterpistol");
+        laser_off = assetManager.getTexture("weapon_laser_off");
+        
         
         super.width = laser.getWidth() * (1.0f + overlap);
         super.height = laser.getHeight() * (1.0f + overlap);
@@ -73,9 +75,9 @@ public class WeaponHUD extends HudComponent {
         }
         
         if (currentState == ToolState.LASER) {
-            DrawUtil.batch.draw(waterpistol, getX() + (waterpistol.getWidth() * getScale() * currentOverlap1), getY() + (waterpistol.getHeight() * getScale() * currentOverlap1),
-                    waterpistol.getWidth() * getScale(), waterpistol.getHeight() * getScale(), 0, 0, 
-                    waterpistol.getWidth(), waterpistol.getHeight(), false, true);
+            DrawUtil.batch.draw(laser_off, getX() + (laser_off.getWidth() * getScale() * currentOverlap1), getY() + (laser_off.getHeight() * getScale() * currentOverlap1),
+                    laser_off.getWidth() * getScale(), laser_off.getHeight() * getScale(), 0, 0, 
+                    laser_off.getWidth(), laser_off.getHeight(), false, true);
             
             DrawUtil.batch.draw(laser, getX() + (laser.getWidth() * getScale() * currentOverlap2), getY() + (laser.getHeight() * getScale() * currentOverlap2),
                     laser.getWidth() * getScale(), laser.getHeight() * getScale(), 0, 0, 
@@ -85,9 +87,9 @@ public class WeaponHUD extends HudComponent {
                     laser.getWidth() * getScale(), laser.getHeight() * getScale(), 0, 0, 
                     laser.getWidth(), laser.getHeight(), false, true);
             
-            DrawUtil.batch.draw(waterpistol, getX() + (waterpistol.getWidth() * getScale() * currentOverlap1), getY() + (waterpistol.getHeight() * getScale() * currentOverlap1),
-                    waterpistol.getWidth() * getScale(), waterpistol.getHeight() * getScale(), 0, 0, 
-                    waterpistol.getWidth(), waterpistol.getHeight(), false, true);
+            DrawUtil.batch.draw(laser_off, getX() + (laser_off.getWidth() * getScale() * currentOverlap1), getY() + (laser_off.getHeight() * getScale() * currentOverlap1),
+                    laser_off.getWidth() * getScale(), laser_off.getHeight() * getScale(), 0, 0, 
+                    laser_off.getWidth(), laser_off.getHeight(), false, true);
         }
         
         
