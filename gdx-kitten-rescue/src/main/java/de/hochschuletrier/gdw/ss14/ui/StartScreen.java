@@ -54,7 +54,7 @@ public class StartScreen {
         
         dummyTable.add(startButton).bottom().left().size(Value.percentWidth(0.15f, table));
         //table.debug(Debug.all);
-        dummyTable.debug(Debug.all);
+//        dummyTable.debug(Debug.all);
     }
     public void dispose(){
         stage.dispose();
