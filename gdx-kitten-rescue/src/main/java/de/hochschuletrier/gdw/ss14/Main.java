@@ -164,7 +164,7 @@ public class Main extends StateBasedGame<KittenGameState> {
             }
         }
 
-        GameStateEnum.MAINMENU.activate();							// This is the entrypoint
+        GameStateEnum.STARTSCREEN.activate();							// This is the entrypoint
     }
 
     @Override
