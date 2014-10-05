@@ -126,25 +126,25 @@ public class Main extends StateBasedGame<KittenGameState> {
         skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
         consoleView.init(assetManager, skin);
         addScreenListener(consoleView);
-        inputMultiplexer.addProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown (int keycode) {
-                if(keycode == Keys.ENTER &&
-                        (Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT))) {
-                    
-                    if (Gdx.graphics.isFullscreen()) {
-                        Gdx.graphics.setDisplayMode(1024, 768, false);
-                        resize(1024, 768);
-                    } else {
-                        Graphics.DisplayMode mode = Gdx.graphics.getDesktopDisplayMode();
-                        Gdx.graphics.setDisplayMode(mode.width, mode.height, true);
-                        resize(mode.width, mode.height);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
+//        inputMultiplexer.addProcessor(new InputAdapter() {
+//            @Override
+//            public boolean keyDown (int keycode) {
+//                if(keycode == Keys.ENTER &&
+//                        (Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT))) {
+//                    
+//                    if (Gdx.graphics.isFullscreen()) {
+//                        Gdx.graphics.setDisplayMode(1024, 768, false);
+//                        resize(1024, 768);
+//                    } else {
+//                        Graphics.DisplayMode mode = Gdx.graphics.getDesktopDisplayMode();
+//                        Gdx.graphics.setDisplayMode(mode.width, mode.height, true);
+//                        resize(mode.width, mode.height);
+//                    }
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
         inputMultiplexer.addProcessor(consoleView.getInputProcessor());
 
         GameStateEnum.LOADING.init(assetManager);
@@ -232,6 +232,7 @@ public class Main extends StateBasedGame<KittenGameState> {
         cfg.vSyncEnabled = false;
         cfg.foregroundFPS = 60;
         cfg.backgroundFPS = 60;
+        cfg.resizable = false;
 
         new LwjglApplication(getInstance(), cfg);
     }
