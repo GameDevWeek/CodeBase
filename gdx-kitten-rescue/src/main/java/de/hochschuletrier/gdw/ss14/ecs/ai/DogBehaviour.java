@@ -47,6 +47,14 @@ public class DogBehaviour extends Behaviour {
          * PhysicsComponent.class);
          */
         /* Setup Tree */
+     
+        /*
+        //testverhalten
+        setName("test");
+        BaseNode root = new Sequence(this);
+        new HundHaengt(root);
+        new HundInRandomRichtung(root);
+        */
         
         /*
         //Finales Soll-Verhalten mit SeeCat, Patrouille, ChaseCat und Ecken ausweichen:
@@ -66,9 +74,9 @@ public class DogBehaviour extends Behaviour {
         Invert nichtsehend = new Invert(pat);
         new Patroullieren(pat);
         new DogSeesCat(nichtsehend);
-        */
+          */
         
-        /*
+        
         //SeeCat Patrouille oder Chase Cat verhalten:
         setName("Catch the Cat oder patroullieren");
         BaseNode root = new Selector(this);
@@ -79,8 +87,9 @@ public class DogBehaviour extends Behaviour {
         Invert nichtsSehend = new Invert(patroulliere);
         new DogSeesCat(nichtsSehend);
         new Patroullieren(patroulliere);
-        */
         
+       
+        /*
       //Katze verfolgen und ecken ausweichen verhalten:  
         setName("Catch the Cat und weich Ecken aus");
         BaseNode root = new Selector(this);
@@ -91,7 +100,7 @@ public class DogBehaviour extends Behaviour {
         Invert dogNotChase = new Invert(hh);
         new DogIsChasing(dogNotChase);
         new HundHaengt(hh);
-
+    */
         // don't forget to activate behaviour on instantiation ;)
         this.activate();
         
@@ -134,6 +143,7 @@ public class DogBehaviour extends Behaviour {
     class HundHaengt extends BaseCondition {
         // Gibt Success zurück, wenn der Hund an einer Stelle hängt für eine
         // gewisse Zeit.
+    
         float timer;
         float MAX_TIME = 2;
         Vector2 currentPos;
@@ -176,8 +186,12 @@ public class DogBehaviour extends Behaviour {
                 // ", "+posNext.y );
                 if (timer < 0f) {
                     rueckgabe = State.SUCCESS;
+                    //logger.debug("Hund hängt, timer: "+timer);
+                //    System.out.println("HundHaengt. Hund hängt, timer: "+timer);
                 } else {
                     rueckgabe = State.FAILURE;
+                  //  logger.debug("Hund hängt nicht, timer: "+timer);
+                  //  System.out.println("HundHaengt. Hund hängt nicht, timer: "+timer);
                 }
 
                 timer -= delta;
@@ -190,7 +204,7 @@ public class DogBehaviour extends Behaviour {
 
            // logger.debug("HundHeangt: Rückgabe:  " + rueckgabe + " INstanz: "
               //      + this);
-
+            
             return rueckgabe; // nur Success, wenn der Hund hängt.
 
             /*
@@ -261,19 +275,29 @@ public class DogBehaviour extends Behaviour {
         @Override
         public State onEvaluate(float delta) {
             boolean hundSiehtKatze;
-         
+            cat = bb.em.getAllEntitiesWithComponents(PlayerComponent.class, CatPropertyComponent.class); 
+            CatPropertyComponent kittyEigenschaft = bb.em.getComponent(cat.first(), CatPropertyComponent.class);
+             
              EnemyComponent ec = bb.em.getComponent(dogID, EnemyComponent.class);
              hundSiehtKatze = ec.seeCat;
              System.out.println("Hund sieht Katze: "+hundSiehtKatze);
              State rueckgabe;
              if(hundSiehtKatze){
-                 rueckgabe = State.SUCCESS;
-                 SoundManager.performAction(state.SUCCESS);
+                 //rueckgabe = State.SUCCESS;
+                 //SoundManager.performAction(state.SUCCESS);
+                 if(kittyEigenschaft.isHidden)
+                     rueckgabe = State.FAILURE;
+                 else{
+                     rueckgabe = State.SUCCESS;
+                     SoundManager.performAction(state.SUCCESS);
+                 }
              }
              else {
                  rueckgabe = State.FAILURE;
                  SoundManager.performAction(state.FAILURE);
              }
+             
+             
             return rueckgabe;
         }
         
@@ -371,6 +395,28 @@ public class DogBehaviour extends Behaviour {
 
         @Override
         public State onRun(float delta) {
+            
+            /*
+             * Hund hängt, timer: -0.2639994
+Hund wird ausweichen, timer: 0.686
+Richtung: 926.26025, 596.0796 Timer: 0.686
+Hund wird ausweichen, timer: 1.5640002
+Hund wird ausweichen, timer: 1.5640002
+Hund hängt nicht, timer: 1.5830003
+Hund wird ausweichen, timer: 1.95
+Richtung: -5284.563, -5393.1616 Timer: 1.95
+Hund hängt, timer: -0.2809994
+Hund wird ausweichen, timer: 0.668
+Richtung: 1297.4065, 1101.6582 Timer: 0.668
+Hund wird ausweichen, timer: 1.5460002
+Hund wird ausweichen, timer: 1.5460002
+Hund hängt nicht, timer: 1.5650003
+             * 
+             * 
+             * 
+             */
+            logger.debug(("Hund wird ausweichen, timer: "+timer));
+            //System.out.println("Hund wird ausweichen, timer: "+timer);
             //Vorgehen: 
             //1. Zielpunkt um 90 Grad um Hund rotieren. Zufällig ob rechts oder links rum
             //2. Zielpunkt in die richtung analog zu vorheriger zufallsrichtung um 1-3 Körperlängen verlängern
@@ -419,6 +465,9 @@ public class DogBehaviour extends Behaviour {
             neuesZiel.x += verlaengerung;
             else
             neuesZiel.y += verlaengerung;
+            logger.debug("Richtung: "+ neuesZiel.x+ ", "+ neuesZiel.y+" Timer: "+timer);
+            //System.out.println("Richtung: "+ neuesZiel.x+ ", "+ neuesZiel.y+" Timer: "+timer);
+            ic.whereToGo = neuesZiel;
             }
             ic.whereToGo = neuesZiel;
             

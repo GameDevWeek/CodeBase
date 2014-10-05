@@ -6,7 +6,7 @@ public class MovementComponent implements Component{
 
 	public float velocity;
     public float acceleration;
-    public float damping = -100f;
+    public float damping = -50f;
     public float maxVelocity;
     public float middleVelocity;
     public float minVelocity;

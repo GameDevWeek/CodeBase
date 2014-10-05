@@ -76,7 +76,7 @@ public class OptionsMenu extends LaserCatMenu
 		button[0].setName("button");		
 		
 		currentVolume = LocalMusic.getSystemVolume();
-		volumeLabel = new Label (Integer.toString((int)currentVolume*10), catSkin);
+		volumeLabel = new Label (Integer.toString((int)(LocalMusic.getSystemVolume()*10)), catSkin);
 
 		button[1] = new UIButton(catSkin, "sound_push");
 		button[1].setName("button");

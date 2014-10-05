@@ -57,6 +57,10 @@ public abstract class InputDevice extends InputAdapter {
     	listener.remove(gia);
 	}
     
+    public void clearAllGameInputAdapter() {
+        listener.clear();
+    }
+    
     public abstract void update();
     
     /**

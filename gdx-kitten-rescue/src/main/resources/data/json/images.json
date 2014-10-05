@@ -12,5 +12,6 @@
     "laser_cursor": "data/images/laser.png",
     "waterpistol_cursor": "data/images/crosshair2.png",
     "waterbar_filling": "data/images/water.png",
-    "wool": "data/images/Wollknaeuel.png"
+    "wool": "data/images/Wollknaeuel.png",
+    "box_with_cat": "data/images/box_with_cat.png"
    }

@@ -23,7 +23,7 @@ public class CatPropertyComponent implements Component
     public boolean isInfluenced = false;
     public float influencedToLaser = 1;
 
-    public final float TIME_TILL_INFLUENCED = 2.5f;
+    public final float TIME_TILL_INFLUENCED = 1f;
     public float timeTillInfluencedTimer = 0;
 
     public final float TIME_TILL_JUMP = 0.5f;
@@ -37,6 +37,12 @@ public class CatPropertyComponent implements Component
 
     public int idOfLastTouchedStair = -1;
     public boolean canChangeMap = true;
+    
+    public final float JUMP_IN_BOX = 1.2f;
+    public float jumpInBoxTimer = 0;
+    
+    public final float JUMP_OUT_BOX = 1.2f;
+    public float jumpOutBox = 0;
 
     public GroundTypeState groundWalking;
     

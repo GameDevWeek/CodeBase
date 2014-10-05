@@ -42,11 +42,11 @@ public class OptionsMenuState extends KittenGameState implements InputProcessor 
     
     @Override
     public void onEnter(KittenGameState previousState) {
-    	if (this.music.isMusicPlaying()) {
-			this.music.setFade('i',4000);
-		} else {
-			this.music.play("menu");
-		}
+    	//if (this.music.isMusicPlaying()) {
+		//	this.music.setFade('i',4000);
+		//} else {
+			this.music.play("main_loop");
+		//}
         optionsMenu = new OptionsMenu();
         optionsMenu.init(assetManager, previousState);
         inputProcessor.setActive(true);
@@ -59,9 +59,11 @@ public class OptionsMenuState extends KittenGameState implements InputProcessor 
 
     @Override
     public void onLeave(KittenGameState nextState) {
-    	if (this.music.isMusicPlaying()) {
-    		this.music.setFade('o', 2000);
-		}
+    	//if (this.music.isMusicPlaying()) {
+    	//	this.music.setFade('o', 2000);
+		//}
+    	music.stop();
+    	
     	optionsMenu.dispose();
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);
