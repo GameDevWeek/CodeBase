@@ -91,11 +91,7 @@
     <property name="id" value="0"/>
    </properties>
   </object>
-  <object name="start" x="2676" y="880" width="56" height="48">
-   <properties>
-    <property name="start" value="true"/>
-   </properties>
-  </object>
+  <object name="start" x="2676" y="880" width="56" height="48"/>
   <object name="DogSpawn" x="492" y="296" width="88" height="72">
    <properties>
     <property name="id" value="1"/>
@@ -435,7 +431,7 @@
    eJzt1zEKgEAMBMDAfUb9iY8R7v+VaQQ7C0W9MAPbBtIkbAQAANzXW8SUmTNLZmv/mgfA+0a538fPAYAvPNl99CgAqOf8368yurXADlCBXkEFO6T6CrU=
   </data>
  </layer>
- <layer name="ground" width="50" height="50">
+ <layer name="ground" width="50" height="50" visible="0">
   <properties>
    <property name="floor" value="4"/>
   </properties>
@@ -443,7 +439,7 @@
    eJzt1rEJACAMBMDoDjqV+8/jAiIWgqJXXBtI8/8pIhIAcJWS995ree70vwAAK0YbafduAuBe9YHM11sAf5H7AABndO3NDLI=
   </data>
  </layer>
- <layer name="solid1" width="50" height="50">
+ <layer name="solid1" width="50" height="50" visible="0">
   <properties>
    <property name="floor" value="4"/>
   </properties>
@@ -451,7 +447,7 @@
    eJztmFlOxDAMhi1xGgQHQMAFuABi33eGfZPgAZ7hAQ7ACVjuyF+p0YSoam2nTT2QX/qlRJqqcb6k9nhijGhuxD0JT8NLRLQMr8Cr8Fppf25l7M/X4Q14qozjCONjeACfwKel/bmVsT8/g8+9OO4xfqDR0yP8RMM4njF+6XdJKr3Cb5R5WFHmYUvWeHzB3/AuvA9/wJ+M56zxcOtxcXD3VcLD36s9z5J9467HxcHd1zCOuufcXt3At57vqL3z2FYcdevZhneouubZhLdiAijV1rmqi/8KvqbqmucCvoxYf7iegnnBuQseKRQy53KW8EihkDmXszUeWlnjoVXmYUupeGjrJq5S1Vfa/MZVKh7aeoOrzEP3nr/Go+33/Fce78r3zJc+JBv3w88DC/T7/xTHi2SDR3jOq/ra/jjsI1v5XoXnvKqv7Y/DPrKV+6HNA9byR2wfIPOoV+ah53FAw3zSlvrgIck7Lt80qa/70ZR3pPmmr/vRlHek+cbq90paH0t5xPZfpeuSxs3loe2/WuPh+q/uPkr7r1Z4uP6ru4/c/qs1HlpJeWjjttYv0Z7Drnl0XSem4hF7zyU8ZuDxjl30GYo6savfz8I/MaGIKA==
   </data>
  </layer>
- <layer name="gap" width="50" height="50">
+ <layer name="gap" width="50" height="50" visible="0">
   <properties>
    <property name="floor" value="4"/>
   </properties>
@@ -459,7 +455,7 @@
    eJztmcEKwjAMQMOmR91lip7s//in+o2CEwxsoy2NTdKu5kHw1vQtNc0YgGHIcugAjgoxdLIe47T+SSHO5lGVx0X4TGp43Dz7cMy11PDw7YOSt2aPELkeWPt7Ys6hB9glxr5P9/CdN4oHtZ9wn4vYuuZhHi17rO9AiVlLwyOnPtT9pM4Nr+/vNcNjnourNtTn+rkPft2/ZG3Mo22PEFvy8M3nSGhOl/bg7o3SeUp7UN4TYz26tAdXT2jFY42rxCPWMyj5Snvk5sd83JTwkEDbQwrzqIt/9cB7Ht/bNL49SHhgzOfSGmrUikcqjymesH0PxDXiMZpHtUjN4NpIzeDamMdyjdLPwTyWa5gHD638z0O8AVEXTbg=
   </data>
  </layer>
- <layer name="deco1" width="50" height="50">
+ <layer name="deco1" width="50" height="50" visible="0">
   <properties>
    <property name="floor" value="4"/>
   </properties>
@@ -467,7 +463,7 @@
    eJztmdsKgkAQQMUguz1UPgSZdqP/qYcKKqj+/ydaYaXBxHbH1R3XOTAvkrtz9jqh5zGMOyx82xmYwRWPmfAYIGPoyBhMiXiMRB4rGWNETlTWJBzP0BGPlEgzLx0POPdlgVkXVde3jkf626OI0593bKwLXQ8VuuzR9LpSAeOR3oEBCF2oeKgSFZwrsYhEo890zPpyvLJ6IJDP4PM5kbOcGlTuuKqwBy3YgxZ1e6jWjfCcx5C/I8sCA883LdrkAeuZ/P8j2x75/am6//L1n20PbP911rEYuu6x9L/7hQK217Up6vY4i/YvIK419Vd0z5vkJtq7g3i0dP5d8XiKvF8g3i31YBjGLlldgflGQRFqNR8Wah5xz/MSGeue+nsmPCagjarfLzYi962MXcMeIXv84IrHHuR+aNiDOh8l8xdE
   </data>
  </layer>
- <layer name="solid2" width="50" height="50">
+ <layer name="solid2" width="50" height="50" visible="0">
   <properties>
    <property name="floor" value="4"/>
   </properties>
@@ -491,12 +487,12 @@
   <object name="door" gid="683" x="2559.33" y="3072"/>
   <object name="door" gid="684" x="2240.67" y="3072"/>
  </objectgroup>
- <objectgroup name="renderlayer">
+ <objectgroup name="renderlayer" visible="0">
   <properties>
    <property name="floor" value="4"/>
   </properties>
  </objectgroup>
- <layer name="deco2" width="50" height="50">
+ <layer name="deco2" width="50" height="50" visible="0">
   <properties>
    <property name="floor" value="4"/>
   </properties>
