@@ -1,14 +1,15 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.hochschuletrier.gdw.commons.gdx.assets.*;
 import de.hochschuletrier.gdw.commons.jackson.*;
 import de.hochschuletrier.gdw.ss14.gamestates.*;
-
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 public class LevelMenu extends LaserCatMenu
 {
@@ -17,9 +18,8 @@ public class LevelMenu extends LaserCatMenu
     private String levelString;
     private static int numberOfLevels;
 
-    private static Array<String> mapKeyArray = new Array<String>();
     private static int levelIndex;
-    private static Map<String, String> mapJson;
+    private static List<MapInfo> mapJson;
 
     @Override
     public void init(AssetManagerX assetManager)
@@ -55,16 +55,8 @@ public class LevelMenu extends LaserCatMenu
         try
         {
             //Map <String, String> mapJson = JacksonReader.readMap("data/json/maps.json",String.class);
-            mapJson = JacksonReader.readMap("data/json/maps.json", String.class);
-            Set<String> mapKeySet = mapJson.keySet();
-            numberOfLevels = mapKeySet.size();
-
-            for (String s : mapKeySet)
-            {
-                mapKeyArray.add(s);
-                System.out.println("Found map: " + s);
-
-            }
+            mapJson = JacksonReader.readList("data/json/maps.json", MapInfo.class);
+            numberOfLevels = mapJson.size();
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -98,13 +90,18 @@ public class LevelMenu extends LaserCatMenu
         widgetFrame.add(button[0]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
         widgetFrame.add(button[1]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
 
-        levelLabel = new Label(mapKeyArray.get(levelIndex), catSkin);
+        levelLabel = new Label(mapJson.get(levelIndex).name, catSkin);
         widgetFrame.add(levelLabel).center();
 
         widgetFrame.add(button[2]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
         widgetFrame.add(button[3]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
 
         name = null;
+    }
+
+    public static class MapInfo {
+        public String name;
+        public String path;
     }
 
     private class LevelMenuListener extends ClickListener
@@ -120,17 +117,17 @@ public class LevelMenu extends LaserCatMenu
                 {
                     case 0:
                         GameStateEnum.GAMEPLAY.activate();
-                        System.out.println("load map: " + mapKeyArray.get(levelIndex)); // placeholder
+                        System.out.println("load map: " + mapJson.get(levelIndex).name); // placeholder
                         // mapJson.get(mapKeyArray[levelIndex]);
                         break;
                     case 1:
                         levelIndex = ((levelIndex - 1) + numberOfLevels) % numberOfLevels;
-                        levelLabel.setText(mapKeyArray.get(levelIndex));
+                        levelLabel.setText(mapJson.get(levelIndex).name);
                         System.out.println("Decrease Level to " + levelIndex);
                         break;
                     case 2:
                         levelIndex = ((levelIndex + 1) + numberOfLevels) % numberOfLevels;
-                        levelLabel.setText(mapKeyArray.get(levelIndex));
+                        levelLabel.setText(mapJson.get(levelIndex).name);
                         System.out.println("Increase Level to " + levelIndex);
                         break;
                     case 3:
@@ -147,7 +144,8 @@ public class LevelMenu extends LaserCatMenu
         {
             loadJson();
         }
-        System.out.println("Start map: " + mapJson.get(mapKeyArray.get(levelIndex)));
-        return mapJson.get(mapKeyArray.get(levelIndex));
+        String path = mapJson.get(levelIndex).path;
+        System.out.println("Start map: " + path);
+        return path;
     }
 }

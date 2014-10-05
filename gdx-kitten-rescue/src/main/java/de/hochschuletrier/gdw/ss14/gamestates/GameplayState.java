@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.ss14.gamestates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +15,7 @@ import de.hochschuletrier.gdw.ss14.hud.IngameHUD;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
 import de.hochschuletrier.gdw.ss14.sound.CatSoundListener;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
+import net.java.games.input.Component;
 
 /**
  * Gameplay state
@@ -146,6 +148,8 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        if(keycode == Keys.ESCAPE)
+            GameStateEnum.PAUSEGAME.activate();
         return false;
     }
 

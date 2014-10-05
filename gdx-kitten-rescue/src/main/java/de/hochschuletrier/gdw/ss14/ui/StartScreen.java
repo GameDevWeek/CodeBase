@@ -56,6 +56,17 @@ public class StartScreen extends LaserCatMenu implements ScreenListener {
         table.bottom();        
         table.add(startButton).size(Value.percentWidth(0.15f, table));
         //table.debug(Debug.all);
+//        dummyTable.debug(Debug.all);
+    }
+    public void dispose(){
+        stage.dispose();
+    }
+    public void render(){
+        stage.draw();
+    }
+    public void update(float delta){
+        // TODO Auto-generated method stub
+        stage.act(Gdx.graphics.getDeltaTime());
     }
 
     private class StartScreenListener extends ClickListener{

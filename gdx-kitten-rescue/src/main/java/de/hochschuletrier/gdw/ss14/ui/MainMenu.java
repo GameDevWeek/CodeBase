@@ -16,13 +16,12 @@ public class MainMenu extends LaserCatMenu
 	public void init(AssetManagerX assetManager)
 	{
 		super.init(assetManager);
-		numberOfButtons = 5;
+		numberOfButtons = 4;
 		name = new String[numberOfButtons];
-		name[0] = "Start";
-		name[1] = "Levels";
-		name[2] = "Options";
-		name[3] = "Credits";
-		name[4] = "Exit Game";
+		name[0] = "Levels";
+		name[1] = "Options";
+		name[2] = "Credits";
+		name[3] = "Exit Game";
 		
 		addButtonsToFrame();
 		actionListener = new MainMenuListener();
@@ -68,18 +67,15 @@ public class MainMenu extends LaserCatMenu
 					switch (i)
 					{
 						case 0:
-							GameStateEnum.GAMEPLAY.activate();
-							break;
-						case 1:
 							GameStateEnum.LEVELMENU.activate();
 							break;
-						case 2:
+						case 1:
 							GameStateEnum.OPTIONSMENU.activate();
 							break;
-						case 3:
+						case 2:
 							GameStateEnum.CREDITS.activate();
 							break;
-						case 4:
+						case 3:
 							System.exit(0);
 							break;
 						default:
