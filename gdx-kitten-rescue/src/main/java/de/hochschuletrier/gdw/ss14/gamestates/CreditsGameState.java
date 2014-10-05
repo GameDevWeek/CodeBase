@@ -39,13 +39,19 @@ public class CreditsGameState extends KittenGameState implements InputProcessor 
 
     @Override
     public void render() {
-        Main.getInstance().screenCamera.bind();
+        //Main.getInstance().screenCamera.bind();
         
-        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.DARK_GRAY);
-        creditsMenu.render();
-        Main.getInstance().screenCamera.bind();
+        //DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.DARK_GRAY);
+        
+        //Main.getInstance().screenCamera.bind();
+
+
         if(sceneAnimator != null)
             sceneAnimator.render();
+        
+        DrawUtil.batch.end();
+        creditsMenu.render();
+        DrawUtil.batch.begin();
     }
 
     @Override
