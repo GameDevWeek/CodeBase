@@ -113,12 +113,12 @@ public class MapManager
         case parketfloor:
             fixturedef.sensor(true);
             EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.woodenfloor);break;
-        case passable:
-            PhysixBody physixBody = bodydef.create();
-            physixBody.createFixture(fixturedef);
-            physixBody.getBody().setUserData("catdoor");
-            // TODO: set category and mask
-            break;
+//        case passable:
+//            PhysixBody physixBody = bodydef.create();
+//            physixBody.createFixture(fixturedef);
+//            physixBody.getBody().setUserData("wall");
+//            // TODO: set category and mask
+//            break;
 
         }
 
