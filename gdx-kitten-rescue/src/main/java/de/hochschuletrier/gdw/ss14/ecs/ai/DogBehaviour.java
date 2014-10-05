@@ -52,21 +52,22 @@ public class DogBehaviour extends Behaviour {
         //testverhalten
         setName("test");
         BaseNode root = new Sequence(this);
-        new HundHaengt(root);
-        new HundInRandomRichtung(root);
+       // new DogSeesCat(root);
+       // new HundHaengt(root);
+       new HundInRandomRichtung(root);
         */
         
-        /*
+        
         //Finales Soll-Verhalten mit SeeCat, Patrouille, ChaseCat und Ecken ausweichen:
         setName("Catch the Cat, patrouillieren, katze sehen, und Ecken ausweichen.");
         BaseNode root = new Selector(this);
         Sequence hundHaengt = new Sequence(root);
         Selector jagen = new Selector(root);
-        Selector hh = new Selector(hundHaengt);
+     //   Selector hh = new Selector(hundHaengt);
         new HundInRandomRichtung(hundHaengt);
-        new HundHaengt(hh);
-        Invert dogNotChase = new Invert(hh);
-        new DogIsChasing(dogNotChase);
+        new HundHaengt(hundHaengt);
+       // Invert dogNotChase = new Invert(hh);
+     //   new DogIsChasing(dogNotChase);
         Sequence katzenChase = new Sequence(jagen);
         Sequence pat = new Sequence(jagen);
         new DogSeesCat(katzenChase);
@@ -74,7 +75,7 @@ public class DogBehaviour extends Behaviour {
         Invert nichtsehend = new Invert(pat);
         new Patroullieren(pat);
         new DogSeesCat(nichtsehend);
-          */
+          
         
        /* 
         //SeeCat Patrouille oder Chase Cat verhalten:
@@ -89,18 +90,15 @@ public class DogBehaviour extends Behaviour {
         new Patroullieren(patroulliere);
         */
        
-        
+        /*
       //Katze verfolgen und ecken ausweichen verhalten:  
         setName("Catch the Cat und weich Ecken aus");
         BaseNode root = new Selector(this);
         Sequence hundHaengt = new Sequence(root);
         new DogBehaviour.ChaseCat(root);
-        //Selector hh = new Selector(hundHaengt);
         new HundInRandomRichtung(hundHaengt);
-       // Invert dogNotChase = new Invert(hh);
-        //new DogIsChasing(dogNotChase);
         new HundHaengt(hundHaengt);
-    
+    */
         // don't forget to activate behaviour on instantiation ;)
         this.activate();
         
@@ -179,7 +177,7 @@ public class DogBehaviour extends Behaviour {
             currentPos = new Vector2(pc.getPosition());
             pc = bb.em.getComponent(dogID, PhysicsComponent.class);
 
-            if (oldPos.epsilonEquals(currentPos, 1f)) {
+            if (oldPos.epsilonEquals(currentPos, 2f)) {
                 // System.out.println("zwei bis null "+ timer);
                 // System.out.println("Evaluate, timer: "+ timer);
                 // System.out.println("zwei bis null, pos gesetzt zu Timer: "+timer+" pos: "+pos.x+", "+pos.y+", posNext: "+posNext.x+
@@ -187,7 +185,7 @@ public class DogBehaviour extends Behaviour {
                 if (timer < 0f) {
                     rueckgabe = State.SUCCESS;
                     //logger.debug("Hund hängt, timer: "+timer);
-                //    System.out.println("HundHaengt. Hund hängt, timer: "+timer);
+                  // System.out.println("HundHaengt. Hund hängt, timer: "+timer+" current: "+ currentPos.x + ", "+ currentPos.y+ " old: "+oldPos.x+ ", "+oldPos.y);
                 } else {
                     rueckgabe = State.FAILURE;
                   //  logger.debug("Hund hängt nicht, timer: "+timer);
@@ -197,7 +195,9 @@ public class DogBehaviour extends Behaviour {
                 timer -= delta;
             } else {
                 timer = MAX_TIME;
-                rueckgabe = State.FAILURE;
+               // System.out.println("HundHaengt. Hund hängt NICHT, timer: "+timer+" current: "+ currentPos.x + ", "+ currentPos.y+ " old: "+oldPos.x+ ", "+oldPos.y);
+
+                //rueckgabe = State.FAILURE;
             }
 
             oldPos.set(currentPos);
@@ -280,7 +280,7 @@ public class DogBehaviour extends Behaviour {
              
              EnemyComponent ec = bb.em.getComponent(dogID, EnemyComponent.class);
              hundSiehtKatze = ec.seeCat;
-             System.out.println("Hund sieht Katze: "+hundSiehtKatze);
+          //   System.out.println("Hund sieht Katze: "+hundSiehtKatze);
              State rueckgabe;
              if(hundSiehtKatze){
                  //rueckgabe = State.SUCCESS;
@@ -317,6 +317,7 @@ public class DogBehaviour extends Behaviour {
 
         @Override
         public State onRun(float delta) {
+            System.out.println("Hund Patroulliert");
            proper = bb.em.getComponent(dogID, DogPropertyComponent.class);
            patrolPunkte =  proper.patrolspots;
            int laenge = patrolPunkte.size();
@@ -368,12 +369,14 @@ public class DogBehaviour extends Behaviour {
         float timer;
         boolean timerLaeuft;
         float MAX_TIME = 2;
+        Vector2 neuesZiel;
 
         public HundInRandomRichtung(BaseNode parent) {
             /**Muss erstellt werden nachdem Dog/CatPhysicsComponent angemeldet wurde.
              *  Soll: Zielpunkt wird zufällig rechts oder links rum um 90Grad um den Hund rotiert, um 1-3 Körperlängen (zufällig) verlängert*/
             super(parent);
             timer = MAX_TIME;
+            neuesZiel= new Vector2();
             timerLaeuft = false;
             //x, y sind die zufälligen Abweichungen in Körperlängen
             x = (float) (Math.random() * (high - low) + low);
@@ -396,87 +399,126 @@ public class DogBehaviour extends Behaviour {
         @Override
         public State onRun(float delta) {
             
-            /*
-             * Hund hängt, timer: -0.2639994
-Hund wird ausweichen, timer: 0.686
-Richtung: 926.26025, 596.0796 Timer: 0.686
-Hund wird ausweichen, timer: 1.5640002
-Hund wird ausweichen, timer: 1.5640002
-Hund hängt nicht, timer: 1.5830003
-Hund wird ausweichen, timer: 1.95
-Richtung: -5284.563, -5393.1616 Timer: 1.95
-Hund hängt, timer: -0.2809994
-Hund wird ausweichen, timer: 0.668
-Richtung: 1297.4065, 1101.6582 Timer: 0.668
-Hund wird ausweichen, timer: 1.5460002
-Hund wird ausweichen, timer: 1.5460002
-Hund hängt nicht, timer: 1.5650003
-             * 
-             * 
-             * 
-             */
-            logger.debug(("Hund wird ausweichen, timer: "+timer));
+      
+          //  System.out.println("Hund weicht aus");
+          
+           // logger.debug(("Hund wird ausweichen, timer: "+timer));
             //System.out.println("Hund wird ausweichen, timer: "+timer);
             //Vorgehen: 
             //1. Zielpunkt um 90 Grad um Hund rotieren. Zufällig ob rechts oder links rum
             //2. Zielpunkt in die richtung analog zu vorheriger zufallsrichtung um 1-3 Körperlängen verlängern
             Vector2 aktuellerZielpunkt;
             Vector2 positionDesHundes;
-            Vector2 neuesZiel= new Vector2();
+            
             DogPropertyComponent dprc = bb.em.getComponent(dogID, DogPropertyComponent.class);
+            
+                       
             
             if (timerLaeuft) {
             //nur Pointer!!!:
-           positionDesHundes = pc.getPosition();
-           aktuellerZielpunkt = ic.whereToGo;
-           Vector2 entfernung;
-           entfernung = new Vector2( (positionDesHundes.x-aktuellerZielpunkt.x), (positionDesHundes.y-aktuellerZielpunkt.y));           
-           high = 10;
-           low = 0;
-           //random zwischen high und low:
-           double zufall = (Math.random() * (high - low) + low);
-           //-------------
-           //TODO: randbedingungen, falls der Zielpunkt ausserhalb der Karte ist gibt es fehler??? Oder ist das kein Problem???
-           //-------------
-           if(zufall < 5){
-               //in der hälfte der Fälle sagt Laplace: "
-               //plus
-               neuesZiel.x = aktuellerZielpunkt.x + entfernung.y;
-               neuesZiel.y = aktuellerZielpunkt.y + entfernung.x;
+//           positionDesHundes = pc.getPosition();
+//           aktuellerZielpunkt = ic.whereToGo;
+//           Vector2 entfernung;
+//           entfernung = new Vector2( (positionDesHundes.x-aktuellerZielpunkt.x), (positionDesHundes.y-aktuellerZielpunkt.y));           
+//           high = 10;
+//           low = 0;
+//           //random zwischen high und low:
+//           double zufall = (Math.random() * (high - low) + low);
+//           //-------------
+//           //TODO: randbedingungen, falls der Zielpunkt ausserhalb der Karte ist gibt es fehler??? Oder ist das kein Problem???
+//           //-------------
+//           if(zufall < 5){
+//               //in der hälfte der Fälle sagt Laplace: "
+//               //plus
+//               neuesZiel.x = aktuellerZielpunkt.x + entfernung.y;
+//               neuesZiel.y = aktuellerZielpunkt.y + entfernung.x;
+//               
+//           } else {
+//               //minus
+//               neuesZiel.x = aktuellerZielpunkt.x - entfernung.y;
+//               neuesZiel.y = aktuellerZielpunkt.y - entfernung.x;
+//           }
+//           //2.: Wenn x von entfernung kleiner ist als y von entfernung dann x verlängern um zufällig 1-3 körperlängen.           
+//            // 1-3Körperlängen
+//            if (pc instanceof CatPhysicsComponent) {
+//                low = cpc.height;
+//                high = cpc.height * 3;
+//            }
+//
+//            if (pc instanceof DogPhysicsComponent) {
+//                low = dpc.mHeight;
+//                high = dpc.mHeight * 3;
+//            }
+//            float verlaengerung = (float) (Math.random() * (high - low) + low);
+//            if(entfernung.x < entfernung.y)
+//            neuesZiel.x += verlaengerung;
+//            else
+//            neuesZiel.y += verlaengerung;
+//           // logger.debug("Richtung: "+ neuesZiel.x+ ", "+ neuesZiel.y+" Timer: "+timer);
+//            //System.out.println("Richtung: "+ neuesZiel.x+ ", "+ neuesZiel.y+" Timer: "+timer);
+                Vector2 bruch = new Vector2(neuesZiel);
+            ic.whereToGo = bruch;
+            System.out.println("Timer Läuft");
+            } else
+            { System.out.println("Timer aus");
+                
+                //aus timerLaeuft raus gezogen:
                
-           } else {
-               //minus
-               neuesZiel.x = aktuellerZielpunkt.x - entfernung.y;
-               neuesZiel.y = aktuellerZielpunkt.y - entfernung.x;
-           }
-           //2.: Wenn x von entfernung kleiner ist als y von entfernung dann x verlängern um zufällig 1-3 körperlängen.           
-            // 1-3Körperlängen
-            if (pc instanceof CatPhysicsComponent) {
-                low = cpc.height;
-                high = cpc.height * 3;
-            }
+                positionDesHundes = new Vector2( pc.getPosition());
+                aktuellerZielpunkt = new Vector2(ic.whereToGo);
+                Vector2 entfernung;
+                entfernung = new Vector2( (positionDesHundes.x-aktuellerZielpunkt.x), (positionDesHundes.y-aktuellerZielpunkt.y));    
+                //System.out.println("Entfernung: "+entfernung.x+", "+entfernung.y);
+                high = 10;
+                low = 0;
+                //random zwischen high und low:
+                double zufall = (Math.random() * (high - low) + low);
+                //-------------
+                //TODO: randbedingungen, falls der Zielpunkt ausserhalb der Karte ist gibt es fehler??? Oder ist das kein Problem???
+                //-------------
+                if(zufall < 5){
+                    //in der hälfte der Fälle sagt Laplace: "
+                    //plus
+                    neuesZiel.x = aktuellerZielpunkt.x + entfernung.y;
+                    neuesZiel.y = aktuellerZielpunkt.y + entfernung.x;
+                    
+                } else {
+                    //minus
+                    neuesZiel.x = aktuellerZielpunkt.x - entfernung.y;
+                    neuesZiel.y = aktuellerZielpunkt.y - entfernung.x;
+                }
+                //2.: Wenn x von entfernung kleiner ist als y von entfernung dann x verlängern um zufällig 1-3 körperlängen.           
+                 // 1-3Körperlängen
+                 if (pc instanceof CatPhysicsComponent) {
+                     low = cpc.height;
+                     high = cpc.height * 3;
+                 }
 
-            if (pc instanceof DogPhysicsComponent) {
-                low = dpc.mHeight;
-                high = dpc.mHeight * 3;
+                 if (pc instanceof DogPhysicsComponent) {
+                     low = dpc.mHeight;
+                     high = dpc.mHeight * 3;
+                 }
+                 float verlaengerung = (float) (Math.random() * (high - low) + low);
+                 if(entfernung.x < entfernung.y)
+                 neuesZiel.x += verlaengerung;
+                 else
+                 neuesZiel.y += verlaengerung;
+                // logger.debug("Richtung: "+ neuesZiel.x+ ", "+ neuesZiel.y+" Timer: "+timer);
+                 //System.out.println("Richtung: "+ neuesZiel.x+ ", "+ neuesZiel.y+" Timer: "+timer);
+                //System.out.println("Neues Ziel: "+neuesZiel.x+", "+neuesZiel.y);
+                
+                
+                //_____________________________
+
             }
-            float verlaengerung = (float) (Math.random() * (high - low) + low);
-            if(entfernung.x < entfernung.y)
-            neuesZiel.x += verlaengerung;
-            else
-            neuesZiel.y += verlaengerung;
-            logger.debug("Richtung: "+ neuesZiel.x+ ", "+ neuesZiel.y+" Timer: "+timer);
-            //System.out.println("Richtung: "+ neuesZiel.x+ ", "+ neuesZiel.y+" Timer: "+timer);
-            ic.whereToGo = neuesZiel;
-            }
-            ic.whereToGo = neuesZiel;
+           // ic.whereToGo = neuesZiel;
             
             //!!!______________
             //TODO:
             //!!!________________
             if (timer < 0f) {
                 timer = MAX_TIME;
-                ic.whereToGo = neuesZiel;
+                //ic.whereToGo = neuesZiel;
                 //timerLaeuft = true;
                 timerLaeuft = !timerLaeuft;
                // dprc.dogIsChasing = false;
@@ -521,6 +563,7 @@ Hund hängt nicht, timer: 1.5650003
 
         @Override
         public State onRun(float delta) {
+            System.out.println("Hund jagt katze");
             cat = bb.em.getAllEntitiesWithComponents(PlayerComponent.class,
                     PhysicsComponent.class);
             cpc = bb.em.getComponent(cat.first(), PhysicsComponent.class);
