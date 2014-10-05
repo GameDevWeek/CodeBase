@@ -157,7 +157,10 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
 
                     if(catPropertyComponent != null)
                     {
-                        catPropertyComponent.setState(CatStateEnum.DIE);
+                        if(catPropertyComponent.getState() != CatStateEnum.DIE && catPropertyComponent.getState() != CatStateEnum.FALL)
+                        {
+                            catPropertyComponent.setState(CatStateEnum.DIE);
+                        }
                     }
 
                 }
