@@ -27,7 +27,7 @@ public class InputKeyboard extends InputDevice {
     		    this.fireLaserButtonPressed();
     		    break; 
     		case Input.Keys.L: 
-    		    this.fireWaterPistolButtonDown();
+    		    //this.fireWaterPistolButtonDown();
     		    break;
 	    }
 	    return false;
@@ -41,7 +41,7 @@ public class InputKeyboard extends InputDevice {
 	    
 		switch (keycode) {
 			case Input.Keys.L:
-			    this.fireWaterPistolButtonUp();
+			    //this.fireWaterPistolButtonUp();
 			    break;
 		}
 		return false;

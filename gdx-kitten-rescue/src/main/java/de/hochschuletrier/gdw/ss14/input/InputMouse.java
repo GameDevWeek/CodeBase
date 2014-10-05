@@ -44,7 +44,7 @@ public class InputMouse extends InputDevice {
 	    
 	    switch (action) {
             case SHOOT:
-                fireWaterPistolButtonDown();
+                //fireWaterPistolButtonDown();
                 break;
             case TOGGLE_LASER:
                 fireLaserButtonPressed();
@@ -63,11 +63,13 @@ public class InputMouse extends InputDevice {
 	    switch (button) {
 			case Input.Buttons.RIGHT:
 			    if (inputMapping.get("RIGHT") == InputAction.SHOOT) {
-			        this.fireWaterPistolButtonUp();
+			        //this.fireWaterPistolButtonUp();
+			    break;
 			    }
 			case Input.Buttons.LEFT:
 			    if (inputMapping.get("LEFT") == InputAction.SHOOT) {
-                    this.fireWaterPistolButtonUp();
+                    //this.fireWaterPistolButtonUp();
+			    	break;
                 } 
 			    break;
 		}

@@ -17,8 +17,8 @@ public enum GameStateEnum {
     PAUSEGAME(new PauseGameState()),
     CREDITS(new CreditsGameState()),
     OPTIONSMENU(new OptionsMenuState()),
-    FINISH(new FinishGameState()),
-    STARTSCREEN (new StartScreenState());
+    STARTSCREEN (new StartScreenState()),
+    FINISH(new FinishGameState());
     private final KittenGameState state;
 
     GameStateEnum(KittenGameState state) {
