@@ -4,6 +4,7 @@ package de.hochschuletrier.gdw.ss14.game;
 import java.util.ArrayList;
 
 import de.hochschuletrier.gdw.ss14.ui.*;
+import jdk.internal.util.xml.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +75,12 @@ public class Game {
         engine = new Engine();
         entityManager = EntityManager.getInstance();
         entityManager.deleteAllEntities();
+
+        if(InputManager.getInstance() != null)
+        {
+            InputManager.getInstance().clearAllGameInputAdapter();
+        }
+
 
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
         mapManager = new MapManager(entityManager, physixManager, am);

@@ -225,6 +225,7 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     @Override
     public void laserButtonPressed()
     {
+        /*
         Array<Integer> cats = entityManager.getAllEntitiesWithComponents(CatPropertyComponent.class);
         CatPropertyComponent cat = entityManager.getComponent(cats.first(), CatPropertyComponent.class);
         
@@ -279,28 +280,33 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
                     }
                 }
             }
+            */
     }
 
     @Override
     public void waterPistolButtonDown()
     {
+        /*
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
         if (laser.toolState == ToolState.WATERPISTOL && laser.currentWaterlevel > 0) {
             laser.waterpistolIsUsed = true;
             entityManager.addComponent(waterPistol, waterParticleEmitter);
         }
+        */
     }
 
     @Override
     public void waterPistolButtonUp()
     {
+        /*
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
         if (laser.toolState == ToolState.WATERPISTOL && laser.waterpistolIsUsed) {
             laser.waterpistolIsUsed = false;
             entityManager.removeComponent(waterPistol, waterParticleEmitter);
         }
+        */
     }
 
     @Override
