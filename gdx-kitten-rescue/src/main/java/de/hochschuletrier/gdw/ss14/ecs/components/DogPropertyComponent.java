@@ -17,4 +17,9 @@ public class DogPropertyComponent implements Component{
 
         this.patrolspots = patrolspots;
     }
+
+    public void setState(DogStateEnum falling) {
+        state = DogStateEnum.FALLING;
+        dogIsChasing = false;
+    }
 }

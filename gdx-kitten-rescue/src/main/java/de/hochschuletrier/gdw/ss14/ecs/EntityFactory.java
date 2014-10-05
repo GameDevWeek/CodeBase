@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
+
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.Behaviour;
 import de.hochschuletrier.gdw.commons.ai.behaviourtree.engine.BehaviourManager;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
@@ -14,6 +15,7 @@ import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour.DogBlackboard;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DogContactSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.WorldObjectsSystem;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICatStateListener;
@@ -186,11 +188,16 @@ public class EntityFactory{
         CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0, mask, category, (short) -2);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
+        
+        
 
         DogPropertyComponent dogState = new DogPropertyComponent(patrolspots);
         dogPhysix.initPhysics(phyManager);
         AnimationComponent dogAnimation = new AnimationComponent();
 
+        ICollisionListener contactSystem = (DogContactSystem) Game.engine.getSystemOfType(DogContactSystem.class);
+        dogPhysix.collisionListeners.add(contactSystem);
+        
         dogAnimation.animation.put(DogStateEnum.FALLING.ordinal(), assetManager.getAnimation("pudel_fallen"));
         dogAnimation.animation.put(DogStateEnum.KILLING.ordinal(), assetManager.getAnimation("pudel_beissen"));
         dogAnimation.animation.put(DogStateEnum.WALKING.ordinal(), assetManager.getAnimation("pudel_laufen"));
