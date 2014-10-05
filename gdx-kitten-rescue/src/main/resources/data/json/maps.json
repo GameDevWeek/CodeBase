@@ -1,6 +1,6 @@
 {
-	"map1": "data/maps/mehrstoeckigMap.tmx",
-	"map2": "data/maps/Level_NaepperSchnaepper.tmx",
-	"map3": "data/maps/Map02_YJ.tmx",
-	"alteTestMap": "data/maps/Katzenklappentest.tmx"
+	"Mehrstöckig": "data/maps/mehrstoeckigMap.tmx",
+	"NäpperSchnäpper": "data/maps/Level_NaepperSchnaepper.tmx",
+	"Map02_YJ": "data/maps/Map02_YJ.tmx",
+	"Katzenklappentest": "data/maps/Katzenklappentest.tmx"
 }

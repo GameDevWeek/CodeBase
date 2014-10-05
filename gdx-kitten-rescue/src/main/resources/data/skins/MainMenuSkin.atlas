@@ -5,161 +5,182 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 pauseScreen
   rotate: false
-  xy: 1, 842
+  xy: 1, 2679
   size: 1599, 1200
   orig: 1599, 1200
   offset: 0, 0
   index: -1
 startScreen
   rotate: false
-  xy: 1, 303
+  xy: 1, 2140
   size: 760, 537
   orig: 760, 537
   offset: 0, 0
   index: -1
-game-title
+creditsScreen
   rotate: false
-  xy: 1602, 1783
-  size: 1024, 259
-  orig: 1024, 259
+  xy: 1, 1601
+  size: 716, 537
+  orig: 716, 537
   offset: 0, 0
   index: -1
 main-menu-background
   rotate: false
-  xy: 763, 303
+  xy: 763, 2140
   size: 716, 537
   orig: 716, 537
   offset: 0, 0
   index: -1
 main-menu-cat
   rotate: false
-  xy: 1602, 1244
+  xy: 1, 1062
   size: 565, 537
   orig: 565, 537
   offset: 0, 0
   index: -1
 menuCat
   rotate: false
-  xy: 1602, 1244
+  xy: 1, 1062
   size: 565, 537
   orig: 565, 537
   offset: 0, 0
   index: 0
 menuCat
   rotate: false
-  xy: 2169, 1244
+  xy: 719, 1601
   size: 565, 537
   orig: 565, 537
   offset: 0, 0
   index: 1
 menuCat
   rotate: false
-  xy: 1602, 705
+  xy: 1, 523
   size: 565, 537
   orig: 565, 537
   offset: 0, 0
   index: 2
 menuCat
   rotate: false
-  xy: 2169, 705
+  xy: 568, 1062
   size: 565, 537
   orig: 565, 537
   offset: 0, 0
   index: 3
-bell-down
+game-title
+  rotate: false
+  xy: 1, 262
+  size: 1024, 259
+  orig: 1024, 259
+  offset: 0, 0
+  index: -1
+lose
   rotate: false
   xy: 1, 1
+  size: 1024, 259
+  orig: 1024, 259
+  offset: 0, 0
+  index: -1
+win
+  rotate: false
+  xy: 568, 801
+  size: 1024, 259
+  orig: 1024, 259
+  offset: 0, 0
+  index: -1
+bell-down
+  rotate: false
+  xy: 1602, 3579
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 bell
   rotate: false
-  xy: 1, 1
+  xy: 1602, 3579
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: 2
 bell-up
   rotate: false
-  xy: 303, 1
+  xy: 1602, 3277
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 bell
   rotate: false
-  xy: 303, 1
+  xy: 1602, 3277
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: 0
 bell
   rotate: false
-  xy: 303, 1
+  xy: 1602, 3277
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: 5
 bell
   rotate: false
-  xy: 605, 1
+  xy: 1602, 2975
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: 1
 bell
   rotate: false
-  xy: 605, 1
+  xy: 1602, 2975
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: 4
 bell
   rotate: false
-  xy: 907, 1
+  xy: 1602, 2673
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: 3
 sound-push-button-down
   rotate: false
-  xy: 1209, 1
+  xy: 1286, 1838
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 sound-push-button
   rotate: false
-  xy: 1481, 403
+  xy: 1286, 1536
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 sound-reduce-button-down
   rotate: false
-  xy: 1783, 403
+  xy: 1481, 2371
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 sound-reduce-button
   rotate: false
-  xy: 2085, 403
+  xy: 1135, 1234
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
 start-menu-button-down
   rotate: false
-  xy: 2387, 417
+  xy: 1437, 1248
   size: 310, 286
   orig: 310, 286
   offset: 0, 0
   index: -1
 start-menu-button
   rotate: false
-  xy: 1511, 115
+  xy: 1027, 513
   size: 310, 286
   orig: 310, 286
   offset: 0, 0
