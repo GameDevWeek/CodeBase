@@ -48,13 +48,14 @@ public class DogBehaviour extends Behaviour {
          */
         /* Setup Tree */
      
-        /*
+       /* 
         //testverhalten
         setName("test");
         BaseNode root = new Sequence(this);
        // new DogSeesCat(root);
-       // new HundHaengt(root);
-       new HundInRandomRichtung(root);
+        new HundHaengt(root);
+       
+        new HundInRandomRichtung(root);
         */
         
         
@@ -64,8 +65,9 @@ public class DogBehaviour extends Behaviour {
         Sequence hundHaengt = new Sequence(root);
         Selector jagen = new Selector(root);
      //   Selector hh = new Selector(hundHaengt);
-        new HundInRandomRichtung(hundHaengt);
         new HundHaengt(hundHaengt);
+        new HundInRandomRichtung(hundHaengt);
+      
        // Invert dogNotChase = new Invert(hh);
      //   new DogIsChasing(dogNotChase);
         Sequence katzenChase = new Sequence(jagen);
@@ -143,7 +145,7 @@ public class DogBehaviour extends Behaviour {
         // gewisse Zeit.
     
         float timer;
-        float MAX_TIME = 2;
+        float MAX_TIME = 1;
         Vector2 currentPos;
         Vector2 oldPos;
 
@@ -177,17 +179,19 @@ public class DogBehaviour extends Behaviour {
             currentPos = new Vector2(pc.getPosition());
             pc = bb.em.getComponent(dogID, PhysicsComponent.class);
 
-            if (oldPos.epsilonEquals(currentPos, 2f)) {
+            if (oldPos.epsilonEquals(currentPos, 0.7f)) {
                 // System.out.println("zwei bis null "+ timer);
                 // System.out.println("Evaluate, timer: "+ timer);
                 // System.out.println("zwei bis null, pos gesetzt zu Timer: "+timer+" pos: "+pos.x+", "+pos.y+", posNext: "+posNext.x+
                 // ", "+posNext.y );
                 if (timer < 0f) {
                     rueckgabe = State.SUCCESS;
+                    System.out.println("Hund hängt: true");
                     //logger.debug("Hund hängt, timer: "+timer);
                   // System.out.println("HundHaengt. Hund hängt, timer: "+timer+" current: "+ currentPos.x + ", "+ currentPos.y+ " old: "+oldPos.x+ ", "+oldPos.y);
                 } else {
                     rueckgabe = State.FAILURE;
+                    System.out.println("Hund hängt: false");
                   //  logger.debug("Hund hängt nicht, timer: "+timer);
                   //  System.out.println("HundHaengt. Hund hängt nicht, timer: "+timer);
                 }
@@ -368,7 +372,7 @@ public class DogBehaviour extends Behaviour {
         DogPhysicsComponent dpc;
         float timer;
         boolean timerLaeuft;
-        float MAX_TIME = 2;
+        float MAX_TIME = 1;
         Vector2 neuesZiel;
 
         public HundInRandomRichtung(BaseNode parent) {
@@ -458,9 +462,9 @@ public class DogBehaviour extends Behaviour {
 //            //System.out.println("Richtung: "+ neuesZiel.x+ ", "+ neuesZiel.y+" Timer: "+timer);
                 Vector2 bruch = new Vector2(neuesZiel);
             ic.whereToGo = bruch;
-            System.out.println("Timer Läuft");
+          //  System.out.println("Timer Läuft");
             } else
-            { System.out.println("Timer aus");
+            { //System.out.println("Timer aus");
                 
                 //aus timerLaeuft raus gezogen:
                
