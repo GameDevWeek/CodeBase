@@ -214,5 +214,45 @@
         "playType" : "LOOP",
         "columns": 1,
         "rows" : 1
+    },
+    "chihuahua_beissen": {
+        "filename": "data/animations/chihuahua_beissen.png",
+        "frames" : 4,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 4,
+        "rows" : 1
+    },
+    "chihuahua_fallen": {
+        "filename": "data/animations/chihuahua_fallen.png",
+        "frames" : 9,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 9,
+        "rows" : 1
+    },
+    "chihuahua_laufen": {
+        "filename": "data/animations/chihuahua_laufen.png",
+        "frames" : 6,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "LOOP",
+        "columns": 6,
+        "rows" : 1
+    },
+    "chihuahua_springen": {
+        "filename": "data/animations/chihuahua_springen.png",
+        "frames" : 8,
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "playType" : "NORMAL",
+        "columns": 8,
+        "rows" : 1
+    },
+    "chihuahua_idle": {
+        "filename": "data/animations/chihuahua_idle.png",
+        "frames" : 1,
+        "frameDuration": [0.1],
+        "playType" : "LOOP",
+        "columns": 1,
+        "rows" : 1
     }
 }

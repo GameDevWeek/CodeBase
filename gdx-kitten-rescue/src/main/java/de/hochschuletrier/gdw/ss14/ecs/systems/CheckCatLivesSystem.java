@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.game.*;
 
 /**
  * Created by Daniel Dreher on 02.10.2014.
@@ -26,6 +27,7 @@ public class CheckCatLivesSystem extends ECSystem
             if (catPropertyComponent.amountLives <= 0)
             {
                 // TODO: insert game over stuff here
+                Game.hasReachedFinish = false;
             }
         }
 

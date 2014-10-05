@@ -57,7 +57,6 @@ public class InputSystem extends ECSystem
                 vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
                 inputCompo.whereToGo = new Vector2(vec.x, vec.y);
            }
-            logger.debug("\n"+ catProp.getState());
         }
         
     }

@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -130,7 +131,15 @@ public class Main extends StateBasedGame<KittenGameState> {
             public boolean keyDown (int keycode) {
                 if(keycode == Keys.ENTER &&
                         (Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT))) {
-                    ScreenUtil.toggleFullscreen();
+                    
+                    if (Gdx.graphics.isFullscreen()) {
+                        Gdx.graphics.setDisplayMode(1024, 768, false);
+                        resize(1024, 768);
+                    } else {
+                        Graphics.DisplayMode mode = Gdx.graphics.getDesktopDisplayMode();
+                        Gdx.graphics.setDisplayMode(mode.width, mode.height, true);
+                        resize(mode.width, mode.height);
+                    }
                     return true;
                 }
                 return false;
