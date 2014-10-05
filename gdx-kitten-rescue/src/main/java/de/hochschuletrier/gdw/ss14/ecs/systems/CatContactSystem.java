@@ -19,6 +19,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.Component;
+import de.hochschuletrier.gdw.ss14.ecs.components.DoorPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.FinishPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.GroundPropertyComponent;
@@ -305,7 +306,11 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
 
             }
 
-        } // end check for StairPhysicsComponent
+        }else if(other instanceof DoorPhysicsComponent){
+            /*
+             * Door Animation abspielen
+             */
+        }// end check for StairPhysicsComponent
         else if (other instanceof FinishPhysicsComponent)
         {
             if (mySightCone)
@@ -432,7 +437,6 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
                     }
                 }
             }
-
 
         }
 

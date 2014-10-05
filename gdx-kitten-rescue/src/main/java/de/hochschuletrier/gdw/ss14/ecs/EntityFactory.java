@@ -230,6 +230,7 @@ public class EntityFactory{
 
     public static void constructDoor(){
         int entity = manager.createEntity();
+        
     }
 
     public static void constructFood(){
