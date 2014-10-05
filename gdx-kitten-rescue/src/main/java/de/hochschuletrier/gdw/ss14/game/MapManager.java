@@ -311,6 +311,7 @@ public class MapManager
 
                             case "finish":
                                 // TODO: add object with entityFactory here
+                                EntityFactory.constructFinish(pos, width, height);
 //                                EntityFactory.constructMapChangeObj(pos, width, height, nextMap);
                                 break;
 // isn't an object
