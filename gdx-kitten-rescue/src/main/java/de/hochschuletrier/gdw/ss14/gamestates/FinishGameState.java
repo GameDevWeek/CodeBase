@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
 import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.ui.FinishMenu;
 import de.hochschuletrier.gdw.ss14.ui.FinishMenu.FinishState;
@@ -34,6 +35,12 @@ public class FinishGameState extends KittenGameState implements InputProcessor {
     @Override
     public void onEnter(KittenGameState previousState) {
         finishMenu = new FinishMenu();
+        
+        if (Game.hasReachedFinish) {
+            finishMenu.setFinishState(FinishState.WIN);
+        } else {
+            finishMenu.setFinishState(FinishState.LOSE);
+        }
         
         finishMenu.init(assetManager);
     }

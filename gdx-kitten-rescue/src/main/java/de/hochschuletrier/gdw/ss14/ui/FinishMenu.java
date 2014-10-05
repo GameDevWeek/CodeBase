@@ -85,7 +85,7 @@ public class FinishMenu extends LaserCatMenu {
     
     public void setFinishState(FinishState finishState) {
         this.finishState = finishState;
-        setBackgroundByState();
+        //setBackgroundByState();
     }
     
     private void setBackgroundByState() {
