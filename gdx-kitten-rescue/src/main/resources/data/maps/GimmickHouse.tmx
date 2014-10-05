@@ -70,10 +70,7 @@
    </properties>
   </object>
   <object name="vase" gid="1284" x="626.667" y="233.333"/>
-  <object name="food" gid="1287" x="1922" y="1152"/>
-  <object name="food" gid="1287" x="2614" y="1986"/>
   <object name="vase" gid="1284" x="2548.48" y="1333.33"/>
-  <object name="food" gid="1287" x="2940.67" y="257.333"/>
   <object name="broom" gid="1252" x="1492" y="2144"/>
   <object name="wool" gid="1288" x="1427.33" y="2170"/>
  </objectgroup>
@@ -180,8 +177,6 @@
     <property name="id" value="3"/>
    </properties>
   </object>
-  <object name="food" gid="1287" x="403.03" y="387.879"/>
-  <object name="food" gid="1287" x="2845.45" y="375.758"/>
   <object name="door" gid="1168" x="2752" y="1344"/>
   <object name="door" gid="1168" x="1984.25" y="1344"/>
   <object name="door" gid="1168" x="1216" y="1344"/>
@@ -265,7 +260,6 @@
    </properties>
   </object>
   <object name="vase" gid="1284" x="2518.67" y="742.667"/>
-  <object name="food" gid="1287" x="2817" y="747"/>
   <object name="broom" gid="1252" x="2969.21" y="2116.36"/>
   <object name="vase" gid="1284" x="2186" y="1904"/>
   <object name="wool" gid="1288" x="1845.33" y="1924"/>
