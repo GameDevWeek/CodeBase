@@ -155,7 +155,7 @@ public class Main extends StateBasedGame<KittenGameState> {
             }
         }
 
-        GameStateEnum.MAINMENU.activate();
+        GameStateEnum.STARTSCREEN.activate();
     }
 
     @Override
