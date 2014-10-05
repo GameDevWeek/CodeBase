@@ -275,6 +275,13 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
             }
         }
 
+        if (laser.toolState == ToolState.LASER)
+        {
+            laser.toolState = ToolState.WATERPISTOL;
+        } else {
+            laser.toolState = ToolState.LASER;
+        }
+
 //        CatPropertyComponent catPropertyComponent = null;
 //        for (Integer entity : cats)
 //        {
