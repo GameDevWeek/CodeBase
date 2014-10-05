@@ -104,11 +104,11 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 
     @Override
     public void onEnter(KittenGameState previousState) {
-		if (this.music.isMusicPlaying()) {
-			this.music.setFade('i', 3000);
-		} else {
+		//if (this.music.isMusicPlaying()) {
+		//	this.music.setFade('i', 3000);
+		//} else {
 			this.music.play("ingame_calm");
-		}
+		//}
         emitter.dispose();
         //emitter.play(helicopter, true);
 
@@ -125,9 +125,10 @@ public class GameplayState extends KittenGameState implements InputProcessor {
 
     @Override
     public void onLeave(KittenGameState nextState) {
-		if (this.music.isMusicPlaying()) {
-    		this.music.setFade('o', 3000);
-		}
+		//if (this.music.isMusicPlaying()) {
+    	//	this.music.setFade('o', 3000);
+		//}
+		music.stop();
         emitter.dispose();
         InputManager.getInstance().unregisterProcessor();
         Gdx.input.setCursorImage(null, 0, 0);
