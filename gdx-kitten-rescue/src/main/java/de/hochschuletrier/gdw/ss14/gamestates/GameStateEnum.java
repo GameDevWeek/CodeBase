@@ -1,7 +1,7 @@
 package de.hochschuletrier.gdw.ss14.gamestates;
 
-import de.hochschuletrier.gdw.ss14.gamestates.GameplayState;
 import com.badlogic.gdx.graphics.Color;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.FadeTransition;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.Transition;
@@ -16,7 +16,9 @@ public enum GameStateEnum {
     SANDBOX(new SandboxState()),
     PAUSEGAME(new PauseGameState()),
     CREDITS(new CreditsGameState()),
-    OPTIONSMENU(new OptionsMenuState());
+    OPTIONSMENU(new OptionsMenuState()),
+    STARTSCREEN (new StartScreenState()),
+    FINISH(new FinishGameState());
     private final KittenGameState state;
 
     GameStateEnum(KittenGameState state) {

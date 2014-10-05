@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.utils.Array;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
@@ -9,6 +10,7 @@ import de.hochschuletrier.gdw.ss14.ecs.components.Component;
 import de.hochschuletrier.gdw.ss14.ecs.components.DogPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /**
  * Updates all RenderComponents of an Entity with a AnimationComponent.
@@ -39,6 +41,9 @@ public class AnimationSystem extends ECSystem {
             
             AnimationExtended currentAnim = animationCompo.animation.get(animationCompo.currentAnimationState);
             int state = getEntityState(entity);
+            if(state == CatStateEnum.JUMPING_IN_BOX.ordinal()){
+                System.out.println("HALLO");
+            }
             if (state < 0) continue;
             if (currentAnim == null) {
                 renderCompo.texture = null;

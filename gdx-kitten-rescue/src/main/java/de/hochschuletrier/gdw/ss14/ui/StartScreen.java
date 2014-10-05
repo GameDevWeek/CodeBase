@@ -2,26 +2,28 @@ package de.hochschuletrier.gdw.ss14.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.gamestates.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 
-public class StartSreen {
+public class StartScreen {
     // For debug drawing
     private ShapeRenderer shapeRenderer; 
     
     protected StartScreenListener actionListener;
-    protected Table table;
+    protected Table table, dummyTable;
     protected Skin catSkin;
     protected Stage stage;
 
@@ -40,16 +42,22 @@ public class StartSreen {
 
         // Sets Input so it can reach different layers, depending on focus
         Main.inputMultiplexer.addProcessor(stage);
+        actionListener= new StartScreenListener();
         startButton.addListener(this.actionListener);
         
         // Sets the Background for Menu
         table.setBackground(catSkin.getDrawable("startScreen"));
-        table.add(startButton).bottom();
-        table.debug(Debug.all);
+        
+        
+        dummyTable = new Table();
+        table.add(dummyTable).bottom().left();
+        
+        dummyTable.add(startButton).bottom().left().size(Value.percentWidth(0.15f, table));
+        //table.debug(Debug.all);
+        dummyTable.debug(Debug.all);
     }
     public void dispose(){
         stage.dispose();
-        shapeRenderer.dispose();
     }
     public void render(){
         stage.draw();
@@ -60,7 +68,16 @@ public class StartSreen {
     }
     private class StartScreenListener extends ClickListener{
         public void clicked(InputEvent event, float x, float y){
-                GameStateEnum.MAINMENU.activate();              
+			super.clicked(event, x, y);	
+        	SoundManager.performAction(UIActions.BUTTONCLICKED);						
+            GameStateEnum.MAINMENU.activate();    
+        }
+        
+        
+    	public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) 
+        {
+        	super.enter(event, x, y, pointer, fromActor);
+        	System.out.println("enter StartScreenButton");
         }
     }
 

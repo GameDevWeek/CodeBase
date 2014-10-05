@@ -275,6 +275,13 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
             }
         }
 
+        if (laser.toolState == ToolState.LASER)
+        {
+            laser.toolState = ToolState.WATERPISTOL;
+        } else {
+            laser.toolState = ToolState.LASER;
+        }
+
 //        CatPropertyComponent catPropertyComponent = null;
 //        for (Integer entity : cats)
 //        {
@@ -302,7 +309,7 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
                             catPropertyComponent.isHidden = !catPropertyComponent.isHidden;
 
                             RenderComponent renderComponent = new RenderComponent();
-                            entityManager.addComponent(entity, renderComponent);
+//                            entityManager.addComponent(entity, renderComponent);
                         }
                     }
                 }

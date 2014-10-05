@@ -28,7 +28,7 @@ public class CatStateUpdateSystem extends ECSystem
 
             if(catPropertyComponent.isHidden)
             {
-                catPropertyComponent.setState(CatStateEnum.HIDDEN);
+                //catPropertyComponent.setState(CatStateEnum.HIDDEN);
                 return;
             }
 

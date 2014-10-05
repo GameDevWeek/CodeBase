@@ -58,6 +58,7 @@ public class InputSystem extends ECSystem
                 inputCompo.whereToGo = new Vector2(vec.x, vec.y);
            }
         }
+        
     }
 
     @Override

@@ -394,8 +394,8 @@ public class DogBehaviour extends Behaviour {
 
             if (pc instanceof DogPhysicsComponent) {
                 dpc = (DogPhysicsComponent) pc;
-                low = dpc.mHeight;
-                high = dpc.mHeight * 3;
+                low = dpc.height;
+                high = dpc.height * 3;
             }
 
         }
@@ -499,8 +499,8 @@ public class DogBehaviour extends Behaviour {
                  }
 
                  if (pc instanceof DogPhysicsComponent) {
-                     low = dpc.mHeight;
-                     high = dpc.mHeight * 3;
+                     low = dpc.height;
+                     high = dpc.height * 3;
                  }
                  float verlaengerung = (float) (Math.random() * (high - low) + low);
                  if(entfernung.x < entfernung.y)
@@ -513,6 +513,7 @@ public class DogBehaviour extends Behaviour {
                 
                 
                 //_____________________________
+
 
             }
            // ic.whereToGo = neuesZiel;
