@@ -235,9 +235,10 @@ public class EntityFactory{
         manager.addComponent(entity, laser);
     }
 
-    public static void constructDoor(){
+    public static void constructDoor(Vector2 pos, short mask, short category){
         int entity = manager.createEntity();
-        
+        manager.addComponent(entity, new DoorPhysicsComponent(pos, 80.0f, 80.0f, 0.0f, mask, category, (short) 0));
+        manager.addComponent(entity, new RenderComponent());
     }
 
     public static void constructFood(){
