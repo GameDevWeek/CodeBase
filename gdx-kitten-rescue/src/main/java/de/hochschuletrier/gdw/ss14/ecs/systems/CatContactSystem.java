@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 
@@ -12,6 +13,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
@@ -88,9 +90,11 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
         Array<Integer> physicEntities = entityManager.getAllEntitiesWithComponents(PhysicsComponent.class);
         Integer myEntity = null, otherEntity = null;
         PhysicsComponent myPhysic = null, otherPhysic = null;
+        RenderComponent boxRender = null;
         for (Integer i : physicEntities)
         {
             PhysicsComponent tmp = entityManager.getComponent(i, PhysicsComponent.class);
+            boxRender = entityManager.getComponent(i, RenderComponent.class);
             if (tmp.physicsBody == contact.getMyPhysixBody())
             {
                 myPhysic = tmp;
@@ -240,9 +244,13 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
             {
                 CatPropertyComponent catPropertyComponent = (CatPropertyComponent) d;
-
+               
+                
                 if (!catPropertyComponent.isCatBoxOnCooldown)
                 {
+                    if(boxRender != null){
+                        boxRender.texture = new TextureRegion(EntityFactory.assetManager.getTexture("box_with_cat"));
+                    }
                     if ((d = entityManager.getComponent(myEntity, RenderComponent.class)) != null)
                     {
 //                        entityManager.removeComponent(myEntity, d);

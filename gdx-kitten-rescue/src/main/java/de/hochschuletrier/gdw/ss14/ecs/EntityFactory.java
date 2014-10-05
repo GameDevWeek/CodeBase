@@ -183,7 +183,7 @@ public class EntityFactory{
 
     public static int constructSmartDog(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, ArrayList<Vector2> patrolspots, short mask, short category){
         int entity = manager.createEntity();
-        CatPhysicsComponent dogPhysix = new CatPhysicsComponent(pos, 50, 100, 0, 1, 0, mask, category, (short) -2);
+        DogPhysicsComponent dogPhysix = new DogPhysicsComponent(pos, 50, 100, 0, 1, 0, mask, category, (short) -2);
         MovementComponent dogMove = new MovementComponent(maxVelocity, middleVelocity, minVelocity, acceleration);
         InputComponent dogInput = new InputComponent();
 
