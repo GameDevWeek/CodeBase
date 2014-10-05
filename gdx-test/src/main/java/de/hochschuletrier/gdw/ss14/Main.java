@@ -28,7 +28,6 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
-import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.TextAnimation;
 import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
 import de.hochschuletrier.gdw.ss14.states.MyBaseGameState;
 

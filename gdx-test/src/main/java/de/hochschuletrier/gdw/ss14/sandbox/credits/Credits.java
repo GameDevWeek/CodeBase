@@ -6,7 +6,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
-import de.hochschuletrier.gdw.ss14.sandbox.credits.animator.AnimatorController;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.SceneAnimator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ public class Credits extends SandboxGame {
 
     private static final Logger logger = LoggerFactory.getLogger(Credits.class);
     
-    private AnimatorController animatorController;
+    private SceneAnimator sceneAnimator;
     
     public Credits() {
     }
@@ -26,7 +26,7 @@ public class Credits extends SandboxGame {
     @Override
     public void init(AssetManagerX assetManager) {
         try {
-            animatorController = new AnimatorController(assetManager, "data/json/credits.json");
+            sceneAnimator = new SceneAnimator(assetManager, "data/json/credits.json");
         } catch (Exception ex) {
             logger.error("Error loading credits", ex);
         }
@@ -40,16 +40,13 @@ public class Credits extends SandboxGame {
     public void render() {
         Main.getInstance().screenCamera.bind();
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.DARK_GRAY);
-//        textItem.render();
-        if(animatorController != null)
-            animatorController.render();
+        if(sceneAnimator != null)
+            sceneAnimator.render();
     }
 
     @Override
     public void update(float delta) {
-        
-//        textItem.update(null, delta);
-        if(animatorController != null)
-            animatorController.update(delta);
+        if(sceneAnimator != null)
+            sceneAnimator.update(delta);
     }
 }
