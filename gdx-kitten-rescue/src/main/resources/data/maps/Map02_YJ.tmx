@@ -31,7 +31,7 @@
  </tileset>
  <tileset firstgid="1303" name="Teddy" tilewidth="64" tileheight="64">
   <tileoffset x="1" y="1"/>
-  <image source="../../../../../Desktop/Maps/Tilesets/Teddy.png" width="192" height="128"/>
+  <image source="Tilesets/Teddy.png" width="192" height="128"/>
  </tileset>
  <layer name="ground" width="50" height="30">
   <properties>
