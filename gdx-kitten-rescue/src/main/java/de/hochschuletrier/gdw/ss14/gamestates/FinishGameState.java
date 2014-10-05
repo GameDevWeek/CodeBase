@@ -34,6 +34,7 @@ public class FinishGameState extends KittenGameState implements InputProcessor {
     @Override
     public void onEnter(KittenGameState previousState) {
         finishMenu = new FinishMenu();
+        
         finishMenu.init(assetManager);
     }
 
