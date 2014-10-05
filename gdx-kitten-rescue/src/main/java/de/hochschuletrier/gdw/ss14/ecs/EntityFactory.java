@@ -298,7 +298,7 @@ public class EntityFactory{
 
     public static int constructDeadzone(PhysixBodyDef bodydef, PhysixFixtureDef fixturedef){
         int entity = manager.createEntity();
-        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef);
+        JumpablePhysicsComponent puddlephys = new JumpablePhysicsComponent(bodydef, fixturedef.groupIndex((short) -3));
         manager.addComponent(entity, puddlephys);
         manager.addComponent(entity, new JumpablePropertyComponent(JumpableState.deadzone));
         puddlephys.initPhysics(phyManager);
