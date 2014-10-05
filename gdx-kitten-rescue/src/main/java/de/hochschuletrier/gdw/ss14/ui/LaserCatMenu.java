@@ -85,8 +85,8 @@ public abstract class LaserCatMenu
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
-		//table.debug(Debug.all);
-		//widgetFrame.debug(Debug.all);
+		table.debug(Debug.all);
+		widgetFrame.debug(Debug.all);
 		
 		soundListener=new SoundListener();
 	}
@@ -140,8 +140,8 @@ public abstract class LaserCatMenu
 		{
 
 			super.exit(event, x, y, pointer, toActor);
-			System.out.println("exit");
-                        menuCatImage.animate(false);
+			//System.out.println("exit");
+            menuCatImage.animate(false);
 
 			
 		}

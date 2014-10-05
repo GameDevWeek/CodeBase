@@ -44,15 +44,6 @@ public class MainMenuState extends KittenGameState implements InputProcessor {
         inputProcessor = new InputInterceptor(this) {
             @Override
             public boolean keyUp(int keycode) {
-                switch (keycode) {
-                    case Keys.ESCAPE:
-                        if (GameStateEnum.GAMEPLAY.isActive()) {
-                            GameStateEnum.PAUSEGAME.activate(new SplitHorizontalTransition(800).reverse(), null);
-                        } else {
-                            GameStateEnum.GAMEPLAY.activate(new SplitHorizontalTransition(800), null);
-                        }
-                        return true;
-                }
                 return isActive && mainProcessor.keyUp(keycode);
             }
         };
