@@ -45,8 +45,8 @@ public class EntityFactory{
 
     public static int constructCat(Vector2 pos, float maxVelocity, float middleVelocity, float minVelocity, float acceleration, short mask, short category){
         int entity = manager.createEntity();
+        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f, mask, category, (short)0);
 
-        CatPhysicsComponent catPhysix = new CatPhysicsComponent(pos, 25, 50, 0, .2f, 0f, mask, category, (short) 0);
         //catPhysix: position(x,y), width, height, rota, friction[0-1][ice-rubber], restitution[0-1][rock-ball]
         ICollisionListener contactSystem = (CatContactSystem) Game.engine.getSystemOfType(CatContactSystem.class);
         catPhysix.collisionListeners.add(contactSystem);
@@ -123,13 +123,8 @@ public class EntityFactory{
     public static int constructCatbox(Vector2 pos, short mask, short category){
         int entity = manager.createEntity();
 
-        CatBoxPhysicsComponent catBoxPhysicsComponent = new CatBoxPhysicsComponent(pos, 80.0f, 80.0f, 0.0f);
+        CatBoxPhysicsComponent catBoxPhysicsComponent = new CatBoxPhysicsComponent(pos, 80.0f, 80.0f, 0.0f, mask, category, (short) 0);
         catBoxPhysicsComponent.initPhysics(phyManager);
-        catBoxPhysicsComponent.physicsBody.getFixtureList().forEach((f)->{
-            Filter fil = f.getFilterData();
-            fil.categoryBits = category;
-            fil.maskBits = mask;
-        });
 
         RenderComponent renderComponent = new RenderComponent();
         renderComponent.texture = new TextureRegion(assetManager.getTexture("catbox"));
@@ -311,10 +306,10 @@ public class EntityFactory{
         return entity;
     }
 
-    public static void constructWool(Vector2 pos){
+    public static void constructWool(Vector2 pos, short mask, short category){
         int entity = manager.createEntity();
 
-        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f);
+        WoolPhysicsComponent woolPhysicsComponent = new WoolPhysicsComponent(pos, 20.0f, 0.0f, mask, category, (short) 0);
         RenderComponent woolRenderComponent = new RenderComponent();
         woolRenderComponent.texture = new TextureRegion(assetManager.getTexture("wool"));
         woolPhysicsComponent.initPhysics(phyManager);

@@ -15,5 +15,6 @@ public enum DogStateEnum {
     KILLING,
     WALKING,
     FALLING,
-    JUMPING
+    JUMPING, 
+    IDLE
 }

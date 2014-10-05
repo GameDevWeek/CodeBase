@@ -16,12 +16,16 @@ public class WoolPhysicsComponent extends PhysicsComponent
     private float rotation;
     private float friction = 1000f;
     private float restitution = 0.1f;
+    public short mask, category, group;
 
-    public WoolPhysicsComponent(Vector2 position, float radius, float rotation)
+    public WoolPhysicsComponent(Vector2 position, float radius, float rotation, short mask, short category, short group)
     {
         this.initPosition = position;
         this.radius = radius;
         this.rotation = rotation;
+        this.mask = mask;
+        this.category = category;
+        this.group = group;
 
     }
 
@@ -29,7 +33,7 @@ public class WoolPhysicsComponent extends PhysicsComponent
     public void initPhysics(PhysixManager manager) {
 
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(10)
-                .friction(friction).restitution(restitution);
+                .friction(friction).restitution(restitution).mask(mask).category(category).groupIndex(group);
         
         physicsBody = new PhysixBodyDef(BodyDef.BodyType.DynamicBody, manager)
                 .position(initPosition).fixedRotation(true).angle(rotation).create();

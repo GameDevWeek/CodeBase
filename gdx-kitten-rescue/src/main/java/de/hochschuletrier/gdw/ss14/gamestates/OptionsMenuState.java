@@ -1,19 +1,17 @@
-package de.hochschuletrier.gdw.ss14.states;
+package de.hochschuletrier.gdw.ss14.gamestates;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
-import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.ui.PauseMenu;
+import de.hochschuletrier.gdw.ss14.ui.OptionsMenu;
 
-public class PauseGameState extends KittenGameState implements InputProcessor {
+public class OptionsMenuState extends KittenGameState implements InputProcessor {
     
-	 private PauseMenu pauseMenu;
+	 private OptionsMenu optionsMenu;
 	 InputInterceptor inputProcessor;
 	 private LocalMusic music;
 	
@@ -26,33 +24,19 @@ public class PauseGameState extends KittenGameState implements InputProcessor {
         Sound click = assetManager.getSound("click");
         
         
-        inputProcessor = new InputInterceptor(this) {
-            @Override
-            public boolean keyUp(int keycode) {
-                switch (keycode) {
-                    case Keys.ESCAPE:
-                        if (GameStateEnum.GAMEPLAY.isActive()) {
-                            GameStateEnum.PAUSEGAME.activate(new SplitHorizontalTransition(800).reverse(), null);
-                        } else {
-                            GameStateEnum.GAMEPLAY.activate(new SplitHorizontalTransition(800), null);
-                        }
-                        return true;
-                }
-                return isActive && mainProcessor.keyUp(keycode);
-            }
-        };
+        inputProcessor = new InputInterceptor(this);
         Main.inputMultiplexer.addProcessor(inputProcessor);
     }
     
     @Override
     public void render() {
     	  Main.getInstance().screenCamera.bind();
-          pauseMenu.render();
+          optionsMenu.render();
     }
     
     @Override
     public void update(float delta) {
-    	pauseMenu.update(delta);
+    	optionsMenu.update(delta);
     	this.music.update();
     }
     
@@ -63,8 +47,8 @@ public class PauseGameState extends KittenGameState implements InputProcessor {
 		} else {
 			this.music.play("menu");
 		}
-        pauseMenu = new PauseMenu();
-        pauseMenu.init(assetManager);
+        optionsMenu = new OptionsMenu();
+        optionsMenu.init(assetManager, previousState);
         inputProcessor.setActive(true);
         inputProcessor.setBlocking(false);
     }
@@ -78,7 +62,7 @@ public class PauseGameState extends KittenGameState implements InputProcessor {
     	if (this.music.isMusicPlaying()) {
     		this.music.setFade('o', 2000);
 		}
-    	pauseMenu.dispose();
+    	optionsMenu.dispose();
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);
     }

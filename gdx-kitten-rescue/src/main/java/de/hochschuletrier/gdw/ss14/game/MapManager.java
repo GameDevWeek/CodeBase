@@ -49,9 +49,9 @@ public class MapManager
         levelEntity = entityManager.createEntity();
     }
 
-    public void loadMap(String mapName)
+    public void loadMap(String path)
     {
-        String filename = folderLocation + mapName + fileType;
+        String filename = path;
         try
         {
             this.tiledMap = new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
@@ -89,6 +89,12 @@ public class MapManager
             String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
             tilesetImages.put(tileset, new Texture(filename));
         }
+    }
+
+    public void resetMap()
+    {
+        entityManager.deleteAllGameplayRelatedEntitiesExcludingCat();
+        setFloor(Game.mapManager.currentFloor);
     }
 
     public void setFloor(int floor)
@@ -160,7 +166,7 @@ public class MapManager
         }
     }
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, String userdata){
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, String userdata){
         addShape(physixManager, rect, tileWidth, tileHeight, floor, false, userdata);
     }
     
@@ -179,7 +185,7 @@ public class MapManager
         return body;
     }*/
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, tile2entity t2e)
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, tile2entity t2e)
     {
         float width = rect.width * tileWidth;
         float height = rect.height * tileHeight;
@@ -214,7 +220,7 @@ public class MapManager
 
     }
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor, boolean flag, String userdata)
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, boolean flag, String userdata)
     {
         float width = rect.width * tileWidth;
         float height = rect.height * tileHeight;
@@ -265,7 +271,7 @@ public class MapManager
                     float width = mapObjects.get(j).getWidth();
                     float height = mapObjects.get(j).getHeight();
 
-                    mask = (short)Math.pow(2, mapObjects.get(j).getIntProperty("floor", 0));
+                    mask = (short)Math.pow(2, layers.get(i).getIntProperty("floor", 0));
                     category = (short)0b1111111111111111;
 
                     if (objType != null)
@@ -291,7 +297,7 @@ public class MapManager
                                 spotIds.add(mapObjects.get(j).getIntProperty("ID", -1));
                                 break;
                             case "wool":
-                                EntityFactory.constructWool(pos);
+                                EntityFactory.constructWool(pos, mask, category);
                                 break;
 
                             case "vase":

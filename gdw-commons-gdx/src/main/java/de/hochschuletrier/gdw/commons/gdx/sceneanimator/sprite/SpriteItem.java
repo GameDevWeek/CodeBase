@@ -1,10 +1,13 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
+package de.hochschuletrier.gdw.commons.gdx.sceneanimator.sprite;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Animation;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Item;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Path;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
 /**
@@ -26,7 +29,7 @@ public class SpriteItem extends Item {
     @Override
     public void update(Path<Vector2> path, float deltaTime) {
         super.update(path, deltaTime);
-        
+
         animationTime += deltaTime;
     }
 
@@ -36,7 +39,7 @@ public class SpriteItem extends Item {
             float w = texture.getWidth() * scale;
             float h = texture.getHeight() * scale;
             DrawUtil.batch.draw(texture, position.x - w * 0.5f, position.y - h * 0.5f, w, h);
-        } else if(animation != null) {
+        } else if (animation != null) {
             TextureRegion r = animation.getKeyFrame(animationTime);
             float w = r.getRegionWidth() * scale;
             float h = r.getRegionHeight() * scale;

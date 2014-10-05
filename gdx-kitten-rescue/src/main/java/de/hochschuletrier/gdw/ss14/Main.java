@@ -2,6 +2,9 @@ package de.hochschuletrier.gdw.ss14;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader.BitmapFontParameter;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
@@ -14,7 +17,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
 import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarEnum;
@@ -30,12 +32,13 @@ import de.hochschuletrier.gdw.commons.gdx.state.StateBasedGame;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
+import de.hochschuletrier.gdw.commons.gdx.utils.ScreenUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import de.hochschuletrier.gdw.ss14.gamestates.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.gamestates.KittenGameState;
 import de.hochschuletrier.gdw.ss14.preferences.GamePreferences;
 import de.hochschuletrier.gdw.ss14.sound.MusicManager;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
-import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
-import de.hochschuletrier.gdw.ss14.states.KittenGameState;
 
 /**
  * 
@@ -122,6 +125,17 @@ public class Main extends StateBasedGame<KittenGameState> {
         skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
         consoleView.init(assetManager, skin);
         addScreenListener(consoleView);
+        inputMultiplexer.addProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown (int keycode) {
+                if(keycode == Keys.ENTER &&
+                        (Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT))) {
+                    ScreenUtil.toggleFullscreen();
+                    return true;
+                }
+                return false;
+            }
+        });
         inputMultiplexer.addProcessor(consoleView.getInputProcessor());
 
         GameStateEnum.LOADING.init(assetManager);
@@ -141,19 +155,19 @@ public class Main extends StateBasedGame<KittenGameState> {
             }
         }
         
-    boolean mainMenu = false;
-    for (String arg:mainArgs)
-    {
-    	if(arg.equalsIgnoreCase("MainMenu"))
-    	{
-    		mainMenu = true;
-    	}
-    }
-    
-    if(mainMenu)
+//    boolean mainMenu = false;
+//    for (String arg:mainArgs)
+//    {
+//    	if(arg.equalsIgnoreCase("MainMenu"))
+//    	{
+//    		mainMenu = true;
+//    	}
+//    }
+//
+//    if(mainMenu)
         GameStateEnum.MAINMENU.activate();
-    else
-		GameStateEnum.GAMEPLAY.activate(null, null);
+//    else
+//		GameStateEnum.GAMEPLAY.activate(null, null);
     
     }
 

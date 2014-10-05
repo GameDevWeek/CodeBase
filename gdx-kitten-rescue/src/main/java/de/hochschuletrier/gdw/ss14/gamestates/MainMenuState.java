@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.states;
+package de.hochschuletrier.gdw.ss14.gamestates;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;

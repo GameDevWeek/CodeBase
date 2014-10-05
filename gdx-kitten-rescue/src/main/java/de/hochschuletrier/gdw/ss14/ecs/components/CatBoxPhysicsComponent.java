@@ -15,13 +15,17 @@ public class CatBoxPhysicsComponent extends PhysicsComponent
     private float rotation;
     private float friction = 1.0f;
     private float restitution = 0.0f;
+    public short mask, category, group;
 
-    public CatBoxPhysicsComponent(Vector2 position, float width, float height, float rotation)
+    public CatBoxPhysicsComponent(Vector2 position, float width, float height, float rotation, short mask, short category, short group)
     {
         this.initPosition = position;
         this.width = width;
         this.height = height;
         this.rotation = rotation;
+        this.mask = mask;
+        this.category = category;
+        this.group = group;
 
     }
 
@@ -29,11 +33,11 @@ public class CatBoxPhysicsComponent extends PhysicsComponent
     public void initPhysics(PhysixManager manager) {
 
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
-                .friction(friction).restitution(restitution).sensor(true);
+                .friction(friction).restitution(restitution).mask(mask).category(category).groupIndex(group).sensor(true);
 
         initPosition.set(initPosition.x+width*.5f, initPosition.y + height*.5f);
 
-        physicsBody = new PhysixBodyDef(BodyDef.BodyType.StaticBody, manager)
+        PhysixBody physicsBody = new PhysixBodyDef(BodyDef.BodyType.StaticBody, manager)
                 .position(initPosition).fixedRotation(true).angle(rotation).create();
 
         physicsBody.setAngularVelocity(0);

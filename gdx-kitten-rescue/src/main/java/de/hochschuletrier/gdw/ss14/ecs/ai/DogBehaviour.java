@@ -27,6 +27,8 @@ public class DogBehaviour extends Behaviour {
     PhysicsComponent pc;
     Array<Integer> cat;
     PhysicsComponent cpc;
+    
+    public static boolean canSeeCat= false;
 
     public DogBehaviour(String name, Object localBlackboard, boolean isLooping,
             int dogID) {
@@ -89,6 +91,9 @@ public class DogBehaviour extends Behaviour {
         Invert dogNotChase = new Invert(hh);
         new DogIsChasing(dogNotChase);
         new HundHaengt(hh);
+
+        // don't forget to activate behaviour on instantiation ;)
+        this.activate();
         
         
         
@@ -416,16 +421,20 @@ public class DogBehaviour extends Behaviour {
             neuesZiel.y += verlaengerung;
             }
             ic.whereToGo = neuesZiel;
-
+            
+            //!!!______________
+            //TODO:
+            //!!!________________
             if (timer < 0f) {
                 timer = MAX_TIME;
                 ic.whereToGo = neuesZiel;
-                timerLaeuft = true;
-                dprc.dogIsChasing = false;
-                
+                //timerLaeuft = true;
+                timerLaeuft = !timerLaeuft;
+               // dprc.dogIsChasing = false;
+                dprc.dogIsChasing = !dprc.dogIsChasing;
             }else {
-                timerLaeuft = false;
-                dprc.dogIsChasing = true;
+              //  timerLaeuft = false;
+                //dprc.dogIsChasing = true;
             }
             timer -= delta;
 
