@@ -245,7 +245,7 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
                             catPropertyComponent.isHidden = !catPropertyComponent.isHidden;
 
                             RenderComponent renderComponent = new RenderComponent();
-                            entityManager.addComponent(entity, renderComponent);
+//                            entityManager.addComponent(entity, renderComponent);
                         }
                     }
                 }
