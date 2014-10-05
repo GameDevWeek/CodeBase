@@ -26,7 +26,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2WSwqAMAxEI7hz4wWULqy9/w3FnYhKWsynYRZv15R5DQwtRFQAAKpsP5+db1j7tXJmH5Q9FiGPKPuAxzfTyINz1y7gsQp55MtsTZ/1tA94xPaQ6H7v+7h2TFL2sX5XePThQUE8IuyjposkPJKhL3eG+8fy7qGdi5MRHs/khpm3zK14e3t4+HCxzOGZA63pHddwFwAA
+   H4sIAAAAAAAAC+2WsQqAMAxEK7i5+ANKB2v//w/FrYhKWkxylhve1pR7DRzNIYRMCDFl+/jsfMHbr5Uz+2DssSh59LIPerwzjTIkd+0KHquSRypma/rsT/ugR98eGt2Pvo+yY6Kxj/e70oMeiCB71HSRhkd09JXOSP9Y6B7WuSQZ6XFPaph5ytwK2tvTA8PFMwcyBw/0ybRwFwAA
   </data>
  </layer>
  <layer name="solid1" width="50" height="30">
@@ -34,7 +34,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+1YuU7DQBBdhwBSQAJaKKDjb/gFKCmQoIYCavgE+BLuq+K+Cg5xVBAScnAIpITrWfIqy2Q2nnUcRMGTnryenR17POPxrJX6x1/EvKfUArgILoHL4Aq46oXr0fEtkd8JbWmdQcwNBToZMAs+BMyBebAAFhk/trB+G9wBd8E9cB888ML16PiVyN+EtrTOKObGAp0SWAbfA36An+CXP0ns+TiH7ILIr3F+44XrSSCxpXUmMZ4KZCmctzHX64Csk5FnIMsK/OD0JChgTTHE1iXGV0I/eiHrY+QlyMpEzl2b05Pgy1+TqG0rh3Ge+NGN8x6HeHD5wl07al5xttKQ3UfMK1s8XPOqOalUi5Ct4AbWbBr1y69na+C6YV/Hv573Q5pX6UAvlay2YUM7dI+x5iSoS7q2HYJHhn0dM0le2eLhmleufkjQyHqVt+RVI/zg8so1Hra8on5ovd+KR6Prlasfc5a5WWNM4zFcw2Zc9aoD99YpZJfQZ+49t6HeehX2HbQ9dw7j4AQj5/yg73tc9SoOTIMzjJzzg74ncdUrG7hctMHFD2k84sorth9UlT1ETlXvJfzjQKIyx+0tpPHQ+dJvyLi8OoXsrIYfbD+oKnuID1W9l/CPI8Yct7eQxkPni++H9oXLK9rbUXB5Zfsm28A9a2k8dL6Yfkj2DBTcGtu3zAbuHqPUK+2HZM9Awa1xjQd3j/XUK91rm/8RaK9NEUc8nsEX9bMePIJPho5LvdK9tvkfgfbaEj9c49EE3aT3sx54OE841Kt6weWVazwkcOmvokD/KzDhGg8JXPqrKND/Ckz8Zjz+8TfwDQuTcPtwFwAA
+   H4sIAAAAAAAAC+1YuU7EQAydwAISIAEtFNDxWVBSIEENBdTwCfAl3FfFfRUc4qhgOfbgEEjcL1IsBq9n48lmEQVPetqJx+PEa4/jiTH/+IuYCoyZBmfAWXAOnAcXgng9Pr5g8kulLdLpwVxvpHMN3oC3EXNgHiyARcGPVaxfA9fBDXAT3AK3g3g9Pn5i8melLdIZwNxgpPMCvoJvEd/BD/AznGT2QhxBdszkZ7g+D+L1NNDYIp0RjEcjWSOum4T7tUDWKsivIbtR+CHpaVDAmmKMrROMT5V+dELWJchfIHtlcunekp4Gn+GamvK2chjnmR/tuO7wiIeUL9K9k+aVZCsL2VXCvHLFwzev6jLG1CvZAC5jzYpVv8J6tgguWfYp/pXsD21eZSO9xkypDReaobuHNftRXaLatgPuWvYpZpq8csXDN698/dCgmvUq78iravgh5ZVvPFx5xf0gvd+KR7Xrla8fk465CWvM49FXxmZa9aoFz9aqZJvSZ2mfu1BpvYp7D7r+dwlD4LAgl/zg+z2tepUGxsBxQS75wfdJWvXKBSkXXfDxQxuPtPJK7AfN9xkiZ0rPErlIj+aks4U2HpQv3ZZMyqsDyA7L+CH2g+b7DPFuSs8S4W+/NSedLbTxoHwJ/SBfpLzivR2HlFeud7IL0n+tjQfli+2H5szAIa1xvctckJ4xSb0iPzRnBg5pjW88pGespF5Rr21/R+C9Nkca8XgAH83PenAH3ls6PvWKem37OwLvtTV++MajFrqZ4Gc9CHBd41GvKoWUV77x0MCnv0oC+lZgwzceGvj0V0lA3wps/GY8/vE38AXSrj1CcBcAAA==
   </data>
  </layer>
  <layer name="gap" width="50" height="30">
@@ -124,7 +124,7 @@
    <property name="floor" value="0"/>
   </properties>
  </objectgroup>
- <layer name="deco2" width="50" height="30">
+ <layer name="deco2" width="50" height="30" visible="0">
   <properties>
    <property name="floor" value="0"/>
   </properties>
