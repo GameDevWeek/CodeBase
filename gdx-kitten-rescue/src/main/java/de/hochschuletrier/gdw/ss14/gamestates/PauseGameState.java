@@ -14,7 +14,7 @@ import de.hochschuletrier.gdw.ss14.ui.PauseMenu;
 public class PauseGameState extends KittenGameState implements InputProcessor {
     
 	 private PauseMenu pauseMenu;
-	 InputInterceptor inputProcessor;
+//	 InputInterceptor inputProcessor;
 	 private LocalMusic music;
 	
     @Override
@@ -26,22 +26,22 @@ public class PauseGameState extends KittenGameState implements InputProcessor {
         Sound click = assetManager.getSound("click");
         
         
-        inputProcessor = new InputInterceptor(this) {
-            @Override
-            public boolean keyUp(int keycode) {
-                switch (keycode) {
-                    case Keys.ESCAPE:
-                        if (GameStateEnum.GAMEPLAY.isActive()) {
-                            GameStateEnum.PAUSEGAME.activate(new SplitHorizontalTransition(800).reverse(), null);
-                        } else {
-                            GameStateEnum.GAMEPLAY.activate(new SplitHorizontalTransition(800), null);
-                        }
-                        return true;
-                }
-                return isActive && mainProcessor.keyUp(keycode);
-            }
-        };
-        Main.inputMultiplexer.addProcessor(inputProcessor);
+//        inputProcessor = new InputInterceptor(this) {
+//            @Override
+//            public boolean keyUp(int keycode) {
+//                switch (keycode) {
+//                    case Keys.ESCAPE:
+//                        if (GameStateEnum.GAMEPLAY.isActive()) {
+//                            GameStateEnum.PAUSEGAME.activate(new SplitHorizontalTransition(800).reverse(), null);
+//                        } else {
+//                            GameStateEnum.GAMEPLAY.activate(new SplitHorizontalTransition(800), null);
+//                        }
+//                        return true;
+//                }
+//                return isActive && mainProcessor.keyUp(keycode);
+//            }
+//        };
+//        Main.inputMultiplexer.addProcessor(inputProcessor);
     }
     
     @Override
@@ -65,8 +65,8 @@ public class PauseGameState extends KittenGameState implements InputProcessor {
 		}
         pauseMenu = new PauseMenu();
         pauseMenu.init(assetManager);
-        inputProcessor.setActive(true);
-        inputProcessor.setBlocking(false);
+//        inputProcessor.setActive(true);
+//        inputProcessor.setBlocking(false);
     }
     
     @Override
@@ -90,8 +90,8 @@ public class PauseGameState extends KittenGameState implements InputProcessor {
         }
 
     	pauseMenu.dispose();
-        inputProcessor.setActive(false);
-        inputProcessor.setBlocking(false);
+//        inputProcessor.setActive(false);
+//        inputProcessor.setBlocking(false);
     }
 
     @Override
