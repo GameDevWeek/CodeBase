@@ -10,7 +10,7 @@ public class IngameHUD {
 
 	public IngameHUD(AssetManagerX assetManager) {
 		catLife = new CatLifeHUD(assetManager);
-		catLife.setScale(0.2f);
+		catLife.setScale(0.5f);
 
 
 		weapon = new WeaponHUD(assetManager);

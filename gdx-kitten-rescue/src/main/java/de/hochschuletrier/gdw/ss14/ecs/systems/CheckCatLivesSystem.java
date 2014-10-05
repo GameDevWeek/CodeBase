@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import de.hochschuletrier.gdw.ss14.game.*;
+import de.hochschuletrier.gdw.ss14.gamestates.*;
 
 /**
  * Created by Daniel Dreher on 02.10.2014.
@@ -28,6 +29,7 @@ public class CheckCatLivesSystem extends ECSystem
             {
                 // TODO: insert game over stuff here
                 Game.hasReachedFinish = false;
+                GameStateEnum.FINISH.activate();
             }
         }
 
