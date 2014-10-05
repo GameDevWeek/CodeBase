@@ -42,9 +42,9 @@ public class LevelMenu extends LaserCatMenu
 
         for (UIButton b : button)
         {
-            b.addListener(LaserCatMenu.soundListener);
+            b.addListener(soundListener);
             b.addListener(this.levelMenuListener);
-            b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+            b.setOverAnimation(catSkin, "bell", frameDuration);
         }
 
 
@@ -140,7 +140,6 @@ public class LevelMenu extends LaserCatMenu
             }
         }
     }
-
 
     public static String getCurrentLevel()
     {
