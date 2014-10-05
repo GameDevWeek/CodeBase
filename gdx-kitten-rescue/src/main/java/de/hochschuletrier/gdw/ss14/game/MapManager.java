@@ -91,6 +91,12 @@ public class MapManager
         }
     }
 
+    public void resetMap()
+    {
+        entityManager.deleteAllGameplayRelatedEntitiesExcludingCat();
+        setFloor(Game.mapManager.currentFloor);
+    }
+
     public void setFloor(int floor)
     {
 

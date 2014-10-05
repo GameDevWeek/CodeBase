@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.*;
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
 import de.hochschuletrier.gdw.ss14.ecs.*;
 import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.game.*;
 import de.hochschuletrier.gdw.ss14.states.*;
 
 /**
@@ -69,6 +70,10 @@ public class CheckCatDeadSystem extends ECSystem
 
                 // set new lives
                 entityManager.getComponent(newPlayer, CatPropertyComponent.class).amountLives = newAmountLives;
+
+                // reset map
+                entityManager.deleteAllGameplayRelatedEntitiesExcludingCat();
+                Game.mapManager.setFloor(Game.mapManager.currentFloor);
             }
         }
 
