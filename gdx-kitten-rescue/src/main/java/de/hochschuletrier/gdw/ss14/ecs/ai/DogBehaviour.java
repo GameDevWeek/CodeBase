@@ -284,6 +284,7 @@ public class DogBehaviour extends Behaviour {
              
              EnemyComponent ec = bb.em.getComponent(dogID, EnemyComponent.class);
              hundSiehtKatze = ec.seeCat;
+             System.out.println("Sieht katze?"+ec.seeCat);
           //   System.out.println("Hund sieht Katze: "+hundSiehtKatze);
              State rueckgabe;
              if(hundSiehtKatze){
@@ -326,6 +327,8 @@ public class DogBehaviour extends Behaviour {
            patrolPunkte =  proper.patrolspots;
            int laenge = patrolPunkte.size();
            if (laenge <= 0){
+               ic.whereToGo= currentPos;
+               
                //Wenn keine Punkte da sind wird nichts getan.
            } else{
                //von i bis länge hochzählen
