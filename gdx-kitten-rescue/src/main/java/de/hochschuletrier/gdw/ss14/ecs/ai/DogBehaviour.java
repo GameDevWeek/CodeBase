@@ -321,7 +321,7 @@ public class DogBehaviour extends Behaviour {
 
         @Override
         public State onRun(float delta) {
-            System.out.println("Hund Patroulliert");
+           // System.out.println("Hund Patroulliert");
            proper = bb.em.getComponent(dogID, DogPropertyComponent.class);
            patrolPunkte =  proper.patrolspots;
            int laenge = patrolPunkte.size();
