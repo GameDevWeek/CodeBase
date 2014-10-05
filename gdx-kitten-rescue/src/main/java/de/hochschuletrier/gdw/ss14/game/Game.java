@@ -74,6 +74,7 @@ public class Game {
         engine = new Engine();
         entityManager = EntityManager.getInstance();
         entityManager.deleteAllEntities();
+
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
         mapManager = new MapManager(entityManager, physixManager, am);
 
