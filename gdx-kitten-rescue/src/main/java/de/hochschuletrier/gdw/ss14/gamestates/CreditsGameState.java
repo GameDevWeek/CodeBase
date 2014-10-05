@@ -11,6 +11,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
 import de.hochschuletrier.gdw.ss14.ui.CreditsMenu;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,8 @@ public class CreditsGameState extends KittenGameState implements InputProcessor 
     @Override
     public void init(AssetManagerX assetManager) {
         this.assetManager = assetManager;
+        
+        this.music = Main.MusicManager.getMusicStreamByStateName(GameStateEnum.CREDITS);
         
         try {
             sceneAnimator = new SceneAnimator(assetManager, "data/json/credits.json");
@@ -65,6 +68,7 @@ public class CreditsGameState extends KittenGameState implements InputProcessor 
 
     @Override
     public void onEnter(KittenGameState previousState) {
+    	this.music.play("pause_loop");
         creditsMenu = new CreditsMenu();
         creditsMenu.init(assetManager);
     }
@@ -75,6 +79,7 @@ public class CreditsGameState extends KittenGameState implements InputProcessor 
 
     @Override
     public void onLeave(KittenGameState nextState) {
+    	this.music.stop();
         creditsMenu.dispose();
     }
 
