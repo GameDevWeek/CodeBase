@@ -1,10 +1,10 @@
-{
-	"Intro": "data/maps/TinyPaws.tmx",
-	"The Purrge": "data/maps/thepurrge.tmx",
-	"NäpperSchnäpper": "data/maps/Level_NapperSchnapper.tmx",
-	"ImPawsibility": "data/maps/Map02_YJ.tmx",
-	"The Walking Cat": "data/maps/Map04_YJ.tmx",
-	"House of Gimmicks": "data/maps/GimmickHouse.tmx",
-	"Red Cat Redemption": "data/maps/RedCatRedemption.tmx",
-	"Flohkiste": "data/maps/Flohkiste.tmx"
-}
+[
+    { "name": "Intro", "path": "data/maps/TinyPaws.tmx"},
+    { "name": "The Purrge", "path": "data/maps/thepurrge.tmx"},
+    { "name": "NäpperSchnäpper", "path": "data/maps/Level_NapperSchnapper.tmx"},
+    { "name": "ImPawsibility", "path": "data/maps/Map02_YJ.tmx"},
+    { "name": "The Walking Cat", "path": "data/maps/Map04_YJ.tmx"},
+    { "name": "House of Gimmicks", "path": "data/maps/GimmickHouse.tmx"},
+    { "name": "Red Cat Redemption", "path": "data/maps/RedCatRedemption.tmx"},
+    { "name": "Flohkiste", "path": "data/maps/Flohkiste.tmx"}
+]
