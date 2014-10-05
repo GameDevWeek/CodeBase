@@ -101,7 +101,7 @@ main-menu-background
   orig: 716, 537
   offset: 0, 0
   index: -1
-winscreen_mit_schrift
+winScreen
   rotate: false
   xy: 2320, 2128
   size: 716, 537
