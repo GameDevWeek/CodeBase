@@ -34,7 +34,7 @@ import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
 public class MapManager
 {
     private enum tile2entity{
-        none, waterpuddle, deadzone, bloodpuddle, parketfloor, kitchenfloor
+        none, waterpuddle, deadzone, bloodpuddle, parketfloor, kitchenfloor, passable
     }
     private EntityManager entityManager;
 
@@ -113,6 +113,13 @@ public class MapManager
         case parketfloor:
             fixturedef.sensor(true);
             EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.woodenfloor);break;
+//        case passable:
+//            PhysixBody physixBody = bodydef.create();
+//            physixBody.createFixture(fixturedef);
+//            physixBody.getBody().setUserData("wall");
+//            // TODO: set category and mask
+//            break;
+
         }
 
     }
@@ -133,6 +140,10 @@ public class MapManager
                 (Layer layer, TileInfo info) ->info.getBooleanProperty("blocked", false)
                    && (layer.getIntProperty("floor", 0) == j) ,
                 (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, "wall"));
+        generator.generate(tiledMap,
+                    (Layer layer, TileInfo info) ->info.getBooleanProperty("passable", false)
+                            && (layer.getIntProperty("floor", 0) == j) ,
+                    (Rectangle rect) -> addShape(physixManager, rect, tileWidth, tileHeight, floor, tile2entity.passable));
         generator.generate(tiledMap,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("deadzone", false)
                                    && (layer.getIntProperty("floor", 0) == j) ,
