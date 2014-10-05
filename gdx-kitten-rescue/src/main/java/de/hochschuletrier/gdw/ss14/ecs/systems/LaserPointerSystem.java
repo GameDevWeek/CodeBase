@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
@@ -13,12 +14,6 @@ import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
 import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
@@ -51,6 +46,7 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
         
         waterPistol = entityManager.createEntity();
         entityManager.addComponent(waterPistol, new PhysicsComponent());
+        entityManager.addComponent(waterPistol, new WaterPistolComponent());
         
         laserCursor = EntityFactory.assetManager.getTexture("laser_cursor");
         waterpistolCursor = EntityFactory.assetManager.getTexture("waterpistol_cursor");
@@ -69,6 +65,13 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
         vec = cam.smoothCamera.getOrthographicCamera().unproject(vec);
         
         Vector2 pos = new Vector2(vec.x, vec.y);
+
+        Array<Integer> entities = entityManager.getAllEntitiesWithComponents(WaterPistolComponent.class);
+        if(entities.size>0)
+        {
+            waterPistol = entities.first();
+        }
+
         entityManager.getComponent(waterPistol, PhysicsComponent.class).defaultPosition = pos;
         
         if (laser.waterpistolIsUsed) {

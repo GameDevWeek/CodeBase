@@ -270,7 +270,7 @@ public class CatMovementSystem extends ECSystem{
             } // end if (state check)
             else if(catPropertyComponent.getState() == CatStateEnum.JUMP){
                 movementComponent.velocity = jumpDataComponent.jumpVelocity;
-            }else if(catPropertyComponent.getState() == CatStateEnum.FALL){
+            }else if(catPropertyComponent.getState() == CatStateEnum.FALL || catPropertyComponent.getState() == CatStateEnum.DIE){
                 movementComponent.velocity = 0.0f;
             }else if(catPropertyComponent.getState() == CatStateEnum.HIDDEN){
                 movementComponent.velocity = 0.0f;
