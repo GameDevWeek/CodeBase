@@ -36,18 +36,18 @@ public class CreditsMenu extends LaserCatMenu {
     protected void addButtonsToFrame() {
         button = new UIButton[numberOfButtons];
         label = new Label[numberOfButtons];
-
-        for (int i = 0; i < numberOfButtons; i++) {
-            label[i] = new Label(name[i], catSkin);
-            widgetFrame.add(label[i]).expandX().space(20).spaceBottom(10);
-        }
-
-        widgetFrame.row();
-        for (int i = 0; i < numberOfButtons; i++) {
-            button[i] = new UIButton(catSkin, "bell");
-            button[i].setName("bell");
-            widgetFrame.add(button[i]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
-        }
+        table.setFillParent(true);
+        table.setDebug(true);
+        label[0] = new Label(name[0], catSkin);
+        button[0] = new UIButton(catSkin, "bell");
+        button[0].setName("bell");
+        table.clear();
+		table.add(titleTextImage).top().center().size(Value.percentWidth(0.8f,  table),Value.percentHeight(0.25f, table)).expandX();
+		table.add(label[0]).space(20).spaceBottom(10).right();
+		table.row();
+		table.add(button[0]).right();
+		
+	
         name = null;
     }
 
