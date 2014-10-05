@@ -61,13 +61,20 @@ public class WoolInfluenceSystem extends ECSystem
 //                    Vector2 laserToWool = woool.getPosition().cpy().sub(laserPos);
 //                    catProp.influencedToLaser =  MathUtils.clamp(catProp.influencedToLaser, 0f, 1f);
 //                    laserToWool.scl(0.5f);
-                    
-                    inputCompo.whereToGo.set(woool.getPosition());
+                    Vector3 vec = new Vector3(laser.position.x, laser.position.y, 1);
+                    vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
+                    Vector2 newLaser = new Vector2(vec.x, vec.y);
+                    Vector2 where = woool.getPosition().cpy().add(newLaser.cpy().sub(woool.getPosition()).scl(catProp.influencedToLaser));
+                    inputCompo.whereToGo.set(where);
+                    catProp.influencedToLaser -= delta/catProp.TIME_TILL_INFLUENCED;
+                    if(catProp.influencedToLaser <= 0){
+                        catProp.influencedToLaser = 1;
+                    }
                     
                 }
-                if(catProp.timeTillInfluencedTimer >= catProp.TIME_TILL_INFLUENCED){
-                    catProp.timeTillInfluencedTimer = 0;
-                }
+//                if(catProp.timeTillInfluencedTimer >= catProp.TIME_TILL_INFLUENCED){
+//                    catProp.timeTillInfluencedTimer = 0;
+//                }
             }
         }
     }
