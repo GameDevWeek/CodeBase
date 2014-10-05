@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset name="LochTiles" tilewidth="64" tileheight="64">
  <tileoffset x="1" y="1"/>
- <image source="LochTiles.png" width="448" height="256"/>
+ <image source="LochTiles.png" width="448" height="320"/>
  <tile id="8">
   <properties>
    <property name="deadzone" value="true"/>
@@ -28,6 +28,26 @@
   </properties>
  </tile>
  <tile id="17">
+  <properties>
+   <property name="deadzone" value="true"/>
+  </properties>
+ </tile>
+ <tile id="19">
+  <properties>
+   <property name="deadzone" value="true"/>
+  </properties>
+ </tile>
+ <tile id="20">
+  <properties>
+   <property name="deadzone" value="true"/>
+  </properties>
+ </tile>
+ <tile id="26">
+  <properties>
+   <property name="deadzone" value="true"/>
+  </properties>
+ </tile>
+ <tile id="27">
   <properties>
    <property name="deadzone" value="true"/>
   </properties>
