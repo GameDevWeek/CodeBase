@@ -20,22 +20,22 @@ import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 public abstract class LaserCatMenu
 {
-	private static UIImage menuCatImage;
-	private static Image titleTextImage;
+	protected UIImage menuCatImage;
+	protected Image titleTextImage;
 	// For debug drawing
-	private ShapeRenderer shapeRenderer; 
+	protected ShapeRenderer shapeRenderer; 
 	
 	//
 	// Vererbtes Zeug
 	//
-	protected static Table widgetFrame;
-	protected static SoundListener soundListener;
-	protected static Table table;
-	protected static Skin catSkin;
-	protected static Stage stage;
-	protected static float heightOfWidgetFrame;
-	protected static float widthOfWidgetFrame;
-	protected static float frameDuration;
+	protected Table widgetFrame;
+	protected SoundListener soundListener;
+	protected Table table;
+	protected Skin catSkin;
+	protected Stage stage;
+	protected float heightOfWidgetFrame;
+	protected float widthOfWidgetFrame;
+	protected float frameDuration;
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
@@ -88,7 +88,7 @@ public abstract class LaserCatMenu
 		//table.debug(Debug.all);
 		//widgetFrame.debug(Debug.all);
 		
-		LaserCatMenu.soundListener=new SoundListener();
+		soundListener=new SoundListener();
 	}
 	
 
@@ -127,7 +127,7 @@ public abstract class LaserCatMenu
 			if (this.isPressed())
 					return;
 			System.out.println("enter");
-	    	LaserCatMenu.menuCatImage.animate(true);
+                        menuCatImage.animate(true);
 			if(event.getListenerActor().getName().equals("bell"))
 				SoundManager.performAction(UIActions.BELLOVER);
 			else
@@ -141,7 +141,7 @@ public abstract class LaserCatMenu
 
 			super.exit(event, x, y, pointer, toActor);
 			System.out.println("exit");
-	    	LaserCatMenu.menuCatImage.animate(false);
+                        menuCatImage.animate(false);
 
 			
 		}
