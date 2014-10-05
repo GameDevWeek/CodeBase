@@ -1,5 +1,4 @@
-package de.hochschuletrier.gdw.ss14.sandbox.credits.animator;
-
+package de.hochschuletrier.gdw.commons.gdx.sceneanimator;
 
 import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.Iterator;
  * @author Santo Pfingsten
  */
 public abstract class Item {
+
     protected static final Vector2 temp = new Vector2();
     protected final Vector2 position = new Vector2();
 
@@ -40,32 +40,32 @@ public abstract class Item {
         pathTime = 0;
         //Fixme: angle, opacity
     }
-    
+
     public void setPosition(Vector2 pos) {
         position.set(pos);
     }
-    
+
     public void setAngle(float angle) {
         this.angle = angle;
     }
 
     public void update(Path<Vector2> path, float deltaTime) {
-        if(startTime > 0) {
+        if (startTime > 0) {
             startTime -= deltaTime;
-            if(startTime < 0) {
+            if (startTime < 0) {
                 deltaTime = -startTime;
                 startTime = 0;
             }
         }
-        if(startTime == 0 && path != null) {
+        if (startTime == 0 && path != null) {
             pathTime += deltaTime;
             setAngle(path.derivativeAt(temp, pathTime).angle());
             setPosition(path.valueAt(temp, pathTime));
-            
+
             Iterator<Animation> it = animations.iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 Animation animation = it.next();
-                if(animation.time < pathTime) {
+                if (animation.time < pathTime) {
                     startAnimation(animation);
                     it.remove();
                 }
@@ -74,7 +74,7 @@ public abstract class Item {
     }
 
     public abstract void render();
-    
+
     public boolean isGroup(String group) {
         return this.group.equalsIgnoreCase(group);
     }
