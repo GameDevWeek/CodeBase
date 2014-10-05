@@ -43,7 +43,7 @@ public abstract class LaserCatMenu implements ScreenListener
 	protected Table widgetFrame;
 	protected SoundListener soundListener;
 	protected Table table;
-	protected Skin catSkin;
+	protected static Skin catSkin;
 	protected Stage stage;
 	protected float heightOfWidgetFrame;
 	protected float widthOfWidgetFrame;
@@ -98,8 +98,8 @@ public abstract class LaserCatMenu implements ScreenListener
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
-		table.debug(Debug.all);
-		widgetFrame.debug(Debug.all);
+//		table.debug(Debug.all);
+//		widgetFrame.debug(Debug.all);
 		
 		soundListener=new SoundListener();
 		
