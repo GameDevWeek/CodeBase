@@ -3,6 +3,8 @@ package de.hochschuletrier.gdw.ss14.ecs.systems;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
+import de.hochschuletrier.gdw.ss14.gamestates.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,23 +18,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.Component;
-import de.hochschuletrier.gdw.ss14.ecs.components.DoorPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.FinishPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.GroundPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.JumpablePropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.StairComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.StairsPhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.WoolPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.game.Game;
 import de.hochschuletrier.gdw.ss14.physics.ICollisionListener;
 import de.hochschuletrier.gdw.ss14.physics.RayCastPhysics;
@@ -141,7 +127,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
         if ((c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null)
         {
             /*other → is enemy */
-            if (otherPhysic instanceof CatPhysicsComponent)
+            if (otherPhysic instanceof DogPhysicsComponent)
             {
                 if (mySightCone)
                 {
@@ -321,6 +307,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
 
             // TODO: goal reached! set outro sequence here.
             Game.hasReachedFinish = true;
+            GameStateEnum.FINISH.activate();
         }
 
 
