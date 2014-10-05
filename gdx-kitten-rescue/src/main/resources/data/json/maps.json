@@ -1,8 +1,8 @@
 {
     "KatzenklappentTest": "data/maps/Katzenklappentest.tmx",
 	"Intro": "data/maps/TinyPaws.tmx",
-	"The Purrge": "data/maps/mehrstoeckigMap.tmx",
-	"NäpperSchnäpper": "data/maps/Level_NaepperSchnaepper.tmx",
+	"The Purrge": "data/maps/thepurrge.tmx",
+	"NäpperSchnäpper": "data/maps/Level_NapperSchnapper.tmx",
 	"Pawsibility": "data/maps/Map02_YJ.tmx",
 	"The Walking Cat": "data/maps/Maps04_YJ.tmx",
 	"House of Gimmicks": "data/maps/GimmickHouse.tmx"
