@@ -111,7 +111,7 @@ public class Game {
         engine.addSystem(new DogContactSystem(entityManager, physixManager));
 
         // physic systems
-        engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
+        //engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
         engine.addSystem(new PhysixUpdateSystem(entityManager, physixManager));
         engine.addSystem(new WorldObjectsSystem(entityManager));
 
