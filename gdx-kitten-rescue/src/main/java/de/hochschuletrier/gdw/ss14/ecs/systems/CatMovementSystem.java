@@ -86,21 +86,30 @@ public class CatMovementSystem extends ECSystem{
                     movementComponent.oldPositionVec = new Vector2(movementComponent.positionVec.x, movementComponent.positionVec.y);
                 ////sliding stuff end////
 
-                //test if cat sees the pointer //don't ask why this way
+                //test if cat sees the pointer
                 catPropertyComponent.canSeeLaserPointer = false;
                 if(distance < 500 && laserPointerComponent.toolState == ToolState.LASER){
-                    /*float physicAngle2 = (float) Math.atan2(-(movementComponent.oldPositionVec.x-movementComponent.directionVec.x),
-                            movementComponent.oldPositionVec.y-movementComponent.directionVec.y);
-                    catPropertyComponent.canSeeLaserPointer = (physicAngle2 > 1.7f);
-                    //if(0f == physicAngle)catPropertyComponent.canSeeLaserPointer = false;
+                    float slpAngle = (float) Math.atan2(-movementComponent.directionVec.x, movementComponent.directionVec.y);
+                    float slpCurrentRot = physicsComponent.getRotation();
 
-                    System.out.print(physicAngle2+" ");*/
-                    catPropertyComponent.canSeeLaserPointer = true;
+                    if (slpCurrentRot < 0f)
+                        slpCurrentRot += (float)(2*Math.PI);
+                    if (slpAngle < 0f)
+                        slpAngle += (float)(2*Math.PI);
+
+                    float slpSpinningAngle = slpAngle - slpCurrentRot;
+                    if(slpSpinningAngle <0)slpSpinningAngle*=-1;
+
+                    if(slpSpinningAngle > Math.PI){
+                        slpSpinningAngle -= (float)(2*Math.PI);
+                        slpSpinningAngle *= -1;
+                    }
+                    catPropertyComponent.canSeeLaserPointer = slpSpinningAngle < (float) Math.PI*.25f;
                 }else{
                     catPropertyComponent.canSeeLaserPointer = false;
                 }
 
-                //System.out.print(catPropertyComponent.canSeeLaserPointer);
+                System.out.println(movementComponent.damping*delta);
 
                 if(distance >= 200 && catPropertyComponent.canSeeLaserPointer){
                     movementComponent.velocity += movementComponent.acceleration*delta;
@@ -112,9 +121,9 @@ public class CatMovementSystem extends ECSystem{
                     /**
                      * Falls wir von unserem Stand aus losgehen soll unsere Katze beschleunigen, bis sie "geht"
                      */
-                    if(movementComponent.velocity >= movementComponent.middleVelocity){
-                        movementComponent.velocity += movementComponent.damping*delta;
-                        if(movementComponent.velocity <= movementComponent.middleVelocity){
+                    if(movementComponent.velocity < movementComponent.middleVelocity){
+                        movementComponent.velocity += movementComponent.acceleration*delta;
+                        if(movementComponent.velocity >= movementComponent.middleVelocity){
                             movementComponent.velocity = movementComponent.middleVelocity;
                         }
                     }
@@ -122,9 +131,9 @@ public class CatMovementSystem extends ECSystem{
                      * Falls unsere Katze aus dem "Rennen" aus zu nah an unseren Laserpointer kommt, soll
                      * sie stetig langsamer werden
                      */
-                    else if(movementComponent.velocity < movementComponent.middleVelocity){
-                        movementComponent.velocity += movementComponent.acceleration*delta;
-                        if(movementComponent.velocity >= movementComponent.middleVelocity){
+                    else if(movementComponent.velocity >= movementComponent.middleVelocity){
+                        movementComponent.velocity += movementComponent.damping*delta;
+                        if(movementComponent.velocity <= movementComponent.middleVelocity){
                             movementComponent.velocity = movementComponent.middleVelocity;
                         }
                     }
@@ -161,37 +170,45 @@ public class CatMovementSystem extends ECSystem{
                 }
 
                 ////sliding stuff start////
-                //if next stuff fails than 100% of actual direction
-                //DON'T MAKE IT 0 IN ANY CASE ! it must be at least have .0001f
-                float percentNewCatVelo = 1;
-                if(distance < 5){
-                    //pointer to near to cat - no direction change
+                float percentNewCatVelo = .95f;
+                if(!catPropertyComponent.canSeeLaserPointer){//slow down on laserPointer of
+                    movementComponent.velocity = movementComponent.velocity*(1-delta);
                     percentNewCatVelo = .0001f;
-                }else if(movementComponent.velocity < movementComponent.middleVelocity){
-                    //no sliding between 0 and middleVelocity
-                    percentNewCatVelo = 1;
-                }else if(movementComponent.velocity >= movementComponent.middleVelocity && movementComponent.velocity < movementComponent.maxVelocity){
+                }else if(distance < 5){//pointer to near to cat - no direction change
+                    percentNewCatVelo = .0001f;
+                }else if(movementComponent.velocity <= movementComponent.middleVelocity){//no sliding between 0 and middleVelocity
+                    percentNewCatVelo = .95f;
+                }else if(movementComponent.velocity <= movementComponent.maxVelocity){
                     //sliding depending on angel between old and actual direction
-                    float physicAngle = (float) Math.atan2(-(movementComponent.oldPositionVec.x-movementComponent.positionVec.x),
-                            movementComponent.oldPositionVec.y-movementComponent.positionVec.y);
-                    if(physicAngle < 0)physicAngle *= -1;
+                    float phyAngle = (float) Math.atan2(-movementComponent.directionVec.x, movementComponent.directionVec.y);
+                    float phyCurrentRot = physicsComponent.getRotation();
 
-                    if(physicAngle < .2f){
-                        percentNewCatVelo = 1f;
-                    }else if(physicAngle < .4f){
+                    if (phyCurrentRot < 0f)
+                        phyCurrentRot += (float)(2*Math.PI);
+                    if (phyAngle < 0f)
+                        phyAngle += (float)(2*Math.PI);
+
+                    float phySpinningAngle = phyAngle - phyCurrentRot;
+                    if(phySpinningAngle <0)phySpinningAngle*=-1;
+
+                    if(phySpinningAngle > Math.PI){
+                        phySpinningAngle -= (float)(2*Math.PI);
+                        phySpinningAngle *= -1;
+                    }
+
+                    if(phySpinningAngle < .2){
+                        percentNewCatVelo = .95f;
+                    }else if(phySpinningAngle < .4f){
                         percentNewCatVelo = .1f;
-                    }else if(physicAngle < .8f){
+                    }else if(phySpinningAngle < .7f){
                         percentNewCatVelo = .05f;
-                    }else{
+                    }else {
                         percentNewCatVelo = .01f;
                         movementComponent.slidingLock = true;
                     }
-                }
-
-                if(!catPropertyComponent.canSeeLaserPointer){
-                    //slow down on laserPointer of
-                    movementComponent.velocity = movementComponent.velocity*(1-delta);
-                    percentNewCatVelo = .0001f;
+                }else if(movementComponent.velocity > movementComponent.maxVelocity){
+                    percentNewCatVelo = .01f;
+                    movementComponent.slidingLock = true;
                 }
 
                 movementComponent.positionVec.x = movementComponent.directionVec.x*percentNewCatVelo+movementComponent.oldPositionVec.x*(1-percentNewCatVelo);
@@ -214,13 +231,13 @@ public class CatMovementSystem extends ECSystem{
                         ////sliding stuff start////
                         if(movementComponent.velocity < 10f){
                             //slowdown on laserPointer off stops to 0 if speed < 10
-                            movementComponent.velocity = 0.0f;
+                            movementComponent.velocity = .0f;
                         }else if(movementComponent.slidingLock){
                             //slowdown on laserPointer off with slidingLock
-                            movementComponent.velocity = movementComponent.velocity - 10*delta;
+                            movementComponent.velocity = movementComponent.velocity - 5*delta;
                         }else if(!movementComponent.slidingLock){
                             //slowdown on laserPointer off without slidingLock
-                            movementComponent.velocity = movementComponent.velocity - 100*delta;
+                            movementComponent.velocity = movementComponent.velocity - 50*delta;
                         }
                         ////sliding stuff end////
                     }
@@ -253,7 +270,7 @@ public class CatMovementSystem extends ECSystem{
             } // end if (state check)
             else if(catPropertyComponent.getState() == CatStateEnum.JUMP){
                 movementComponent.velocity = jumpDataComponent.jumpVelocity;
-            }else if(catPropertyComponent.getState() == CatStateEnum.FALL){
+            }else if(catPropertyComponent.getState() == CatStateEnum.FALL || catPropertyComponent.getState() == CatStateEnum.DIE){
                 movementComponent.velocity = 0.0f;
             }else if(catPropertyComponent.getState() == CatStateEnum.HIDDEN){
                 movementComponent.velocity = 0.0f;
@@ -264,6 +281,12 @@ public class CatMovementSystem extends ECSystem{
                 }else{
                     catPropertyComponent.playTimeTimer = 0;
                     catPropertyComponent.setState(CatStateEnum.IDLE);
+                }
+            }else if( catPropertyComponent.getState() ==  CatStateEnum.JUMPING_IN_BOX){
+                catPropertyComponent.jumpInBoxTimer += delta;
+                if(catPropertyComponent.jumpInBoxTimer >= catPropertyComponent.JUMP_IN_BOX){
+                    catPropertyComponent.jumpInBoxTimer = 0;
+                   // catPropertyComponent.setState(CatStateEnum.HIDDEN);
                 }
             }
             //positionVec not directionVec because sliding

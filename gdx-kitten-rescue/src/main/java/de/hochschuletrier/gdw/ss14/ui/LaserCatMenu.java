@@ -1,11 +1,16 @@
 package de.hochschuletrier.gdw.ss14.ui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -13,29 +18,36 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Table.Debug;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.state.ScreenListener;
 import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.ecs.ai.DogBehaviour;
 import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
-public abstract class LaserCatMenu
+
+public abstract class LaserCatMenu implements ScreenListener
 {
-	private static UIImage menuCatImage;
-	private static Image titleTextImage;
+	protected UIImage menuCatImage;
+	protected Image titleTextImage;
 	// For debug drawing
-	private ShapeRenderer shapeRenderer; 
-	
-	//
+	protected ShapeRenderer shapeRenderer; 
+    private static final Logger logger = LoggerFactory.getLogger(DogBehaviour.class);	//
+    
 	// Vererbtes Zeug
 	//
-	protected static Table widgetFrame;
-	protected static SoundListener soundListener;
-	protected static Table table;
-	protected static Skin catSkin;
-	protected static Stage stage;
-	protected static float heightOfWidgetFrame;
-	protected static float widthOfWidgetFrame;
-	protected static float frameDuration;
+	protected Table widgetFrame;
+	protected SoundListener soundListener;
+	protected Table table;
+	protected Skin catSkin;
+	protected Stage stage;
+	protected float heightOfWidgetFrame;
+	protected float widthOfWidgetFrame;
+	protected float frameDuration;
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
@@ -52,7 +64,8 @@ public abstract class LaserCatMenu
 		frameDuration = 0.05f;
 				
 		// Adjusts the table and adds it to the stage
-		stage = new Stage();
+		Viewport viewport = new ScalingViewport(Scaling.fit, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),new OrthographicCamera());
+		stage = new Stage(viewport);
 		
 		// Space for main-menu, including background
 		table = new Table();
@@ -85,10 +98,12 @@ public abstract class LaserCatMenu
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
-		//table.debug(Debug.all);
-		//widgetFrame.debug(Debug.all);
+		table.debug(Debug.all);
+		widgetFrame.debug(Debug.all);
 		
-		LaserCatMenu.soundListener=new SoundListener();
+		soundListener=new SoundListener();
+		
+		Main.getInstance().addScreenListener(this);
 	}
 	
 
@@ -127,7 +142,7 @@ public abstract class LaserCatMenu
 			if (this.isPressed())
 					return;
 			System.out.println("enter");
-	    	LaserCatMenu.menuCatImage.animate(true);
+                        menuCatImage.animate(true);
 			if(event.getListenerActor().getName().equals("bell"))
 				SoundManager.performAction(UIActions.BELLOVER);
 			else
@@ -140,10 +155,19 @@ public abstract class LaserCatMenu
 		{
 
 			super.exit(event, x, y, pointer, toActor);
-			System.out.println("exit");
-	    	LaserCatMenu.menuCatImage.animate(false);
+			//System.out.println("exit");
+            menuCatImage.animate(false);
 
 			
 		}
 	}
+	
+	@Override
+	public void resize(int width, int height) {
+	    // TODO Auto-generated method stub
+	    logger.debug("Changing viewport to width: " + width + "height: " + height);
+	    stage.getViewport().update(width, height, true);
+	}
+	
+	
 }

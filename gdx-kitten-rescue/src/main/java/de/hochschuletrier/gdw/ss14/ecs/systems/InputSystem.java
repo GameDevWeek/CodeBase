@@ -50,13 +50,16 @@ public class InputSystem extends ECSystem
             CatPropertyComponent catProp = entityManager.getComponent(compos.get(0), CatPropertyComponent.class);
             
             if(!catProp.isInfluenced){
+                catProp.influencedToLaser = 1;
                 inputCompo.whereToGo = laser.position;
                             
                 Vector3 vec = new Vector3(inputCompo.whereToGo.x, inputCompo.whereToGo.y, 1);
                 vec = camComp.smoothCamera.getOrthographicCamera().unproject(vec);
                 inputCompo.whereToGo = new Vector2(vec.x, vec.y);
            }
+            logger.debug("\n"+ catProp.getState());
         }
+        
     }
 
     @Override

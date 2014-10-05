@@ -28,25 +28,23 @@ public class OptionsMenu extends LaserCatMenu
 		this.currentInput = InputManager.readSettings();
 		numberOfInputs = DeviceType.values().length;
 		this.previousState = previousState;
-		numberOfButtons = 5;
+		numberOfButtons = 4;
 		name = new String[numberOfButtons];
 		name[0] = "Volume Down";
 		name[1] = "Volume Up";
-		name[2] = "Credits";
-		name[3] = "Input: " + currentInput.toString();
-		name[4] = "Return";
+		name[2] = "Input: " + currentInput.toString();
+		name[3] = "Return";
 		addButtonsToFrame();
 
 		optionsMenuListener = new OptionsMenuListener();
 
 		for (UIButton b : button)
 		{
-			b.addListener(LaserCatMenu.soundListener);
+			b.addListener(soundListener);
 			b.addListener(this.optionsMenuListener);
 		}
-		button[2].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
-		button[3].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
-		button[4].setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+		button[2].setOverAnimation(catSkin, "bell", frameDuration);
+		button[3].setOverAnimation(catSkin, "bell", frameDuration);
 
 		
 	}
@@ -69,7 +67,6 @@ public class OptionsMenu extends LaserCatMenu
 		widgetFrame.add(label[1]).expandX().space(20).spaceBottom(10);
 		widgetFrame.add(label[2]).expandX().space(20).spaceBottom(10);
 		widgetFrame.add(label[3]).expandX().space(20).spaceBottom(10);
-		widgetFrame.add(label[4]).expandX().space(20).spaceBottom(10);
 
 
 		
@@ -79,7 +76,7 @@ public class OptionsMenu extends LaserCatMenu
 		button[0].setName("button");		
 		
 		currentVolume = LocalMusic.getSystemVolume();
-		volumeLabel = new Label (Integer.toString((int)currentVolume*10), catSkin);
+		volumeLabel = new Label (Integer.toString((int)(LocalMusic.getSystemVolume()*10)), catSkin);
 
 		button[1] = new UIButton(catSkin, "sound_push");
 		button[1].setName("button");
@@ -87,8 +84,6 @@ public class OptionsMenu extends LaserCatMenu
 		button[2].setName("bell");
 		button[3] = new UIButton(catSkin, "bell");
 		button[3].setName("bell");
-		button[4] = new UIButton(catSkin, "bell");
-		button[4].setName("bell");
 
 		widgetFrame.add(button[0]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
 
@@ -96,10 +91,7 @@ public class OptionsMenu extends LaserCatMenu
 		
 		widgetFrame.add(button[1]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);		
 		widgetFrame.add(button[2]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
-		widgetFrame.add(button[3]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
-		widgetFrame.add(button[4]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);
-
-		
+		widgetFrame.add(button[3]).size(Value.percentWidth(widthOfWidgetFrame / 6, table)).top().space(20).spaceTop(10);	
 		
 		name = null;
 	}
@@ -126,14 +118,11 @@ public class OptionsMenu extends LaserCatMenu
 					System.out.println("Increase Volume");
 					volumeLabel.setText(Integer.toString((int)(LocalMusic.getSystemVolume()*10)));
 					break;
-				case 2:
-					System.out.println("Open Credits");
-					break;
-				case 3: 
+				case 2: 
 					System.out.println("Switch Input");
 					currentInput = DeviceType.values()[(currentInput.ordinal()+1)%numberOfInputs];
 					
-					label[3].setText("Input: " + currentInput.toString());
+					label[2].setText("Input: " + currentInput.toString());
 					break;
 				default:
 				    InputManager.getInstance().changeInputDevice(currentInput);

@@ -1,12 +1,18 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Array;
 
-import de.hochschuletrier.gdw.commons.gdx.physix.*;
-import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.states.*;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.MovementComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
+import de.hochschuletrier.gdw.ss14.game.Game;
+import de.hochschuletrier.gdw.ss14.states.CatStateEnum;
 
 /**
  * Created by Daniel Dreher on 02.10.2014.
@@ -19,6 +25,12 @@ public class CheckCatDeadSystem extends ECSystem
     {
         super(entityManager, 0);
         this.physixManager = physixManager;
+    }
+
+    @Override
+    public void render()
+    {
+
     }
 
     @Override
@@ -35,6 +47,12 @@ public class CheckCatDeadSystem extends ECSystem
 
             if(catPropertyComponent.getState() == CatStateEnum.FALL || catPropertyComponent.getState() == CatStateEnum.DIE)
             {
+                Array<Fixture> fixtures = physicsComponent.physicsBody.getFixtureList();
+                for (Fixture fixture : fixtures)
+                {
+                    fixture.setSensor(true);
+                }
+
                 if(animationComponent.isFinished)
                 {
                     catPropertyComponent.isAlive = false;
@@ -57,26 +75,22 @@ public class CheckCatDeadSystem extends ECSystem
                 }
 
                 // destroy entity (can't change position because of box2d)
-                
+
                 short mask = physicsComponent.physicsBody.getFixtureList().get(0).getFilterData().maskBits;
                 short category = physicsComponent.physicsBody.getFixtureList().get(0).getFilterData().categoryBits;
-                
+
                 physixManager.destroy(physicsComponent.physicsBody);
                 entityManager.deleteEntity(entity);
-                
+
                 // create new player entity
                 int newPlayer = EntityFactory.constructCat(lastCheckpoint, maxVelocity, middleVelocity, minVelocity, acceleration, mask, category);
 
                 // set new lives
                 entityManager.getComponent(newPlayer, CatPropertyComponent.class).amountLives = newAmountLives;
+
+                Game.mapManager.resetMap();
             }
         }
-
-    }
-
-    @Override
-    public void render()
-    {
 
     }
 }

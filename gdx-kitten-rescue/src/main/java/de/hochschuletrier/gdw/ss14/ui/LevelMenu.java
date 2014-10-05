@@ -42,9 +42,9 @@ public class LevelMenu extends LaserCatMenu
 
         for (UIButton b : button)
         {
-            b.addListener(LaserCatMenu.soundListener);
+            b.addListener(soundListener);
             b.addListener(this.levelMenuListener);
-            b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+            b.setOverAnimation(catSkin, "bell", frameDuration);
         }
 
 
@@ -125,7 +125,7 @@ public class LevelMenu extends LaserCatMenu
                         break;
                     case 1:
                         levelIndex = ((levelIndex - 1) + numberOfLevels) % numberOfLevels;
-                        levelLabel.setText(Integer.toString(levelIndex));
+                        levelLabel.setText(mapKeyArray.get(levelIndex));
                         System.out.println("Decrease Level to " + levelIndex);
                         break;
                     case 2:
@@ -140,7 +140,6 @@ public class LevelMenu extends LaserCatMenu
             }
         }
     }
-
 
     public static String getCurrentLevel()
     {

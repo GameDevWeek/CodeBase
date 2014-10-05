@@ -26,9 +26,9 @@ public class PauseMenu extends LaserCatMenu
 		
 		for (UIButton b:button)
 		{
-			b.addListener(LaserCatMenu.soundListener);
+			b.addListener(soundListener);
 			b.addListener(this.pauseMenuListener);
-			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+			b.setOverAnimation(catSkin, "bell", frameDuration);
 		}
 	}
 	

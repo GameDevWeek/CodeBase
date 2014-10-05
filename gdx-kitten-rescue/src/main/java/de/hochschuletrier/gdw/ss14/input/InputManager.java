@@ -50,8 +50,17 @@ public class InputManager {
         removeListenerFromDevice(gia);
     }
     
+    public void clearAllGameInputAdapter() {
+        listener.clear();
+        if (inputDevice != null) {
+            inputDevice.clearAllGameInputAdapter();
+        }
+    }
+    
     public void update() {
-        inputDevice.update();
+        if (inputDevice != null) {
+            inputDevice.update();
+        }
     }
     
     public static void init() {
@@ -123,7 +132,9 @@ public class InputManager {
     }
     
     private void addListenerToDevice(GameInputAdapter gia) {
-        inputDevice.addGameInputAdapter(gia);
+        if (inputDevice != null) {
+            inputDevice.addGameInputAdapter(gia);
+        }
     }
     
     private void addAllListenerToDevice() {
@@ -133,7 +144,9 @@ public class InputManager {
     }
     
     private void removeListenerFromDevice(GameInputAdapter gia) {
-        inputDevice.removeGameInputAdapter(gia);
+        if (inputDevice != null) {
+            inputDevice.removeGameInputAdapter(gia);
+        }
     }
     
     private void removeAllListenerFromDevice() {
