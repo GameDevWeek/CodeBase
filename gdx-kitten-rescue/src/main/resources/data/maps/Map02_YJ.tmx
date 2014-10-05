@@ -17,22 +17,10 @@
  <tileset firstgid="1111" source="Tilesets/Nahrung.tsx"/>
  <tileset firstgid="1112" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
  <tileset firstgid="1113" source="Tilesets/TuerKlappe.tsx"/>
- <tileset firstgid="1239" name="LochTiles" tilewidth="64" tileheight="64">
-  <tileoffset x="1" y="1"/>
-  <image source="Tilesets/LochTiles.png" width="448" height="320"/>
- </tileset>
- <tileset firstgid="1274" name="Treppe" tilewidth="64" tileheight="64">
-  <tileoffset x="1" y="1"/>
-  <image source="Tilesets/Treppe.png" width="192" height="576"/>
- </tileset>
- <tileset firstgid="1301" name="HerrchenDummy" tilewidth="64" tileheight="64">
-  <tileoffset x="1" y="1"/>
-  <image source="Tilesets/HerrchenDummy.png" width="64" height="128"/>
- </tileset>
- <tileset firstgid="1303" name="Teddy" tilewidth="64" tileheight="64">
-  <tileoffset x="1" y="1"/>
-  <image source="../../../../../Desktop/Maps/Tilesets/Teddy.png" width="192" height="128"/>
- </tileset>
+ <tileset firstgid="1239" source="Tilesets/LochTiles(Balken).tsx"/>
+ <tileset firstgid="1274" source="Tilesets/Treppe.tsx"/>
+ <tileset firstgid="1301" source="Tilesets/Herrchen.tsx"/>
+ <tileset firstgid="1303" source="Tilesets/Teddy.tsx"/>
  <layer name="ground" width="50" height="30">
   <properties>
    <property name="floor" value="0"/>

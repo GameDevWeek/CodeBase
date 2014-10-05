@@ -242,7 +242,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
                 {
                     if ((d = entityManager.getComponent(myEntity, RenderComponent.class)) != null)
                     {
-                        entityManager.removeComponent(myEntity, d);
+//                        entityManager.removeComponent(myEntity, d);
                     }
 
                     catPropertyComponent.setState(CatStateEnum.JUMPING_IN_BOX);
