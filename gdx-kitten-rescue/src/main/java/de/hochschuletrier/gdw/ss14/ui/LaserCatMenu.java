@@ -43,7 +43,7 @@ public abstract class LaserCatMenu implements ScreenListener
 	protected Table widgetFrame;
 	protected SoundListener soundListener;
 	protected Table table;
-	protected Skin catSkin;
+	protected static Skin catSkin;
 	protected Stage stage;
 	protected float heightOfWidgetFrame;
 	protected float widthOfWidgetFrame;
@@ -118,6 +118,10 @@ public abstract class LaserCatMenu implements ScreenListener
 	{
 		stage.draw();
 	}
+        
+        public Stage getStage() {
+            return stage;
+        }
 
 	public void update(float delta)
 	{
@@ -141,9 +145,12 @@ public abstract class LaserCatMenu implements ScreenListener
 			
 			if (this.isPressed())
 					return;
-			System.out.println("enter");
-                        menuCatImage.animate(true);
-			if(event.getListenerActor().getName().equals("bell"))
+			
+            if (menuCatImage != null) {
+                menuCatImage.animate(true);
+            }
+			
+            if(event.getListenerActor().getName().equals("bell"))
 				SoundManager.performAction(UIActions.BELLOVER);
 			else
 				SoundManager.performAction(UIActions.BUTTONOVER);
@@ -155,10 +162,10 @@ public abstract class LaserCatMenu implements ScreenListener
 		{
 
 			super.exit(event, x, y, pointer, toActor);
-			//System.out.println("exit");
-            menuCatImage.animate(false);
-
 			
+			if (menuCatImage != null) {
+			    menuCatImage.animate(false);
+			}
 		}
 	}
 	

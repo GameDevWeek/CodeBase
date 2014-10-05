@@ -193,17 +193,33 @@ public class EntityFactory{
 
         DogPropertyComponent dogState = new DogPropertyComponent(patrolspots);
         dogPhysix.initPhysics(phyManager);
-        AnimationComponent dogAnimation = new AnimationComponent();
-
         ICollisionListener contactSystem = (DogContactSystem) Game.engine.getSystemOfType(DogContactSystem.class);
         dogPhysix.collisionListeners.add(contactSystem);
-        
-        dogAnimation.animation.put(DogStateEnum.FALLING.ordinal(), assetManager.getAnimation("pudel_fallen"));
-        dogAnimation.animation.put(DogStateEnum.KILLING.ordinal(), assetManager.getAnimation("pudel_beissen"));
-        dogAnimation.animation.put(DogStateEnum.WALKING.ordinal(), assetManager.getAnimation("pudel_laufen"));
-        dogAnimation.animation.put(DogStateEnum.RUNNING.ordinal(), assetManager.getAnimation("pudel_laufen"));
-        dogAnimation.animation.put(DogStateEnum.SITTING.ordinal(), assetManager.getAnimation("pudel_idle"));
-        dogAnimation.animation.put(DogStateEnum.JUMPING.ordinal(), assetManager.getAnimation("pudel_springen"));
+        AnimationComponent dogAnimation = new AnimationComponent();
+
+        double animationSelektor = Math.random();
+        if (animationSelektor < 0.3) {
+            dogAnimation.animation.put(DogStateEnum.FALLING.ordinal(), assetManager.getAnimation("pudel_fallen"));
+            dogAnimation.animation.put(DogStateEnum.KILLING.ordinal(), assetManager.getAnimation("pudel_beissen"));
+            dogAnimation.animation.put(DogStateEnum.WALKING.ordinal(), assetManager.getAnimation("pudel_laufen"));
+            dogAnimation.animation.put(DogStateEnum.RUNNING.ordinal(), assetManager.getAnimation("pudel_laufen"));
+            dogAnimation.animation.put(DogStateEnum.SITTING.ordinal(), assetManager.getAnimation("pudel_idle"));
+            dogAnimation.animation.put(DogStateEnum.JUMPING.ordinal(), assetManager.getAnimation("pudel_springen"));
+        } else if (animationSelektor > 0.6) {
+            dogAnimation.animation.put(DogStateEnum.FALLING.ordinal(), assetManager.getAnimation("mops_fallen"));
+            dogAnimation.animation.put(DogStateEnum.KILLING.ordinal(), assetManager.getAnimation("mops_beissen"));
+            dogAnimation.animation.put(DogStateEnum.WALKING.ordinal(), assetManager.getAnimation("mops_laufen"));
+            dogAnimation.animation.put(DogStateEnum.RUNNING.ordinal(), assetManager.getAnimation("mops_laufen"));
+            dogAnimation.animation.put(DogStateEnum.SITTING.ordinal(), assetManager.getAnimation("mops_idle"));
+            dogAnimation.animation.put(DogStateEnum.JUMPING.ordinal(), assetManager.getAnimation("mops_springen"));
+        } else {
+            dogAnimation.animation.put(DogStateEnum.FALLING.ordinal(), assetManager.getAnimation("chihuahua_fallen"));
+            dogAnimation.animation.put(DogStateEnum.KILLING.ordinal(), assetManager.getAnimation("chihuahua_beissen"));
+            dogAnimation.animation.put(DogStateEnum.WALKING.ordinal(), assetManager.getAnimation("chihuahua_laufen"));
+            dogAnimation.animation.put(DogStateEnum.RUNNING.ordinal(), assetManager.getAnimation("chihuahua_laufen"));
+            dogAnimation.animation.put(DogStateEnum.SITTING.ordinal(), assetManager.getAnimation("chihuahua_idle"));
+            dogAnimation.animation.put(DogStateEnum.JUMPING.ordinal(), assetManager.getAnimation("chihuahua_springen"));
+        }
 
         RenderComponent dogRender = new RenderComponent();
         dogRender.zIndex = 5;

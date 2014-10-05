@@ -63,7 +63,7 @@ public class Game {
 
 
     public static MapManager mapManager;
-    private EntityManager entityManager;
+    public static EntityManager entityManager;
     private PhysixManager physixManager;
     
     /* Behaviour */
@@ -71,6 +71,8 @@ public class Game {
     private GlobalBlackboard globalBlackboard;
     
     private Vector2 mapCenter = new Vector2();
+
+    public static boolean hasReachedFinish = false;
 
     public Game(AssetManagerX am){
         engine = new Engine();
@@ -81,6 +83,8 @@ public class Game {
         {
             InputManager.getInstance().clearAllGameInputAdapter();
         }
+
+        hasReachedFinish = false;
 
 
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);

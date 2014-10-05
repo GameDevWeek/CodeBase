@@ -3,7 +3,6 @@
  <tileset firstgid="1" source="Tilesets/BodenDachbodendunkel.tsx"/>
  <tileset firstgid="57" source="Tilesets/BodenDachbodenhell.tsx"/>
  <tileset firstgid="85" source="Tilesets/SolidsTileset.tsx"/>
- <tileset firstgid="517" source="Tilesets/Lochtiles.tsx"/>
  <tileset firstgid="552" source="Tilesets/fluessigkeiten_Halbe_groesse.tsx"/>
  <tileset firstgid="582" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
  <tileset firstgid="642" source="Tilesets/Tuer.tsx"/>
@@ -32,7 +31,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztmttqAjEQhgO7t9Y+pe8oVlvP0qptPSvohb2uF/oC/qJCEJI1E5Kd2hn4yMLuZDP5sgtxrSRKLZnwAirEvHdQBTXwCt5APfJxAzRBzzAevbXlDcAQfIIv8B35eATGlvHorS1vDTYgr9ji3j+E8dzm/YJdjnXsce8DoQ5qXqgQH//TRzFV6jk9X19Sbpz6LyD3KTX3H8uHXjelDpf+Xda5a55eN6WOUM8fdx+hno/QPm7n9V5/4iOOD2od3HxQ1xUnHx+gfCErrtf1Gfrw2Udx8uGzj+Lkw2cfxc2HvK/seb51cPHhu67Ehz3Eh/gQH/fXLz7Eh2084kN8iA/zeP6qD2qID3k+HsGHyzzF8LFI3H9bWjnOU0gfHZzrJubv+FltC7QZ+Jjh3Dwxf8fPaidgysBH6IjlI3SID94+HuX/DJR1pX83yZs+cTynvCOLRv5C
+   eJztmclOwzAQhh3MCQ5whgM8B8vr8I6o7FwQlP0CSHCAG9ACLSfW/pFidWTaJuNiZw4z0q86iWc8ky+ROnHDGnMtRBtQI9DvEHo0xjxBLagNPScY0+MX6BU6KPLZhLagbWjH+3XjXWgP2rd9vw/E+IS+oR/oK8GYHv9CJuvncwydQKfQmffrxufQBXRJ6phCjOnM1GYzWHuW1HEL3dlyv3vMeSB1zCHGfI11LGDtxYA6OpjTVR7/bsqDx2MF11aLddYMT3n8Jfguj4ifige9XyF1cOLn81tQOwIPer9C6qgan2vSecR6P1Lx4D5XyiMNj9A6pPEIfa4k8TiC1guVmZvXFMhjnD5KEg/aRw3qw+g5v4+SxIP2UYP6MHrO76Ok8aj6v9WvXxqPqn2EX7/yUB6j8lEeykN5DM9HeSgP5TE8H+WhPJTH3/jOlIcMHvp+VPMbtw4pPNw6V5b/benGln8fTMWjC70b/n6/269/w7jDyCcWD4trkxl/v9/t12fwnRDwfsS2VDxim/KQzSO0Dmk8Qp4rum9St5qB+eR+PVTIrNc=
   </data>
  </layer>
  <layer name="gap" width="50" height="50" visible="0">
@@ -59,7 +58,7 @@
    eJzt2d0KgkAQBeDFR89M+70xrduCfl6geoLqtTpdCMvShTja7K7ngwMuSIxaQzsaMz435I48hOdOEmNSZJr0WV17T+SFvIXnzlH/AlkqXccvK2SNHJCjci2hypCZtc6RQqkWiQqprfUO2SvVInFCztb6glyFn8nfRzxy9N/C6sEZjmce9eShuf1KW4V7X1v3v8TxtsXzcPtVqNx+RfRvqXYBPSm1CyAisoS6H3SFuh909bEfJKIwNDPORgyznI12AQLu8whdDN8n6m7s80TfdJkncv5BQ/Ft3t6VdN6u/R6/IZ23+/ge/0s6Z/DlfwznDERx+wDTYjnF
   </data>
  </layer>
- <objectgroup name="actionlayer">
+ <objectgroup name="actionlayer" visible="0">
   <properties>
    <property name="floor" value="0"/>
   </properties>
@@ -75,7 +74,7 @@
   <object name="door" gid="684" x="2113" y="705"/>
   <object name="wool" gid="669" x="192" y="1148"/>
   <object name="food" gid="670" x="384" y="2788"/>
-  <object name="DogSpawn" x="1852.61" y="1892.24" width="56" height="64">
+  <object name="dogspawn" x="1852.61" y="1892.24" width="56" height="64">
    <properties>
     <property name="id" value="0"/>
     <property name="pat" value="0,1"/>
@@ -91,12 +90,8 @@
     <property name="id" value="0"/>
    </properties>
   </object>
-  <object name="start" x="2676" y="880" width="56" height="48">
-   <properties>
-    <property name="start" value="true"/>
-   </properties>
-  </object>
-  <object name="DogSpawn" x="492" y="296" width="88" height="72">
+  <object name="start" x="2676" y="880" width="56" height="48"/>
+  <object name="dogspawn" x="492" y="296" width="88" height="72">
    <properties>
     <property name="id" value="1"/>
     <property name="pat" value="2,3,4,3"/>
@@ -122,7 +117,7 @@
     <property name="id" value="5"/>
    </properties>
   </object>
-  <object name="DogSpawn" x="1124" y="2984" width="56" height="64">
+  <object name="dogspawn" x="1124" y="2984" width="56" height="64">
    <properties>
     <property name="id" value="0"/>
     <property name="pat" value="0,5"/>
@@ -153,7 +148,7 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztzjENADAMA7CoCAps/PEMwN5JPerDvztJAwAAAAAAAAAA35x6TZ9ggwsDLJ13
+   eJzt2LERgDAMBEGNK3BhdED/fRAzNgQkGqENNv9Lf0bEBPjgHKvsTTrqdOz2Psne2qEDAAAAgLu/fDqVOt7+NB06uncAUNMxVtmboIMLY4SxBA==
   </data>
  </layer>
  <layer name="solid1" width="50" height="50" visible="0">
@@ -188,7 +183,7 @@
    eJztmE0KwjAUhLtUs3DnjXWl2eleQW+gnkC9liNUSIPa5PmTMcwHQ2n6Et6QNH9NUx976AAdSyfyJifoDF1KJyKE6DCAhtAoQa6NZ2T85fhfIR9cyAcXk8z4Uj765lSX2R5rf+QiH1yk/E+PxjLjXmAKzQz12PpyCa0M9dh8bKGdoR6bDyvywUUtPnL3QKyknjv/+VyaSy1jVD64qMVHLXOfEH2E66NLKBdCCCFKYr2HY8N6D8eG9R7uGWtoE7zPocUH2y9N6Me3z7tnZq9xv9zwUbmPvjP5ifOPc30VK7pcAdcmHZc=
   </data>
  </layer>
- <objectgroup name="actionlayer">
+ <objectgroup name="actionlayer" visible="0">
   <properties>
    <property name="floor" value="1"/>
   </properties>
@@ -257,23 +252,23 @@
    eJzt2MkNgEAMBMFNniMBYBPgSACIADYtJgF+FsbQJfXXmrdT+odVbWoPcvfOoU5VgtwFAAAAvqpRrfcIA4PK3iMMzGrxHoHwKlV7jzDQqd57hIFRTd4jAAAAgIfwZ3gX/gwAAMR2AWKdE4Q=
   </data>
  </layer>
- <objectgroup name="actionlayer">
+ <objectgroup name="actionlayer" visible="0">
   <properties>
    <property name="floor" value="2"/>
   </properties>
-  <object name="DogSpawn" x="2236" y="2344" width="56" height="64">
+  <object name="dogspawn" x="2236" y="2344" width="56" height="64">
    <properties>
     <property name="id" value="0"/>
     <property name="pat" value="0"/>
    </properties>
   </object>
-  <object name="DogSpawn" x="2284" y="2496" width="56" height="64">
+  <object name="dogspawn" x="2284" y="2496" width="56" height="64">
    <properties>
     <property name="id" value="1"/>
     <property name="pat" value="0"/>
    </properties>
   </object>
-  <object name="DogSpawn" x="2188" y="2528" width="56" height="64">
+  <object name="dogspawn" x="2188" y="2528" width="56" height="64">
    <properties>
     <property name="id" value="2"/>
     <property name="pat" value="0"/>
@@ -356,30 +351,30 @@
    eJztz7EJACAQBMHn+y9CTcQuNbADAxFn4PK9CAAAAAAAAAAATpSMqGstb5ec6bt/PP4D+NcEFLEDPg==
   </data>
  </layer>
- <objectgroup name="actionlayer">
+ <objectgroup name="actionlayer" visible="0">
   <properties>
    <property name="floor" value="3"/>
   </properties>
   <object name="door" gid="680" x="2879.91" y="2816.48"/>
-  <object name="DogSpawn" x="1658.68" y="2492.42" width="109.47" height="123.506" rotation="-174.929">
+  <object name="dogspawn" x="1658.68" y="2492.42" width="109.47" height="123.506" rotation="-174.929">
    <properties>
     <property name="id" value="3"/>
     <property name="pat" value="3,0"/>
    </properties>
   </object>
-  <object name="DogSpawn" x="2644" y="1488" width="56" height="64">
+  <object name="dogspawn" x="2644" y="1488" width="56" height="64">
    <properties>
     <property name="id" value="0"/>
     <property name="pat" value="0,1"/>
    </properties>
   </object>
-  <object name="DogSpawn" x="508" y="1600" width="56" height="64">
+  <object name="dogspawn" x="508" y="1600" width="56" height="64">
    <properties>
     <property name="id" value="2"/>
     <property name="pat" value="2,3"/>
    </properties>
   </object>
-  <object name="DogSpawn" x="1508" y="448" width="104" height="104">
+  <object name="dogspawn" x="1508" y="448" width="104" height="104">
    <properties>
     <property name="id" value="1"/>
     <property name="pat" value="1,2"/>
@@ -472,7 +467,7 @@
    <property name="floor" value="4"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztl81qwlAQhW/iplrRnUIRn6u+gb6DgptaFwpu/FmpG39W6tZHcGHrXttn6REEJSiJZObGmvPBB/ESZubERSbGEEIIISTuJGHqTl8jmZQQEmdelOrmE8Hu+4ANgX5ZgRrXeAuYowt7Av20cgRlAqcCdaLOIQVzPBbPkiMX9QCEEEKsIrXvVmHNc1Z3jHmHJUeggQ9S+24Ltj1nHcxfhhULObz77ids6rcNjd93Wx8ObAwSEr99bgbnNgYJybPspVHkGMIRHAvW1MyxvnG+gEu4EuylmWOjWNuLVo706R2RsfCuOKKVo3Cav2gpB78/Cfn/fLvG7Nzz7y2uv9zb9xNdfvDsfy+e/x7Xh5j9H38jCx18
+   eJztmD1uwkAQhdfQJBCRLpEQgmuRG4Q7gEQToACJhp8KaCCpkrQcgQJIz89ZeEguLAvLjjyzxvL7pCetRtbMvHWxs2sMIYQQQrLOI1T4p4qJdEoIyTIPSnlf89G++4A6AvWeBXLcohzRxwgaC9TT8hGVJbQSyJO0Dyno475Im49a7nb8xW4bhBBCEkZq3m1CLV+s7RhTh94cgQIhSM27fWjgiw3R/zvUsODDP+92oZ5+2diE3dsm0NRGIzEJm+c+oS8bjcQkbXNpEEn4mEFzaCGYU9PHOiD+Df1Av4K1NH1sFHP70fLx5J4RJQtnxRUtHxW3/6olH7x/EpJ+9jlj/jxvTFusdwFvTkSfE/b+7Nn/A9bHjP2PC9abHZ0=
   </data>
  </layer>
  <objectgroup name="actionlayer">
