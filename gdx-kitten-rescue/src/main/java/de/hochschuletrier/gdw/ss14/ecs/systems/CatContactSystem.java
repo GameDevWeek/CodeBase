@@ -1,10 +1,12 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 
@@ -12,11 +14,13 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.Component;
+import de.hochschuletrier.gdw.ss14.ecs.components.DoorPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.EnemyComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.FinishPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.GroundPropertyComponent;
@@ -240,9 +244,15 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
             if ((d = entityManager.getComponent(myEntity, CatPropertyComponent.class)) != null)
             {
                 CatPropertyComponent catPropertyComponent = (CatPropertyComponent) d;
-
+               
+                
                 if (!catPropertyComponent.isCatBoxOnCooldown)
                 {
+
+                    RenderComponent boxRender = entityManager.getComponent(otherEntity, RenderComponent.class);
+                    if(boxRender != null){
+                        boxRender.texture = new TextureRegion(EntityFactory.assetManager.getTexture("box_with_cat"));
+                    }
                     if ((d = entityManager.getComponent(myEntity, RenderComponent.class)) != null)
                     {
 //                        entityManager.removeComponent(myEntity, d);
@@ -297,7 +307,11 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
 
             }
 
-        } // end check for StairPhysicsComponent
+        }else if(other instanceof DoorPhysicsComponent){
+            /*
+             * Door Animation abspielen
+             */
+        }// end check for StairPhysicsComponent
         else if (other instanceof FinishPhysicsComponent)
         {
             if (mySightCone)
@@ -306,6 +320,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
             }
 
             // TODO: goal reached! set outro sequence here.
+            Game.hasReachedFinish = true;
         }
 
 
@@ -378,6 +393,9 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
             }
                 ((WoolPhysicsComponent)otherPhysic).isSeen = false;
 
+        }else if( (c = entityManager.getComponent(otherEntity, RenderComponent.class)) != null ){
+            RenderComponent renderCompFromBox = (RenderComponent)c;
+            renderCompFromBox.texture = new TextureRegion(EntityFactory.assetManager.getTexture("catbox"));
         }else if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
             EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
             enemyComponent.seeCat = false;
@@ -424,7 +442,6 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
                     }
                 }
             }
-
 
         }
 

@@ -4,6 +4,7 @@ package de.hochschuletrier.gdw.ss14.game;
 import java.util.ArrayList;
 
 import de.hochschuletrier.gdw.ss14.ui.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +32,7 @@ import de.hochschuletrier.gdw.ss14.ecs.systems.CatStateUpdateSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.ChangeMapSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.CheckCatDeadSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DeleteDeadPhysicEntitiesSystem;
+import de.hochschuletrier.gdw.ss14.ecs.systems.DogContactSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.DogMovementSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.ECSystem;
 import de.hochschuletrier.gdw.ss14.ecs.systems.HitAnimationSystem;
@@ -61,7 +63,7 @@ public class Game {
 
 
     public static MapManager mapManager;
-    private EntityManager entityManager;
+    public static EntityManager entityManager;
     private PhysixManager physixManager;
     
     /* Behaviour */
@@ -69,6 +71,8 @@ public class Game {
     private GlobalBlackboard globalBlackboard;
     
     private Vector2 mapCenter = new Vector2();
+
+    public static boolean hasReachedFinish = false;
 
     public Game(AssetManagerX am){
         engine = new Engine();
@@ -79,6 +83,8 @@ public class Game {
         {
             InputManager.getInstance().clearAllGameInputAdapter();
         }
+
+        hasReachedFinish = false;
 
 
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
@@ -127,6 +133,7 @@ public class Game {
 
         engine.addSystem(new CameraSystem(entityManager, 1024));
         engine.addSystem(new CatContactSystem(entityManager, physixManager));
+        engine.addSystem(new DogContactSystem(entityManager, physixManager));
 
         // physic systems
         engine.addSystem(new PhysixDebugRenderSystem(entityManager, physixManager));
