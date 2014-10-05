@@ -78,7 +78,7 @@ public class DogBehaviour extends Behaviour {
         new Patroullieren(pat);
         new DogSeesCat(nichtsehend);
           */
-        
+        /*
        
         //SeeCat Patrouille oder Chase Cat verhalten:
         setName("Catch the Cat oder patroullieren");
@@ -90,9 +90,10 @@ public class DogBehaviour extends Behaviour {
         Invert nichtsSehend = new Invert(patroulliere);
         new DogSeesCat(nichtsSehend);
         new Patroullieren(patroulliere);
-        
+        */
        
         /*
+        
       //Katze verfolgen und ecken ausweichen verhalten:  
         setName("Catch the Cat und weich Ecken aus");
         BaseNode root = new Selector(this);
@@ -101,6 +102,13 @@ public class DogBehaviour extends Behaviour {
         new HundInRandomRichtung(hundHaengt);
         new HundHaengt(hundHaengt);
     */
+        
+        setName("bla");
+        BaseNode root = new Selector(this);
+        Sequence a = new Sequence(root);
+        new HundInRandomRichtung(root);
+        new DogSeesCat(a);
+        new ChaseCat(a);
         // don't forget to activate behaviour on instantiation ;)
         this.activate();
         
@@ -284,7 +292,7 @@ public class DogBehaviour extends Behaviour {
              
              EnemyComponent ec = bb.em.getComponent(dogID, EnemyComponent.class);
              hundSiehtKatze = ec.seeCat;
-             System.out.println("Sieht katze?"+ec.seeCat);
+             //System.out.println("Sieht katze?"+ec.seeCat);
           //   System.out.println("Hund sieht Katze: "+hundSiehtKatze);
              State rueckgabe;
              if(hundSiehtKatze){
@@ -317,6 +325,7 @@ public class DogBehaviour extends Behaviour {
         
         public Patroullieren(BaseNode parent) {
             super(parent);
+           PhysicsComponent pc = bb.em.getComponent(dogID, PhysicsComponent.class);
             naechsterPatrolpunktIndex = 0;
         }
 
@@ -327,7 +336,7 @@ public class DogBehaviour extends Behaviour {
            patrolPunkte =  proper.patrolspots;
            int laenge = patrolPunkte.size();
            if (laenge <= 0){
-               ic.whereToGo= currentPos;
+               ic.whereToGo= pc.getPosition();
                
                //Wenn keine Punkte da sind wird nichts getan.
            } else{
