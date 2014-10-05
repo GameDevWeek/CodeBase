@@ -118,6 +118,10 @@ public abstract class LaserCatMenu implements ScreenListener
 	{
 		stage.draw();
 	}
+        
+        public Stage getStage() {
+            return stage;
+        }
 
 	public void update(float delta)
 	{

@@ -11,8 +11,8 @@
         "text_path": {
             "type": "linear",
             "destinations": [
-                {"x": 200, "y": 400, "speed": 40 },
-                {"x": 200, "y": -100, "speed": 40 }
+                {"x": 370, "y": 560, "speed": 40 },
+                {"x": 370, "y": 0, "speed": 40 }
             ]
         }
     },
@@ -31,37 +31,33 @@
                 { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Design:  ", "delay": "2200" },
                 { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Tilesets", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Julia Wolf  ", "delay": "900" },
-                { "type": "text", "style" : "teilnehmer_r", "text": "  Maxine Hammen", "delay": "0" },
-                { "type": "text", "style" : "teilnehmer_l", "text": "Johannes Grewer  ", "delay": "900" },
                 { "type": "text", "style" : "teilnehmer_r", "text": "  Nadine Steiner", "delay": "0" },
-                { "type": "text", "style" : "teilnehmer_l", "text": "Ekaterina Denissova  ", "delay": "900" },
-                { "type": "text", "style" : "teilnehmer_r", "text": "  Saskia Hohmann", "delay": "0" },
-                
-                { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Design:  ", "delay": "2200" },
-                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Enitäten", "delay": "0" },
-                { "type": "text", "style" : "teilnehmer_l", "text": "Julia Wolf  ", "delay": "900" },
-                { "type": "text", "style" : "teilnehmer_r", "text": "  Maxine Hammen", "delay": "0" },
-                { "type": "text", "style" : "teilnehmer_l", "text": "Johannes Grewer  ", "delay": "900" },
-                { "type": "text", "style" : "teilnehmer_r", "text": "  Nadine Steiner", "delay": "0" },
-                { "type": "text", "style" : "teilnehmer_l", "text": "Ekaterina Denissova  ", "delay": "900" },
-                { "type": "text", "style" : "teilnehmer_r", "text": "  Saskia Hohmann", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Natalie Carl  ", "delay": "900" },
                 
                 { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Design:  ", "delay": "2200" },
-                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  User Interface", "delay": "0" },
-                { "type": "text", "style" : "teilnehmer_l", "text": "Julia Wolf  ", "delay": "900" },
-                { "type": "text", "style" : "teilnehmer_r", "text": "  Maxine Hammen", "delay": "0" },
-                { "type": "text", "style" : "teilnehmer_l", "text": "Johannes Grewer  ", "delay": "900" },
-                { "type": "text", "style" : "teilnehmer_r", "text": "  Nadine Steiner", "delay": "0" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Entitäten", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Ekaterina Denissova  ", "delay": "900" },
-                { "type": "text", "style" : "teilnehmer_r", "text": "  Saskia Hohmann", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Johannes Grewer", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Alois Kaufmann  ", "delay": "900" },
+                
+                { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Design:  ", "delay": "2200" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  User Interface", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Saskia Hohmann  ", "delay": "900" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Maxine Hammen", "delay": "0" },
+                
+                { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Design:  ", "delay": "2200" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Screen Design", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Saskia Hohmann  ", "delay": "900" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Maxine Hammen", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Natalie Carl  ", "delay": "900" },
                 
                 { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Tools:  ", "delay": "2200" },
                 { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Level Design", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Joscha Wülk  ", "delay": "900" },
                 { "type": "text", "style" : "teilnehmer_r", "text": "  Tim Grunmanns", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Yasmin Juncker  ", "delay": "900" },
-                { "type": "text", "style" : "teilnehmer_r", "text": "  Sebastian Schalow", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Vanessa Hoff", "delay": "0" },
+                { "type": "text", "style" : "teilnehmer_l", "text": "Ann Kathrin  ", "delay": "900" },
                 
                 { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Entwicklung:  ", "delay": "2200" },
                 { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Physik", "delay": "0" },
@@ -81,7 +77,6 @@
                 { "type": "text", "style" : "teilnehmer_r", "text": "  Fabio Gimmillaro", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Sandra Weyand  ", "delay": "900" },
                 { "type": "text", "style" : "teilnehmer_r", "text": "  Michaela Mös", "delay": "0" },
-                { "type": "text", "style" : "teilnehmer_l", "text": "Heinrich Unrau  ", "delay": "900" },
                 
                 { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Entwicklung: ", "delay": "2200" },
                 { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Input", "delay": "0" },
@@ -103,9 +98,10 @@
                 { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Entwicklung:  ", "delay": "2200" },
                 { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Audio", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Michael Ochmann  ", "delay": "900" },
+                { "type": "text", "style" : "teilnehmer_r", "text": "  Manuel Neugebauer", "delay": "0" },
                 
                 { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Audio:  ", "delay": "2200" },
-                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Aufnahme und Verarbeitung", "delay": "0" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Technik", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Manuel Neugebauer  ", "delay": "900" },
                 { "type": "text", "style" : "teilnehmer_r", "text": "  Tim Grunmanns", "delay": "0" },
 
@@ -153,8 +149,8 @@
                     "minAngle" : -90, "maxAngle" : -90,
                     "minCurveAngle": 15, "maxCurveAngle": 45
                 },
-                { "time": 12000, "animation": "fade_out", "animationTime": 2000 },
-                { "time": 12000, "animation": "fade_out", "animationTime": 2000, "group": "title" }
+                { "time": 7500, "animation": "fade_out", "animationTime": 1000 },
+                { "time": 7500, "animation": "fade_out", "animationTime": 1000, "group": "title" }
             ]
         }
     }
