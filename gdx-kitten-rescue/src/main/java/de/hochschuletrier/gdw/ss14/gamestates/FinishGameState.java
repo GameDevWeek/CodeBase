@@ -1,71 +1,40 @@
 package de.hochschuletrier.gdw.ss14.gamestates;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
-import de.hochschuletrier.gdw.commons.gdx.sceneanimator.SceneAnimator;
-import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
-import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
-import de.hochschuletrier.gdw.ss14.ui.CreditsMenu;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.hochschuletrier.gdw.ss14.ui.FinishMenu;
+import de.hochschuletrier.gdw.ss14.ui.FinishMenu.FinishState;
 
-public class CreditsGameState extends KittenGameState implements InputProcessor {
-    
-    private static final Logger logger = LoggerFactory.getLogger(CreditsGameState.class);
+public class FinishGameState extends KittenGameState implements InputProcessor {
 
-    private CreditsMenu creditsMenu;
+    private FinishMenu finishMenu;
     InputInterceptor inputProcessor;
     private LocalMusic music;
-    private SceneAnimator sceneAnimator;
 
     @Override
     public void init(AssetManagerX assetManager) {
         this.assetManager = assetManager;
-        
-        try {
-            sceneAnimator = new SceneAnimator(assetManager, "data/json/credits.json");
-        } catch (Exception ex) {
-            logger.error("Error loading credits", ex);
-        }
     }
-
+    
     @Override
     public void render() {
-        //Main.getInstance().screenCamera.bind();
-        
-        //DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.DARK_GRAY);
-        
-        //Main.getInstance().screenCamera.bind();
-
-
-        if(sceneAnimator != null)
-            sceneAnimator.render();
-        
-        DrawUtil.batch.end();
-        creditsMenu.render();
-        DrawUtil.batch.begin();
+        Main.getInstance().screenCamera.bind();
+        finishMenu.render();
     }
 
     @Override
     public void update(float delta) {
-        
-        if(sceneAnimator != null)
-            sceneAnimator.update(delta);
-        creditsMenu.update(delta);
+        finishMenu.update(delta);
     }
 
     @Override
     public void onEnter(KittenGameState previousState) {
-        creditsMenu = new CreditsMenu();
-        creditsMenu.init(assetManager);
+        finishMenu = new FinishMenu();
+        finishMenu.init(assetManager);
     }
 
     @Override
@@ -74,7 +43,7 @@ public class CreditsGameState extends KittenGameState implements InputProcessor 
 
     @Override
     public void onLeave(KittenGameState nextState) {
-        creditsMenu.dispose();
+        finishMenu.dispose();
     }
 
     @Override
