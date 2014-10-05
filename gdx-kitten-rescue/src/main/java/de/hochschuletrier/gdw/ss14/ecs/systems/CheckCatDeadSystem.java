@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.*;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.*;
@@ -36,6 +37,12 @@ public class CheckCatDeadSystem extends ECSystem
 
             if(catPropertyComponent.getState() == CatStateEnum.FALL || catPropertyComponent.getState() == CatStateEnum.DIE)
             {
+                Array<Fixture> fixtures = physicsComponent.physicsBody.getFixtureList();
+                for (Fixture fixture : fixtures)
+                {
+                    fixture.setSensor(true);
+                }
+
                 if(animationComponent.isFinished)
                 {
                     catPropertyComponent.isAlive = false;
