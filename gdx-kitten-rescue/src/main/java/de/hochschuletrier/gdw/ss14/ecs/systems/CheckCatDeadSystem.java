@@ -71,9 +71,7 @@ public class CheckCatDeadSystem extends ECSystem
                 // set new lives
                 entityManager.getComponent(newPlayer, CatPropertyComponent.class).amountLives = newAmountLives;
 
-                // reset map
-                entityManager.deleteAllGameplayRelatedEntitiesExcludingCat();
-                Game.mapManager.setFloor(Game.mapManager.currentFloor);
+                Game.mapManager.resetMap();
             }
         }
 
