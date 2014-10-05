@@ -160,7 +160,7 @@
    H4sIAAAAAAAAC+2WyQrCMBCGY2lalYJ1AcHt/V/FDTwIHgS3s7s+gBNIpMShnVSbQPGHH3qY5Mskk3QY+8uFjj5jJ81C3GMsMHTNo3MvwLlqFooM5lCKiWOwnELpVg5ulzgmT05pouZbFi51n9tIHHXst+oDZyA9BI8scV2Ia3enanj38wqrKxvn66quep6buhrDWzwBT6Vn4LlfPHeBMJYWuBtgbME76T34YIHr6h652ucVwliX+HyFOMIJ/E+HhPUke7VzRnydmF8EcZ2KXKvWF6l6TPZqtx9y399IzYte4w4xD+lnAVzsXaf2OEVzA54+XwPmiwluZnBt/sfU/aP8x16vzwrBEA4AAA==
   </data>
  </layer>
- <layer name="solid2" width="30" height="30" visible="0">
+ <layer name="solid2" width="30" height="30">
   <properties>
    <property name="floor" value="1"/>
   </properties>
@@ -168,7 +168,7 @@
    H4sIAAAAAAAAC2NgGAXDBTQwkq+XE4i5kDAywCYOYnND2RNIsJeDbBdSBvhH7R009kayMDBEAXE0C4R/hxG/PDFAjAg1CVDzkrCYC8o7+ORpBUjJOzBASR5axMTAsJiJPL2DIU3FAeMmHil+YoDsWBrFF3KaSgXakYZkTzKQnYJmbxcwLrOAeBUF5TAMwOI4B2hHLpI9WUB2Ng3TJ6E4hvkP5Ff0tDsBSS4LShMLiMm/1AaU1kULgXgyGXmJ0nzEyUqePkrt5SHTXlLjNg+avgsoSOcy0LQnR2QaBJX/pVD7yqmUvwTR7BbG4hZ8bTZ0/dQE+OodcuxNA+pJh+rLANKZaGYIIfHR25rIbUliAcwObHZhExsu4UxrAADz8h4wEA4AAA==
   </data>
  </layer>
- <objectgroup name="actionlayer" visible="0">
+ <objectgroup name="actionlayer">
   <properties>
    <property name="floor" value="1"/>
   </properties>
@@ -228,7 +228,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="renderlayer" visible="0">
+ <objectgroup name="renderlayer">
   <properties>
    <property name="floor" value="1"/>
   </properties>
