@@ -218,7 +218,7 @@
     "chihuahua_beissen": {
         "filename": "data/animations/chihuahua_beissen.png",
         "frames" : 4,
-        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1],
+        "frameDuration": [0.1,0.1,0.1,0.1],
         "playType" : "NORMAL",
         "columns": 4,
         "rows" : 1
@@ -242,7 +242,7 @@
     "chihuahua_springen": {
         "filename": "data/animations/chihuahua_springen.png",
         "frames" : 8,
-        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1],
+        "frameDuration": [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1],
         "playType" : "NORMAL",
         "columns": 8,
         "rows" : 1

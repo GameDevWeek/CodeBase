@@ -57,7 +57,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAUgsJVIdcuYGBiWA/EKJuLEqQW2Ac3dDsQ7mIgTHyygAuiuShq6rQxodjkW8zuAYp00tLcNaHY7FvNnAMVm0tDeaUCzp5NhfhwLA0M8C4IfA2THIvE5gZgLirkpdCMlgAONjyt+CaWrHKDfcpH8lwVkZ7PgVs+PxscVv9ROV+j24opfaqcrdHvpBahlL6H0TMhectMVqYBa6YrS9Dzc05UYieoXAvEiWjgEB0BPVz1A3AvEfTS2l9zyKhKYtqKAOJoFUxwE0MXRAa50BfM3LpAANTeJhThxWgF6pw989qLXiciAlu0rUF6mdfsKW3oA5WVat682AvEmLOLktq+GCwAAGmbpWhAOAAA=
+   H4sIAAAAAAAAC+1WyQrCMBANJQeXgzf/zX05ulxdfsAF1KPLUQ/qVcHl83wBxTJtbJtmiogPHmQeYWZCXtoR4g+FS8h9e0eIA3h0wum2cEXeG3h3wunfggH6GjL21kPuvk/+CbQpY90Rco998q+hbRjrLpF7ZZC/KoWoyXdcxrriitNg5slszB7jIEVi3f0G+aqDs3Vd52th3Zb6/TkS6+7Xtq9oXd392vYVrZsUbNUN8nNQXVNfRYUtX8X186/7Kh9x/xbccTSiAfXVDJyDC+a6pt+rArxVBEvSqytQnULnq9e5dagjbwNsSq+uQHUuJO2PT3XpP9ENzvlKvWXu+crPD+otc89XJ/Dso5vOV7+CByDKgT4QDgAA
   </data>
  </layer>
  <objectgroup name="actionlayer">
@@ -69,12 +69,11 @@
   <object name="catbox" gid="1112" x="265.332" y="933.818"/>
   <object name="start" x="302.31" y="1774.43" width="56" height="48"/>
   <object name="wool" gid="1110" x="920.364" y="1705.21"/>
-  <object name="vase" gid="1101" x="1398.78" y="603.397"/>
   <object name="vase" gid="1101" x="1196.3" y="1515.82"/>
   <object name="lamp" gid="1103" x="953.204" y="1512"/>
   <object name="dogspawn" x="335.879" y="1298.06" width="21.2121" height="21.2121">
    <properties>
-    <property name="id" value="1"/>
+    <property name="id" value="0"/>
     <property name="pat" value="0,1"/>
    </properties>
   </object>
@@ -88,30 +87,54 @@
     <property name="id" value="1"/>
    </properties>
   </object>
-  <object name="door" gid="1125" x="640.333" y="640"/>
-  <object name="door" gid="1124" x="960" y="638.667"/>
+  <object name="door" gid="1125" x="640.333" y="640">
+   <properties>
+    <property name="passable" value="true"/>
+   </properties>
+  </object>
+  <object name="door" gid="1124" x="960" y="638.667">
+   <properties>
+    <property name="passable" value="true"/>
+   </properties>
+  </object>
   <object name="stairs" x="302.667" y="334.667" width="296" height="54.6667">
    <properties>
     <property name="floor" value="1"/>
    </properties>
   </object>
-  <object name="door" gid="1121" x="1087.72" y="1471.63"/>
-  <object name="door" gid="1125" x="640.303" y="1024.33"/>
-  <object name="door" gid="1124" x="959.697" y="1024.24"/>
+  <object name="door" gid="1121" x="1471.6" y="1471.72">
+   <properties>
+    <property name="passable " value="true"/>
+   </properties>
+  </object>
+  <object name="door" gid="1125" x="640.303" y="1024.33">
+   <properties>
+    <property name="passable" value="true"/>
+   </properties>
+  </object>
+  <object name="door" gid="1124" x="959.697" y="1024.24">
+   <properties>
+    <property name="passable" value="true"/>
+   </properties>
+  </object>
   <object name="vase" gid="1101" x="567.874" y="529.397"/>
   <object name="vase" gid="1101" x="466.48" y="566.245"/>
   <object name="vase" gid="1101" x="416.48" y="592.245"/>
   <object name="vase" gid="1101" x="442.48" y="656.245"/>
   <object name="vase" gid="1101" x="474.48" y="720.245"/>
-  <object name="vase" gid="1101" x="574.48" y="772.245"/>
+  <object name="vase" gid="1101" x="574.48" y="772.245">
+   <properties>
+    <property name="id" value="1"/>
+   </properties>
+  </object>
   <object name="dogspawn" x="1042.42" y="1175.76" width="27.2727" height="24.2424">
    <properties>
-    <property name="id" value="2"/>
+    <property name="id" value="1"/>
    </properties>
   </object>
   <object name="dogspawn" x="290.909" y="1127.27" width="30.303" height="27.2727">
    <properties>
-    <property name="id" value="3"/>
+    <property name="id" value="2"/>
    </properties>
   </object>
  </objectgroup>
@@ -165,66 +188,81 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAXDBTQwkq+XE4i5kDAywCYOYnND2RNIsJeDbBdSBvhH7R009kayMDBEAXE0C4R/hxG/PDFAjAg1CVDzkrCYC8o7+ORpBUjJOzBASR5axMTAsJiJPL2DIU3FAeMmHil+YoDsWBrFF3KaSgXakYZkTzKQnYJmbxcwLrOAeBUF5TAMwOI4B2hHLpI9WUB2Ng3TJ6E4hvkP5Ff0tDsBSS4LShMLiMm/1AaU1kULgXgyGXmJ0nzEyUqePkrt5SHTXlLjNg+avgsoSOcy0LQnR2QaBJX/pVD7yqmUvwTR7BbG4hZ8bTZ0/dQE+OodcuxNA+pJh+rLANKZaGYIIfHR25rIbUliAcwObHZhExsu4UxrAADz8h4wEA4AAA==
+   H4sIAAAAAAAAC2NgGAXDBTQwkq+XE4i5kDAywCYOYnND2RNIsJeDbBdSBvhH7R009kayMDBEAXE0C4R/hxG/PDFAjAg1CUDzEoE4CYu5oLyTABXHJk8rQEregQFK8tAiJgaGxUzk6R0MaSoOGDfxSPETA2TH0ii+kNNUKtCONCR7koHsFDR7u4BxmQXEqygoh2EAFsc5QDtykezJArKzaZg+CcUxzH8gv6Kn3QlIcllQmlhATP6lNqC0LloIxJPJyEuU5iNOVvL0UWovD5n2khq3edD0XUBBOpeBpj05ItMgqPwvhdpXTqX8JYhmtzAWt+Brs6HrpybAV++QY28aUE86VF8GkM5EM0MIiY/e1kRuSxILYHZgswub2HAJZ1oDALKAXhkQDgAA
   </data>
  </layer>
  <objectgroup name="actionlayer">
   <properties>
    <property name="floor" value="1"/>
   </properties>
-  <object name="vase" gid="1101" x="1347.57" y="309.336"/>
+  <object name="vase" gid="1101" x="929.388" y="836.609"/>
   <object name="broom" gid="1102" x="801.571" y="1568.85"/>
   <object name="lamp" gid="1103" x="240.485" y="301.338"/>
   <object name="catbox" gid="1112" x="1528.97" y="939.879"/>
   <object name="wool" gid="1110" x="682.364" y="1723.21"/>
-  <object name="vase" gid="1101" x="1426.05" y="509.458"/>
+  <object name="vase" gid="1101" x="1468.47" y="521.579"/>
   <object name="vase" gid="1101" x="1302.36" y="1576.43"/>
-  <object name="dogspawn" x="1351.64" y="1819.15" width="21.2121" height="21.2121">
+  <object name="dogspawn" x="557.701" y="1813.09" width="21.2121" height="21.2121">
    <properties>
-    <property name="id" value="1"/>
+    <property name="id" value="0"/>
     <property name="pat" value="0,1"/>
    </properties>
   </object>
-  <object name="dogpat" x="1071.7" y="1812.85" width="32" height="26">
+  <object name="dogpat" x="277.761" y="1806.79" width="32" height="26">
    <properties>
     <property name="id" value="0"/>
    </properties>
   </object>
-  <object name="dogpat" x="1679.64" y="1818.18" width="28" height="24">
+  <object name="dogpat" x="885.701" y="1812.12" width="28" height="24">
    <properties>
     <property name="id" value="1"/>
    </properties>
   </object>
-  <object name="door" gid="1124" x="832.333" y="1025"/>
-  <object name="door" gid="1121" x="1535.61" y="706.034"/>
+  <object name="door" gid="1121" x="1535.61" y="706.034">
+   <properties>
+    <property name="passable" value="true"/>
+   </properties>
+  </object>
   <object name="stairs" x="298.667" y="222.667" width="296" height="54.6667">
    <properties>
     <property name="floor" value="-1"/>
    </properties>
   </object>
-  <object name="door" gid="1121" x="1516.72" y="256.633"/>
-  <object name="vase" gid="1101" x="1481.57" y="508.791"/>
-  <object name="vase" gid="1101" x="1316.72" y="348.487"/>
-  <object name="vase" gid="1101" x="1351.57" y="398.73"/>
+  <object name="vase" gid="1101" x="1523.99" y="520.912"/>
+  <object name="vase" gid="1101" x="898.538" y="875.76"/>
+  <object name="vase" gid="1101" x="1478.84" y="416.912"/>
   <object name="vase" gid="1101" x="1573.87" y="389.033"/>
   <object name="vase" gid="1101" x="1605.87" y="340.912"/>
-  <object name="vase" gid="1101" x="1457.87" y="548.609"/>
+  <object name="vase" gid="1101" x="1500.29" y="560.73"/>
   <object name="dogspawn" x="1287.88" y="1054.55" width="27.2727" height="24.2424">
    <properties>
-    <property name="id" value="2"/>
+    <property name="id" value="1"/>
    </properties>
   </object>
   <object name="dogspawn" x="256.848" y="653.815" width="30.303" height="27.2727">
    <properties>
-    <property name="id" value="3"/>
+    <property name="id" value="2"/>
    </properties>
   </object>
-  <object name="door" gid="1121" x="1152" y="1535.66"/>
+  <object name="door" gid="1121" x="1152" y="1535.66">
+   <properties>
+    <property name="passable" value="true"/>
+   </properties>
+  </object>
   <object name="wool" gid="1110" x="984" y="1217.33"/>
-  <object name="door" gid="1124" x="832.333" y="1216"/>
+  <object name="door" gid="1124" x="832.333" y="1216">
+   <properties>
+    <property name="passable" value="true"/>
+   </properties>
+  </object>
   <object name="stairs" x="1530" y="1526" width="140" height="44">
    <properties>
     <property name="floor" value="1"/>
+   </properties>
+  </object>
+  <object name="door" gid="1125" x="514.485" y="1214.76">
+   <properties>
+    <property name="passable" value="true"/>
    </properties>
   </object>
  </objectgroup>
@@ -294,7 +332,7 @@
   <object name="vase" gid="1101" x="1302.36" y="1576.43"/>
   <object name="dogspawn" x="1430.43" y="1822.18" width="21.2121" height="21.2121">
    <properties>
-    <property name="id" value="1"/>
+    <property name="id" value="0"/>
     <property name="pat" value="0,1"/>
    </properties>
   </object>
@@ -308,7 +346,11 @@
     <property name="id" value="1"/>
    </properties>
   </object>
-  <object name="door" gid="1121" x="767.61" y="1600.37"/>
+  <object name="door" gid="1121" x="767.61" y="1600.37">
+   <properties>
+    <property name="passable" value="true"/>
+   </properties>
+  </object>
   <object name="vase" gid="1101" x="1481.57" y="508.791"/>
   <object name="vase" gid="1101" x="1316.72" y="348.487"/>
   <object name="vase" gid="1101" x="1351.57" y="398.73"/>
@@ -322,14 +364,14 @@
   </object>
   <object name="dogspawn" x="289.696" y="1809.21" width="30.303" height="27.2727">
    <properties>
-    <property name="id" value="3"/>
+    <property name="id" value="2"/>
    </properties>
   </object>
   <object name="wool" gid="1110" x="690.061" y="542.118"/>
   <object name="finish" x="764" y="932" width="68" height="62"/>
   <object name="dogspawn" x="1124" y="266" width="58" height="40">
    <properties>
-    <property name="id" value="4"/>
+    <property name="id" value="3"/>
    </properties>
   </object>
   <object name="stairs" x="1508" y="1616" width="186" height="50">
