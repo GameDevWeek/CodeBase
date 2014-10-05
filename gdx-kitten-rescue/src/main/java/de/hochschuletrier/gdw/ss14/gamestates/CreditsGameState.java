@@ -1,15 +1,12 @@
 package de.hochschuletrier.gdw.ss14.gamestates;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
 import de.hochschuletrier.gdw.commons.gdx.sceneanimator.SceneAnimator;
-import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sound.LocalMusic;
@@ -39,15 +36,19 @@ public class CreditsGameState extends KittenGameState implements InputProcessor 
 
     @Override
     public void render() {
-        //Main.getInstance().screenCamera.bind();
         
         //DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.DARK_GRAY);
         
         //Main.getInstance().screenCamera.bind();
 
+//        Main.getInstance().screenCamera.bind();
 
-        if(sceneAnimator != null)
+        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.DARK_GRAY);
+        if(sceneAnimator != null) {
+            Viewport vp = creditsMenu.getStage().getViewport();
+//            vp.getLeftGutterWidth(), vp.getTopGutterHeight()
             sceneAnimator.render();
+        }
         
         DrawUtil.batch.end();
         creditsMenu.render();
