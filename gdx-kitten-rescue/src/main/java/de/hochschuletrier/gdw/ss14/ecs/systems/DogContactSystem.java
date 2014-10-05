@@ -64,11 +64,11 @@ public class DogContactSystem extends ECSystem implements ICollisionListener{
              switch (((JumpablePropertyComponent) component).type)
              {
                  case deadzone:
-                     /*
+                     
                      if(((DogPropertyComponent) dogcomponent).state != DogStateEnum.FALLING)
-                     entityManager.deleteEntity(myEntity);
+                     entityManager.deletePhysicEntity(myEntity);
                      ((DogPropertyComponent) dogcomponent).setState(DogStateEnum.FALLING);
-                     */
+                     
                      break;
             default:
                 break;
