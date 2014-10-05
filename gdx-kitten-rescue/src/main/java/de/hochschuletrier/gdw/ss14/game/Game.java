@@ -70,6 +70,8 @@ public class Game {
     
     private Vector2 mapCenter = new Vector2();
 
+    public static boolean hasReachedFinish = false;
+
     public Game(AssetManagerX am){
         engine = new Engine();
         entityManager = EntityManager.getInstance();
@@ -79,6 +81,8 @@ public class Game {
         {
             InputManager.getInstance().clearAllGameInputAdapter();
         }
+
+        hasReachedFinish = false;
 
 
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
