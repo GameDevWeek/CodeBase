@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import static de.hochschuletrier.gdw.ss14.ecs.EntityFactory.assetManager;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatBoxPhysicsComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.CatPhysicsComponent;
@@ -91,6 +93,7 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
         for (Integer i : physicEntities)
         {
             PhysicsComponent tmp = entityManager.getComponent(i, PhysicsComponent.class);
+            
             if (tmp.physicsBody == contact.getMyPhysixBody())
             {
                 myPhysic = tmp;
@@ -243,6 +246,10 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
 
                 if (!catPropertyComponent.isCatBoxOnCooldown)
                 {
+                    RenderComponent boxRender = entityManager.getComponent(otherEntity, RenderComponent.class);
+                    if(boxRender != null) {
+                        boxRender.texture = new TextureRegion(assetManager.getTexture("box_with_cat"));
+                    }
                     if ((d = entityManager.getComponent(myEntity, RenderComponent.class)) != null)
                     {
 //                        entityManager.removeComponent(myEntity, d);
@@ -378,6 +385,9 @@ public class CatContactSystem extends ECSystem implements ICollisionListener
             }
                 ((WoolPhysicsComponent)otherPhysic).isSeen = false;
 
+        }else if( (c = entityManager.getComponent(otherEntity, RenderComponent.class)) != null ){
+            RenderComponent renderCompFromBox = (RenderComponent)c;
+            renderCompFromBox.texture = new TextureRegion(assetManager.getTexture("catbox"));
         }else if( (c = entityManager.getComponent(otherEntity, EnemyComponent.class)) != null ){
             EnemyComponent enemyComponent = entityManager.getComponent(otherEntity, EnemyComponent.class);
             enemyComponent.seeCat = false;

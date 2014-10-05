@@ -61,7 +61,7 @@ public class Game {
 
 
     public static MapManager mapManager;
-    private EntityManager entityManager;
+    public static EntityManager entityManager;
     private PhysixManager physixManager;
     
     /* Behaviour */
