@@ -47,14 +47,15 @@ public class DogBehaviour extends Behaviour {
          * PhysicsComponent.class);
          */
         /* Setup Tree */
-      /*  
+      
         //testverhalten
         setName("test");
         BaseNode root = new Sequence(this);
         new HundHaengt(root);
         new HundInRandomRichtung(root);
-        */
         
+        
+        /*
         //Finales Soll-Verhalten mit SeeCat, Patrouille, ChaseCat und Ecken ausweichen:
         setName("Catch the Cat, patrouillieren, katze sehen, und Ecken ausweichen.");
         BaseNode root = new Selector(this);
@@ -72,7 +73,7 @@ public class DogBehaviour extends Behaviour {
         Invert nichtsehend = new Invert(pat);
         new Patroullieren(pat);
         new DogSeesCat(nichtsehend);
-            
+          */  
         
         /*
         //SeeCat Patrouille oder Chase Cat verhalten:
@@ -185,11 +186,11 @@ public class DogBehaviour extends Behaviour {
                 if (timer < 0f) {
                     rueckgabe = State.SUCCESS;
                     //logger.debug("Hund hängt, timer: "+timer);
-                    System.out.println("HundHaengt. Hund hängt, timer: "+timer);
+                //    System.out.println("HundHaengt. Hund hängt, timer: "+timer);
                 } else {
                     rueckgabe = State.FAILURE;
                   //  logger.debug("Hund hängt nicht, timer: "+timer);
-                    System.out.println("HundHaengt. Hund hängt nicht, timer: "+timer);
+                  //  System.out.println("HundHaengt. Hund hängt nicht, timer: "+timer);
                 }
 
                 timer -= delta;
