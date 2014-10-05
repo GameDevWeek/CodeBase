@@ -44,6 +44,7 @@ public class SoundManager {
 			case MAINMENU:
 			case OPTIONSMENU:
 			case LEVELMENU:
+			case CREDITS:
 			case PAUSEGAME:
 				switch(actionString) {
 					case "BELLOVER":
