@@ -37,6 +37,12 @@ public class CatPropertyComponent implements Component
 
     public int idOfLastTouchedStair = -1;
     public boolean canChangeMap = true;
+    
+    public final float JUMP_IN_BOX = 1.2f;
+    public float jumpInBoxTimer = 0;
+    
+    public final float JUMP_OUT_BOX = 1.2f;
+    public float jumpOutBox = 0;
 
     public GroundTypeState groundWalking;
     

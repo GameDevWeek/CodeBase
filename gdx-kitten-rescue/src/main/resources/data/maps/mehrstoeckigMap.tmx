@@ -1,53 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="45" height="45" tilewidth="64" tileheight="64">
- <tileset firstgid="1" name="BodenDachbodendunkel" tilewidth="64" tileheight="64">
-  <image source="Tilesets/BodenDachbodendunkel.png" width="448" height="256"/>
-  <tile id="0">
-   <properties>
-    <property name="woodfloor" value="true"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="woodfloor" value="true"/>
-   </properties>
-  </tile>
-  <tile id="7">
-   <properties>
-    <property name="woodbeam" value="true"/>
-   </properties>
-  </tile>
-  <tile id="8">
-   <properties>
-    <property name="woodbeam" value="true"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="woodbeam" value="true"/>
-   </properties>
-  </tile>
-  <tile id="10">
-   <properties>
-    <property name="woodbeam" value="true"/>
-   </properties>
-  </tile>
-  <tile id="14">
-   <properties>
-    <property name="woodbeam" value="true"/>
-   </properties>
-  </tile>
-  <tile id="15">
-   <properties>
-    <property name="kitchenfloor" value="true"/>
-   </properties>
-  </tile>
-  <tile id="21">
-   <properties>
-    <property name="woodbeam" value="true"/>
-   </properties>
-  </tile>
- </tileset>
+ <tileset firstgid="1" source="Tilesets/BodenDachbodendunkel.tsx"/>
  <tileset firstgid="29" source="Tilesets/BodenDachbodenhell.tsx"/>
  <tileset firstgid="57" source="Tilesets/SolidsTileset.tsx"/>
  <tileset firstgid="313" source="Tilesets/LochTiles.tsx"/>

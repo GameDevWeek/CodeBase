@@ -64,11 +64,11 @@ public class MainMenuState extends KittenGameState implements InputProcessor {
 
     @Override
     public void onEnter(KittenGameState previousState) {
-		if (this.music.isMusicPlaying()) {
-			this.music.setFade('i',4000);
-		} else {
-			this.music.play("menu");
-		}
+		//if (this.music.isMusicPlaying()) {
+		//	this.music.setFade('i',4000);
+		//} else {
+			this.music.play("main_loop");
+		//}
         mainMenu = new MainMenu();
         mainMenu.init(assetManager);
         inputProcessor.setActive(true);
@@ -77,9 +77,10 @@ public class MainMenuState extends KittenGameState implements InputProcessor {
 
     @Override
     public void onLeave(KittenGameState nextState) {
-		if (this.music.isMusicPlaying()) {
-    		this.music.setFade('o', 2000);
-		}
+		//if (this.music.isMusicPlaying()) {
+    	//	this.music.setFade('o', 4000);
+		//}
+		music.stop();
     	mainMenu.dispose();
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);
