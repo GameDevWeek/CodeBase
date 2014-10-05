@@ -75,6 +75,12 @@ public class Game {
         entityManager = EntityManager.getInstance();
         entityManager.deleteAllEntities();
 
+        if(InputManager.getInstance() != null)
+        {
+            InputManager.getInstance().clearAllGameInputAdapter();
+        }
+
+
         physixManager = new PhysixManager(3.0f, 0.0f, 0.0f);
         mapManager = new MapManager(entityManager, physixManager, am);
 

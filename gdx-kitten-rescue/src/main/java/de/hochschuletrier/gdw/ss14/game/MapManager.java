@@ -1,44 +1,57 @@
 package de.hochschuletrier.gdw.ss14.game;
 
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.physics.box2d.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 
-import de.hochschuletrier.gdw.commons.gdx.assets.*;
-import de.hochschuletrier.gdw.commons.gdx.physix.*;
-import de.hochschuletrier.gdw.commons.resourcelocator.*;
-import de.hochschuletrier.gdw.commons.tiled.*;
-import de.hochschuletrier.gdw.commons.tiled.tmx.*;
-import de.hochschuletrier.gdw.commons.tiled.utils.*;
+import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import de.hochschuletrier.gdw.commons.tiled.Layer;
+import de.hochschuletrier.gdw.commons.tiled.LayerObject;
+import de.hochschuletrier.gdw.commons.tiled.TileInfo;
+import de.hochschuletrier.gdw.commons.tiled.TileSet;
+import de.hochschuletrier.gdw.commons.tiled.TiledMap;
+import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
+import de.hochschuletrier.gdw.commons.tiled.utils.RectangleGenerator;
 import de.hochschuletrier.gdw.commons.utils.Rectangle;
-import de.hochschuletrier.gdw.ss14.ecs.*;
-import de.hochschuletrier.gdw.ss14.ecs.components.*;
-import de.hochschuletrier.gdw.ss14.ecs.systems.CatContactSystem;
+import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
+import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
+import de.hochschuletrier.gdw.ss14.ecs.components.PlayerComponent;
+import de.hochschuletrier.gdw.ss14.ecs.components.TileMapRenderingComponent;
 import de.hochschuletrier.gdw.ss14.states.GroundTypeState;
-
-import java.util.*;
 
 /**
  * Created by Daniel Dreher on 01.10.2014.
  */
 public class MapManager
 {
+    private enum tile2entity{
+        none, waterpuddle, deadzone, bloodpuddle, parketfloor, kitchenfloor
+    }
     private EntityManager entityManager;
-    private PhysixManager physixManager;
 
+    private PhysixManager physixManager;
     private TiledMap tiledMap;
     private String folderLocation = "data/maps/";
+
     private String fileType = ".tmx";
 
     HashMap<TileSet, Texture> tilesetImages;
-
     private int levelEntity;
+
     public int currentFloor = -1;
-
     public int targetFloor = 0;
-    public boolean isChangingFloor = false;
 
+
+    public boolean isChangingFloor = false;
 
     public MapManager(EntityManager entityManager, PhysixManager physixManager, AssetManagerX assetmanager)
     {
@@ -49,77 +62,59 @@ public class MapManager
         levelEntity = entityManager.createEntity();
     }
 
-    public void loadMap(String path)
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, boolean flag, String userdata)
     {
-        String filename = path;
-        try
-        {
-            this.tiledMap = new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
-        } catch (Exception ex)
-        {
-            throw new IllegalArgumentException(
-                    "Map konnte nicht geladen werden: " + filename, ex);
+        float width = rect.width * tileWidth;
+        float height = rect.height * tileHeight;
+        float x = rect.x * tileWidth + width / 2;
+        float y = rect.y * tileHeight + height / 2;
+
+        PhysixBody body = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
+                .fixedRotation(false).create();
+        body.createFixture(new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
+                .category(floor));
+        body.getFixtureList().forEach((f)->f.setUserData(userdata));
+        body.getFixtureList().forEach((f)->f.setSensor(flag));
+
+    }
+
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, String userdata){
+        addShape(physixManager, rect, tileWidth, tileHeight, floor, false, userdata);
+    }
+
+    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, tile2entity t2e)
+    {
+        float width = rect.width * tileWidth;
+        float height = rect.height * tileHeight;
+        float x = rect.x * tileWidth + width / 2;
+        float y = rect.y * tileHeight + height / 2;
+
+        PhysixBodyDef bodydef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
+                .fixedRotation(false);
+
+        PhysixFixtureDef fixturedef = new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
+                .category(floor).mask((short) 0b1111111111111111);
+        switch (t2e) {
+        case none:
+            PhysixBody body = bodydef.create();
+            body.createFixture(fixturedef);
+            body.getBody().setUserData("wall");
+            break;
+        case waterpuddle: EntityFactory.constructPuddleOfWater(bodydef, fixturedef);break;
+        case bloodpuddle:
+            fixturedef.sensor(true);
+            EntityFactory.constructPuddleOfBlood(bodydef, fixturedef);break;
+        case deadzone:
+            fixturedef.sensor(true);
+            EntityFactory.constructDeadzone(bodydef, fixturedef);break;
+        case kitchenfloor:
+            fixturedef.sensor(true);
+            EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.kitchenfloor);break;
+        case parketfloor:
+            fixturedef.sensor(true);
+            EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.woodenfloor);break;
         }
 
-        createTileSet();
-        createPhysics();
-
-        TileMapRenderingComponent mapComp;
-        mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
-
-        if (mapComp == null)
-        {
-            mapComp = new TileMapRenderingComponent();
-            entityManager.addComponent(levelEntity, mapComp);
-        }
-
-        mapComp.setMap(getMap());
-    }
-
-    public HashMap getTileSet()
-    {
-        return tilesetImages;
-    }
-
-    public void createTileSet()
-    {
-        for (TileSet tileset : tiledMap.getTileSets())
-        {
-            TmxImage img = tileset.getImage();
-            String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
-            tilesetImages.put(tileset, new Texture(filename));
-        }
-    }
-
-    public void resetMap()
-    {
-        entityManager.deleteAllGameplayRelatedEntitiesExcludingCat();
-        setFloor(Game.mapManager.currentFloor);
-    }
-
-    public void setFloor(int floor)
-    {
-
-        currentFloor = floor;
-
-        TileMapRenderingComponent mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
-        Array<Integer> newRenderedLayers = new Array<Integer>();
-
-        for (Layer layer : mapComp.getMap().getLayers())
-        {
-            //System.out.println(this.getClass().getName()+": "+layer.getIntProperty("floor", -1));
-            if ((layer.getIntProperty("floor", -1) == floor) && (layer.isTileLayer())) {
-                
-                newRenderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
-            }
-        }
-
-        mapComp.fadeToRenderedLayers(newRenderedLayers);
-        loadMapObjects();
-    }
-
-    private enum tile2entity{
-        none, waterpuddle, deadzone, bloodpuddle, parketfloor, kitchenfloor
     }
 
     private void createPhysics()
@@ -127,7 +122,7 @@ public class MapManager
         // Generate static world
         int tileWidth = tiledMap.getTileWidth();
         int tileHeight = tiledMap.getTileHeight();
-        //                     
+        //
 
 
         RectangleGenerator generator = new RectangleGenerator();
@@ -166,10 +161,26 @@ public class MapManager
         }
     }
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, String userdata){
-        addShape(physixManager, rect, tileWidth, tileHeight, floor, false, userdata);
+    public void createTileSet()
+    {
+        for (TileSet tileset : tiledMap.getTileSets())
+        {
+            TmxImage img = tileset.getImage();
+            String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
+            tilesetImages.put(tileset, new Texture(filename));
+        }
     }
-    
+
+    public TiledMap getMap()
+    {
+        return this.tiledMap;
+    }
+
+    public HashMap getTileSet()
+    {
+        return tilesetImages;
+    }
+
     /*
     private PhysixBody getShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, int floor)
     {
@@ -185,60 +196,31 @@ public class MapManager
         return body;
     }*/
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, tile2entity t2e)
+    public void loadMap(String path)
     {
-        float width = rect.width * tileWidth;
-        float height = rect.height * tileHeight;
-        float x = rect.x * tileWidth + width / 2;
-        float y = rect.y * tileHeight + height / 2;
-
-        PhysixBodyDef bodydef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
-                .fixedRotation(false);
-
-        PhysixFixtureDef fixturedef = new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
-                .category((short) floor).mask((short) 0b1111111111111111);
-        switch (t2e) {
-        case none:
-            PhysixBody body = bodydef.create();
-            body.createFixture(fixturedef);
-            body.getBody().setUserData("wall");
-            break;
-        case waterpuddle: EntityFactory.constructPuddleOfWater(bodydef, fixturedef);break;
-        case bloodpuddle:
-            fixturedef.sensor(false);
-            EntityFactory.constructPuddleOfBlood(bodydef, fixturedef);break;
-        case deadzone:
-            fixturedef.sensor(true);
-            EntityFactory.constructDeadzone(bodydef, fixturedef);break;
-        case kitchenfloor:
-            fixturedef.sensor(true);
-            EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.kitchenfloor);break;
-        case parketfloor:
-            fixturedef.sensor(true);
-            EntityFactory.constructFloor(bodydef, fixturedef, GroundTypeState.woodenfloor);break;
+        String filename = path;
+        try
+        {
+            this.tiledMap = new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
+        } catch (Exception ex)
+        {
+            throw new IllegalArgumentException(
+                    "Map konnte nicht geladen werden: " + filename, ex);
         }
 
-    }
+        createTileSet();
+        createPhysics();
 
-    private void addShape(PhysixManager physixManager, Rectangle rect, int tileWidth, int tileHeight, short floor, boolean flag, String userdata)
-    {
-        float width = rect.width * tileWidth;
-        float height = rect.height * tileHeight;
-        float x = rect.x * tileWidth + width / 2;
-        float y = rect.y * tileHeight + height / 2;
+        TileMapRenderingComponent mapComp;
+        mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
 
-        PhysixBody body = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixManager).position(x, y)
-                .fixedRotation(false).create();
-        body.createFixture(new PhysixFixtureDef(physixManager).density(1).friction(0.5f).shapeBox(width, height)
-                .category((short)floor));
-        body.getFixtureList().forEach((f)->f.setUserData(userdata));
-        body.getFixtureList().forEach((f)->f.setSensor(flag));
+        if (mapComp == null)
+        {
+            mapComp = new TileMapRenderingComponent();
+            entityManager.addComponent(levelEntity, mapComp);
+        }
 
-    }
-
-    public TiledMap getMap()
-    {
-        return this.tiledMap;
+        mapComp.setMap(getMap());
     }
 
     private void loadMapObjects()
@@ -344,7 +326,7 @@ public class MapManager
                         }
                     }
                 }   // end for (mapObjects)
-                
+
                 /* build dogs now */
                 for(Vector2 pos : dogpositions){
 
@@ -371,5 +353,32 @@ public class MapManager
                 /* end build dogs */
             }
         }   // end for (layer)
+    }
+
+    public void resetMap()
+    {
+        entityManager.deleteAllGameplayRelatedEntitiesExcludingCat();
+        setFloor(Game.mapManager.currentFloor);
+    }
+
+    public void setFloor(int floor)
+    {
+
+        currentFloor = floor;
+
+        TileMapRenderingComponent mapComp = entityManager.getComponent(levelEntity, TileMapRenderingComponent.class);
+        Array<Integer> newRenderedLayers = new Array<Integer>();
+
+        for (Layer layer : mapComp.getMap().getLayers())
+        {
+            //System.out.println(this.getClass().getName()+": "+layer.getIntProperty("floor", -1));
+            if ((layer.getIntProperty("floor", -1) == floor) && (layer.isTileLayer())) {
+
+                newRenderedLayers.add(mapComp.getMap().getLayers().indexOf(layer));
+            }
+        }
+
+        mapComp.fadeToRenderedLayers(newRenderedLayers);
+        loadMapObjects();
     }
 }

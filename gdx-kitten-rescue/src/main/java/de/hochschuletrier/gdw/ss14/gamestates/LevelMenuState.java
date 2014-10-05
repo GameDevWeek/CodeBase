@@ -42,11 +42,11 @@ public class LevelMenuState extends KittenGameState implements InputProcessor {
     
     @Override
     public void onEnter(KittenGameState previousState) {
-    	if (this.music.isMusicPlaying()) {
-			this.music.setFade('i',4000);
-		} else {
-			this.music.play("menu");
-		}
+    	//if (this.music.isMusicPlaying()) {
+		//	this.music.setFade('i',4000);
+		//} else {
+			this.music.play("main_loop");
+		//}
         levelMenu = new LevelMenu();
         levelMenu.init(assetManager);
         inputProcessor.setActive(true);
@@ -59,9 +59,10 @@ public class LevelMenuState extends KittenGameState implements InputProcessor {
 
     @Override
     public void onLeave(KittenGameState nextState) {
-    	if (this.music.isMusicPlaying()) {
-    		this.music.setFade('o', 2000);
-		}
+    	//if (this.music.isMusicPlaying()) {
+    	//	this.music.setFade('o', 2000);
+		//}
+    	music.stop();
 
         // TODO: remove this shit and properly fade music!
         if(nextState instanceof GameplayState)

@@ -125,7 +125,7 @@ public class LevelMenu extends LaserCatMenu
                         break;
                     case 1:
                         levelIndex = ((levelIndex - 1) + numberOfLevels) % numberOfLevels;
-                        levelLabel.setText(Integer.toString(levelIndex));
+                        levelLabel.setText(mapKeyArray.get(levelIndex));
                         System.out.println("Decrease Level to " + levelIndex);
                         break;
                     case 2:
