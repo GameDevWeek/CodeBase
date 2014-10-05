@@ -141,18 +141,14 @@ public class UIImage extends Widget {
 		super.act(delta);
 		
 		// if animation running and button not over anymore, stop animation!
-//		if(animate)
-//		{
-//			if(!overButton.isOver())
-//			{
-//				//animate = false;
-//			}
+		if(animate)
+		{
 			if (overAnimation.size > 0 && stateDuration >= frameDuration) 
 			{
 	            currentFrame = (currentFrame + 1) % overAnimation.size;
 	            stateDuration = 0f;
 	        }
-//		}
+		}
         stateDuration += delta;
 	}
 	
@@ -167,6 +163,15 @@ public class UIImage extends Widget {
 		float scaleX = getScaleX();
 		float scaleY = getScaleY();
 
+
+		
+		// Animation function
+		if (animate && currentFrame != displayedFrame)
+		{
+			drawable = overAnimation.get(currentFrame);
+			displayedFrame = currentFrame;
+		}
+		
 		if (drawable instanceof TransformDrawable) {
 			float rotation = getRotation();
 			if (scaleX != 1 || scaleY != 1 || rotation != 0) {
@@ -176,15 +181,9 @@ public class UIImage extends Widget {
 			}
 		}
 		
-		// Animation function
-		if (animate && currentFrame != displayedFrame)
-		{
-			drawable = overAnimation.get(currentFrame);
-			displayedFrame = currentFrame;
+		if (drawable != null){
+			drawable.draw(batch, x + imageX, y + imageY, imageWidth * scaleX, imageHeight * scaleY);
 		}
-		
-		
-		if (drawable != null) drawable.draw(batch, x + imageX, y + imageY, imageWidth * scaleX, imageHeight * scaleY);
 	}
 
 	public void setDrawable (Skin skin, String drawableName) {
@@ -247,9 +246,8 @@ public class UIImage extends Widget {
 		return imageHeight;
 	}
 
-	public void animate(UIButton overButton)
+	public void animate(boolean isAnimated)
 	{
-		animate = true;
-		this.overButton = overButton;
+		animate = isAnimated;
 	}
 }

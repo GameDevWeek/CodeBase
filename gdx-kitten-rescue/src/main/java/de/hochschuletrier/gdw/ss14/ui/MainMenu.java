@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
+import de.hochschuletrier.gdw.ss14.gamestates.GameStateEnum;
 
 public class MainMenu extends LaserCatMenu
 {
@@ -16,21 +16,22 @@ public class MainMenu extends LaserCatMenu
 	public void init(AssetManagerX assetManager)
 	{
 		super.init(assetManager);
-		numberOfButtons = 4;
+		numberOfButtons = 5;
 		name = new String[numberOfButtons];
 		name[0] = "Start";
 		name[1] = "Levels";
 		name[2] = "Options";
-		name[3] = "Exit Game";
+		name[3] = "Credits";
+		name[4] = "Exit Game";
 		
 		addButtonsToFrame();
 		actionListener = new MainMenuListener();
 		
 		for (UIButton b:button)
 		{
-			b.addListener(LaserCatMenu.soundListener);
+			b.addListener(soundListener);
 			b.addListener(this.actionListener);
-			b.setOverAnimation(catSkin, "bell", LaserCatMenu.frameDuration);
+			b.setOverAnimation(catSkin, "bell", frameDuration);
 		}
 	}
 	
@@ -76,6 +77,9 @@ public class MainMenu extends LaserCatMenu
 							GameStateEnum.OPTIONSMENU.activate();
 							break;
 						case 3:
+							GameStateEnum.CREDITS.activate();
+							break;
+						case 4:
 							System.exit(0);
 							break;
 						default:

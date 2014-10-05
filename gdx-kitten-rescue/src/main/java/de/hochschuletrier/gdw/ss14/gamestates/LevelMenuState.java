@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ss14.states;
+package de.hochschuletrier.gdw.ss14.gamestates;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
@@ -62,6 +62,16 @@ public class LevelMenuState extends KittenGameState implements InputProcessor {
     	if (this.music.isMusicPlaying()) {
     		this.music.setFade('o', 2000);
 		}
+
+        // TODO: remove this shit and properly fade music!
+        if(nextState instanceof GameplayState)
+        {
+            if (this.music.isMusicPlaying())
+            {
+                this.music.stop();
+            }
+        }
+
     	levelMenu.dispose();
         inputProcessor.setActive(false);
         inputProcessor.setBlocking(false);

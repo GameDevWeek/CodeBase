@@ -20,22 +20,22 @@ import de.hochschuletrier.gdw.ss14.sound.SoundManager;
 
 public abstract class LaserCatMenu
 {
-	private static UIImage menuCatImage;
-	private static Image titleTextImage;
+	protected UIImage menuCatImage;
+	protected Image titleTextImage;
 	// For debug drawing
-	private ShapeRenderer shapeRenderer; 
+	protected ShapeRenderer shapeRenderer; 
 	
 	//
 	// Vererbtes Zeug
 	//
-	protected static Table widgetFrame;
-	protected static SoundListener soundListener;
-	protected static Table table;
-	protected static Skin catSkin;
-	protected static Stage stage;
-	protected static float heightOfWidgetFrame;
-	protected static float widthOfWidgetFrame;
-	protected static float frameDuration;
+	protected Table widgetFrame;
+	protected SoundListener soundListener;
+	protected Table table;
+	protected Skin catSkin;
+	protected Stage stage;
+	protected float heightOfWidgetFrame;
+	protected float widthOfWidgetFrame;
+	protected float frameDuration;
 
 	
 	// Abstrakte (vorgeschriebene) Attribute
@@ -80,15 +80,15 @@ public abstract class LaserCatMenu
 		
 		// MainCat Image
 		menuCatImage = new UIImage(catSkin.getDrawable("main-menu-cat"));
-		menuCatImage.setAnimation(catSkin, "menuCat", 500);
+		menuCatImage.setAnimation(catSkin, "menuCat", 0.1f);
 		table.add(menuCatImage).bottom().expandY();
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
-		table.debug(Debug.all);
+		//table.debug(Debug.all);
 		//widgetFrame.debug(Debug.all);
 		
-		LaserCatMenu.soundListener=new SoundListener();
+		soundListener=new SoundListener();
 	}
 	
 
@@ -122,13 +122,28 @@ public abstract class LaserCatMenu
 		}
 		public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor)
 		{
+			super.enter(event, x, y, pointer, fromActor);
+			
 			if (this.isPressed())
 					return;
-	    	LaserCatMenu.menuCatImage.animate((UIButton) event.getListenerActor());
+			System.out.println("enter");
+                        menuCatImage.animate(true);
 			if(event.getListenerActor().getName().equals("bell"))
 				SoundManager.performAction(UIActions.BELLOVER);
 			else
 				SoundManager.performAction(UIActions.BUTTONOVER);
+		}
+		
+		@Override
+		public void exit(InputEvent event, float x, float y, int pointer,
+				Actor toActor)
+		{
+
+			super.exit(event, x, y, pointer, toActor);
+			System.out.println("exit");
+                        menuCatImage.animate(false);
+
+			
 		}
 	}
 }
