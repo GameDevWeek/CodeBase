@@ -56,7 +56,7 @@ public class DogBehaviour extends Behaviour {
         new HundInRandomRichtung(root);
         */
         
-        
+        /*
         //Finales Soll-Verhalten mit SeeCat, Patrouille, ChaseCat und Ecken ausweichen:
         setName("Catch the Cat, patrouillieren, katze sehen, und Ecken ausweichen.");
         BaseNode root = new Selector(this);
@@ -74,9 +74,9 @@ public class DogBehaviour extends Behaviour {
         Invert nichtsehend = new Invert(pat);
         new Patroullieren(pat);
         new DogSeesCat(nichtsehend);
-           
+          */
         
-        /*
+        
         //SeeCat Patrouille oder Chase Cat verhalten:
         setName("Catch the Cat oder patroullieren");
         BaseNode root = new Selector(this);
@@ -87,7 +87,7 @@ public class DogBehaviour extends Behaviour {
         Invert nichtsSehend = new Invert(patroulliere);
         new DogSeesCat(nichtsSehend);
         new Patroullieren(patroulliere);
-        */
+        
        
         /*
       //Katze verfolgen und ecken ausweichen verhalten:  
@@ -275,19 +275,29 @@ public class DogBehaviour extends Behaviour {
         @Override
         public State onEvaluate(float delta) {
             boolean hundSiehtKatze;
-         
+            cat = bb.em.getAllEntitiesWithComponents(PlayerComponent.class, CatPropertyComponent.class); 
+            CatPropertyComponent kittyEigenschaft = bb.em.getComponent(cat.first(), CatPropertyComponent.class);
+             
              EnemyComponent ec = bb.em.getComponent(dogID, EnemyComponent.class);
              hundSiehtKatze = ec.seeCat;
              System.out.println("Hund sieht Katze: "+hundSiehtKatze);
              State rueckgabe;
              if(hundSiehtKatze){
-                 rueckgabe = State.SUCCESS;
-                 SoundManager.performAction(state.SUCCESS);
+                 //rueckgabe = State.SUCCESS;
+                 //SoundManager.performAction(state.SUCCESS);
+                 if(kittyEigenschaft.isHidden)
+                     rueckgabe = State.FAILURE;
+                 else{
+                     rueckgabe = State.SUCCESS;
+                     SoundManager.performAction(state.SUCCESS);
+                 }
              }
              else {
                  rueckgabe = State.FAILURE;
                  SoundManager.performAction(state.FAILURE);
              }
+             
+             
             return rueckgabe;
         }
         
