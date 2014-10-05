@@ -1,6 +1,7 @@
 package de.hochschuletrier.gdw.ss14.gamestates;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
@@ -15,10 +16,15 @@ public class FinishGameState extends KittenGameState implements InputProcessor {
     private FinishMenu finishMenu;
     InputInterceptor inputProcessor;
     private LocalMusic music;
+    
+    Sound winsound;
 
     @Override
     public void init(AssetManagerX assetManager) {
         this.assetManager = assetManager;
+        
+        winsound = assetManager.getSound("gp_cat_victory");
+        
     }
     
     @Override
@@ -38,8 +44,10 @@ public class FinishGameState extends KittenGameState implements InputProcessor {
         
         if (Game.hasReachedFinish) {
             finishMenu.setFinishState(FinishState.WIN);
+            winsound.pause();
         } else {
             finishMenu.setFinishState(FinishState.LOSE);
+            winsound.play();
         }
         
         finishMenu.init(assetManager);
@@ -100,7 +108,6 @@ public class FinishGameState extends KittenGameState implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        // TODO Auto-generated method stub
         return false;
     }
 

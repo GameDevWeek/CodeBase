@@ -312,12 +312,11 @@ public class MapManager
                             case "finish":
                                 // TODO: add object with entityFactory here
                                 EntityFactory.constructFinish(pos, width, height);
-//                                EntityFactory.constructMapChangeObj(pos, width, height, nextMap);
                                 break;
-// isn't an object
-//                            case "door":category
-//                                // TODO: add object with entityFactory here
-//                                break;
+
+                            case "door":
+                                EntityFactory.constructDoor(pos, mask, category);
+                                break;
 
                             case "catbox":
                                 EntityFactory.constructCatbox(pos, mask, category);
