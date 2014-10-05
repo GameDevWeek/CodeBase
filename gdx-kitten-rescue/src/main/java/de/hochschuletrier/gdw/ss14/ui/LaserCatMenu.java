@@ -98,8 +98,8 @@ public abstract class LaserCatMenu implements ScreenListener
 
 		// Debug Lines
 		shapeRenderer = new ShapeRenderer();
-		table.debug(Debug.all);
-		widgetFrame.debug(Debug.all);
+//		table.debug(Debug.all);
+//		widgetFrame.debug(Debug.all);
 		
 		soundListener=new SoundListener();
 		
