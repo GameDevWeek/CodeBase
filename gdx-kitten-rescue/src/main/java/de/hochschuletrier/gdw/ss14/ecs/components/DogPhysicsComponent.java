@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Fixture;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
@@ -75,6 +76,7 @@ public class DogPhysicsComponent extends PhysicsComponent {
         fillShapeList();
         
         PhysixFixtureDef conefixturedef = new PhysixFixtureDef(manager).density(1).mask(mask).category(category).sensor(true);
+        PhysixFixtureDef doorStopFixDef = new PhysixFixtureDef(manager).density(1).mask(mask).category(category).sensor(true);
         PhysixFixtureDef fixturedef = new PhysixFixtureDef(manager).density(1)
                 .friction(friction).restitution(restitution).mask(mask).category(category).groupIndex(group);
 
@@ -82,13 +84,13 @@ public class DogPhysicsComponent extends PhysicsComponent {
                 .position(position).fixedRotation(true).angle(rotation).create();
 
         physicsBody.setAngularVelocity(0);
-        
+                
         physicsBody.createFixture(fixturedef.shapeBox(width, height-width));
         physicsBody.createFixture(fixturedef.shapeCircle(0.1f)).setUserData("masscenter");
         physicsBody.createFixture(conefixturedef.shapePolygon(coneShape)).setUserData("sightcone");
         physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,( height-width)/2)));
         physicsBody.createFixture(fixturedef.shapeCircle(width/2, new Vector2(0,(-height+width)/2)));
-        physicsBody.createFixture(conefixturedef.shapeBox(width * 1.5f, height-width));
+        physicsBody.createFixture(doorStopFixDef.shapeBox(width * 1.5f, height-width)).setUserData("DoorStopper");
         setPhysicsBody(physicsBody);
         physicsBody.setOwner(this);
        logger.debug("\nCatposition: (" + physicsBody.getX() + ", " + physicsBody.getY() + ")");
