@@ -44,7 +44,11 @@ public class CatStateUpdateSystem extends ECSystem
             {
                 if (movementComponent.velocity <= 0.0f)
                 {
-                    catPropertyComponent.setState(CatStateEnum.IDLE);
+                    if(catPropertyComponent.playTimeTimer == 0){
+                        catPropertyComponent.setState(CatStateEnum.IDLE);
+                    }else{
+                        catPropertyComponent.setState(CatStateEnum.PLAYS_WITH_WOOL);
+                    }
                 }
                 else if (movementComponent.velocity <= movementComponent.middleVelocity)
                 {

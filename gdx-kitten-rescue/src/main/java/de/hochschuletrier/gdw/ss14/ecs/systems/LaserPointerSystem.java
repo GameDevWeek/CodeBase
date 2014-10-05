@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.ss14.ecs.systems;
 
+import de.hochschuletrier.gdw.ss14.ecs.components.*;
 import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
@@ -13,12 +14,6 @@ import com.badlogic.gdx.utils.Array;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.ecs.EntityFactory;
 import de.hochschuletrier.gdw.ss14.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.CatPropertyComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.ParticleEmitterComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.ecs.components.RenderComponent;
 import de.hochschuletrier.gdw.ss14.ecs.components.LaserPointerComponent.ToolState;
 import de.hochschuletrier.gdw.ss14.input.GameInputAdapter;
 import de.hochschuletrier.gdw.ss14.input.InputManager;
@@ -51,6 +46,7 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
         
         waterPistol = entityManager.createEntity();
         entityManager.addComponent(waterPistol, new PhysicsComponent());
+        entityManager.addComponent(waterPistol, new WaterPistolComponent());
         
         laserCursor = EntityFactory.assetManager.getTexture("laser_cursor");
         waterpistolCursor = EntityFactory.assetManager.getTexture("waterpistol_cursor");
@@ -69,6 +65,13 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
         vec = cam.smoothCamera.getOrthographicCamera().unproject(vec);
         
         Vector2 pos = new Vector2(vec.x, vec.y);
+
+        Array<Integer> entities = entityManager.getAllEntitiesWithComponents(WaterPistolComponent.class);
+        if(entities.size>0)
+        {
+            waterPistol = entities.first();
+        }
+
         entityManager.getComponent(waterPistol, PhysicsComponent.class).defaultPosition = pos;
         
         if (laser.waterpistolIsUsed) {
@@ -99,6 +102,14 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
         vec = cam.smoothCamera.getOrthographicCamera().unproject(vec);
         
         Texture cursor = null;
+
+
+        // don't draw cursor if laser pointer off.
+        if(laser.toolState == ToolState.WATERPISTOL)
+        {
+            return;
+        }
+
         if (laser.toolState == ToolState.LASER) {
             cursor = laserCursor;
         } else {
@@ -224,6 +235,55 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
     {
         Array<Integer> cats = entityManager.getAllEntitiesWithComponents(CatPropertyComponent.class);
         CatPropertyComponent cat = entityManager.getComponent(cats.first(), CatPropertyComponent.class);
+
+        Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
+        LaserPointerComponent laser = entityManager.getComponent(lasers.first(), LaserPointerComponent.class);
+
+        if (cat.isHidden)
+        {
+            for (Integer entity : cats)
+            {
+                CatPropertyComponent catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
+
+                // check if cat should move out of box
+                if (catPropertyComponent.isHidden)
+                {
+                    catPropertyComponent.isHidden = !catPropertyComponent.isHidden;
+
+                    RenderComponent renderComponent = new RenderComponent();
+                    entityManager.addComponent(entity, renderComponent);
+
+                    laser.toolState = ToolState.LASER;
+
+                    if(laser.toolState == ToolState.LASER)
+                    {
+                        SoundManager.performAction(LaserPointerActions.ON);
+                        if(catPropertyComponent != null)
+                        {
+                            catPropertyComponent.canSeeLaserPointer = true;
+                        }
+                    }
+                    else if(laser.toolState == ToolState.WATERPISTOL)
+                    {
+                        //SoundManager.performAction(LaserPointerActions.OFF);
+                        if(catPropertyComponent != null)
+                        {
+                            catPropertyComponent.canSeeLaserPointer = false;
+                        }
+                    }
+                }
+            }
+        }
+
+//        CatPropertyComponent catPropertyComponent = null;
+//        for (Integer entity : cats)
+//        {
+//            catPropertyComponent = entityManager.getComponent(entity, CatPropertyComponent.class);
+//        }
+
+        /*
+        Array<Integer> cats = entityManager.getAllEntitiesWithComponents(CatPropertyComponent.class);
+        CatPropertyComponent cat = entityManager.getComponent(cats.first(), CatPropertyComponent.class);
         
         Array<Integer> lasers = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(lasers.first(), LaserPointerComponent.class);
@@ -276,28 +336,33 @@ public class LaserPointerSystem extends ECSystem implements GameInputAdapter
                     }
                 }
             }
+            */
     }
 
     @Override
     public void waterPistolButtonDown()
     {
+        /*
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
         if (laser.toolState == ToolState.WATERPISTOL && laser.currentWaterlevel > 0) {
             laser.waterpistolIsUsed = true;
             entityManager.addComponent(waterPistol, waterParticleEmitter);
         }
+        */
     }
 
     @Override
     public void waterPistolButtonUp()
     {
+        /*
         Array<Integer> compos = entityManager.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = entityManager.getComponent(compos.first(), LaserPointerComponent.class);
         if (laser.toolState == ToolState.WATERPISTOL && laser.waterpistolIsUsed) {
             laser.waterpistolIsUsed = false;
             entityManager.removeComponent(waterPistol, waterParticleEmitter);
         }
+        */
     }
 
     @Override
