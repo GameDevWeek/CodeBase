@@ -15,7 +15,7 @@ public enum GameStateEnum {
     LEVELMENU(new LevelMenuState()),
     SANDBOX(new SandboxState()),
     PAUSEGAME(new PauseGameState()),
-    CREDITSGAME(new CreditsGameState()),
+    CREDITS(new CreditsGameState()),
     OPTIONSMENU(new OptionsMenuState());
     private final KittenGameState state;
 

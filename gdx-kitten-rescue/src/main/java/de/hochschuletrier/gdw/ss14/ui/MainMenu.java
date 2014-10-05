@@ -77,7 +77,7 @@ public class MainMenu extends LaserCatMenu
 							GameStateEnum.OPTIONSMENU.activate();
 							break;
 						case 3:
-							GameStateEnum.CREDITSGAME.activate();
+							GameStateEnum.CREDITS.activate();
 							break;
 						case 4:
 							System.exit(0);

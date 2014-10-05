@@ -118,11 +118,11 @@ public class OptionsMenu extends LaserCatMenu
 					System.out.println("Increase Volume");
 					volumeLabel.setText(Integer.toString((int)(LocalMusic.getSystemVolume()*10)));
 					break;
-				case 3: 
+				case 2: 
 					System.out.println("Switch Input");
 					currentInput = DeviceType.values()[(currentInput.ordinal()+1)%numberOfInputs];
 					
-					label[3].setText("Input: " + currentInput.toString());
+					label[2].setText("Input: " + currentInput.toString());
 					break;
 				default:
 				    InputManager.getInstance().changeInputDevice(currentInput);
