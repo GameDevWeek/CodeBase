@@ -43,7 +43,7 @@ public abstract class LaserCatMenu implements ScreenListener
 	protected Table widgetFrame;
 	protected SoundListener soundListener;
 	protected Table table;
-	protected Skin catSkin;
+	protected static Skin catSkin;
 	protected Stage stage;
 	protected float heightOfWidgetFrame;
 	protected float widthOfWidgetFrame;
