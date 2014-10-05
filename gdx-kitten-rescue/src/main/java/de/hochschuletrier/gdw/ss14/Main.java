@@ -154,21 +154,8 @@ public class Main extends StateBasedGame<KittenGameState> {
                 state.init(assetManager);
             }
         }
-        
-//    boolean mainMenu = false;
-//    for (String arg:mainArgs)
-//    {
-//    	if(arg.equalsIgnoreCase("MainMenu"))
-//    	{
-//    		mainMenu = true;
-//    	}
-//    }
-//
-//    if(mainMenu)
+
         GameStateEnum.MAINMENU.activate();
-//    else
-//		GameStateEnum.GAMEPLAY.activate(null, null);
-    
     }
 
     @Override
