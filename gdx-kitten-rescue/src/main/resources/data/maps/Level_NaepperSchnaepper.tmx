@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="64" tileheight="64">
  <tileset firstgid="1" source="Tilesets/BodenDachbodendunkel.tsx"/>
- <tileset firstgid="29" source="Tilesets/BodenDachbodenhell.tsx"/>
- <tileset firstgid="57" source="Tilesets/SolidsTileset.tsx"/>
- <tileset firstgid="425" source="Tilesets/LochTiles.tsx"/>
- <tileset firstgid="460" source="Tilesets/fluessigkeiten_Halbe_groesse.tsx"/>
- <tileset firstgid="490" source="Tilesets/SolidTileset(begehbar).tsx"/>
- <tileset firstgid="858" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
- <tileset firstgid="873" source="Tilesets/Tuer.tsx"/>
- <tileset firstgid="894" source="Tilesets/LichteffektDachboden.tsx"/>
- <tileset firstgid="900" source="Tilesets/Fallobjekte Kopie_128px.tsx"/>
- <tileset firstgid="903" source="Tilesets/Fallobjekte Kopie_258_px.tsx"/>
- <tileset firstgid="909" source="Tilesets/Wollknaeuel.tsx"/>
- <tileset firstgid="910" source="Tilesets/Nahrung.tsx"/>
- <tileset firstgid="911" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
- <tileset firstgid="912" source="Tilesets/TuerKlappe.tsx"/>
- <tileset firstgid="933" source="Tilesets/BodenTiles.tsx"/>
- <tileset firstgid="961" source="Tilesets/LochTiles(Balken).tsx"/>
- <tileset firstgid="996" source="Tilesets/Treppe.tsx"/>
- <tileset firstgid="1023" source="Tilesets/Herrchen.tsx"/>
+ <tileset firstgid="57" source="Tilesets/BodenDachbodenhell.tsx"/>
+ <tileset firstgid="85" source="Tilesets/SolidsTileset.tsx"/>
+ <tileset firstgid="517" source="Tilesets/LochTiles.tsx"/>
+ <tileset firstgid="552" source="Tilesets/fluessigkeiten_Halbe_groesse.tsx"/>
+ <tileset firstgid="582" source="Tilesets/SolidTileset(begehbar).tsx"/>
+ <tileset firstgid="1014" source="Tilesets/Teppich_Halbe_groesse.tsx"/>
+ <tileset firstgid="1074" source="Tilesets/Tuer.tsx"/>
+ <tileset firstgid="1095" source="Tilesets/LichteffektDachboden.tsx"/>
+ <tileset firstgid="1101" source="Tilesets/Fallobjekte Kopie_128px.tsx"/>
+ <tileset firstgid="1104" source="Tilesets/Fallobjekte Kopie_258_px.tsx"/>
+ <tileset firstgid="1110" source="Tilesets/Wollknaeuel.tsx"/>
+ <tileset firstgid="1111" source="Tilesets/Nahrung.tsx"/>
+ <tileset firstgid="1112" source="Tilesets/Kiste_stehend_halbe_groesse.tsx"/>
+ <tileset firstgid="1113" source="Tilesets/TuerKlappe.tsx"/>
+ <tileset firstgid="1197" source="Tilesets/BodenTiles.tsx"/>
+ <tileset firstgid="1225" source="Tilesets/LochTiles(Balken).tsx"/>
+ <tileset firstgid="1260" source="Tilesets/Treppe.tsx"/>
+ <tileset firstgid="1287" source="Tilesets/Herrchen.tsx"/>
+ <tileset firstgid="1289" source="Tilesets/Teddy.tsx"/>
  <layer name="ground" width="30" height="30">
   <properties>
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3NMQ0AIBAEsHswin8VGOBHEkI6dG4lKYCLxucfANBb88z7hg2RmtTBEA4AAA==
+   H4sIAAAAAAAAC+3NsQkAIBAEsHvdf2MLF/BLQSRF6lSSArhofP4BAL01z7xv2E78TsUQDgAA
   </data>
  </layer>
  <layer name="solid1" width="30" height="30">
@@ -32,7 +33,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2VTW7CMBBGJ1nBvtwALoGg5a9IUFoKLUiABIuyhgUcgCuzKzu+yrWwRk5QHE8AQaSnZBH587M8M10i6l6ICphmRNXIfQPP4AXUQB00PH83QQt0WO4H6INPMABDz99f4NuSOwcLknt+wNKSuwJrwdwN2FpyH77q2XnKvRVfvs+4HjNLsM45X75PW4/R778e8QraAr62HmP2iBEYC/m61JwPX5c7eG++5X/eKVtf29z34fsUEhVC9V9cjfO5n9bXzDVrXNd11NxP61tEZsnI1TWu6zpq7qf15bn8H6n7zM+ZrydVv9p3Qmo+8PWkfH8DogPYB+ou8fkg5ZuDax4EobpLfD5cW39OkuvSr3ycs4uv7Zx7dOrb0ui5cAR1dEtTEA4AAA==
+   H4sIAAAAAAAAC+2VywrCMBBFQ//PnYrvF1rfWgUVdGHd6kI/wI/1lhgMQ1ppmvGBBg5kEXJzw8wdXwjhv4kSWL+IsqbbBxVQBTVQBw3H+yZogR7RHYExmIApmDnez0Fg0N2CneBbexAadI/gxKh7BheD7t+vXFdHut/il74zKWM2Ke555pe+05Qxeka0QYfBrylj9IxYgCWTX5uec+HXpgZ/zW/xzlC81q9p7rvwG3ioZU+eS+pxOvez+tV19R5XfR0397P6DaF50HRVj6u+jpv7Wf1SXXqGq57pP9P7uPpX+V0JOR/ofVx+89AsgJwna4nOBy6/3eiPI01P1hKdD5+Wz2l0bfLKxT/b+DX980A8cpsbNRduCS4UoxAOAAA=
   </data>
  </layer>
  <layer name="gap" width="30" height="30">
@@ -40,7 +41,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjADd4yDgwdlLL3o1AczbhwZvR7KGW3TuAZuzEg3fR2N7DRJhFzXAmBQyEnaNgYMFJZgaG08z0t3cHlrxGK3AB6L+LSPgSnfyLXtbQy7+wsF03mp9HwSgYBaNgyAMASqBOWRAOAAA=
+   H4sIAAAAAAAAC2NgGAWjADewZRoYO6llLy/QHD48mB/NHmrZLQI0QxQPFqOxvfJEmEXNcCYFDISdo2BgwUUWBobLLPS3VwRLXqMVuAH0300kfItO/kUva+jlX1jYco3m51EwCkbBKBjyAAD2Cp3hEA4AAA==
   </data>
  </layer>
  <layer name="deco1" width="30" height="30">
@@ -48,7 +49,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2V3U7CMBiGuxDwBLwwgxeieAMqN6B4I1NnOFj0YAkCt8GfwfnvRfgu6WL50nZN2zUc7E2eAGPtszZfvzHWZN+ziBhbglUU1plz39bRG2P8LedO+Lwn3xPwIrheHdY8AGPDsSnuewMb4f6qNZ+AU8n1S/Bk6M2i3X028Z6DC8n1kcT7gN9TwgzMyT6vDZ73Clwr/ptg/DOZX5XSa+Js8p+ins8c54iF85eQ/dfV89DRK57DlHh19Xxj4Sp7TbHOR8GVEa+unm2i6jV0vb6j6jV0vXV6M8OzL8a2nsteYxsf9WwT23rWJW/hvcV5b3meXJMPuD45XwG933D9cH4Dek3ioz/rUmd/1sV3fzZNVX9ugw44qPEZZOmCHjgM7FXlGByBvqf5/gCocpJlEA4AAA==
+   H4sIAAAAAAAAC+2UW4rCMBSGQ7H1goroQ8FRt+GVGd2M6ELU2YCXDaizuJnxugB/IcV4aNKQpsUHf/iotk2+Jpwcxt559bQdxjqg66TrHHLfZ0yvi/EeJytcc+R3HgwE11eMNS9AUXNsBe+NQF94P2rNMzAPub8GNU2v7zzvs453CVYh9/ch3gL+NwhN0CL73NP43i3YSZ7VMf6DzC9L4NVxvvPIvZ6/Y87hCucvT/ZfVc+bmF7xHFaIV1XPPwauoNfc11kVXD7xqurZJLJeQ9drO7JeQ9ebpNfXPPtiTOs56DWmsVHPJjGtZ1V+M4z9cf4zlidX5ADXkXNK0XuG68K5pujViY3+rEqS/VkV2/1ZN1H92QUeyCb4DWEpghIop+yVZQrGYGJpvhvPizPSEA4AAA==
   </data>
  </layer>
  <layer name="solid2" width="30" height="30">
@@ -56,23 +57,23 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAUgMBOIZwHxbCSxVCBOwyGHTx8pYCUQrwLiBCBOBOIkIC4F4jIkudV49GGTIwUUAHEhEBcBcSsQt1Fo3ijADvSYBsZeuwGydxSMAhjgBGIuKOYeYLfQCiD7ERmT6t8iKA0rl0fBwIJ2IO4YAHunA/GMAbCX2gC5fUEsSKeRWwiB8gGydxQMHBgtZ1EBAErWJZ4QDgAA
+   H4sIAAAAAAAAC2NgGAUgsBWItwHxdiSxRiBuwiGHTx8p4CgQHwPiGiCuBeI6IJ4IxJOQ5I6j6eFkxS1HKugB4l4g7gPihUC8CI9aHlYKLRvBoItpYOydNUD2DnfwEIgfDbQjhgjgBGIuKOYeYLfQCiD7ERmT6t8+KA0rl0fBwILFQLxkAOzdDMRbBsBeagPk9gWxoJlGbiEEJg+QvYMBcA5Q226g25T0KGcvAvElGttBLQAAPGu+xBAOAAA=
   </data>
  </layer>
  <objectgroup name="actionlayer">
   <properties>
    <property name="floor" value="0"/>
   </properties>
-  <object name="vase" gid="900" x="1425.45" y="308.73"/>
-  <object name="broom" gid="901" x="338.42" y="304.12"/>
-  <object name="lamp" gid="902" x="434.42" y="1825.58"/>
-  <object name="lamp" gid="903" x="1629.45" y="1778.3"/>
-  <object name="catbox" gid="911" x="1534.18" y="450.06"/>
+  <object name="vase" gid="1101" x="1425.45" y="308.73"/>
+  <object name="broom" gid="1102" x="338.42" y="304.12"/>
+  <object name="lamp" gid="1103" x="434.42" y="1825.58"/>
+  <object name="lamp" gid="1104" x="1629.45" y="1778.3"/>
+  <object name="catbox" gid="1112" x="1534.18" y="450.06"/>
   <object name="start" x="305.58" y="1779.64" width="56" height="48"/>
-  <object name="wool" gid="909" x="1088" y="912"/>
-  <object name="vase" gid="900" x="1421.45" y="532.73"/>
-  <object name="vase" gid="900" x="1493.45" y="604.73"/>
-  <object name="lamp" gid="902" x="1028.84" y="880.61"/>
+  <object name="wool" gid="1110" x="1088" y="912"/>
+  <object name="vase" gid="1101" x="1421.45" y="532.73"/>
+  <object name="vase" gid="1101" x="1493.45" y="604.73"/>
+  <object name="lamp" gid="1103" x="1028.84" y="880.61"/>
   <object name="dogspawn" x="266.667" y="275.758" width="21.2121" height="21.2121">
    <properties>
     <property name="id" value="1"/>
@@ -94,7 +95,7 @@
     <property name="id" value="1"/>
    </properties>
   </object>
-  <object name="food" gid="910" x="983.152" y="1592.61"/>
+  <object name="food" gid="1111" x="983.152" y="1592.61"/>
   <object name="dogspawn" x="1629.7" y="1010.36" width="27.2727" height="27.2727">
    <properties>
     <property name="id" value="2"/>
@@ -111,7 +112,7 @@
    <property name="floor" value="0"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAW0ANuZGRh2APFOZvrauw9o334gPkCEvfV41JArN5hAzgDZWwPEdTQIowYCZvZgETNkYmAwAuJXjAwMrwngN0CsD1RrwES5Wx2BZjgB8S+gmb8J4D9AbA9U60AFe+kJ0oDuTR9ibkYHxPphINLzQAJhaJgIAmmhIRDHhPI5rQChfD5YAbXSsyAQC1HHKJKABBBLkqAelo6Fh0BaBgHJAXKn5hAJH3Qw1MtnepSzw6G+pjUAAHjCSu4QDgAA
+   H4sIAAAAAAAAC2NgGAW0APtZGBgOAPFBFvraewxo33EgPkGEvR541JArN5hAxwDZOwOI3WkQRp4EzFyBRayXiYGhD4jdgNidAPYA4m4g7mGi3K1zgWbMA+IwIA4ngCOAeDYQz6GCvZQADaD9mkCsRWd36ALt0wNi/UFsLzXTsxHQPmMgNhng+MYH8qFuywXSeYPYnTBAKJ/TChDK54MVUCs9CwKxEHWMIglIALEkCeph6Th/EMcJMigdIHe2DpHwQQcD0d6gJhgq5exwBwDWDtOMEA4AAA==
   </data>
  </layer>
  <layer name="ground" width="30" height="30">
@@ -119,7 +120,7 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3KsQkAAAgEMcH91/g5rexthRyku3RVAAAAeG+7/gNUPSP5EA4AAA==
+   H4sIAAAAAAAAC+3DAQ0AAAzDoEqYf7UXckhYNVVVVd89jfaVwhAOAAA=
   </data>
  </layer>
  <layer name="solid1" width="30" height="30">
@@ -127,7 +128,7 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2WSQ7CMAxFoxwLwQEYegC4TEuZV8zTChawhgXcj99FpGDFTRPSwgJLT7KCZes3n8gtIUTrS9RBryIa2tw2iKUQCeiDFAwC5hlDMAJNMneOswVYghVYB8wzNmBrmHvC2RmUFRf0vhrm3nB21+YmAWbFWv5A7+cP69XrqO/yUF4ag4nWr6hevY76Lg/lpR3YMzpc9H56D756febqvvLVS393DV+9trm2eylLr+1eqtKbp6NMvbT+r9fuP1e9HVBjiCx6Xb+zqu8Kt32D6p0in0n+naeh6rmdg9s3qJ4D8qPk33kaqp7bOX593wgdJj93mNqYOfcJk956wP5ccP/fVL7vuzb/ugZ3vyv5vu/a/Gvql+dPbq5vFH1fOF9x71pRooJ91Dv5Aie5y3YQDgAA
+   H4sIAAAAAAAAC+2WSQ7CMAxFA13CAi6H4ABMB4DLwM2AMq+AMq9gwe8iIjJx0oQUWGDpSVFqxfrJr+WWEKL1Jeqg/yEaSt02GBWFGIMJiME04DplBuagSepusLcFO5CAfcB1ygEcNXVv2LuD3CISohC91i1hrxw904YBSg2UdQVnVzV1f0Wvmkd9Z0J6aQGWio6setU86jsT0ksncFbvz1Pvu+/gq9enruorX70v3x3DV6+1ru1dctJre5dP6TXpyFMvzf/rtfvPVW8H1Bi6Fr2u9yzze8Jt3qB6V1ivDX2ehsznZg5u3qB6Lsi5mvo8CZnPzRy/Pm+EDp2fO0zugNn3Co3eesjzmeD+35jMuzb/OgfzvgmZd23+1Z1n9CdT1zey9hfOV1xfy0o34zmyTz4AnSbVsBAOAAA=
   </data>
  </layer>
  <layer name="gap" width="30" height="30">
@@ -135,7 +136,7 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjYBSMglEwCoYm2MjIwLCZkf727gDauWsA7AWBSwNoLwwPhL30BtS29yQz/rRKq/C9wEw4raLbSw03EGPvKBgFo2BwAADRD+NFEA4AAA==
+   H4sIAAAAAAAAC2NgGAWjYBSMglEwCoYm4GViYOBnor+9IkA7xQbAXhDQG0B7YXgg7KU3oLa9F1nwp1Vahe8NFsJpFd1eariBGHtHwSgYBYMDAAClxeG3EA4AAA==
   </data>
  </layer>
  <layer name="deco1" width="30" height="30">
@@ -143,7 +144,7 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2U2wrCMBBEU/xRf88b+CD4IKj13Rtq9QO8Vf0IJ7iBENiw1RBaycBAaB8Ok8yuUklJSXVXu/Xxv3MNL3GbpU6mVBfuwYMsHndosUYRuWOLNYnInYI1g3N4Dy/hFcM/o08X8jVAt7YOZ8dwb2DdyWVg7hrnE8N9gPUkvzxc09W+p6v6Xg/WPy5rFVXtqsnqe2OJJF3dOFnNnf+SW5K3wPcjWWctrPO30jMypxlZRJxNTu6Oj7Xnm8INvaekCr2n6s6V7Mc3j/RqwxAOAAA=
+   H4sIAAAAAAAAC2NgGAWjYBQMdvCHGYKHu70w+0btHVqAlYmBgQ2I2YGYk4l+9vIg2SVAR3uFkewSp6O9UkC7pIFYFogNgFgTiLVw2P+GhYHhLRS/Y6Hcbl00e/Rx2PseaNcHKP5IZXu1gWwTHPZ+Atr1GYq/4LEXllY58KRVULgaIsnh8ispgNS0CvMrvjgmBhCTVnXQ/AoLc0r8TYx/jYDixlAM8qsREptcAMojMtA8IkfHvIkLoJfx9Crnh4q91C6niAXULqcGu73ElI8AtSsLuRAOAAA=
   </data>
  </layer>
  <layer name="solid2" width="30" height="30">
@@ -151,22 +152,22 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+WWOQ7CMBBFreQqdHQcCAENJFAkaVgPwHYAlguwVEABx+M3lizFEzNOhkV86RW2E397vmxZqf/WFuzA3rMdhUrFoB/mx4p0BCdw9mwn8EtBFubHbOqDwQvr8lUEYkv/FMwEfcdgYulfgbWg7wIsBefn6lfynTN9q8p3w/StKl/ufqk6c/Pl7peqMzffA9OXqrP0+aXqrJUJ+VJ1lj6/VJ2l72dK0vm6VHuzn863XtF85rujSDpf07cF2qDj4Wu+O4qk8zV9E5Cq8merC3qObxolPWwagpHAvC7dweMDvmV0CZS6ghtoBvz/XfezlKj7WVrf8p58AiSfAPcQDgAA
+   H4sIAAAAAAAAC2NgGNlgKxBvA+LtZPKNWBgYjIHYhAVTDh84CsTHgPg4mXxLoH1WQGzNgimHDbQDcQcR7iIXtAJxGxbx6UA8g4b2TgXiaVjElwPxChrauxSIl9HQfFLBUInfJSTaS6343UKivdSKX1L9iyucSY1fUv2LK5xJjd8jJNqLK5xpnX9xhTMM9NHIXlzhTOv8iyucaV0+4wK0jl9CwIHO9sHi151K5iG3O/ABWPwi21sDxLVAXEeCfZysEBq53YEPwOIX2d4eIO5lIC1v8bBiijUDcQsBfX4k2EEsmAzEU2hgLiFwGYivDIC9lABeZgjND6R3MZGun1D5TCuAq3ymNRgs7UkATQEAuBAOAAA=
   </data>
  </layer>
  <objectgroup name="actionlayer">
   <properties>
    <property name="floor" value="0"/>
   </properties>
-  <object name="vase" gid="900" x="246.783" y="583.154"/>
-  <object name="broom" gid="901" x="494.056" y="297.817"/>
-  <object name="lamp" gid="902" x="664.965" y="1470.67"/>
-  <object name="lamp" gid="903" x="1637.45" y="886.3"/>
-  <object name="catbox" gid="911" x="919.998" y="1699.64"/>
-  <object name="wool" gid="909" x="286.303" y="335.03"/>
-  <object name="vase" gid="900" x="1594.18" y="338.791"/>
-  <object name="vase" gid="900" x="320.723" y="789.578"/>
-  <object name="lamp" gid="902" x="942.42" y="287.58"/>
+  <object name="vase" gid="1101" x="246.783" y="583.154"/>
+  <object name="broom" gid="1102" x="494.056" y="297.817"/>
+  <object name="lamp" gid="1103" x="664.965" y="1470.67"/>
+  <object name="lamp" gid="1104" x="1637.45" y="886.3"/>
+  <object name="catbox" gid="1112" x="919.998" y="1699.64"/>
+  <object name="wool" gid="1110" x="286.303" y="335.03"/>
+  <object name="vase" gid="1101" x="1594.18" y="338.791"/>
+  <object name="vase" gid="1101" x="320.723" y="789.578"/>
+  <object name="lamp" gid="1103" x="942.42" y="287.58"/>
   <object name="dogspawn" x="420.485" y="1813.09" width="30.303" height="27.2727">
    <properties>
     <property name="id" value="1"/>
@@ -204,9 +205,9 @@
     <property name="stairs" value="1"/>
    </properties>
   </object>
-  <object name="wool" gid="909" x="1380.24" y="1571.39"/>
-  <object name="lamp" gid="903" x="1592" y="1677.21"/>
-  <object name="food" gid="910" x="1038" y="714"/>
+  <object name="wool" gid="1110" x="1380.24" y="1571.39"/>
+  <object name="lamp" gid="1104" x="1592" y="1677.21"/>
+  <object name="food" gid="1111" x="1038" y="714"/>
  </objectgroup>
  <objectgroup name="renderlayer">
   <properties>
@@ -218,7 +219,7 @@
    <property name="floor" value="1"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC81Wyw3CMAyN0hFYBokFkJA4ArPwKZxRYYDCBRgEygJ8JsIVrYiM48Zt+rH0pDZx/JL4KbZS7dlKK3VoCKH+8Ubavifftu0g7zqo9s/N2XjDzC+BsTtgDlgIsQRcAbcs7iYo5s3tBWNv/fWT6u4IeACeRFzX/KZ+PvPfNd6Q0AHm7Qv3Ickvxzsk/E0dYl3heGV5qfOaOoxq0hV1Xs7f5Z5d8juroEMbb0//+0n0XJZXGsfF35eepbx4nuJ1yW8dvNI4lP+OqRl7R944e+ddLS6oGW31G7bz4vz6ti72OU3xYv1x9cQnL+5jqD7lBN9nwAUwNsbz+pfGG6ji/fq6Z7P+jZS9/vnmpeJhK/M+22wCa6bGOo7XNE5XdSJ/Nz4Cf1EjEA4AAA==
+   H4sIAAAAAAAAC2NgGDhwk4mB4Tud8C0mhL0vmHC7idrg2SC014OFMj4+OVz2ukPVyTIzMMgB8TWg3HUS8Q0glgbqlWGGmOXJQtheGNAF6tFjhqgjNd39AGJtoF4dZkxziY1fkDpqxv9gs9cdSzpAt3cKie4gJX7x2bsEi3rkdIiertDNI9debP5FTocvaJSusPkXn3piwpmY+N1CQTrEZW8+E6Y6UtIzufaSag4x6qmVnkm1F10em73ExC8t7CXVHGzqX+KpM14Rae83aDlPLPg2SNsbuPyLHr/UBoOxnUMve9HTH776hJr2ordjsLVT/gLF/gHxfyBehaQXVv+BzAtnIOxecsKZD4t5yPVfOgPu+o8Se/GBZ3jMIKd8xgU2AfVsRtKHz15kgC9d0RLDyg0A4LQCuBAOAAA=
   </data>
  </layer>
  <layer name="ground" width="30" height="30">
@@ -226,7 +227,7 @@
    <property name="floor" value="2"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC5NlYGCQA2LZAaIHwq6BsFsWze5ReweHvQnMCIzPPGLSy3CydyDil172EvI/LdxHTLjTI5yJSU/k2kstd9LKXlDY09teWJyPFHtHYroaLvZSix61d9TeUXuHpr0A1BHFBRAOAAA=
+   H4sIAAAAAAAAC7NkYGCwAmLLAaIHwq6BsNsSze5ReweHvX+YERifecSkl+Fk70DEL73sJeR/WriPmHCnRzgTk57ItZda7qSVvaCwp7e9sDgfKfaOxHQ1XOylFj1q76i9o/YOTXsBVQ7NqBAOAAA=
   </data>
  </layer>
  <layer name="solid11" width="30" height="30">
@@ -234,7 +235,7 @@
    <property name="floor" value="2"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2WSQvCMBCF53eJS+tu3XerYA961oP+f3wHQ4Ik2my1YgY+SA7JmweTzCRElHyJKtgXRE3QHYI6aIAIxKDpYC3uW6ANBi+6EzAFMzAHCwdrcb8EK4nuEWTkL07gLNG9gKtH3Ru4S3SDX7cR/Aa/n86Z5Bn85rtHPGdSh7/qNwWHHHm+y1vHbw/0iffxDuhq6Jr63YId8T6+BhsN3X/7rypPxlSsX9U8aeuX1V1E8vlSNU/a+mV1p5ovyzZPlrUv2IbsHY2I17lv2Dt6ABe2BqEQDgAA
+   H4sIAAAAAAAAC+2WSQ/CIBCF51ca991a910TPei5PdSf7DtIIAa0bLVGJvkSOMCblwzMREQUfYkqOBZETdAdgzpogCZogbaDtbjvgC4YvehOwQzMwQIsHazF/QqsJbpncCF/cQU3iW4CUo+6GbhLdINftxH8Br+fzpnkGfzmu0c8Z1KHv+r3AE458nyXt47fARgS7+M90NfQNfW7A3vifXwDthq6//ZfVZ5MqFi/qnnS1i+rO9V8qZonbf2yulPNl2WbJ8vaF2xD9o5i4nXuG/aOHmdnzUkQDgAA
   </data>
  </layer>
  <layer name="gap" width="30" height="30">
@@ -242,7 +243,7 @@
    <property name="floor" value="2"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2WXQuCMBSGN/b/f0gERUVRkRDYVd2Ut/b9YX+jM9yB40Fz0ykFvvCywvU+nm1HE6JTp/Y0kkKMHT2R6W9jGI/gk3Tn7pUQB+ZYZedsIHdBvDScK4w38L0Cd84yaS69N3o9UmmtT8N9VKjbhsvn6OtYK/WjJndl9nGr0jEAhywzj3urweX5RULuGXwhn98V9tpFL8hPCCdpgVlH2LcTx3scFczXZ8EmC/eVn9089cicfUGf6+82WS5cLVyf4Eu/NcEt6vO+cdhQvVr8eYl9jr3uklVFnK9tu7++2W1xfcnmPbxT5TmuTHz2D8Br46HMrmfkkYtMPNtT0hszme0fn1yau8pZ26AFbpl9cvP+X3HbvpNdVFbvP/XkL+gDWsy1HhAOAAA=
+   H4sIAAAAAAAAC+2WywrCMBBFQ4gIShVFxYKgf+Hb+vh8d7qpbv0RJzQD06G1SRuLQi9cojTe00kyrUI0alSfAilEz9F9mfx2CeMKvJbu3FgJ8WB+qfScBeSOiSeGs4NxDz6U4I5YJs2l90avP1VS69FwoxJ123D5HH0da6WOKnKnZh9vKhlD8JxlZnH3Fbg8P0/I3YC35POlxF676AT5Z8I518CsIuzbvuM9Bjnz9VmwycJ95Wc3Sy0yJ87pc/3dJsuFq4XrE37ot29w8/q8bXz9Ur1a/HmJfY697pJVRpyvbbu/vtl1cX3J5j18V8U5rkx89nfAM+OuTK/n0yMXmXi2B6Q3hjLdPz65NHeasbZhDdwi++Rm/b/itn0nu6io3n/qyV/QG4xIjEgQDgAA
   </data>
  </layer>
  <layer name="deco1" width="30" height="30">
@@ -250,7 +251,7 @@
    <property name="floor" value="2"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+1VSw6CMBCl4f4HQfwQg7owAXEhrnSnFzD+4iEcYicplX6mpbrQl7yESGceM503RtEfv4aERdEAmAKH/NlEPDti7rqZR2zuEbvQxI7h3Qo4UZxZBqoX86q+LVS9M36X8w/X2wXsfQVcB6gX88v00RJRQJ4yYH4Zsm9tvZjwGB11ueR7tZ1NjJuyd9rkku/VNJvYn67Z3sQvj2OtulxyvSZd1dxnrO3znKhr6rNq7pvfRZ+bdKl9LjT7EoGe1uUS/UPZAaWFvs8eM0GnTdGt4rafZaas7XXVvqH0rtHcxfbf6PM/5KrZl+6eqNmgj7nZfknXt96TEH8m5KLo1h3zeoH4K+ctgG6t8Ier7gHOHjnRf+hLm312F7QeDncWEk/HDk20EA4AAA==
+   H4sIAAAAAAAAC+1VSwrCMBANobV+ilRdCK266f0P4kZc6U4vIP7wAE4xA2lsPtM0utAHD4rNzOtM5o2M/fFriDljPWAC7ItnG/HsgLfXTT1iM4/YmSF2CO8WwJHmzDxQvZhX922h6p2Iu5x+uN4mYO+XwFWAejG/Sh8tGTnkKQLmV6H61tWLsYgx0ZRLvVfX2cS4MX+nSy71Xm2zif1pmu1N9PI41mrKpdZr09XNfcrrPs+IurY+6+a++l32uU2X2ufcsC8R6GlTLtk/lB1QOOj77DEbTNoU3XVU97PKhNe9rts3lN5VmrvI/Rt9/ofaanaluydqVuhibrZf0vWt9yTFnwm5KLplw7xeIP4qeAugW2r80Vb3AGePgug/9KXLPrtLWo8WdxYST7+pCeQQDgAA
   </data>
  </layer>
  <layer name="solid2" width="30" height="30">
@@ -258,20 +259,20 @@
    <property name="floor " value="2"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2WOwvCMBSFA/Wn+Bjc/EU6+Rx08rn73HwrDmoXFRcV9Od5BEODJO1tkgqCBz64ltucqPe0YeyvJViBtUEPZY1PHcARnAx6KGu8VAaVEHsjKeaVRVCStLRBx7avoCZoSa4PwehdJ0BSQUrTtw8Gkus7sAcucR2+N1E6+7qAK7gReuMh1w5SF/QIfWnLvnOwIPRlLHpGkiNB384RnwVKjmSaOozNHO/zGPXEUfdz8VlQ5YiijeCzEmpZ3nmeTGdwDx9X8Nqi3hG+r8kM5kFB816TrNdBQ/PeoN/ZL0d38DD0/XaOuK9ujvzk9x/yuTLJkUq2n9d/X/u+uu+jjeCbBTlFn+0cnZk3s1VQU/TpnOtE6Z7xosjRL+kJN1x8sBAOAAA=
+   H4sIAAAAAAAAC2NgGAVbgXgbEG+nQA0xZqCDo0B8DIiPU6CGGDNAoB2IO0hwGzGAgxXBbgXiNixqpgPxDCrbiwymAvE0LOLLgXgFlO0IxE44sDOZ9i4F4mVYxPcB8X4gPkCkOTC3IQNy3HUOiM8D8QUi1DqQaDYhsBiIlxChzp3K9m4G4i1EqPOjop20yEfIgN75yAFKE5OPsIE4FgaGeBYEPwbIjmXBrR4GYGkBVz4iBqQh2ZOMxMaW32H5idI0mAO0JxfJriwgO5sI/1KSBpuBuIVMvQ4U2DsZiKcQUMPJil2cUDjjy0eXgfgKAf08BOyldz6C2UtuPsIHHPDIwdIVJfkIF6B2eT1qL/XtJbc+2olkbw0Q1+JQR+18dJIBkWZ7gLgXhzpy2nXIgNw2Hi3y0VACACZFGo0QDgAA
   </data>
  </layer>
  <objectgroup name="actionlayer">
   <properties>
    <property name="floor" value="2"/>
   </properties>
-  <object name="vase" gid="900" x="1387.09" y="308.669"/>
-  <object name="broom" gid="901" x="1574.54" y="1721.57"/>
-  <object name="catbox" gid="911" x="269.695" y="1335.39"/>
-  <object name="wool" gid="909" x="827.152" y="505.212"/>
-  <object name="vase" gid="900" x="1443.27" y="1063.21"/>
-  <object name="lamp" gid="902" x="1292.24" y="1331.4"/>
-  <object name="door" gid="923" x="960" y="960"/>
+  <object name="vase" gid="1101" x="1387.09" y="308.669"/>
+  <object name="broom" gid="1102" x="1574.54" y="1721.57"/>
+  <object name="catbox" gid="1112" x="269.695" y="1335.39"/>
+  <object name="wool" gid="1110" x="827.152" y="505.212"/>
+  <object name="vase" gid="1101" x="1443.27" y="1063.21"/>
+  <object name="lamp" gid="1103" x="1292.24" y="1331.4"/>
+  <object name="door" gid="1124" x="960" y="960"/>
   <object x="1407.09" y="1667.64" width="130.303" height="33.3333">
    <properties>
     <property name="stairs" value="-1"/>
@@ -309,10 +310,10 @@
     <property name="id" value="3"/>
    </properties>
   </object>
-  <object gid="924" x="640" y="960.333"/>
-  <object name="catbox" gid="911" x="1533.33" y="450.545"/>
-  <object name="vase" gid="900" x="1389.09" y="366.669"/>
-  <object name="food" gid="910" x="489.212" y="828.97"/>
+  <object gid="1125" x="640" y="960.333"/>
+  <object name="catbox" gid="1112" x="1533.33" y="450.545"/>
+  <object name="vase" gid="1101" x="1389.09" y="366.669"/>
+  <object name="food" gid="1111" x="489.212" y="828.97"/>
   <object name="finish" x="1475.76" y="251.545" width="48.4848" height="57.5758"/>
   <object x="1497.33" y="293.333" width="5.33333"/>
   <object x="1529.33" y="438.667"/>
@@ -327,7 +328,7 @@
    <property name="floor" value="2"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAW0APpAbADEhnSw6z8zgm0GxOZAbEFATz0zAQVEqCHGDBioI0EtsaCBBmaOglFACTBkYmAwAuJXjAwMb4BYH8g2YKKe+bjykSPQDicg/gW08w8Q2wPZDkTaO5TzEcy/o2AUkAJG66PBDZDL0ddYMK0ArBzlAmJuLJjWoAGHuDAQiwCxKO2dAAdSUCwNxDI41Izmo+EFACnwPIQQDgAA
+   H4sIAAAAAAAAC2NgGAVDHbCzIthBROrxYKFcDTFmwIA7CWqJBZ40MHMUjAJKQC8TA0MfELsBsQcQdwNxDxP1zMeVj+YC7ZgHxGFAHAHEs4F4DpH2DuV8BPPvKBgFpIDR+mhwA+Ry1B0LphWAlaNpQJyOBdMazMEhLgzEIkAsSnsnwIEUFEsDsQwONaP5aHgBADz/SuEQDgAA
   </data>
  </layer>
 </map>
