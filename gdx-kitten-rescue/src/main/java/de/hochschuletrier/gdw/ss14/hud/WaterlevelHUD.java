@@ -51,8 +51,8 @@ public class WaterlevelHUD extends HudComponent {
         Array<Integer> lasers = man.getAllEntitiesWithComponents(LaserPointerComponent.class);
         LaserPointerComponent laser = man.getComponent(lasers.first(), LaserPointerComponent.class);
         
-        DrawUtil.batch.draw(waterbar_filling, calcBarPosX()+((calcBarWidth()-(calcBarWidth() * laser.currentWaterlevel))), calcBarPosY(), calcBarWidth(), calcBarHeight(),(int)(barWidth-(barWidth * laser.currentWaterlevel)), 0, waterbar_filling.getWidth(), waterbar_filling.getHeight(), false, true);
-        DrawUtil.batch.draw(waterbar, this.position.x, this.position.y, getWidth(), getHeight(), 0, 0, waterbar.getWidth(), waterbar.getHeight(), false, true);
+       //DrawUtil.batch.draw(waterbar_filling, calcBarPosX()+((calcBarWidth()-(calcBarWidth() * laser.currentWaterlevel))), calcBarPosY(), calcBarWidth(), calcBarHeight(),(int)(barWidth-(barWidth * laser.currentWaterlevel)), 0, waterbar_filling.getWidth(), waterbar_filling.getHeight(), false, true);
+        //DrawUtil.batch.draw(waterbar, this.position.x, this.position.y, getWidth(), getHeight(), 0, 0, waterbar.getWidth(), waterbar.getHeight(), false, true);
         
     }
     

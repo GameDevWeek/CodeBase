@@ -56,7 +56,8 @@ public class InputGamePad extends InputDevice implements ControllerListener {
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
 		switch (buttonCode) {
-			case 2: this.fireWaterPistolButtonDown(); break;	
+			case 2: //this.fireWaterPistolButtonDown(); 
+				break;	
 			case 0: this.fireLaserButtonPressed(); break;
 			case 7: this.fireMenuButtonPressed(); break;
 		}
@@ -66,7 +67,8 @@ public class InputGamePad extends InputDevice implements ControllerListener {
 	@Override
 	public boolean buttonUp(Controller controller, int buttonCode) {
 		switch (buttonCode) {
-			case 2: this.fireWaterPistolButtonUp(); break;
+			case 2: //this.fireWaterPistolButtonUp(); 
+			break;
 		}
 		
 		return false;
