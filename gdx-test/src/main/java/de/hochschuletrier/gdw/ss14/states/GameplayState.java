@@ -33,52 +33,21 @@ public class GameplayState extends MyBaseGameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-        helicopter = assetManager.getSound("ouchWall");
+        helicopter = assetManager.getSound("helicopter");
         game = new Game();
         game.init(assetManager);
         Main.inputMultiplexer.addProcessor(this);
-        
-        // Setup camera
-        /*TiledMap map = game.getMap();
-        camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        totalMapWidth = map.getWidth() * map.getTileWidth();
-        totalMapHeight = map.getHeight() * map.getTileHeight();
-        camera.setBounds(0, 0, totalMapWidth, totalMapHeight);
-        camera.updateForced();
-        Main.getInstance().addScreenListener(camera);*/
     }
 
     @Override
     public void render() {
-        /*camera.bind();
-
-        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLACK);
-
-        game.render();
-        DrawUtil.fillRect(position.x - 10, position.y -10, 20, 20, Color.RED);*/
         game.render();
     }
 
     @Override
     public void update(float delta) {
-        /*emitter.update();
+        emitter.update();
         emitter.setPosition(cursor.x, cursor.y, 0);
-        game.update(delta);
-        camera.update(delta);
-        
-        float speed = 1000.0f;
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            position.x -= delta * speed;
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            position.x += delta * speed;
-        if(Gdx.input.isKeyPressed(Input.Keys.UP))
-            position.y -= delta * speed;
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            position.y += delta * speed;
-
-        position.x = Math.max(10, Math.min(totalMapWidth-10, position.x));
-        position.y = Math.max(10, Math.min(totalMapHeight-10, position.y));
-        camera.setDestination(position);*/
         
         game.update(delta);
         fpsCalc.addFrame();
