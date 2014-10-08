@@ -10,7 +10,7 @@ import de.hochschuletrier.gdw.commons.devcon.cvar.CVarFloat;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
+import de.hochschuletrier.gdw.commons.gdx.physix.AbstractPhysixComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
@@ -36,7 +36,7 @@ public class Physics extends SandboxGame {
     public static final int BOX2D_SCALE = 40;
 
     PhysixManager manager = new PhysixManager(BOX2D_SCALE, 0, GRAVITY);
-    private final ArrayList<PhysixEntity> entities = new ArrayList();
+    private final ArrayList<AbstractPhysixComponent> entities = new ArrayList();
     private Player player;
     private final SoundEmitter emitter = new SoundEmitter();
     private Sound click;

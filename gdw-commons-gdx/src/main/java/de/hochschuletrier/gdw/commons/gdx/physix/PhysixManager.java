@@ -29,7 +29,7 @@ public class PhysixManager {
         gravity.set(gravityX, gravityY);
         world = new World(gravity, true);
 
-        world.setContactListener(new PhysixContactListener());
+        world.setContactListener(new PhysixContactListenerInternal());
     }
 
     public void update(float timeStep, int velocityIterations, int positionIterations) {
@@ -131,10 +131,5 @@ public class PhysixManager {
         for (Body body : bodies) {
             body.setAwake(true);
         }
-    }
-
-    public Object createSolid(int i, int j) {
-        // TODO Auto-generated method stub
-        return null;
     }
 }

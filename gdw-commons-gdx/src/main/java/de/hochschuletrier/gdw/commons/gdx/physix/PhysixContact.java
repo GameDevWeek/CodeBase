@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.physix;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
@@ -13,10 +14,10 @@ public class PhysixContact {
     private Contact contact;
     private boolean isA;
     
-    void run(Contact contact, Consumer<PhysixEntity> consumer) {
+    void run(Contact contact, Consumer<Entity> consumer) {
         this.contact = contact;
         isA = true;
-        PhysixEntity owner = getMyPhysixBody().getOwner();
+        Entity owner = getMyPhysixBody().getOwner();
         if(owner != null)
             consumer.accept(owner);
         isA = false;

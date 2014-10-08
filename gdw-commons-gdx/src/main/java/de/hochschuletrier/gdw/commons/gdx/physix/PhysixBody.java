@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.physix;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,7 +17,7 @@ import com.badlogic.gdx.utils.Array;
 public final class PhysixBody {
 
     private final PhysixManager manager;
-    private PhysixEntity owner;
+    private Entity owner;
     private final Body body;
     private static final Vector2 dummyVector = new Vector2();
     private final Vector2 linearVelocity = new Vector2();
@@ -42,11 +43,11 @@ public final class PhysixBody {
         return body.getFixtureList();
     }
 
-    public void setOwner(PhysixEntity owner) {
+    public void setOwner(Entity owner) {
         this.owner = owner;
     }
 
-    public PhysixEntity getOwner() {
+    public Entity getOwner() {
         return owner;
     }
 
