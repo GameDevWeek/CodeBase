@@ -35,7 +35,7 @@ public class Physics extends SandboxGame {
     public static final int GRAVITY = 12;
     public static final int BOX2D_SCALE = 40;
 
-    PhysixSystem manager = new PhysixSystem(BOX2D_SCALE, 0, GRAVITY);
+    PhysixSystem manager = new PhysixSystem(BOX2D_SCALE, STEP_SIZE, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
     private final ArrayList<AbstractPhysixComponent> entities = new ArrayList();
     private Player player;
     private final SoundEmitter emitter = new SoundEmitter();
@@ -79,7 +79,7 @@ public class Physics extends SandboxGame {
 
     @Override
     public void update(float delta) {
-        manager.update(STEP_SIZE, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+        manager.update(delta);
         player.update(delta);
     }
 

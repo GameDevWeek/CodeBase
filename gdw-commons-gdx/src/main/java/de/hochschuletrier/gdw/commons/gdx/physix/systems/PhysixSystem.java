@@ -1,28 +1,16 @@
 package de.hochschuletrier.gdw.commons.gdx.physix.systems;
 
-import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Joint;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContactListener;
 import de.hochschuletrier.gdw.commons.utils.Point;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  *
@@ -33,31 +21,27 @@ public class PhysixSystem extends EntitySystem {
     public final float scale, scaleInv;
     protected final World world;
     protected final Vector2 gravity = new Vector2();
-    protected final PhysixContact physixContact = new PhysixContact();
-
-    private final LinkedHashMap<Class<Component>, ComponentContactListener> listenerMap = new LinkedHashMap();
-
-    public PhysixSystem(float scale, float gravityX, float gravityY) {
+    protected final float timeStep;
+    protected final int velocityIterations;
+    protected final int positionIterations;
+    private float timeAccumulator;
+    
+    public PhysixSystem(float scale, float timeStep, int velocityIterations, int positionIterations) {
         this.scale = scale;
+        this.timeStep = timeStep;
+        this.velocityIterations = velocityIterations;
+        this.positionIterations = positionIterations;
         scaleInv = 1.0f / scale;
-        gravity.set(gravityX, gravityY);
         world = new World(gravity, true);
-
-        world.setContactListener(new InternalContactListener());
     }
     
-    public void addComponentContactListener(Class<Component> clazz, PhysixContactListener listener) {
-        ComponentContactListener componentListener = listenerMap.get(clazz);
-        if(componentListener == null) {
-            componentListener = new ComponentContactListener(clazz);
-            listenerMap.put(clazz, componentListener);
+	public void update(float deltaTime) {
+        timeAccumulator += deltaTime;
+        if (timeAccumulator >= timeStep) {
+            timeAccumulator -= timeStep;
+            world.step(timeStep, velocityIterations, positionIterations);
+            world.clearForces();
         }
-        componentListener.listeners.add(listener);
-    }
-
-    public void update(float timeStep, int velocityIterations, int positionIterations) {
-        world.step(timeStep, velocityIterations, positionIterations);
-        world.clearForces();
     }
 
     public void reset() {
@@ -84,6 +68,16 @@ public class PhysixSystem extends EntitySystem {
 
     public void destroy(PhysixBody body) {
         world.destroyBody(body.getBody());
+    }
+
+    public void setGravity(float x, float y) {
+        gravity.set(x, y);
+        world.setGravity(gravity);
+        Array<Body> bodies = new Array();
+        world.getBodies(bodies);
+        for (Body body : bodies) {
+            body.setAwake(true);
+        }
     }
 
     public void ropeConnect(PhysixBody a, PhysixBody b, float length) {
@@ -140,113 +134,5 @@ public class PhysixSystem extends EntitySystem {
             returner[pointCount] = new Vector2(p.x * scale, p.y * scale);
         }
         return returner;
-    }
-
-    public void setGravity(float x, float y) {
-        gravity.set(x, y);
-        world.setGravity(gravity);
-        Array<Body> bodies = new Array();
-        world.getBodies(bodies);
-        for (Body body : bodies) {
-            body.setAwake(true);
-        }
-    }
-
-    private class InternalContactListener implements ContactListener {
-
-        @Override
-        public void beginContact(Contact contact) {
-            if (contact.getFixtureA() != null && contact.getFixtureB() != null) {
-                for (ComponentContactListener listener : listenerMap.values()) {
-                    listener.beginContact(contact);
-                }
-            }
-        }
-
-        @Override
-        public void endContact(Contact contact) {
-            if (contact.getFixtureA() != null && contact.getFixtureB() != null) {
-                for (ComponentContactListener listener : listenerMap.values()) {
-                    listener.endContact(contact);
-                }
-            }
-        }
-
-        @Override
-        public void preSolve(Contact contact, Manifold oldManifold) {
-            if (contact.getFixtureA() != null && contact.getFixtureB() != null) {
-                for (ComponentContactListener listener : listenerMap.values()) {
-                    listener.preSolve(contact, oldManifold);
-                }
-            }
-        }
-
-        @Override
-        public void postSolve(Contact contact, ContactImpulse impulse) {
-            if (contact.getFixtureA() != null && contact.getFixtureB() != null) {
-                for (ComponentContactListener listener : listenerMap.values()) {
-                    listener.postSolve(contact, impulse);
-                }
-            }
-        }
-    }
-
-    private class ComponentContactListener {
-
-        public final ComponentMapper mapper;
-        public final HashSet<PhysixContactListener> listeners = new HashSet();
-
-        public ComponentContactListener(Class<? extends Component> componentClass) {
-            mapper = ComponentMapper.getFor(componentClass);
-        }
-
-        public void beginContact(Contact contact) {
-            testAndRun(contact, (PhysixContact physixContact) -> beginContact(physixContact));
-        }
-
-        public void beginContact(PhysixContact contact) {
-            listeners.forEach((PhysixContactListener listener) -> listener.endContact(physixContact));
-        }
-
-        public void endContact(Contact contact) {
-            testAndRun(contact, (PhysixContact physixContact) -> endContact(physixContact));
-        }
-
-        public void endContact(PhysixContact contact) {
-            listeners.forEach((PhysixContactListener listener) -> listener.endContact(physixContact));
-        }
-
-        public void preSolve(Contact contact, Manifold oldManifold) {
-            testAndRun(contact, (PhysixContact physixContact) -> preSolve(physixContact, oldManifold));
-        }
-
-        public void preSolve(PhysixContact contact, Manifold oldManifold) {
-            listeners.forEach((PhysixContactListener listener) -> listener.preSolve(physixContact, oldManifold));
-        }
-
-        public void postSolve(Contact contact, ContactImpulse impulse) {
-            testAndRun(contact, (PhysixContact physixContact) -> postSolve(physixContact, impulse));
-        }
-
-        public void postSolve(PhysixContact contact, ContactImpulse impulse) {
-            listeners.forEach((PhysixContactListener listener) -> listener.postSolve(contact, impulse));
-        }
-
-        private void testAndRun(Contact contact, Consumer<PhysixContact> consumer) {
-            physixContact.set(contact);
-
-            Entity owner = physixContact.getMyPhysixBody().getOwner();
-            Component component = mapper.get(owner);
-            if (component != null) {
-                consumer.accept(physixContact);
-            } else {
-                physixContact.swap();
-                owner = physixContact.getMyPhysixBody().getOwner();
-                component = mapper.get(owner);
-                if (component != null) {
-                    consumer.accept(physixContact);
-                }
-            }
-        }
     }
 }
