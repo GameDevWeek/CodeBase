@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixEntity;
+import de.hochschuletrier.gdw.commons.gdx.physix.AbstractPhysixComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
@@ -18,7 +18,7 @@ import de.hochschuletrier.gdw.commons.utils.Timer;
  *
  * @author Santo Pfingsten
  */
-public class Ball extends PhysixEntity {
+public class Ball extends AbstractPhysixComponent {
 
     private final Vector2 origin = new Vector2();
     private final float radius;
@@ -33,10 +33,10 @@ public class Ball extends PhysixEntity {
     }
 
     public void initPhysics(PhysixManager manager) {
-        PhysixBody body = new PhysixBodyDef(BodyType.DynamicBody, manager).position(origin)
-                .fixedRotation(false).create();
-        body.createFixture(new PhysixFixtureDef(manager).density(5).friction(0.2f).restitution(0.4f).shapeCircle(radius));
-        setPhysicsBody(body);
+//        PhysixBody body = new PhysixBodyDef(BodyType.DynamicBody, manager).position(origin)
+//                .fixedRotation(false).create();
+//        body.createFixture(new PhysixFixtureDef(manager).density(5).friction(0.2f).restitution(0.4f).shapeCircle(radius));
+//        setPhysicsBody(body);
     }
     
     protected void preSolve(PhysixContact contact, Manifold oldManifold) {
