@@ -14,6 +14,7 @@ public abstract class AbstractPhysixComponent extends Component implements Poola
 
     @Override
     public void reset() {
+        //fixme: is it really desirable to do this with the libgdx pooling mechanism ?
         physicsBody.setActive(false);
     }
 
