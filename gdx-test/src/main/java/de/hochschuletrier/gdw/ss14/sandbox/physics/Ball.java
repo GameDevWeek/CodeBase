@@ -10,7 +10,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.AbstractPhysixComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.commons.utils.Timer;
 
@@ -32,7 +32,7 @@ public class Ball extends AbstractPhysixComponent {
         lastSound.reset();
     }
 
-    public void initPhysics(PhysixManager manager) {
+    public void initPhysics(PhysixSystem manager) {
 //        PhysixBody body = new PhysixBodyDef(BodyType.DynamicBody, manager).position(origin)
 //                .fixedRotation(false).create();
 //        body.createFixture(new PhysixFixtureDef(manager).density(5).friction(0.2f).restitution(0.4f).shapeCircle(radius));

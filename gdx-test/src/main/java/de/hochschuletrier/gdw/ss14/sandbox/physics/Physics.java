@@ -12,7 +12,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.AbstractPhysixComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxGame;
@@ -35,7 +35,7 @@ public class Physics extends SandboxGame {
     public static final int GRAVITY = 12;
     public static final int BOX2D_SCALE = 40;
 
-    PhysixManager manager = new PhysixManager(BOX2D_SCALE, 0, GRAVITY);
+    PhysixSystem manager = new PhysixSystem(BOX2D_SCALE, 0, GRAVITY);
     private final ArrayList<AbstractPhysixComponent> entities = new ArrayList();
     private Player player;
     private final SoundEmitter emitter = new SoundEmitter();
@@ -74,7 +74,7 @@ public class Physics extends SandboxGame {
     
     @Override
     public void render() {
-        manager.render();
+//        manager.render();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class Physics extends SandboxGame {
         return player;
     }
 
-    public PhysixManager getManager() {
+    public PhysixSystem getManager() {
         return manager;
     }
 

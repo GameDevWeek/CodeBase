@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.physix;
 
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
@@ -9,9 +10,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
  */
 public class PhysixBodyDef extends BodyDef {
 
-    private final PhysixManager manager;
+    private final PhysixSystem manager;
 
-    public PhysixBodyDef(BodyType type, PhysixManager manager) {
+    public PhysixBodyDef(BodyType type, PhysixSystem manager) {
         this.type = type;
         this.manager = manager;
     }

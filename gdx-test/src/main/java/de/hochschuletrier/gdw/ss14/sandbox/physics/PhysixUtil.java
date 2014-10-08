@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 
 /**
  *
@@ -13,7 +13,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
  */
 public class PhysixUtil {
 
-    public static void createHollowCircle(PhysixManager manager, float x, float y, float radius, int sides, float sideStrength) {
+    public static void createHollowCircle(PhysixSystem manager, float x, float y, float radius, int sides, float sideStrength) {
         float sideLength = (float) (2 * radius * Math.tan(Math.PI / (float) sides));
         PhysixBody body = new PhysixBodyDef(BodyDef.BodyType.StaticBody, manager).position(x, y).create();
 
