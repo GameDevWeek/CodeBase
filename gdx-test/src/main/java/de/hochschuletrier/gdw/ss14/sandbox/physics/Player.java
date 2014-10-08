@@ -10,7 +10,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
 import de.hochschuletrier.gdw.commons.gdx.physix.AbstractPhysixComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixManager;
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import de.hochschuletrier.gdw.commons.utils.Timer;
 
 /**
@@ -28,7 +28,8 @@ public class Player extends AbstractPhysixComponent {
         origin.set(x, y);
     }
 
-    public void initPhysics(PhysixManager manager) {
+    @Override
+    public void initPhysics(PhysixSystem manager) {
 //        PhysixBody body = new PhysixBodyDef(BodyType.DynamicBody, manager)
 //                .position(origin).fixedRotation(true).create();
 //        

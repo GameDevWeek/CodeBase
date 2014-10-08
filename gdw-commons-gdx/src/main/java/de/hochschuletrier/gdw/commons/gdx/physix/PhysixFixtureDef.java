@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.physix;
 
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -16,9 +17,9 @@ public class PhysixFixtureDef extends FixtureDef {
 
     private static final Vector2 dummyVector = new Vector2();
 
-    private final PhysixManager manager;
+    private final PhysixSystem manager;
 
-    public PhysixFixtureDef(PhysixManager manager) {
+    public PhysixFixtureDef(PhysixSystem manager) {
         this.manager = manager;
     }
 

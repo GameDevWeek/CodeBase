@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.physix;
 
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -9,21 +10,20 @@ import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 
-
 /**
  *
  * @author Santo Pfingsten
  */
 public final class PhysixBody {
 
-    private final PhysixManager manager;
+    private final PhysixSystem manager;
     private Entity owner;
     private final Body body;
     private static final Vector2 dummyVector = new Vector2();
     private final Vector2 linearVelocity = new Vector2();
     private final Vector2 position = new Vector2();
 
-    protected PhysixBody(BodyDef bodyDef, PhysixManager manager) {
+    protected PhysixBody(BodyDef bodyDef, PhysixSystem manager) {
         this.manager = manager;
 
         body = manager.getWorld().createBody(bodyDef);
@@ -38,7 +38,9 @@ public final class PhysixBody {
         return body;
     }
 
-    /**Don't change the List !*/
+    /**
+     * Don't change the List !
+     */
     public Array<Fixture> getFixtureList() {
         return body.getFixtureList();
     }
@@ -186,7 +188,6 @@ public final class PhysixBody {
             Shape shape = f.getShape();
             float s = shape.getRadius();
             shape.setRadius(s * scale);
-
         }
     }
 }

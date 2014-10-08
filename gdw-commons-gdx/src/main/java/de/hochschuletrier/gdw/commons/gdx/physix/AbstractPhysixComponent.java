@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.physix;
 
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
@@ -9,14 +10,14 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  */
 public abstract class AbstractPhysixComponent extends Component implements Poolable {
 
-    protected PhysixBody physicsBody = null;
+    protected PhysixBody physicsBody;
 
     @Override
     public void reset() {
         physicsBody.setActive(false);
     }
 
-    public abstract void initPhysics(PhysixManager manager);
+    public abstract void initPhysics(PhysixSystem manager);
 
     public Vector2 getPosition() {
         return physicsBody.getPosition();
