@@ -1,6 +1,9 @@
 package de.hochschuletrier.gdw.commons.gdx.physix.systems;
 
-import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
@@ -9,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
+import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixModifierComponent;
 import de.hochschuletrier.gdw.commons.utils.Point;
 import java.util.List;
 
@@ -16,7 +20,8 @@ import java.util.List;
  *
  * @author Santo Pfingsten
  */
-public class PhysixSystem extends EntitySystem {
+public class PhysixSystem extends IteratingSystem {
+    protected final ComponentMapper<PhysixModifierComponent> mapper = ComponentMapper.getFor(PhysixModifierComponent.class);
 
     public final float scale, scaleInv;
     protected final World world;
@@ -27,6 +32,7 @@ public class PhysixSystem extends EntitySystem {
     private float timeAccumulator;
     
     public PhysixSystem(float scale, float timeStep, int velocityIterations, int positionIterations) {
+        super(Family.getFor(PhysixModifierComponent.class));
         this.scale = scale;
         this.timeStep = timeStep;
         this.velocityIterations = velocityIterations;
@@ -35,13 +41,25 @@ public class PhysixSystem extends EntitySystem {
         world = new World(gravity, true);
     }
     
-	public void update(float deltaTime) {
+    @Override
+    public void update(float deltaTime) {
         timeAccumulator += deltaTime;
         if (timeAccumulator >= timeStep) {
             timeAccumulator -= timeStep;
             world.step(timeStep, velocityIterations, positionIterations);
             world.clearForces();
         }
+        
+        super.update(deltaTime);
+    }
+
+    @Override
+    public void processEntity(Entity entity, float deltaTime) {
+        PhysixModifierComponent component = mapper.get(entity);
+        for(Runnable runnable: component.runnables) {
+            runnable.run();
+        }
+        entity.remove(PhysixModifierComponent.class);
     }
 
     public void reset() {
