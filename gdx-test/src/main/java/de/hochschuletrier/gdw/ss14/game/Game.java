@@ -42,13 +42,13 @@ public class Game {
 
     public void render() {
     }
-    
+
     public void createBall(float x, float y, float radius) {
         Entity entity = engine.createEntity();
         PhysixModifierComponent modifyComponent = new PhysixModifierComponent();
         entity.add(modifyComponent);
-        
-        modifyComponent.schedule(()-> {
+
+        modifyComponent.schedule(() -> {
             PhysixBodyComponent component = engine.createComponent(PhysixBodyComponent.class);
             PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.DynamicBody, physixSystem)
                     .position(x, y).fixedRotation(false);

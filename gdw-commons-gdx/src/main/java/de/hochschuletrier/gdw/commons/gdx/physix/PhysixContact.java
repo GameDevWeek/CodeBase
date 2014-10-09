@@ -18,7 +18,7 @@ public class PhysixContact {
         this.contact = contact;
         isA = true;
     }
-    
+
     public void swap() {
         isA = !isA;
     }

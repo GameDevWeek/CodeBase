@@ -15,7 +15,7 @@ public final class PhysixModifierComponent extends Component implements Poolable
     public void reset() {
         runnables.clear();
     }
-    
+
     public void schedule(Runnable runnable) {
         runnables.add(runnable);
     }

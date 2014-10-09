@@ -11,6 +11,7 @@ import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.ss14.game.components.ImpactSoundComponent;
 
 public class ImpactSoundListener extends PhysixContactAdapter {
+
     private static final ComponentMapper<ImpactSoundComponent> mapper = ComponentMapper.getFor(ImpactSoundComponent.class);
 
     @Override
@@ -21,13 +22,13 @@ public class ImpactSoundListener extends PhysixContactAdapter {
 
     private Sound play(PhysixBodyComponent component, ContactImpulse impulse, Sound ignore) {
         Entity owner = component.getEntity();
-        if(owner != null) {
+        if (owner != null) {
             ImpactSoundComponent isc = mapper.get(owner);
-            if(isc != null && isc.sound != ignore && isc.lastPlayed.get() > isc.minDelay) {
+            if (isc != null && isc.sound != ignore && isc.lastPlayed.get() > isc.minDelay) {
                 float impulseStrength = Math.abs(impulse.getNormalImpulses()[0]);
-                if(impulseStrength > isc.minImpulseStrength) {
+                if (impulseStrength > isc.minImpulseStrength) {
                     float speed = component.getLinearVelocity().len();
-                    if(speed > isc.minSpeed) {
+                    if (speed > isc.minSpeed) {
                         isc.lastPlayed.reset();
                         SoundEmitter.playGlobal(isc.sound, false, component.getX(), component.getY(), 0);
                         return isc.sound;
@@ -37,5 +38,5 @@ public class ImpactSoundListener extends PhysixContactAdapter {
         }
         return null;
     }
-    
+
 }
