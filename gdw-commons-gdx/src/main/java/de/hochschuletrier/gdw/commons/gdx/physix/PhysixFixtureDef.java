@@ -17,10 +17,10 @@ public class PhysixFixtureDef extends FixtureDef {
 
     private static final Vector2 dummyVector = new Vector2();
 
-    private final PhysixSystem manager;
+    private final PhysixSystem system;
 
-    public PhysixFixtureDef(PhysixSystem manager) {
-        this.manager = manager;
+    public PhysixFixtureDef(PhysixSystem system) {
+        this.system = system;
     }
 
     /** The friction coefficient, usually in the range [0,1]. **/
@@ -71,11 +71,11 @@ public class PhysixFixtureDef extends FixtureDef {
     }
 
     public PhysixFixtureDef shapeBox(float width, float height, Vector2 center, float angle) {
-        float halfWidth = manager.toBox2D(width) * 0.5f;
-        float halfHeight = manager.toBox2D(height) * 0.5f;
+        float halfWidth = system.toBox2D(width) * 0.5f;
+        float halfHeight = system.toBox2D(height) * 0.5f;
 
         PolygonShape polyShape = new PolygonShape();
-        polyShape.setAsBox(halfWidth, halfHeight, manager.toBox2D(center, dummyVector), angle);
+        polyShape.setAsBox(halfWidth, halfHeight, system.toBox2D(center, dummyVector), angle);
         this.shape = polyShape;
         return this;
     }
@@ -85,24 +85,24 @@ public class PhysixFixtureDef extends FixtureDef {
     }
 
     public PhysixFixtureDef shapeCircle(float radius, Vector2 center) {
-        radius = manager.toBox2D(radius);
+        radius = system.toBox2D(radius);
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(radius);
-        circleShape.setPosition(manager.toBox2D(center, dummyVector));
+        circleShape.setPosition(system.toBox2D(center, dummyVector));
         this.shape = circleShape;
         return this;
     }
 
     public PhysixFixtureDef shapePolygon(List<Point> points) {
         PolygonShape polyShape = new PolygonShape();
-        polyShape.set(manager.toBox2D(points));
+        polyShape.set(system.toBox2D(points));
         this.shape = polyShape;
         return this;
     }
 
     public PhysixFixtureDef shapePolyline(List<Point> points) {
         ChainShape chainShape = new ChainShape();
-        chainShape.createChain(manager.toBox2D(points));
+        chainShape.createChain(system.toBox2D(points));
         this.shape = chainShape;
         return this;
     }

@@ -87,6 +87,14 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
     }
 
     @Override
+    public void onLeaveComplete() {
+        if (game != null) {
+            game.stop();
+            game = null;
+        }
+    }
+
+    @Override
     public void dispose() {
     }
 
@@ -141,9 +149,10 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
 
         @Override
         public void complete(String prefix, List<String> results) {
-            for(String sbc:sandboxClasses.keySet()) {
-                if(sbc.startsWith(prefix))
+            for (String sbc : sandboxClasses.keySet()) {
+                if (sbc.startsWith(prefix)) {
                     results.add(sbc);
+                }
             }
         }
 
@@ -157,7 +166,7 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
             } else {
                 try {
                     if (game != null) {
-                        game.dispose();
+                        game.stop();
                     }
                     game = (SandboxGame) clazz.newInstance();
                     game.init(assetManager);

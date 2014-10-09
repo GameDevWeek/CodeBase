@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.commons.gdx.physix;
 import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 
 /**
  *
@@ -10,11 +11,11 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
  */
 public class PhysixBodyDef extends BodyDef {
 
-    private final PhysixSystem manager;
+    private final PhysixSystem system;
 
-    public PhysixBodyDef(BodyType type, PhysixSystem manager) {
+    public PhysixBodyDef(BodyType type, PhysixSystem system) {
         this.type = type;
-        this.manager = manager;
+        this.system = system;
     }
 
     /** The body type: static, kinematic, or dynamic. Note: if a dynamic body would have zero mass, the mass is set to one. **/
@@ -25,12 +26,12 @@ public class PhysixBodyDef extends BodyDef {
 
     /** The world position of the body. Avoid creating bodies at the origin since this can lead to many overlapping shapes. **/
     public PhysixBodyDef position(Vector2 p) {
-        position.set(manager.toBox2D(p.x), manager.toBox2D(p.y));
+        position.set(system.toBox2D(p.x), system.toBox2D(p.y));
         return this;
     }
 
     public PhysixBodyDef position(float x, float y) {
-        position.set(manager.toBox2D(x), manager.toBox2D(y));
+        position.set(system.toBox2D(x), system.toBox2D(y));
         return this;
     }
 
@@ -102,9 +103,5 @@ public class PhysixBodyDef extends BodyDef {
     public PhysixBodyDef gravityScale(float value) {
         gravityScale = value;
         return this;
-    }
-
-    public PhysixBody create() {
-        return new PhysixBody(this, manager);
     }
 }

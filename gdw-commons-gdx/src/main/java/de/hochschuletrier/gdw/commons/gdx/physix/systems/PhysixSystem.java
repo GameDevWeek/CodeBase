@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBody;
+import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import de.hochschuletrier.gdw.commons.utils.Point;
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class PhysixSystem extends EntitySystem {
 
     public void reset() {
         if (world.isLocked()) {
-            throw new GdxRuntimeException("PhysixManager.reset called in locked state");
+            throw new GdxRuntimeException("PhysixSystem.reset called in locked state");
         }
 
         Array<Body> bodies = new Array();
@@ -66,7 +66,7 @@ public class PhysixSystem extends EntitySystem {
         return world;
     }
 
-    public void destroy(PhysixBody body) {
+    public void destroy(PhysixBodyComponent body) {
         world.destroyBody(body.getBody());
     }
 
@@ -80,7 +80,7 @@ public class PhysixSystem extends EntitySystem {
         }
     }
 
-    public void ropeConnect(PhysixBody a, PhysixBody b, float length) {
+    public void ropeConnect(PhysixBodyComponent a, PhysixBodyComponent b, float length) {
         RopeJointDef ropeJointDef = new RopeJointDef();
         ropeJointDef.bodyA = a.getBody();
         ropeJointDef.bodyB = b.getBody();
