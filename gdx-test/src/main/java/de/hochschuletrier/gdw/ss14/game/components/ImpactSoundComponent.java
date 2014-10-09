@@ -2,19 +2,28 @@ package de.hochschuletrier.gdw.ss14.game.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Pool;
 import de.hochschuletrier.gdw.commons.utils.Timer;
 
-public class ImpactSoundComponent extends Component {
+public class ImpactSoundComponent extends Component implements Pool.Poolable {
     public final Timer lastPlayed = new Timer();
-    public final Sound sound;
-    public final float minImpulseStrength;
-    public final float minSpeed;
-    public final long minDelay;
+    public Sound sound;
+    public float minImpulseStrength;
+    public float minSpeed;
+    public long minDelay;
 
-    public ImpactSoundComponent(Sound sound, float minImpulseStrength, float minSpeed, long minDelay) {
+    public void init(Sound sound, float minImpulseStrength, float minSpeed, long minDelay) {
         this.sound = sound;
         this.minImpulseStrength = minImpulseStrength;
         this.minSpeed = minSpeed;
         this.minDelay = minDelay;
+    }
+
+    @Override
+    public void reset() {
+        sound = null;
+        minImpulseStrength = 0;
+        minSpeed = 0;
+        minDelay = 0;
     }
 }

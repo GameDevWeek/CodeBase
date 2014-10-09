@@ -1,6 +1,6 @@
-package de.hochschuletrier.gdw.commons.gdx.physix;
+package de.hochschuletrier.gdw.commons.gdx.physix.components;
 
-import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
+import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -9,25 +9,36 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool.Poolable;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 
 /**
- *
  * @author Santo Pfingsten
  */
-public final class PhysixBody {
-
-    private final PhysixSystem manager;
-    private Entity owner;
-    private final Body body;
+public final class PhysixBodyComponent extends Component implements Poolable {
     private static final Vector2 dummyVector = new Vector2();
-    private final Vector2 linearVelocity = new Vector2();
-    private final Vector2 position = new Vector2();
 
-    protected PhysixBody(BodyDef bodyDef, PhysixSystem manager) {
-        this.manager = manager;
+    private PhysixSystem system;
+    private Entity entity;
+    private Body body;
 
-        body = manager.getWorld().createBody(bodyDef);
+    public void init(BodyDef bodyDef, PhysixSystem system, Entity entity) {
+        this.system = system;
+
+        body = system.getWorld().createBody(bodyDef);
         body.setUserData(this);
+        this.entity = entity;
+    }
+
+    @Override
+    public void reset() {
+        system = null;
+        if(body != null) {
+            system.getWorld().destroyBody(body);
+            body = null;
+        }
+        entity = null;
     }
 
     public Fixture createFixture(PhysixFixtureDef fixtureDef) {
@@ -45,48 +56,44 @@ public final class PhysixBody {
         return body.getFixtureList();
     }
 
-    public void setOwner(Entity owner) {
-        this.owner = owner;
-    }
-
-    public Entity getOwner() {
-        return owner;
+    public Entity getEntity() {
+        return entity;
     }
 
     public float getX() {
-        return manager.toWorld(body.getPosition().x);
+        return system.toWorld(body.getPosition().x);
     }
 
     public float getY() {
-        return manager.toWorld(body.getPosition().y);
+        return system.toWorld(body.getPosition().y);
     }
 
     public Vector2 getPosition() {
-        return manager.toWorld(body.getPosition(), position);
+        return system.toWorld(body.getPosition(), dummyVector);
     }
 
     public void setX(float x) {
-        body.setTransform(dummyVector.set(manager.toBox2D(x), body.getPosition().y), body.getAngle());
+        body.setTransform(dummyVector.set(system.toBox2D(x), body.getPosition().y), body.getAngle());
     }
 
     public void setY(float y) {
-        body.setTransform(dummyVector.set(body.getPosition().x, manager.toBox2D(y)), body.getAngle());
+        body.setTransform(dummyVector.set(body.getPosition().x, system.toBox2D(y)), body.getAngle());
     }
 
     public void setPosition(Vector2 pos) {
-        body.setTransform(manager.toBox2D(pos, dummyVector), body.getAngle());
+        body.setTransform(system.toBox2D(pos, dummyVector), body.getAngle());
     }
 
     public void setPosition(float x, float y) {
-        body.setTransform(manager.toBox2D(x, y, dummyVector), body.getAngle());
+        body.setTransform(system.toBox2D(x, y, dummyVector), body.getAngle());
     }
 
     public void setTransform(float x, float y, float omega) {
-        body.setTransform(manager.toBox2D(x, y, dummyVector), omega);
+        body.setTransform(system.toBox2D(x, y, dummyVector), omega);
     }
 
     public Vector2 getLocalCenter(Vector2 origin) {
-        return manager.toBox2D(body.getLocalCenter(), origin);
+        return system.toBox2D(body.getLocalCenter(), origin);
     }
 
     public void simpleForceApply(Vector2 force) {
@@ -94,11 +101,11 @@ public final class PhysixBody {
     }
 
     public void applyImpulse(Vector2 speed) {
-        body.applyLinearImpulse(manager.toBox2D(speed, dummyVector), body.getWorldCenter(), true);
+        body.applyLinearImpulse(system.toBox2D(speed, dummyVector), body.getWorldCenter(), true);
     }
 
     public void applyImpulse(float x, float y) {
-        body.applyLinearImpulse(manager.toBox2D(x, y, dummyVector), body.getWorldCenter(), true);
+        body.applyLinearImpulse(system.toBox2D(x, y, dummyVector), body.getWorldCenter(), true);
     }
 
     public float getAngle() {
@@ -106,25 +113,25 @@ public final class PhysixBody {
     }
 
     public Vector2 getLinearVelocity() {
-        return manager.toWorld(body.getLinearVelocity(), linearVelocity);
+        return system.toWorld(body.getLinearVelocity(), dummyVector);
     }
 
     public void setLinearVelocity(Vector2 v) {
-        body.setLinearVelocity(manager.toBox2D(v, dummyVector));
+        body.setLinearVelocity(system.toBox2D(v, dummyVector));
     }
 
     public void setLinearVelocity(float x, float y) {
-        body.setLinearVelocity(dummyVector.set(manager.toBox2D(x), manager.toBox2D(y)));
+        body.setLinearVelocity(dummyVector.set(system.toBox2D(x), system.toBox2D(y)));
         body.setAwake(true);
     }
 
     public void setLinearVelocityX(float x) {
-        body.setLinearVelocity(dummyVector.set(manager.toBox2D(x), body.getLinearVelocity().y));
+        body.setLinearVelocity(dummyVector.set(system.toBox2D(x), body.getLinearVelocity().y));
         body.setAwake(true);
     }
 
     public void setLinearVelocityY(float y) {
-        body.setLinearVelocity(dummyVector.set(body.getLinearVelocity().x, manager.toBox2D(y)));
+        body.setLinearVelocity(dummyVector.set(body.getLinearVelocity().x, system.toBox2D(y)));
         body.setAwake(true);
     }
 

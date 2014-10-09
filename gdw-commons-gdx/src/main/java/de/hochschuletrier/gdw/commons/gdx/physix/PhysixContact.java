@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.commons.gdx.physix;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
+import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 
 /**
  *
@@ -42,12 +43,12 @@ public class PhysixContact {
         return isA ? contact.getChildIndexB() : contact.getChildIndexA();
     }
 
-    public PhysixBody getMyPhysixBody() {
-        return (PhysixBody) getMyFixture().getBody().getUserData();
+    public PhysixBodyComponent getMyComponent() {
+        return (PhysixBodyComponent) getMyFixture().getBody().getUserData();
     }
 
-    public PhysixBody getOtherPhysixBody() {
-        return (PhysixBody) getOtherFixture().getBody().getUserData();
+    public PhysixBodyComponent getOtherPhysixBody() {
+        return (PhysixBodyComponent) getOtherFixture().getBody().getUserData();
     }
 
     public WorldManifold getWorldManifold() {

@@ -110,13 +110,13 @@ public class PhysixComponentAwareContactListener implements ContactListener {
         private void testAndRun(Contact contact, Consumer<PhysixContact> consumer) {
             physixContact.set(contact);
 
-            Entity owner = physixContact.getMyPhysixBody().getOwner();
+            Entity owner = physixContact.getMyComponent().getEntity();
             Component component = mapper.get(owner);
             if (component != null) {
                 consumer.accept(physixContact);
             } else {
                 physixContact.swap();
-                owner = physixContact.getMyPhysixBody().getOwner();
+                owner = physixContact.getMyComponent().getEntity();
                 component = mapper.get(owner);
                 if (component != null) {
                     consumer.accept(physixContact);
