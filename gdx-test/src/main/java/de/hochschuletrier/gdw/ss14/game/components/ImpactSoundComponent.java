@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Pool;
 import de.hochschuletrier.gdw.commons.utils.Timer;
 
 public class ImpactSoundComponent extends Component implements Pool.Poolable {
+
     public final Timer lastPlayed = new Timer();
     public Sound sound;
     public float minImpulseStrength;

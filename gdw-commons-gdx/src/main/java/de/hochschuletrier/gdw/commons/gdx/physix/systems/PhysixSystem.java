@@ -21,6 +21,7 @@ import java.util.List;
  * @author Santo Pfingsten
  */
 public class PhysixSystem extends IteratingSystem {
+
     protected final ComponentMapper<PhysixModifierComponent> mapper = ComponentMapper.getFor(PhysixModifierComponent.class);
 
     public final float scale, scaleInv;
@@ -30,7 +31,7 @@ public class PhysixSystem extends IteratingSystem {
     protected final int velocityIterations;
     protected final int positionIterations;
     private float timeAccumulator;
-    
+
     public PhysixSystem(float scale, float timeStep, int velocityIterations, int positionIterations) {
         super(Family.getFor(PhysixModifierComponent.class));
         this.scale = scale;
@@ -40,7 +41,7 @@ public class PhysixSystem extends IteratingSystem {
         scaleInv = 1.0f / scale;
         world = new World(gravity, true);
     }
-    
+
     @Override
     public void update(float deltaTime) {
         timeAccumulator += deltaTime;
@@ -49,14 +50,14 @@ public class PhysixSystem extends IteratingSystem {
             world.step(timeStep, velocityIterations, positionIterations);
             world.clearForces();
         }
-        
+
         super.update(deltaTime);
     }
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         PhysixModifierComponent component = mapper.get(entity);
-        for(Runnable runnable: component.runnables) {
+        for (Runnable runnable : component.runnables) {
             runnable.run();
         }
         entity.remove(PhysixModifierComponent.class);

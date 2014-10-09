@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  *
  * @author Santo Pfingsten
  */
-public class PhysixContactAdapter implements PhysixContactListener{
+public class PhysixContactAdapter implements PhysixContactListener {
 
     public void beginContact(PhysixContact contact) {
     }

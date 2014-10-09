@@ -16,14 +16,14 @@ import java.util.function.Consumer;
  * @author Santo Pfingsten
  */
 public class PhysixComponentAwareContactListener implements ContactListener {
-    
+
     private final PhysixContact physixContact = new PhysixContact();
 
     private final LinkedHashMap<Class<Component>, ComponentContactListener> listenerMap = new LinkedHashMap();
 
     public void addListener(Class<Component> clazz, PhysixContactListener listener) {
         ComponentContactListener componentListener = listenerMap.get(clazz);
-        if(componentListener == null) {
+        if (componentListener == null) {
             componentListener = new ComponentContactListener(clazz);
             listenerMap.put(clazz, componentListener);
         }

@@ -17,6 +17,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
  * @author Santo Pfingsten
  */
 public final class PhysixBodyComponent extends Component implements Poolable {
+
     private static final Vector2 dummyVector = new Vector2();
 
     private PhysixSystem system;
@@ -34,7 +35,7 @@ public final class PhysixBodyComponent extends Component implements Poolable {
     @Override
     public void reset() {
         system = null;
-        if(body != null) {
+        if (body != null) {
             system.getWorld().destroyBody(body);
             body = null;
         }

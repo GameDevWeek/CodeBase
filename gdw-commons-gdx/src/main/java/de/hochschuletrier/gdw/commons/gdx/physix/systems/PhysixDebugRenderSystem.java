@@ -20,7 +20,7 @@ public class PhysixDebugRenderSystem extends EntitySystem {
     public PhysixDebugRenderSystem(World world, float scale) {
         this.world = world;
         this.scale = scale;
-        
+
         renderer.setDrawBodies(true);
         renderer.setDrawInactiveBodies(true);
         renderer.setDrawContacts(true);
