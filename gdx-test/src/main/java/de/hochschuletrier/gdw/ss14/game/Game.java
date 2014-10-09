@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
@@ -9,6 +10,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixModifierComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
+import de.hochschuletrier.gdw.ss14.game.components.ImpactSoundComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,12 +31,14 @@ public class Game {
     private static final int BOX2D_SCALE = 40;
 
     private final PhysixSystem physixSystem = new PhysixSystem(BOX2D_SCALE, STEP_SIZE, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+    
+    private Sound impactSound;
 
     public Game() {
     }
 
     public void init(AssetManagerX assetManager) {
-
+        impactSound = assetManager.getSound("click");
     }
 
     public void update(float delta) {
@@ -47,6 +51,10 @@ public class Game {
         Entity entity = engine.createEntity();
         PhysixModifierComponent modifyComponent = new PhysixModifierComponent();
         entity.add(modifyComponent);
+
+        ImpactSoundComponent soundComponent = engine.createComponent(ImpactSoundComponent.class);
+        soundComponent.init(impactSound, 20, 20, 100);
+        entity.add(soundComponent);
 
         modifyComponent.schedule(() -> {
             PhysixBodyComponent component = engine.createComponent(PhysixBodyComponent.class);
