@@ -6,5 +6,13 @@
         "playType" : "LOOP",
         "columns": 7,
         "rows" : 1
+    },
+    "ball": {
+        "filename": "data/animations/ball.png",
+        "frames" : 2,
+        "frameDuration": [0.5, 0.5],
+        "playType" : "LOOP",
+        "columns": 2,
+        "rows" : 1
     }
 }

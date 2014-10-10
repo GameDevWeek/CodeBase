@@ -6,6 +6,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.game.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.game.components.PositionComponent;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Comparator;
 
 public class AnimationRenderSystem extends EntitySystem implements EntityListener {
     private static final ComponentMapper<AnimationComponent> animationMapper = ComponentMapper.getFor(AnimationComponent.class);
+    private static final ComponentMapper<PositionComponent> positionMapper = ComponentMapper.getFor(PositionComponent.class);
     private static final EntityComparator comparator = new EntityComparator();
     private final ArrayList<Entity> entities = new ArrayList();
     private boolean resort;
@@ -51,7 +54,13 @@ public class AnimationRenderSystem extends EntitySystem implements EntityListene
         
         for(Entity entity: entities) {
             AnimationComponent animation = animationMapper.get(entity);
-            // todo: render animation
+            PositionComponent position = positionMapper.get(entity);
+            
+            animation.stateTime += deltaTime;
+            TextureRegion keyFrame = animation.animation.getKeyFrame(animation.stateTime);
+            int w = keyFrame.getRegionWidth();
+            int h = keyFrame.getRegionHeight();
+            DrawUtil.batch.draw(keyFrame, position.x-w*0.5f, position.y-h*0.5f, w*0.5f, h*0.5f, w, h, 1, 1, position.rotation);
         }
     }
     
