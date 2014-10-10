@@ -40,7 +40,7 @@ public class MainMenuState extends MyBaseGameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-        
+
         logo = assetManager.getTexture("logo");
         walking = assetManager.getAnimation("walking");
         music = assetManager.getMusic("menu");

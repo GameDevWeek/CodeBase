@@ -6,12 +6,14 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 
 public class AnimationComponent extends Component implements Pool.Poolable {
 
-    public int layer;
-    public float stateTime;
     public AnimationExtended animation;
+    public float stateTime;
+    public int layer;
 
     @Override
     public void reset() {
         animation = null;
+        stateTime = 0;
+        layer = 0;
     }
 }

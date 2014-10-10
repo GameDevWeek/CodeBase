@@ -40,7 +40,7 @@ public class LoadGameState extends MyBaseGameState {
                 isDone = true;
             }
         }
-        
+
         render();
     }
 
