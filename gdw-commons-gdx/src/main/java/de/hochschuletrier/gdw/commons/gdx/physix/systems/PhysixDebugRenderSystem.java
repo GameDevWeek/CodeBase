@@ -1,16 +1,16 @@
 package de.hochschuletrier.gdw.commons.gdx.physix.systems;
 
-import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import de.hochschuletrier.gdw.commons.gdx.ashley.RenderSystem;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
 /**
  *
  * @author Santo Pfingsten
  */
-public class PhysixDebugRenderSystem extends EntitySystem {
+public class PhysixDebugRenderSystem extends RenderSystem {
 
     private final Box2DDebugRenderer renderer = new Box2DDebugRenderer();
     private final World world;
@@ -28,7 +28,7 @@ public class PhysixDebugRenderSystem extends EntitySystem {
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void render() {
         if (world != null) {
             DrawUtil.batch.end();
             projectionMatrix.set(DrawUtil.batch.getProjectionMatrix());

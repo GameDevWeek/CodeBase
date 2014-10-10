@@ -2,19 +2,22 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import de.hochschuletrier.gdw.commons.gdx.ashley.RenderEngine;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixModifierComponent;
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixDebugRenderSystem;
 import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import de.hochschuletrier.gdw.ss14.game.components.ImpactSoundComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Game {
+public class Game extends InputAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
@@ -24,6 +27,7 @@ public class Game {
     private static final int COMPONENT_POOL_MAX_SIZE = 256;
 
     private final PooledEngine engine = new PooledEngine(ENTITY_POOL_INITIAL_SIZE, ENTITY_POOL_MAX_SIZE, COMPONENT_POOL_INITIAL_SIZE, COMPONENT_POOL_MAX_SIZE);
+    private final RenderEngine renderEngine = new RenderEngine();
 
     private static final int POSITION_ITERATIONS = 3;
     private static final int VELOCITY_ITERATIONS = 8;
@@ -39,12 +43,17 @@ public class Game {
 
     public void init(AssetManagerX assetManager) {
         impactSound = assetManager.getSound("click");
+        
+        engine.addSystem(physixSystem);
+        renderEngine.addSystem(new PhysixDebugRenderSystem(physixSystem.getWorld(), physixSystem.getScale()));
     }
 
     public void update(float delta) {
+        engine.update(delta);
     }
 
     public void render() {
+        renderEngine.render();
     }
 
     public void createBall(float x, float y, float radius) {
@@ -65,5 +74,11 @@ public class Game {
                     .density(5).friction(0.2f).restitution(0.4f).shapeCircle(radius);
             component.createFixture(fixtureDef);
         });
+    }
+    
+    @Override
+    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+        createBall(screenX, screenY, 50);
+        return true;
     }
 }
