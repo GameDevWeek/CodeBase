@@ -24,12 +24,12 @@ public class SoundTest extends SandboxGame {
         helicopter = assetManager.getSound("helicopter");
         emitter.play(helicopter, true);
     }
-    
+
     @Override
     public void stop() {
         emitter.dispose();
     }
-    
+
     @Override
     public void render() {
     }
@@ -39,7 +39,7 @@ public class SoundTest extends SandboxGame {
         emitter.update();
         emitter.setPosition(cursor.x, cursor.y, 0);
     }
-    
+
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         cursor.set(screenX, screenY);

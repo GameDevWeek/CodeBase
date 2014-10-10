@@ -9,6 +9,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import de.hochschuletrier.gdw.ss14.game.components.PositionComponent;
 
 public class UpdatePositionSystem extends IteratingSystem {
+
     protected final ComponentMapper<PhysixBodyComponent> physixMapper = ComponentMapper.getFor(PhysixBodyComponent.class);
     protected final ComponentMapper<PositionComponent> positionMapper = ComponentMapper.getFor(PositionComponent.class);
 

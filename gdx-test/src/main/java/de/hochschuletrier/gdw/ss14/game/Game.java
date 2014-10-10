@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 public class Game extends InputAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
-    
+
     private static final int PRIORITY_PHYSIX = 0;
     private static final int PRIORITY_ENTITIES = 10;
     private static final int PRIORITY_ANIMATIONS = 20;
@@ -52,8 +52,8 @@ public class Game extends InputAdapter {
     private final PhysixSystem physixSystem = new PhysixSystem(BOX2D_SCALE, STEP_SIZE, VELOCITY_ITERATIONS, POSITION_ITERATIONS, PRIORITY_PHYSIX);
     private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(physixSystem.getWorld(), physixSystem.getScale(), PRIORITY_DEBUG_WORLD);
     private final AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(PRIORITY_ANIMATIONS);
-    private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(PRIORITY_PHYSIX+1);
-    
+    private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(PRIORITY_PHYSIX + 1);
+
     private Sound impactSound;
     private AnimationExtended ballAnimation;
 
@@ -63,7 +63,7 @@ public class Game extends InputAdapter {
     public void init(AssetManagerX assetManager) {
         impactSound = assetManager.getSound("click");
         ballAnimation = assetManager.getAnimation("ball");
-        
+
         engine.addSystem(physixSystem);
         engine.addSystem(physixDebugRenderSystem);
         engine.addSystem(animationRenderSystem);
@@ -71,9 +71,9 @@ public class Game extends InputAdapter {
         PhysixComponentAwareContactListener contactListener = new PhysixComponentAwareContactListener();
         physixSystem.getWorld().setContactListener(contactListener);
         contactListener.addListener(ImpactSoundComponent.class, new ImpactSoundListener());
-        
+
         initWorld();
-        
+
         Main.inputMultiplexer.addProcessor(this);
     }
 
@@ -84,7 +84,7 @@ public class Game extends InputAdapter {
         body.createFixture(new PhysixFixtureDef(physixSystem).density(1).friction(0.5f).shapeBox(800, 20));
         PhysixUtil.createHollowCircle(physixSystem, 180, 180, 150, 30, 6);
     }
-    
+
     public void update(float delta) {
         engine.update(delta);
     }
@@ -98,7 +98,7 @@ public class Game extends InputAdapter {
         ImpactSoundComponent soundComponent = engine.createComponent(ImpactSoundComponent.class);
         soundComponent.init(impactSound, 20, 20, 100);
         entity.add(soundComponent);
-        
+
         AnimationComponent animComponent = engine.createComponent(AnimationComponent.class);
         animComponent.animation = ballAnimation;
         entity.add(animComponent);
@@ -115,9 +115,9 @@ public class Game extends InputAdapter {
         });
         engine.addEntity(entity);
     }
-    
+
     @Override
-    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         createBall(screenX, screenY, 30);
         return true;
     }

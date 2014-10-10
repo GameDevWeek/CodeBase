@@ -53,6 +53,7 @@ public class Main extends StateBasedGame<MyBaseGameState> {
     public Main() {
         super(new MyBaseGameState());
     }
+
     public static Main getInstance() {
         if (instance == null) {
             instance = new Main();
@@ -105,15 +106,15 @@ public class Main extends StateBasedGame<MyBaseGameState> {
         GameStateEnum.LOADING.activate();
 
         this.console.register(distanceModel);
-        distanceModel.addListener((CVar)->distanceModel.get().activate());
+        distanceModel.addListener((CVar) -> distanceModel.get().activate());
 
         this.console.register(emitterMode);
         emitterMode.addListener(this::onEmitterModeChanged);
     }
 
     public void onLoadComplete() {
-        for(GameStateEnum state: GameStateEnum.values()) {
-            if(state != GameStateEnum.LOADING) {
+        for (GameStateEnum state : GameStateEnum.values()) {
+            if (state != GameStateEnum.LOADING) {
                 state.init(assetManager);
             }
         }
@@ -152,7 +153,7 @@ public class Main extends StateBasedGame<MyBaseGameState> {
         }
         console.executeCmdQueue();
         SoundEmitter.updateGlobal();
-        
+
         preRender();
     }
 
