@@ -31,9 +31,13 @@ public class PhysixSystem extends IteratingSystem {
     protected final int velocityIterations;
     protected final int positionIterations;
     private float timeAccumulator;
-
+    
     public PhysixSystem(float scale, float timeStep, int velocityIterations, int positionIterations) {
-        super(Family.getFor(PhysixModifierComponent.class));
+        this(scale, timeStep, velocityIterations, positionIterations, 0);
+    }
+
+    public PhysixSystem(float scale, float timeStep, int velocityIterations, int positionIterations, int priority) {
+        super(Family.getFor(PhysixModifierComponent.class), priority);
         this.scale = scale;
         this.timeStep = timeStep;
         this.velocityIterations = velocityIterations;

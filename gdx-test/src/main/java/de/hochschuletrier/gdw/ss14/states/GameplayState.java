@@ -25,11 +25,6 @@ public class GameplayState extends MyBaseGameState {
     }
 
     @Override
-    public void render() {
-        game.render();
-    }
-
-    @Override
     public void update(float delta) {
         game.update(delta);
         fpsCalc.addFrame();

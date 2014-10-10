@@ -70,36 +70,6 @@ public abstract class StateBasedGame<T extends BaseGameState> implements Applica
 
     @Override
     public final void render() {
-        update();
-
-        preRender();
-
-        if (leaving != null) {
-            if (leaving.isReverse()) {
-                leaving.render(screenCamera, nextState, currentState);
-            } else {
-                leaving.render(screenCamera, currentState, nextState);
-            }
-        } else if (entering != null) {
-            if (entering.isReverse()) {
-                entering.render(screenCamera, prevState, currentState);
-            } else {
-                entering.render(screenCamera, currentState, prevState);
-            }
-        } else {
-            currentState.render();
-        }
-
-        postRender();
-    }
-
-    protected void preRender() {
-    }
-
-    protected void postRender() {
-    }
-
-    private void update() {
         long time = System.currentTimeMillis();
         float delta = (time - lastTime) * 0.001f;
         lastTime = time;
@@ -107,10 +77,21 @@ public abstract class StateBasedGame<T extends BaseGameState> implements Applica
         preUpdate(delta);
 
         updateTransitions(delta);
-
-        currentState.update(delta);
-        if (nextState != null) {
-            nextState.update(delta);
+        
+        if (leaving != null) {
+            if (leaving.isReverse()) {
+                leaving.render(delta, screenCamera, nextState, currentState);
+            } else {
+                leaving.render(delta, screenCamera, currentState, nextState);
+            }
+        } else if (entering != null) {
+            if (entering.isReverse()) {
+                entering.render(delta, screenCamera, prevState, currentState);
+            } else {
+                entering.render(delta, screenCamera, currentState, prevState);
+            }
+        } else {
+            currentState.update(delta);
         }
 
         postUpdate(delta);

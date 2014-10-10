@@ -19,7 +19,7 @@ public class PhysixContact {
         isA = true;
     }
 
-    public void swap() {
+    void swap() {
         isA = !isA;
     }
 
@@ -47,7 +47,7 @@ public class PhysixContact {
         return (PhysixBodyComponent) getMyFixture().getBody().getUserData();
     }
 
-    public PhysixBodyComponent getOtherPhysixBody() {
+    public PhysixBodyComponent getOtherComponent() {
         return (PhysixBodyComponent) getOtherFixture().getBody().getUserData();
     }
 

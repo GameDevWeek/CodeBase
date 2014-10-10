@@ -130,7 +130,6 @@ public class Main extends StateBasedGame<MyBaseGameState> {
         SoundEmitter.disposeGlobal();
     }
 
-    @Override
     protected void preRender() {
         DrawUtil.clearColor(Color.BLACK);
         DrawUtil.clear();
@@ -139,7 +138,6 @@ public class Main extends StateBasedGame<MyBaseGameState> {
         DrawUtil.batch.begin();
     }
 
-    @Override
     protected void postRender() {
         DrawUtil.batch.end();
         if (consoleView.isVisible()) {
@@ -154,6 +152,13 @@ public class Main extends StateBasedGame<MyBaseGameState> {
         }
         console.executeCmdQueue();
         SoundEmitter.updateGlobal();
+        
+        preRender();
+    }
+
+    @Override
+    protected void postUpdate(float delta) {
+        postRender();
     }
 
     @Override
