@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.function.Consumer;
@@ -19,9 +20,9 @@ public class PhysixComponentAwareContactListener implements ContactListener {
 
     private final PhysixContact physixContact = new PhysixContact();
 
-    private final LinkedHashMap<Class<Component>, ComponentContactListener> listenerMap = new LinkedHashMap();
+    private final LinkedHashMap<Class<? extends Component>, ComponentContactListener> listenerMap = new LinkedHashMap();
 
-    public void addListener(Class<Component> clazz, PhysixContactListener listener) {
+    public void addListener(Class<? extends Component> clazz, PhysixContactListener listener) {
         ComponentContactListener componentListener = listenerMap.get(clazz);
         if (componentListener == null) {
             componentListener = new ComponentContactListener(clazz);
@@ -110,18 +111,23 @@ public class PhysixComponentAwareContactListener implements ContactListener {
         private void testAndRun(Contact contact, Consumer<PhysixContact> consumer) {
             physixContact.set(contact);
 
-            Entity owner = physixContact.getMyComponent().getEntity();
-            Component component = mapper.get(owner);
-            if (component != null) {
-                consumer.accept(physixContact);
-            } else {
+            if (!testAndRun2(consumer)) {
                 physixContact.swap();
-                owner = physixContact.getMyComponent().getEntity();
-                component = mapper.get(owner);
+                testAndRun2(consumer);
+            }
+        }
+        
+        private boolean testAndRun2(Consumer<PhysixContact> consumer) {
+            PhysixBodyComponent myComponent = physixContact.getMyComponent();
+            if(myComponent != null) {
+                Entity entity = myComponent.getEntity();
+                Component component = mapper.get(entity);
                 if (component != null) {
                     consumer.accept(physixContact);
+                    return true;
                 }
             }
+            return false;
         }
     }
 }

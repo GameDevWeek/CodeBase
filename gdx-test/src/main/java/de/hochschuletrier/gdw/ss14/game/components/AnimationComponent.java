@@ -6,6 +6,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 
 public class AnimationComponent extends Component implements Pool.Poolable {
 
+    public int layer;
     public float stateTime;
     public AnimationExtended animation;
 

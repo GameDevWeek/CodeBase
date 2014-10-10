@@ -1,7 +1,6 @@
 package de.hochschuletrier.gdw.ss14.game.contactlisteners;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixContact;
@@ -17,13 +16,12 @@ public class ImpactSoundListener extends PhysixContactAdapter {
     @Override
     public void postSolve(PhysixContact contact, ContactImpulse impulse) {
         Sound ignore = play(contact.getMyComponent(), impulse, null);
-        play(contact.getOtherPhysixBody(), impulse, ignore);
+        play(contact.getOtherComponent(), impulse, ignore);
     }
 
     private Sound play(PhysixBodyComponent component, ContactImpulse impulse, Sound ignore) {
-        Entity owner = component.getEntity();
-        if (owner != null) {
-            ImpactSoundComponent isc = mapper.get(owner);
+        if (component != null) {
+            ImpactSoundComponent isc = mapper.get(component.getEntity());
             if (isc != null && isc.sound != ignore && isc.lastPlayed.get() > isc.minDelay) {
                 float impulseStrength = Math.abs(impulse.getNormalImpulses()[0]);
                 if (impulseStrength > isc.minImpulseStrength) {

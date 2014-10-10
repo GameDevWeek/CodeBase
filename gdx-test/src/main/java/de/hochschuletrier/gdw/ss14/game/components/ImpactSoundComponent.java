@@ -18,6 +18,7 @@ public class ImpactSoundComponent extends Component implements Pool.Poolable {
         this.minImpulseStrength = minImpulseStrength;
         this.minSpeed = minSpeed;
         this.minDelay = minDelay;
+        lastPlayed.reset();
     }
 
     @Override
@@ -26,5 +27,6 @@ public class ImpactSoundComponent extends Component implements Pool.Poolable {
         minImpulseStrength = 0;
         minSpeed = 0;
         minDelay = 0;
+        lastPlayed.stop();
     }
 }

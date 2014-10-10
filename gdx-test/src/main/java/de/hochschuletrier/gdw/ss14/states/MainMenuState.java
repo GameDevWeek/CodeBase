@@ -67,7 +67,6 @@ public class MainMenuState extends MyBaseGameState implements InputProcessor {
         Main.inputMultiplexer.addProcessor(inputProcessor);
     }
 
-    @Override
     public void render() {
         Main.getInstance().screenCamera.bind();
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
@@ -86,6 +85,7 @@ public class MainMenuState extends MyBaseGameState implements InputProcessor {
         if (x > 1024) {
             x = -walking.getKeyFrame(0f).getRegionWidth();
         }
+        render();
     }
 
     @Override

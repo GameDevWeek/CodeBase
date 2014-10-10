@@ -55,7 +55,6 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
         Main.getInstance().console.register(sandbox_f);
     }
 
-    @Override
     public void render() {
         Main.getInstance().screenCamera.bind();
 
@@ -71,6 +70,7 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
         game.update(delta);
 
         fpsCalc.addFrame();
+        render();
     }
 
     @Override
