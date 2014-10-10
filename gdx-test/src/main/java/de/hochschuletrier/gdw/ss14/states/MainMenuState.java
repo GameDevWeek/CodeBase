@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
@@ -74,8 +75,8 @@ public class MainMenuState extends MyBaseGameState implements InputProcessor {
         DrawUtil.batch.draw(logo, 0, 0, logo.getWidth(), logo.getHeight(), 0, 0,
                 logo.getWidth(), logo.getHeight(), false, true);
 
-        DrawUtil.batch.draw(walking.getKeyFrame(stateTime), x,
-                512, walking.getKeyFrame(0f).getRegionWidth(), -walking.getKeyFrame(0f).getRegionHeight());
+        TextureRegion keyFrame = walking.getKeyFrame(stateTime);
+        DrawUtil.batch.draw(keyFrame, x, 512-keyFrame.getRegionHeight(), keyFrame.getRegionWidth(), keyFrame.getRegionHeight());
     }
 
     @Override
