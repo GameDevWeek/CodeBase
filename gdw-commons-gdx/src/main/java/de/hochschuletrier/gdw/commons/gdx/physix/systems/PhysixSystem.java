@@ -42,6 +42,10 @@ public class PhysixSystem extends IteratingSystem {
         world = new World(gravity, true);
     }
 
+    public float getScale() {
+        return scale;
+    }
+
     @Override
     public void update(float deltaTime) {
         timeAccumulator += deltaTime;
