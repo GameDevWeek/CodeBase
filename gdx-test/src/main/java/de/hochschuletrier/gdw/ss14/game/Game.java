@@ -86,6 +86,7 @@ public class Game extends InputAdapter {
     }
 
     public void update(float delta) {
+        Main.getInstance().screenCamera.bind();
         engine.update(delta);
     }
 
