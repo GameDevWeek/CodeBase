@@ -34,11 +34,11 @@ public final class PhysixBodyComponent extends Component implements Poolable {
 
     @Override
     public void reset() {
-        system = null;
         if (body != null) {
             system.getWorld().destroyBody(body);
             body = null;
         }
+        system = null;
         entity = null;
     }
 
