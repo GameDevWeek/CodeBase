@@ -18,12 +18,17 @@ import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixDebugRenderSystem
 import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.game.components.DeletedComponent;
 import de.hochschuletrier.gdw.ss14.game.components.ImpactSoundComponent;
 import de.hochschuletrier.gdw.ss14.game.components.PositionComponent;
+import de.hochschuletrier.gdw.ss14.game.components.TriggerComponent;
 import de.hochschuletrier.gdw.ss14.game.contactlisteners.ImpactSoundListener;
+import de.hochschuletrier.gdw.ss14.game.contactlisteners.TriggerListener;
 import de.hochschuletrier.gdw.ss14.game.systems.AnimationRenderSystem;
+import de.hochschuletrier.gdw.ss14.game.systems.EntityRemovalSystem;
 import de.hochschuletrier.gdw.ss14.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ss14.game.utils.PhysixUtil;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +41,7 @@ public class Game extends InputAdapter {
     private static final int PRIORITY_ANIMATIONS = 20;
     private static final int PRIORITY_DEBUG_WORLD = 30;
     private static final int PRIORITY_HUD = 40;
+    private static final int PRIORITY_REMOVE_ENTITIES = 1000;
 
     private static final int ENTITY_POOL_INITIAL_SIZE = 32;
     private static final int ENTITY_POOL_MAX_SIZE = 256;
@@ -53,6 +59,7 @@ public class Game extends InputAdapter {
     private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(physixSystem.getWorld(), physixSystem.getScale(), PRIORITY_DEBUG_WORLD);
     private final AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(PRIORITY_ANIMATIONS);
     private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(PRIORITY_PHYSIX + 1);
+    private final EntityRemovalSystem entityRemovalSystem = new EntityRemovalSystem(PRIORITY_REMOVE_ENTITIES);
 
     private Sound impactSound;
     private AnimationExtended ballAnimation;
@@ -68,9 +75,11 @@ public class Game extends InputAdapter {
         engine.addSystem(physixDebugRenderSystem);
         engine.addSystem(animationRenderSystem);
         engine.addSystem(updatePositionSystem);
+        engine.addSystem(entityRemovalSystem);
         PhysixComponentAwareContactListener contactListener = new PhysixComponentAwareContactListener();
         physixSystem.getWorld().setContactListener(contactListener);
         contactListener.addListener(ImpactSoundComponent.class, new ImpactSoundListener());
+        contactListener.addListener(TriggerComponent.class, new TriggerListener());
 
         initWorld();
 
@@ -83,6 +92,11 @@ public class Game extends InputAdapter {
         Body body = physixSystem.getWorld().createBody(bodyDef);
         body.createFixture(new PhysixFixtureDef(physixSystem).density(1).friction(0.5f).shapeBox(800, 20));
         PhysixUtil.createHollowCircle(physixSystem, 180, 180, 150, 30, 6);
+        
+        createTrigger(410, 600, 1600, 40, (Entity entity) -> {
+            if(entity.getComponent(DeletedComponent.class) == null)
+                entity.add(engine.createComponent(DeletedComponent.class));
+        });
     }
 
     public void update(float delta) {
@@ -90,10 +104,30 @@ public class Game extends InputAdapter {
         engine.update(delta);
     }
 
+    public void createTrigger(float x, float y, float width, float height, Consumer<Entity> consumer) {
+        Entity entity = engine.createEntity();
+        PhysixModifierComponent modifyComponent = engine.createComponent(PhysixModifierComponent.class);
+        entity.add(modifyComponent);
+        
+        TriggerComponent triggerComponent = engine.createComponent(TriggerComponent.class);
+        triggerComponent.consumer = consumer;
+        entity.add(triggerComponent);
+        
+        modifyComponent.schedule(() -> {
+            PhysixBodyComponent bodyComponent = engine.createComponent(PhysixBodyComponent.class);
+            PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.StaticBody, physixSystem).position(x, y);
+            bodyComponent.init(bodyDef, physixSystem, entity);
+            PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem).sensor(true).shapeBox(width, height);
+            bodyComponent.createFixture(fixtureDef);
+            entity.add(bodyComponent);
+        });
+        engine.addEntity(entity);
+    }
+
     public void createBall(float x, float y, float radius) {
         Entity entity = engine.createEntity();
         entity.add(engine.createComponent(PositionComponent.class));
-        PhysixModifierComponent modifyComponent = new PhysixModifierComponent();
+        PhysixModifierComponent modifyComponent = engine.createComponent(PhysixModifierComponent.class);
         entity.add(modifyComponent);
 
         ImpactSoundComponent soundComponent = engine.createComponent(ImpactSoundComponent.class);
