@@ -81,7 +81,7 @@ public class PhysixComponentAwareContactListener implements ContactListener {
         }
 
         public void beginContact(PhysixContact contact) {
-            listeners.forEach((PhysixContactListener listener) -> listener.endContact(physixContact));
+            listeners.forEach((PhysixContactListener listener) -> listener.beginContact(physixContact));
         }
 
         public void endContact(Contact contact) {
