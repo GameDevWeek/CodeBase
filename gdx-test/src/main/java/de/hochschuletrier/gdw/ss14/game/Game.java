@@ -19,14 +19,12 @@ import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixDebugRenderSystem
 import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import de.hochschuletrier.gdw.ss14.Main;
 import de.hochschuletrier.gdw.ss14.game.components.AnimationComponent;
-import de.hochschuletrier.gdw.ss14.game.components.DeletedComponent;
 import de.hochschuletrier.gdw.ss14.game.components.ImpactSoundComponent;
 import de.hochschuletrier.gdw.ss14.game.components.PositionComponent;
 import de.hochschuletrier.gdw.ss14.game.components.TriggerComponent;
 import de.hochschuletrier.gdw.ss14.game.contactlisteners.ImpactSoundListener;
 import de.hochschuletrier.gdw.ss14.game.contactlisteners.TriggerListener;
 import de.hochschuletrier.gdw.ss14.game.systems.AnimationRenderSystem;
-import de.hochschuletrier.gdw.ss14.game.systems.EntityRemovalSystem;
 import de.hochschuletrier.gdw.ss14.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ss14.game.utils.PhysixUtil;
 import java.util.function.Consumer;
@@ -49,7 +47,6 @@ public class Game extends InputAdapter {
     private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(GameConstants.PRIORITY_DEBUG_WORLD);
     private final AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(GameConstants.PRIORITY_ANIMATIONS);
     private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
-    private final EntityRemovalSystem entityRemovalSystem = new EntityRemovalSystem(GameConstants.PRIORITY_REMOVE_ENTITIES);
 
     private Sound impactSound;
     private AnimationExtended ballAnimation;
@@ -76,7 +73,6 @@ public class Game extends InputAdapter {
         engine.addSystem(physixDebugRenderSystem);
         engine.addSystem(animationRenderSystem);
         engine.addSystem(updatePositionSystem);
-        engine.addSystem(entityRemovalSystem);
     }
 
     private void addContactListeners() {
@@ -94,9 +90,7 @@ public class Game extends InputAdapter {
         PhysixUtil.createHollowCircle(physixSystem, 180, 180, 150, 30, 6);
 
         createTrigger(410, 1000, 1600, 40, (Entity entity) -> {
-            if (entity.getComponent(DeletedComponent.class) == null) {
-                entity.add(engine.createComponent(DeletedComponent.class));
-            }
+            engine.removeEntity(entity);
         });
     }
 
