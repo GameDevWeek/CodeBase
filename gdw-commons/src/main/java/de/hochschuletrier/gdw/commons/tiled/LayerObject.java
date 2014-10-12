@@ -68,8 +68,8 @@ public class LayerObject {
             primitive = Primitive.RECT;
         }
 
-        x = (int)node.getX();
-        y = (int)node.getY();
+        x = (int) node.getX();
+        y = (int) node.getY();
         width = (node.getWidth() == null) ? 0 : node.getWidth().intValue();
         height = (node.getHeight() == null) ? 0 : node.getHeight().intValue();
 
@@ -103,7 +103,7 @@ public class LayerObject {
                 x -= -lowestX;
                 y -= -lowestY;
             } else if (polyMode == PolyMode.ABSOLUTE) {
-                int dx =(int) node.getX();
+                int dx = (int) node.getX();
                 int dy = (int) node.getY();
                 for (Point p : points) {
                     p.x += dx;

@@ -14,7 +14,7 @@ public class SmoothCamera extends AbstractCamera {
     protected final Vector3 destination = new Vector3();
     protected final Vector3 moveDir = new Vector3();
     protected float factor = 10f;
-    
+
     public void update(float delta) {
         moveDir.set(destination).sub(position);
 
@@ -36,7 +36,7 @@ public class SmoothCamera extends AbstractCamera {
         position.set(destination);
         camera.update(true);
     }
-    
+
     public Vector3 getPosition() {
         return this.position;
     }

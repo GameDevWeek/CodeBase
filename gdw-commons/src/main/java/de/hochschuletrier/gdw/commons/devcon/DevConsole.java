@@ -664,11 +664,12 @@ public class DevConsole {
                             if (match && !cvar.getName().contains(matchstr)) {
                                 continue;
                             }
-                            
+
                             sb.append(String.format("%-32.32s ", cvar.getName()))
                                     .append(cvar.getTypeDescription()).append("\n");
                             found++;
-                        }   break;
+                        }
+                        break;
                     case "-flags":
                         found = 0;
                         for (CVar cvar : cvarList.values()) {
@@ -681,7 +682,8 @@ public class DevConsole {
                             sb.append(String.format("%-32.32s ", cvar.getName()))
                                     .append(Integer.toBinaryString(cvar.getFlags())).append("\n");
                             found++;
-                        }   break;
+                        }
+                        break;
                     case "-help":
                         found = 0;
                         for (CVar cvar : cvarList.values()) {
@@ -693,7 +695,8 @@ public class DevConsole {
                             }
                             sb.append(String.format("%-32.32s %-32.32s\n", cvar.getName(), cvar.getDescription()));
                             found++;
-                        }   break;
+                        }
+                        break;
                     default:
                         match = true;
                         matchstr = args.get(1);

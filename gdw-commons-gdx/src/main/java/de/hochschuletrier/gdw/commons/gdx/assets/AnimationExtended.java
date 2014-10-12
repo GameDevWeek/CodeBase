@@ -50,7 +50,7 @@ public class AnimationExtended {
         }
         return keyFrames[frameNumber];
     }
-    
+
     public PlayMode getPlayMode() {
         return playMode;
     }

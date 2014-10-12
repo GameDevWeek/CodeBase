@@ -77,7 +77,7 @@ public abstract class StateBasedGame<T extends BaseGameState> implements Applica
         preUpdate(delta);
 
         updateTransitions(delta);
-        
+
         if (leaving != null) {
             if (leaving.isReverse()) {
                 leaving.render(delta, screenCamera, nextState, currentState);

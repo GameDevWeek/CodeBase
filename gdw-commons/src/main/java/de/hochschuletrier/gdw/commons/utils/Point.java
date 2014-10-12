@@ -7,7 +7,7 @@ package de.hochschuletrier.gdw.commons.utils;
 public class Point {
 
     public int x, y;
-    
+
     public Point() {
     }
 

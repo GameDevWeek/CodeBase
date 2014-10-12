@@ -14,8 +14,9 @@ import java.util.function.Predicate;
  * @author Santo Pfingsten
  */
 public class RectangleGenerator {
-    
+
     public static interface RectangleGeneratorTest {
+
         boolean test(Layer layer, TileInfo info);
     }
 

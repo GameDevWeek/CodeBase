@@ -20,20 +20,20 @@ public class Selector extends BaseNode {
     @Override
     public void childTerminated(BaseNode child, State state) {
         switch (state) {
-        case SUCCESS:
-            this.deactivate();
-            this.parent.childTerminated(this, state);
-            break;
-        case FAILURE:
-            if ((this.currentChild + 1) >= this.children.size()) {
+            case SUCCESS:
                 this.deactivate();
                 this.parent.childTerminated(this, state);
-            } else {
-                ++this.currentChild;
-                this.children.get(this.currentChild).activate();
-            }
-        default:
-            break;
+                break;
+            case FAILURE:
+                if ((this.currentChild + 1) >= this.children.size()) {
+                    this.deactivate();
+                    this.parent.childTerminated(this, state);
+                } else {
+                    ++this.currentChild;
+                    this.children.get(this.currentChild).activate();
+                }
+            default:
+                break;
         }
     }
 
