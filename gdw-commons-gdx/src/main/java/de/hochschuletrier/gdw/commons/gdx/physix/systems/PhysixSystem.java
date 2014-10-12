@@ -52,16 +52,20 @@ public class PhysixSystem extends IteratingSystem {
 
     @Override
     public void update(float deltaTime) {
+        boolean hasRun = false;
         timeAccumulator += deltaTime;
-        if (timeAccumulator >= timeStep) {
+        while (timeAccumulator >= timeStep) {
             timeAccumulator -= timeStep;
             world.step(timeStep, velocityIterations, positionIterations);
             world.clearForces();
+            hasRun = true;
         }
 
-        super.update(deltaTime);
+        if (hasRun) {
+            super.update(deltaTime);
+        }
     }
-
+    
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         PhysixModifierComponent component = mapper.get(entity);
