@@ -26,7 +26,6 @@ public class EntityRemovalSystem extends IteratingSystem {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        entity.removeAll();
         engine.removeEntity(entity);
     }
 
