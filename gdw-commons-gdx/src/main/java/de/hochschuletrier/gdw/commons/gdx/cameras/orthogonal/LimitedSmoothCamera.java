@@ -24,8 +24,7 @@ public class LimitedSmoothCamera extends SmoothCamera {
         if (useBounds) {
             destination.x = clamp(x, xMin, xMax, camera.viewportWidth);
             destination.y = clamp(y, yMin, yMax, camera.viewportHeight);
-        }
-        else {
+        } else {
             destination.x = x;
             destination.y = y;
         }
@@ -60,8 +59,7 @@ public class LimitedSmoothCamera extends SmoothCamera {
         useBounds = false;
     }
 
-    public OrthographicCamera getOrthographicCamera()
-    {
+    public OrthographicCamera getOrthographicCamera() {
         return camera;
     }
 }

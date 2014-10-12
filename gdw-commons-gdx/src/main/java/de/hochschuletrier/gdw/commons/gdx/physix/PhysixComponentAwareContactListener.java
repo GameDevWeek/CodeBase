@@ -116,10 +116,10 @@ public class PhysixComponentAwareContactListener implements ContactListener {
                 testAndRun2(consumer);
             }
         }
-        
+
         private boolean testAndRun2(Consumer<PhysixContact> consumer) {
             PhysixBodyComponent myComponent = physixContact.getMyComponent();
-            if(myComponent != null) {
+            if (myComponent != null) {
                 Entity entity = myComponent.getEntity();
                 Component component = mapper.get(entity);
                 if (component != null) {

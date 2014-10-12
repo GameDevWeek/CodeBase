@@ -30,8 +30,8 @@ public class PhysixDebugRenderSystem extends EntitySystem {
         renderer.setDrawContacts(true);
         renderer.setDrawJoints(true);
     }
-    
-	public void addedToEngine(Engine engine) {
+
+    public void addedToEngine(Engine engine) {
         PhysixSystem physixSystem = engine.getSystem(PhysixSystem.class);
         world = physixSystem.getWorld();
         scale = physixSystem.getScale();

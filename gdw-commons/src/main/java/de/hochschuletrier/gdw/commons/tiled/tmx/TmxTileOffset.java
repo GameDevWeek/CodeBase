@@ -8,6 +8,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @author Santo Pfingsten
  */
 public class TmxTileOffset {
+
     @XStreamAlias("source")
     @XStreamAsAttribute
     protected Integer x;

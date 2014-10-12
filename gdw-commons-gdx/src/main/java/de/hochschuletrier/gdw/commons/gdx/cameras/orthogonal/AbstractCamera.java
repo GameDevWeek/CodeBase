@@ -39,22 +39,22 @@ public abstract class AbstractCamera implements ScreenListener {
 
     public void update(float delta) {
     }
-    
+
     protected void setCameraPosition(float x, float y) {
         camera.position.x = Math.round(x);
         camera.position.y = Math.round(y);
     }
-    
+
     protected void setCameraPosition(Vector3 pos) {
         camera.position.x = Math.round(pos.x);
         camera.position.y = Math.round(pos.y);
         camera.position.z = Math.round(pos.z);
     }
-    
-    public void setZoom( float newZoom ) {
+
+    public void setZoom(float newZoom) {
         camera.zoom = newZoom;
     }
-    
+
     public float getZoom() {
         return camera.zoom;
     }

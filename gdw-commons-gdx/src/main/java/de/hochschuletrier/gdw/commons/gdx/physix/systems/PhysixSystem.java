@@ -31,7 +31,7 @@ public class PhysixSystem extends IteratingSystem {
     protected final int velocityIterations;
     protected final int positionIterations;
     private float timeAccumulator;
-    
+
     public PhysixSystem(float scale, float timeStep, int velocityIterations, int positionIterations) {
         this(scale, timeStep, velocityIterations, positionIterations, 0);
     }

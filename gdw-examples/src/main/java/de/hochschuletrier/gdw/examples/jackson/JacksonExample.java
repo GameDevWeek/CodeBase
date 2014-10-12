@@ -57,8 +57,9 @@ public class JacksonExample {
                 for (JacksonObjectExample.Course course : student.courses) {
                     System.out.printf("Course: %s (%d)\n", course.name, course.tries);
                 }
-                if(student.specialCourse != null)
+                if (student.specialCourse != null) {
                     System.out.printf("Special course: %s (%d)\n", student.specialCourse.name, student.specialCourse.tries);
+                }
             }
             if (student.map == null) {
                 System.out.println("null map");

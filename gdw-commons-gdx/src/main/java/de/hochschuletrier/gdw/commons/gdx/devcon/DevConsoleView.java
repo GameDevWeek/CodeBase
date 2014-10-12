@@ -78,12 +78,12 @@ public class DevConsoleView implements ScreenListener {
         inputProcessor = new InputInterceptor(stage) {
             @Override
             public boolean keyUp(int keycode) {
-                switch(keycode) {
+                switch (keycode) {
                     case Input.Keys.F12:
                         isBlocking = isActive = !isActive;
                         return true;
                     case Input.Keys.ESCAPE:
-                        if(isActive) {
+                        if (isActive) {
                             isBlocking = isActive = false;
                             return true;
                         }
@@ -91,11 +91,11 @@ public class DevConsoleView implements ScreenListener {
                 }
                 return super.keyUp(keycode);
             }
-            
+
             @Override
             public boolean keyDown(int keycode) {
-                if(isActive) {
-                    switch(keycode) {
+                if (isActive) {
+                    switch (keycode) {
                         case Input.Keys.TAB:
                             String text = commandField.getText();
                             if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
@@ -128,6 +128,7 @@ public class DevConsoleView implements ScreenListener {
             }
         };
     }
+
     public void init(AssetManagerX assetManager, Skin skin) {
         this.skin = skin;
 
@@ -252,7 +253,7 @@ public class DevConsoleView implements ScreenListener {
         }
         logList.invalidateHierarchy();
     }
-    
+
     public final void onLogHeightChanged(CVar cvar) {
         adjustHeight();
     }

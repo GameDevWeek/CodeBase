@@ -76,7 +76,7 @@ public class MainMenuState extends MyBaseGameState implements InputProcessor {
                 logo.getWidth(), logo.getHeight(), false, true);
 
         TextureRegion keyFrame = walking.getKeyFrame(stateTime);
-        DrawUtil.batch.draw(keyFrame, x, 512-keyFrame.getRegionHeight(), keyFrame.getRegionWidth(), keyFrame.getRegionHeight());
+        DrawUtil.batch.draw(keyFrame, x, 512 - keyFrame.getRegionHeight(), keyFrame.getRegionWidth(), keyFrame.getRegionHeight());
     }
 
     @Override
