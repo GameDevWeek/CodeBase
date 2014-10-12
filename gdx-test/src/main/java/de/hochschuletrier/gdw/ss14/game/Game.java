@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarBool;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 public class Game extends InputAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
+    private final CVarBool physixDebug = new CVarBool("physix_debug", true, 0, "Draw physix debug");
 
     private final PooledEngine engine = new PooledEngine(
             GameConstants.ENTITY_POOL_INITIAL_SIZE, GameConstants.ENTITY_POOL_MAX_SIZE,
@@ -56,6 +58,9 @@ public class Game extends InputAdapter {
     }
 
     public void init(AssetManagerX assetManager) {
+        Main.getInstance().console.register(physixDebug);
+        physixDebug.addListener((CVar)->physixDebugRenderSystem.setProcessing(physixDebug.get()));
+        
         impactSound = assetManager.getSound("click");
         ballAnimation = assetManager.getAnimation("ball");
 
@@ -83,12 +88,12 @@ public class Game extends InputAdapter {
 
     private void setupPhysixWorld() {
         physixSystem.setGravity(0, 24);
-        PhysixBodyDef bodyDef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixSystem).position(410, 400).fixedRotation(false);
+        PhysixBodyDef bodyDef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixSystem).position(410, 800).fixedRotation(false);
         Body body = physixSystem.getWorld().createBody(bodyDef);
         body.createFixture(new PhysixFixtureDef(physixSystem).density(1).friction(0.5f).shapeBox(800, 20));
         PhysixUtil.createHollowCircle(physixSystem, 180, 180, 150, 30, 6);
 
-        createTrigger(410, 600, 1600, 40, (Entity entity) -> {
+        createTrigger(410, 1000, 1600, 40, (Entity entity) -> {
             if (entity.getComponent(DeletedComponent.class) == null) {
                 entity.add(engine.createComponent(DeletedComponent.class));
             }
@@ -143,6 +148,7 @@ public class Game extends InputAdapter {
                     .density(5).friction(0.2f).restitution(0.4f).shapeCircle(radius);
             bodyComponent.createFixture(fixtureDef);
             entity.add(bodyComponent);
+            bodyComponent.applyImpulse(0, 50000);
         });
         engine.addEntity(entity);
     }
