@@ -36,30 +36,18 @@ public class Game extends InputAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
-    private static final int PRIORITY_PHYSIX = 0;
-    private static final int PRIORITY_ENTITIES = 10;
-    private static final int PRIORITY_ANIMATIONS = 20;
-    private static final int PRIORITY_DEBUG_WORLD = 30;
-    private static final int PRIORITY_HUD = 40;
-    private static final int PRIORITY_REMOVE_ENTITIES = 1000;
+    private final PooledEngine engine = new PooledEngine(
+            GameConstants.ENTITY_POOL_INITIAL_SIZE, GameConstants.ENTITY_POOL_MAX_SIZE,
+            GameConstants.COMPONENT_POOL_INITIAL_SIZE, GameConstants.COMPONENT_POOL_MAX_SIZE
+    );
 
-    private static final int ENTITY_POOL_INITIAL_SIZE = 32;
-    private static final int ENTITY_POOL_MAX_SIZE = 256;
-    private static final int COMPONENT_POOL_INITIAL_SIZE = 32;
-    private static final int COMPONENT_POOL_MAX_SIZE = 256;
-
-    private final PooledEngine engine = new PooledEngine(ENTITY_POOL_INITIAL_SIZE, ENTITY_POOL_MAX_SIZE, COMPONENT_POOL_INITIAL_SIZE, COMPONENT_POOL_MAX_SIZE);
-
-    private static final int POSITION_ITERATIONS = 3;
-    private static final int VELOCITY_ITERATIONS = 8;
-    private static final float STEP_SIZE = 1 / 30.0f;
-    private static final int BOX2D_SCALE = 40;
-
-    private final PhysixSystem physixSystem = new PhysixSystem(BOX2D_SCALE, STEP_SIZE, VELOCITY_ITERATIONS, POSITION_ITERATIONS, PRIORITY_PHYSIX);
-    private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(physixSystem.getWorld(), physixSystem.getScale(), PRIORITY_DEBUG_WORLD);
-    private final AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(PRIORITY_ANIMATIONS);
-    private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(PRIORITY_PHYSIX + 1);
-    private final EntityRemovalSystem entityRemovalSystem = new EntityRemovalSystem(PRIORITY_REMOVE_ENTITIES);
+    private final PhysixSystem physixSystem = new PhysixSystem(GameConstants.BOX2D_SCALE, GameConstants.STEP_SIZE,
+            GameConstants.VELOCITY_ITERATIONS, GameConstants.POSITION_ITERATIONS, GameConstants.PRIORITY_PHYSIX
+    );
+    private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(GameConstants.PRIORITY_DEBUG_WORLD);
+    private final AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(GameConstants.PRIORITY_ANIMATIONS);
+    private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
+    private final EntityRemovalSystem entityRemovalSystem = new EntityRemovalSystem(GameConstants.PRIORITY_REMOVE_ENTITIES);
 
     private Sound impactSound;
     private AnimationExtended ballAnimation;
@@ -71,31 +59,39 @@ public class Game extends InputAdapter {
         impactSound = assetManager.getSound("click");
         ballAnimation = assetManager.getAnimation("ball");
 
+        addSystems();
+        addContactListeners();
+        setupPhysixWorld();
+
+        Main.inputMultiplexer.addProcessor(this);
+    }
+
+    private void addSystems() {
         engine.addSystem(physixSystem);
         engine.addSystem(physixDebugRenderSystem);
         engine.addSystem(animationRenderSystem);
         engine.addSystem(updatePositionSystem);
         engine.addSystem(entityRemovalSystem);
+    }
+
+    private void addContactListeners() {
         PhysixComponentAwareContactListener contactListener = new PhysixComponentAwareContactListener();
         physixSystem.getWorld().setContactListener(contactListener);
         contactListener.addListener(ImpactSoundComponent.class, new ImpactSoundListener());
         contactListener.addListener(TriggerComponent.class, new TriggerListener());
-
-        initWorld();
-
-        Main.inputMultiplexer.addProcessor(this);
     }
 
-    private void initWorld() {
+    private void setupPhysixWorld() {
         physixSystem.setGravity(0, 24);
         PhysixBodyDef bodyDef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixSystem).position(410, 400).fixedRotation(false);
         Body body = physixSystem.getWorld().createBody(bodyDef);
         body.createFixture(new PhysixFixtureDef(physixSystem).density(1).friction(0.5f).shapeBox(800, 20));
         PhysixUtil.createHollowCircle(physixSystem, 180, 180, 150, 30, 6);
-        
+
         createTrigger(410, 600, 1600, 40, (Entity entity) -> {
-            if(entity.getComponent(DeletedComponent.class) == null)
+            if (entity.getComponent(DeletedComponent.class) == null) {
                 entity.add(engine.createComponent(DeletedComponent.class));
+            }
         });
     }
 
@@ -108,11 +104,11 @@ public class Game extends InputAdapter {
         Entity entity = engine.createEntity();
         PhysixModifierComponent modifyComponent = engine.createComponent(PhysixModifierComponent.class);
         entity.add(modifyComponent);
-        
+
         TriggerComponent triggerComponent = engine.createComponent(TriggerComponent.class);
         triggerComponent.consumer = consumer;
         entity.add(triggerComponent);
-        
+
         modifyComponent.schedule(() -> {
             PhysixBodyComponent bodyComponent = engine.createComponent(PhysixBodyComponent.class);
             PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.StaticBody, physixSystem).position(x, y);

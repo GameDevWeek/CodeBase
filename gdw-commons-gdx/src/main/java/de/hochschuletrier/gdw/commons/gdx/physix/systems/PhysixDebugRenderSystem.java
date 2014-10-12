@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.physix.systems;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -13,24 +14,27 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 public class PhysixDebugRenderSystem extends EntitySystem {
 
     private final Box2DDebugRenderer renderer = new Box2DDebugRenderer();
-    private final World world;
     private final Matrix4 projectionMatrix = new Matrix4();
-    private final float scale;
+    private World world;
+    private float scale;
 
-    public PhysixDebugRenderSystem(World world, float scale) {
-        this(world, scale, 0);
+    public PhysixDebugRenderSystem() {
+        this(0);
     }
 
-    public PhysixDebugRenderSystem(World world, float scale, int priority) {
+    public PhysixDebugRenderSystem(int priority) {
         super(priority);
-        
-        this.world = world;
-        this.scale = scale;
 
         renderer.setDrawBodies(true);
         renderer.setDrawInactiveBodies(true);
         renderer.setDrawContacts(true);
         renderer.setDrawJoints(true);
+    }
+    
+	public void addedToEngine(Engine engine) {
+        PhysixSystem physixSystem = engine.getSystem(PhysixSystem.class);
+        world = physixSystem.getWorld();
+        scale = physixSystem.getScale();
     }
 
     @Override
