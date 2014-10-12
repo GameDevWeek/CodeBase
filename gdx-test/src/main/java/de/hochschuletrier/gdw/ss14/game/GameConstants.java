@@ -19,6 +19,6 @@ public class GameConstants {
     // Physix parameters
     public static final int POSITION_ITERATIONS = 3;
     public static final int VELOCITY_ITERATIONS = 8;
-    public static final float STEP_SIZE = 1 / 30.0f;
+    public static final float STEP_SIZE = 1 / 60.0f;
     public static final int BOX2D_SCALE = 40;
 }
