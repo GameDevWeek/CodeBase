@@ -1,6 +1,5 @@
 package de.hochschuletrier.gdw.ss14.game.systems;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
@@ -8,6 +7,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.ss14.game.ComponentMappers;
 import de.hochschuletrier.gdw.ss14.game.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.game.components.PositionComponent;
 import java.util.ArrayList;
@@ -15,8 +15,6 @@ import java.util.Comparator;
 
 public class AnimationRenderSystem extends EntitySystem implements EntityListener {
 
-    private static final ComponentMapper<AnimationComponent> animationMapper = ComponentMapper.getFor(AnimationComponent.class);
-    private static final ComponentMapper<PositionComponent> positionMapper = ComponentMapper.getFor(PositionComponent.class);
     private static final EntityComparator comparator = new EntityComparator();
     private final ArrayList<Entity> entities = new ArrayList();
     private boolean resort;
@@ -54,8 +52,8 @@ public class AnimationRenderSystem extends EntitySystem implements EntityListene
         }
 
         for (Entity entity : entities) {
-            AnimationComponent animation = animationMapper.get(entity);
-            PositionComponent position = positionMapper.get(entity);
+            AnimationComponent animation = ComponentMappers.animation.get(entity);
+            PositionComponent position = ComponentMappers.position.get(entity);
 
             animation.stateTime += deltaTime;
             TextureRegion keyFrame = animation.animation.getKeyFrame(animation.stateTime);
@@ -69,8 +67,8 @@ public class AnimationRenderSystem extends EntitySystem implements EntityListene
 
         @Override
         public int compare(Entity a, Entity b) {
-            AnimationComponent ac = animationMapper.get(a);
-            AnimationComponent bc = animationMapper.get(b);
+            AnimationComponent ac = ComponentMappers.animation.get(a);
+            AnimationComponent bc = ComponentMappers.animation.get(b);
             return ac.layer > bc.layer ? 1 : (ac.layer == bc.layer) ? 0 : -1;
         }
     }
