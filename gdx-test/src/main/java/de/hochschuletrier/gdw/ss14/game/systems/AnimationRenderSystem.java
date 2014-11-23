@@ -31,7 +31,7 @@ public class AnimationRenderSystem extends EntitySystem implements EntityListene
 
     @Override
     public void addedToEngine(Engine engine) {
-        Family family = Family.getFor(PositionComponent.class, AnimationComponent.class);
+        Family family = Family.all(PositionComponent.class, AnimationComponent.class).get();
         engine.addEntityListener(family, this);
     }
 
