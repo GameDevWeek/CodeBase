@@ -98,6 +98,18 @@ public class JacksonReader {
         return map;
     }
 
+    private static <T> HashMap<String, HashMap<String, T>> readObjectMapMap(Class<T> clazz, JsonParser parser)
+            throws InstantiationException, IllegalAccessException, IOException,
+            NoSuchFieldException, ParseException {
+        HashMap<String, HashMap<String, T>> map = new HashMap();
+        while (parser.nextToken() != JsonToken.END_OBJECT) {
+            String headerField = parser.getCurrentName();
+            parser.nextToken();
+            map.put(headerField, readObjectMap(clazz, parser));
+        }
+        return map;
+    }
+
     private static <T> T readUnknownObject(Class<T> clazz, JsonParser parser)
             throws InstantiationException, IllegalAccessException, IOException,
             NoSuchFieldException, ParseException {
@@ -149,14 +161,21 @@ public class JacksonReader {
             JacksonList listAnnotation = (JacksonList) field.getAnnotation(JacksonList.class);
             if (listAnnotation != null) {
                 field.set(object, readList(listAnnotation.value(), parser));
-            } else {
-                JacksonMap mapAnnotation = (JacksonMap) field.getAnnotation(JacksonMap.class);
-                if (mapAnnotation != null) {
-                    field.set(object, readObjectMap(mapAnnotation.value(), parser));
-                } else {
-                    field.set(object, readUnknownObject(field.getType(), parser));
-                }
+                continue;
             }
+            
+            JacksonMapMap mapMapAnnotation = (JacksonMapMap) field.getAnnotation(JacksonMapMap.class);
+            if (mapMapAnnotation != null) {
+                field.set(object, readObjectMapMap(mapMapAnnotation.value(), parser));
+                continue;
+            }
+            
+            JacksonMap mapAnnotation = (JacksonMap) field.getAnnotation(JacksonMap.class);
+            if (mapAnnotation != null) {
+                field.set(object, readObjectMap(mapAnnotation.value(), parser));
+                continue;
+            }
+            field.set(object, readUnknownObject(field.getType(), parser));
         }
         return object;
     }
@@ -207,6 +226,9 @@ public class JacksonReader {
         if (clazz.equals(Float.class)) {
             return (T) Float.valueOf(parser.getIntValue());
         }
+        if (clazz.equals(String.class)) {
+            return (T) String.valueOf(parser.getIntValue());
+        }
         throw new AssertionError(parser.getCurrentToken().name());
     }
 
@@ -215,6 +237,9 @@ public class JacksonReader {
         if (clazz.equals(Float.class)) {
             return (T) Float.valueOf(parser.getFloatValue());
         }
+        if (clazz.equals(String.class)) {
+            return (T) String.valueOf(parser.getFloatValue());
+        }
         throw new AssertionError(parser.getCurrentToken().name());
     }
 
@@ -222,6 +247,9 @@ public class JacksonReader {
     private static <T> T readBool(Class<T> clazz, JsonParser parser, Boolean value) throws AssertionError {
         if (clazz.equals(Boolean.class)) {
             return (T) value;
+        }
+        if (clazz.equals(String.class)) {
+            return (T) String.valueOf(value);
         }
         throw new AssertionError(parser.getCurrentToken().name());
     }
