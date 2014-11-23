@@ -18,7 +18,7 @@ public class UpdatePositionSystem extends IteratingSystem {
     }
 
     public UpdatePositionSystem(int priority) {
-        super(Family.getFor(PositionComponent.class, PhysixBodyComponent.class), priority);
+        super(Family.all(PositionComponent.class, PhysixBodyComponent.class).get(), priority);
     }
 
     @Override
