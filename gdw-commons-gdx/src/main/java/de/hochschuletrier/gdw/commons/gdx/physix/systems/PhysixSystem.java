@@ -1,7 +1,9 @@
 package de.hochschuletrier.gdw.commons.gdx.physix.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
@@ -20,7 +22,7 @@ import java.util.List;
  *
  * @author Santo Pfingsten
  */
-public class PhysixSystem extends IteratingSystem {
+public class PhysixSystem extends IteratingSystem implements EntityListener {
 
     protected final ComponentMapper<PhysixModifierComponent> mapper = ComponentMapper.getFor(PhysixModifierComponent.class);
 
@@ -37,7 +39,7 @@ public class PhysixSystem extends IteratingSystem {
     }
 
     public PhysixSystem(float scale, float timeStep, int velocityIterations, int positionIterations, int priority) {
-        super(Family.getFor(PhysixModifierComponent.class), priority);
+        super(Family.all(PhysixModifierComponent.class).get(), priority);
         this.scale = scale;
         this.timeStep = timeStep;
         this.velocityIterations = velocityIterations;
@@ -48,6 +50,30 @@ public class PhysixSystem extends IteratingSystem {
 
     public float getScale() {
         return scale;
+    }
+		
+	@Override
+	public void addedToEngine(Engine engine) {
+        super.addedToEngine(engine);
+        engine.addEntityListener(this);
+	}
+
+	@Override
+	public void removedFromEngine(Engine engine) {
+        super.removedFromEngine(engine);
+        engine.removeEntityListener(this);
+	}
+
+    @Override
+    public void entityAdded(Entity entity) {
+        PhysixModifierComponent modifier = mapper.get(entity);
+        if(modifier != null) {
+            handleModifierComponent(entity, modifier);
+        }
+    }
+
+    @Override
+    public void entityRemoved(Entity entity) {
     }
 
     @Override
@@ -68,7 +94,10 @@ public class PhysixSystem extends IteratingSystem {
     
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        PhysixModifierComponent component = mapper.get(entity);
+        handleModifierComponent(entity, mapper.get(entity));
+    }
+
+    private void handleModifierComponent(Entity entity, PhysixModifierComponent component) {
         for (Runnable runnable : component.runnables) {
             runnable.run();
         }
