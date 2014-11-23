@@ -56,6 +56,15 @@ public final class PhysixBodyComponent extends Component implements Poolable {
     public Array<Fixture> getFixtureList() {
         return body.getFixtureList();
     }
+    
+    public Fixture getFixtureByUserData(Object userData) {
+        for(Fixture fixture: body.getFixtureList()) {
+            if(userData.equals(fixture.getUserData())) {
+                return fixture;
+            }
+        }
+        return null;
+    }
 
     public Entity getEntity() {
         return entity;
@@ -71,6 +80,10 @@ public final class PhysixBodyComponent extends Component implements Poolable {
 
     public Vector2 getPosition() {
         return system.toWorld(body.getPosition(), dummyVector);
+    }
+
+    public Vector2 getPosition(Vector2 destination) {
+        return system.toWorld(body.getPosition(), destination);
     }
 
     public void setX(float x) {
@@ -197,5 +210,10 @@ public final class PhysixBodyComponent extends Component implements Poolable {
             float s = shape.getRadius();
             shape.setRadius(s * scale);
         }
+    }
+
+    public void setAngle(float angle) {
+        Vector2 pos = body.getPosition();
+        body.setTransform(pos.x, pos.y, angle);
     }
 }

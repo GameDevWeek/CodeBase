@@ -26,7 +26,7 @@ public class PhysixDebugRenderSystem extends EntitySystem {
         super(priority);
 
         renderer.setDrawBodies(true);
-        renderer.setDrawInactiveBodies(true);
+        renderer.setDrawInactiveBodies(false);
         renderer.setDrawContacts(true);
         renderer.setDrawJoints(true);
     }
