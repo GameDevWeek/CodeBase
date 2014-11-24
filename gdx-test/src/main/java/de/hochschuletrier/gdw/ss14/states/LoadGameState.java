@@ -4,20 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.state.BaseGameState;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
 
-public class LoadGameState extends MyBaseGameState {
+public class LoadGameState extends BaseGameState {
 
     private boolean isDone;
+    private final AssetManagerX assetManager;
+    private final Runnable completeFunc;
 
-    public LoadGameState() {
-    }
-
-    @Override
-    public void init(AssetManagerX assetManager) {
-        super.init(assetManager);
-
+    public LoadGameState(AssetManagerX assetManager, Runnable completeFunc) {
+        this.assetManager = assetManager;
+        this.completeFunc = completeFunc;
     }
 
     public void render() {
@@ -35,8 +34,7 @@ public class LoadGameState extends MyBaseGameState {
             assetManager.update();
 
             if (assetManager.getProgress() == 1) {
-                Main.getInstance().onLoadComplete();
-
+                completeFunc.run();
                 isDone = true;
             }
         }
