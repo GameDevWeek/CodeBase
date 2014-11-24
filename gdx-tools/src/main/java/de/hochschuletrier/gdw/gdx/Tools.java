@@ -29,7 +29,7 @@ public class Tools extends JFrame {
                 try {
                     setVisible(false);
                     com.badlogic.gdx.tools.hiero.Hiero.main(args);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -41,7 +41,7 @@ public class Tools extends JFrame {
                 try {
                     setVisible(false);
                     com.badlogic.gdx.tools.particleeditor.ParticleEditor.main(args);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

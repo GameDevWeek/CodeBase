@@ -4,18 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-
-import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
-import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
 import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ss14.Main;
-import de.hochschuletrier.gdw.ss14.sandbox.ui.PauseMenu;
 
 /**
  * Menu state
@@ -24,15 +18,7 @@ import de.hochschuletrier.gdw.ss14.sandbox.ui.PauseMenu;
  */
 public class MainMenuState extends MyBaseGameState implements InputProcessor {
 
-    public static final int WALKING_SPEED = 100;
-
     private Music music;
-    private Sound click;
-    private Texture logo;
-    float stateTime = 0f;
-    private AnimationExtended walking;
-    private float x = 0;
-    private PauseMenu pauseMenu;
 
     InputInterceptor inputProcessor;
 
@@ -42,13 +28,8 @@ public class MainMenuState extends MyBaseGameState implements InputProcessor {
     @Override
     public void init(AssetManagerX assetManager) {
         super.init(assetManager);
-        pauseMenu = new PauseMenu();
-        pauseMenu.init(assetManager);
-        
-        logo = assetManager.getTexture("logo");
-        walking = assetManager.getAnimation("walking");
+
         music = assetManager.getMusic("menu");
-        click = assetManager.getSound("seeWool");
 
         music.setLooping(true);
 //        music.play();
@@ -71,27 +52,14 @@ public class MainMenuState extends MyBaseGameState implements InputProcessor {
         Main.inputMultiplexer.addProcessor(inputProcessor);
     }
 
-    @Override
     public void render() {
-    	pauseMenu.render();
         Main.getInstance().screenCamera.bind();
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
-
-        DrawUtil.batch.draw(logo, 0, 0, logo.getWidth(), logo.getHeight(), 0, 0,
-                logo.getWidth(), logo.getHeight(), false, true);
-
-        DrawUtil.batch.draw(walking.getKeyFrame(stateTime), x,
-                512, walking.getKeyFrame(0f).getRegionWidth(), -walking.getKeyFrame(0f).getRegionHeight());
     }
 
     @Override
     public void update(float delta) {
-    	pauseMenu.update(delta);
-        stateTime += delta;
-        x += delta * WALKING_SPEED;
-        if (x > 1024) {
-            x = -walking.getKeyFrame(0f).getRegionWidth();
-        }
+        render();
     }
 
     @Override
@@ -127,8 +95,7 @@ public class MainMenuState extends MyBaseGameState implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        SoundEmitter.playGlobal(click, false, screenX, screenY, 0);
-        return true;
+        return false;
     }
 
     @Override

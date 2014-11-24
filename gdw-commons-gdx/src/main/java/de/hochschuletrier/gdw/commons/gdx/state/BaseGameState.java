@@ -15,9 +15,6 @@ public class BaseGameState<T extends BaseGameState> {
         this.assetManager = assetManager;
     }
 
-    public void render() {
-    }
-
     public void update(float delta) {
     }
 

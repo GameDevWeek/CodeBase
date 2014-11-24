@@ -43,7 +43,8 @@ public class ClassUtils {
                         findClassesInDir(new File(resource.toURI()), packageName, classes);
                     } catch (URISyntaxException e) {
                         logger.error("Failed finding classes in package", e);
-                    }   break;
+                    }
+                    break;
                 case "jar":
                     findClassesInJar(resource, path, classes);
                     break;

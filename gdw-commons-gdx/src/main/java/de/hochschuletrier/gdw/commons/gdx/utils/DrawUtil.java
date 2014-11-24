@@ -187,4 +187,43 @@ public class DrawUtil {
         m.translate(-x, -y, 0);
         batch.setTransformMatrix(m);
     }
+    
+    //fixme: override spritebatch instead
+    public static void draw(Texture texture) {
+        DrawUtil.batch.draw(texture, 0, 0, texture.getWidth(), texture.getHeight(), 0, 0,
+                texture.getWidth(), texture.getHeight(), false, true);
+    }
+
+    public static void draw(Texture texture, float x, float y) {
+        DrawUtil.batch.draw(texture, x, y, texture.getWidth(), texture.getHeight(), 0, 0,
+                texture.getWidth(), texture.getHeight(), false, true);
+    }
+
+    public static void draw(Texture texture, float x, float y, float width, float height) {
+        DrawUtil.batch.draw(texture, x, y, width, height, 0, 0, texture.getWidth(),
+                texture.getHeight(), false, true);
+    }
+
+    public static void draw(Texture texture, float x, float y, float scale) {
+        DrawUtil.batch.draw(texture, x, y, texture.getWidth() * scale,
+                texture.getHeight() * scale, 0, 0, texture.getWidth(),
+                texture.getHeight(), false, true);
+    }
+
+    public static void draw(Texture texture, float x, float y, int width, int height, int srcX, int srcY) {
+        DrawUtil.batch.draw(texture, x, y, width, height, srcX, srcY, width, height,
+                false, true);
+    }
+
+    public static void draw(Texture texture, float x, float y, int width, int height, int srcX, int srcY,
+            int srcWidth, int srcHeight) {
+        DrawUtil.batch.draw(texture, x, y, width, height, srcX, srcY, srcWidth,
+                srcHeight, false, true);
+    }
+
+    public static void draw(Texture texture, float x, float y, int srcX, int srcY, float width, float height,
+            float scaleX, float scaleY, float rotation) {
+        DrawUtil.batch.draw(texture, x, y, 0, 0, width, height, scaleX,
+                scaleY, rotation, srcX, srcY, (int) width, (int) height, false, true);
+    }
 }

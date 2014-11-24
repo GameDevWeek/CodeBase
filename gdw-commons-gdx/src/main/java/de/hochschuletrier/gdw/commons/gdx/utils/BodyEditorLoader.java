@@ -52,10 +52,9 @@ public class BodyEditorLoader {
         model = readJson(str);
     }
 
-	// -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     // Public API
     // -------------------------------------------------------------------------
-
     /**
      * Creates and applies the fixtures defined in the editor. The name
      * parameter is used to retrieve the right fixture from the loaded file.

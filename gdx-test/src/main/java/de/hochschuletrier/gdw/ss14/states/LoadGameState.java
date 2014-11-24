@@ -20,7 +20,6 @@ public class LoadGameState extends MyBaseGameState {
 
     }
 
-    @Override
     public void render() {
         Main.getInstance().screenCamera.bind();
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLACK);
@@ -32,17 +31,17 @@ public class LoadGameState extends MyBaseGameState {
 
     @Override
     public void update(float delta) {
-        if (isDone) {
-            return;
+        if (!isDone) {
+            assetManager.update();
+
+            if (assetManager.getProgress() == 1) {
+                Main.getInstance().onLoadComplete();
+
+                isDone = true;
+            }
         }
 
-        assetManager.update();
-
-        if (assetManager.getProgress() == 1) {
-            Main.getInstance().onLoadComplete();
-
-            isDone = true;
-        }
+        render();
     }
 
     @Override
