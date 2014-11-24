@@ -23,19 +23,21 @@ import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader
 import de.hochschuletrier.gdw.commons.gdx.devcon.DevConsoleView;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundDistanceModel;
 import de.hochschuletrier.gdw.commons.gdx.sound.SoundEmitter;
+import de.hochschuletrier.gdw.commons.gdx.state.BaseGameState;
 import de.hochschuletrier.gdw.commons.gdx.state.StateBasedGame;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
-import de.hochschuletrier.gdw.ss14.states.GameStateEnum;
-import de.hochschuletrier.gdw.ss14.states.MyBaseGameState;
+import de.hochschuletrier.gdw.ss14.sandbox.SandboxCommand;
+import de.hochschuletrier.gdw.ss14.states.LoadGameState;
+import de.hochschuletrier.gdw.ss14.states.MainMenuState;
 
 /**
  * 
  * @author Santo Pfingsten
  */
-public class Main extends StateBasedGame<MyBaseGameState> {
+public class Main extends StateBasedGame {
 
     public static final int WINDOW_HEIGHT = 600;
     public static final int WINDOW_WIDTH = 1024;
@@ -51,7 +53,7 @@ public class Main extends StateBasedGame<MyBaseGameState> {
     private final CVarEnum<SoundEmitter.Mode> emitterMode = new CVarEnum("snd_mode", SoundEmitter.Mode.STEREO, SoundEmitter.Mode.class, 0, "sound mode");
 
     public Main() {
-        super(new MyBaseGameState());
+        super(new BaseGameState());
     }
 
     public static Main getInstance() {
@@ -102,8 +104,7 @@ public class Main extends StateBasedGame<MyBaseGameState> {
         addScreenListener(consoleView);
         inputMultiplexer.addProcessor(consoleView.getInputProcessor());
 
-        GameStateEnum.LOADING.init(assetManager);
-        GameStateEnum.LOADING.activate();
+        changeState(new LoadGameState(assetManager, this::onLoadComplete), null, null);
 
         this.console.register(distanceModel);
         distanceModel.addListener((CVar) -> distanceModel.get().activate());
@@ -112,20 +113,17 @@ public class Main extends StateBasedGame<MyBaseGameState> {
         emitterMode.addListener(this::onEmitterModeChanged);
     }
 
-    public void onLoadComplete() {
-        for (GameStateEnum state : GameStateEnum.values()) {
-            if (state != GameStateEnum.LOADING) {
-                state.init(assetManager);
-            }
-        }
-        GameStateEnum.MAINMENU.activate();
-//		GameStates.GAMEPLAY.activate(new SplitVerticalTransition(500), null);
+    private void onLoadComplete() {
+        final MainMenuState mainMenuState = new MainMenuState(assetManager);
+        addPersistentState(mainMenuState);
+        changeState(mainMenuState, null, null);
+        SandboxCommand.init(assetManager);
     }
 
     @Override
     public void dispose() {
+        super.dispose();
         DrawUtil.batch.dispose();
-        GameStateEnum.dispose();
         consoleView.dispose();
         skin.dispose();
         SoundEmitter.disposeGlobal();

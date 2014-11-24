@@ -1,15 +1,12 @@
 package de.hochschuletrier.gdw.ss14.sandbox;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.utils.Disposable;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 
-public abstract class SandboxGame implements InputProcessor {
+public abstract class SandboxGame implements InputProcessor, Disposable {
 
     public abstract void init(AssetManagerX assetManager);
-
-    public abstract void stop();
-
-    public abstract void render();
 
     public abstract void update(float delta);
 

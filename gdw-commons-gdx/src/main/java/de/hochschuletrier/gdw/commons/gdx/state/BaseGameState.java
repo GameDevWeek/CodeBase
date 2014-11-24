@@ -1,30 +1,24 @@
 package de.hochschuletrier.gdw.commons.gdx.state;
 
-import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * The most basic game state
  *
  * @author Santo Pfingsten
  */
-public class BaseGameState<T extends BaseGameState> {
-
-    protected AssetManagerX assetManager;
-
-    public void init(AssetManagerX assetManager) {
-        this.assetManager = assetManager;
-    }
+public class BaseGameState implements Disposable {
 
     public void update(float delta) {
     }
 
-    public void onEnter(T previousState) {
+    public void onEnter(BaseGameState previousState) {
     }
 
     public void onEnterComplete() {
     }
 
-    public void onLeave(T nextState) {
+    public void onLeave(BaseGameState nextState) {
     }
 
     public void onLeaveComplete() {
