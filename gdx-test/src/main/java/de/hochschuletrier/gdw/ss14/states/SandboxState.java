@@ -55,7 +55,6 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
         Main.getInstance().console.register(sandbox_f);
     }
 
-    @Override
     public void render() {
         Main.getInstance().screenCamera.bind();
 
@@ -71,6 +70,7 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
         game.update(delta);
 
         fpsCalc.addFrame();
+        render();
     }
 
     @Override
@@ -84,6 +84,14 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
     public void onLeave(MyBaseGameState nextState) {
         logger.info("leaving sandbox");
         Main.inputMultiplexer.removeProcessor(this);
+    }
+
+    @Override
+    public void onLeaveComplete() {
+        if (game != null) {
+            game.stop();
+            game = null;
+        }
     }
 
     @Override
@@ -141,9 +149,10 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
 
         @Override
         public void complete(String prefix, List<String> results) {
-            for(String sbc:sandboxClasses.keySet()) {
-                if(sbc.startsWith(prefix))
+            for (String sbc : sandboxClasses.keySet()) {
+                if (sbc.startsWith(prefix)) {
                     results.add(sbc);
+                }
             }
         }
 
@@ -157,7 +166,7 @@ public class SandboxState extends MyBaseGameState implements InputProcessor {
             } else {
                 try {
                     if (game != null) {
-                        game.dispose();
+                        game.stop();
                     }
                     game = (SandboxGame) clazz.newInstance();
                     game.init(assetManager);

@@ -75,7 +75,7 @@ public class AnimationExtendedLoader extends
         for (int i = 0; i < parameter.rows; i++) {
             for (int j = 0; j < parameter.columns; j++) {
                 frames[index] = tmp[i][j];
-                frames[index].flip(false, true);
+                frames[index].flip(false, false);
                 index++;
             }
         }

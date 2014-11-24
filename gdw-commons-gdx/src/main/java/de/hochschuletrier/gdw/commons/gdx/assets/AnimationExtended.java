@@ -18,7 +18,6 @@ public class AnimationExtended {
     }
 
     final TextureRegion[] keyFrames;
-    float[] frameDurations;
     Frame[] frameTimes;
     public float animationDuration = 0f;
     private final PlayMode playMode;
@@ -28,7 +27,6 @@ public class AnimationExtended {
     public AnimationExtended(PlayMode playMode, float[] frameDurations,
             TextureRegion... keyFrames) {
         this.keyFrames = keyFrames;
-        this.frameDurations = frameDurations;
         this.playMode = playMode;
         int index = 0;
 
@@ -36,10 +34,14 @@ public class AnimationExtended {
             t.flip(false, true);
         }
 
-        for (float f : frameDurations) {
-            frames.put(new Frame(animationDuration, f), index);
-            animationDuration += f;
-            ++index;
+        while(index<keyFrames.length) {
+            for (float f : frameDurations) {
+                frames.put(new Frame(animationDuration, f), index);
+                animationDuration += f;
+                ++index;
+                if(index >= keyFrames.length)
+                    break;
+            }
         }
     }
 
@@ -50,7 +52,7 @@ public class AnimationExtended {
         }
         return keyFrames[frameNumber];
     }
-    
+
     public PlayMode getPlayMode() {
         return playMode;
     }

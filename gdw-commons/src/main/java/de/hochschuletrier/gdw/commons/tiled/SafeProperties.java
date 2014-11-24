@@ -199,6 +199,9 @@ public class SafeProperties {
     public String getString(String key, String defaultValue) {
         SafeProperty property = properties.get(key);
         if (property == null) {
+            if (defaults != null) {
+                return defaults.getString(key, defaultValue);
+            }
             return defaultValue;
         }
         return property.getValue();

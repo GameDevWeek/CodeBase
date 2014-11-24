@@ -1,11 +1,11 @@
 {
     "textStyles" : {
-        "credit_titel": { "color": "F8BB08", "font": "oswald", "size": 32, "align": "center" },
-        "credit_titel_l": { "color": "F8BB08", "font": "oswald", "size": 32, "align": "right" },
-        "credit_titel_r": { "color": "F8BB08", "font": "oswald", "size": 32, "align": "left" },
-        "teilnehmer": { "color": "FFFFFF", "font": "oswald", "size": 32, "align": "center" },
-        "teilnehmer_l": { "color": "FFFFFF", "font": "oswald", "size": 32, "align": "right" },
-        "teilnehmer_r": { "color": "FFFFFF", "font": "oswald", "size": 32, "align": "left" }
+        "credit_titel": { "color": "F8BB08", "font": "verdana", "size": 32, "align": "center" },
+        "credit_titel_l": { "color": "F8BB08", "font": "verdana", "size": 32, "align": "right" },
+        "credit_titel_r": { "color": "F8BB08", "font": "verdana", "size": 32, "align": "left" },
+        "teilnehmer": { "color": "FFFFFF", "font": "verdana", "size": 32, "align": "center" },
+        "teilnehmer_l": { "color": "FFFFFF", "font": "verdana", "size": 32, "align": "right" },
+        "teilnehmer_r": { "color": "FFFFFF", "font": "verdana", "size": 32, "align": "left" }
     },
     "paths" : {
         "text_path": {
@@ -45,7 +45,7 @@
                 { "type": "text", "style" : "teilnehmer_r", "text": "  Saskia Hohmann", "delay": "0" },
                 
                 { "type": "text", "group" : "title", "style" : "credit_titel_l", "text": "Design:  ", "delay": "2200" },
-                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Enitäten", "delay": "0" },
+                { "type": "text", "group" : "title", "style" : "credit_titel_r", "text": "  Entitäten", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Julia Wolf  ", "delay": "900" },
                 { "type": "text", "style" : "teilnehmer_r", "text": "  Maxine Hammen", "delay": "0" },
                 { "type": "text", "style" : "teilnehmer_l", "text": "Johannes Grewer  ", "delay": "900" },

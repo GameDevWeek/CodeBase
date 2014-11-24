@@ -1,11 +1,5 @@
 package de.hochschuletrier.gdw.commons.gdx.assets;
 
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TiledMapLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AsynchronousAssetLoaderX;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TrueTypeFontLoader;
-
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
@@ -23,13 +17,17 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationLoader;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AsynchronousAssetLoaderX;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TiledMapLoader;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TrueTypeFontLoader;
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 /**
  * 
@@ -37,7 +35,8 @@ import java.util.Map.Entry;
  */
 public class AssetManagerX extends AssetManager {
 
-    private static final HashMap<Class, HashMap<String, String>> assetMaps = new HashMap();
+    private final HashMap<Class, HashMap<String, String>> assetMaps = new HashMap();
+    private final Random random = new Random();
 
     public AssetManagerX() {
         this(new InternalFileHandleResolver());
@@ -57,6 +56,31 @@ public class AssetManagerX extends AssetManager {
             String filename = map.get(name);
             if (filename != null) {
                 return super.get(filename, type);
+            }
+        }
+        return null;
+    }
+
+    public <T> T getByNameWithRandom(String name, Class<T> type) {
+        HashMap<String, String> map = assetMaps.get(type);
+        if (map != null) {
+            if(name.endsWith("/")) {
+                int numFiles = 0;
+                String filename;
+                do {
+                    filename = map.get(name + numFiles);
+                    numFiles++;
+                } while(filename != null);
+                if (numFiles > 0) {
+                    int index = random.nextInt(numFiles);
+                    filename = map.get(name + index);
+                    return super.get(filename, type);
+                }
+            } else {
+                String filename = map.get(name);
+                if (filename != null) {
+                    return super.get(filename, type);
+                }
             }
         }
         return null;
@@ -127,7 +151,7 @@ public class AssetManagerX extends AssetManager {
     }
 
     public Sound getSound(String name) {
-        return getByName(name, Sound.class);
+        return getByNameWithRandom(name, Sound.class);
     }
 
     public Pixmap getPixmap(String name) {

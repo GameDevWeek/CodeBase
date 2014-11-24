@@ -62,13 +62,15 @@ public class Transition<T extends Transition> {
         return (T) this;
     }
 
-    public final void render(ScreenCamera screenCamera, BaseGameState from, BaseGameState to) {
+    public final void render(float deltaTime, ScreenCamera screenCamera, BaseGameState from, BaseGameState to) {
+        update(deltaTime);
+
         fromFbo.begin();
-        from.render();
+        from.update(deltaTime);
         DrawUtil.batch.flush();
         fromFbo.end();
         toFbo.begin();
-        to.render();
+        to.update(deltaTime);
         DrawUtil.batch.flush();
         toFbo.end();
 

@@ -1,141 +1,155 @@
 package de.hochschuletrier.gdw.ss14.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import de.hochschuletrier.gdw.commons.devcon.cvar.CVarBool;
+import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.tiled.LayerObject;
-import de.hochschuletrier.gdw.commons.tiled.TiledMap;
-import de.hochschuletrier.gdw.ss14.game.ecs.EntityManager;
-import de.hochschuletrier.gdw.ss14.game.ecs.components.CameraComponent;
-import de.hochschuletrier.gdw.ss14.game.ecs.components.PhysicsComponent;
-import de.hochschuletrier.gdw.ss14.game.ecs.components.TileMapRenderingComponent;
-import de.hochschuletrier.gdw.ss14.game.ecs.systems.CameraSystem;
-import de.hochschuletrier.gdw.ss14.game.ecs.systems.ECSystem;
-import de.hochschuletrier.gdw.ss14.game.ecs.systems.TileMapRenderingSystem;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixComponentAwareContactListener;
+import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
+import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
+import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixModifierComponent;
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixDebugRenderSystem;
+import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
+import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.game.components.AnimationComponent;
+import de.hochschuletrier.gdw.ss14.game.components.ImpactSoundComponent;
+import de.hochschuletrier.gdw.ss14.game.components.PositionComponent;
+import de.hochschuletrier.gdw.ss14.game.components.TriggerComponent;
+import de.hochschuletrier.gdw.ss14.game.contactlisteners.ImpactSoundListener;
+import de.hochschuletrier.gdw.ss14.game.contactlisteners.TriggerListener;
+import de.hochschuletrier.gdw.ss14.game.systems.AnimationRenderSystem;
+import de.hochschuletrier.gdw.ss14.game.systems.UpdatePositionSystem;
+import de.hochschuletrier.gdw.ss14.game.utils.PhysixUtil;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Comparator;
-
-public class Game {
+public class Game extends InputAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
+    private final CVarBool physixDebug = new CVarBool("physix_debug", true, 0, "Draw physix debug");
 
-    private static SystemComparator comparator = new SystemComparator();
-    
-    private Array<ECSystem> systems;
-    private EntityManager entityManager;
-    
-    private PhysicsComponent testPhysics = new PhysicsComponent();
+    private final PooledEngine engine = new PooledEngine(
+            GameConstants.ENTITY_POOL_INITIAL_SIZE, GameConstants.ENTITY_POOL_MAX_SIZE,
+            GameConstants.COMPONENT_POOL_INITIAL_SIZE, GameConstants.COMPONENT_POOL_MAX_SIZE
+    );
+
+    private final PhysixSystem physixSystem = new PhysixSystem(GameConstants.BOX2D_SCALE, GameConstants.STEP_SIZE,
+            GameConstants.VELOCITY_ITERATIONS, GameConstants.POSITION_ITERATIONS, GameConstants.PRIORITY_PHYSIX
+    );
+    private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(GameConstants.PRIORITY_DEBUG_WORLD);
+    private final AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(GameConstants.PRIORITY_ANIMATIONS);
+    private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
+
+    private Sound impactSound;
+    private AnimationExtended ballAnimation;
 
     public Game() {
-        
-        entityManager = new EntityManager();
-        systems = new Array<ECSystem>();
     }
 
     public void init(AssetManagerX assetManager) {
+        Main.getInstance().console.register(physixDebug);
+        physixDebug.addListener((CVar)->physixDebugRenderSystem.setProcessing(physixDebug.get()));
         
-        initializeSystems();        
-        initializeTestComponents();
-    }
-    
-    private void initializeSystems() {
-        
-        // Game logic related systems
-        addSystem( new CameraSystem(entityManager, 1024) );
-        
-        // Rendering related systems
-        addSystem( new TileMapRenderingSystem(entityManager, 0) );        
-    }
-    
-    private void initializeTestComponents() {
-        
-        int levelEntity = entityManager.createEntity();
-        
-        TileMapRenderingComponent newTmrComp = new TileMapRenderingComponent(); 
-        newTmrComp.map = loadMap("data/maps/demo.tmx");
-        newTmrComp.renderedLayers.add(0);
-        newTmrComp.renderedLayers.add(1);
-        
-        CameraComponent newCamComp = new CameraComponent();
-        newCamComp.cameraZoom = 1.0f;
-        
-        entityManager.addComponent(levelEntity, newTmrComp);
-        entityManager.addComponent(levelEntity, newCamComp);
-        entityManager.addComponent(levelEntity, testPhysics);
-        
-    }
-    
-    public void addSystem(ECSystem system) {
-        
-        systems.add(system);
-        systems.sort(comparator);
-    }
-    
-    public void removeSystem(ECSystem system) {
-        
-        systems.removeValue(system, true);
+        impactSound = assetManager.getSound("click");
+        ballAnimation = assetManager.getAnimation("ball");
+
+        addSystems();
+        addContactListeners();
+        setupPhysixWorld();
+
+        Main.inputMultiplexer.addProcessor(this);
     }
 
-
-    public TiledMap loadMap(String filename) {
-        
-        try {
-            return new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException(
-                    "Map konnte nicht geladen werden: " + filename);
-        }
+    private void addSystems() {
+        engine.addSystem(physixSystem);
+        engine.addSystem(physixDebugRenderSystem);
+        engine.addSystem(animationRenderSystem);
+        engine.addSystem(updatePositionSystem);
     }
-    
-    public TiledMap getMap() {
-        
-        return null;
+
+    private void addContactListeners() {
+        PhysixComponentAwareContactListener contactListener = new PhysixComponentAwareContactListener();
+        physixSystem.getWorld().setContactListener(contactListener);
+        contactListener.addListener(ImpactSoundComponent.class, new ImpactSoundListener());
+        contactListener.addListener(TriggerComponent.class, new TriggerListener());
+    }
+
+    private void setupPhysixWorld() {
+        physixSystem.setGravity(0, 24);
+        PhysixBodyDef bodyDef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixSystem).position(410, 800).fixedRotation(false);
+        Body body = physixSystem.getWorld().createBody(bodyDef);
+        body.createFixture(new PhysixFixtureDef(physixSystem).density(1).friction(0.5f).shapeBox(800, 20));
+        PhysixUtil.createHollowCircle(physixSystem, 180, 180, 150, 30, 6);
+
+        createTrigger(410, 1000, 1600, 40, (Entity entity) -> {
+            engine.removeEntity(entity);
+        });
     }
 
     public void update(float delta) {
-        
-        if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-            
-            //testPhysics.position = testPhysics.position.add( new Vector2(100.0f, 0.0f) );
-            testPhysics.position.add(new Vector2(10.0f, 0.0f));
-        }
-        else
-            testPhysics.position = new Vector2(0.0f, 0.0f);
-        
-        for (ECSystem system : systems) {
-            system.update(delta);
-        }
+        Main.getInstance().screenCamera.bind();
+        engine.update(delta);
     }
 
-    public void render() {
-        
-        for (ECSystem system : systems) {
-            system.render();
-        }
+    public void createTrigger(float x, float y, float width, float height, Consumer<Entity> consumer) {
+        Entity entity = engine.createEntity();
+        PhysixModifierComponent modifyComponent = engine.createComponent(PhysixModifierComponent.class);
+        entity.add(modifyComponent);
+
+        TriggerComponent triggerComponent = engine.createComponent(TriggerComponent.class);
+        triggerComponent.consumer = consumer;
+        entity.add(triggerComponent);
+
+        modifyComponent.schedule(() -> {
+            PhysixBodyComponent bodyComponent = engine.createComponent(PhysixBodyComponent.class);
+            PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.StaticBody, physixSystem).position(x, y);
+            bodyComponent.init(bodyDef, physixSystem, entity);
+            PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem).sensor(true).shapeBox(width, height);
+            bodyComponent.createFixture(fixtureDef);
+            entity.add(bodyComponent);
+        });
+        engine.addEntity(entity);
     }
 
-    private static class SystemComparator implements Comparator<ECSystem>
-    {
+    public void createBall(float x, float y, float radius) {
+        Entity entity = engine.createEntity();
+        entity.add(engine.createComponent(PositionComponent.class));
+        PhysixModifierComponent modifyComponent = engine.createComponent(PhysixModifierComponent.class);
+        entity.add(modifyComponent);
 
-        @Override
-        public int compare(ECSystem a, ECSystem b) {
-            int result;
+        ImpactSoundComponent soundComponent = engine.createComponent(ImpactSoundComponent.class);
+        soundComponent.init(impactSound, 20, 20, 100);
+        entity.add(soundComponent);
 
-            if (a.getPriority() > b.getPriority()) {
-                result = 1;
-            }
-            else if (a.getPriority() == b.getPriority()) {
-                result = 0;
-            }
-            else {
-                result = -1;
-            }
+        AnimationComponent animComponent = engine.createComponent(AnimationComponent.class);
+        animComponent.animation = ballAnimation;
+        entity.add(animComponent);
 
-            return result;
-        }
+        modifyComponent.schedule(() -> {
+            PhysixBodyComponent bodyComponent = engine.createComponent(PhysixBodyComponent.class);
+            PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.DynamicBody, physixSystem)
+                    .position(x, y).fixedRotation(false);
+            bodyComponent.init(bodyDef, physixSystem, entity);
+            PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem)
+                    .density(5).friction(0.2f).restitution(0.4f).shapeCircle(radius);
+            bodyComponent.createFixture(fixtureDef);
+            entity.add(bodyComponent);
+            bodyComponent.applyImpulse(0, 50000);
+        });
+        engine.addEntity(entity);
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        createBall(screenX, screenY, 30);
+        return true;
     }
 }
