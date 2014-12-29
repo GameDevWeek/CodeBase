@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.state.ScreenListener;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import com.badlogic.gdx.utils.StringBuilder;
@@ -26,7 +25,6 @@ import de.hochschuletrier.gdw.commons.devcon.DevConsole;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVar;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarFloat;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarString;
-import de.hochschuletrier.gdw.commons.devcon.cvar.ICVarListener;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -129,7 +127,7 @@ public class DevConsoleView implements ScreenListener {
         };
     }
 
-    public void init(AssetManagerX assetManager, Skin skin) {
+    public void init(Skin skin) {
         this.skin = skin;
 
         stage = new Stage(new ScreenViewport(), DrawUtil.batch);

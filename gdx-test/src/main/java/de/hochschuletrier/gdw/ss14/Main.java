@@ -100,7 +100,7 @@ public class Main extends StateBasedGame {
         loadAssetLists();
         setupGdx();
         skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
-        consoleView.init(assetManager, skin);
+        consoleView.init(skin);
         addScreenListener(consoleView);
         inputMultiplexer.addProcessor(consoleView.getInputProcessor());
 
