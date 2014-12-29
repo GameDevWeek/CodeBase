@@ -3,7 +3,8 @@ package de.hochschuletrier.gdw.commons.gdx.sound;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
-import de.hochschuletrier.gdw.commons.utils.recycler.Recycler;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.ReflectionPool;
 import java.util.ArrayList;
 import java.util.Iterator;
 import static org.lwjgl.openal.AL10.AL_POSITION;
@@ -26,7 +27,7 @@ public class SoundEmitter implements Disposable {
     private static float WORLD_SCALE = 1 / 1000.0f;
     private static final SoundEmitter globalEmitter = new SoundEmitter();
 
-    protected static final Recycler<SoundInstance> recycler = new Recycler(SoundInstance.class);
+    protected static final Pool<SoundInstance> pool = new ReflectionPool(SoundInstance.class);
     protected final ArrayList<SoundInstance> instances = new ArrayList();
     protected static Mode mode = Mode.STEREO;
     private static final Vector3 listenerPosition = new Vector3();
@@ -81,7 +82,7 @@ public class SoundEmitter implements Disposable {
             SoundInstance si = it.next();
             if (si.isStopped()) {
                 it.remove();
-                recycler.free(si);
+                pool.free(si);
             }
         }
     }
@@ -101,7 +102,7 @@ public class SoundEmitter implements Disposable {
     }
 
     public SoundInstance play(Sound sound, boolean loop) {
-        SoundInstance si = recycler.get();
+        SoundInstance si = pool.obtain();
         si.init(sound, loop);
         instances.add(si);
         return si;
@@ -111,7 +112,7 @@ public class SoundEmitter implements Disposable {
     public void dispose() {
         for (SoundInstance si : instances) {
             si.stop();
-            recycler.free(si);
+            pool.free(si);
         }
         instances.clear();
     }
