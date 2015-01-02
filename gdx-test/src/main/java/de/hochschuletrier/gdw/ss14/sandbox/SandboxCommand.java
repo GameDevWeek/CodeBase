@@ -20,7 +20,8 @@ public class SandboxCommand {
     public static void init(AssetManagerX assetManager) {
         SandboxCommand.assetManager = assetManager;
         try {
-            for (Class clazz : ClassUtils.findClassesInPackage("de.hochschuletrier.gdw.ss14.sandbox")) {
+            String packageName = SandboxCommand.class.getPackage().getName();
+            for (Class clazz : ClassUtils.findClassesInPackage(packageName)) {
                 if (!Modifier.isAbstract(clazz.getModifiers()) && SandboxGame.class.isAssignableFrom(clazz)) {
                     sandboxClasses.put(clazz.getSimpleName(), clazz);
                 }
