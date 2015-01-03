@@ -16,8 +16,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Reading Json to objects
@@ -25,8 +23,6 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class JacksonReader {
-
-    private static final Logger logger = LoggerFactory.getLogger(JacksonReader.class);
 
     private static final JsonFactory factory = new JsonFactory();
 
@@ -163,13 +159,13 @@ public class JacksonReader {
                 field.set(object, readList(listAnnotation.value(), parser));
                 continue;
             }
-            
+
             JacksonMapMap mapMapAnnotation = (JacksonMapMap) field.getAnnotation(JacksonMapMap.class);
             if (mapMapAnnotation != null) {
                 field.set(object, readObjectMapMap(mapMapAnnotation.value(), parser));
                 continue;
             }
-            
+
             JacksonMap mapAnnotation = (JacksonMap) field.getAnnotation(JacksonMap.class);
             if (mapAnnotation != null) {
                 field.set(object, readObjectMap(mapAnnotation.value(), parser));
@@ -189,7 +185,6 @@ public class JacksonReader {
             } catch (IllegalArgumentException ex) {
                 for (Enum e : ((Class<Enum>) clazz).getEnumConstants()) {
                     if (e.name().compareToIgnoreCase(name) == 0) {
-                        logger.warn("Enum value " + name + " is not using the correct case. Should be: " + e.name());
                         return (T) e;
                     }
                 }
