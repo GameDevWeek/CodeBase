@@ -1,11 +1,11 @@
 {
     "textStyles" : {
-        "credit_titel": { "color": "F8BB08", "font": "verdana", "size": 32, "align": "center" },
-        "credit_titel_l": { "color": "F8BB08", "font": "verdana", "size": 32, "align": "right" },
-        "credit_titel_r": { "color": "F8BB08", "font": "verdana", "size": 32, "align": "left" },
-        "teilnehmer": { "color": "FFFFFF", "font": "verdana", "size": 32, "align": "center" },
-        "teilnehmer_l": { "color": "FFFFFF", "font": "verdana", "size": 32, "align": "right" },
-        "teilnehmer_r": { "color": "FFFFFF", "font": "verdana", "size": 32, "align": "left" }
+        "credit_titel": { "color": "F8BB08", "font": "verdana_32", "align": "center" },
+        "credit_titel_l": { "color": "F8BB08", "font": "verdana_32", "align": "right" },
+        "credit_titel_r": { "color": "F8BB08", "font": "verdana_32", "align": "left" },
+        "teilnehmer": { "color": "FFFFFF", "font": "verdana_32", "align": "center" },
+        "teilnehmer_l": { "color": "FFFFFF", "font": "verdana_32", "align": "right" },
+        "teilnehmer_r": { "color": "FFFFFF", "font": "verdana_32", "align": "left" }
     },
     "paths" : {
         "text_path": {

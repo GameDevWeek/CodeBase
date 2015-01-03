@@ -21,7 +21,6 @@ import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AsynchronousAssetLoaderX;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TiledMapLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TrueTypeFontLoader;
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 import java.util.HashMap;
@@ -47,7 +46,6 @@ public class AssetManagerX extends AssetManager {
         setLoader(AnimationExtended.class, new AnimationExtendedLoader(resolver));
         setLoader(Animation.class, new AnimationLoader(resolver));
         setLoader(TiledMap.class, new TiledMapLoader(resolver));
-        setLoader(TrueTypeFont.class, new TrueTypeFontLoader(resolver));
     }
 
     public <T> T getByName(String name, Class<T> type) {
@@ -108,38 +106,8 @@ public class AssetManagerX extends AssetManager {
         return getByName(name, AnimationExtended.class);
     }
 
-    /**
-     * Überprüft ob der Font bereits existiert. Falls nicht wird versucht ihn
-     * aus dem TrueTypeFont mit gegebener Größe zu erzeugen, falls ein
-     * gleichnamiges ttf File existiert.
-     * 
-     * @param name
-     *            name of the font
-     * @param size
-     *            desired font size
-     * @return font if available
-     */
-    public BitmapFont getFont(String name, int size) {
-        /* Check ob ein passender BitmapFont per JSON definiert. */
-        String fullyQualifiedName = name + "_" + size;
-        BitmapFont f = getByName(fullyQualifiedName, BitmapFont.class);
-        if (f == null) {
-            /*
-             * Check ob ein passender BitmapFont bereits generiert wurde.
-             * Generierte Fonts werden nicht in der assetMap abgelegt!
-             */
-            if (isLoaded(fullyQualifiedName)) {
-                f = get(name, BitmapFont.class);
-            } else {
-                /*
-                 * Versuch den Font aus passendem TrueType zu generieren. Wirft
-                 * Fehler falls kein TrueType mit passendem Name gefunden
-                 */
-                f = generateFont(name, size);
-                addAsset(fullyQualifiedName, BitmapFont.class, f);
-            }
-        }
-        return f;
+    public BitmapFont getFont(String name) {
+        return getByName(name, BitmapFont.class);
     }
 
     public TiledMap getTiledMap(String name) {

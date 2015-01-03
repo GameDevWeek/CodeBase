@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.utils.ColorUtil;
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
@@ -26,21 +27,25 @@ public class SceneAnimator {
     private final HashMap<String, TextStyle> textStyles = new HashMap();
     private final HashMap<String, Queue> queues = new HashMap();
     private final HashMap<String, Path<Vector2>> paths = new HashMap();
+    
+    public interface Getter {
+        BitmapFont getFont(String name);
+    }
 
-    public SceneAnimator(AssetManagerX assetManager, String filename) throws IOException, UnsupportedEncodingException,
+    public SceneAnimator(Getter getter, String filename) throws IOException, UnsupportedEncodingException,
             NoSuchFieldException, IllegalArgumentException, IllegalAccessException,
             InstantiationException, ParseException {
         SceneAnimatorJson credits = JacksonReader.read(filename, SceneAnimatorJson.class);
 
-        initStyles(credits, assetManager);
+        initStyles(credits, getter);
         initPaths(credits);
         initQueues(credits);
     }
 
-    private void initStyles(SceneAnimatorJson credits, AssetManagerX assetManager) {
+    private void initStyles(SceneAnimatorJson credits, Getter getter) {
         for (Map.Entry<String, SceneAnimatorJson.TextStyle> entry : credits.textStyles.entrySet()) {
             SceneAnimatorJson.TextStyle value = entry.getValue();
-            BitmapFont font = assetManager.getFont(value.font, value.size);
+            BitmapFont font = getter.getFont(value.font);
             Color color = ColorUtil.fromHexString(value.color);
             textStyles.put(entry.getKey(), new TextStyle(font, color, value.align));
         }

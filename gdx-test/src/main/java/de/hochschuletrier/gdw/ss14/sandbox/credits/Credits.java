@@ -26,7 +26,7 @@ public class Credits extends SandboxGame {
     @Override
     public void init(AssetManagerX assetManager) {
         try {
-            sceneAnimator = new SceneAnimator(assetManager, "data/json/credits.json");
+            sceneAnimator = new SceneAnimator(assetManager::getFont, "data/json/credits.json");
         } catch (Exception ex) {
             logger.error("Error loading credits", ex);
         }
