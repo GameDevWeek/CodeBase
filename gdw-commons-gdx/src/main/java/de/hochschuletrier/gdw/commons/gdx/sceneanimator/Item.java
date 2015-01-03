@@ -14,6 +14,7 @@ public abstract class Item {
     protected final Vector2 position = new Vector2();
 
     public String group;
+    protected Path<Vector2> path;
     protected float startTime;
     protected float originalStartTime;
     protected float pathTime;
@@ -49,7 +50,7 @@ public abstract class Item {
         this.angle = angle;
     }
 
-    public void update(Path<Vector2> path, float deltaTime) {
+    public void update(float deltaTime) {
         if (startTime > 0) {
             startTime -= deltaTime;
             if (startTime < 0) {
@@ -81,7 +82,7 @@ public abstract class Item {
 
     public abstract void startAnimation(Animation animation);
 
-    boolean isDone(Path path) {
+    boolean isDone() {
         return path == null || pathTime > path.getTotalTime();
     }
 }

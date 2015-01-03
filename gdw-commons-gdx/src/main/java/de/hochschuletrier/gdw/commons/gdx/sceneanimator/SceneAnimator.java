@@ -71,14 +71,13 @@ public class SceneAnimator {
 
     private void initQueues(SceneAnimatorJson credits) {
         Vector2 temp = new Vector2();
-        Item item;
         TextStyle style;
-        float itemStartTime = 0;
         float startTime, angle, opacity;
         String group;
         for (Map.Entry<String, SceneAnimatorJson.Queue> entry : credits.queues.entrySet()) {
             SceneAnimatorJson.Queue value = entry.getValue();
 
+            float itemStartTime = 0;
             ArrayList<Item> items = new ArrayList();
             for (SceneAnimatorJson.Item itemData : value.items) {
                 startTime = itemData.delay != null ? (itemData.delay * 0.001f) : 0;
@@ -88,6 +87,7 @@ public class SceneAnimator {
 
                 itemStartTime += startTime;
 
+                Item item = null;
                 switch (itemData.type) {
                     case TEXT:
                         style = textStyles.get(itemData.style);
@@ -96,10 +96,13 @@ public class SceneAnimator {
                         if (itemData.x != null && itemData.y != null) {
                             item.setPosition(temp.set(itemData.x, itemData.y));
                         }
-                        items.add(item);
                         break;
                     case SPRITE:
                         break;
+                }
+                if(item != null) {
+                    item.path = (itemData.path != null) ? paths.get(itemData.path) : null;
+                    items.add(item);
                 }
             }
 
@@ -123,8 +126,7 @@ public class SceneAnimator {
             }
 
             startTime = value.time != null ? (value.time * 0.001f) : 0;
-            Path<Vector2> path = (value.path != null) ? paths.get(value.path) : null;
-            Queue queue = new Queue(startTime, path, items, animations);
+            Queue queue = new Queue(startTime, items, animations);
             queues.put(entry.getKey(), queue);
         }
 

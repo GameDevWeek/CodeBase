@@ -43,7 +43,6 @@ public class SceneAnimatorJson {
     public static class Queue {
 
         public Integer time;
-        public String path;
         public String next;
         public String finalNext;
         @JacksonList(Item.class)
@@ -70,6 +69,7 @@ public class SceneAnimatorJson {
 
     public static class Item {
 
+        public String path;
         public String group;
         public Float opacity;
         public ItemType type;
