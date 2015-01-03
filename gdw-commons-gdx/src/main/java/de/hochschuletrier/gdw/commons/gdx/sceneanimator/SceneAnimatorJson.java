@@ -23,7 +23,6 @@ public class SceneAnimatorJson {
 
         public String color;
         public String font;
-        public Integer size;
         public TextAlign align;
     }
 

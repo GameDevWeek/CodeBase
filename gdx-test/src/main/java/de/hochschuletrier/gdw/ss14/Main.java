@@ -77,10 +77,7 @@ public class Main extends StateBasedGame {
                 AnimationExtendedLoader.AnimationExtendedParameter.class);
         BitmapFontParameter fontParam = new BitmapFontParameter();
         fontParam.flip = true;
-        assetManager.loadAssetList("data/json/fonts_bitmap.json", BitmapFont.class,
-                fontParam);
-        assetManager.loadAssetList("data/json/fonts_truetype.json", TrueTypeFont.class,
-                null);
+        assetManager.loadAssetList("data/json/fonts.json", BitmapFont.class, fontParam);
     }
 
     private void setupGdx() {

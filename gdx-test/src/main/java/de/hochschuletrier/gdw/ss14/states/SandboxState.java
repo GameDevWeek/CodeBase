@@ -29,7 +29,7 @@ public class SandboxState extends BaseGameState implements InputProcessor {
     private final BitmapFont font;
 
     public SandboxState(AssetManagerX assetManager, SandboxGame game) {
-        font = assetManager.getFont("verdana", 32);
+        font = assetManager.getFont("verdana_32");
         this.game = game;
     }
 
@@ -43,6 +43,7 @@ public class SandboxState extends BaseGameState implements InputProcessor {
 
         game.update(delta);
         Main.getInstance().screenCamera.bind();
+        font.setColor(Color.WHITE);
         font.draw(DrawUtil.batch, String.format("%.2f FPS", fpsCalc.getFps()), 0, 0);
     }
 
