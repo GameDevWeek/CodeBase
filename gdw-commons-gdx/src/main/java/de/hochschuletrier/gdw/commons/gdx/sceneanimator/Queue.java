@@ -11,16 +11,14 @@ public class Queue {
 
     protected final float originalStartTime;
     protected float startTime;
-    protected final Path<Vector2> path;
     public Queue next;
     public Queue finalNext;
     protected final ArrayList<Item> items;
     public final ArrayList<Animation> animations;
 
-    public Queue(float time, Path<Vector2> path, ArrayList<Item> items, ArrayList<Animation> animations) {
+    public Queue(float time, ArrayList<Item> items, ArrayList<Animation> animations) {
         startTime = time;
         originalStartTime = time;
-        this.path = path;
         this.items = items;
         this.animations = animations;
         reset();
@@ -59,7 +57,7 @@ public class Queue {
         if (startTime == 0) {
             // update items
             for (Item item : items) {
-                item.update(path, delta);
+                item.update(delta);
             }
         }
     }
@@ -70,7 +68,7 @@ public class Queue {
             done = true;
             // update items
             for (Item item : items) {
-                if (!item.isDone(path)) {
+                if (!item.isDone()) {
                     done = false;
                     break;
                 }

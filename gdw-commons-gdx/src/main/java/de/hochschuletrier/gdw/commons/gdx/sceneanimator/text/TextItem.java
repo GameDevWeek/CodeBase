@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Animation;
 import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Item;
-import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Path;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,7 +29,7 @@ public class TextItem extends Item {
         originalText = text;
         shownText = text;
         this.style = style;
-        if (TextAlign.LEFT != style.align) {
+        if (style.align != TextAlign.LEFT) {
             BitmapFont.TextBounds bounds = style.font.getBounds(text);
             if (style.align == TextAlign.RIGHT) {
                 xOffset = -bounds.width;
@@ -46,8 +45,8 @@ public class TextItem extends Item {
     }
 
     @Override
-    public void update(Path<Vector2> path, float delta) {
-        super.update(path, delta);
+    public void update(float delta) {
+        super.update(delta);
 
         if (startTime == 0) {
             animationTime += delta;

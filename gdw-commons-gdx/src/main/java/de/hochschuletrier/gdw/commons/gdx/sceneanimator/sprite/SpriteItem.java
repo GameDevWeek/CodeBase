@@ -3,11 +3,9 @@ package de.hochschuletrier.gdw.commons.gdx.sceneanimator.sprite;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Animation;
 import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Item;
-import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Path;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 
 /**
@@ -27,8 +25,8 @@ public class SpriteItem extends Item {
     }
 
     @Override
-    public void update(Path<Vector2> path, float deltaTime) {
-        super.update(path, deltaTime);
+    public void update(float deltaTime) {
+        super.update(deltaTime);
 
         animationTime += deltaTime;
     }
