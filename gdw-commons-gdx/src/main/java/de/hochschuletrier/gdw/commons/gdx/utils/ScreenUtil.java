@@ -9,13 +9,17 @@ import com.badlogic.gdx.Graphics;
  * @author Santo Pfingsten
  */
 public class ScreenUtil {
+    
+    private static int lastWidth = 800;
+    private static int lastHeight = 600;
 
     public static void toggleFullscreen() {
 
         if (Gdx.graphics.isFullscreen()) {
-            // fixme: last window size ?
-            Gdx.graphics.setDisplayMode(1024, 768, false);
+            Gdx.graphics.setDisplayMode(lastWidth, lastHeight, false);
         } else {
+            lastWidth = Gdx.graphics.getWidth();
+            lastHeight = Gdx.graphics.getHeight();
             Graphics.DisplayMode mode = Gdx.graphics.getDesktopDisplayMode();
             Gdx.graphics.setDisplayMode(mode.width, mode.height, true);
         }
