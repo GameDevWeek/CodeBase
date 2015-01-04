@@ -149,7 +149,8 @@
                 { "time": 0, "animation": "construct_type", "animationTime": 200, "group": "title",
                     "minRadius" : 60, "maxRadius" : 60,
                     "minAngle" : -90, "maxAngle" : -90,
-                    "minCurveAngle": 15, "maxCurveAngle": 45
+                    "minCurveAngle": 15, "maxCurveAngle": 45,
+                    "trailMaxSteps": 2, "trailStepTime": 50
                 },
                 { "time": 12000, "animation": "fade_out", "animationTime": 2000 },
                 { "time": 12000, "animation": "fade_out", "animationTime": 2000, "group": "title" }

@@ -32,6 +32,7 @@ public class SceneAnimator {
     private final HashMap<String, Queue> queues = new HashMap();
     private final Array<Queue> queueArray = new Array();
     private final HashMap<String, Path<Vector2>> paths = new HashMap();
+    private final float timeFactor;
 
     public interface Getter {
 
@@ -47,6 +48,7 @@ public class SceneAnimator {
             InstantiationException, ParseException {
         SceneAnimatorJson credits = JacksonReader.read(filename, SceneAnimatorJson.class);
 
+        timeFactor = credits.timeFactor != null ? credits.timeFactor : 1;
         initStyles(credits, getter);
         initPaths(credits);
         initQueues(credits, getter);
@@ -137,6 +139,8 @@ public class SceneAnimator {
                     animation.time = anim.time != null ? (anim.time * 0.001f) : 0;
                     animation.animation = anim.animation;
                     animation.animationTime = anim.animationTime != null ? (anim.animationTime * 0.001f) : 0;
+                    animation.trailStepTime = anim.trailStepTime != null ? (anim.trailStepTime * 0.001f) : 0;
+                    animation.trailMaxSteps = anim.trailMaxSteps != null ? anim.trailMaxSteps : 0;
                     animation.minRadius = anim.minRadius != null ? anim.minRadius : 0;
                     animation.maxRadius = anim.maxRadius != null ? anim.maxRadius : 50;
                     animation.minAngle = anim.minAngle != null ? anim.minAngle : 0;
@@ -185,6 +189,7 @@ public class SceneAnimator {
     }
 
     public void update(float delta) {
+        delta *= timeFactor;
         boolean done = true;
         for (Queue queue : queueArray) {
             queue.update(delta);
