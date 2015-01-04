@@ -42,6 +42,7 @@ public class SceneAnimatorJson {
 
     public static class Queue {
 
+        public Integer layer;
         public Integer time;
         public String next;
         public String finalNext;
@@ -80,7 +81,7 @@ public class SceneAnimatorJson {
         public String style;
         public String text;
         // For animations
-        public String animation;
+        public String resource;
         public Float scale;
         public Float angle;
         public Boolean oriented;

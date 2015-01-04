@@ -23,13 +23,15 @@ public abstract class Item {
     protected float angle;
     protected float opacity;
     public final ArrayList<Animation> animations = new ArrayList();
+    protected boolean oriented;
 
-    public Item(String group, float startTime, float angle, float opacity) {
+    public Item(String group, float startTime, float angle, boolean oriented, float opacity) {
         this.group = group;
         this.startTime = startTime;
         originalStartTime = startTime;
         this.angle = angle;
         this.opacity = opacity;
+        this.oriented = oriented;
     }
 
     public void reset(ArrayList<Animation> animations) {
@@ -40,6 +42,10 @@ public abstract class Item {
         startTime = originalStartTime;
         pathTime = 0;
         //Fixme: angle, opacity
+    }
+
+    public void setPosition(float x, float y) {
+        position.set(x, y);
     }
 
     public void setPosition(Vector2 pos) {
@@ -60,7 +66,9 @@ public abstract class Item {
         }
         if (startTime == 0 && path != null) {
             pathTime += deltaTime;
-            setAngle(path.derivativeAt(temp, pathTime).angle());
+            if (oriented) {
+                setAngle(path.derivativeAt(temp, pathTime).angle());
+            }
             setPosition(path.valueAt(temp, pathTime));
 
             Iterator<Animation> it = animations.iterator();
@@ -84,5 +92,9 @@ public abstract class Item {
 
     boolean isDone() {
         return path == null || pathTime > path.getTotalTime();
+    }
+
+    boolean shouldRender() {
+        return startTime == 0 && (path == null || pathTime < path.getTotalTime());
     }
 }

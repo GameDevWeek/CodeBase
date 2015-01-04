@@ -7,5 +7,6 @@ package de.hochschuletrier.gdw.commons.gdx.sceneanimator;
 public enum ItemType {
 
     TEXT,
-    SPRITE
+    TEXTURE,
+    ANIMATION
 }

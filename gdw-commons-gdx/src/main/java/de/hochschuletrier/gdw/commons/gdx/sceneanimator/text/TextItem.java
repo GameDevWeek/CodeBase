@@ -24,7 +24,7 @@ public class TextItem extends Item {
     private TextAnimation anim;
 
     public TextItem(String group, float startTime, float angle, float opacity, String text, TextStyle style) {
-        super(group, startTime, angle, opacity);
+        super(group, startTime, angle, false, opacity);
 
         originalText = text;
         shownText = text;
