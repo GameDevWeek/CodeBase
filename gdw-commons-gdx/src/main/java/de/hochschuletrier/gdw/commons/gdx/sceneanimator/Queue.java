@@ -1,6 +1,5 @@
 package de.hochschuletrier.gdw.commons.gdx.sceneanimator;
 
-import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 /**
@@ -15,9 +14,11 @@ public class Queue {
     public Queue finalNext;
     protected final ArrayList<Item> items;
     public final ArrayList<Animation> animations;
+    public final int layer;
 
-    public Queue(float time, ArrayList<Item> items, ArrayList<Animation> animations) {
+    public Queue(float time, int layer, ArrayList<Item> items, ArrayList<Animation> animations) {
         startTime = time;
+        this.layer = layer;
         originalStartTime = time;
         this.items = items;
         this.animations = animations;
@@ -39,7 +40,9 @@ public class Queue {
         if (startTime == 0) {
             // render items
             for (Item item : items) {
-                item.render();
+                if (item.shouldRender()) {
+                    item.render();
+                }
             }
         }
     }
