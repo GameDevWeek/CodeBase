@@ -85,7 +85,7 @@ public abstract class Item {
     public abstract void render();
 
     public boolean isGroup(String group) {
-        return this.group.equalsIgnoreCase(group);
+        return group.equals("*") || this.group.equalsIgnoreCase(group);
     }
 
     public abstract void startAnimation(Animation animation);
