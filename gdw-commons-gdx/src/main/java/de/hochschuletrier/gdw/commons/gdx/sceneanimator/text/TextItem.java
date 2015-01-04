@@ -136,7 +136,7 @@ public class TextItem extends Item {
                 switch (anim) {
                     case FADE_IN:
                     case FADE_OUT:
-                        style.font.draw(DrawUtil.batch, originalText, position.x, position.y);
+                        style.font.draw(DrawUtil.batch, shownText, position.x, position.y);
                         break;
                     case CONSTRUCT:
                     case CONSTRUCT_TYPE:
