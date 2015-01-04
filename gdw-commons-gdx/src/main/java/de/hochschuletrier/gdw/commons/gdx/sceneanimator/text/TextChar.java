@@ -23,13 +23,15 @@ public class TextChar {
     private final String text;
     private float animationTime;
     private float startTime;
-    private boolean type;
+    private final float trailStepTime;
+    private final int trailMaxSteps;
 
     public TextChar(BitmapFont font, String text, int index, Animation animation, float totalAnimationTime) {
-        type = animation.animation.equalsIgnoreCase(TextAnimation.CONSTRUCT_TYPE.name());
-        if (type) {
+        if (animation.animation.equalsIgnoreCase(TextAnimation.CONSTRUCT_TYPE.name())) {
             startTime = index * totalAnimationTime * 0.5f;
         }
+        trailStepTime = animation.trailStepTime / totalAnimationTime;
+        trailMaxSteps = animation.trailMaxSteps;
         this.text = text.substring(index, index + 1);
         if (index > 0) {
             BitmapFont.TextBounds bounds = font.getBounds(text, 0, index);
@@ -96,18 +98,21 @@ public class TextChar {
 
     public void render(BitmapFont font, Color color, Vector2 offset, float totalAnimationTime) {
         if (startTime == 0) {
-            if (type) {
-                for (float t = animationTime / totalAnimationTime; t > 0; t -= 0.1f) {
-                    renderChar(font, color, offset, t);
+            float currentTime = animationTime / totalAnimationTime;
+            float finalAlpha = Math.min(1.0f, currentTime * 2);
+            if (trailMaxSteps > 0 && trailStepTime > 0) {
+                int steps = Math.min(trailMaxSteps, (int)Math.floor(currentTime / trailStepTime));
+                float t = currentTime - steps * trailStepTime;
+                for (int i=0; i<steps; i++, t+= trailStepTime) {
+                    renderChar(font, color, offset, t, finalAlpha * (t / currentTime) );
                 }
-            } else {
-                renderChar(font, color, offset, animationTime / totalAnimationTime);
             }
+            renderChar(font, color, offset, currentTime, finalAlpha);
         }
     }
 
-    private void renderChar(BitmapFont font, Color color, Vector2 offset, float t) {
-        color.a = Math.min(1.0f, t * 2);
+    private void renderChar(BitmapFont font, Color color, Vector2 offset, float t, float alpha) {
+        color.a = alpha;
         Bezier.quadratic(temp2, t, start, control, end, temp1);
         temp2.add(offset);
         font.setColor(color);

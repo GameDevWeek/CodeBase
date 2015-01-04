@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public class SceneAnimatorJson {
 
+    public Float timeFactor;
     @JacksonMap(TextStyle.class)
     public Map<String, TextStyle> textStyles;
     @JacksonMap(Path.class)
@@ -65,6 +66,8 @@ public class SceneAnimatorJson {
             public Integer minCurveAngle;
             public Integer maxCurveAngle;
             public Integer animationTime;
+            public Integer trailStepTime;
+            public Integer trailMaxSteps;
         }
     }
 

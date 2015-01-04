@@ -18,4 +18,6 @@ public class Animation {
     public int minCurveAngle;
     public int maxCurveAngle;
     public float animationTime;
+    public float trailStepTime;
+    public int trailMaxSteps;
 }
