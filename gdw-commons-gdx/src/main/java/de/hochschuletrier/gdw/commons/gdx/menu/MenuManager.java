@@ -27,10 +27,11 @@ public class MenuManager implements ScreenListener, Disposable {
     private final int width;
     private final int height;
     private Actor currentPage;
-    private LinkedList<Actor> pageStack = new LinkedList();
-    private final InputInterceptor inputProcessor;
+    private final LinkedList<Actor> pageStack = new LinkedList();
+    private final Runnable onEmptyPop;
 
-    public MenuManager(int width, int height) {
+    public MenuManager(int width, int height, Runnable onEmptyPop) {
+        this.onEmptyPop = onEmptyPop;
         this.width = width;
         this.height = height;
         stack = new Stack();
@@ -46,18 +47,6 @@ public class MenuManager implements ScreenListener, Disposable {
         table.row().expand().fill();
         table.add().colspan(3).expand().fill();
         stage.addActor(table);
-
-        inputProcessor = new InputInterceptor(stage) {
-
-            @Override
-            public boolean keyUp(int keycode) {
-                if (isActive && keycode == Input.Keys.ESCAPE) {
-                    popPage();
-                    return true;
-                }
-                return super.keyUp(keycode);
-            }
-        };
     }
 
     public int getWidth() {
@@ -69,7 +58,7 @@ public class MenuManager implements ScreenListener, Disposable {
     }
 
     public InputProcessor getInputProcessor() {
-        return inputProcessor;
+        return stage;
     }
 
     public Stage getStage() {
@@ -92,7 +81,6 @@ public class MenuManager implements ScreenListener, Disposable {
 
     public void render() {
         DrawUtil.batch.end();
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
         DrawUtil.batch.begin();
     }
@@ -116,16 +104,13 @@ public class MenuManager implements ScreenListener, Disposable {
         Gdx.input.setOnscreenKeyboardVisible(false);
 
         if (pageStack.isEmpty()) {
-            // todo
+            if(onEmptyPop != null) {
+                onEmptyPop.run();
+            }
         } else {
             currentPage.setVisible(false);
             currentPage = pageStack.pop();
             currentPage.setVisible(true);
         }
-    }
-
-    public void enableInput(boolean enabled) {
-        inputProcessor.setActive(enabled);
-        inputProcessor.setBlocking(enabled);
     }
 }
