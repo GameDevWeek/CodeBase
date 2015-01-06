@@ -9,16 +9,12 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
-import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AsynchronousAssetLoaderX;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TiledMapLoader;
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
@@ -44,7 +40,6 @@ public class AssetManagerX extends AssetManager {
     public AssetManagerX(FileHandleResolver resolver) {
         super(resolver);
         setLoader(AnimationExtended.class, new AnimationExtendedLoader(resolver));
-        setLoader(Animation.class, new AnimationLoader(resolver));
         setLoader(TiledMap.class, new TiledMapLoader(resolver));
     }
 
@@ -53,7 +48,7 @@ public class AssetManagerX extends AssetManager {
         if (map != null) {
             String filename = map.get(name);
             if (filename != null) {
-                return super.get(filename, type);
+                return get(filename, type);
             }
         }
         return null;
@@ -62,22 +57,22 @@ public class AssetManagerX extends AssetManager {
     public <T> T getByNameWithRandom(String name, Class<T> type) {
         HashMap<String, String> map = assetMaps.get(type);
         if (map != null) {
-            if(name.endsWith("/")) {
+            if (name.endsWith("/")) {
                 int numFiles = 0;
                 String filename;
                 do {
                     filename = map.get(name + numFiles);
                     numFiles++;
-                } while(filename != null);
+                } while (filename != null);
                 if (numFiles > 0) {
                     int index = random.nextInt(numFiles);
                     filename = map.get(name + index);
-                    return super.get(filename, type);
+                    return get(filename, type);
                 }
             } else {
                 String filename = map.get(name);
                 if (filename != null) {
-                    return super.get(filename, type);
+                    return get(filename, type);
                 }
             }
         }
@@ -88,7 +83,7 @@ public class AssetManagerX extends AssetManager {
         HashMap<String, String> map = assetMaps.get(type);
         Array<T> assets = new Array();
         for (String s : map.values()) {
-            assets.add(super.get(s, type));
+            assets.add(get(s, type));
         }
         return assets;
     }
@@ -136,17 +131,6 @@ public class AssetManagerX extends AssetManager {
 
     public ParticleEffect getParticleEffect(String name) {
         return getByName(name, ParticleEffect.class);
-    }
-
-    private BitmapFont generateFont(String name, int size) {
-        TrueTypeFont ttf = getByName(name, TrueTypeFont.class);
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(ttf.handle);
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = size;
-        parameter.flip = true;
-        BitmapFont font = fontGenerator.generateFont(parameter);
-        fontGenerator.dispose();
-        return font;
     }
 
     @Override
