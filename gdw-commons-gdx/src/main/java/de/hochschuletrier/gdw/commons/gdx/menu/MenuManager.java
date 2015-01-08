@@ -1,18 +1,15 @@
 package de.hochschuletrier.gdw.commons.gdx.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
 import de.hochschuletrier.gdw.commons.gdx.state.ScreenListener;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.commons.gdx.viewport.ExtendScreenViewport;
 import java.util.LinkedList;
 
 /**
@@ -21,7 +18,7 @@ import java.util.LinkedList;
  */
 public class MenuManager implements ScreenListener, Disposable {
 
-    private final Stage stage = new Stage(new ScreenViewport(), DrawUtil.batch);
+    private final Stage stage;
     private final Table table;
     private final Stack stack;
     private final int width;
@@ -31,6 +28,7 @@ public class MenuManager implements ScreenListener, Disposable {
     private final Runnable onEmptyPop;
 
     public MenuManager(int width, int height, Runnable onEmptyPop) {
+        this.stage = new Stage(new ExtendScreenViewport(width, height), DrawUtil.batch);
         this.onEmptyPop = onEmptyPop;
         this.width = width;
         this.height = height;
@@ -104,7 +102,7 @@ public class MenuManager implements ScreenListener, Disposable {
         Gdx.input.setOnscreenKeyboardVisible(false);
 
         if (pageStack.isEmpty()) {
-            if(onEmptyPop != null) {
+            if (onEmptyPop != null) {
                 onEmptyPop.run();
             }
         } else {
