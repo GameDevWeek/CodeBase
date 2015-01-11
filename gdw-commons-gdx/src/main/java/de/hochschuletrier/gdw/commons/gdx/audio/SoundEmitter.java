@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.commons.gdx.sound;
+package de.hochschuletrier.gdw.commons.gdx.audio;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector3;
