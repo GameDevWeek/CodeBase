@@ -6,6 +6,8 @@ package de.hochschuletrier.gdw.commons.tiled;
  */
 public interface ITiledMapRenderer {
 
+    public void update(float delta);
+    
     /**
      * Render the whole tile map at a given location
      *

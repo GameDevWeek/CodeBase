@@ -45,6 +45,7 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
         this.drawLines = drawLines;
     }
 
+    @Override
     public void update(float delta) {
         stateTime += delta;
         for (TileSet tileset : map.getTileSets()) {
