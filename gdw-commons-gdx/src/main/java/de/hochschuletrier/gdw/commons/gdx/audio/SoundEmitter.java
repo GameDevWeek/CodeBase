@@ -24,6 +24,8 @@ public class SoundEmitter implements Disposable {
         MONO;
     }
 
+    static boolean muted;
+    static float globalVolume = 1;
     private static float WORLD_SCALE = 1 / 1000.0f;
     private static final SoundEmitter globalEmitter = new SoundEmitter();
 
@@ -40,6 +42,22 @@ public class SoundEmitter implements Disposable {
         } else {
             alListener3f(AL_POSITION, 0, 0, 0);
         }
+    }
+
+    public static boolean isMuted() {
+        return muted;
+    }
+
+    public static void setMuted(boolean muted) {
+        SoundEmitter.muted = muted;
+    }
+
+    public static float getGlobalVolume() {
+        return globalVolume;
+    }
+
+    public static void setGlobalVolume(float globalVolume) {
+        SoundEmitter.globalVolume = globalVolume;
     }
 
     /**
@@ -83,6 +101,8 @@ public class SoundEmitter implements Disposable {
             if (si.isStopped()) {
                 it.remove();
                 pool.free(si);
+            } else {
+                si.setVolume(si.volume);
             }
         }
     }
