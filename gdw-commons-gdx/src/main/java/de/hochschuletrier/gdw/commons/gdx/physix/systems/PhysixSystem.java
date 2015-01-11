@@ -29,19 +29,16 @@ public class PhysixSystem extends IteratingSystem implements EntityListener {
     public final float scale, scaleInv;
     protected final World world;
     protected final Vector2 gravity = new Vector2();
-    protected final float timeStep;
     protected final int velocityIterations;
     protected final int positionIterations;
-    private float timeAccumulator;
 
-    public PhysixSystem(float scale, float timeStep, int velocityIterations, int positionIterations) {
-        this(scale, timeStep, velocityIterations, positionIterations, 0);
+    public PhysixSystem(float scale, int velocityIterations, int positionIterations) {
+        this(scale, velocityIterations, positionIterations, 0);
     }
 
-    public PhysixSystem(float scale, float timeStep, int velocityIterations, int positionIterations, int priority) {
+    public PhysixSystem(float scale, int velocityIterations, int positionIterations, int priority) {
         super(Family.all(PhysixModifierComponent.class).get(), priority);
         this.scale = scale;
-        this.timeStep = timeStep;
         this.velocityIterations = velocityIterations;
         this.positionIterations = positionIterations;
         scaleInv = 1.0f / scale;
@@ -78,18 +75,9 @@ public class PhysixSystem extends IteratingSystem implements EntityListener {
 
     @Override
     public void update(float deltaTime) {
-        boolean hasRun = false;
-        timeAccumulator += deltaTime;
-        while (timeAccumulator >= timeStep) {
-            timeAccumulator -= timeStep;
-            world.step(timeStep, velocityIterations, positionIterations);
-            world.clearForces();
-            hasRun = true;
-        }
-
-        if (hasRun) {
-            super.update(deltaTime);
-        }
+        world.step(deltaTime, velocityIterations, positionIterations);
+        world.clearForces();
+        super.update(deltaTime);
     }
     
     @Override
