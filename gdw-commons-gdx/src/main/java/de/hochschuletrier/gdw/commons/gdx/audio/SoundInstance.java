@@ -19,10 +19,11 @@ public class SoundInstance implements Pool.Poolable {
     Sound sound;
     long id;
     int sourceId;
+    float volume = 1;
 
     void init(Sound sound, boolean loop) {
         this.sound = sound;
-        this.id = loop ? sound.loop() : sound.play();
+        this.id = loop ? sound.loop() : sound.play(SoundEmitter.muted ? 0 : SoundEmitter.globalVolume);
         try {
             Field field = OpenALAudio.class.getDeclaredField("soundIdToSource");
             field.setAccessible(true);
@@ -71,7 +72,8 @@ public class SoundInstance implements Pool.Poolable {
     }
 
     public void setVolume(float volume) {
-        sound.setVolume(id, volume);
+        this.volume = volume;
+        sound.setVolume(id, SoundEmitter.muted ? 0 : (SoundEmitter.globalVolume * volume));
     }
 
     public void setPan(float pan, float volume) {
