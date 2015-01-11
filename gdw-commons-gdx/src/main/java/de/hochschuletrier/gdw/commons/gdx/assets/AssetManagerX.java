@@ -174,6 +174,22 @@ public class AssetManagerX extends AssetManager {
         }
     }
 
+    public <T> void loadAssetListByKey(String filename, Class<T> clazz,
+            AssetLoaderParameters<T> parameter) {
+        try {
+            HashMap<String, String> baseMap = getBaseMap(clazz);
+
+            HashMap<String, String> map = JacksonReader.readMap(filename, String.class);
+            for (Entry<String, String> entry : map.entrySet()) {
+                String file = prefixFilename(clazz, entry.getKey());
+                load(file, clazz, parameter);
+                baseMap.put(entry.getKey(), file);
+            }
+        } catch (Exception e) {
+            throw new GdxRuntimeException("Error reading file: " + filename, e);
+        }
+    }
+
     public <T, PT extends AssetLoaderParametersX<T>> void loadAssetListWithParam(
             String filename, Class<T> clazz, Class<PT> parameterClazz) {
         try {

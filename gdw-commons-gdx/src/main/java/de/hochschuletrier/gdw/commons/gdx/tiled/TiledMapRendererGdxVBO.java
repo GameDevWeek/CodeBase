@@ -162,6 +162,10 @@ public class TiledMapRendererGdxVBO implements ITiledMapRenderer {
     }
 
     @Override
+    public void update(float delta) {
+    }
+
+    @Override
     public void render(int x, int y, int sx, int sy, int width, int height, Layer layer) {
         render();
     }
