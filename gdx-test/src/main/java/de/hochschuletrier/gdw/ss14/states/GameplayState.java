@@ -33,5 +33,6 @@ public class GameplayState extends BaseGameState {
 
     @Override
     public void dispose() {
+        game.dispose();
     }
 }

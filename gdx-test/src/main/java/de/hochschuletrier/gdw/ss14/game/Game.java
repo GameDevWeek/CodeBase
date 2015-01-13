@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ss14.game;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarBool;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.input.hotkey.Hotkey;
+import de.hochschuletrier.gdw.commons.gdx.input.hotkey.HotkeyModifier;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixComponentAwareContactListener;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
@@ -35,6 +38,7 @@ public class Game extends InputAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
     private final CVarBool physixDebug = new CVarBool("physix_debug", true, 0, "Draw physix debug");
+    private final Hotkey togglePhysixDebug = new Hotkey(()->physixDebug.toggle(false), Input.Keys.F1, HotkeyModifier.CTRL);
 
     private final PooledEngine engine = new PooledEngine(
             GameConstants.ENTITY_POOL_INITIAL_SIZE, GameConstants.ENTITY_POOL_MAX_SIZE,
@@ -52,6 +56,11 @@ public class Game extends InputAdapter {
     private AnimationExtended ballAnimation;
 
     public Game() {
+        togglePhysixDebug.register();
+    }
+
+    public void dispose() {
+        togglePhysixDebug.unregister();
     }
 
     public void init(AssetManagerX assetManager) {
