@@ -29,6 +29,7 @@ import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.commons.gdx.utils.GdxResourceLocator;
 import de.hochschuletrier.gdw.commons.gdx.utils.KeyUtil;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import de.hochschuletrier.gdw.commons.utils.ClassUtils;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxCommand;
 import de.hochschuletrier.gdw.ss14.states.LoadGameState;
 import de.hochschuletrier.gdw.ss14.states.MainMenuState;
@@ -38,6 +39,8 @@ import de.hochschuletrier.gdw.ss14.states.MainMenuState;
  * @author Santo Pfingsten
  */
 public class Main extends StateBasedGame {
+
+    public static final boolean IS_RELEASE = ClassUtils.getClassUrl(Main.class).getProtocol().equals("jar");
 
     public static final int WINDOW_HEIGHT = 600;
     public static final int WINDOW_WIDTH = 1024;

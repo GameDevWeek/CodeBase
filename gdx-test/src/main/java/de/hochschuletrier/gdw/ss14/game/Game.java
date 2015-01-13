@@ -31,14 +31,11 @@ import de.hochschuletrier.gdw.ss14.game.systems.AnimationRenderSystem;
 import de.hochschuletrier.gdw.ss14.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ss14.game.utils.PhysixUtil;
 import java.util.function.Consumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Game extends InputAdapter {
 
-    private static final Logger logger = LoggerFactory.getLogger(Game.class);
     private final CVarBool physixDebug = new CVarBool("physix_debug", true, 0, "Draw physix debug");
-    private final Hotkey togglePhysixDebug = new Hotkey(()->physixDebug.toggle(false), Input.Keys.F1, HotkeyModifier.CTRL);
+    private final Hotkey togglePhysixDebug = new Hotkey(() -> physixDebug.toggle(false), Input.Keys.F1, HotkeyModifier.CTRL);
 
     private final PooledEngine engine = new PooledEngine(
             GameConstants.ENTITY_POOL_INITIAL_SIZE, GameConstants.ENTITY_POOL_MAX_SIZE,
@@ -56,7 +53,10 @@ public class Game extends InputAdapter {
     private AnimationExtended ballAnimation;
 
     public Game() {
-        togglePhysixDebug.register();
+        // If this is a build jar file, disable hotkeys
+        if (!Main.IS_RELEASE) {
+            togglePhysixDebug.register();
+        }
     }
 
     public void dispose() {
@@ -65,8 +65,8 @@ public class Game extends InputAdapter {
 
     public void init(AssetManagerX assetManager) {
         Main.getInstance().console.register(physixDebug);
-        physixDebug.addListener((CVar)->physixDebugRenderSystem.setProcessing(physixDebug.get()));
-        
+        physixDebug.addListener((CVar) -> physixDebugRenderSystem.setProcessing(physixDebug.get()));
+
         impactSound = assetManager.getSound("click");
         ballAnimation = assetManager.getAnimation("ball");
 
