@@ -21,6 +21,15 @@ public class ClassUtils {
     private static final Logger logger = LoggerFactory.getLogger(ClassUtils.class);
 
     /**
+     * Find out where a class is currently stored ( .class file or .jar file location)
+     * @param clazz the class
+     * @return the URL to the source
+     */
+    public static URL getClassUrl(Class clazz) {
+        return clazz.getResource('/' + clazz.getName().replace('.', '/') + ".class");
+    }
+
+    /**
      * Scans all classes accessible from the context class loader which belong
      * to the given package and subpackages.
      *
