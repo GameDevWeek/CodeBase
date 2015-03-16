@@ -1,0 +1,18 @@
+{
+    "walking": {
+        "filename": "data/animations/walking.png",
+        "frames" : 7,
+        "frameDuration": [0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15],
+        "playType" : "LOOP",
+        "columns": 7,
+        "rows" : 1
+    },
+    "ball": {
+        "filename": "data/animations/ball.png",
+        "frames" : 2,
+        "frameDuration": [0.5, 0.5],
+        "playType" : "LOOP",
+        "columns": 2,
+        "rows" : 1
+    }
+}
