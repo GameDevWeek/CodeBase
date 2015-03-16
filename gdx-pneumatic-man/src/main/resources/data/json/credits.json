@@ -1,0 +1,102 @@
+{
+    "textStyles" : {
+        "title_left": { "color": "F8BB08", "font": "verdana_32", "align": "right" },
+        "title_right": { "color": "F8BB08", "font": "verdana_32", "align": "left" },
+        "title_center": { "color": "F8BB08", "font": "verdana_32", "align": "center" },
+        "text_center": { "color": "FFFFFF", "font": "verdana_32", "align": "center" },
+        "text_left": { "color": "FFFFFF", "font": "verdana_32", "align": "right" },
+        "text_right": { "color": "FFFFFF", "font": "verdana_32", "align": "left" }
+    },
+    "paths" : {
+        "text": {
+            "type": "linear",
+            "destinations": [
+                {"x": 512, "y": 480, "speed": 30 },
+                {"x": 512, "y": -100, "speed": 30 }
+            ]
+        },
+        "btw": {
+            "type": "linear",
+            "destinations": [
+                {"x": 200, "y": 480, "speed": 30 },
+                {"x": 200, "y": -100, "speed": 30 }
+            ]
+        }
+    },
+    "queues": {
+        "text": {
+            "time": 0,
+            "items" : [
+                { "type": "text", "path" : "text", "group" : "title", "style" : "title_center", "text": "GameDevWeek Codebase", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Santo Pfingsten  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Torsten Scholer", "delay": "0" },
+                
+                { "type": "text", "path" : "text", "group" : "title", "style" : "title_left", "text": "Contributions: ", "delay": "3300" },
+                { "type": "text", "path" : "text", "group" : "title", "style" : "title_right", "text": " Torsten Scholer", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "A.I. Behaviourtree  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Asset Loaders", "delay": "0" },
+                
+                { "type": "text", "path" : "text", "group" : "title", "style" : "title_left", "text": "Contributions: ", "delay": "3300" },
+                { "type": "text", "path" : "text", "group" : "title", "style" : "title_right", "text": " Santo Pfingsten", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Developer Console  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  JSON Parser", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Network Library  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Tiled Map Loader & Renderer", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Asset Loaders  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  2D Cameras", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Physics Helpers  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  SceneAnimator", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Settings Helpers  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Sound Emitters", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Gamestates & Transitions  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Various Utilities", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Maven Setup  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Demo Project Setup", "delay": "0" },
+                
+                { "type": "text", "path" : "text", "group" : "title", "style" : "title_center", "text": "Management (chronological)", "delay": "3300" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Tobias Krumholz  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Robert Rößger", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Johannes Strack  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Santo Pfingsten", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Robin Dick  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Torsten Scholer", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Minh Duc Dao  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Georg Schäfer", "delay": "0" },
+                { "type": "text", "path" : "text", "style" : "text_left", "text": "Kristina Kölln  ", "delay": "1350" },
+                { "type": "text", "path" : "text", "style" : "text_right", "text": "  Tobias Meier", "delay": "0" },
+                
+                { "type": "text", "path" : "btw", "group" : "btw", "style" : "text_right", "text": "btw..", "delay": "8500" },
+                { "type": "text", "path" : "btw", "group" : "git1", "style" : "text_right", "text": "I hate Git!", "delay": "1500" },
+                { "type": "text", "path" : "btw", "group" : "git1b", "style" : "text_right", "text": "Nevermind, I need to learn to live with it..", "delay": "0" },
+                { "type": "text", "path" : "btw", "group" : "git2", "style" : "text_right", "text": "... there, I said it!", "delay": "1500" }
+            ],
+            "animations": [
+                { "time": 0, "animation": "construct", "animationTime": 1000, "group": "title",
+                    "minRadius" : 100, "maxRadius" : 300,
+                    "minAngle" : -45, "maxAngle" : 225,
+                    "minCurveAngle": 45, "maxCurveAngle": 135
+                },
+                { "time": 0, "animation": "untype_instant" },
+                { "time": 1000, "animation": "construct_type", "animationTime": 100,
+                    "minRadius" : 100, "maxRadius" : 100,
+                    "minAngle" : 35, "maxAngle" : 35,
+                    "minCurveAngle": 25, "maxCurveAngle": 55,
+                    "trailMaxSteps": 3, "trailStepTime": 50
+                },
+                
+                { "time": 0, "animation": "untype_instant", "group": "btw" },
+                { "time": 0, "animation": "untype_instant", "group": "git1" },
+                { "time": 0, "animation": "untype_instant", "group": "git1b" },
+                { "time": 0, "animation": "untype_instant", "group": "git2" },
+                { "time": 1000, "animation": "type", "animationTime": 80, "group": "btw" },
+                { "time": 1000, "animation": "type", "animationTime": 80, "group": "git1" },
+                { "time": 1000, "animation": "type", "animationTime": 80, "group": "git2" },
+                { "time": 3800, "animation": "untype", "animationTime": 50, "group": "git2" },
+                { "time": 6600, "animation": "untype", "animationTime": 50, "group": "git1" },
+                { "time": 7500, "animation": "type", "animationTime": 50, "group": "git1b" },
+
+                { "time": 14000, "animation": "fade_out", "animationTime": 2000, "group": "*" }
+            ]
+        }
+    }
+}
