@@ -6,14 +6,15 @@ import org.slf4j.LoggerFactory;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ws1415.game.GameConstants;
+import de.hochschuletrier.gdw.ws1415.game.components.DamageComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.HealthComponent;
+import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
 import de.hochschuletrier.gdw.ws1415.game.systems.HealthSystem;
 import de.hochschuletrier.gdw.ws1415.sandbox.SandboxGame;
 
@@ -40,6 +41,7 @@ public class EntityTest extends SandboxGame {
     }
 
     Entity BlockEntity;
+    Entity Arrow;
 
     @Override
     public void init(AssetManagerX assetManager) {
@@ -51,13 +53,26 @@ public class EntityTest extends SandboxGame {
         BlockEntity.add(Health);
         engine.addEntity(BlockEntity);
 
+        Arrow = engine.createEntity();
+        DamageComponent Damage = engine.createComponent(DamageComponent.class);
+        Damage.damage = 1;
+        Damage.damageToTile = true;
+        Arrow.add(Damage);
+
+        PositionComponent ArrowPosition = engine
+                .createComponent(PositionComponent.class);
+        ArrowPosition.x = 10;
+        ArrowPosition.y = Gdx.graphics.getHeight() * 0.5f;
+        Arrow.add(ArrowPosition);
+        engine.addEntity(Arrow);
+
         camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        /*
-         * totalMapWidth = map.getWidth() * map.getTileWidth(); totalMapHeight =
-         * map.getHeight() * map.getTileHeight();
-         */
         camera.setBounds(0, 0, 1000, 1000);
         camera.updateForced();
+    }
+
+    public void DrawRect(float x, float y, float dw, float dh, Color color) {
+        DrawUtil.fillRect(x - dw, y - dh, dw * 2.0f, dh * 2.0f, color);
     }
 
     @Override
@@ -70,12 +85,28 @@ public class EntityTest extends SandboxGame {
         float DH = 100.0f;
         float DW = 100.0f;
 
+        PositionComponent ArrowPosition = Arrow
+                .getComponent(PositionComponent.class);
+
+        ArrowPosition.x += 100 * delta;
+
         HealthComponent HealthOfBlock = BlockEntity
                 .getComponent(HealthComponent.class);
-        DrawUtil.fillRect(X - DW * 0.5f, Y - DH * 0.5f, DW, DH, new Color(
+        DrawRect(X, Y, DW * 0.5f, DH * 0.5f, new Color(
                 HealthOfBlock.Value / 10.0f, 1.0f, 1.0f, 1.0f));
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            HealthOfBlock.Value -= 1;
+        DrawRect(ArrowPosition.x, ArrowPosition.y, 10, 10, Color.RED);
+
+        /*
+         * if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+         * HealthOfBlock.Value -= 1; }
+         */
+        if (Arrow.getComponent(PositionComponent.class).x > X - 50
+                && Arrow.getComponent(PositionComponent.class).x < X + 50) {
+            DamageComponent ArrowDamage = Arrow
+                    .getComponent(DamageComponent.class);
+            if (ArrowDamage.damageToTile) {
+                HealthOfBlock.Value -= ArrowDamage.damage;
+            }
         }
     }
 }
