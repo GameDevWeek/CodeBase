@@ -33,12 +33,19 @@ import de.hochschuletrier.gdw.commons.utils.ClassUtils;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxCommand;
 import de.hochschuletrier.gdw.ss14.states.LoadGameState;
 import de.hochschuletrier.gdw.ss14.states.MainMenuState;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.PosixParser;
 
 /**
- * 
+ *
  * @author Santo Pfingsten
  */
 public class Main extends StateBasedGame {
+    
+    public static CommandLine cmdLine;
 
     public static final boolean IS_RELEASE = ClassUtils.getClassUrl(Main.class).getProtocol().equals("jar");
 
@@ -120,6 +127,10 @@ public class Main extends StateBasedGame {
         addPersistentState(mainMenuState);
         changeState(mainMenuState, null, null);
         SandboxCommand.init(assetManager);
+        
+        if (cmdLine.hasOption("sandbox")) {
+            SandboxCommand.runSandbox(cmdLine.getOptionValue("sandbox"));
+        }
     }
 
     @Override
@@ -192,6 +203,25 @@ public class Main extends StateBasedGame {
         cfg.foregroundFPS = 60;
         cfg.backgroundFPS = 60;
 
+        parseOptions(args);
         new LwjglApplication(getInstance(), cfg);
+    }
+
+    private static void parseOptions(String[] args) throws IllegalArgumentException {
+        CommandLineParser cmdLineParser = new PosixParser();
+
+        Options options = new Options();
+        options.addOption(OptionBuilder.withLongOpt("sandbox")
+                .withDescription("Start a Sandbox Game")
+                .withType(String.class)
+                .hasArg()
+                .withArgName("Sandbox Classname")
+                .create());
+
+        try {
+            cmdLine = cmdLineParser.parse(options, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
