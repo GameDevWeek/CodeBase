@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
@@ -28,8 +29,12 @@ import de.hochschuletrier.gdw.commons.tiled.utils.RectangleGenerator;
 import de.hochschuletrier.gdw.commons.utils.Rectangle;
 import de.hochschuletrier.gdw.ws1415.Main;
 import de.hochschuletrier.gdw.ws1415.game.GameConstants;
+import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
+import de.hochschuletrier.gdw.ws1415.game.components.SpawnComponent;
 import de.hochschuletrier.gdw.ws1415.sandbox.SandboxGame;
+
 import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,6 +90,18 @@ public class MapTest extends SandboxGame {
         generator.generate(map,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("blocked", false),
                 (Rectangle rect) -> addShape(rect, tileWidth, tileHeight));
+        
+        //Create a SpawnPoint
+        Entity spawn = engine.createEntity();
+        PositionComponent spawnPoint = engine.createComponent(PositionComponent.class);
+        spawnPoint.x = 200;
+        spawnPoint.y = 100;
+        SpawnComponent spawnflag = engine.createComponent(SpawnComponent.class);
+        spawnflag.reset();
+        spawn.add(spawnflag);
+        spawn.add(spawnPoint);
+        
+        engine.addEntity(spawn);
 
         // create a simple player ball
         Entity player = engine.createEntity();
@@ -93,7 +110,8 @@ public class MapTest extends SandboxGame {
 
         modifyComponent.schedule(() -> {
             playerBody = engine.createComponent(PhysixBodyComponent.class);
-            PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.DynamicBody, physixSystem).position(100, 100).fixedRotation(true);
+            PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.DynamicBody, physixSystem).position(spawn.getComponent(PositionComponent.class).x,
+            		spawn.getComponent(PositionComponent.class).y).fixedRotation(true);
             playerBody.init(bodyDef, physixSystem, player);
             PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem).density(5).friction(0.2f).restitution(0.4f).shapeCircle(30);
             playerBody.createFixture(fixtureDef);
