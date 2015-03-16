@@ -12,28 +12,39 @@ import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
 import de.hochschuletrier.gdw.ws1415.game.components.AnimationComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.BlockComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.HealthComponent;
+import de.hochschuletrier.gdw.ws1415.game.components.LayerComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class AnimationRenderSystem extends EntitySystem implements EntityListener {
+/**
+ * Renders all renderable components by using the Render-Subsystems.
+ * 
+ * @author compie
+ *
+ */
+public class RenderSystem extends EntitySystem implements EntityListener {
 
     private static final EntityComparator comparator = new EntityComparator();
-    private final ArrayList<Entity> entities = new ArrayList();
+    private final ArrayList<Entity> entities = new ArrayList<>();
     private boolean resort;
 
-    public AnimationRenderSystem() {
+    private AnimationRenderSubsystem animationRenderSystem = new AnimationRenderSubsystem();
+    private DestructableBlockRenderSubsystem destructableBlockRenderSystem = new DestructableBlockRenderSubsystem();
+    
+    public RenderSystem() {
         super(0);
     }
 
-    public AnimationRenderSystem(int priority) {
+    public RenderSystem(int priority) {
         super(priority);
     }
 
     @Override
     public void addedToEngine(Engine engine) {
-        Family family = Family.all(PositionComponent.class, AnimationComponent.class).exclude(BlockComponent.class).get();
+        @SuppressWarnings("unchecked")
+		Family family = Family.all(PositionComponent.class, LayerComponent.class).one(AnimationComponent.class).get();
         engine.addEntityListener(family, this);
     }
 
@@ -55,15 +66,21 @@ public class AnimationRenderSystem extends EntitySystem implements EntityListene
             resort = false;
         }
 
+        // Go through all entities and use subsystems to render them depending on their
+        // components. Possible alternative: create RenderComponent with a RenderType enum for a
+        // simple switch.
         for (Entity entity : entities) {
             AnimationComponent animation = ComponentMappers.animation.get(entity);
-            PositionComponent position = ComponentMappers.position.get(entity);
-
-            animation.stateTime += deltaTime;
-            TextureRegion keyFrame = animation.animation.getKeyFrame(animation.stateTime);
-            int w = keyFrame.getRegionWidth();
-            int h = keyFrame.getRegionHeight();
-            DrawUtil.batch.draw(keyFrame, position.x - w * 0.5f, position.y - h * 0.5f, w * 0.5f, h * 0.5f, w, h, 1, 1, position.rotation);
+            BlockComponent block = ComponentMappers.block.get(entity);
+            HealthComponent health = ComponentMappers.health.get(entity);
+            
+            if(animation != null) {
+            	if(block != null && health != null) {
+            		destructableBlockRenderSystem.render(entity, deltaTime);
+            	} else {
+            		animationRenderSystem.render(entity, deltaTime);
+            	}
+            }
         }
     }
 
@@ -71,9 +88,10 @@ public class AnimationRenderSystem extends EntitySystem implements EntityListene
 
         @Override
         public int compare(Entity a, Entity b) {
-            AnimationComponent ac = ComponentMappers.animation.get(a);
-            AnimationComponent bc = ComponentMappers.animation.get(b);
+            LayerComponent ac = ComponentMappers.layer.get(a);
+            LayerComponent bc = ComponentMappers.layer.get(b);
             return ac.layer > bc.layer ? 1 : (ac.layer == bc.layer) ? 0 : -1;
         }
     }
 }
+
