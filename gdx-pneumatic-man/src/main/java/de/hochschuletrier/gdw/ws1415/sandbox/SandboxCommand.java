@@ -36,6 +36,29 @@ public class SandboxCommand {
     public static void shutdown() {
         Main.getInstance().console.unregister(sandbox_f);
     }
+    
+    public static void runSandbox(String gameName) {
+        Main main = Main.getInstance();
+        if(main.isTransitioning()) {
+            logger.warn("Transition in progress, please wait.");
+        }
+        Class clazz = sandboxClasses.get(gameName);
+        if (clazz == null) {
+            logger.warn("'{}' is not a sandbox class");
+            sandbox_f.showUsage();
+        } else {
+            try {
+                SandboxGame game = (SandboxGame) clazz.newInstance();
+                game.init(assetManager);
+                SandboxState state = new SandboxState(assetManager, game);
+                logger.info("starting sandbox {}", gameName);
+
+                main.changeState(state);
+            } catch (InstantiationException | IllegalAccessException e) {
+                logger.error("Could not create instance of class", e);
+            }
+        }
+    }
 
     private static ConsoleCmd sandbox_f = new ConsoleCmd("sandbox", 0, "Run a sandbox game.", 1) {
         @Override
@@ -54,27 +77,7 @@ public class SandboxCommand {
 
         @Override
         public void execute(List<String> args) {
-            Main main = Main.getInstance();
-            if(main.isTransitioning()) {
-                logger.warn("Transition in progress, please wait.");
-            }
-            String gameName = args.get(1);
-            Class clazz = sandboxClasses.get(gameName);
-            if (clazz == null) {
-                logger.warn("'{}' is not a sandbox class");
-                showUsage();
-            } else {
-                try {
-                    SandboxGame game = (SandboxGame) clazz.newInstance();
-                    game.init(assetManager);
-                    SandboxState state = new SandboxState(assetManager, game);
-                    logger.info("starting sandbox {}", gameName);
-                    
-                    main.changeState(state);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    logger.error("Could not create instance of class", e);
-                }
-            }
+            runSandbox(args.get(1));
         }
     };
 }
