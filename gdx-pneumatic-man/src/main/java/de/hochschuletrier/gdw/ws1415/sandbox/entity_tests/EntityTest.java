@@ -46,7 +46,7 @@ public class EntityTest extends SandboxGame {
 
         BlockEntity = engine.createEntity();
         HealthComponent Health = engine.createComponent(HealthComponent.class);
-        Health.Value = 1;
+        Health.reset();
         logger.info("Health Value: " + Health.Value);
         BlockEntity.add(Health);
         engine.addEntity(BlockEntity);
@@ -73,7 +73,7 @@ public class EntityTest extends SandboxGame {
         HealthComponent HealthOfBlock = BlockEntity
                 .getComponent(HealthComponent.class);
         DrawUtil.fillRect(X - DW * 0.5f, Y - DH * 0.5f, DW, DH, new Color(
-                HealthOfBlock.Value / 1.0f, 1.0f, 1.0f, 1.0f));
+                HealthOfBlock.Value / 10.0f, 1.0f, 1.0f, 1.0f));
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             HealthOfBlock.Value -= 1;
         }
