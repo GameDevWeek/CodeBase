@@ -4,12 +4,16 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool;
 
 public class SpawnComponent extends Component implements Pool.Poolable {
-
-	public boolean isSpawnPoint;
+	
+	/*
+	 * Is the point (PositionComponent!!!) a
+	 * valid spawnpoint?
+	 */
+	public boolean spawnable;
 
 	@Override
 	public void reset() {
-		isSpawnPoint = true;
+		spawnable = true;
 	}
 
 }
