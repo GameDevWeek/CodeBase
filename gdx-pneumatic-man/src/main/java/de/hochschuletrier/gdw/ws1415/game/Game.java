@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarBool;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
@@ -28,8 +29,10 @@ import de.hochschuletrier.gdw.ws1415.game.components.TriggerComponent;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.ImpactSoundListener;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.TriggerListener;
 import de.hochschuletrier.gdw.ws1415.game.systems.AnimationRenderSystem;
+import de.hochschuletrier.gdw.ws1415.game.systems.MovementSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ws1415.game.utils.PhysixUtil;
+
 import java.util.function.Consumer;
 
 public class Game extends InputAdapter {
@@ -48,7 +51,8 @@ public class Game extends InputAdapter {
     private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(GameConstants.PRIORITY_DEBUG_WORLD);
     private final AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(GameConstants.PRIORITY_ANIMATIONS);
     private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
-
+    private final MovementSystem movementSystem = new MovementSystem(GameConstants.PRIORITY_PHYSIX+2);
+    
     private Sound impactSound;
     private AnimationExtended ballAnimation;
 
@@ -82,6 +86,7 @@ public class Game extends InputAdapter {
         engine.addSystem(physixDebugRenderSystem);
         engine.addSystem(animationRenderSystem);
         engine.addSystem(updatePositionSystem);
+        engine.addSystem(movementSystem);
     }
 
     private void addContactListeners() {
