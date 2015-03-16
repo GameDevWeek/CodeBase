@@ -5,12 +5,11 @@ import com.badlogic.gdx.utils.Pool;
 
 public class SpawnComponent extends Component implements Pool.Poolable {
 
-	public float x;
-	public float y;
+	public boolean isSpawnPoint;
 
 	@Override
 	public void reset() {
-		x = y = 0;
+		isSpawnPoint = true;
 	}
 
 }
