@@ -16,7 +16,13 @@ public class MovementComponent extends Component implements Pool.Poolable {
 	public float speed;
 	public boolean movingRight, movingLeft;
 	
+	public MovementComponent(){
+		this(20);
+	}
 	
+	public MovementComponent(float speed){
+		this.speed = speed;
+	}
 
 	public void setVelocity(float x, float y) {
 		velocity.set(x, y);
