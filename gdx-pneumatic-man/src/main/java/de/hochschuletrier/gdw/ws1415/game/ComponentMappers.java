@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ws1415.game;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import de.hochschuletrier.gdw.commons.gdx.physix.components.*;
+import de.hochschuletrier.gdw.ws1415.game.components.*;
 
 public class ComponentMappers {
     public static final ComponentMapper<PositionComponent> position = ComponentMapper.getFor(PositionComponent.class);
