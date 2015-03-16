@@ -3,6 +3,7 @@ package de.hochschuletrier.gdw.ws1415.game.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
@@ -23,7 +24,7 @@ public class MovementSystem extends IteratingSystem{
 		PhysixBodyComponent physix = ComponentMappers.physixBody.get(entity);
 		MovementComponent movement = ComponentMappers.movement.get(entity);
 		
-		physix.setLinearVelocity(movement.velocity);
+		physix.simpleForceApply(movement.velocity);
 	}
 
 	
