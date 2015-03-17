@@ -39,4 +39,16 @@ public enum Direction{
         return null;
     };
 
+    public static Direction fromVector2(Vector2 v){
+        float i = v.dot(Vector2.X);
+        float j = v.dot(Vector2.Y);
+        if(i == 0 && j == 0) return null;
+        if(Math.abs(i) > Math.abs(j))
+            if(i > 0) return RIGHT;
+            else return LEFT;
+        else
+            if(j > 0) return UP;
+            else return DOWN;
+    };
+
 }
