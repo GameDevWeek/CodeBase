@@ -38,18 +38,17 @@ public class AISystem extends IteratingSystem {
         AIComponent ai = ComponentMappers.AI.get(entity);
         // TODO: ask for unit state → go on if unit is at bottom
 
-        int tilesize = GameConstants.getTILESIZE();
 
         if(ai.type == AIType.PASSIVE);
 
         Ray ray = new Ray();
         this.physixSystem.getWorld().rayCast(ray, physix.getPosition(),
                 physix.getPosition()
-                        .add(direction.facingDirection.toVector2().scl(tilesize))
-                        .sub(Vector2.Y.scl(tilesize*0.5f))
+                        .add(direction.facingDirection.toVector2()) //TODO: scale with jump-width (movement component)
+                        .sub(Vector2.Y.scl(physix.getY()*0.5f))
         );
 
-        if(ray.fraction*ray.fraction <= 1.25f*tilesize*tilesize){
+        if(ray.fraction*ray.fraction <= 0){ // TODO: replace 0 with jump-width (movement component)
             ray.fixture.getBody();
         }
     }

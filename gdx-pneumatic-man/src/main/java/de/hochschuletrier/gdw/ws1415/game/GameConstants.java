@@ -1,7 +1,5 @@
 package de.hochschuletrier.gdw.ws1415.game;
 
-import java.nio.file.AccessDeniedException;
-
 public class GameConstants {
 
     // Priorities for entity systems
@@ -22,15 +20,4 @@ public class GameConstants {
     public static final int POSITION_ITERATIONS = 3;
     public static final int VELOCITY_ITERATIONS = 8;
     public static final int BOX2D_SCALE = 40;
-
-
-    // FILL TILESIZE AT MAP_LOAD TIME
-    private static int TILESIZE = 0;
-    public static int getTILESIZE(){ return TILESIZE; }
-    public static void setTileSize(int tileSize) throws AccessDeniedException {
-        if(TILESIZE == 0) TILESIZE = tileSize;
-        else throw new AccessDeniedException("Do not change Tilesize after initializing");
-    }
-    // ////
-
 }
