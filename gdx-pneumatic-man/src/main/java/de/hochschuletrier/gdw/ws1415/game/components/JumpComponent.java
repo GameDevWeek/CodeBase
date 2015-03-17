@@ -15,6 +15,10 @@ public class JumpComponent extends Component implements Pool.Poolable {
 	public float restingTime, timeToNextJump;
 	
 	public boolean doJump;
+	
+	public JumpComponent(){
+		this(0,0);
+	}
 
 	/**
 	 * 

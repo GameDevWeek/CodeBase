@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ws1415.game;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Sound;
@@ -37,18 +38,13 @@ import de.hochschuletrier.gdw.ws1415.game.components.*;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.ImpactSoundListener;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.PlayerContactListener;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.TriggerListener;
-
 import de.hochschuletrier.gdw.ws1415.game.systems.MovementSystem;
-
 import de.hochschuletrier.gdw.ws1415.game.systems.AnimationRenderSubsystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.RenderSystem;
-
 import de.hochschuletrier.gdw.ws1415.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ws1415.game.utils.PhysixUtil;
 
 import java.util.HashMap;
-
-
 import java.util.function.Consumer;
 
 public class Game extends InputAdapter {
@@ -67,7 +63,7 @@ public class Game extends InputAdapter {
     private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(GameConstants.PRIORITY_DEBUG_WORLD);
     private final RenderSystem renderSystem = new RenderSystem(GameConstants.PRIORITY_ANIMATIONS);
     private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
-    private final MovementSystem movementSystem = new MovementSystem(GameConstants.PRIORITY_PHYSIX+2);
+    private final MovementSystem movementSystem = new MovementSystem(GameConstants.PRIORITY_PHYSIX+10);
     
     private Sound impactSound;
     private AnimationExtended ballAnimation;
@@ -177,6 +173,10 @@ public class Game extends InputAdapter {
             mapRenderer.render(0, 0, layer);
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+        	
+        }
+        
         mapRenderer.update(delta);
         
         engine.update(delta);
@@ -197,16 +197,32 @@ public class Game extends InputAdapter {
         entity.add(animComponent);
         entity.add(engine.createComponent(LayerComponent.class));
         
+        MovementComponent moveComponent = engine.createComponent(MovementComponent.class);
+        moveComponent.speed = 10.0f;
+        entity.add(moveComponent);
+        
+        /* depricated
+        BouncingComponent bounceComponent = engine.createComponent(BouncingComponent.class);
+        bounceComponent.bouncingImpulse = 70000.0f;
+        bounceComponent.restingTime = 0.1f;
+        entity.add(bounceComponent);
+        */
+        
+        JumpComponent jumpComponent = engine.createComponent(JumpComponent.class);
+        jumpComponent.jumpImpulse = 420000.0f;
+        jumpComponent.restingTime = 0.1f;
+        entity.add(jumpComponent);
+        
         modifyComponent.schedule(() -> {
             PhysixBodyComponent bodyComponent = engine.createComponent(PhysixBodyComponent.class);
             PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.DynamicBody, physixSystem)
                     .position(x, y).fixedRotation(false);
             bodyComponent.init(bodyDef, physixSystem, entity);
             PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem)
-                    .density(5).friction(0.2f).restitution(0.4f).shapeCircle(radius);
+                    .density(5).friction(0.2f).restitution(0.1f).shapeCircle(radius);
             bodyComponent.createFixture(fixtureDef);
             entity.add(bodyComponent);
-            bodyComponent.applyImpulse(0, 50000);
+            bodyComponent.applyImpulse(0, 500);
         });
         engine.addEntity(entity);
     }

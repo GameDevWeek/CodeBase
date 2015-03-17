@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool;
 
 /**
+ * DEPRECATED
+ * 
  * Use this to make an entity bounce. Increase the bouncingImpulse to increase
  * the height of the bounce, increase the restingTime to increase the time
  * between bounces.
@@ -18,6 +20,10 @@ public class BouncingComponent extends Component implements Pool.Poolable {
 	public float restingTime;
 
 	public float timeToNextBounce;
+	
+	public BouncingComponent(){
+		this(0,0);
+	}
 
 	/**
 	 * 
