@@ -15,10 +15,6 @@ import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
  */
 public class AnimationRenderSubsystem {
 
-    AnimationRenderSubsystem() {
-    }
-
-
     void render(Entity entity, float deltaTime) {
         AnimationComponent animation = ComponentMappers.animation.get(entity);
         PositionComponent position = ComponentMappers.position.get(entity);
