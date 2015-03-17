@@ -32,6 +32,7 @@ public class MovementSystem extends IteratingSystem {
 		JumpComponent jump = ComponentMappers.jump.get(entity);
 
 		if (movement != null) {
+			Vector2 velocity = movement.velocity;
 			physix.simpleForceApply(movement.velocity);
 		}
 		if (bouncing != null) {
