@@ -20,6 +20,7 @@ public class PlayerContactListener extends PhysixContactAdapter {
         if(ComponentMappers.enemy.has(otherEntity)){
             // player touched an enemy
         }
+
     }
 
 
