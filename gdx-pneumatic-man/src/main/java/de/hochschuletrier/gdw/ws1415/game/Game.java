@@ -44,7 +44,7 @@ import de.hochschuletrier.gdw.ws1415.game.systems.MovementSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.AnimationRenderSubsystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.InputKeyboardSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.RenderSystem;
-
+import de.hochschuletrier.gdw.ws1415.game.systems.AISystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ws1415.game.utils.PhysixUtil;
 
@@ -70,6 +70,10 @@ public class Game {
     private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
     private final MovementSystem movementSystem = new MovementSystem(GameConstants.PRIORITY_PHYSIX+2);
     private final InputKeyboardSystem inputKeyboardSystem = new InputKeyboardSystem();
+    private final AISystem aisystems = new AISystem(
+            GameConstants.PRIORITY_PHYSIX + 1,
+            physixSystem
+            );
 
     private Sound impactSound;
     private AnimationExtended ballAnimation;
@@ -170,6 +174,7 @@ public class Game {
         engine.addSystem(movementSystem);
         engine.addSystem(inputKeyboardSystem);
 
+        engine.addSystem(aisystems);
     }
 
     private void addContactListeners() {

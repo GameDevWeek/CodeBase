@@ -15,6 +15,7 @@ public class ComponentMappers {
     public static final ComponentMapper<MovementComponent> movement = ComponentMapper.getFor(MovementComponent.class);
     public static final ComponentMapper<BouncingComponent> bouncing = ComponentMapper.getFor(BouncingComponent.class);
     public static final ComponentMapper<KillsPlayerOnContactComponent> enemy = ComponentMapper.getFor(KillsPlayerOnContactComponent.class);
+    public static final ComponentMapper<AIComponent> AI = ComponentMapper.getFor(AIComponent.class);
     public static final ComponentMapper<HealthComponent> health = ComponentMapper.getFor(HealthComponent.class);
     public static final ComponentMapper<BlockComponent> block = ComponentMapper.getFor(BlockComponent.class);
     public static final ComponentMapper<LayerComponent> layer = ComponentMapper.getFor(LayerComponent.class);
