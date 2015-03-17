@@ -38,11 +38,12 @@ import de.hochschuletrier.gdw.ws1415.game.contactlisteners.ImpactSoundListener;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.PlayerContactListener;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.TriggerListener;
 import de.hochschuletrier.gdw.ws1415.game.systems.AnimationRenderSubsystem;
+import de.hochschuletrier.gdw.ws1415.game.systems.InputKeyboardSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.RenderSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ws1415.game.utils.PhysixUtil;
-import java.util.HashMap;
 
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class Game extends InputAdapter {
@@ -61,6 +62,7 @@ public class Game extends InputAdapter {
     private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(GameConstants.PRIORITY_DEBUG_WORLD);
     private final RenderSystem renderSystem = new RenderSystem(GameConstants.PRIORITY_ANIMATIONS);
     private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
+    private final InputKeyboardSystem inputKeyboardSystem = new InputKeyboardSystem();
 
     private Sound impactSound;
     private AnimationExtended ballAnimation;
@@ -154,6 +156,7 @@ public class Game extends InputAdapter {
         engine.addSystem(physixDebugRenderSystem);
         engine.addSystem(renderSystem);
         engine.addSystem(updatePositionSystem);
+        engine.addSystem(inputKeyboardSystem);
     }
 
     private void addContactListeners() {
