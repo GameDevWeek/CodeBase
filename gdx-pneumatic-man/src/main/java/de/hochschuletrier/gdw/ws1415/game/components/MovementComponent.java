@@ -38,6 +38,7 @@ public class MovementComponent extends Component implements Pool.Poolable {
 	 */
 	public void moveRight() {
 		if (!movingRight) {
+			movingRight = true;
 			velocity.add(speed, 0);
 		}
 	}
@@ -48,6 +49,7 @@ public class MovementComponent extends Component implements Pool.Poolable {
 	public void stopMovingRight() {
 		if (movingRight) {
 			velocity.add(-speed, 0);
+			movingRight = false;
 		}
 	}
 
@@ -56,6 +58,7 @@ public class MovementComponent extends Component implements Pool.Poolable {
 	 */
 	public void moveLeft() {
 		if (!movingLeft) {
+			movingLeft = true;
 			velocity.add(-speed, 0);
 		}
 	}
@@ -66,6 +69,7 @@ public class MovementComponent extends Component implements Pool.Poolable {
 	public void stopMovingLeft() {
 		if (movingLeft) {
 			velocity.add(speed, 0);
+			movingLeft = false;
 		}
 	}
 

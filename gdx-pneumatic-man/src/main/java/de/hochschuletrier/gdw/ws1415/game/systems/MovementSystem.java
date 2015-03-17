@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
-import de.hochschuletrier.gdw.ws1415.game.components.BouncingComponent;
+//import de.hochschuletrier.gdw.ws1415.game.components.BouncingComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.JumpComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.MovementComponent;
 
@@ -20,10 +20,8 @@ public class MovementSystem extends IteratingSystem {
 	}
 
 	public MovementSystem(int priority) {
-		super(Family
-				.all(PhysixBodyComponent.class)
-				.one(/* BouncingComponent.class, */JumpComponent.class,
-						MovementComponent.class).get(), priority);
+		super(Family.all(PhysixBodyComponent.class).one(MovementComponent.class, JumpComponent.class)
+				.get(), priority);
 	}
 
 	@Override
@@ -34,10 +32,8 @@ public class MovementSystem extends IteratingSystem {
 		JumpComponent jump = ComponentMappers.jump.get(entity);
 
 		if (movement != null) {
-			Vector2 deltaVelocity = new Vector2(0, 0);
-			deltaVelocity = deltaVelocity.mulAdd(movement.velocity, deltaTime);
-			physix.setLinearVelocity(movement.velocity.x,
-					movement.velocity.y + physix.getLinearVelocity().y);
+			physix.simpleForceApply(new Vector2(
+					movement.velocity.x * deltaTime, movement.velocity.y * deltaTime));
 		}
 		/*
 		 * deprecated if (bouncing != null) { // if entity is on the ground and
@@ -59,6 +55,7 @@ public class MovementSystem extends IteratingSystem {
 				if (physix.getLinearVelocity().y < EPSILON
 						&& physix.getLinearVelocity().y > -EPSILON
 						&& jump.timeToNextJump > jump.restingTime) {
+					
 					physix.applyImpulse(0, jump.jumpImpulse);
 					// reset doJump!
 					jump.doJump = false;
