@@ -14,5 +14,6 @@ public class ComponentMappers {
     public static final ComponentMapper<MovementComponent> movement = ComponentMapper.getFor(MovementComponent.class);
     public static final ComponentMapper<BouncingComponent> bouncing = ComponentMapper.getFor(BouncingComponent.class);
     public static final ComponentMapper<KillsPlayerOnContactComponent> enemy = ComponentMapper.getFor(KillsPlayerOnContactComponent.class);
+    public static final ComponentMapper<JumpComponent> jump = ComponentMapper.getFor(JumpComponent.class);
 
 }
