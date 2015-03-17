@@ -1,0 +1,104 @@
+Soundliste v0.12
+
+[Pneumatik Man]
+
+Presslufthammergeräusch
+	pneu1
+	pneu2
+	pneu3
+
+
+PM wird getroffen
+	ouch1
+	ouch2
+	ouch3	
+
+PM springt
+	jump1
+	jump2
+	jump3
+
+PM stirbt
+	die1
+	die2
+	die3
+
+PM sammelt einen Gegenstand auf
+	item
+
+PM befreit einen Kameraden
+	free1
+	free2
+	free3
+
+Level beendet
+	glory
+
+
+
+..
+[Environment]
+
+Lava blubbert
+	magma1
+	magma2
+	magma3
+
+Lava schießt hervor
+	burst1
+	burst2
+
+Block3 nimmt Schaden -> wird zu Block2
+	3Cracks1
+	3Cracks2
+	3Cracks3
+
+Block2 nimmt Schaden -> wird zu Block1
+	2Cracks1
+	2Cracks2
+	2Cracks3
+
+Block1 nimmt Schaden -> zerbricht
+	1Cracks1
+	1Cracks2
+	1Cracks3
+
+Felsen fällt herunter
+	stoneDrop1
+	stoneDrop2
+	stoneDrop3
+
+Felsen schlägt auf etwas auf
+	stoneHit1
+	stoneHit2
+	stoneHit3
+
+..
+[Gegner]
+
+Wächter läuft
+	guardWalk1
+	guardWalk2
+
+Wächter gibt Laute von sich
+	guardGrunt1
+	guardGrunt2
+	guardGrunt3
+
+Alienhund springt
+	alienJump
+
+Alienhund schreit
+	alienBark1
+	alienBark2
+	alienBark3
+
+	
+..
+[Menu]
+Auswahl
+	pmHover
+Bestätigung
+	pmAccept
+Abbruch
+	pmCancel

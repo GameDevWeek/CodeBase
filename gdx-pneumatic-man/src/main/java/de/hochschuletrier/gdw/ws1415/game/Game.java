@@ -5,9 +5,11 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarBool;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
@@ -20,14 +22,27 @@ import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixModifierComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixDebugRenderSystem;
 import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
+import de.hochschuletrier.gdw.commons.gdx.tiled.TiledMapRendererGdx;
+import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import de.hochschuletrier.gdw.commons.tiled.Layer;
+import de.hochschuletrier.gdw.commons.tiled.LayerObject;
+import de.hochschuletrier.gdw.commons.tiled.TileInfo;
+import de.hochschuletrier.gdw.commons.tiled.TileSet;
+import de.hochschuletrier.gdw.commons.tiled.TiledMap;
+import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
+import de.hochschuletrier.gdw.commons.tiled.utils.RectangleGenerator;
+import de.hochschuletrier.gdw.commons.utils.Rectangle;
 import de.hochschuletrier.gdw.ws1415.Main;
 import de.hochschuletrier.gdw.ws1415.game.components.*;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.ImpactSoundListener;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.PlayerContactListener;
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.TriggerListener;
-import de.hochschuletrier.gdw.ws1415.game.systems.AnimationRenderSystem;
+import de.hochschuletrier.gdw.ws1415.game.systems.AnimationRenderSubsystem;
+import de.hochschuletrier.gdw.ws1415.game.systems.RenderSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ws1415.game.utils.PhysixUtil;
+import java.util.HashMap;
+
 import java.util.function.Consumer;
 
 public class Game extends InputAdapter {
@@ -44,11 +59,15 @@ public class Game extends InputAdapter {
             GameConstants.VELOCITY_ITERATIONS, GameConstants.POSITION_ITERATIONS, GameConstants.PRIORITY_PHYSIX
     );
     private final PhysixDebugRenderSystem physixDebugRenderSystem = new PhysixDebugRenderSystem(GameConstants.PRIORITY_DEBUG_WORLD);
-    private final AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(GameConstants.PRIORITY_ANIMATIONS);
+    private final RenderSystem renderSystem = new RenderSystem(GameConstants.PRIORITY_ANIMATIONS);
     private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
 
     private Sound impactSound;
     private AnimationExtended ballAnimation;
+
+    private TiledMap map;
+    private TiledMapRendererGdx mapRenderer;
+    private final HashMap<TileSet, Texture> tilesetImages = new HashMap();
 
     public Game() {
         // If this is a build jar file, disable hotkeys
@@ -65,20 +84,75 @@ public class Game extends InputAdapter {
         Main.getInstance().console.register(physixDebug);
         physixDebug.addListener((CVar) -> physixDebugRenderSystem.setProcessing(physixDebug.get()));
 
-        impactSound = assetManager.getSound("click");
-        ballAnimation = assetManager.getAnimation("ball");
+        map = loadMap("data/maps/Test_Physics.tmx");
+        for (TileSet tileset : map.getTileSets()) {
+            TmxImage img = tileset.getImage();
+            String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
+            tilesetImages.put(tileset, new Texture(filename));
+        }
+        mapRenderer = new TiledMapRendererGdx(map, tilesetImages);
+
+        setupPhysixWorld();
+        generateWorldFromTileMap();
+
+        //dummy
+        createBall(500, 250, 50);
 
         addSystems();
         addContactListeners();
-        setupPhysixWorld();
 
         Main.inputMultiplexer.addProcessor(this);
+    }
+
+    private void generateWorldFromTileMap() {
+        int tileWidth = map.getTileWidth();
+        int tileHeight = map.getTileHeight();
+        RectangleGenerator generator = new RectangleGenerator();
+        generator.generate(map,
+                (Layer layer, TileInfo info) -> {
+                    return info.getBooleanProperty("Invulnerable", false)
+                    && info.getProperty("Type", "").equals("Floor");
+                },
+                (Rectangle rect) -> {
+                    EntityCreator.createAndAddInvulnerableFloor(engine,
+                            physixSystem, rect, tileWidth, tileHeight);
+                });
+
+        for (Layer layer : map.getLayers()) {
+            TileInfo[][] tiles = layer.getTiles();
+
+            for (int i = 0; i < map.getWidth(); i++) {
+                for (int j = 0; j < map.getHeight(); j++) {
+                    if (tiles != null && tiles[i] != null && tiles[i][j] != null) {
+                        if (tiles[i][j].getIntProperty("Hitpoint", 0) != 0
+                                && tiles[i][j].getProperty("Type", "").equals("Floor")) {
+                            EntityCreator.createAndAddVulnerableFloor(engine,
+                                    physixSystem,
+                                    i * map.getTileWidth() + 0.5f * map.getTileWidth(),
+                                    j * map.getTileHeight() + 0.5f * map.getTileHeight(),
+                                    map.getTileWidth(),
+                                    map.getTileHeight());
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    public TiledMap loadMap(String filename) {
+        try {
+            return new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(
+                    "Map konnte nicht geladen werden: " + filename);
+        }
     }
 
     private void addSystems() {
         engine.addSystem(physixSystem);
         engine.addSystem(physixDebugRenderSystem);
-        engine.addSystem(animationRenderSystem);
+        engine.addSystem(renderSystem);
         engine.addSystem(updatePositionSystem);
     }
 
@@ -92,39 +166,17 @@ public class Game extends InputAdapter {
 
     private void setupPhysixWorld() {
         physixSystem.setGravity(0, 24);
-        PhysixBodyDef bodyDef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixSystem).position(410, 500).fixedRotation(false);
-        Body body = physixSystem.getWorld().createBody(bodyDef);
-        body.createFixture(new PhysixFixtureDef(physixSystem).density(1).friction(0.5f).shapeBox(800, 20));
-        PhysixUtil.createHollowCircle(physixSystem, 180, 180, 150, 30, 6);
-
-        createTrigger(410, 600, 3200, 40, (Entity entity) -> {
-            engine.removeEntity(entity);
-        });
     }
 
     public void update(float delta) {
         Main.getInstance().screenCamera.bind();
+        for (Layer layer : map.getLayers()) {
+            mapRenderer.render(0, 0, layer);
+        }
+
+        mapRenderer.update(delta);
+
         engine.update(delta);
-    }
-
-    public void createTrigger(float x, float y, float width, float height, Consumer<Entity> consumer) {
-        Entity entity = engine.createEntity();
-        PhysixModifierComponent modifyComponent = engine.createComponent(PhysixModifierComponent.class);
-        entity.add(modifyComponent);
-
-        TriggerComponent triggerComponent = engine.createComponent(TriggerComponent.class);
-        triggerComponent.consumer = consumer;
-        entity.add(triggerComponent);
-
-        modifyComponent.schedule(() -> {
-            PhysixBodyComponent bodyComponent = engine.createComponent(PhysixBodyComponent.class);
-            PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.StaticBody, physixSystem).position(x, y);
-            bodyComponent.init(bodyDef, physixSystem, entity);
-            PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem).sensor(true).shapeBox(width, height);
-            bodyComponent.createFixture(fixtureDef);
-            entity.add(bodyComponent);
-        });
-        engine.addEntity(entity);
     }
 
     public void createBall(float x, float y, float radius) {
@@ -140,6 +192,7 @@ public class Game extends InputAdapter {
         AnimationComponent animComponent = engine.createComponent(AnimationComponent.class);
         animComponent.animation = ballAnimation;
         entity.add(animComponent);
+        entity.add(engine.createComponent(LayerComponent.class));
 
         modifyComponent.schedule(() -> {
             PhysixBodyComponent bodyComponent = engine.createComponent(PhysixBodyComponent.class);
@@ -153,11 +206,5 @@ public class Game extends InputAdapter {
             bodyComponent.applyImpulse(0, 50000);
         });
         engine.addEntity(entity);
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        createBall(screenX, screenY, 30);
-        return true;
     }
 }
