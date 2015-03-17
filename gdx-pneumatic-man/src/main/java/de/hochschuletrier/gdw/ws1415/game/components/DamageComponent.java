@@ -18,6 +18,6 @@ public class DamageComponent extends Component implements Pool.Poolable {
 	public void reset() {
 		damage = 0;
 		damageToPlayer = false;
-		damageToTile = false;
+		damageToTile= false;
 	}
 }
