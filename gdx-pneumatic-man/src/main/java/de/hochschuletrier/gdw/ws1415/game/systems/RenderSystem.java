@@ -23,82 +23,81 @@ import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
  */
 public class RenderSystem extends EntitySystem implements EntityListener {
 
-	private static final EntityComparator comparator = new EntityComparator();
-	private final ArrayList<Entity> entities = new ArrayList<>();
-	private boolean resort;
+    private static final EntityComparator comparator = new EntityComparator();
+    private final ArrayList<Entity> entities = new ArrayList<>();
+    private boolean resort;
 
-	private AnimationRenderSubsystem animationRenderSystem = new AnimationRenderSubsystem();
-	private DestructableBlockRenderSubsystem destructableBlockRenderSystem = new DestructableBlockRenderSubsystem();
-	private CameraSystem cameraSubsystem = new CameraSystem();
+    private AnimationRenderSubsystem animationRenderSystem = new AnimationRenderSubsystem();
+    private DestructableBlockRenderSubsystem destructableBlockRenderSystem = new DestructableBlockRenderSubsystem();
+    private CameraSystem cameraSubsystem = new CameraSystem();
 
-	public RenderSystem() {
-		super(0);
-	}
+    public RenderSystem() {
+        super(0);
+    }
 
-	public RenderSystem(int priority) {
-		super(priority);
-	}
+    public RenderSystem(int priority) {
+        super(priority);
+    }
 
-	@Override
-	public void addedToEngine(Engine engine) {
-		// one() bekommt später noch eine geplante TextureComponent
-		@SuppressWarnings("unchecked")
-		Family family = Family
-				.all(PositionComponent.class, LayerComponent.class)
-				.one(AnimationComponent.class).get();
-		engine.addEntityListener(family, this);
-	}
+    @Override
+    public void addedToEngine(Engine engine) {
+        // one() bekommt später noch eine geplante TextureComponent
+        @SuppressWarnings("unchecked")
+        Family family = Family
+                .all(PositionComponent.class, LayerComponent.class)
+                .one(AnimationComponent.class).get();
+        engine.addEntityListener(family, this);
+    }
 
-	@Override
-	public void entityAdded(Entity entity) {
-		entities.add(entity);
-		resort = true;
-	}
+    @Override
+    public void entityAdded(Entity entity) {
+        entities.add(entity);
+        resort = true;
+    }
 
-	@Override
-	public void entityRemoved(Entity entity) {
-		entities.remove(entity);
-	}
+    @Override
+    public void entityRemoved(Entity entity) {
+        entities.remove(entity);
+    }
 
-	@Override
-	public void update(float deltaTime) {
-		if (resort) {
-			entities.sort(comparator);
-			resort = false;
-		}
+    @Override
+    public void update(float deltaTime) {
+        if (resort) {
+            entities.sort(comparator);
+            resort = false;
+        }
 
-		// Go through all entities and use subsystems to render them depending
-		// on their
-		// components. Possible alternative: create RenderComponent with a
-		// RenderType enum for a
-		// simple switch.
-		for (Entity entity : entities) {
-			AnimationComponent animation = ComponentMappers.animation
-					.get(entity);
-			BlockComponent block = ComponentMappers.block.get(entity);
-			HealthComponent health = ComponentMappers.health.get(entity);
+        // Go through all entities and use subsystems to render them depending
+        // on their
+        // components. Possible alternative: create RenderComponent with a
+        // RenderType enum for a
+        // simple switch.
+        for (Entity entity : entities) {
+            AnimationComponent animation = ComponentMappers.animation
+                    .get(entity);
+            BlockComponent block = ComponentMappers.block.get(entity);
+            HealthComponent health = ComponentMappers.health.get(entity);
 
-			cameraSubsystem.preParallax(entity);
+            cameraSubsystem.preParallax(entity);
 
-			if (animation != null) {
-				if (block != null && health != null) {
-					destructableBlockRenderSystem.render(entity, deltaTime);
-				} else {
-					animationRenderSystem.render(entity, deltaTime);
-				}
-			}
+            if (animation != null) {
+                if (block != null && health != null) {
+                    destructableBlockRenderSystem.render(entity, deltaTime);
+                } else {
+                    animationRenderSystem.render(entity, deltaTime);
+                }
+            }
+            cameraSubsystem.postParallax();
+        }
+    }
 
-			cameraSubsystem.postParallax();
-		}
-	}
+    private static class EntityComparator implements Comparator<Entity> {
 
-	private static class EntityComparator implements Comparator<Entity> {
-
-		@Override
-		public int compare(Entity a, Entity b) {
-			LayerComponent ac = ComponentMappers.layer.get(a);
-			LayerComponent bc = ComponentMappers.layer.get(b);
-			return ac.layer > bc.layer ? 1 : (ac.layer == bc.layer) ? 0 : -1;
-		}
-	}
+        @Override
+        public int compare(Entity a, Entity b) {
+            LayerComponent ac = ComponentMappers.layer.get(a);
+            LayerComponent bc = ComponentMappers.layer.get(b);
+            return ac.layer > bc.layer ? 1 : (ac.layer == bc.layer) ? 0 : -1;
+        }
+    }
 }
