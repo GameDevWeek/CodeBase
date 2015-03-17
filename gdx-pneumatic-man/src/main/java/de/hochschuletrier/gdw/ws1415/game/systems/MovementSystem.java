@@ -13,61 +13,65 @@ import de.hochschuletrier.gdw.ws1415.game.components.MovementComponent;
 
 public class MovementSystem extends IteratingSystem {
 
-	private static final float EPSILON = 0.1f;
+    private static final float EPSILON = 0.1f;
 
-	public MovementSystem() {
-		this(0);
-	}
+    public MovementSystem() {
+        this(0);
+    }
 
-	public MovementSystem(int priority) {
-		super(Family.all(PhysixBodyComponent.class).one(MovementComponent.class, JumpComponent.class)
-				.get(), priority);
-	}
+    public MovementSystem(int priority) {
+        super(Family.all(PhysixBodyComponent.class)
+                .one(MovementComponent.class, JumpComponent.class).get(),
+                priority);
+    }
 
-	@Override
-	protected void processEntity(Entity entity, float deltaTime) {
-		PhysixBodyComponent physix = ComponentMappers.physixBody.get(entity);
-		MovementComponent movement = ComponentMappers.movement.get(entity);
-		// BouncingComponent bouncing = ComponentMappers.bouncing.get(entity);
-		JumpComponent jump = ComponentMappers.jump.get(entity);
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+        PhysixBodyComponent physix = ComponentMappers.physixBody.get(entity);
+        MovementComponent movement = ComponentMappers.movement.get(entity);
+        // BouncingComponent bouncing = ComponentMappers.bouncing.get(entity);
+        JumpComponent jump = ComponentMappers.jump.get(entity);
 
-		if (movement != null) {
-			physix.simpleForceApply(new Vector2(
-					movement.velocity.x * deltaTime, movement.velocity.y * deltaTime));
-		}
-		/*
-		 * deprecated if (bouncing != null) { // if entity is on the ground and
-		 * the timeToNextBounce has surpassed // the current restingTime if
-		 * (physix.getLinearVelocity().y < EPSILON &&
-		 * physix.getLinearVelocity().y > -EPSILON && bouncing.timeToNextBounce
-		 * > bouncing.restingTime) { physix.applyImpulse(0,
-		 * bouncing.bouncingImpulse); } // if entity is on the ground, add
-		 * deltaTime to timeToNextBounce else if (physix.getLinearVelocity().y <
-		 * EPSILON && physix.getLinearVelocity().y > -EPSILON) {
-		 * bouncing.timeToNextBounce += deltaTime; } // if entity is in the air
-		 * else { bouncing.timeToNextBounce = 0; } }
-		 */
-		if (jump != null) {
-			// if jump was called
-			if (jump.doJump) {
-				// if entity is on the ground and the timeToNextBounce has
-				// surpassed the current restingTime --> jump!
-				if (physix.getLinearVelocity().y < EPSILON
-						&& physix.getLinearVelocity().y > -EPSILON
-						&& jump.timeToNextJump > jump.restingTime) {
-					
-					physix.applyImpulse(0, jump.jumpImpulse);
-					// reset doJump!
-					jump.doJump = false;
-				}
-				// if entity is on the ground, add deltaTime to timeToNextBounce
-				else if (physix.getLinearVelocity().y < EPSILON
-						&& physix.getLinearVelocity().y > -EPSILON) {
-					jump.timeToNextJump += deltaTime;
-				}
-			} else {
-				jump.timeToNextJump = 0;
-			}
-		}
-	}
+        if (movement != null) {
+
+            physix.setLinearVelocity(movement.velocity.x * deltaTime,
+                    physix.getLinearVelocity().y
+                            + (movement.velocity.y * deltaTime));
+        }
+        /*
+         * deprecated if (bouncing != null) { // if entity is on the ground and
+         * the timeToNextBounce has surpassed // the current restingTime if
+         * (physix.getLinearVelocity().y < EPSILON &&
+         * physix.getLinearVelocity().y > -EPSILON && bouncing.timeToNextBounce
+         * > bouncing.restingTime) { physix.applyImpulse(0,
+         * bouncing.bouncingImpulse); } // if entity is on the ground, add
+         * deltaTime to timeToNextBounce else if (physix.getLinearVelocity().y <
+         * EPSILON && physix.getLinearVelocity().y > -EPSILON) {
+         * bouncing.timeToNextBounce += deltaTime; } // if entity is in the air
+         * else { bouncing.timeToNextBounce = 0; } }
+         */
+        if (jump != null) {
+            // if jump was called
+            if (jump.doJump) {
+                // if entity is on the ground and the timeToNextBounce has
+                // surpassed the current restingTime --> jump!
+                if (physix.getLinearVelocity().y < EPSILON
+                        && physix.getLinearVelocity().y > -EPSILON
+                        && jump.timeToNextJump > jump.restingTime) {
+
+                    physix.applyImpulse(0, jump.jumpImpulse);
+                    // reset doJump!
+                    jump.doJump = false;
+                }
+                // if entity is on the ground, add deltaTime to timeToNextBounce
+                else if (physix.getLinearVelocity().y == 0) {
+                    jump.timeToNextJump += deltaTime;
+                }else{
+                    jump.timeToNextJump = 0;
+                }
+            } else {
+                jump.timeToNextJump = 0;
+            }
+        }
+    }
 }

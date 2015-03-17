@@ -29,6 +29,7 @@ import de.hochschuletrier.gdw.commons.tiled.tmx.TmxImage;
 import de.hochschuletrier.gdw.commons.tiled.utils.RectangleGenerator;
 import de.hochschuletrier.gdw.commons.utils.Rectangle;
 import de.hochschuletrier.gdw.ws1415.Main;
+import de.hochschuletrier.gdw.ws1415.game.EntityCreator;
 import de.hochschuletrier.gdw.ws1415.game.GameConstants;
 import de.hochschuletrier.gdw.ws1415.game.components.BouncingComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.JumpComponent;
@@ -86,7 +87,7 @@ public class MovementTest extends SandboxGame {
 
     @Override
     public void init(AssetManagerX assetManager) {
-        map = loadMap("data/maps/demo.tmx");
+        map = loadMap("data/maps/Test_Physics.tmx");
         for (TileSet tileset : map.getTileSets()) {
             TmxImage img = tileset.getImage();
             String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());
@@ -101,6 +102,7 @@ public class MovementTest extends SandboxGame {
         generator.generate(map,
                 (Layer layer, TileInfo info) -> info.getBooleanProperty("blocked", false),
                 (Rectangle rect) -> addShape(rect, tileWidth, tileHeight));
+        generateWorldFromTileMap();
         
         //Create a SpawnPoint
         Entity spawn = engine.createEntity();
@@ -124,19 +126,19 @@ public class MovementTest extends SandboxGame {
             PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.DynamicBody, physixSystem).position(spawn.getComponent(PositionComponent.class).x,
             		spawn.getComponent(PositionComponent.class).y).fixedRotation(true);
             playerBody.init(bodyDef, physixSystem, player);
-            PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem).density(5).friction(1f).restitution(0.1f).shapeCircle(30);
+            PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem).density(5).friction(0f).restitution(0.0001f).shapeBox(58, 90);
             playerBody.createFixture(fixtureDef);
             player.add(playerBody);
         });
         
         //=========================== MOVEMENT TEST
-        physixSystem.setGravity(0, 10);
+        physixSystem.setGravity(0, 24);
         
         movementComponent = new MovementComponent();
-        movementComponent.speed = 5000.0f;
+        movementComponent.speed = 10500.0f;
         player.add(movementComponent);
         
-        jumpComponent = new JumpComponent(20000.0f, 0.2f);
+        jumpComponent = new JumpComponent(100000.0f, 0.02f);
         player.add(jumpComponent);
 
         engine.addEntity(player);
@@ -176,6 +178,42 @@ public class MovementTest extends SandboxGame {
                     "Map konnte nicht geladen werden: " + filename);
         }
     }
+    
+    private void generateWorldFromTileMap() {
+        int tileWidth = map.getTileWidth();
+        int tileHeight = map.getTileHeight();
+        RectangleGenerator generator = new RectangleGenerator();
+        generator.generate(map,
+                (Layer layer, TileInfo info) -> {
+                    return info.getBooleanProperty("Invulnerable", false)
+                    && info.getProperty("Type", "").equals("Floor");
+                },
+                (Rectangle rect) -> {
+                    EntityCreator.createAndAddInvulnerableFloor(engine,
+                            physixSystem, rect, tileWidth, tileHeight);
+                });
+
+        for (Layer layer : map.getLayers()) {
+            TileInfo[][] tiles = layer.getTiles();
+
+            for (int i = 0; i < map.getWidth(); i++) {
+                for (int j = 0; j < map.getHeight(); j++) {
+                    if (tiles != null && tiles[i] != null && tiles[i][j] != null) {
+                        if (tiles[i][j].getIntProperty("Hitpoint", 0) != 0
+                                && tiles[i][j].getProperty("Type", "").equals("Floor")) {
+                            EntityCreator.createAndAddVulnerableFloor(engine,
+                                    physixSystem,
+                                    i * map.getTileWidth() + 0.5f * map.getTileWidth(),
+                                    j * map.getTileHeight() + 0.5f * map.getTileHeight(),
+                                    map.getTileWidth(),
+                                    map.getTileHeight());
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 
     @Override
     public void update(float delta) {
@@ -184,6 +222,7 @@ public class MovementTest extends SandboxGame {
             mapRenderer.render(0, 0, layer);
         }
         engine.update(delta);
+        
         if(movementComponent.movingLeft){
         	movementComponent.stopMovingLeft();
         }
