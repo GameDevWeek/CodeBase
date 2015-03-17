@@ -6,16 +6,24 @@ import org.slf4j.LoggerFactory;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 
+import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
+import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended.PlayMode;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ws1415.game.GameConstants;
+import de.hochschuletrier.gdw.ws1415.game.components.AnimationComponent;
+import de.hochschuletrier.gdw.ws1415.game.components.BlockComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.DamageComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.HealthComponent;
+import de.hochschuletrier.gdw.ws1415.game.components.LayerComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
 import de.hochschuletrier.gdw.ws1415.game.systems.HealthSystem;
+import de.hochschuletrier.gdw.ws1415.game.systems.RenderSystem;
 import de.hochschuletrier.gdw.ws1415.sandbox.SandboxGame;
 
 public class EntityTest extends SandboxGame {
@@ -30,9 +38,11 @@ public class EntityTest extends SandboxGame {
 
     private final HealthSystem Health = new HealthSystem(0);
     private final LimitedSmoothCamera camera = new LimitedSmoothCamera();
+    private final RenderSystem  DestructableBlockRender = new RenderSystem();
 
     public EntityTest() {
-        engine.addSystem(Health);
+        engine.addSystem(Health); 
+        engine.addSystem(DestructableBlockRender);
     }
 
     @Override
@@ -45,13 +55,34 @@ public class EntityTest extends SandboxGame {
 
     @Override
     public void init(AssetManagerX assetManager) {
-
+       
+        
         BlockEntity = engine.createEntity();
+        
+        
+        PositionComponent pc = engine.createComponent(PositionComponent.class);
+        pc.reset();
+        pc.x = Gdx.graphics.getWidth() * 0.5f;
+        pc.y = Gdx.graphics.getHeight() * 0.5f;
+        BlockEntity.add(pc);
+        
         HealthComponent Health = engine.createComponent(HealthComponent.class);
         Health.reset();
+        Health.Value = 6;
         logger.info("Health Value: " + Health.Value);
         BlockEntity.add(Health);
-        engine.addEntity(BlockEntity);
+        
+        BlockEntity.add(engine.createComponent(BlockComponent.class));
+        
+        AnimationComponent ac = engine.createComponent(AnimationComponent.class);
+        ac.reset();
+        assetManager.loadAssetListWithParam("data/json/animations.json", AnimationExtended.class,
+        AnimationExtendedLoader.AnimationExtendedParameter.class);        
+        ac.animation = assetManager.getAnimation("walking");
+        BlockEntity.add(ac);
+        
+        BlockEntity.add(engine.createComponent(LayerComponent.class));
+        engine.addEntity(BlockEntity); 
 
         Arrow = engine.createEntity();
         DamageComponent Damage = engine.createComponent(DamageComponent.class);
@@ -80,8 +111,6 @@ public class EntityTest extends SandboxGame {
         engine.update(delta);
         camera.update(delta);
 
-        float X = Gdx.graphics.getWidth() * 0.5f;
-        float Y = Gdx.graphics.getHeight() * 0.5f;
         float DH = 100.0f;
         float DW = 100.0f;
 
@@ -92,21 +121,21 @@ public class EntityTest extends SandboxGame {
 
         HealthComponent HealthOfBlock = BlockEntity
                 .getComponent(HealthComponent.class);
-        DrawRect(X, Y, DW * 0.5f, DH * 0.5f, new Color(
+        DrawRect(BlockEntity.getComponent(PositionComponent.class).x, BlockEntity.getComponent(PositionComponent.class).y, DW * 0.5f, DH * 0.5f, new Color(
                 HealthOfBlock.Value / 10.0f, 1.0f, 1.0f, 1.0f));
-        DrawRect(ArrowPosition.x, ArrowPosition.y, 10, 10, Color.RED);
+      //  DrawRect(ArrowPosition.x, ArrowPosition.y, 10, 10, Color.RED);
 
-        /*
-         * if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-         * HealthOfBlock.Value -= 1; }
-         */
-        if (Arrow.getComponent(PositionComponent.class).x > X - 50
+        DestructableBlockRender.update(delta);
+          if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && HealthOfBlock.Value > 0) {
+          HealthOfBlock.Value -= 1; }
+         
+        /*if (Arrow.getComponent(PositionComponent.class).x > X - 50
                 && Arrow.getComponent(PositionComponent.class).x < X + 50) {
             DamageComponent ArrowDamage = Arrow
                     .getComponent(DamageComponent.class);
             if (ArrowDamage.damageToTile) {
                 HealthOfBlock.Value -= ArrowDamage.damage;
             }
-        }
+        }*/
     }
 }
