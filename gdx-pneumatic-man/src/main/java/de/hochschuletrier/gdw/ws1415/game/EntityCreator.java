@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixBodyDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
@@ -14,6 +15,7 @@ import de.hochschuletrier.gdw.commons.utils.Rectangle;
 
 import de.hochschuletrier.gdw.ws1415.game.components.AIComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.AnimationComponent;
+import de.hochschuletrier.gdw.ws1415.game.components.BlockComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.DamageComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.SpawnComponent;
@@ -58,28 +60,46 @@ public class EntityCreator {
         return box;
     }
 
-    public static Entity createAndAddFloor(PooledEngine engine, PhysixSystem physixSystem, Rectangle rect, int tileWidth, int tileHeight) {
+    public static Entity createAndAddInvulnerableFloor(PooledEngine engine, PhysixSystem physixSystem, Rectangle rect, int tileWidth, int tileHeight) {
         float width = rect.width * tileWidth;
         float height = rect.height * tileHeight;
         float x = rect.x * tileWidth + width / 2;
         float y = rect.y * tileHeight + height / 2;
 
-        return createAndAddFloor(engine, physixSystem, x, y, width, height);
-    }
-
-    public static Entity createAndAddFloor(PooledEngine engine, PhysixSystem physixSystem, float x, float y, float width, float height) {
         Entity entity = engine.createEntity();
-        
+
         PhysixBodyComponent bodyComponent = new PhysixBodyComponent();
-        PhysixBodyDef bodyDef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixSystem).position(x, y).fixedRotation(false);
+        PhysixBodyDef bodyDef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixSystem).position(x, y).fixedRotation(true);
         bodyComponent.init(bodyDef, physixSystem, entity);
-        PhysixFixtureDef fixture = new PhysixFixtureDef(physixSystem).density(1).friction(1f).shapeBox(width, height);
-        bodyComponent.createFixture(fixture);
+        PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem).density(1).friction(1f).shapeBox(width, height).restitution(0.1f);
+        Fixture fixture = bodyComponent.createFixture(fixtureDef);
+        fixture.setUserData(entity);
+        
         entity.add(bodyComponent);
+
+        BlockComponent blockComp = new BlockComponent();
+        entity.add(blockComp);
         
         engine.addEntity(entity);
         return entity;
+    }
+
+    public static Entity createAndAddVulnerableFloor(PooledEngine engine, PhysixSystem physixSystem, float x, float y, float width, float height) {
+        Entity entity = engine.createEntity();
+
+        PhysixBodyComponent bodyComponent = new PhysixBodyComponent();
+        PhysixBodyDef bodyDef = new PhysixBodyDef(BodyDef.BodyType.StaticBody, physixSystem).position(x, y).fixedRotation(true);
+        bodyComponent.init(bodyDef, physixSystem, entity);
+        PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem).density(1).friction(1f).shapeBox(width, height).restitution(0.1f);
+        Fixture fixture = bodyComponent.createFixture(fixtureDef);
+        fixture.setUserData(entity);
+        entity.add(bodyComponent);
+
+        BlockComponent blockComp = new BlockComponent();
+        entity.add(blockComp);
         
-        
+        engine.addEntity(entity);
+        return entity;
+
     }
 }
