@@ -10,5 +10,6 @@ public class LayerComponent extends Component implements Pool.Poolable {
 	@Override
 	public void reset() {
 		layer = 0;
+		parallax = 1;
 	}
 }

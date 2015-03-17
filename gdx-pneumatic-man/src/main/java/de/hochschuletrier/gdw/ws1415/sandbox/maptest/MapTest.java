@@ -75,7 +75,7 @@ public class MapTest extends SandboxGame {
 
     @Override
     public void init(AssetManagerX assetManager) {
-        map = loadMap("data/maps/Test_Physics.tmx");
+        map = loadMap("data/maps/demo.tmx");
         for (TileSet tileset : map.getTileSets()) {
             TmxImage img = tileset.getImage();
             String filename = CurrentResourceLocator.combinePaths(tileset.getFilename(), img.getSource());

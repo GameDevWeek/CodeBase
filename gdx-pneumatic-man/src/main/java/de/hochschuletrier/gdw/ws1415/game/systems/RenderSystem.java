@@ -9,12 +9,15 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 
+import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
+import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
 import de.hochschuletrier.gdw.ws1415.game.components.AnimationComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.BlockComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.HealthComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.LayerComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
+import de.hochschuletrier.gdw.ws1415.game.components.TextureComponent;
 
 /**
  * Renders all renderable components by using the Render-Subsystems.
@@ -29,7 +32,8 @@ public class RenderSystem extends EntitySystem implements EntityListener {
 
     private AnimationRenderSubsystem animationRenderSystem = new AnimationRenderSubsystem();
     private DestructableBlockRenderSubsystem destructableBlockRenderSystem = new DestructableBlockRenderSubsystem();
-    private CameraSystem cameraSubsystem = new CameraSystem();
+    private TextureRenderSubsystem textureSystem = new TextureRenderSubsystem();
+    private CameraSystem cameraSystem = new CameraSystem();
 
     public RenderSystem() {
         super(0);
@@ -38,6 +42,10 @@ public class RenderSystem extends EntitySystem implements EntityListener {
     public RenderSystem(int priority) {
         super(priority);
     }
+    
+    public LimitedSmoothCamera getCamera() {
+    	return cameraSystem.getCamera();
+    }
 
     @Override
     public void addedToEngine(Engine engine) {
@@ -45,7 +53,7 @@ public class RenderSystem extends EntitySystem implements EntityListener {
         @SuppressWarnings("unchecked")
         Family family = Family
                 .all(PositionComponent.class, LayerComponent.class)
-                .one(AnimationComponent.class).get();
+                .one(AnimationComponent.class, TextureComponent.class).get();
         engine.addEntityListener(family, this);
     }
 
@@ -73,12 +81,12 @@ public class RenderSystem extends EntitySystem implements EntityListener {
         // RenderType enum for a
         // simple switch.
         for (Entity entity : entities) {
-            AnimationComponent animation = ComponentMappers.animation
-                    .get(entity);
+            AnimationComponent animation = ComponentMappers.animation.get(entity);
             BlockComponent block = ComponentMappers.block.get(entity);
             HealthComponent health = ComponentMappers.health.get(entity);
-
-            cameraSubsystem.preParallax(entity);
+            TextureComponent tex = ComponentMappers.texture.get(entity);
+            
+            cameraSystem.preParallax(entity);
 
             if (animation != null) {
                 if (block != null && health != null) {
@@ -86,8 +94,11 @@ public class RenderSystem extends EntitySystem implements EntityListener {
                 } else {
                     animationRenderSystem.render(entity, deltaTime);
                 }
+            } else if (tex != null) {
+            	textureSystem.render(entity, deltaTime);
             }
-            cameraSubsystem.postParallax();
+
+            cameraSystem.postParallax();
         }
     }
 
