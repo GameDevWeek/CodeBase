@@ -178,7 +178,7 @@ public class SafeProperties {
         if (value == null) {
             return defaultValue;
         }
-        return value.equals("1") || value.equals("true");
+        return value.equals("1") || value.equalsIgnoreCase("true");
     }
 
     public boolean getBoolean(String key) {
