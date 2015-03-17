@@ -20,5 +20,5 @@ public class ComponentMappers {
     public static final ComponentMapper<LayerComponent> layer = ComponentMapper.getFor(LayerComponent.class);
     public static final ComponentMapper<TextureComponent> texture = ComponentMapper.getFor(TextureComponent.class);
     public static final ComponentMapper<JumpComponent> jump = ComponentMapper.getFor(JumpComponent.class);
-
+    public static final ComponentMapper<InputComponent> input = ComponentMapper.getFor(InputComponent.class);
 }
