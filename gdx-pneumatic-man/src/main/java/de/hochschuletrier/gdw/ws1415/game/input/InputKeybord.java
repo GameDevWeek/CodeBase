@@ -10,13 +10,9 @@ import de.hochschuletrier.gdw.ws1415.game.components.InputComponent;
 
 public class InputKeybord extends IteratingSystem implements InputProcessor{
 
-
-    
-    
     public InputKeybord()
     {
         super(Family.all(InputComponent.class).get());
-        // TODO Auto-generated constructor stub
     }
 
     
@@ -24,22 +20,46 @@ public class InputKeybord extends IteratingSystem implements InputProcessor{
     protected void processEntity(Entity entity, float deltaTime)
     {
         // TODO Auto-generated method stub
-        
     }
     
     
     @Override
     public boolean keyDown(int keycode) {
-          if(keycode == Input.Keys.LEFT)
+        for(Entity entity : this. getEntities())
+        {
+            InputComponent inputcomponent = entity.getComponent(InputComponent.class);
+            switch(keycode)
             {
-                
+                case Input.Keys.UP:
+                case Input.Keys.W: inputcomponent.jump = true; break;
+                case Input.Keys.LEFT:
+                case Input.Keys.A: inputcomponent.direction--; break;
+                case Input.Keys.RIGHT:
+                case Input.Keys.D: inputcomponent.direction++; break;
+                case Input.Keys.ESCAPE:
+                case Input.Keys.P: inputcomponent.pause = true; break;
             }
-        return false;
+        }
+        return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        // TODO Auto-generated method stub
+        for(Entity entity : this. getEntities())
+        {
+            InputComponent inputcomponent = entity.getComponent(InputComponent.class);
+            switch(keycode)
+            {
+                case Input.Keys.UP:
+                case Input.Keys.W: inputcomponent.jump = false; break;
+                case Input.Keys.LEFT:
+                case Input.Keys.A: inputcomponent.direction++; break;
+                case Input.Keys.RIGHT:
+                case Input.Keys.D: inputcomponent.direction--; break;
+                case Input.Keys.ESCAPE:
+                case Input.Keys.P: inputcomponent.pause = false; break;
+            }
+        }
         return false;
     }
 
