@@ -10,6 +10,14 @@ import de.hochschuletrier.gdw.ws1415.game.components.InputComponent;
 
 public class InputKeyboardSystem extends IteratingSystem implements InputProcessor{
 
+    boolean jump = false;
+    
+    boolean pause = false;
+    
+    boolean left = false;
+    
+    boolean right = false;
+    
     public InputKeyboardSystem()
     {
         super(Family.all(InputComponent.class).get());
@@ -19,46 +27,56 @@ public class InputKeyboardSystem extends IteratingSystem implements InputProcess
     @Override
     protected void processEntity(Entity entity, float deltaTime)
     {
-        // TODO Auto-generated method stub
+        InputComponent inputComponent = entity.getComponent(InputComponent.class);
+        inputComponent.reset();
+        if(jump)
+        {
+            inputComponent.jump = true;
+        }
+        if(right)
+        {
+            inputComponent.direction++;
+        }
+        if(left)
+        {
+            inputComponent.direction--;
+        }
+        if(pause)
+        {
+            inputComponent.pause = true;
+        }
+        
     }
     
     
     @Override
     public boolean keyDown(int keycode) {
-        for(Entity entity : this. getEntities())
+        switch(keycode)
         {
-            InputComponent inputcomponent = entity.getComponent(InputComponent.class);
-            switch(keycode)
-            {
-                case Input.Keys.UP:
-                case Input.Keys.W: inputcomponent.jump = true; break;
-                case Input.Keys.LEFT:
-                case Input.Keys.A: inputcomponent.direction--; break;
-                case Input.Keys.RIGHT:
-                case Input.Keys.D: inputcomponent.direction++; break;
-                case Input.Keys.ESCAPE:
-                case Input.Keys.P: inputcomponent.pause = true; break;
-            }
+            case Input.Keys.UP:
+            case Input.Keys.W: jump = true; break;
+            case Input.Keys.LEFT:
+            case Input.Keys.A: left = true; break;
+            case Input.Keys.RIGHT:
+            case Input.Keys.D: right = true; break;
+            case Input.Keys.ESCAPE:
+            case Input.Keys.P: pause = true; break;
         }
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        for(Entity entity : this. getEntities())
+        switch(keycode)
         {
-            InputComponent inputcomponent = entity.getComponent(InputComponent.class);
-            switch(keycode)
-            {
-                case Input.Keys.UP:
-                case Input.Keys.W: inputcomponent.jump = false; break;
-                case Input.Keys.LEFT:
-                case Input.Keys.A: inputcomponent.direction++; break;
-                case Input.Keys.RIGHT:
-                case Input.Keys.D: inputcomponent.direction--; break;
-                case Input.Keys.ESCAPE:
-                case Input.Keys.P: inputcomponent.pause = false; break;
-            }
+            case Input.Keys.UP:
+            case Input.Keys.W: jump = false; break;
+            case Input.Keys.LEFT:
+            case Input.Keys.A: left = false; break;
+            case Input.Keys.RIGHT:
+            case Input.Keys.D: right = false; break;
+            case Input.Keys.ESCAPE:
+            case Input.Keys.P: pause = false; break;
         }
         return false;
     }
