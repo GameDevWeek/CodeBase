@@ -52,6 +52,7 @@ public class EntityTest extends SandboxGame {
 
     Entity BlockEntity;
     Entity Arrow;
+    Entity Unit;
 
     @Override
     public void init(AssetManagerX assetManager) {
@@ -97,6 +98,13 @@ public class EntityTest extends SandboxGame {
         Arrow.add(ArrowPosition);
         engine.addEntity(Arrow);
 
+        Unit = engine.createEntity();
+        PositionComponent UnitPosition = engine.createComponent(PositionComponent.class);
+        UnitPosition.x = 50;
+        UnitPosition.y = 50;
+        Unit.add(UnitPosition);
+        engine.addEntity(Unit);
+        
         camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setBounds(0, 0, 1000, 1000);
         camera.updateForced();
@@ -106,6 +114,8 @@ public class EntityTest extends SandboxGame {
         DrawUtil.fillRect(x - dw, y - dh, dw * 2.0f, dh * 2.0f, color);
     }
 
+    float unitSpeed = 1;
+    
     @Override
     public void update(float delta) {
         engine.update(delta);
@@ -118,7 +128,19 @@ public class EntityTest extends SandboxGame {
                 .getComponent(PositionComponent.class);
 
         ArrowPosition.x += 100 * delta;
-
+        
+        PositionComponent UnitPosition = Unit.getComponent(PositionComponent.class);
+        
+        UnitPosition.x += unitSpeed*(100 * delta);
+        
+        if(UnitPosition.x <= 50)
+        	unitSpeed = 1;
+        
+        if(UnitPosition.x >= 250)
+        	unitSpeed = -1;
+        
+        DrawRect(UnitPosition.x, UnitPosition.y, 10, 10, Color.GREEN);
+               
         HealthComponent HealthOfBlock = BlockEntity
                 .getComponent(HealthComponent.class);
         DrawRect(BlockEntity.getComponent(PositionComponent.class).x, BlockEntity.getComponent(PositionComponent.class).y, DW * 0.5f, DH * 0.5f, new Color(
