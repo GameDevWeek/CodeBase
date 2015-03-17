@@ -45,18 +45,26 @@ public class AISystem extends IteratingSystem {
         Ray ray = new Ray();
         this.physixSystem.getWorld().rayCast(ray, physix.getPosition(),
                 physix.getPosition()
-                        .add(Direction.DirectionToVector2(direction.facingDirection).scl(tilesize*2))
-                        .sub(Vector2.Y.scl(tilesize))
+                        .add(direction.facingDirection.toVector2().scl(tilesize))
+                        .sub(Vector2.Y.scl(tilesize*0.5f))
         );
+
+        if(ray.fraction*ray.fraction <= 1.25f*tilesize*tilesize){
+            ray.fixture.getBody();
+        }
     }
 
     private class Ray implements RayCastCallback{
 
-
+        Fixture fixture;
+        float fraction;
 
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+            this.fixture = fixture;
+            this.fraction = fraction;
             return 0;
         }
+
     }
 }
