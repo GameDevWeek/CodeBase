@@ -6,7 +6,9 @@ import com.badlogic.ashley.core.Entity;
 
 import de.hochschuletrier.gdw.commons.tiled.LayerObject;
 import de.hochschuletrier.gdw.commons.tiled.Layer;
+import de.hochschuletrier.gdw.commons.tiled.SafeProperties;
 import de.hochschuletrier.gdw.commons.tiled.TileInfo;
+import de.hochschuletrier.gdw.commons.tiled.TileSet;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
 
 
@@ -37,6 +39,7 @@ public class MapLoader {
               if ( l == null ) continue;
               TileInfo[][] tiles =  l.getTiles();
               
+              /*
               if ( tiles != null )
               for(int i=0;i<tiles.length;i++)
               {
@@ -55,50 +58,123 @@ public class MapLoader {
                         
                           break;
                           }
-                          System.out.print( tiles[i][j].localId );
                       }
                   }
-                  System.out.println();
               }
+              */
           }
           
           
-        } catch(NullPointerException e)
-        {
-            throw new IllegalArgumentException( "Tileset ist Null" );
-        }
+        } 
         catch(Exception e)
         {
           throw new IllegalArgumentException( "Map konnte nicht geladen werden: " + filename );
         }
     }
           
-    // wenn moeglich nicht benutzen
+    /**
+     *  wenn moeglich nicht benutzen
+     * @return
+     */
     public TiledMap getTiledMap()
     {
       return tiledMap;
     }
     
+    /**
+     * nicht benutzen
+     * @return
+     */
     public ArrayList<Layer> getLayers()
     {
       return tiledMap.getLayers();
     }
     
+    /**
+     * nicht benutzen
+     * @param index
+     * @return
+     */
     public Layer getLayer( int index )
     {
       return tiledMap.getLayers().get(index);
     }
     
+    /**
+     * 
+     * @param layer Layer in dem sich der Blcok befindet
+     * @param x X-Koordinate des Blocks
+     * @param y Y-Koodinate des Blocks
+     * @return Infos über den Block (  )
+     */
+    public TileInfo getTileInfo(int layer,int x,int y)
+    {
+        return tiledMap.getLayers().get( layer ).getTiles()[x][y];
+    }
+    
+    /**
+     * not working
+     * @param layer
+     * @param x
+     * @param y
+     * @return
+     */
+    
+    /*
+    public String getBlockTypeOfPosition(int layer,int x,int y)
+    {
+        // Versuche auf gewuenschten Block zuzugreifen
+        try
+        {
+            // den Layer erhalten
+            Layer l = tiledMap.getLayers().get( layer );
+            int gTileID;
+            // Block auf dem Layer erfragen
+            // wenn null ist dort "None"
+            if (  l.getTiles()[x][y] == null )
+            {
+                // globale Tile ID erhalten
+                gTileID = l.getTiles()[x][y].globalId;
+                // verwendetes  TileSet abfragen 
+                TileSet ts = tiledMap.findTileSet( 0 );
+                
+                //SafeProperties tsp = ts.getTileProperties( gTileID ); 
+                
+                
+            } else
+            {
+                return "None";
+            }
+        } 
+        catch( ArrayIndexOutOfBoundsException e )
+        {
+            throw new ArrayIndexOutOfBoundsException("Der gewuenschte Block ist nicht innerhalb der Map");
+        }
+    }
+    */
+    
+    /** not ready
+     * 
+     * @return
+     */
     public ArrayList<Entity> getEntities()
     {
       return entities;
     }
-      
+    
+    /** not ready
+     * 
+     * @return
+     */
     public Entity getEntity( int index)
     {
       return entities.get( index );
     }
-          
+
+    /** not ready
+     * 
+     * @return
+     */
     public int getRescuingMinersLeft()
     {
         // TODO
