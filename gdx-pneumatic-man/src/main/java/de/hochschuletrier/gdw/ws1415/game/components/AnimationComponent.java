@@ -8,12 +8,10 @@ public class AnimationComponent extends Component implements Pool.Poolable {
 
     public AnimationExtended animation;
     public float stateTime;
-    public int layer;
 
     @Override
     public void reset() {
         animation = null;
         stateTime = 0;
-        layer = 0;
     }
 }
