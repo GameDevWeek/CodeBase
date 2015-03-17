@@ -17,6 +17,7 @@ import de.hochschuletrier.gdw.ws1415.game.components.BlockComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.HealthComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.LayerComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
+import de.hochschuletrier.gdw.ws1415.game.components.TextureComponent;
 
 /**
  * Renders all renderable components by using the Render-Subsystems.
@@ -31,6 +32,7 @@ public class RenderSystem extends EntitySystem implements EntityListener {
 
     private AnimationRenderSubsystem animationRenderSystem = new AnimationRenderSubsystem();
     private DestructableBlockRenderSubsystem destructableBlockRenderSystem = new DestructableBlockRenderSubsystem();
+    private TextureRenderSubsystem textureSystem = new TextureRenderSubsystem();
     private CameraSystem cameraSystem = new CameraSystem();
 
     public RenderSystem() {
@@ -51,7 +53,7 @@ public class RenderSystem extends EntitySystem implements EntityListener {
         @SuppressWarnings("unchecked")
         Family family = Family
                 .all(PositionComponent.class, LayerComponent.class)
-                .one(AnimationComponent.class).get();
+                .one(AnimationComponent.class, TextureComponent.class).get();
         engine.addEntityListener(family, this);
     }
 
@@ -79,11 +81,11 @@ public class RenderSystem extends EntitySystem implements EntityListener {
         // RenderType enum for a
         // simple switch.
         for (Entity entity : entities) {
-            AnimationComponent animation = ComponentMappers.animation
-                    .get(entity);
+            AnimationComponent animation = ComponentMappers.animation.get(entity);
             BlockComponent block = ComponentMappers.block.get(entity);
             HealthComponent health = ComponentMappers.health.get(entity);
-
+            TextureComponent tex = ComponentMappers.texture.get(entity);
+            
             cameraSystem.preParallax(entity);
 
             if (animation != null) {
@@ -92,7 +94,10 @@ public class RenderSystem extends EntitySystem implements EntityListener {
                 } else {
                     animationRenderSystem.render(entity, deltaTime);
                 }
+            } else if (tex != null) {
+            	textureSystem.render(entity, deltaTime);
             }
+
             cameraSystem.postParallax();
         }
     }

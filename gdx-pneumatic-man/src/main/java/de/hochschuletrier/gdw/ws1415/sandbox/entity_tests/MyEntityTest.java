@@ -8,6 +8,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
@@ -21,6 +22,7 @@ import de.hochschuletrier.gdw.ws1415.game.components.DamageComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.HealthComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.LayerComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
+import de.hochschuletrier.gdw.ws1415.game.components.TextureComponent;
 import de.hochschuletrier.gdw.ws1415.game.systems.HealthSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.RenderSystem;
 import de.hochschuletrier.gdw.ws1415.sandbox.SandboxGame;
@@ -53,7 +55,8 @@ public class MyEntityTest extends SandboxGame {
 
     Entity blockEntity;
     Entity arrow;
-
+    Entity backgroundEntity;
+    
     @Override
     public void init(AssetManagerX assetManager) {
         blockEntity = engine.createEntity();       
@@ -97,7 +100,7 @@ public class MyEntityTest extends SandboxGame {
         ArrowPosition.y = Gdx.graphics.getHeight() * 0.5f;
         arrow.add(ArrowPosition);
         LayerComponent arrowLayer = engine.createComponent(LayerComponent.class);;
-        arrowLayer.layer = 0;
+        arrowLayer.layer = 2;
         arrowLayer.parallax = 1f;
         
         arrow.add(arrowLayer);
@@ -105,6 +108,26 @@ public class MyEntityTest extends SandboxGame {
         arrow.add(animComp);
         
         engine.addEntity(arrow);
+        
+        // ***** backgroundEntity ******
+        backgroundEntity = engine.createEntity();
+        LayerComponent backgroundLayer = engine.createComponent(LayerComponent.class);
+        backgroundLayer.layer = 0;
+        backgroundLayer.parallax = 0.5f;
+        
+        TextureComponent backgroundTex = engine.createComponent(TextureComponent.class);
+        backgroundTex.texture = assetManager.getTexture("logo");
+        
+        PositionComponent backgroundPos = engine.createComponent(PositionComponent.class);
+        backgroundPos.x = 0;
+        backgroundPos.y = 0;
+        backgroundPos.rotation = 0;
+        
+        backgroundEntity.add(backgroundPos);
+        backgroundEntity.add(backgroundLayer);
+        backgroundEntity.add(backgroundTex);
+        
+        engine.addEntity(backgroundEntity);
         
         camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setBounds(0, 0, 1000, 1000);

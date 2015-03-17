@@ -16,4 +16,5 @@ public class ComponentMappers {
     public static final ComponentMapper<HealthComponent> health = ComponentMapper.getFor(HealthComponent.class);
     public static final ComponentMapper<BlockComponent> block = ComponentMapper.getFor(BlockComponent.class);
     public static final ComponentMapper<LayerComponent> layer = ComponentMapper.getFor(LayerComponent.class);
+    public static final ComponentMapper<TextureComponent> texture = ComponentMapper.getFor(TextureComponent.class);
 }
