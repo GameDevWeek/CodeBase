@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.ws1415.game.input;
+package de.hochschuletrier.gdw.ws1415.game.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -8,9 +8,9 @@ import com.badlogic.gdx.InputProcessor;
 
 import de.hochschuletrier.gdw.ws1415.game.components.InputComponent;
 
-public class InputKeybord extends IteratingSystem implements InputProcessor{
+public class InputKeyboardSystem extends IteratingSystem implements InputProcessor{
 
-    public InputKeybord()
+    public InputKeyboardSystem()
     {
         super(Family.all(InputComponent.class).get());
     }
