@@ -135,7 +135,7 @@ public class MovementTest extends SandboxGame {
         physixSystem.setGravity(0, 24);
         
         movementComponent = new MovementComponent();
-        movementComponent.speed = 10500.0f;
+        movementComponent.speed = 15000.0f;
         player.add(movementComponent);
         
         jumpComponent = new JumpComponent(100000.0f, 0.02f);
