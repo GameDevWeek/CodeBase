@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.ws1415.game;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Sound;
@@ -41,17 +42,17 @@ import de.hochschuletrier.gdw.ws1415.game.contactlisteners.TriggerListener;
 import de.hochschuletrier.gdw.ws1415.game.systems.MovementSystem;
 
 import de.hochschuletrier.gdw.ws1415.game.systems.AnimationRenderSubsystem;
+import de.hochschuletrier.gdw.ws1415.game.systems.InputKeyboardSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.RenderSystem;
 
 import de.hochschuletrier.gdw.ws1415.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ws1415.game.utils.PhysixUtil;
 
+
 import java.util.HashMap;
-
-
 import java.util.function.Consumer;
 
-public class Game extends InputAdapter {
+public class Game {
 
     private final CVarBool physixDebug = new CVarBool("physix_debug", true, 0, "Draw physix debug");
     private final Hotkey togglePhysixDebug = new Hotkey(() -> physixDebug.toggle(false), Input.Keys.F1, HotkeyModifier.CTRL);
@@ -68,7 +69,8 @@ public class Game extends InputAdapter {
     private final RenderSystem renderSystem = new RenderSystem(GameConstants.PRIORITY_ANIMATIONS);
     private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
     private final MovementSystem movementSystem = new MovementSystem(GameConstants.PRIORITY_PHYSIX+2);
-    
+    private final InputKeyboardSystem inputKeyboardSystem = new InputKeyboardSystem();
+
     private Sound impactSound;
     private AnimationExtended ballAnimation;
 
@@ -107,8 +109,12 @@ public class Game extends InputAdapter {
 
         addSystems();
         addContactListeners();
+        
+    
+        Main.inputMultiplexer.addProcessor(inputKeyboardSystem);
+        
 
-        Main.inputMultiplexer.addProcessor(this);
+        
     }
 
     private void generateWorldFromTileMap() {
@@ -162,6 +168,8 @@ public class Game extends InputAdapter {
         engine.addSystem(renderSystem);
         engine.addSystem(updatePositionSystem);
         engine.addSystem(movementSystem);
+        engine.addSystem(inputKeyboardSystem);
+
     }
 
     private void addContactListeners() {
