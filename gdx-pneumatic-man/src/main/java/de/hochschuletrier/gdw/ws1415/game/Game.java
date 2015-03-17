@@ -40,7 +40,6 @@ import de.hochschuletrier.gdw.ws1415.game.contactlisteners.PlayerContactListener
 import de.hochschuletrier.gdw.ws1415.game.contactlisteners.TriggerListener;
 import de.hochschuletrier.gdw.ws1415.game.systems.AnimationRenderSubsystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.InputKeyboardSystem;
-import de.hochschuletrier.gdw.ws1415.game.systems.InputTestSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.RenderSystem;
 import de.hochschuletrier.gdw.ws1415.game.systems.UpdatePositionSystem;
 import de.hochschuletrier.gdw.ws1415.game.utils.PhysixUtil;
@@ -110,7 +109,6 @@ public class Game {
         
 
         
-        Entity player = EntityCreator.createAndAddPlayer(0,0,0,engine);
     }
 
     private void generateWorldFromTileMap() {
@@ -164,7 +162,7 @@ public class Game {
         engine.addSystem(renderSystem);
         engine.addSystem(updatePositionSystem);
         engine.addSystem(inputKeyboardSystem);
-        engine.addSystem(new InputTestSystem());
+  
     }
 
     private void addContactListeners() {
