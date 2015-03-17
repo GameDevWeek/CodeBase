@@ -10,9 +10,11 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
+import de.hochschuletrier.gdw.ws1415.game.GameConstants;
 import de.hochschuletrier.gdw.ws1415.game.components.AIComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.DirectionComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
+import de.hochschuletrier.gdw.ws1415.game.utils.AIType;
 import de.hochschuletrier.gdw.ws1415.game.utils.Direction;
 
 public class AISystem extends IteratingSystem {
@@ -34,22 +36,24 @@ public class AISystem extends IteratingSystem {
         PositionComponent position = ComponentMappers.position.get(entity);
         DirectionComponent direction = entity.getComponent(DirectionComponent.class);
         AIComponent ai = ComponentMappers.AI.get(entity);
-        // TODO: ask for unit state → just check if on bottom
-        int tilesize = 64; // TODO: get TileSize from global constants
+        // TODO: ask for unit state → go on if unit is at bottom
 
-        // if(ai.type == AIType.Passive)
+        int tilesize = GameConstants.getTILESIZE();
 
-        this.physixSystem.getWorld().rayCast(new canPass(), physix.getPosition(),
+        if(ai.type == AIType.PASSIVE);
+
+        Ray ray = new Ray();
+        this.physixSystem.getWorld().rayCast(ray, physix.getPosition(),
                 physix.getPosition()
                         .add(Direction.DirectionToVector2(direction.facingDirection).scl(tilesize*2))
                         .sub(Vector2.Y.scl(tilesize))
         );
-
-
-
     }
 
-    private class canPass implements RayCastCallback{
+    private class Ray implements RayCastCallback{
+
+
+
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
             return 0;
