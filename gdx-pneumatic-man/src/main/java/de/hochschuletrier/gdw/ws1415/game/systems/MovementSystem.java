@@ -7,20 +7,21 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.hochschuletrier.gdw.commons.gdx.physix.components.PhysixBodyComponent;
 import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
+import de.hochschuletrier.gdw.ws1415.game.components.InputComponent;
 //import de.hochschuletrier.gdw.ws1415.game.components.BouncingComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.JumpComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.MovementComponent;
 
 public class MovementSystem extends IteratingSystem {
 
-    private static final float EPSILON = 0.1f;
+    private static final float EPSILON = 1f/64f;
 
     public MovementSystem() {
         this(0);
     }
 
     public MovementSystem(int priority) {
-        super(Family.all(PhysixBodyComponent.class)
+        super(Family.all(PhysixBodyComponent.class, InputComponent.class)
                 .one(MovementComponent.class, JumpComponent.class).get(),
                 priority);
     }
@@ -28,12 +29,21 @@ public class MovementSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         PhysixBodyComponent physix = ComponentMappers.physixBody.get(entity);
+        InputComponent input = ComponentMappers.input.get(entity);
         MovementComponent movement = ComponentMappers.movement.get(entity);
         // BouncingComponent bouncing = ComponentMappers.bouncing.get(entity);
         JumpComponent jump = ComponentMappers.jump.get(entity);
 
         if (movement != null) {
 
+            if(input.direction == -1){
+                movement.velocity.set(-movement.speed, movement.velocity.y);
+            }else if(input.direction == 1){
+                movement.velocity.set(movement.speed, movement.velocity.y);
+            }else {
+                movement.velocity.set(0, movement.velocity.y);
+            }
+            
             physix.setLinearVelocity(movement.velocity.x * deltaTime,
                     physix.getLinearVelocity().y
                             + (movement.velocity.y * deltaTime));
@@ -52,7 +62,8 @@ public class MovementSystem extends IteratingSystem {
          */
         if (jump != null) {
             // if jump was called
-            if (jump.doJump) {
+            if (input.jump) {
+                jump.doJump = true;
                 // if entity is on the ground and the timeToNextBounce has
                 // surpassed the current restingTime --> jump!
                 if (physix.getLinearVelocity().y < EPSILON
