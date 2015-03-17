@@ -21,7 +21,6 @@ import java.util.Comparator;
 /**
  * Renders all renderable components by using the Render-Subsystems.
  * 
- * @author compie
  *
  */
 public class RenderSystem extends EntitySystem implements EntityListener {
@@ -32,6 +31,7 @@ public class RenderSystem extends EntitySystem implements EntityListener {
 
     private AnimationRenderSubsystem animationRenderSystem = new AnimationRenderSubsystem();
     private DestructableBlockRenderSubsystem destructableBlockRenderSystem = new DestructableBlockRenderSubsystem();
+    private CameraSystem cameraSubsystem = new CameraSystem();
     
     public RenderSystem() {
         super(0);
@@ -74,6 +74,8 @@ public class RenderSystem extends EntitySystem implements EntityListener {
             BlockComponent block = ComponentMappers.block.get(entity);
             HealthComponent health = ComponentMappers.health.get(entity);
             
+            cameraSubsystem.preParallax(entity);
+            
             if(animation != null) {
             	if(block != null && health != null) {
             		destructableBlockRenderSystem.render(entity, deltaTime);
@@ -81,6 +83,8 @@ public class RenderSystem extends EntitySystem implements EntityListener {
             		animationRenderSystem.render(entity, deltaTime);
             	}
             }
+            
+            cameraSubsystem.postParallax();
         }
     }
 

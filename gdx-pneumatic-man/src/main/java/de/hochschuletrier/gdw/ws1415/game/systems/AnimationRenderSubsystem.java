@@ -1,7 +1,5 @@
 package de.hochschuletrier.gdw.ws1415.game.systems;
 
-import java.util.Comparator;
-
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -10,13 +8,18 @@ import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
 import de.hochschuletrier.gdw.ws1415.game.components.AnimationComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
 
+/**
+ * 
+ * Subsystem used by the RenderSystem.
+ *
+ */
 public class AnimationRenderSubsystem {
 
-    public AnimationRenderSubsystem() {
+    AnimationRenderSubsystem() {
     }
 
 
-    public void render(Entity entity, float deltaTime) {
+    void render(Entity entity, float deltaTime) {
         AnimationComponent animation = ComponentMappers.animation.get(entity);
         PositionComponent position = ComponentMappers.position.get(entity);
 

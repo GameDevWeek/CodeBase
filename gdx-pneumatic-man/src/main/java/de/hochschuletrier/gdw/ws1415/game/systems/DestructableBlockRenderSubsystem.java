@@ -1,24 +1,22 @@
 package de.hochschuletrier.gdw.ws1415.game.systems;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
 import de.hochschuletrier.gdw.ws1415.game.components.AnimationComponent;
-import de.hochschuletrier.gdw.ws1415.game.components.BlockComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.HealthComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.PositionComponent;
 
-public class DestructableBlockRenderSubsystem extends AnimationRenderSubsystem {
+/**
+ * 
+ * Subsystem used by the RenderSystem.
+ *
+ */
+public class DestructableBlockRenderSubsystem {
     
-    @Override
-    public void render(Entity entity, float deltaTime) {
+    void render(Entity entity, float deltaTime) {
         AnimationComponent animation = ComponentMappers.animation.get(entity);
         PositionComponent position = ComponentMappers.position.get(entity);
         HealthComponent health = ComponentMappers.health.get(entity);
