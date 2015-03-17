@@ -7,7 +7,7 @@ public class InputComponent extends Component implements Pool.Poolable
 {
     public boolean jump = false;
     
-    public int direction = 0; //-1 heißt links, 0 heißt stehenbleiben, 1 heißt rechts
+    public float direction = 0; //-1 heißt links, 0 heißt stehenbleiben, 1 heißt rechts
     
     public boolean pause = false;
     
