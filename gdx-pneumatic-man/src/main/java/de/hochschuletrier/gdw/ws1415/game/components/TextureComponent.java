@@ -1,15 +1,16 @@
 package de.hochschuletrier.gdw.ws1415.game.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Pool;
 
-public class LayerComponent extends Component implements Pool.Poolable {
-	public int layer;
-	public float parallax;
+public class TextureComponent extends Component implements Pool.Poolable {
+
+	public Texture texture;
 	
 	@Override
 	public void reset() {
-		layer = 0;
-		parallax = 1;
+		texture = null;
 	}
+
 }
