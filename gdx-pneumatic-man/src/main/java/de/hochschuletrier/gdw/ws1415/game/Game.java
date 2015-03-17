@@ -99,40 +99,44 @@ public class Game extends InputAdapter {
 
         setupPhysixWorld();
         generateWorldFromTileMap();
-        
+
         //dummy
         createBall(500, 250, 50);
-        
+
         addSystems();
         addContactListeners();
 
         Main.inputMultiplexer.addProcessor(this);
     }
-    
+
     private void generateWorldFromTileMap() {
         int tileWidth = map.getTileWidth();
         int tileHeight = map.getTileHeight();
         RectangleGenerator generator = new RectangleGenerator();
         generator.generate(map,
-                (Layer layer, TileInfo info) -> info.getBooleanProperty("Invulnerable", false),
-                (Rectangle rect) -> EntityCreator.createAndAddFloor(engine, physixSystem, rect, tileWidth, tileHeight));
+                (Layer layer, TileInfo info) -> {
+                    return info.getBooleanProperty("Invulnerable", false)
+                    && info.getProperty("Type", "").equals("Floor");
+                },
+                (Rectangle rect) -> {
+                    EntityCreator.createAndAddInvulnerableFloor(engine,
+                            physixSystem, rect, tileWidth, tileHeight);
+                });
 
         for (Layer layer : map.getLayers()) {
             TileInfo[][] tiles = layer.getTiles();
 
             for (int i = 0; i < map.getWidth(); i++) {
                 for (int j = 0; j < map.getHeight(); j++) {
-                    if (tiles != null) {
-                        if (tiles[i] != null) {
-                            if (tiles[i][j] != null) {
-                                if (tiles[i][j].getIntProperty("Hitpoint", 0) != 0) {
-
-                                    EntityCreator.createAndAddFloor(engine, physixSystem, i * map.getTileWidth()+0.5f*map.getTileWidth(),
-                                            j * map.getTileHeight()+0.5f*map.getTileHeight(),
-                                            map.getTileWidth(),
-                                            map.getTileHeight());
-                                }
-                            }
+                    if (tiles != null && tiles[i] != null && tiles[i][j] != null) {
+                        if (tiles[i][j].getIntProperty("Hitpoint", 0) != 0
+                                && tiles[i][j].getProperty("Type", "").equals("Floor")) {
+                            EntityCreator.createAndAddVulnerableFloor(engine,
+                                    physixSystem,
+                                    i * map.getTileWidth() + 0.5f * map.getTileWidth(),
+                                    j * map.getTileHeight() + 0.5f * map.getTileHeight(),
+                                    map.getTileWidth(),
+                                    map.getTileHeight());
                         }
                     }
                 }
@@ -140,7 +144,7 @@ public class Game extends InputAdapter {
         }
 
     }
-    
+
     public TiledMap loadMap(String filename) {
         try {
             return new TiledMap(filename, LayerObject.PolyMode.ABSOLUTE);
@@ -149,6 +153,7 @@ public class Game extends InputAdapter {
                     "Map konnte nicht geladen werden: " + filename);
         }
     }
+
     private void addSystems() {
         engine.addSystem(physixSystem);
         engine.addSystem(physixDebugRenderSystem);
@@ -176,7 +181,7 @@ public class Game extends InputAdapter {
         }
 
         mapRenderer.update(delta);
-        
+
         engine.update(delta);
     }
 
@@ -194,7 +199,7 @@ public class Game extends InputAdapter {
         animComponent.animation = ballAnimation;
         entity.add(animComponent);
         entity.add(engine.createComponent(LayerComponent.class));
-        
+
         modifyComponent.schedule(() -> {
             PhysixBodyComponent bodyComponent = engine.createComponent(PhysixBodyComponent.class);
             PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.DynamicBody, physixSystem)
