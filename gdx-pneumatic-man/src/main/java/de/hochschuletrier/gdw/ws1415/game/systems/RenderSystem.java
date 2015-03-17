@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
 import de.hochschuletrier.gdw.ws1415.game.components.AnimationComponent;
@@ -31,7 +32,7 @@ public class RenderSystem extends EntitySystem implements EntityListener {
 
     private AnimationRenderSubsystem animationRenderSystem = new AnimationRenderSubsystem();
     private DestructableBlockRenderSubsystem destructableBlockRenderSystem = new DestructableBlockRenderSubsystem();
-    private CameraSystem cameraSubsystem = new CameraSystem();
+    private CameraSystem cameraSystem = new CameraSystem();
     
     public RenderSystem() {
         super(0);
@@ -39,6 +40,10 @@ public class RenderSystem extends EntitySystem implements EntityListener {
 
     public RenderSystem(int priority) {
         super(priority);
+    }
+    
+    public LimitedSmoothCamera getCamera() {
+    	return cameraSystem.getCamera();
     }
 
     @Override
@@ -74,7 +79,7 @@ public class RenderSystem extends EntitySystem implements EntityListener {
             BlockComponent block = ComponentMappers.block.get(entity);
             HealthComponent health = ComponentMappers.health.get(entity);
             
-            cameraSubsystem.preParallax(entity);
+            cameraSystem.preParallax(entity);
             
             if(animation != null) {
             	if(block != null && health != null) {
@@ -84,7 +89,7 @@ public class RenderSystem extends EntitySystem implements EntityListener {
             	}
             }
             
-            cameraSubsystem.postParallax();
+            cameraSystem.postParallax();
         }
     }
 
