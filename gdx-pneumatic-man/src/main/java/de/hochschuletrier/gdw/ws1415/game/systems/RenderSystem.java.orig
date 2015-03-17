@@ -9,8 +9,11 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 
+<<<<<<< HEAD
 import de.hochschuletrier.gdw.commons.gdx.cameras.orthogonal.LimitedSmoothCamera;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+=======
+>>>>>>> 4ca6671f66c92898e58f11bdb1d9bd73b7e7c232
 import de.hochschuletrier.gdw.ws1415.game.ComponentMappers;
 import de.hochschuletrier.gdw.ws1415.game.components.AnimationComponent;
 import de.hochschuletrier.gdw.ws1415.game.components.BlockComponent;
@@ -31,8 +34,13 @@ public class RenderSystem extends EntitySystem implements EntityListener {
 
     private AnimationRenderSubsystem animationRenderSystem = new AnimationRenderSubsystem();
     private DestructableBlockRenderSubsystem destructableBlockRenderSystem = new DestructableBlockRenderSubsystem();
+<<<<<<< HEAD
     private CameraSystem cameraSystem = new CameraSystem();
+    
+=======
+    private CameraSystem cameraSubsystem = new CameraSystem();
 
+>>>>>>> 4ca6671f66c92898e58f11bdb1d9bd73b7e7c232
     public RenderSystem() {
         super(0);
     }
@@ -83,8 +91,22 @@ public class RenderSystem extends EntitySystem implements EntityListener {
                     .get(entity);
             BlockComponent block = ComponentMappers.block.get(entity);
             HealthComponent health = ComponentMappers.health.get(entity);
-
+<<<<<<< HEAD
+            
             cameraSystem.preParallax(entity);
+            
+            if(animation != null) {
+            	if(block != null && health != null) {
+            		destructableBlockRenderSystem.render(entity, deltaTime);
+            	} else {
+            		animationRenderSystem.render(entity, deltaTime);
+            	}
+            }
+            
+            cameraSystem.postParallax();
+=======
+
+            cameraSubsystem.preParallax(entity);
 
             if (animation != null) {
                 if (block != null && health != null) {
@@ -93,7 +115,8 @@ public class RenderSystem extends EntitySystem implements EntityListener {
                     animationRenderSystem.render(entity, deltaTime);
                 }
             }
-            cameraSystem.postParallax();
+            cameraSubsystem.postParallax();
+>>>>>>> 4ca6671f66c92898e58f11bdb1d9bd73b7e7c232
         }
     }
 
