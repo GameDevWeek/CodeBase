@@ -39,17 +39,26 @@ public class EntityCreator {
         return player;
     }
 
-    public static Entity createAndAddEnemy(float x, float y, float rotation, PooledEngine engine) {
-        Entity enemy = engine.createEntity();
+    public static Entity createAndAddEnemy(PhysixSystem physixSystem, float x, float y, float rotation, PooledEngine engine) {
+        Entity entity = engine.createEntity();
 
-        enemy.add(engine.createComponent(DamageComponent.class));
-        enemy.add(engine.createComponent(AIComponent.class));
-        enemy.add(engine.createComponent(AnimationComponent.class));
-        enemy.add(engine.createComponent(PositionComponent.class));
-        enemy.add(engine.createComponent(SpawnComponent.class));
+        entity.add(engine.createComponent(DamageComponent.class));
+        entity.add(engine.createComponent(AIComponent.class));
+        entity.add(engine.createComponent(AnimationComponent.class));
+        entity.add(engine.createComponent(PositionComponent.class));
+        entity.add(engine.createComponent(SpawnComponent.class));
 
-        engine.addEntity(enemy);
-        return enemy;
+        PhysixBodyComponent pbc = new PhysixBodyComponent();
+        PhysixBodyDef pbdy = new PhysixBodyDef(BodyDef.BodyType.DynamicBody, physixSystem).position(x, y).fixedRotation(true);
+        PhysixFixtureDef pfx = new PhysixFixtureDef(physixSystem).density(1).friction(1f).shapeBox(10, 10).restitution(0.1f);
+        Fixture fixture = pbc.createFixture(pfx);
+        fixture.setUserData(pbdy);
+        pbc.init(pbdy, physixSystem, entity);
+
+        entity.add(pbc);
+
+        engine.addEntity(entity);
+        return entity;
     }
 
     public static Entity createAndAddEventBox(EventBoxType type, float x, float y, PooledEngine engine) {
