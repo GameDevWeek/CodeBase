@@ -32,7 +32,21 @@ public class SceneAnimator {
     private final HashMap<String, Queue> queues = new HashMap();
     private final Array<Queue> queueArray = new Array();
     private final HashMap<String, Path<Vector2>> paths = new HashMap();
-    private final float timeFactor;
+    private float timeFactor;
+
+    /**
+     * @return the timeFactor
+     */
+    public float getTimeFactor() {
+        return timeFactor;
+    }
+
+    /**
+     * @param timeFactor the timeFactor to set
+     */
+    public void setTimeFactor(float timeFactor) {
+        this.timeFactor = timeFactor;
+    }
 
     public interface Getter {
 

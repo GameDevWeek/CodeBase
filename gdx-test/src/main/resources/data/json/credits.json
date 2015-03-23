@@ -11,15 +11,15 @@
         "text": {
             "type": "linear",
             "destinations": [
-                {"x": 512, "y": 480, "speed": 30 },
-                {"x": 512, "y": -100, "speed": 30 }
+                {"x": 512, "y": 120, "speed": 30 },
+                {"x": 512, "y": 700, "speed": 30 }
             ]
         },
         "btw": {
             "type": "linear",
             "destinations": [
-                {"x": 200, "y": 480, "speed": 30 },
-                {"x": 200, "y": -100, "speed": 30 }
+                {"x": 200, "y": 120, "speed": 30 },
+                {"x": 200, "y": 700, "speed": 30 }
             ]
         }
     },
@@ -73,13 +73,13 @@
             "animations": [
                 { "time": 0, "animation": "construct", "animationTime": 1000, "group": "title",
                     "minRadius" : 100, "maxRadius" : 300,
-                    "minAngle" : -45, "maxAngle" : 225,
+                    "minAngle" : 45, "maxAngle" : 135,
                     "minCurveAngle": 45, "maxCurveAngle": 135
                 },
                 { "time": 0, "animation": "untype_instant" },
                 { "time": 1000, "animation": "construct_type", "animationTime": 100,
                     "minRadius" : 100, "maxRadius" : 100,
-                    "minAngle" : 35, "maxAngle" : 35,
+                    "minAngle" : -35, "maxAngle" : -35,
                     "minCurveAngle": 25, "maxCurveAngle": 55,
                     "trailMaxSteps": 3, "trailStepTime": 50
                 },

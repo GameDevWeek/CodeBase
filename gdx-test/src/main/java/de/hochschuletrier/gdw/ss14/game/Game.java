@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -73,8 +74,6 @@ public class Game extends InputAdapter {
         addSystems();
         addContactListeners();
         setupPhysixWorld();
-
-        Main.inputMultiplexer.addProcessor(this);
     }
 
     private void addSystems() {
@@ -160,5 +159,9 @@ public class Game extends InputAdapter {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         createBall(screenX, screenY, 30);
         return true;
+    }
+
+    public InputProcessor getInputProcessor() {
+        return this;
     }
 }

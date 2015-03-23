@@ -1,4 +1,4 @@
 {
-    "crosshair": "data/images/crosshair.png",
-    "logo": "data/images/logo.png"
+    "menu_fg": "data/ui/menu/fg_border.png",
+    "menu_bg": "data/ui/menu/bg_root.png"
 }

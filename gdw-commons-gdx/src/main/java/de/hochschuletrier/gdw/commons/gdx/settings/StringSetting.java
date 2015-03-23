@@ -6,7 +6,7 @@ import com.badlogic.gdx.Preferences;
  *
  * @author Santo Pfingsten
  */
-public class StringSetting extends Setting {
+public class StringSetting extends Setting<String> {
 
     final String def;
 
@@ -21,6 +21,7 @@ public class StringSetting extends Setting {
 
     public void set(String value) {
         prefs.putString(key, value);
+        notifyListeners(value);
     }
 
     public String get() {

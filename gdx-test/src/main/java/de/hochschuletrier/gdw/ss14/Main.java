@@ -33,12 +33,19 @@ import de.hochschuletrier.gdw.commons.utils.ClassUtils;
 import de.hochschuletrier.gdw.ss14.sandbox.SandboxCommand;
 import de.hochschuletrier.gdw.ss14.states.LoadGameState;
 import de.hochschuletrier.gdw.ss14.states.MainMenuState;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.PosixParser;
 
 /**
- * 
+ *
  * @author Santo Pfingsten
  */
 public class Main extends StateBasedGame {
+    
+    public static CommandLine cmdLine;
 
     public static final boolean IS_RELEASE = ClassUtils.getClassUrl(Main.class).getProtocol().equals("jar");
 
@@ -50,7 +57,7 @@ public class Main extends StateBasedGame {
 
     public final DevConsole console = new DevConsole(16);
     private final DevConsoleView consoleView = new DevConsoleView(console);
-    private Skin skin;
+    private Skin consoleSkin;
     public static final InputMultiplexer inputMultiplexer = new InputMultiplexer();
     private final CVarEnum<SoundDistanceModel> distanceModel = new CVarEnum("snd_distanceModel", SoundDistanceModel.INVERSE, SoundDistanceModel.class, 0, "sound distance model");
     private final CVarEnum<SoundEmitter.Mode> emitterMode = new CVarEnum("snd_mode", SoundEmitter.Mode.STEREO, SoundEmitter.Mode.class, 0, "sound mode");
@@ -64,6 +71,13 @@ public class Main extends StateBasedGame {
             instance = new Main();
         }
         return instance;
+    }
+
+    /**
+     * @return the assetManager
+     */
+    public AssetManagerX getAssetManager() {
+        return assetManager;
     }
 
     private void setupDummyLoader() {
@@ -100,8 +114,8 @@ public class Main extends StateBasedGame {
         loadAssetLists();
         setupGdx();
 
-        skin = new Skin(Gdx.files.internal("data/skins/basic.json"));
-        consoleView.init(skin);
+        consoleSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
+        consoleView.init(consoleSkin);
         addScreenListener(consoleView);
         inputMultiplexer.addProcessor(consoleView.getInputProcessor());
         inputMultiplexer.addProcessor(HotkeyManager.getInputProcessor());
@@ -120,6 +134,10 @@ public class Main extends StateBasedGame {
         addPersistentState(mainMenuState);
         changeState(mainMenuState, null, null);
         SandboxCommand.init(assetManager);
+        
+        if (cmdLine.hasOption("sandbox")) {
+            SandboxCommand.runSandbox(cmdLine.getOptionValue("sandbox"));
+        }
     }
 
     @Override
@@ -127,7 +145,7 @@ public class Main extends StateBasedGame {
         super.dispose();
         DrawUtil.batch.dispose();
         consoleView.dispose();
-        skin.dispose();
+        consoleSkin.dispose();
         SoundEmitter.disposeGlobal();
     }
 
@@ -192,6 +210,25 @@ public class Main extends StateBasedGame {
         cfg.foregroundFPS = 60;
         cfg.backgroundFPS = 60;
 
+        parseOptions(args);
         new LwjglApplication(getInstance(), cfg);
+    }
+
+    private static void parseOptions(String[] args) throws IllegalArgumentException {
+        CommandLineParser cmdLineParser = new PosixParser();
+
+        Options options = new Options();
+        options.addOption(OptionBuilder.withLongOpt("sandbox")
+                .withDescription("Start a Sandbox Game")
+                .withType(String.class)
+                .hasArg()
+                .withArgName("Sandbox Classname")
+                .create());
+
+        try {
+            cmdLine = cmdLineParser.parse(options, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

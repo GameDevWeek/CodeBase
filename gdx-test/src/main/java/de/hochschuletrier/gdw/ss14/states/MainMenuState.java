@@ -1,106 +1,92 @@
 package de.hochschuletrier.gdw.ss14.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import de.hochschuletrier.gdw.commons.gdx.menu.MenuManager;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
-import de.hochschuletrier.gdw.commons.gdx.input.InputInterceptor;
+import de.hochschuletrier.gdw.commons.gdx.input.InputForwarder;
 import de.hochschuletrier.gdw.commons.gdx.state.BaseGameState;
-import de.hochschuletrier.gdw.commons.gdx.state.transition.SplitHorizontalTransition;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
+import de.hochschuletrier.gdw.commons.gdx.menu.widgets.DecoImage;
+import de.hochschuletrier.gdw.commons.gdx.audio.MusicManager;
 import de.hochschuletrier.gdw.ss14.Main;
+import de.hochschuletrier.gdw.ss14.game.GameConstants;
+import de.hochschuletrier.gdw.ss14.menu.MenuPageRoot;
 
 /**
  * Menu state
  *
  * @author Santo Pfingsten
  */
-public class MainMenuState extends BaseGameState implements InputProcessor {
+public class MainMenuState extends BaseGameState {
 
-    private final AssetManagerX assetManager;
+    private final Skin skin = new Skin(Gdx.files.internal("data/ui/menu/skins/menu.json"));
     private final Music music;
 
-    InputInterceptor inputProcessor;
+    private final MenuManager menuManager = new MenuManager(Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT, null);
+    private final InputForwarder inputForwarder;
 
     public MainMenuState(AssetManagerX assetManager) {
-        this.assetManager = assetManager;
         music = assetManager.getMusic("menu");
 
-        music.setLooping(true);
-//        music.play();
+        final MenuPageRoot menuPageRoot = new MenuPageRoot(skin, menuManager, MenuPageRoot.Type.MAINMENU);
+        menuManager.addLayer(menuPageRoot);
 
-        inputProcessor = new InputInterceptor(this);
-        Main.inputMultiplexer.addProcessor(inputProcessor);
+        menuManager.addLayer(new DecoImage(assetManager.getTexture("menu_fg")));
+        menuManager.pushPage(menuPageRoot);
+//        menuManager.getStage().setDebugAll(true);
+
+        Main.getInstance().addScreenListener(menuManager);
+
+        inputForwarder = new InputForwarder() {
+            @Override
+            public boolean keyUp(int keycode) {
+                if (mainProcessor != null && keycode == Input.Keys.ESCAPE) {
+                    menuManager.popPage();
+                    return true;
+                }
+                return super.keyUp(keycode);
+            }
+        };
+
+        Main.inputMultiplexer.addProcessor(inputForwarder);
     }
 
     public void render() {
         Main.getInstance().screenCamera.bind();
-        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.GRAY);
+        DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLACK);
+        menuManager.render();
     }
 
     @Override
     public void update(float delta) {
+        menuManager.update(delta);
         render();
     }
 
     @Override
-    public void onEnter(BaseGameState previousState) {
-        inputProcessor.setActive(true);
-        inputProcessor.setBlocking(true);
+    public void onEnterComplete() {
+        MusicManager.play(music, GameConstants.MUSIC_FADE_TIME);
+        inputForwarder.set(menuManager.getInputProcessor());
     }
 
     @Override
     public void onLeave(BaseGameState nextState) {
-        inputProcessor.setActive(false);
-        inputProcessor.setBlocking(false);
+        inputForwarder.set(null);
     }
 
     @Override
     public void dispose() {
+        menuManager.dispose();
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Main main = Main.getInstance();
-        if(!main.isTransitioning()) {
-            main.changeState(new GameplayState(assetManager), new SplitHorizontalTransition(500), null);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+    /**
+     * @return the skin
+     */
+    public Skin getSkin() {
+        return skin;
     }
 }

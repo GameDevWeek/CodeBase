@@ -92,9 +92,9 @@ public class AnimationExtended {
                 frameNumber = MathUtils.random(keyFrames.length - 1);
                 break;
             case REVERSED:
-                current.startTime = animationDuration - stateTime % animationDuration;
+                current.startTime = (animationDuration - stateTime) % animationDuration;
+                current.startTime = Math.max(current.startTime, 0);
                 frameNumber = frames.floorEntry(current).getValue();
-                frameNumber = Math.max(keyFrames.length - frameNumber - 1, 0);
                 break;
             case LOOP_REVERSED:
                 current.startTime = animationDuration - (stateTime % animationDuration);

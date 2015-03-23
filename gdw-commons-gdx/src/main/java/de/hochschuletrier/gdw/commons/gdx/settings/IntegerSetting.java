@@ -6,7 +6,7 @@ import com.badlogic.gdx.Preferences;
  *
  * @author Santo Pfingsten
  */
-public class IntegerSetting extends Setting {
+public class IntegerSetting extends Setting<Integer> {
 
     final int def;
 
@@ -22,6 +22,7 @@ public class IntegerSetting extends Setting {
 
     public void set(int value) {
         prefs.putInteger(key, value);
+        notifyListeners(value);
     }
 
     public int get() {

@@ -6,7 +6,7 @@ import com.badlogic.gdx.Preferences;
  *
  * @author Santo Pfingsten
  */
-public class BooleanSetting extends Setting {
+public class BooleanSetting extends Setting<Boolean> {
 
     final boolean def;
 
@@ -22,6 +22,7 @@ public class BooleanSetting extends Setting {
 
     public void set(boolean value) {
         prefs.putBoolean(key, value);
+        notifyListeners(value);
     }
 
     public boolean get() {

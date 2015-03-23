@@ -3,7 +3,7 @@
  <properties>
   <property name="animationDuration" value="0.15"/>
   <property name="animationFrames" value="5"/>
-  <property name="animationTileOffset" value="3"/>
+  <property name="animationOffset" value="3"/>
  </properties>
  <image source="animationtest.png" width="360" height="120"/>
 </tileset>

@@ -6,7 +6,7 @@ import com.badlogic.gdx.Preferences;
  *
  * @author Santo Pfingsten
  */
-public class FloatSetting extends Setting {
+public class FloatSetting extends Setting<Float> {
 
     final float def;
 
@@ -22,6 +22,7 @@ public class FloatSetting extends Setting {
 
     public void set(float value) {
         prefs.putFloat(key, value);
+        notifyListeners(value);
     }
 
     public float get() {

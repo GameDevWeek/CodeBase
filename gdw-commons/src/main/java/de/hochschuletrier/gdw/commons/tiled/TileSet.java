@@ -97,7 +97,7 @@ public class TileSet {
             animation = new TileSetAnimation(
                     frames,
                     getFloatProperty("animationDuration", 0),
-                    getIntProperty("animationTileOffset", 0)
+                    getIntProperty("animationOffset", 0)
             );
         }
     }

@@ -23,12 +23,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
  * @author Santo Pfingsten
  */
 public class AssetManagerX extends AssetManager {
+    Logger logger = LoggerFactory.getLogger(AssetManagerX.class);
 
     private final HashMap<Class, HashMap<String, String>> assetMaps = new HashMap();
     private final Random random = new Random();
@@ -45,17 +48,22 @@ public class AssetManagerX extends AssetManager {
 
     public <T> T getByName(String name, Class<T> type) {
         HashMap<String, String> map = assetMaps.get(type);
+        T result = null;
         if (map != null) {
             String filename = map.get(name);
             if (filename != null) {
-                return get(filename, type);
+                result = get(filename, type);
             }
         }
-        return null;
+        if(result == null) {
+            logger.warn("Resource ({}) not found: {}", type.getSimpleName(), name);
+        }
+        return result;
     }
 
     public <T> T getByNameWithRandom(String name, Class<T> type) {
         HashMap<String, String> map = assetMaps.get(type);
+        T result = null;
         if (map != null) {
             if (name.endsWith("/")) {
                 int numFiles = 0;
@@ -67,16 +75,19 @@ public class AssetManagerX extends AssetManager {
                 if (numFiles > 0) {
                     int index = random.nextInt(numFiles);
                     filename = map.get(name + index);
-                    return get(filename, type);
+                    result = get(filename, type);
                 }
             } else {
                 String filename = map.get(name);
                 if (filename != null) {
-                    return get(filename, type);
+                    result = get(filename, type);
                 }
             }
         }
-        return null;
+        if(result == null) {
+            logger.warn("Resource ({}) not found: {}", type.getSimpleName(), name);
+        }
+        return result;
     }
 
     public <T> Array<T> getByType(Class<T> type) {
