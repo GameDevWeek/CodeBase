@@ -48,23 +48,23 @@ public class PhysixSystem extends IteratingSystem implements EntityListener {
     public float getScale() {
         return scale;
     }
-		
-	@Override
-	public void addedToEngine(Engine engine) {
+
+    @Override
+    public void addedToEngine(Engine engine) {
         super.addedToEngine(engine);
         engine.addEntityListener(this);
-	}
+    }
 
-	@Override
-	public void removedFromEngine(Engine engine) {
+    @Override
+    public void removedFromEngine(Engine engine) {
         super.removedFromEngine(engine);
         engine.removeEntityListener(this);
-	}
+    }
 
     @Override
     public void entityAdded(Entity entity) {
         PhysixModifierComponent modifier = mapper.get(entity);
-        if(modifier != null) {
+        if (modifier != null) {
             handleModifierComponent(entity, modifier);
         }
     }
@@ -79,7 +79,7 @@ public class PhysixSystem extends IteratingSystem implements EntityListener {
         world.clearForces();
         super.update(deltaTime);
     }
-    
+
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         handleModifierComponent(entity, mapper.get(entity));

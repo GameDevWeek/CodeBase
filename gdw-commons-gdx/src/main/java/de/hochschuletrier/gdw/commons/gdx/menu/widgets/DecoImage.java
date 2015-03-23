@@ -13,19 +13,20 @@ import com.badlogic.gdx.utils.Scaling;
  * @author Santo Pfingsten
  */
 public class DecoImage extends Image {
+
     TextureRegion region;
 
     public DecoImage(Texture texture) {
         super(null, Scaling.stretch, Align.center);
         region = new TextureRegion(texture);
         setDrawable(new TextureRegionDrawable(region));
-		setSize(getPrefWidth(), getPrefHeight());
-        
+        setSize(getPrefWidth(), getPrefHeight());
+
         setBounds(0, 0, texture.getWidth(), texture.getHeight());
         setOrigin(texture.getWidth() / 2, texture.getHeight() / 2);
         setTouchable(Touchable.disabled);
     }
-    
+
     public void setTexture(Texture texture) {
         region.setRegion(texture);
     }
