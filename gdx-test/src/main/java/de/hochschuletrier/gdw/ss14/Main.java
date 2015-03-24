@@ -22,6 +22,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader
 import de.hochschuletrier.gdw.commons.gdx.devcon.DevConsoleView;
 import de.hochschuletrier.gdw.commons.gdx.audio.SoundDistanceModel;
 import de.hochschuletrier.gdw.commons.gdx.audio.SoundEmitter;
+import de.hochschuletrier.gdw.commons.gdx.audio.SoundInstance;
 import de.hochschuletrier.gdw.commons.gdx.input.hotkey.HotkeyManager;
 import de.hochschuletrier.gdw.commons.gdx.state.BaseGameState;
 import de.hochschuletrier.gdw.commons.gdx.state.StateBasedGame;
@@ -113,6 +114,7 @@ public class Main extends StateBasedGame {
         setupDummyLoader();
         loadAssetLists();
         setupGdx();
+        SoundInstance.init();
 
         consoleSkin = new Skin(Gdx.files.internal("data/skins/basic.json"));
         consoleView.init(consoleSkin);
