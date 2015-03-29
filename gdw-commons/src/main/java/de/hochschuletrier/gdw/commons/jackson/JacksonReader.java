@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import de.hochschuletrier.gdw.commons.utils.SafeProperties;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -106,12 +107,27 @@ public class JacksonReader {
         return map;
     }
 
+    private static SafeProperties readObjectSafeProperties(JsonParser parser)
+            throws InstantiationException, IllegalAccessException, IOException,
+            NoSuchFieldException, ParseException {
+        SafeProperties properties = new SafeProperties();
+        while (parser.nextToken() != JsonToken.END_OBJECT) {
+            String headerField = parser.getCurrentName();
+            parser.nextToken();
+            properties.setString(headerField, parser.getText());
+        }
+        return properties;
+    }
+
     private static <T> T readUnknownObject(Class<T> clazz, JsonParser parser)
             throws InstantiationException, IllegalAccessException, IOException,
             NoSuchFieldException, ParseException {
         switch (parser.getCurrentToken()) {
             case START_OBJECT:
-                return readObject(clazz, parser);
+                if(clazz.equals(SafeProperties.class))
+                    return (T)readObjectSafeProperties(parser);
+                else
+                    return readObject(clazz, parser);
             case VALUE_STRING:
                 return readString(clazz, parser);
             case VALUE_NUMBER_INT:
@@ -149,31 +165,66 @@ public class JacksonReader {
         T object = clazz.newInstance();
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             String headerField = parser.getCurrentName();
-            parser.nextToken();
+            JsonToken token = parser.nextToken();
 
             Field field = getDeclaredField(clazz, headerField);
             field.setAccessible(true);
-
-            JacksonList listAnnotation = (JacksonList) field.getAnnotation(JacksonList.class);
-            if (listAnnotation != null) {
-                field.set(object, readList(listAnnotation.value(), parser));
-                continue;
+            final Class<?> type = field.getType();
+            if(type.isPrimitive()) {
+                if(token != JsonToken.VALUE_NULL)
+                readPrimitiveField(parser, object, field, type);
+            } else if (!readSpecialField(parser, object, field)) {
+                field.set(object, readUnknownObject(type, parser));
             }
-
-            JacksonMapMap mapMapAnnotation = (JacksonMapMap) field.getAnnotation(JacksonMapMap.class);
-            if (mapMapAnnotation != null) {
-                field.set(object, readObjectMapMap(mapMapAnnotation.value(), parser));
-                continue;
-            }
-
-            JacksonMap mapAnnotation = (JacksonMap) field.getAnnotation(JacksonMap.class);
-            if (mapAnnotation != null) {
-                field.set(object, readObjectMap(mapAnnotation.value(), parser));
-                continue;
-            }
-            field.set(object, readUnknownObject(field.getType(), parser));
         }
         return object;
+    }
+
+    private static <T> void readPrimitiveField(JsonParser parser, T object, Field field, Class<?> type) throws IllegalArgumentException, IllegalAccessException, IOException {
+        if (type.equals(Integer.TYPE)) {
+            field.setInt(object, parser.getIntValue());
+        } else if (type.equals(Long.TYPE)) {
+            field.setLong(object, parser.getLongValue());
+        } else if (type.equals(Short.TYPE)) {
+            field.setShort(object, parser.getShortValue());
+        } else if (type.equals(Byte.TYPE)) {
+            field.setByte(object, parser.getByteValue());
+        } else if (type.equals(Float.TYPE)) {
+            field.setFloat(object, parser.getFloatValue());
+        } else if (type.equals(Double.TYPE)) {
+            field.setDouble(object, parser.getDoubleValue());
+        } else if (type.equals(Boolean.TYPE)) {
+            field.setBoolean(object, parser.getBooleanValue());
+        } else if (type.equals(Character.TYPE)) {
+            if(parser.getCurrentToken() == JsonToken.VALUE_STRING) {
+                String value = parser.getText();
+                if(value.length() != 1) {
+                    throw new IllegalArgumentException("Expected single character for " + object.getClass().getSimpleName() + "." + field.getName() + ", got " + value.length() + " characters");
+                }
+                field.setChar(object, value.charAt(0));
+            } else {
+                throw new IllegalArgumentException("Expected single character for " + object.getClass().getSimpleName() + "." + field.getName() + ", got token " + parser.getCurrentToken());
+            }
+        }
+    }
+
+    private static <T> boolean readSpecialField(JsonParser parser, T object, Field field) throws IllegalArgumentException, IllegalAccessException, ParseException, InstantiationException, IOException, NoSuchFieldException {
+        JacksonList listAnnotation = (JacksonList) field.getAnnotation(JacksonList.class);
+        if (listAnnotation != null) {
+            field.set(object, readList(listAnnotation.value(), parser));
+            return true;
+        }
+        JacksonMapMap mapMapAnnotation = (JacksonMapMap) field.getAnnotation(JacksonMapMap.class);
+        if (mapMapAnnotation != null) {
+            field.set(object, readObjectMapMap(mapMapAnnotation.value(), parser));
+            return true;
+        }
+        JacksonMap mapAnnotation = (JacksonMap) field.getAnnotation(JacksonMap.class);
+        if (mapAnnotation != null) {
+            field.set(object, readObjectMap(mapAnnotation.value(), parser));
+            return true;
+        }
+        return false;
     }
 
     @SuppressWarnings("unchecked")
@@ -219,7 +270,7 @@ public class JacksonReader {
             return (T) Integer.valueOf(parser.getIntValue());
         }
         if (clazz.equals(Float.class)) {
-            return (T) Float.valueOf(parser.getIntValue());
+            return (T) Float.valueOf(parser.getFloatValue());
         }
         if (clazz.equals(String.class)) {
             return (T) String.valueOf(parser.getIntValue());

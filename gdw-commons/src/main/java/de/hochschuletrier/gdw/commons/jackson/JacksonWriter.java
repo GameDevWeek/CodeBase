@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
+import de.hochschuletrier.gdw.commons.utils.SafeProperties;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Writing Json from objects
@@ -46,7 +48,7 @@ public class JacksonWriter {
                 JsonGenerator generator = factory.createGenerator(outputStream, JsonEncoding.UTF8);) {
 
             generator.useDefaultPrettyPrinter();
-            writeObject(object, generator);
+            writeSingleObject(object, generator);
         }
     }
 
@@ -79,9 +81,22 @@ public class JacksonWriter {
             writeList((List<?>) item, generator);
         } else if (item instanceof Map) {
             writeMap((Map<String, ?>) item, generator);
+        } else if (item instanceof SafeProperties) {
+            writeSafeProperties((SafeProperties) item, generator);
         } else {
             writeObject(item, generator);
         }
+    }
+
+    private static void writeSafeProperties(SafeProperties properties, JsonGenerator generator)
+            throws InstantiationException, IllegalAccessException, IOException,
+            NoSuchFieldException, ParseException {
+        generator.writeStartObject();
+        for (String key : properties.keySet()) {
+            generator.writeStringField(key, properties.getString(key));
+        }
+        generator.writeEndObject();
+
     }
 
     private static void writeMap(Map<String, ?> map, JsonGenerator generator)
@@ -107,39 +122,41 @@ public class JacksonWriter {
         for (Field field : getAllFields(new LinkedList<Field>(), clazz)) {
             if (!Modifier.isStatic(field.getModifiers())) {
                 field.setAccessible(true);
-                Object value = field.get(object);
-                if (value != null) {
-
-                    if (value instanceof String) {
-                        generator.writeStringField(field.getName(),
-                                (String) value);
-                    } else if (value instanceof Integer) {
-                        generator.writeNumberField(field.getName(),
-                                (Integer) value);
-                    } else if (value instanceof Float) {
-                        generator.writeNumberField(field.getName(),
-                                (Float) value);
-                    } else if (value instanceof Boolean) {
-                        generator.writeBooleanField(field.getName(),
-                                (Boolean) value);
-                    } else if (value instanceof Enum) {
-                        generator.writeStringField(field.getName(),
-                                value.toString());
-                    } else if (value instanceof List) {
+                final Class<?> type = field.getType();
+                if(type.isPrimitive()) {
+                    writePrimitiveField(generator, field, object, type);
+                } else {
+                    Object value = field.get(object);
+                    if (value != null) {
                         generator.writeFieldName(field.getName());
-                        writeList((List<?>) value, generator);
-                    } else if (value instanceof Map) {
-                        generator.writeFieldName(field.getName());
-                        writeMap((Map<String, ?>) value, generator);
-                    } else {
-                        generator.writeFieldName(field.getName());
-                        writeObject(value, generator);
+                        writeSingleObject(value, generator);
                     }
                 }
             }
         }
 
         generator.writeEndObject();
+    }
+
+    private static void writePrimitiveField(JsonGenerator generator, Field field, Object object, final Class<?> type) throws IllegalAccessException, IllegalArgumentException, IOException {
+        if (type.equals(Integer.TYPE)) {
+            generator.writeNumberField(field.getName(), field.getInt(object));
+        } else if (type.equals(Long.TYPE)) {
+            generator.writeNumberField(field.getName(), field.getLong(object));
+        } else if (type.equals(Short.TYPE)) {
+            generator.writeNumberField(field.getName(), field.getShort(object));
+        } else if (type.equals(Float.TYPE)) {
+            generator.writeNumberField(field.getName(), field.getFloat(object));
+        } else if (type.equals(Double.TYPE)) {
+            generator.writeNumberField(field.getName(), field.getDouble(object));
+        } else if (type.equals(Byte.TYPE)) {
+            generator.writeNumberField(field.getName(), field.getByte(object));
+        } else if (type.equals(Boolean.TYPE)) {
+            generator.writeBooleanField(field.getName(), field.getBoolean(object));
+        } else if (type.equals(Character.TYPE)) {
+            generator.writeStringField(field.getName(), field.getChar(object) + "");
+        } else {
+        }
     }
 
     public static List<Field> getAllFields(List<Field> fields, Class<?> type) {

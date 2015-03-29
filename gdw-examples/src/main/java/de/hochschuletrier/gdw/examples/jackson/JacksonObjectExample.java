@@ -12,6 +12,16 @@ import java.util.Map;
  */
 public class JacksonObjectExample {
 
+    // Some primitive values
+    public int intP;
+    public long longP;
+    public short shortP;
+    public byte byteP;
+    public char charP;
+    public float floatP;
+    public double doubleP;
+    public boolean booleanP;
+    
     public String name;
     public Integer age;
     public Float progress;

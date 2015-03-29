@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,6 +74,13 @@ public class SafeProperties {
      */
     public void setDefaults(SafeProperties defaults) {
         this.defaults = defaults;
+    }
+    
+    /**
+     * @return the key set of the properties (excluding defaults)
+     */
+    public Set<String> keySet() {
+        return properties.keySet();
     }
 
     /**
