@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.commons.tiled;
+package de.hochschuletrier.gdw.commons.utils;
 
 import java.util.HashMap;
 

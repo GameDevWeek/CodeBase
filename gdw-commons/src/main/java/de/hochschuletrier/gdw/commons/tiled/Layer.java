@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.tiled;
 
+import de.hochschuletrier.gdw.commons.utils.SafeProperties;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

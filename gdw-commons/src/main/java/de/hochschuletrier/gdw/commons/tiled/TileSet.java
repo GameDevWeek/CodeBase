@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.tiled;
 
+import de.hochschuletrier.gdw.commons.utils.SafeProperties;
 import de.hochschuletrier.gdw.commons.resourcelocator.CurrentResourceLocator;
 import java.util.HashMap;
 

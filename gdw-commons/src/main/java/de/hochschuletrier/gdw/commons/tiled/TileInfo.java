@@ -1,5 +1,7 @@
 package de.hochschuletrier.gdw.commons.tiled;
 
+import de.hochschuletrier.gdw.commons.utils.SafeProperties;
+
 /**
  * Tile information
  *

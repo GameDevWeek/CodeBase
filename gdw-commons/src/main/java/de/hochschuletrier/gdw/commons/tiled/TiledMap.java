@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.tiled;
 
+import de.hochschuletrier.gdw.commons.utils.SafeProperties;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
