@@ -1,4 +1,4 @@
-package de.hochschuletrier.gdw.commons.gdx.entityFactory;
+package de.hochschuletrier.gdw.commons.gdx.ashley;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
