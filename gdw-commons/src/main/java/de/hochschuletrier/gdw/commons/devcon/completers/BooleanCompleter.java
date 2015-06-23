@@ -20,10 +20,11 @@ public class BooleanCompleter implements IConsoleCompleter {
 
     @Override
     public void complete(String prefix, List<String> results) {
-        if ("true".startsWith(prefix)) {
+        final String lowerPrefix = prefix.toLowerCase();
+        if ("true".startsWith(lowerPrefix)) {
             results.add("true");
         }
-        if ("false".startsWith(prefix)) {
+        if ("false".startsWith(lowerPrefix)) {
             results.add("false");
         }
     }

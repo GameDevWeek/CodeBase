@@ -17,8 +17,9 @@ public class EnumCompleter<T extends Enum> implements IConsoleCompleter {
 
     @Override
     public void complete(String prefix, List<String> results) {
+        final String lowerPrefix = prefix.toLowerCase();
         for (T o : clazz.getEnumConstants()) {
-            if (o.name().startsWith(prefix)) {
+            if (o.name().toLowerCase().startsWith(lowerPrefix)) {
                 results.add(o.name());
             }
         }
