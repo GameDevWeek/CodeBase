@@ -20,7 +20,7 @@
         <dependency>
             <groupId>de.hochschuletrier.gdw.commons</groupId>
             <artifactId>gdw-commons-gdx</artifactId>
-            <version>1.0</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>	
             <groupId>com.badlogicgames.gdx</groupId>
