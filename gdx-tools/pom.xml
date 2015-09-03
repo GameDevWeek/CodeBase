@@ -11,7 +11,6 @@
 
     <groupId>de.hochschuletrier.gdw.gdx</groupId>
     <artifactId>gdx-tools</artifactId>
-    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>GDX-Tools</name>
