@@ -15,8 +15,10 @@
 *.so binary
 *.war binary
 *.ogg binary
+*.flac binary
 *.wav binary
 *.psd binary
+*.tga binary
 
 # Tiled Binaries
 *.tmx binary
