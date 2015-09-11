@@ -13,14 +13,6 @@ public class ImpactSoundComponent extends Component implements Pool.Poolable {
     public float minSpeed;
     public long minDelay;
 
-    public void init(Sound sound, float minImpulseStrength, float minSpeed, long minDelay) {
-        this.sound = sound;
-        this.minImpulseStrength = minImpulseStrength;
-        this.minSpeed = minSpeed;
-        this.minDelay = minDelay;
-        lastPlayed.reset();
-    }
-
     @Override
     public void reset() {
         sound = null;

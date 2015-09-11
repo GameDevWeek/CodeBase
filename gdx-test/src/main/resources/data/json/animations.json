@@ -14,5 +14,13 @@
         "playType" : "LOOP",
         "columns": 2,
         "rows" : 1
+    },
+    "box": {
+        "filename": "data/animations/box.png",
+        "frames" : 2,
+        "frameDuration": [0.5, 0.5],
+        "playType" : "LOOP",
+        "columns": 2,
+        "rows" : 1
     }
 }
