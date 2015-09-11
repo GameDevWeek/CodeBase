@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import de.hochschuletrier.gdw.commons.devcon.cvar.CVarBool;
+import de.hochschuletrier.gdw.commons.gdx.ashley.EntityFactory;
 import de.hochschuletrier.gdw.commons.gdx.assets.AnimationExtended;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.gdx.input.hotkey.Hotkey;
@@ -26,6 +27,7 @@ import de.hochschuletrier.gdw.ss14.game.components.AnimationComponent;
 import de.hochschuletrier.gdw.ss14.game.components.ImpactSoundComponent;
 import de.hochschuletrier.gdw.ss14.game.components.PositionComponent;
 import de.hochschuletrier.gdw.ss14.game.components.TriggerComponent;
+import de.hochschuletrier.gdw.ss14.game.components.factories.EntityFactoryParam;
 import de.hochschuletrier.gdw.ss14.game.contactlisteners.ImpactSoundListener;
 import de.hochschuletrier.gdw.ss14.game.contactlisteners.TriggerListener;
 import de.hochschuletrier.gdw.ss14.game.systems.AnimationRenderSystem;
@@ -50,8 +52,8 @@ public class Game extends InputAdapter {
     private final AnimationRenderSystem animationRenderSystem = new AnimationRenderSystem(GameConstants.PRIORITY_ANIMATIONS);
     private final UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(GameConstants.PRIORITY_PHYSIX + 1);
 
-    private Sound impactSound;
-    private AnimationExtended ballAnimation;
+    private final EntityFactoryParam factoryParam = new EntityFactoryParam();
+    private final EntityFactory<EntityFactoryParam> entityFactory = new EntityFactory("data/json/entities.json", Game.class);
 
     public Game() {
         // If this is a build jar file, disable hotkeys
@@ -68,12 +70,10 @@ public class Game extends InputAdapter {
         Main.getInstance().console.register(physixDebug);
         physixDebug.addListener((CVar) -> physixDebugRenderSystem.setProcessing(physixDebug.get()));
 
-        impactSound = assetManager.getSound("click");
-        ballAnimation = assetManager.getAnimation("ball");
-
         addSystems();
         addContactListeners();
         setupPhysixWorld();
+        entityFactory.init(engine, assetManager);
     }
 
     private void addSystems() {
@@ -127,37 +127,22 @@ public class Game extends InputAdapter {
         engine.addEntity(entity);
     }
 
-    public void createBall(float x, float y, float radius) {
-        Entity entity = engine.createEntity();
-        entity.add(engine.createComponent(PositionComponent.class));
-        PhysixModifierComponent modifyComponent = engine.createComponent(PhysixModifierComponent.class);
-        entity.add(modifyComponent);
+    public Entity createEntity(String name, float x, float y) {
+        factoryParam.game = this;
+        factoryParam.x = x;
+        factoryParam.y = y;
+        Entity entity = entityFactory.createEntity(name, factoryParam);
 
-        ImpactSoundComponent soundComponent = engine.createComponent(ImpactSoundComponent.class);
-        soundComponent.init(impactSound, 20, 20, 100);
-        entity.add(soundComponent);
-
-        AnimationComponent animComponent = engine.createComponent(AnimationComponent.class);
-        animComponent.animation = ballAnimation;
-        entity.add(animComponent);
-
-        modifyComponent.schedule(() -> {
-            PhysixBodyComponent bodyComponent = engine.createComponent(PhysixBodyComponent.class);
-            PhysixBodyDef bodyDef = new PhysixBodyDef(BodyType.DynamicBody, physixSystem)
-                    .position(x, y).fixedRotation(false);
-            bodyComponent.init(bodyDef, physixSystem, entity);
-            PhysixFixtureDef fixtureDef = new PhysixFixtureDef(physixSystem)
-                    .density(5).friction(0.2f).restitution(0.4f).shapeCircle(radius);
-            bodyComponent.createFixture(fixtureDef);
-            entity.add(bodyComponent);
-            bodyComponent.applyImpulse(0, 50000);
-        });
         engine.addEntity(entity);
+        return entity;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        createBall(screenX, screenY, 30);
+        if(button == 0)
+            createEntity("ball", screenX, screenY);
+        else
+            createEntity("box", screenX, screenY);
         return true;
     }
 

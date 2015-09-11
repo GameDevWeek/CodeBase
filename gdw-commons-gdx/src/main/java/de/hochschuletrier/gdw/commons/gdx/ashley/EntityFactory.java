@@ -9,6 +9,8 @@ import de.hochschuletrier.gdw.commons.utils.SafeProperties;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,6 +18,7 @@ import java.util.Map;
  */
 public class EntityFactory<PT> {
 
+    private static final Logger logger = LoggerFactory.getLogger(EntityFactory.class);
     private HashMap<String, EntityInfo> entityInfos;
     private HashMap<String, ComponentFactory> componentFactories = new HashMap();
     private PooledEngine engine;
@@ -56,7 +59,10 @@ public class EntityFactory<PT> {
         EntityInfo info = entityInfos.get(name);
         for (Map.Entry<String, SafeProperties> entrySet : info.components.entrySet()) {
             ComponentFactory factory = componentFactories.get(entrySet.getKey());
-            factory.run(entity, info.meta, entrySet.getValue(), param);
+            if(factory != null)
+                factory.run(entity, info.meta, entrySet.getValue(), param);
+            else
+                logger.error("Could not find factory for component '{}'!", entrySet.getKey());
         }
         return entity;
     }

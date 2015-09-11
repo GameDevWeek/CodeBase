@@ -5,13 +5,12 @@
     <parent>
         <groupId>de.hochschuletrier.gdw.commons</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>1.6</version>
+        <version>1.7</version>
         <relativePath>..</relativePath>
     </parent>
 
     <groupId>de.hochschuletrier.gdw.examples</groupId>
     <artifactId>gdw-examples</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>GDW-Examples</name>
@@ -20,7 +19,7 @@
         <dependency>
             <groupId>de.hochschuletrier.gdw.commons</groupId>
             <artifactId>gdw-commons</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
