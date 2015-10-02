@@ -44,6 +44,7 @@ public class NetManagerClient extends NetManager {
 
     @Override
     public void shutdown() {
+        closeChannel();
         connection.disconnect();
     }
 

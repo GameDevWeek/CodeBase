@@ -66,11 +66,13 @@ public class NetManagerServer extends NetManager {
         selector.wakeup();
     }
 
-    private void closeChannel() {
+    @Override
+    protected void closeChannel() {
+        super.closeChannel();
         try {
             tcpChannel.close();
         } catch (IOException e) {
-            logger.error("Failed closing channel", e);
+            logger.error("Failed closing tcp channel", e);
         }
     }
 

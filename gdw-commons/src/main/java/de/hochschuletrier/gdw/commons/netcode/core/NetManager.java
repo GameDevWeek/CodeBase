@@ -133,6 +133,14 @@ public abstract class NetManager {
         }
     }
 
+    protected void closeChannel() {
+        try {
+            udpChannel.close();
+        } catch (IOException e) {
+            logger.error("Failed closing udp channel", e);
+        }
+    }
+
     public static class DatagramTask implements Poolable {
 
         NetDatagram datagram;
