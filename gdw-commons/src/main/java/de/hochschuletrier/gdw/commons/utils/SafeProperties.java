@@ -100,7 +100,7 @@ public class SafeProperties {
         try {
             return Integer.parseInt(value);
         } catch (NumberFormatException e) {
-            logger.warn(key + " is not an integer: " + e.toString());
+            logger.warn("{} is not an integer: {}", key, e.toString());
             return defaultValue;
         }
     }
@@ -130,7 +130,7 @@ public class SafeProperties {
         try {
             return Float.parseFloat(value);
         } catch (NumberFormatException e) {
-            logger.warn(key + " is not a float: " + e.toString());
+            logger.warn("{} is not a float: {}", key, e.toString());
             return defaultValue;
         }
     }
@@ -160,7 +160,7 @@ public class SafeProperties {
         try {
             return Double.parseDouble(value);
         } catch (NumberFormatException e) {
-            logger.warn(key + " is not a double: " + e.toString());
+            logger.warn("{} is not a double: {}", key, e.toString());
             return defaultValue;
         }
     }
@@ -195,6 +195,40 @@ public class SafeProperties {
 
     public void setBoolean(String key, boolean value) {
         setString(key, value ? "true" : "false");
+    }
+
+    /**
+     * Get a property as an enum. If the property does not exist the default value will be returned.
+     *
+     * @param key the hashtable key.
+     * @param defaultValue a default value.
+     * @return the property value or defaultValue
+     */
+    public <T> T getEnum(String key, Class<T> clazz, T defaultValue) {
+        String value = getString(key, null);
+        if (value == null) {
+            return defaultValue;
+        }
+
+        try {
+            return (T) Enum.valueOf((Class<Enum>) clazz, value);
+        } catch (IllegalArgumentException ex) {
+            for (Enum e : ((Class<Enum>) clazz).getEnumConstants()) {
+                if (e.name().compareToIgnoreCase(value) == 0) {
+                    return (T) e;
+                }
+            }
+            logger.warn("No enum constant {}.{}", clazz.getCanonicalName(), value);
+            return defaultValue;
+        }
+    }
+
+    public <T> T getEnum(String key, Class<T> clazz) {
+        return getEnum(key, clazz, null);
+    }
+
+    public void setEnum(String key, Enum value) {
+        setString(key, value == null ? null : value.name());
     }
 
     /**

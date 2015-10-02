@@ -59,4 +59,11 @@ public class TileInfo {
         }
         return properties.getBoolean(propertyName, def);
     }
+
+    public <T> T getEnumProperty(String propertyName, Class<T> clazz, T def) {
+        if (properties == null) {
+            return def;
+        }
+        return properties.getEnum(propertyName, clazz, def);
+    }
 }

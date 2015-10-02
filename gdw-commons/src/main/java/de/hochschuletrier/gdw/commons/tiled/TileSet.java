@@ -196,6 +196,13 @@ public class TileSet {
         return properties.getBoolean(propertyName, def);
     }
 
+    public <T> T getEnumProperty(String propertyName, Class<T> clazz, T def) {
+        if (properties == null) {
+            return def;
+        }
+        return properties.getEnum(propertyName, clazz, def);
+    }
+
     /**
      * @param globalID the global tile id
      * @return the properties for the specified tile
