@@ -55,6 +55,20 @@ public class JacksonReader {
         }
     }
 
+    public static <RT> HashMap<String, HashMap<String, RT>> readMapMap(String filename, Class<RT> clazz)
+            throws IOException, UnsupportedEncodingException,
+            NoSuchFieldException, IllegalArgumentException,
+            IllegalAccessException, InstantiationException, ParseException {
+
+        try (InputStream fileIn = CurrentResourceLocator.read(filename);
+                InputStreamReader inReader = new InputStreamReader(fileIn, StandardCharsets.UTF_8);
+                BufferedReader bufferedReader = new BufferedReader(inReader);
+                JsonParser parser = factory.createParser(bufferedReader);) {
+            parser.nextToken();
+            return readObjectMapMap(clazz, parser);
+        }
+    }
+    
     public static <LT> List<LT> readList(String filename, Class<LT> clazz)
             throws IOException, UnsupportedEncodingException,
             NoSuchFieldException, IllegalArgumentException,

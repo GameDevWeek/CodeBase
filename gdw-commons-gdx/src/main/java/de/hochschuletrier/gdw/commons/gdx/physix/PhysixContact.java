@@ -44,11 +44,17 @@ public class PhysixContact {
     }
 
     public PhysixBodyComponent getMyComponent() {
-        return (PhysixBodyComponent) getMyFixture().getBody().getUserData();
+        Object userData = getMyFixture().getBody().getUserData();
+        if(userData instanceof PhysixBodyComponent)
+            return (PhysixBodyComponent)userData;
+        return null;
     }
 
     public PhysixBodyComponent getOtherComponent() {
-        return (PhysixBodyComponent) getOtherFixture().getBody().getUserData();
+        Object userData = getOtherFixture().getBody().getUserData();
+        if(userData instanceof PhysixBodyComponent)
+            return (PhysixBodyComponent)userData;
+        return null;
     }
 
     public WorldManifold getWorldManifold() {
