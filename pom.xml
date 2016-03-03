@@ -16,6 +16,14 @@
         <ashley.version>1.3.2</ashley.version>
     </properties>
 
+    <modules>
+        <module>gdw-commons</module>
+        <module>gdw-commons-gdx</module>
+        <module>gdw-examples</module>
+        <module>gdx-test</module>
+        <module>gdx-tools</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
