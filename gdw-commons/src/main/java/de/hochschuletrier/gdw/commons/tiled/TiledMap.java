@@ -215,6 +215,13 @@ public class TiledMap {
         return properties.getBoolean(propertyName, def);
     }
 
+    public <T> T getEnumProperty(String propertyName, Class<T> clazz, T def) {
+        if (properties == null) {
+            return def;
+        }
+        return properties.getEnum(propertyName, clazz, def);
+    }
+
     /**
      * Find a TileSet by a global tile id
      * 

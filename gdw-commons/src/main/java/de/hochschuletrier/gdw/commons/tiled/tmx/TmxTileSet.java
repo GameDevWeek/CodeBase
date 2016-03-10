@@ -49,6 +49,8 @@ public class TmxTileSet {
     @XStreamAlias("margin")
     @XStreamAsAttribute
     protected Integer margin;
+    @XStreamAlias("terraintypes")
+    TmxTerrainTypes terraintypes;
 
     public SafeProperties getProperties() {
         return properties;

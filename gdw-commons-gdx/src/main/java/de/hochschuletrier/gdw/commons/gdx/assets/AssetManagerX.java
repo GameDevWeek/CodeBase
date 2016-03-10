@@ -66,11 +66,11 @@ public class AssetManagerX extends AssetManager {
         T result = null;
         if (map != null) {
             if (name.endsWith("/")) {
-                int numFiles = 0;
+                int numFiles = -1;
                 String filename;
                 do {
-                    filename = map.get(name + numFiles);
                     numFiles++;
+                    filename = map.get(name + numFiles);
                 } while (filename != null);
                 if (numFiles > 0) {
                     int index = random.nextInt(numFiles);

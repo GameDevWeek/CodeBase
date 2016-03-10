@@ -33,10 +33,12 @@ public class AnimationExtendedLoader extends
             AssetLoaderParametersX<AnimationExtended> {
 
         @JacksonList(value = Float.class)
-        public ArrayList<Float> frameDuration = new ArrayList();
+        public ArrayList<Float> frameDuration = new ArrayList<>();
         public PlayMode playType = PlayMode.NORMAL;
         public Integer rows = 1;
         public Integer columns = 1;
+        public Integer startRow = 0;
+        public Integer startColumn = 0;
         public Integer frames = 1;
 
         /**
@@ -74,8 +76,8 @@ public class AnimationExtendedLoader extends
         int frameCount = Math.min(parameter.frames, parameter.columns * parameter.rows);
         TextureRegion[] frames = new TextureRegion[frameCount];
         int index = 0;
-        for (int i = 0; i < parameter.rows && index < frameCount; i++) {
-            for (int j = 0; j < parameter.columns && index < frameCount; j++) {
+        for (int i = parameter.startRow; i < parameter.rows && index < frameCount; i++) {
+            for (int j = parameter.startColumn; j < parameter.columns && index < frameCount; j++) {
                 frames[index] = tmp[i][j];
                 frames[index].flip(false, false);
                 index++;

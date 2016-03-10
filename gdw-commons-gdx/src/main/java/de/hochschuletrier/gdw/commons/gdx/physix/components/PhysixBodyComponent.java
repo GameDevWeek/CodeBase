@@ -5,11 +5,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool.Poolable;
+
 import de.hochschuletrier.gdw.commons.gdx.physix.PhysixFixtureDef;
 import de.hochschuletrier.gdw.commons.gdx.physix.systems.PhysixSystem;
 
@@ -49,7 +51,26 @@ public final class PhysixBodyComponent extends Component implements Poolable {
     public Body getBody() {
         return body;
     }
+    
+    public void setUserData(Object userData){
+    	this.body.setUserData(userData);
+    }
+    
+    public Object getUserData(){
+    	return this.body.getUserData();
+    }
+    
+    public void setBodyType(BodyType bodytype){
+    	this.body.setType(bodytype);
+    }
+    
+    public BodyType getBodyType(){
+    	return this.body.getType();
+    }
 
+    public void setFixedRotation(boolean value){
+    	this.body.setFixedRotation(value);
+    }
     /**
      * Don't change the List !
      */
@@ -192,9 +213,6 @@ public final class PhysixBodyComponent extends Component implements Poolable {
         body.setAwake(value);
     }
 
-    public BodyDef.BodyType getBodyType() {
-        return body.getType();
-    }
 
     public float getLinearDamping() {
         return body.getLinearDamping();

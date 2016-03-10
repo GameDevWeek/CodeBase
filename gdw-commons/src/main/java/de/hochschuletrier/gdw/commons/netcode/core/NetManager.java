@@ -5,6 +5,7 @@ import de.hochschuletrier.gdw.commons.utils.pool.Pool;
 import de.hochschuletrier.gdw.commons.utils.pool.ReflectionPool;
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.nio.channels.CancelledKeyException;
 import java.nio.channels.ClosedChannelException;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectableChannel;
@@ -72,14 +73,18 @@ public abstract class NetManager {
                 Listener listener = (Listener) key.attachment();
                 final SelectableChannel channel = key.channel();
 
-                if (key.isAcceptable()) {
-                    listener.onChannelAcceptable(channel);
-                }
-                if (key.isReadable()) {
-                    listener.onChannelReadable(channel);
-                }
-                if (key.isWritable()) {
-                    listener.onChannelWritable(channel);
+                try {
+                    if (key.isAcceptable()) {
+                        listener.onChannelAcceptable(channel);
+                    }
+                    if (key.isReadable()) {
+                        listener.onChannelReadable(channel);
+                    }
+                    if (key.isWritable()) {
+                        listener.onChannelWritable(channel);
+                    }
+                } catch(CancelledKeyException e) {
+                    logger.error("key cancelled", e);
                 }
 
                 keyIterator.remove();
@@ -125,6 +130,14 @@ public abstract class NetManager {
         synchronized (tasks) {
             tasks.add(task);
             onDatagramQueueUpdate(udpChannel, false);
+        }
+    }
+
+    protected void closeChannel() {
+        try {
+            udpChannel.close();
+        } catch (IOException e) {
+            logger.error("Failed closing udp channel", e);
         }
     }
 

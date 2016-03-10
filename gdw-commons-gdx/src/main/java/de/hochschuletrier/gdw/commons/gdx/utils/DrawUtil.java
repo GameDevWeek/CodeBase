@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 
 /**
@@ -21,8 +22,10 @@ public class DrawUtil {
     private static Mode currentMode = Mode.NORMAL;
     public static SpriteBatch batch;
     private static Texture white;
-    private static final LinkedList<Matrix4> matrixStack = new LinkedList();
+    private static final LinkedList<Matrix4> matrixStack = new LinkedList<>();
 
+    private static ShaderProgram currentShader = null;
+    
     public enum Mode {
 
         NORMAL,
@@ -40,6 +43,24 @@ public class DrawUtil {
         pixmap.fill();
         white = new Texture(pixmap);
         batch = new SpriteBatch(5460);
+    }
+    
+    /**
+     * Sets the shader if it's new. <br>
+     * Use it to reduce flushes. <br>
+     */
+    public static void setShader(ShaderProgram shader) {
+    	if(currentShader != shader) {
+    		currentShader = shader;
+    		batch.setShader(shader);
+    	}
+    }
+    
+    /**
+     * Returns the currently used shader. Null is returned if the default shader is used.
+     */
+    public static ShaderProgram getShader() {
+    	return currentShader;
     }
 
     public static void setClip(int x, int y, int width, int height) {
@@ -225,5 +246,15 @@ public class DrawUtil {
             float scaleX, float scaleY, float rotation) {
         DrawUtil.batch.draw(texture, x, y, 0, 0, width, height, scaleX,
                 scaleY, rotation, srcX, srcY, (int) width, (int) height, false, true);
+    }
+    
+    public static void safeEnd() {
+    	if(batch.isDrawing())
+    		batch.end();
+    }
+    
+    public static void safeBegin() {
+    	if(!batch.isDrawing())
+    		batch.begin();
     }
 }

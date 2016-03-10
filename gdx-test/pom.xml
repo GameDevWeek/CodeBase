@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.hochschuletrier.gdw.commons</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>1.7</version>
+        <version>1.8</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -91,7 +91,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>de.hochschuletrier.gdw.ss14.Main</mainClass>
+                            <mainClass>de.hochschuletrier.gdw.ws1516.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -15,6 +15,7 @@
 *.so binary
 *.war binary
 *.ogg binary
+*.mp3 binary
 *.flac binary
 *.wav binary
 *.psd binary

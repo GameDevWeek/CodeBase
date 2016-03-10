@@ -89,7 +89,7 @@ public class PhysixSystem extends IteratingSystem implements EntityListener {
         for (Runnable runnable : component.runnables) {
             runnable.run();
         }
-        entity.remove(PhysixModifierComponent.class);
+        component.runnables.clear();
     }
 
     public void reset() {

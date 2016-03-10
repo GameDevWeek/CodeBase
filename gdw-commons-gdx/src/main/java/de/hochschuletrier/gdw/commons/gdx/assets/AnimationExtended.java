@@ -44,6 +44,10 @@ public class AnimationExtended {
             }
         }
     }
+    
+    public int getFrameCount() {
+    	return frames.size();
+    }
 
     public TextureRegion getKeyFrame(float stateTime) {
         int frameNumber = getKeyFrameIndex(stateTime);
