@@ -19,7 +19,7 @@ public class AnimationExtended {
 
     final TextureRegion[] keyFrames;
     Frame[] frameTimes;
-    public float animationDuration = 0f;
+    private float animationDuration = 0f;
     private final PlayMode playMode;
     TreeMap<Frame, Integer> frames = new TreeMap();
     Frame current = new Frame(0, 0);
@@ -47,6 +47,9 @@ public class AnimationExtended {
     
     public int getFrameCount() {
     	return frames.size();
+    }
+    public float getDuration() {
+        return animationDuration;
     }
 
     public TextureRegion getKeyFrame(float stateTime) {
