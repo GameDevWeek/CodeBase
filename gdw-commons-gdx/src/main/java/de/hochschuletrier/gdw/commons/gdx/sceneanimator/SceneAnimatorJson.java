@@ -88,5 +88,7 @@ public class SceneAnimatorJson {
         public Float scale;
         public Float angle;
         public Boolean oriented;
+        public Boolean flipX;
+        public Boolean flipY;
     }
 }

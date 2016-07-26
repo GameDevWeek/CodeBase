@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Animation;
 import de.hochschuletrier.gdw.commons.gdx.sceneanimator.Item;
+import de.hochschuletrier.gdw.commons.gdx.sceneanimator.SceneAnimator;
 import de.hochschuletrier.gdw.commons.gdx.utils.DrawUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,13 +19,13 @@ public class TextItem extends Item {
     protected final TextStyle style;
     protected final String originalText;
     protected String shownText;
-    protected float xOffset;
+    protected final float xOffset;
 
     public ArrayList<TextChar> chars;
     private TextAnimation anim;
 
-    public TextItem(String group, float startTime, float angle, float opacity, String text, TextStyle style) {
-        super(group, startTime, angle, false, opacity);
+    public TextItem(String group, float startTime, float angle, float opacity, String text, TextStyle style, SceneAnimator.Getter getter) {
+        super(group, startTime, angle, false, opacity, getter);
 
         originalText = text;
         shownText = text;
@@ -36,7 +37,18 @@ public class TextItem extends Item {
             } else {
                 xOffset = -bounds.width / 2;
             }
+        } else {
+            xOffset = 0;
         }
+    }
+
+    @Override
+    public void reset(ArrayList<Animation> animations) {
+        super.reset(animations);
+        
+        shownText = originalText;
+        chars = null;
+        anim = null;
     }
 
     @Override
@@ -159,7 +171,10 @@ public class TextItem extends Item {
     }
 
     @Override
-    public void startAnimation(Animation animation) {
+    public boolean startAnimation(Animation animation) {
+        if(super.startAnimation(animation))
+            return true;
+        
         try {
             anim = TextAnimation.valueOf(animation.animation.toUpperCase());
             animationTime = 0;
@@ -172,26 +187,32 @@ public class TextItem extends Item {
                 case CONSTRUCT_TYPE:
                     shownText = "";
                     generateConstructChars(animation);
-                    break;
+                    return true;
                 case TYPE_INSTANT:
                     shownText = originalText;
                     anim = null;
-                    break;
+                    return true;
                 case UNTYPE_INSTANT:
                     shownText = "";
                     anim = null;
-                    break;
+                    return true;
                 case FADE_IN:
                     opacity = 0.0f;
-                    break;
+                    return true;
                 case TYPE:
                     shownText = "";
-                    break;
+                    return true;
                 case UNTYPE:
                     shownText = originalText;
-                    break;
+                    return true;
             }
         } catch (IllegalArgumentException e) {
         }
+        return false;
+    }
+    
+    @Override
+    protected boolean isAnimationDone() {
+        return anim == null;
     }
 }

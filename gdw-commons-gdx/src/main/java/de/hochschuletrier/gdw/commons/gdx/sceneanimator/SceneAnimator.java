@@ -1,5 +1,6 @@
 package de.hochschuletrier.gdw.commons.gdx.sceneanimator;
 
+import com.badlogic.gdx.audio.Sound;
 import de.hochschuletrier.gdw.commons.gdx.sceneanimator.text.TextItem;
 import de.hochschuletrier.gdw.commons.gdx.sceneanimator.text.TextStyle;
 import com.badlogic.gdx.graphics.Color;
@@ -17,8 +18,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -33,6 +34,8 @@ public class SceneAnimator {
     private final Array<Queue> queueArray = new Array();
     private final HashMap<String, Path<Vector2>> paths = new HashMap();
     private float timeFactor;
+    private final HashSet<SceneAnimatorListener> listeners = new HashSet();
+    private boolean doneTriggered;
 
     /**
      * @return the timeFactor
@@ -55,6 +58,8 @@ public class SceneAnimator {
         AnimationExtended getAnimation(String name);
 
         Texture getTexture(String name);
+
+        Sound getSound(String name);
     }
 
     public SceneAnimator(Getter getter, String filename) throws IOException, UnsupportedEncodingException,
@@ -100,7 +105,7 @@ public class SceneAnimator {
         TextStyle style;
         float startTime, angle, opacity, scale;
         int layer;
-        boolean oriented;
+        boolean oriented, flipX, flipY;
         String group;
         for (Map.Entry<String, SceneAnimatorJson.Queue> entry : credits.queues.entrySet()) {
             SceneAnimatorJson.Queue value = entry.getValue();
@@ -114,6 +119,8 @@ public class SceneAnimator {
                 opacity = itemData.opacity != null ? itemData.opacity : 1;
                 group = itemData.group != null ? itemData.group : "";
                 scale = itemData.scale != null ? itemData.scale : 1;
+                flipX = itemData.flipX != null ? itemData.flipX : false;
+                flipY = itemData.flipY != null ? itemData.flipY : false;
 
                 itemStartTime += startTime;
 
@@ -121,7 +128,7 @@ public class SceneAnimator {
                 switch (itemData.type) {
                     case TEXT:
                         style = textStyles.get(itemData.style);
-                        item = new TextItem(group, itemStartTime, angle, opacity, itemData.text, style);
+                        item = new TextItem(group, itemStartTime, angle, opacity, itemData.text, style, getter);
 
                         if (itemData.x != null && itemData.y != null) {
                             item.setPosition(temp.set(itemData.x, itemData.y));
@@ -134,7 +141,7 @@ public class SceneAnimator {
                         }
                         break;
                     case ANIMATION:
-                        item = new AnimationItem(group, scale, itemStartTime, angle, oriented, opacity, itemData.resource, getter);
+                        item = new AnimationItem(group, scale, itemStartTime, angle, oriented, flipX, flipY, opacity, itemData.resource, getter);
                         if (itemData.x != null && itemData.y != null) {
                             item.setPosition(itemData.x, itemData.y);
                         }
@@ -194,11 +201,18 @@ public class SceneAnimator {
         for (Queue queue : queueArray) {
             queue.reset();
         }
+        doneTriggered = false;
     }
 
     public void render() {
         for (Queue queue : queueArray) {
             queue.render();
+        }
+    }
+    
+    public void abortPausePaths() {
+        for (Queue queue : queueArray) {
+            queue.abortPausePaths();
         }
     }
 
@@ -212,7 +226,19 @@ public class SceneAnimator {
             }
         }
         if (done) {
-            reset();
+            if(!doneTriggered) {
+                doneTriggered = true;
+                for (SceneAnimatorListener listener : listeners)
+                    listener.onSceneEnd();
+            }
         }
+    }
+    
+    public void addListener(SceneAnimatorListener listener) {
+        listeners.add(listener);
+    }
+    
+    public void removeListener(SceneAnimatorListener listener) {
+        listeners.remove(listener);
     }
 }
