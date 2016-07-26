@@ -45,7 +45,7 @@ public class SandboxCommand {
         }
         Class clazz = sandboxClasses.get(gameName);
         if (clazz == null) {
-            logger.warn("'{}' is not a sandbox class");
+            logger.warn("'{}' is not a sandbox class", gameName);
             sandbox_f.showUsage();
         } else {
             try {
