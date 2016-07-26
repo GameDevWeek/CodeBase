@@ -33,8 +33,9 @@ public class Queue {
         lastItemStarted = false;
         for (Item item : items) {
             item.reset(animations);
-            if(done && !item.isDone())
+            if (done && !item.isDone()) {
                 done = false;
+            }
         }
     }
 
@@ -70,25 +71,29 @@ public class Queue {
             // update items
             for (Item item : items) {
                 item.update(delta);
-                if(!item.isStarted())
+                if (!item.isStarted()) {
                     allStarted = false;
-                if(done && !item.isDone())
+                }
+                if (done && !item.isDone()) {
                     done = false;
+                }
             }
-            if(!lastItemStarted) {
-                if(allStarted && next != null)
+            if (!lastItemStarted) {
+                if (allStarted && next != null) {
                     next.start();
+                }
                 lastItemStarted = true;
             }
-            if(done && finalNext != null) {
+            if (done && finalNext != null) {
                 finalNext.start();
             }
         }
     }
 
     boolean isDone() {
-        if (startTime == 0)
+        if (startTime == 0) {
             return done;
+        }
         return false;
     }
 

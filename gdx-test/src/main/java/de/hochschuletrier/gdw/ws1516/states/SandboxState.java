@@ -36,7 +36,7 @@ public class SandboxState extends BaseGameState implements InputProcessor {
     @Override
     public void update(float delta) {
         fpsCalc.addFrame();
-        
+
         Main.getInstance().screenCamera.bind();
 
         DrawUtil.fillRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.BLUE);

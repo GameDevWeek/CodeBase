@@ -47,8 +47,8 @@ public class AnimationItem extends Item {
             TextureRegion r = animation.getKeyFrame(animationTime);
             float w = r.getRegionWidth();
             float h = r.getRegionHeight();
-            float hw = w* 0.5f;
-            float hh = h* 0.5f;
+            float hw = w * 0.5f;
+            float hh = h * 0.5f;
             float x = position.x - hw;
             float y = position.y - hh;
             float scaleX = flipX ? -scale : scale;
@@ -59,9 +59,10 @@ public class AnimationItem extends Item {
 
     @Override
     public boolean startAnimation(Animation animation) {
-        if(super.startAnimation(animation))
+        if (super.startAnimation(animation)) {
             return true;
-        if(animation.animation == null) {
+        }
+        if (animation.animation == null) {
             this.animation = null;
         } else {
             this.animationTime = 0;
@@ -70,7 +71,7 @@ public class AnimationItem extends Item {
         }
         return true;
     }
-    
+
     @Override
     protected boolean isAnimationDone() {
         return this.animationTime > this.totalAnimationTime;
@@ -79,9 +80,8 @@ public class AnimationItem extends Item {
     @Override
     public void reset(ArrayList<Animation> animations) {
         super.reset(animations);
-        
+
         animation = originalAnimation;
     }
-    
-    
+
 }

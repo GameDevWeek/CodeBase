@@ -33,7 +33,7 @@ public class PhysixDebugRenderSystem extends EntitySystem {
 
     public void addedToEngine(Engine engine) {
         PhysixSystem physixSystem = engine.getSystem(PhysixSystem.class);
-        if(physixSystem == null) {
+        if (physixSystem == null) {
             physixSystem = engine.getSystem(PhysixSystemFixedStep.class);
         }
         world = physixSystem.getWorld();

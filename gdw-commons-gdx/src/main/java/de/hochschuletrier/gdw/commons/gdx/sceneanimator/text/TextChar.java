@@ -101,10 +101,10 @@ public class TextChar {
             float currentTime = animationTime / totalAnimationTime;
             float finalAlpha = Math.min(1.0f, currentTime * 2);
             if (trailMaxSteps > 0 && trailStepTime > 0) {
-                int steps = Math.min(trailMaxSteps, (int)Math.floor(currentTime / trailStepTime));
+                int steps = Math.min(trailMaxSteps, (int) Math.floor(currentTime / trailStepTime));
                 float t = currentTime - steps * trailStepTime;
-                for (int i=0; i<steps; i++, t+= trailStepTime) {
-                    renderChar(font, color, offset, t, finalAlpha * (t / currentTime) );
+                for (int i = 0; i < steps; i++, t += trailStepTime) {
+                    renderChar(font, color, offset, t, finalAlpha * (t / currentTime));
                 }
             }
             renderChar(font, color, offset, currentTime, finalAlpha);

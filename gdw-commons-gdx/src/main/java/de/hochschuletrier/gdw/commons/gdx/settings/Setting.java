@@ -19,15 +19,15 @@ public abstract class Setting<T> {
     }
 
     public abstract void reset();
-    
+
     public void addListener(SettingListener<T> listener) {
         listeners.add(listener);
     }
-    
+
     public void removeListener(SettingListener<T> listener) {
         listeners.remove(listener);
     }
-    
+
     protected void notifyListeners(T value) {
         for (SettingListener<T> listener : listeners) {
             listener.onSettingChanged(this, value);

@@ -16,7 +16,7 @@ public class NetDatagramPool {
     private final HashMap<Class, Short> classToId = new HashMap();
     private final Class[] idToClass;
 
-    public NetDatagramPool(Class<? extends NetDatagram> ...classes) {
+    public NetDatagramPool(Class<? extends NetDatagram>... classes) {
         short nextId = NetDatagramType.FIRST_CUSTOM.toID();
         int size = nextId + classes.length;
         idToClass = new Class[size];

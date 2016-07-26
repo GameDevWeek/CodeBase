@@ -51,36 +51,37 @@ public final class PhysixBodyComponent extends Component implements Poolable {
     public Body getBody() {
         return body;
     }
-    
-    public void setUserData(Object userData){
-    	this.body.setUserData(userData);
-    }
-    
-    public Object getUserData(){
-    	return this.body.getUserData();
-    }
-    
-    public void setBodyType(BodyType bodytype){
-    	this.body.setType(bodytype);
-    }
-    
-    public BodyType getBodyType(){
-    	return this.body.getType();
+
+    public void setUserData(Object userData) {
+        this.body.setUserData(userData);
     }
 
-    public void setFixedRotation(boolean value){
-    	this.body.setFixedRotation(value);
+    public Object getUserData() {
+        return this.body.getUserData();
     }
+
+    public void setBodyType(BodyType bodytype) {
+        this.body.setType(bodytype);
+    }
+
+    public BodyType getBodyType() {
+        return this.body.getType();
+    }
+
+    public void setFixedRotation(boolean value) {
+        this.body.setFixedRotation(value);
+    }
+
     /**
      * Don't change the List !
      */
     public Array<Fixture> getFixtureList() {
         return body.getFixtureList();
     }
-    
+
     public Fixture getFixtureByUserData(Object userData) {
-        for(Fixture fixture: body.getFixtureList()) {
-            if(userData.equals(fixture.getUserData())) {
+        for (Fixture fixture : body.getFixtureList()) {
+            if (userData.equals(fixture.getUserData())) {
                 return fixture;
             }
         }
@@ -212,7 +213,6 @@ public final class PhysixBodyComponent extends Component implements Poolable {
     public void setAwake(boolean value) {
         body.setAwake(value);
     }
-
 
     public float getLinearDamping() {
         return body.getLinearDamping();

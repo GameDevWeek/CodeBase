@@ -111,9 +111,9 @@ public class MenuManager implements ScreenListener, Disposable {
             currentPage.setVisible(true);
         }
     }
-    
+
     public void popAllPages() {
-        while(!pageStack.isEmpty()) {
+        while (!pageStack.isEmpty()) {
             popPage();
         }
     }

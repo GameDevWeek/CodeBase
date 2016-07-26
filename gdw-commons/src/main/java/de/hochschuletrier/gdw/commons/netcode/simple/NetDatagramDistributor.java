@@ -38,7 +38,7 @@ public class NetDatagramDistributor {
     }
 
     public boolean handle(NetDatagram datagram) throws InvocationTargetException {
-        if(handler == null) {
+        if (handler == null) {
             logger.error("NetDatagramHandler has not been set!");
         } else {
             try {

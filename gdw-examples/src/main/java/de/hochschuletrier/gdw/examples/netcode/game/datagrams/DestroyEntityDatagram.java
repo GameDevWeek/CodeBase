@@ -10,6 +10,7 @@ import de.hochschuletrier.gdw.commons.netcode.core.NetMessageType;
  * @author Santo Pfingsten
  */
 public class DestroyEntityDatagram extends NetDatagram {
+
     protected long id;
 
     public static DestroyEntityDatagram create(long id) {

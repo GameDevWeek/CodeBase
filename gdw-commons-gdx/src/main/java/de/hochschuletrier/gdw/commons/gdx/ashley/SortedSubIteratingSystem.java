@@ -14,7 +14,7 @@ import java.util.Comparator;
  * @author Santo Pfingsten
  */
 public class SortedSubIteratingSystem extends SortedIteratingSystem {
-    
+
     public static abstract class SubSystem {
 
         private final Family family;

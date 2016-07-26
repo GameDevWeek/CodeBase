@@ -3,7 +3,9 @@ package de.hochschuletrier.gdw.ws1516.events;
 import com.badlogic.gdx.utils.SnapshotArray;
 
 public class TestEvent {
+
     public static interface Listener {
+
         void onTestEvent(String message);
     }
 

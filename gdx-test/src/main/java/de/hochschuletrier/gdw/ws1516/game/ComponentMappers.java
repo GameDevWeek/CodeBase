@@ -5,6 +5,7 @@ import de.hochschuletrier.gdw.commons.gdx.physix.components.*;
 import de.hochschuletrier.gdw.ws1516.game.components.*;
 
 public class ComponentMappers {
+
     public static final ComponentMapper<PositionComponent> position = ComponentMapper.getFor(PositionComponent.class);
     public static final ComponentMapper<TriggerComponent> trigger = ComponentMapper.getFor(TriggerComponent.class);
     public static final ComponentMapper<PhysixBodyComponent> physixBody = ComponentMapper.getFor(PhysixBodyComponent.class);

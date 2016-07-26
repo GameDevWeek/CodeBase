@@ -139,10 +139,11 @@ public class Game extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(button == 0)
+        if (button == 0) {
             createEntity("ball", screenX, screenY);
-        else
+        } else {
             createEntity("box", screenX, screenY);
+        }
         return true;
     }
 

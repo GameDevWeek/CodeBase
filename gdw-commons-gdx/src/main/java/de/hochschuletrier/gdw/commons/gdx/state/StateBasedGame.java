@@ -24,7 +24,7 @@ public abstract class StateBasedGame implements ApplicationListener {
     public StateBasedGame(BaseGameState initialState) {
         currentState = initialState;
     }
-    
+
     public boolean isTransitioning() {
         return nextState != null || prevState != null;
     }
@@ -41,7 +41,7 @@ public abstract class StateBasedGame implements ApplicationListener {
         if (state == null) {
             throw new IllegalArgumentException("State must not be null!");
         }
-        if(persistentStates.containsKey(state.getClass())) {
+        if (persistentStates.containsKey(state.getClass())) {
             throw new IllegalStateException("A state of that class has already been added!");
         }
         persistentStates.put(state.getClass(), state);
@@ -59,8 +59,8 @@ public abstract class StateBasedGame implements ApplicationListener {
         if (state == null) {
             throw new IllegalArgumentException("State must not be null!");
         }
-        
-        if(isTransitioning()) {
+
+        if (isTransitioning()) {
             if (leaving != null) {
                 completeLeave();
             }
@@ -68,7 +68,7 @@ public abstract class StateBasedGame implements ApplicationListener {
                 completeEnter();
             }
         }
-        
+
         leaving = out;
         entering = in;
 
@@ -76,8 +76,8 @@ public abstract class StateBasedGame implements ApplicationListener {
 
         currentState.onLeave(nextState);
         nextState.onEnter(currentState);
-        
-        if(leaving == null) {
+
+        if (leaving == null) {
             completeLeave();
         }
     }
@@ -150,21 +150,21 @@ public abstract class StateBasedGame implements ApplicationListener {
         currentState = nextState;
         nextState = null;
         leaving = null;
-        
-        if(entering == null) {
+
+        if (entering == null) {
             completeEnter();
         }
     }
 
     private void completeEnter() {
-        if(!persistentStates.containsValue(prevState)) {
+        if (!persistentStates.containsValue(prevState)) {
             prevState.dispose();
         }
         currentState.onEnterComplete();
         prevState = null;
         entering = null;
     }
-    
+
     @Override
     public void dispose() {
         persistentStates.values().forEach(Disposable::dispose);

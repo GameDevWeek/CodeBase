@@ -44,21 +44,20 @@ public class MusicManager {
                     return true;
                 }
                 setVolumeInternal(muted ? 0 : globalVolume);
+            } else if (muted) {
+                music.setVolume(0);
+            } else if (fadeOut) {
+                setVolumeInternal(globalVolume * (1 - (time / totalTime)));
             } else {
-                if (muted) {
-                    music.setVolume(0);
-                } else if (fadeOut) {
-                    setVolumeInternal(globalVolume * (1 - (time / totalTime)));
-                } else {
-                    setVolumeInternal(globalVolume * (time / totalTime));
-                }
+                setVolumeInternal(globalVolume * (time / totalTime));
             }
             return false;
         }
 
         private void setVolumeInternal(float volume) {
-            if(music.getVolume() != volume)
+            if (music.getVolume() != volume) {
                 music.setVolume(volume);
+            }
         }
     }
 
@@ -98,13 +97,10 @@ public class MusicManager {
             music.setLooping(true);
             music.play();
         }
-        
+
         currentMusic = music;
-       
-       }
 
-    
-
+    }
 
     public static void stop() {
         for (Fade fade : fades) {
@@ -142,6 +138,5 @@ public class MusicManager {
     public static void setGlobalVolume(float globalVolume) {
         MusicManager.globalVolume = globalVolume;
     }
-    
-   
+
 }

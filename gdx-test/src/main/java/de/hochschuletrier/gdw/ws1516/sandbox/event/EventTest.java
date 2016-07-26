@@ -12,7 +12,8 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class EventTest extends SandboxGame implements TestEvent.Listener {
-    private static final Logger logger = LoggerFactory.getLogger(EventTest.class); 
+
+    private static final Logger logger = LoggerFactory.getLogger(EventTest.class);
 
     public EventTest() {
     }

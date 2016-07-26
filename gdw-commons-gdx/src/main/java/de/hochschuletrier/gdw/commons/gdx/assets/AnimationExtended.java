@@ -34,20 +34,22 @@ public class AnimationExtended {
             t.flip(false, true);
         }
 
-        while(index<keyFrames.length) {
+        while (index < keyFrames.length) {
             for (float f : frameDurations) {
                 frames.put(new Frame(animationDuration, f), index);
                 animationDuration += f;
                 ++index;
-                if(index >= keyFrames.length)
+                if (index >= keyFrames.length) {
                     break;
+                }
             }
         }
     }
-    
+
     public int getFrameCount() {
-    	return frames.size();
+        return frames.size();
     }
+
     public float getDuration() {
         return animationDuration;
     }

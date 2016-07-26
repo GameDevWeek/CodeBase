@@ -28,7 +28,7 @@ public class JacksonExample {
         student.floatP = 6;
         student.doubleP = 7;
         student.booleanP = true;
-    
+
         student.name = "Doofus";
         student.age = 24;
         student.gender = JacksonObjectExample.Gender.MALE;
@@ -55,7 +55,7 @@ public class JacksonExample {
         try {
             JacksonObjectExample student = JacksonReader.read("target/test.json",
                     JacksonObjectExample.class);
-            
+
             System.out.println(student.intP);
             System.out.println(student.longP);
             System.out.println(student.shortP);
@@ -64,7 +64,7 @@ public class JacksonExample {
             System.out.println(student.floatP);
             System.out.println(student.doubleP);
             System.out.println(student.booleanP);
-            
+
             System.out.println(student.name);
             System.out.println(student.age);
             System.out.println(student.gender);

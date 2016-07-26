@@ -80,7 +80,7 @@ public class SoundEmitter implements Disposable {
 
     public final static SoundInstance playGlobal(Sound sound, boolean loop) {
         SoundInstance si = globalEmitter.play(sound, loop);
-        if(si != null) {
+        if (si != null) {
             si.setPosition(listenerPosition.x, listenerPosition.y, listenerPosition.z);
         }
         return si;
@@ -88,7 +88,7 @@ public class SoundEmitter implements Disposable {
 
     public final static SoundInstance playGlobal(Sound sound, boolean loop, float x, float y, float z) {
         SoundInstance si = globalEmitter.play(sound, loop);
-        if(si != null) {
+        if (si != null) {
             si.setPosition(x, y, z);
         }
         return si;
@@ -127,7 +127,7 @@ public class SoundEmitter implements Disposable {
 
     public SoundInstance play(Sound sound, boolean loop) {
         SoundInstance si = pool.obtain();
-        if(!si.init(sound, loop)) {
+        if (!si.init(sound, loop)) {
             pool.free(si);
             return null;
         }

@@ -36,18 +36,19 @@ public class TextureItem extends Item {
         if (region.getTexture() != null) {
             float w = region.getRegionWidth();
             float h = region.getRegionHeight();
-            float hw = w* 0.5f;
-            float hh = h* 0.5f;
+            float hw = w * 0.5f;
+            float hh = h * 0.5f;
             DrawUtil.batch.draw(region, position.x - hw, position.y - hh, hw, hh, w, h, scale, scale, angle + angleAdd);
         }
     }
 
     @Override
     public boolean startAnimation(Animation animation) {
-        if(super.startAnimation(animation))
+        if (super.startAnimation(animation)) {
             return true;
+        }
 
-        if(animation.animation == null) {
+        if (animation.animation == null) {
             this.region.setTexture(null);
         } else {
             this.animationTime = 0;
@@ -55,7 +56,7 @@ public class TextureItem extends Item {
         }
         return true;
     }
-    
+
     @Override
     protected boolean isAnimationDone() {
         return true;
@@ -64,7 +65,7 @@ public class TextureItem extends Item {
     @Override
     public void reset(ArrayList<Animation> animations) {
         super.reset(animations);
-        
+
         region.setRegion(originalTexture);
     }
 }

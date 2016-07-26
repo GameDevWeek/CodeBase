@@ -46,7 +46,7 @@ public class PhysixSystemFixedStep extends PhysixSystem {
         }
 
         if (timeProcessedThisFrame > 0) {
-            for (Entity entity: getEntities()) {
+            for (Entity entity : getEntities()) {
                 processEntity(entity, deltaTime);
             }
         }

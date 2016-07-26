@@ -45,15 +45,17 @@ public class PhysixContact {
 
     public PhysixBodyComponent getMyComponent() {
         Object userData = getMyFixture().getBody().getUserData();
-        if(userData instanceof PhysixBodyComponent)
-            return (PhysixBodyComponent)userData;
+        if (userData instanceof PhysixBodyComponent) {
+            return (PhysixBodyComponent) userData;
+        }
         return null;
     }
 
     public PhysixBodyComponent getOtherComponent() {
         Object userData = getOtherFixture().getBody().getUserData();
-        if(userData instanceof PhysixBodyComponent)
-            return (PhysixBodyComponent)userData;
+        if (userData instanceof PhysixBodyComponent) {
+            return (PhysixBodyComponent) userData;
+        }
         return null;
     }
 

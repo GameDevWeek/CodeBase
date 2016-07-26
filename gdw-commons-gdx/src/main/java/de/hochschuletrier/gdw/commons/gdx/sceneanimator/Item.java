@@ -50,7 +50,7 @@ public abstract class Item {
         totalAnimationTime = 0;
         //Fixme: angle, opacity
     }
-    
+
     public void abortPausePath() {
         pausePath = 0;
     }
@@ -76,17 +76,19 @@ public abstract class Item {
             }
         }
         if (startTime == 0) {
-            if(pausePath < 0)
+            if (pausePath < 0) {
                 return;
-            if(pausePath > 0) {
+            }
+            if (pausePath > 0) {
                 pausePath -= deltaTime;
-                if(pausePath <= 0)
+                if (pausePath <= 0) {
                     pausePath = 0;
-                else
+                } else {
                     return;
+                }
             }
             pathTime += deltaTime;
-            if(path != null) {
+            if (path != null) {
                 if (oriented) {
                     setAngle(path.derivativeAt(temp, pathTime).angle());
                 }
@@ -112,13 +114,14 @@ public abstract class Item {
 
     public boolean startAnimation(Animation animation) {
         final String name = animation.animation.toLowerCase();
-        if(name.equals("pause_path")) {
+        if (name.equals("pause_path")) {
             pausePath = animation.animationTime;
             return true;
-        } else if(name.startsWith("sound/")) {
+        } else if (name.startsWith("sound/")) {
             Sound sound = getter.getSound(animation.animation.substring(6));
-            if(sound != null)
+            if (sound != null) {
                 sound.play();
+            }
             return true;
         }
         return false;
@@ -127,12 +130,12 @@ public abstract class Item {
     protected abstract boolean isAnimationDone();
 
     boolean isDone() {
-        if(path == null) {
+        if (path == null) {
             return animations.isEmpty() && isAnimationDone();
         }
         return pathTime > path.getTotalTime();
     }
-    
+
     boolean isStarted() {
         return startTime >= 0;
     }

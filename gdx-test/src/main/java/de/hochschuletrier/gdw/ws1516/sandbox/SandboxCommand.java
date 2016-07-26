@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SandboxCommand {
+
     private static final Logger logger = LoggerFactory.getLogger(SandboxCommand.class);
     private static final HashMap<String, Class> sandboxClasses = new HashMap();
     private static AssetManagerX assetManager;
@@ -32,14 +33,14 @@ public class SandboxCommand {
 
         Main.getInstance().console.register(sandbox_f);
     }
-    
+
     public static void shutdown() {
         Main.getInstance().console.unregister(sandbox_f);
     }
-    
+
     public static void runSandbox(String gameName) {
         Main main = Main.getInstance();
-        if(main.isTransitioning()) {
+        if (main.isTransitioning()) {
             logger.warn("Transition in progress, please wait.");
         }
         Class clazz = sandboxClasses.get(gameName);

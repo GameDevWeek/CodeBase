@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class AssetManagerX extends AssetManager {
+
     Logger logger = LoggerFactory.getLogger(AssetManagerX.class);
 
     private final HashMap<Class, HashMap<String, String>> assetMaps = new HashMap();
@@ -58,7 +59,7 @@ public class AssetManagerX extends AssetManager {
                 result = get(filename, type);
             }
         }
-        if(result == null) {
+        if (result == null) {
             logger.warn("Resource ({}) not found: {}", type.getSimpleName(), name);
         }
         return result;
@@ -87,7 +88,7 @@ public class AssetManagerX extends AssetManager {
                 }
             }
         }
-        if(result == null) {
+        if (result == null) {
             logger.warn("Resource ({}) not found: {}", type.getSimpleName(), name);
         }
         return result;
@@ -217,8 +218,9 @@ public class AssetManagerX extends AssetManager {
             for (Map.Entry<String, PT> entry : map.entrySet()) {
                 final String key = entry.getKey();
                 String valueFilename = entry.getValue().filename;
-                if(valueFilename == null)
+                if (valueFilename == null) {
                     valueFilename = filename + "." + key;
+                }
                 String file = prefixFilename(clazz, valueFilename);
                 load(file, clazz, entry.getValue());
                 baseMap.put(key, file);

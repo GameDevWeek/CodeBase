@@ -209,7 +209,7 @@ public class SceneAnimator {
             queue.render();
         }
     }
-    
+
     public void abortPausePaths() {
         for (Queue queue : queueArray) {
             queue.abortPausePaths();
@@ -226,18 +226,19 @@ public class SceneAnimator {
             }
         }
         if (done) {
-            if(!doneTriggered) {
+            if (!doneTriggered) {
                 doneTriggered = true;
-                for (SceneAnimatorListener listener : listeners)
+                for (SceneAnimatorListener listener : listeners) {
                     listener.onSceneEnd();
+                }
             }
         }
     }
-    
+
     public void addListener(SceneAnimatorListener listener) {
         listeners.add(listener);
     }
-    
+
     public void removeListener(SceneAnimatorListener listener) {
         listeners.remove(listener);
     }

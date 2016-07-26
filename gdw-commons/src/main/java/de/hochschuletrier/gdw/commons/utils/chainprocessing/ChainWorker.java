@@ -4,7 +4,7 @@ public class ChainWorker<T, C> {
 
     private ChainJob<T, C> currentJob;
     private T object;
-    
+
     public boolean isDone() {
         return currentJob == null;
     }

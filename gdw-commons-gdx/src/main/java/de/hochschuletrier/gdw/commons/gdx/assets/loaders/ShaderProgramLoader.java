@@ -14,7 +14,7 @@ import de.hochschuletrier.gdw.commons.gdx.assets.AssetLoaderParametersX;
 
 public class ShaderProgramLoader extends
         AsynchronousAssetLoader<ShaderProgram, ShaderProgramLoader.ShaderProgramParameter> {
-    
+
     public ShaderProgramLoader(FileHandleResolver resolver) {
         super(resolver);
     }

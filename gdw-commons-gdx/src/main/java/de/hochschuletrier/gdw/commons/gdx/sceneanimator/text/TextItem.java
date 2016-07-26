@@ -45,7 +45,7 @@ public class TextItem extends Item {
     @Override
     public void reset(ArrayList<Animation> animations) {
         super.reset(animations);
-        
+
         shownText = originalText;
         chars = null;
         anim = null;
@@ -172,9 +172,10 @@ public class TextItem extends Item {
 
     @Override
     public boolean startAnimation(Animation animation) {
-        if(super.startAnimation(animation))
+        if (super.startAnimation(animation)) {
             return true;
-        
+        }
+
         try {
             anim = TextAnimation.valueOf(animation.animation.toUpperCase());
             animationTime = 0;
@@ -210,7 +211,7 @@ public class TextItem extends Item {
         }
         return false;
     }
-    
+
     @Override
     protected boolean isAnimationDone() {
         return anim == null;

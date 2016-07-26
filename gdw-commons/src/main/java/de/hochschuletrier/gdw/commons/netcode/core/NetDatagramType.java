@@ -21,7 +21,7 @@ public enum NetDatagramType {
     }
 
     public static NetDatagramType fromID(short id) {
-        assert(id >= 0 && id < FIRST_CUSTOM.ordinal());
+        assert (id >= 0 && id < FIRST_CUSTOM.ordinal());
         return values()[id];
     }
 }
