@@ -56,7 +56,13 @@ public class PhysixBodyComponentFactory extends ComponentFactory<EntityFactoryPa
         PhysixFixtureDef fixtureDef = getFixtureDef(properties)
                 .shapeCircle(properties.getFloat("size", 5));
         bodyComponent.createFixture(fixtureDef);
+
+        //////////////////////////////////////////////////////////////////
+        // WARNING: This is only for testing purposes, to shoot the ball down on spawn.
+        // Remove when creating an actual game!
+        //////////////////////////////////////////////////////////////////
         bodyComponent.applyImpulse(0, 50000);
+
         entity.add(bodyComponent);
     }
 
