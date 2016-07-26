@@ -85,8 +85,8 @@ public class LayerObject {
             lowestX = 0;
             lowestY = 0;
             for (int i = 0; i < numbers.length; i += 2) {
-                int px = Integer.parseInt(numbers[i]);
-                int py = Integer.parseInt(numbers[i + 1]);
+                int px = (int)Double.parseDouble(numbers[i]);
+                int py = (int)Double.parseDouble(numbers[i + 1]);
                 points.add(new Point(px, py));
                 if (px < lowestX) {
                     lowestX = px;
