@@ -67,6 +67,7 @@ public class Game extends InputAdapter {
     }
 
     public void init(AssetManagerX assetManager) {
+        Main.getInstance().console.unregister(physixDebug); // if already registered by previous initialisation
         Main.getInstance().console.register(physixDebug);
         physixDebug.addListener((CVar) -> physixDebugRenderSystem.setProcessing(physixDebug.get()));
 
