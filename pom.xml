@@ -5,7 +5,7 @@
     <groupId>de.hochschuletrier.gdw.commons</groupId>
     <artifactId>parent-pom</artifactId>
     <packaging>pom</packaging>
-    <version>1.9</version>
+    <version>1.10-SNAPSHOT</version>
     <name>GDW-Parent</name>
 
     <properties>
