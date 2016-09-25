@@ -20,6 +20,7 @@
 *.wav binary
 *.psd binary
 *.tga binary
+*.pdf binary
 
 # Tiled Binaries
 *.tmx binary

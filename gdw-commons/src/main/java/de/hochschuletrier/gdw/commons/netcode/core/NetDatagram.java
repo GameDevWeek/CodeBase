@@ -74,6 +74,6 @@ public class NetDatagram implements Poolable {
      * @param message the message to read from
      */
     public void readFromMessage(NetMessageIn message) {
-        
+
     }
 }

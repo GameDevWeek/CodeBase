@@ -15,6 +15,8 @@ public class Queue {
     protected final ArrayList<Item> items;
     public final ArrayList<Animation> animations;
     public final int layer;
+    private boolean done;
+    private boolean lastItemStarted;
 
     public Queue(float time, int layer, ArrayList<Item> items, ArrayList<Animation> animations) {
         startTime = time;
@@ -27,17 +29,23 @@ public class Queue {
 
     public void reset() {
         startTime = originalStartTime;
+        done = false;
+        lastItemStarted = false;
         for (Item item : items) {
             item.reset(animations);
+            if (done && !item.isDone()) {
+                done = false;
+            }
         }
     }
 
     public void start() {
         startTime = 0;
+        update(0);
     }
 
     public void render() {
-        if (startTime == 0) {
+        if (startTime == 0 && !done) {
             // render items
             for (Item item : items) {
                 if (item.shouldRender()) {
@@ -57,26 +65,41 @@ public class Queue {
                 startTime = 0;
             }
         }
-        if (startTime == 0) {
+        if (startTime == 0 && !done) {
+            done = true;
+            boolean allStarted = true;
             // update items
             for (Item item : items) {
                 item.update(delta);
+                if (!item.isStarted()) {
+                    allStarted = false;
+                }
+                if (done && !item.isDone()) {
+                    done = false;
+                }
+            }
+            if (!lastItemStarted) {
+                if (allStarted && next != null) {
+                    next.start();
+                }
+                lastItemStarted = true;
+            }
+            if (done && finalNext != null) {
+                finalNext.start();
             }
         }
     }
 
     boolean isDone() {
-        boolean done = false;
         if (startTime == 0) {
-            done = true;
-            // update items
-            for (Item item : items) {
-                if (!item.isDone()) {
-                    done = false;
-                    break;
-                }
-            }
+            return done;
         }
-        return done;
+        return false;
+    }
+
+    void abortPausePaths() {
+        for (Item item : items) {
+            item.abortPausePath();
+        }
     }
 }

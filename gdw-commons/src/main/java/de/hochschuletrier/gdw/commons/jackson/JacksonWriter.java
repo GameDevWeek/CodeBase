@@ -123,7 +123,7 @@ public class JacksonWriter {
             if (!Modifier.isStatic(field.getModifiers())) {
                 field.setAccessible(true);
                 final Class<?> type = field.getType();
-                if(type.isPrimitive()) {
+                if (type.isPrimitive()) {
                     writePrimitiveField(generator, field, object, type);
                 } else {
                     Object value = field.get(object);

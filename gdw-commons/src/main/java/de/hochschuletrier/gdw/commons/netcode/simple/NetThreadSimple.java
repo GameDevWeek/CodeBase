@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 class NetThreadSimple extends Thread {
+
     private static final Logger logger = LoggerFactory.getLogger(NetThreadSimple.class);
     private final NetManager manager;
     private final long selectTimeout;

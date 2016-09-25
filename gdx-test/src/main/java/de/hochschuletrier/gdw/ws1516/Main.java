@@ -45,7 +45,7 @@ import org.apache.commons.cli.PosixParser;
  * @author Santo Pfingsten
  */
 public class Main extends StateBasedGame {
-    
+
     public static CommandLine cmdLine;
 
     public static final boolean IS_RELEASE = ClassUtils.getClassUrl(Main.class).getProtocol().equals("jar");
@@ -136,7 +136,7 @@ public class Main extends StateBasedGame {
         addPersistentState(mainMenuState);
         changeState(mainMenuState, null, null);
         SandboxCommand.init(assetManager);
-        
+
         if (cmdLine.hasOption("sandbox")) {
             SandboxCommand.runSandbox(cmdLine.getOptionValue("sandbox"));
         }

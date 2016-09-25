@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 public class PhysixBodyComponentFactory extends ComponentFactory<EntityFactoryParam> {
 
-    private static final Logger logger = LoggerFactory.getLogger(PhysixBodyComponentFactory.class); 
+    private static final Logger logger = LoggerFactory.getLogger(PhysixBodyComponentFactory.class);
     private PhysixSystem physixSystem;
 
     @Override
@@ -36,10 +36,16 @@ public class PhysixBodyComponentFactory extends ComponentFactory<EntityFactoryPa
         final PhysixModifierComponent modifyComponent = engine.createComponent(PhysixModifierComponent.class);
         modifyComponent.schedule(() -> {
             String type = properties.getString("type", "");
-            switch(type) {
-                case "circle": addCircle(param, entity, properties); break;
-                case "box": addBox(param, entity, properties); break;
-                default: logger.error("Unknown type: {}", type); break;
+            switch (type) {
+                case "circle":
+                    addCircle(param, entity, properties);
+                    break;
+                case "box":
+                    addBox(param, entity, properties);
+                    break;
+                default:
+                    logger.error("Unknown type: {}", type);
+                    break;
             }
         });
         entity.add(modifyComponent);
@@ -50,7 +56,13 @@ public class PhysixBodyComponentFactory extends ComponentFactory<EntityFactoryPa
         PhysixFixtureDef fixtureDef = getFixtureDef(properties)
                 .shapeCircle(properties.getFloat("size", 5));
         bodyComponent.createFixture(fixtureDef);
+
+        //////////////////////////////////////////////////////////////////
+        // WARNING: This is only for testing purposes, to shoot the ball down on spawn.
+        // Remove when creating an actual game!
+        //////////////////////////////////////////////////////////////////
         bodyComponent.applyImpulse(0, 50000);
+
         entity.add(bodyComponent);
     }
 

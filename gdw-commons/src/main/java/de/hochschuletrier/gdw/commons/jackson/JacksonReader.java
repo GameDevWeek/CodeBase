@@ -68,7 +68,7 @@ public class JacksonReader {
             return readObjectMapMap(clazz, parser);
         }
     }
-    
+
     public static <LT> List<LT> readList(String filename, Class<LT> clazz)
             throws IOException, UnsupportedEncodingException,
             NoSuchFieldException, IllegalArgumentException,
@@ -138,10 +138,11 @@ public class JacksonReader {
             NoSuchFieldException, ParseException {
         switch (parser.getCurrentToken()) {
             case START_OBJECT:
-                if(clazz.equals(SafeProperties.class))
-                    return (T)readObjectSafeProperties(parser);
-                else
+                if (clazz.equals(SafeProperties.class)) {
+                    return (T) readObjectSafeProperties(parser);
+                } else {
                     return readObject(clazz, parser);
+                }
             case VALUE_STRING:
                 return readString(clazz, parser);
             case VALUE_NUMBER_INT:
@@ -184,9 +185,10 @@ public class JacksonReader {
             Field field = getDeclaredField(clazz, headerField);
             field.setAccessible(true);
             final Class<?> type = field.getType();
-            if(type.isPrimitive()) {
-                if(token != JsonToken.VALUE_NULL)
-                readPrimitiveField(parser, object, field, type);
+            if (type.isPrimitive()) {
+                if (token != JsonToken.VALUE_NULL) {
+                    readPrimitiveField(parser, object, field, type);
+                }
             } else if (!readSpecialField(parser, object, field)) {
                 field.set(object, readUnknownObject(type, parser));
             }
@@ -210,9 +212,9 @@ public class JacksonReader {
         } else if (type.equals(Boolean.TYPE)) {
             field.setBoolean(object, parser.getBooleanValue());
         } else if (type.equals(Character.TYPE)) {
-            if(parser.getCurrentToken() == JsonToken.VALUE_STRING) {
+            if (parser.getCurrentToken() == JsonToken.VALUE_STRING) {
                 String value = parser.getText();
-                if(value.length() != 1) {
+                if (value.length() != 1) {
                     throw new IllegalArgumentException("Expected single character for " + object.getClass().getSimpleName() + "." + field.getName() + ", got " + value.length() + " characters");
                 }
                 field.setChar(object, value.charAt(0));

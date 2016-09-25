@@ -12,10 +12,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AnimationExtendedLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.AsynchronousAssetLoaderX;
+import de.hochschuletrier.gdw.commons.gdx.assets.loaders.ShaderProgramLoader;
 import de.hochschuletrier.gdw.commons.gdx.assets.loaders.TiledMapLoader;
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.tiled.TiledMap;
@@ -31,6 +33,7 @@ import org.slf4j.LoggerFactory;
  * @author Santo Pfingsten
  */
 public class AssetManagerX extends AssetManager {
+
     Logger logger = LoggerFactory.getLogger(AssetManagerX.class);
 
     private final HashMap<Class, HashMap<String, String>> assetMaps = new HashMap();
@@ -43,6 +46,7 @@ public class AssetManagerX extends AssetManager {
     public AssetManagerX(FileHandleResolver resolver) {
         super(resolver);
         setLoader(AnimationExtended.class, new AnimationExtendedLoader(resolver));
+        setLoader(ShaderProgram.class, new ShaderProgramLoader(resolver));
         setLoader(TiledMap.class, new TiledMapLoader(resolver));
     }
 
@@ -55,7 +59,7 @@ public class AssetManagerX extends AssetManager {
                 result = get(filename, type);
             }
         }
-        if(result == null) {
+        if (result == null) {
             logger.warn("Resource ({}) not found: {}", type.getSimpleName(), name);
         }
         return result;
@@ -84,7 +88,7 @@ public class AssetManagerX extends AssetManager {
                 }
             }
         }
-        if(result == null) {
+        if (result == null) {
             logger.warn("Resource ({}) not found: {}", type.getSimpleName(), name);
         }
         return result;
@@ -138,6 +142,10 @@ public class AssetManagerX extends AssetManager {
 
     public Texture getTexture(String name) {
         return getByName(name, Texture.class);
+    }
+
+    public ShaderProgram getShaderProgram(String name) {
+        return getByName(name, ShaderProgram.class);
     }
 
     public ParticleEffect getParticleEffect(String name) {
@@ -208,9 +216,14 @@ public class AssetManagerX extends AssetManager {
 
             HashMap<String, PT> map = JacksonReader.readMap(filename, parameterClazz);
             for (Map.Entry<String, PT> entry : map.entrySet()) {
-                String file = prefixFilename(clazz, entry.getValue().filename);
+                final String key = entry.getKey();
+                String valueFilename = entry.getValue().filename;
+                if (valueFilename == null) {
+                    valueFilename = filename + "." + key;
+                }
+                String file = prefixFilename(clazz, valueFilename);
                 load(file, clazz, entry.getValue());
-                baseMap.put(entry.getKey(), file);
+                baseMap.put(key, file);
             }
         } catch (Exception e) {
             throw new GdxRuntimeException("Error reading file: " + filename, e);

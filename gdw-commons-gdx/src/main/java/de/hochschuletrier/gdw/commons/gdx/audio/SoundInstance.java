@@ -15,6 +15,7 @@ import static org.lwjgl.openal.AL10.*;
  * @author Santo Pfingsten
  */
 public class SoundInstance implements Pool.Poolable {
+
     private static LongMap<Integer> soundIdToSource;
 
     Sound sound;
@@ -25,7 +26,7 @@ public class SoundInstance implements Pool.Poolable {
     boolean init(Sound sound, boolean loop) {
         this.sound = sound;
         this.id = loop ? sound.loop() : sound.play(SoundEmitter.muted ? 0 : SoundEmitter.globalVolume);
-        if(id == -1) {
+        if (id == -1) {
             return false;
         }
         sourceId = soundIdToSource.get(id);
@@ -72,7 +73,7 @@ public class SoundInstance implements Pool.Poolable {
         this.volume = volume;
         sound.setVolume(id, SoundEmitter.muted ? 0 : (SoundEmitter.globalVolume * volume));
     }
-    
+
     public float getVolume() {
         return volume;
     }
@@ -97,7 +98,7 @@ public class SoundInstance implements Pool.Poolable {
         float scale = SoundEmitter.getWorldScale();
         alSource3f(sourceId, AL_POSITION, x * scale, y * scale, z * scale);
     }
-    
+
     public static void init() {
         try {
             Field field = OpenALAudio.class.getDeclaredField("soundIdToSource");

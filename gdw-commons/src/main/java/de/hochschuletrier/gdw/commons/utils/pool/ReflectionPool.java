@@ -2,13 +2,13 @@ package de.hochschuletrier.gdw.commons.utils.pool;
 
 import java.util.Stack;
 
-
 /**
  * Simple object pool, which creates new objects if not enough are available
  *
  * @author Santo Pfingsten
  */
 public class ReflectionPool<T extends Poolable> implements Pool<T> {
+
     private final Class<T> clazz;
     private final Stack<T> free = new Stack();
 

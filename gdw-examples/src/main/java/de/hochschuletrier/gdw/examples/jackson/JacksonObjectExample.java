@@ -21,7 +21,7 @@ public class JacksonObjectExample {
     public float floatP;
     public double doubleP;
     public boolean booleanP;
-    
+
     public String name;
     public Integer age;
     public Float progress;

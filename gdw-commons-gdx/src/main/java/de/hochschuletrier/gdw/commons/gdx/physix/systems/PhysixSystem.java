@@ -132,7 +132,7 @@ public class PhysixSystem extends IteratingSystem implements EntityListener {
         RopeJointDef ropeJointDef = new RopeJointDef();
         ropeJointDef.bodyA = a.getBody();
         ropeJointDef.bodyB = b.getBody();
-        ropeJointDef.maxLength = length * scale;
+        ropeJointDef.maxLength = length * scaleInv;
         ropeJointDef.collideConnected = true;
         world.createJoint(ropeJointDef);
     }
@@ -179,7 +179,7 @@ public class PhysixSystem extends IteratingSystem implements EntityListener {
         Vector2[] returner = new Vector2[pointList.size()];
         for (int pointCount = 0; pointCount < returner.length; pointCount++) {
             Point p = pointList.get(pointCount);
-            returner[pointCount] = new Vector2(p.x * scale, p.y * scale);
+            returner[pointCount] = new Vector2(p.x * scaleInv, p.y * scaleInv);
         }
         return returner;
     }

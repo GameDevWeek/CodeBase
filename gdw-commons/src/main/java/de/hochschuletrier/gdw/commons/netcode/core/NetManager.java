@@ -83,7 +83,7 @@ public abstract class NetManager {
                     if (key.isWritable()) {
                         listener.onChannelWritable(channel);
                     }
-                } catch(CancelledKeyException e) {
+                } catch (CancelledKeyException e) {
                     logger.error("key cancelled", e);
                 }
 
@@ -121,7 +121,7 @@ public abstract class NetManager {
 
     void sendUnreliable(NetDatagram datagram, NetConnection connection) {
         DatagramTask task;
-        synchronized(taskPool) {
+        synchronized (taskPool) {
             task = taskPool.obtain();
         }
         task.datagram = datagram;
@@ -182,7 +182,7 @@ public abstract class NetManager {
                 if (task.datagram.onSendComplete()) {
                     datagramPool.free(task.datagram);
                 }
-                synchronized(taskPool) {
+                synchronized (taskPool) {
                     taskPool.free(task);
                 }
             }

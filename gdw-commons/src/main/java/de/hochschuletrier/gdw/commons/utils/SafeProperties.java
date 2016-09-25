@@ -75,7 +75,7 @@ public class SafeProperties {
     public void setDefaults(SafeProperties defaults) {
         this.defaults = defaults;
     }
-    
+
     /**
      * @return the key set of the properties (excluding defaults)
      */

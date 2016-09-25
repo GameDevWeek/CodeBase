@@ -57,7 +57,7 @@ public class NetClientSimple {
             }
         } else if (connected) {
             connected = false;
-            if(listener != null) {
+            if (listener != null) {
                 listener.onDisconnect();
             }
         }
@@ -83,7 +83,7 @@ public class NetClientSimple {
             connection.disconnect();
             connection = null;
             connected = false;
-            if(listener != null) {
+            if (listener != null) {
                 listener.onDisconnect();
             }
         }
@@ -94,6 +94,7 @@ public class NetClientSimple {
     }
 
     public interface Listener {
+
         public void onDisconnect();
     }
 }

@@ -21,7 +21,7 @@ import de.hochschuletrier.gdw.commons.jackson.JacksonList;
 
 public class AnimationExtendedLoader extends
         AsynchronousAssetLoaderX<AnimationExtended, AnimationExtendedLoader.AnimationExtendedParameter> {
-    
+
     private static int count;
 
     public AnimationExtendedLoader(FileHandleResolver resolver) {

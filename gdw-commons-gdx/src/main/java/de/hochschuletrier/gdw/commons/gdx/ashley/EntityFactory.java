@@ -2,6 +2,7 @@ package de.hochschuletrier.gdw.commons.gdx.ashley;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.hochschuletrier.gdw.commons.gdx.assets.AssetManagerX;
 import de.hochschuletrier.gdw.commons.jackson.JacksonReader;
 import de.hochschuletrier.gdw.commons.utils.ClassUtils;
@@ -57,12 +58,17 @@ public class EntityFactory<PT> {
     public Entity createEntity(String name, PT param) {
         Entity entity = engine.createEntity();
         EntityInfo info = entityInfos.get(name);
+        if (info == null) {
+            throw new GdxRuntimeException("Entity blueprint with name '" + name + "' not found!");
+        }
+
         for (Map.Entry<String, SafeProperties> entrySet : info.components.entrySet()) {
             ComponentFactory factory = componentFactories.get(entrySet.getKey());
-            if(factory != null)
+            if (factory != null) {
                 factory.run(entity, info.meta, entrySet.getValue(), param);
-            else
+            } else {
                 logger.error("Could not find factory for component '{}'!", entrySet.getKey());
+            }
         }
         return entity;
     }

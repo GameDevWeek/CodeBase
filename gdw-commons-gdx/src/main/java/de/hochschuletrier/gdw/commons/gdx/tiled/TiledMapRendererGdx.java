@@ -161,8 +161,8 @@ public class TiledMapRendererGdx implements ITiledMapRenderer {
 
                     float px = x + (tx * mapTileWidth);
                     float py = y + (ty * mapTileHeight) - tileOffsetY;
-                    
-                    int coordX = (int) (sheetX * tileset.getTileWidth()); 
+
+                    int coordX = (int) (sheetX * tileset.getTileWidth());
                     coordX += tileset.getTileMargin() + sheetX * tileset.getTileSpacing();
                     int coordY = ((int) sheetY * tileset.getTileHeight());
                     coordY += tileset.getTileMargin() + sheetY * tileset.getTileSpacing();

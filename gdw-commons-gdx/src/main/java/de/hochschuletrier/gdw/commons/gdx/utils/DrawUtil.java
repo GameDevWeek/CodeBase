@@ -25,7 +25,7 @@ public class DrawUtil {
     private static final LinkedList<Matrix4> matrixStack = new LinkedList<>();
 
     private static ShaderProgram currentShader = null;
-    
+
     public enum Mode {
 
         NORMAL,
@@ -44,23 +44,23 @@ public class DrawUtil {
         white = new Texture(pixmap);
         batch = new SpriteBatch(5460);
     }
-    
+
     /**
      * Sets the shader if it's new. <br>
      * Use it to reduce flushes. <br>
      */
     public static void setShader(ShaderProgram shader) {
-    	if(currentShader != shader) {
-    		currentShader = shader;
-    		batch.setShader(shader);
-    	}
+        if (currentShader != shader) {
+            currentShader = shader;
+            batch.setShader(shader);
+        }
     }
-    
+
     /**
      * Returns the currently used shader. Null is returned if the default shader is used.
      */
     public static ShaderProgram getShader() {
-    	return currentShader;
+        return currentShader;
     }
 
     public static void setClip(int x, int y, int width, int height) {
@@ -208,7 +208,7 @@ public class DrawUtil {
         m.translate(-x, -y, 0);
         batch.setTransformMatrix(m);
     }
-    
+
     //fixme: override spritebatch instead
     public static void draw(Texture texture) {
         DrawUtil.batch.draw(texture, 0, 0, texture.getWidth(), texture.getHeight(), 0, 0,
@@ -247,14 +247,16 @@ public class DrawUtil {
         DrawUtil.batch.draw(texture, x, y, 0, 0, width, height, scaleX,
                 scaleY, rotation, srcX, srcY, (int) width, (int) height, false, true);
     }
-    
+
     public static void safeEnd() {
-    	if(batch.isDrawing())
-    		batch.end();
+        if (batch.isDrawing()) {
+            batch.end();
+        }
     }
-    
+
     public static void safeBegin() {
-    	if(!batch.isDrawing())
-    		batch.begin();
+        if (!batch.isDrawing()) {
+            batch.begin();
+        }
     }
 }

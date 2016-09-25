@@ -106,13 +106,13 @@ public class NetServerSimple implements NetDatagramHandler {
         }
         return false;
     }
-    
+
     public void disconnect() {
-        if(isRunning()) {
+        if (isRunning()) {
             manager.shutdown();
         }
     }
-    
+
     public void broadcastUnreliable(NetDatagram datagram, List<NetConnection> connections) {
         if (!connections.isEmpty()) {
             datagram.setBroadcastCount(connections.size());

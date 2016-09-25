@@ -9,7 +9,7 @@ import com.badlogic.gdx.Graphics;
  * @author Santo Pfingsten
  */
 public class ScreenUtil {
-    
+
     private static int lastWidth = 800;
     private static int lastHeight = 600;
 

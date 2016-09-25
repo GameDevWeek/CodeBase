@@ -40,7 +40,7 @@ public class GameplayState extends BaseGameState {
 
         music = assetManager.getMusic("gameplay");
 
-        Skin skin = ((MainMenuState)Main.getInstance().getPersistentState(MainMenuState.class)).getSkin();
+        Skin skin = ((MainMenuState) Main.getInstance().getPersistentState(MainMenuState.class)).getSkin();
         final MenuPageRoot menuPageRoot = new MenuPageRoot(skin, menuManager, MenuPageRoot.Type.INGAME);
         menuManager.addLayer(menuPageRoot);
         menuInputProcessor = menuManager.getInputProcessor();
